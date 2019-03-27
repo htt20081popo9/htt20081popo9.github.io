@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="OC学习过程中的笔记 1、 NSString *str = @”Hello OC~~~”;   NSLog(@”%@”,str); 只要输出一个字符串，则必须在””前加@。（只输出一个格式控制符也叫一个字符串 两个双引号出现就是一个字符串） NSString的格式标识符为%@ 故如此输出 2、应该这么理解方法定义： -(void) setWord1:(NSString ) word1 setWor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC-4">
+<meta property="og:url" content="https://aisakaki.com/2016/08/12/oc-4/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="OC学习过程中的笔记 1、 NSString *str = @”Hello OC~~~”;   NSLog(@”%@”,str); 只要输出一个字符串，则必须在””前加@。（只输出一个格式控制符也叫一个字符串 两个双引号出现就是一个字符串） NSString的格式标识符为%@ 故如此输出 2、应该这么理解方法定义： -(void) setWord1:(NSString ) word1 setWor">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-06T05:34:49.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OC-4">
+<meta name="twitter:description" content="OC学习过程中的笔记 1、 NSString *str = @”Hello OC~~~”;   NSLog(@”%@”,str); 只要输出一个字符串，则必须在””前加@。（只输出一个格式控制符也叫一个字符串 两个双引号出现就是一个字符串） NSString的格式标识符为%@ 故如此输出 2、应该这么理解方法定义： -(void) setWord1:(NSString ) word1 setWor">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisakaki.com/2016/08/12/oc-4/">
+
+
+
+
+
+  <title>OC-4 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">aisaka</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/08/12/oc-4/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OC-4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-12T12:02:30+08:00">
+                2016-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC-SWIFT/" itemprop="url" rel="index">
+                    <span itemprop="name">OC/SWIFT</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OC学习过程中的笔记</p>
+<p>1、 NSString *str = @”Hello OC~~~”;</p>
+<p>  NSLog(@”%@”,str);</p>
+<p>只要输出一个字符串，则必须在””前加@。（只输出一个格式控制符也叫一个字符串 两个双引号出现就是一个字符串）</p>
+<p>NSString的格式标识符为%@ 故如此输出</p>
+<p>2、应该这么理解方法定义：</p>
+<p>-(void) setWord1:(NSString <em>) word1 setWord2:(NSString </em>) word2</p>
+ <a id="more"></a>
+<p>“setWord1:setWord2:”是方法名，word1和word2是参数名。你所谓的参数2的名称（setWord2）其实是方法名的一部分，而不是参数名。objective-c的发明者希望方法名读起来像一个通顺的句子，结合这点来理解方法定义，就不会对objective-c怪异的语法感到困惑了。</p>
+<p>例如，定义一个求两个数的和的方法，</p>
+<p>-(float) addNumber1:(float)num1 toNumber2:(float)num2;</p>
+<p>方法名“addNumber1:toNumber2:”读起来就像一个通顺的句子。</p>
+<p>3、OC中self 类似于 java中的this</p>
+<p>①OC没有私有成员，而是通过接口与实现两部分的方式来实现封装，在实现中定义接口没有的成员即为私有成员（仅供该类使用 不提供给子类及外部使用）</p>
+<p>②使用interface声明的成员变量是只能在自己类和子类使用的（oc的默认访问权限是protected），而不能在类的外部使用，（就是通过类名. 点的方式是显示不出来的），pproperty则相反，它可以在类的外部访问，在类的内部可以通过下划线+变量名或者self.变量名的方式来访问。</p>
+<p>③@property给默认访问权限的成员变量提供了一套getter和setter给外界 并且可以使用点语法</p>
+<p>④另可使用访问控制符</p>
+<p>但注意myWorld是指向对象的该对象的类的类型的引用，在使用的时候不能用点语法 而是用-&gt;  eg:myWORLD-&gt;cc</p>
+<p>而对property定义的变量 外部调用只能用点语法不能用-&gt;</p>
+<p>-&gt;是直接调用改成员 （因为property定义的是私有变量，所以不能直接调用），而点语法是调用getter setter方法</p>
+<p>OC是不推荐成员变量即使是用公共访问控制符访问的，所以在其它语言中很常用的.语法 ，在OC中只给@property定义的变量提供</p>
+<p>（property定义的变量可以使用点语法 默认调用setter getter方法）</p>
+<p>这体现了oc良好的封装性，需要与外界交互的变量全权由property负责定义 等。</p>
+<p>property 字面意思—属性 理解之</p>
+<p>【注意property不只是可以定义基本类型，还可以定义对象，声明委托等等】</p>
+<p>对于通过property与interface定义变量的两种定义方法的理解</p>
+<p>见我的个人网站OC1文章 ，详细解释@interface @property两种定义变量的方法</p>
+<p>当然 也可以用访问控制符来实现</p>
+<p>@private 本类</p>
+<p>@public</p>
+<p>@protected 本类及子类</p>
+<p>@package</p>
+<p>当然也有getter setter oc为了简便，提供了合成存取方法 @property @synthesize</p>
+<p>注意 @property int abc 后 实际上的成员变量为_abc 自动加了下划线请注意 （但是 在外部运用点语法的时候，依然使用xxx.abc而不是xxx.底层成员变量，相当于套了一层引用，我觉得可以叫表层成员变量）  可以通过synthesize的参数来修改</p>
+<p>若@synthesize name 则默认等效于@synthesize name=name</p>
+<p>此时 就可以直接运用点语法了</p>
+<p>以下资料来自百度</p>
+<p>『当定义了一系列的变量时，需要写很多的getter和setter方法，而且它们的形式都是差不多的，所以Xcode提供了@property和@synthesize属性，@property用在 .h 头文件中用作声明，@synthesize用在.m 文件中用于实现。</p>
+<p>在X-code4.5以前，在.h中声明完属性之后，如：</p>
+<p>@property（nonatomic，assign) int age;</p>
+<p>@property（nonatomic，assign) NSString *name;</p>
+<p>需要在.m中写上</p>
+<p>@synthesize int age;</p>
+<p>@synthesize NSString *name;</p>
+<p>系统会自动去实现setter和getter方法</p>
+<p>而在X-code4.5之后，@synthesize就不需要再写了，系统会直接去实现setter和getter方法。</p>
+<p>【补充：但是 若要自己重写setter 或getter方法 则必须在实现部分声明@synthesize 注意 若@synthesize name则等效于把name的底层变量从_name修改成了name要注意】</p>
+<p>另外，声明完property属性之后，会自动生成下划线，如_age、_name；如果不想要下划线，那么就可以使用@synthesize去修饰，例如，在.m中写@synthesize age；那么_age就会变成age』</p>
+<p>4、一些习俗</p>
+<p>接口部分和实现部分通常放到两个文件中（接口.h 实现.m）</p>
+<p>成员变量通常加一个下划线用_a 参数用a</p>
+<p>库前两个大写字母加特殊标识 一般表公司</p>
+<p>5、@interface helloworld:NSObject</p>
+<p>任何类都继承于NSObject 在没有其它父类的时候必须标明</p>
+<p>6、OC中不存在类变量，但存在类方法，可以定义一个全局变量（static）（在实现部分）然后通过类似于getMethod 定义一个类方法返回该变量，称之为模拟类变量</p>
+<p>7、OC须手动装箱</p>
+<p>NSNumber 方法：numberWithXxx initWithXxx xxxValue</p>
+<p>自动装箱不支持ARC</p>
+<p>【补充：装箱的意义：将基本类型装箱成对象， 便于将『基本类型元素』储存在像集合这种只能储存对象的结构】</p>
+<p>8、只要涉及对象 都要@ 而且是建立一个引用指向对象 故</p>
+<p>ABC<em> q = xxx 要打</em> 是一个指针</p>
+<p>9、（A）oc中也有类似于java中的toString方法———description</p>
+<p>该方法为NSObject的方法 重写该方法以实现功能（打印对象）</p>
+<p>直接输出该对象等于调用该方法</p>
+<p>一般重写该方法用于告诉外界该对象所具有的状态信息</p>
+<p>该方法返回值为NSString*</p>
+<p> （B）oc中也有java中字符串的一些特性</p>
+<p>比如  常量池保证相同的字符串直接量只有一个，不会产生多个副本，即两个指针指向同一个常量池中的对象，而可以用stringWithFormat方法（类似于java中的stringBuffer）将字符串对象创建在运行时内存区（堆内存）中。</p>
+<p>[NSString stringWithFormat:”abc”]</p>
+<p> （C）同java一样，==可以判断基本类型相等和指针地址相等（包括指向对象的引用 故判断字符串相等的时候要注意，需要用isEqualToString方法，注意NSObject的isEqual和==是等价的，经常需要重写）</p>
+<p>10、nil相当于其它语言的NULL</p>
+<p>11、OC中的『协议』相当于其它语言的接口</p>
+<p>非正式协议通过类别和扩展实现 不强制实现所有方法</p>
+<p>正式协议 @protocol 必须实现协议中所有方法</p>
+<p>（但可以用@optional @required（默认）来改变）</p>
+<p>使用协议定义的方法只可调用该协议中声明的[方法]，且只有两种定义语法 [用此方法来限定只能调用该协议中声明的方法]</p>
+<p>NSObject&lt;protocol1,protocol2&gt;* p;</p>
+<p>id&lt;p1,p2&gt; p;</p>
+<p>p是指向对象的变量名</p>
+<p>类可继承多个协议 协议可继承多个协议</p>
+<p>定义方法 使用方法见书</p>
+<p>@protocol XXX&lt;XXX2,XXX3&gt;</p>
+<p>@end</p>
+<p>对委托的理解 见OC-3</p>
+<p>12、扩展即为匿名类别，但类别只能有方法，而扩展可以增加实例变量 用@property @synthesize等</p>
+<p>13、NSString 是不可变类 字符串一旦生成则不可改变</p>
+<p>可以用NSMutableString（NSString的子类） 该类定义的字符串可以改变（但需要用到方法如appendFormat insertString 等等）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/08/oc-3-e5-a7-94-e6-89-98/" rel="next" title="OC-3 delegate">
+                <i class="fa fa-chevron-left"></i> OC-3 delegate
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/12/ios-1/" rel="prev" title="iOS-1">
+                iOS-1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">我的个人网站</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://questionyu.com/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://dilidili.wang/" title="dilidili" target="_blank">dilidili</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

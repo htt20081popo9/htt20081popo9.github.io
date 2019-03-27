@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、HTML仅用于页面内容的显示而CSS是修饰可查阅CSS手册查看大量的CSS样式 CSS难点在于在什么情况应该用什么手段解决问题 参考书籍 Zen Garden 引入样式表&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;xxx.css&amp;quot;&amp;gt; px像素 标题和文章一般用12px/14px">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS扼要-1">
+<meta property="og:url" content="https://aisakaki.com/2016/09/29/css-e6-89-bc-e8-a6-81/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="一、HTML仅用于页面内容的显示而CSS是修饰可查阅CSS手册查看大量的CSS样式 CSS难点在于在什么情况应该用什么手段解决问题 参考书籍 Zen Garden 引入样式表&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;xxx.css&amp;quot;&amp;gt; px像素 标题和文章一般用12px/14px">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-06T05:30:41.013Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS扼要-1">
+<meta name="twitter:description" content="一、HTML仅用于页面内容的显示而CSS是修饰可查阅CSS手册查看大量的CSS样式 CSS难点在于在什么情况应该用什么手段解决问题 参考书籍 Zen Garden 引入样式表&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;xxx.css&amp;quot;&amp;gt; px像素 标题和文章一般用12px/14px">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisakaki.com/2016/09/29/css-e6-89-bc-e8-a6-81/">
+
+
+
+
+
+  <title>CSS扼要-1 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">aisaka</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/09/29/css-e6-89-bc-e8-a6-81/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS扼要-1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-29T15:26:03+08:00">
+                2016-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML-JS-CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML/JS/CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一、<br>HTML仅用于页面内容的显示<br>而CSS是修饰<br>可查阅CSS手册查看大量的CSS样式</p>
+<p>CSS难点在于在什么情况应该用什么手段解决问题</p>
+<p>参考书籍 <em>Zen Garden</em></p>
+<p>引入样式表<code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;xxx.css&quot;&gt;</code></p>
+<p>px像素</p>
+<p><strong>标题和文章一般用12px/14px</strong> </p>
+  <a id="more"></a>
+<p>ATT注意编码问题，win10纪事本默认ANSI编码 如果meta里设置UTF-8则txt文档在保存的时候应该储存为UTF-8编码！否则会出现乱码，中文字体读不出来等情况</p>
+<p><code>background:url(“xxx.xxx”) no-repeat;</code></p>
+<p><code>background-position:5px 10px;</code>第一个值为左右 第二个值为上下</p>
+<p>插入图片有三种方式：①img标签src属性②设置background</p>
+<p>background更快，因为backgrond会把图片存入缓存中，<strong>故除非该图片会变化，则一律用background插入图片(可设置为一个div的样式）</strong></p>
+<p>max-width:100%; 宽度自适应屏幕，高度同理,max-height:;</p>
+<p>二、<strong>选择器</strong><br>p{} 标签选择器<br>#xx{} id选择器 id=”xx”<br>x.xx{} 类（class）选择器 class=”xx” 可以选择【一组】标签  p.xx{} 标签为p中的class为xx的标签，表示p标签的所有xx类，类不可单独拿出来选择 必须要【标签.类名】 格式<br>（W3C标准规定，在同一个页面内，不允许有相同名字的id对象出现，但是允许相同名字的class）<br>p.#xx{} 标签为p中id为xx的<br>* {} *表示所有的标签</p>
+<p>div span{} 包含选择符 指p标签中的所有span标签都来设置这个信息(eg:<code>&lt;div&gt;..&lt;span&gt;&lt;/span&gt;..&lt;/div&gt;
+div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;….&lt;/h2&gt;….&lt;h2&gt;…..&lt;/h2&gt;…&lt;p&gt;..&lt;/p&gt;..&lt;div&gt;</code><br>注意区别：子对象选择符(&gt;)仅仅只针对第一级子对象，而包含选择符(空格)则针对一切子对象</p>
+<p>xx,xx,#xx,#xx{} 分组选择符，用逗号同时设定多个标签，使他们都遵循下面样式</p>
+<p>三、盒子模型（代替HTML中的表格布局 但不能完全替代框架）<br>对于每一层盒其margin和padding属性<br>margin:对外（上一级）<br>padding:对内（下一级）<br>不加left right top button则是四个方向统一设置(若加则单独设置margin-left,padding-right,etc）<br>也可以 margin:12px,10px,20px,20px 表示从top开始顺时针转的各方向</p>
+<p><strong>千万不要使用padding来进行对齐操作</strong>。对于IE padding的值会算在width中，而对于其他浏览器，padding的值不算入width中！ <strong>不兼容问题</strong> 但若没有设置width则可以，但最建议还是用position方式</p>
+<p>(如主菜单 每一个都是一个span 共存一个div中；或者文章列表，每一个标题都是一个span 存于一块div中)<br><strong>但主菜单，文章列表等等 一般用表格 ul dl等</strong></p>
+<p><strong>那么如何方便居中呢 也一般使用表格ul dl</strong></p>
+<p>（补充：去掉ul的点 list-style-type:none;）</p>
+<p>有些标签比如h3 body标签自身margin和padding属性不为0，若需要要自己改，可以直接<strong>*{margin:0; padding:0;} css文件第一句话要写这个！一般都不用自身的margin和padding</strong></p>
+<p>在html，有一些标签仅仅是用来设置文本，<strong>诸如a和span</strong>，对于这两个标签而言，在W3C标准中默认是<strong>不能进行width等样式进行修饰</strong>的，所以为这些标签设置width是没有作用的，<strong>需要display:block;</strong>（写入样式表）之后才有作用。但对于IE是有作用的（IE的标准与W3C不一样 微软强无敌= =）在开发中，一般对span加width是没有意义的，<strong>（一般不用为span加width），若果需要可能是设计有问题..</strong></p>
+<p>四、定位</p>
+<p>position样式  然后就可以设置top/bottom/right/left的值(eg : left:40px)</p>
+<p>1、position:absolute; 绝对定位 针对浏览器而言的（此话是有误的，但很多时候是这样，见下一段）。当设置之后，该容器就不会再占用相应的空间，原有的空间会被其它元素占用</p>
+<p>（<strong>实际上，绝对定位会针对父级标签中进行了absolute定位的标签来进行left/right等设置，如果父级标签都没有这样的定位方式，则根据body来定位</strong>）</p>
+<p>2、position:relative;相对定位 针对父级元素进行定位，而且空间会一直占用，哪怕这个元素已经移动到其它位置</p>
+<p>默认的定位方式为static，这种定位不能设置top/bottom/right/left</p>
+<p>使用经验：经常会使用relative来实现文本位置的移动。所以如果要为某个容器设置里面的文本位置，可以按照如下方式来处理<strong><li><span>abscd</span></li></strong>   </p>
+<p><strong>经验：内容一般都存在<span></span>或<a></a>里。</strong></p>
+<p><strong>所以做居中对齐的时候，把内容放在span里，加position:relative;然后设置top/bottom/right/left</strong></p>
+<p><strong>这是对齐的唯一方式！不能用padding,width！</strong></p>
+<p><strong>居中一个div的方法（重要！）</strong>，text-align:center;只有IE可以居中，margin:auto;只有IE之外的浏览器可以居中，<strong>所以推荐的居中方式就是position定位的方法！见下：eg</strong></p>
+<p>#container{</p>
+<p><strong>width:1100px;</strong> &lt;!–宽度设为1100px–&gt;</p>
+<p>border:1px solid #229;  &lt;!–别给contain div（整块的主div设高度），不设高度就让元素把它撑下来 有多少高多少–&gt;</p>
+<p><strong>position:absolute;</strong> &lt;!—-&gt;</p>
+<p><strong>left:50%;</strong>    &lt;!–左边框对齐页面中央–&gt;</p>
+<p><strong>margin-left:-550px;</strong>  &lt;!–向左回一半–&gt;</p>
+<p>}</p>
+<p>当然也可两个居中方式都写..（orz这样IE和非IE都管用了，简单粗暴..）但推荐还是用以上的方式（因为如果设了margin：auto后其子类全部都继承这个属性）</p>
+<p>3、position:fixed;</p>
+<p>固定在页面上，不随滚动条滚动而改变位置</p>
+<p>五、float</p>
+<p>float:left;左飘，第一个放最左边</p>
+<p>float:right;右飘，第一个放最右边</p>
+<p>float可使得表格等横向浮动 （<strong>表格中在<li>样式里设置</li></strong>）</p>
+<p>兼容性：对于IE，设置float后该标签依然占用空间，而其他浏览器不占用，<strong>故必须要再添加一个属性 clear:both;  将两段的float清除！否则对于IE外的浏览器设置了float的元素不再占用空间，下面的元素会飘上来！</strong></p>
+<p><strong>border-bottom:1px solid red; 只设置底部边框那条 ，etc  加线</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/29/html/" rel="next" title="HTML扼要">
+                <i class="fa fa-chevron-left"></i> HTML扼要
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/01/bangwagon-e8-bf-81-e7-a7-bbdigitalocean-e5-a4-a7-e6-88-90-e5-8a-9f/" rel="prev" title="bandwagon迁移digitalocean 大成功">
+                bandwagon迁移digitalocean 大成功 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">我的个人网站</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://questionyu.com/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://dilidili.wang/" title="dilidili" target="_blank">dilidili</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
