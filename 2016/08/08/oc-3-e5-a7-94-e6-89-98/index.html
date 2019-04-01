@@ -357,18 +357,13 @@
 <p>@protocol BuyBookDelegate<br>//定义一个委托协议，协议中只有一个方法，用来买书<br>-(void)buyBook:(NSString*)name;<br>@end</p>
  <a id="more"></a>
 <p>老师类</p>
-<p>#import &lt;Foundation/Foundation.h&gt;</p>
-<p>#import “BuyBookDelegate.h”<br>@interface Teacher : NSObject<br>//定义一个委托协议<br>@property (nonatomic,assign)id<buybookdelegate> buyBookDele;<br>//定义一个老师想让学生买书的方法<br>-(void)willBuyBook:(NSString*)bookName;<br>@end</buybookdelegate></p>
-<p>#import “Teacher.h”<br>@implementation Teacher<br>-(void)willBuyBook:(NSString*)bookName{<br>​    NSLog(@”老师想买本《%@》”,bookName);<br>​    [_buyBookDele buyBook:bookName];<br>}<br>@end</p>
+<h1 id="import"><a href="#import" class="headerlink" title="import "></a>import <foundation foundation.h=""></foundation></h1><h1 id="import-“BuyBookDelegate-h”"><a href="#import-“BuyBookDelegate-h”" class="headerlink" title="import “BuyBookDelegate.h”"></a>import “BuyBookDelegate.h”</h1><p>@interface Teacher : NSObject<br>//定义一个委托协议<br>@property (nonatomic,assign)id<buybookdelegate> buyBookDele;<br>//定义一个老师想让学生买书的方法<br>-(void)willBuyBook:(NSString*)bookName;<br>@end</buybookdelegate></p>
+<h1 id="import-“Teacher-h”"><a href="#import-“Teacher-h”" class="headerlink" title="import “Teacher.h”"></a>import “Teacher.h”</h1><p>@implementation Teacher<br>-(void)willBuyBook:(NSString*)bookName{<br>​    NSLog(@”老师想买本《%@》”,bookName);<br>​    [_buyBookDele buyBook:bookName];<br>}<br>@end</p>
 <p>学生类</p>
-<p>#import &lt;Foundation/Foundation.h&gt;</p>
-<p>#import “Teacher.h”<br>@interface Student : NSObject <buybookdelegate><br>@end</buybookdelegate></p>
-<p>#import “Student.h”<br>@implementation Student<br>-(void)buyBook:(NSString *)name{<br>​    NSLog(@”学生去买《%@》”,name);<br>}<br>@end</p>
+<h1 id="import-1"><a href="#import-1" class="headerlink" title="import "></a>import <foundation foundation.h=""></foundation></h1><h1 id="import-“Teacher-h”-1"><a href="#import-“Teacher-h”-1" class="headerlink" title="import “Teacher.h”"></a>import “Teacher.h”</h1><p>@interface Student : NSObject <buybookdelegate><br>@end</buybookdelegate></p>
+<h1 id="import-“Student-h”"><a href="#import-“Student-h”" class="headerlink" title="import “Student.h”"></a>import “Student.h”</h1><p>@implementation Student<br>-(void)buyBook:(NSString *)name{<br>​    NSLog(@”学生去买《%@》”,name);<br>}<br>@end</p>
 <p>测试：</p>
-<p>#import &lt;Foundation/Foundation.h&gt;</p>
-<p>#import “Teacher.h”</p>
-<p>#import “Student.h”</p>
-<p>int main(int argc, const char <em> argv[]) {<br>​    @autoreleasepool {<br>​        Teacher</em> teacher = [[Teacher alloc]init];<br>​        Student* student = [[Student alloc]init];<br>​        //为老师设置委托的对象<br>​        [teacher setBuyBookDele:student];<br>​        //老师要买书了<br>​        [teacher willBuyBook:@”OC开发”];<br>​    }<br>​    return 0;<br>}</p>
+<h1 id="import-2"><a href="#import-2" class="headerlink" title="import "></a>import <foundation foundation.h=""></foundation></h1><h1 id="import-“Teacher-h”-2"><a href="#import-“Teacher-h”-2" class="headerlink" title="import “Teacher.h”"></a>import “Teacher.h”</h1><h1 id="import-“Student-h”-1"><a href="#import-“Student-h”-1" class="headerlink" title="import “Student.h”"></a>import “Student.h”</h1><p>int main(int argc, const char <em> argv[]) {<br>​    @autoreleasepool {<br>​        Teacher</em> teacher = [[Teacher alloc]init];<br>​        Student* student = [[Student alloc]init];<br>​        //为老师设置委托的对象<br>​        [teacher setBuyBookDele:student];<br>​        //老师要买书了<br>​        [teacher willBuyBook:@”OC开发”];<br>​    }<br>​    return 0;<br>}</p>
 <p>结果：</p>
 <p><strong>老师想买本《**</strong>OC<strong>**开发》</strong></p>
 <p><strong> </strong>学生去买《<strong>**OC</strong>开发》**</p>
@@ -461,8 +456,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -544,6 +548,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#import"><span class="nav-number">1.</span> <span class="nav-text">import </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“BuyBookDelegate-h”"><span class="nav-number">2.</span> <span class="nav-text">import “BuyBookDelegate.h”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“Teacher-h”"><span class="nav-number">3.</span> <span class="nav-text">import “Teacher.h”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-1"><span class="nav-number">4.</span> <span class="nav-text">import </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“Teacher-h”-1"><span class="nav-number">5.</span> <span class="nav-text">import “Teacher.h”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“Student-h”"><span class="nav-number">6.</span> <span class="nav-text">import “Student.h”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-2"><span class="nav-number">7.</span> <span class="nav-text">import </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“Teacher-h”-2"><span class="nav-number">8.</span> <span class="nav-text">import “Teacher.h”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-“Student-h”-1"><span class="nav-number">9.</span> <span class="nav-text">import “Student.h”</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -738,6 +758,8 @@
   
 
   
+  
+
 
   
 

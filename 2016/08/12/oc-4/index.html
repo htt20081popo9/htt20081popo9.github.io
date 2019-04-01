@@ -427,12 +427,12 @@
 <p>正式协议 @protocol 必须实现协议中所有方法</p>
 <p>（但可以用@optional @required（默认）来改变）</p>
 <p>使用协议定义的方法只可调用该协议中声明的[方法]，且只有两种定义语法 [用此方法来限定只能调用该协议中声明的方法]</p>
-<p>NSObject&lt;protocol1,protocol2&gt;* p;</p>
-<p>id&lt;p1,p2&gt; p;</p>
+<p>NSObject<protocol1,protocol2>* p;</protocol1,protocol2></p>
+<p>id<p1,p2> p;</p1,p2></p>
 <p>p是指向对象的变量名</p>
 <p>类可继承多个协议 协议可继承多个协议</p>
 <p>定义方法 使用方法见书</p>
-<p>@protocol XXX&lt;XXX2,XXX3&gt;</p>
+<p>@protocol XXX<xxx2,xxx3></xxx2,xxx3></p>
 <p>@end</p>
 <p>对委托的理解 见OC-3</p>
 <p>12、扩展即为匿名类别，但类别只能有方法，而扩展可以增加实例变量 用@property @synthesize等</p>
@@ -803,6 +803,8 @@
   
 
   
+  
+
 
   
 

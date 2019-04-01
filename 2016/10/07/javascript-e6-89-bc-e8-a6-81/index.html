@@ -422,15 +422,18 @@
 </blockquote>
 <p>比较p1和p2两个Say函数指针，返回false，表示每个Person实例中的Say方法都是独立的，而事实上Say函数的功能是完全一样的，我们完全没有必要为每个对象重新分配Say函数”对象“，如果Person实例很多，将会造成大量的内存耗用。</p>
 <p>如果将Say函数提取出来放入全局执行范围，似乎可解决次问题：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; function Person()&#123;</span><br><span class="line">&gt;           this.name = &apos;xfrog&apos;;</span><br><span class="line">&gt;           this.Say = say;     </span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      function say()&#123;</span><br><span class="line">&gt;           alert(this.name);     </span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      var p1 = new Person();</span><br><span class="line">&gt;      var p2 = new Person();</span><br><span class="line">&gt;      alert(p1.Say == p2.Say);</span><br><span class="line">&gt;      p1.name = &apos;wang&apos;;</span><br><span class="line">&gt;      p1.Say();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>由于this始终和执行上下文相关，p1和p2实例中的Say方法中会正确地返回对应实例的name属性。但是，使用此方式有违面向对象的思想，也失去了类型密封的原则。还会造成大量的全局函数。</p>
 <p>为了解决这些缺点，Javascript引出了原型的概念，简单理解，原型可以看成是类型的共享区，原型本身是一个对象，而对象中的属性对于类型来说是共享的。Javascript中每个类型通过prototype属性来表示原型，通过这个属性可指定共享方法：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; function Person()&#123;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt;      Person.prototype.name = &apos;xfrog&apos;;</span><br><span class="line">&gt;      Person.prototype.Say = function()&#123;</span><br><span class="line">&gt;           alert(this.name);</span><br><span class="line">&gt;      &#125;;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      var p1 = new Person();</span><br><span class="line">&gt;      var p2 = new Person();</span><br><span class="line">&gt;      alert(p1.Say == p2.Say);     //返回true</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>为什么这里可以通过p1.Say来访问Say方法呢？这是因为ECMAScript标准规定了类型属性的查找顺序：先在类型的实例上查找，如果没有则继续在类型原型上查找，这一查找路径采用短路算法，即找到首个后即返回，考虑如下代码：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; function Person()&#123;</span><br><span class="line">&gt;           this.name = &apos;wang&apos;;</span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      Person.prototype.name = &apos;xfrog&apos;;</span><br><span class="line">&gt;      Person.prototype.Say = function()&#123;</span><br><span class="line">&gt;           alert(this.name);</span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      var p1 = new Person();</span><br><span class="line">&gt;      p1.Say();      //将返回wang</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
@@ -439,14 +442,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; p1.__proto__[&quot;Say&quot;]();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>由于原型是一个对象，我们可以直接将一个对象赋值给prototype：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; function Person()&#123;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      Person.prototype = &#123;name:&apos;xfrog&apos;, Say:function()&#123;</span><br><span class="line">&gt;           alert(this.name);</span><br><span class="line">&gt;      &#125;&#125;;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>注意这个方式下，实际上是完全替换了Person的prototype，这与上面Person.prototype.name方式还是有细微差异的，这是因为任何类型，Javascript引擎都会添加默认的prototype，在这个prototype中包含一个对构造函数的引用，即原型对象属性constructor，所以通常使用替代prototype方式时，我们需要手动加上constructor属性：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; Person.prototype = &#123; </span><br><span class="line">&gt;           constructor: Person,</span><br><span class="line">&gt;           name :&apos;xfrog&apos;,</span><br><span class="line">&gt;           Say:function()&#123;</span><br><span class="line">&gt;                alert(this.name);</span><br><span class="line">&gt;           &#125;</span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>注意，由于prototype对于整个类型是共享的，那么在prototype中的引用类型可能会存在问题，前面的Say函数作为一个对象，也是引用类型，所以每个实例中的Say都指向原型对象中的同一个函数，这本身没有问题，也是我们使用原型的初衷，但对于其他引用对象，可能结果并不是我们想要的：</p>
+<p>&gt;<br>&gt;</p>
 <blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; function Person()&#123;</span><br><span class="line">&gt;      &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      Person.prototype = &#123;</span><br><span class="line">&gt;           name: &apos;xfrog&apos;,</span><br><span class="line">&gt;           obj : &#123; age: 18 &#125;,</span><br><span class="line">&gt;           Say : function()&#123;</span><br><span class="line">&gt;                alert(this.obj.age);</span><br><span class="line">&gt;           &#125;</span><br><span class="line">&gt;      &#125;;</span><br><span class="line">&gt; </span><br><span class="line">&gt;      var p1 = new Person();</span><br><span class="line">&gt;      var p2 = new Person();</span><br><span class="line">&gt;      p1.obj.age = 20;</span><br><span class="line">&gt;      p1.Say();</span><br><span class="line">&gt;      p2.Say();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
@@ -844,6 +850,8 @@
   
 
   
+  
+
 
   
 
