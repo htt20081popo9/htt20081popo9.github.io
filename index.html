@@ -354,8 +354,7 @@
 
       
         
-          
-            <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
+          <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
 <p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
 <ol>
 <li><p>创建公式编辑栏的方式</p>
@@ -425,34 +424,15 @@
 </tbody>
 </table>
 </div>
-<pre><code>&lt;!-- more --&gt;
-</code></pre><ol>
-<li><p>特殊字符</p>
-<p>希腊字母、三角函数、对数函数直接写转义字符+对应的内容即可，比如</p>
-<p>对于如希腊字母，第一个字母大写就对应其大写字母，小写即对应其小写字母</p>
-<p>\sinx = $\sin x$    \log_2 = $\log_2$</p>
-<p>\lambda=$\lambda$     \theta=$\theta$   \Omega=$\Omega$</p>
-<p>\Delta=$\Delta​$</p>
-<p><strong>梯度\nabla</strong>=$\nabla$</p>
-</li>
-<li><p>其它特殊符号</p>
-<p>关系运算符\pm = $\pm$  \cdot = $\cdot$  \div=$\div$  \leq=$\leq$ \req=$\geq$  \partial=$\partial$</p>
-<p>\in=$\in​$  \notin=$\notin​$ \cup=$\cup​$ \cap=$\cap​$ \subset=$\subset​$ \subseteq=$\subseteq​$ \supset=$\supset​$  \supseteq=$\supseteq​$</p>
-<p>\forall=$\forall$  \infty=$ \infty $  \varnothing= $ \varnothing$  \\exists=$\exists$  \because=$\because$  \therefore=$\therefore$</p>
-</li>
-<li><p>大括号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">c(u)=</span><br><span class="line"></span><br><span class="line">\begin&#123;cases&#125;</span><br><span class="line"></span><br><span class="line"> formula1,condition1\\ </span><br><span class="line"></span><br><span class="line">formula2,condition2 </span><br><span class="line"></span><br><span class="line">\end&#123;cases&#125;</span><br></pre></td></tr></table></figure>
-<p>$c(u)=\begin{cases} formula1,condition1\\\ formula2,condition2 \end{cases}​$</p>
-<p><code>以\begin{cases}开始，以\end{cases}结束，中间行间隔用\\，每行的条件和公式之间用逗号相隔</code></p>
-</li>
-<li><p>矩阵</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\begin&#123;bmatrix&#125;</span><br><span class="line">&#123;a_&#123;11&#125;&#125;&amp;&#123;a_&#123;12&#125;&#125;&amp;&#123;\cdots&#125;&amp;&#123;a_&#123;1n&#125;&#125;\\</span><br><span class="line">&#123;a_&#123;21&#125;&#125;&amp;&#123;a_&#123;22&#125;&#125;&amp;&#123;\cdots&#125;&amp;&#123;a_&#123;2n&#125;&#125;\\</span><br><span class="line">&#123;\vdots&#125;&amp;&#123;\vdots&#125;&amp;&#123;\ddots&#125;&amp;&#123;\vdots&#125;\\</span><br><span class="line">&#123;a_&#123;m1&#125;&#125;&amp;&#123;a_&#123;m2&#125;&#125;&amp;&#123;\cdots&#125;&amp;&#123;a_&#123;mn&#125;&#125;\\</span><br><span class="line">\end&#123;bmatrix&#125;</span><br></pre></td></tr></table></figure>
-<p>$\begin{bmatrix}<br>{a_{11}}&amp;{a_{12}}&amp;{\cdots}&amp;{a_{1n}}\\<br>{a_{21}}&amp;{a_{22}}&amp;{\cdots}&amp;{a_{2n}}\\<br>{\vdots}&amp;{\vdots}&amp;{\ddots}&amp;{\vdots}\\<br>{a_{m1}}&amp;{a_{m2}}&amp;{\cdots}&amp;{a_{mn}}\\<br>\end{bmatrix}​$</p>
-</li>
-</ol>
-<p><em>关于HEXO使用mathjax渲染公式的问题见此篇文章<a href="https://www.jianshu.com/p/7ab21c7f0674" target="_blank" rel="noopener">https://www.jianshu.com/p/7ab21c7f0674</a></em></p>
-
-          
+<ol>
+<li><p>特殊字符</p></li></ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/01/使用markdown编辑数学公式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -749,6 +729,11 @@
 <p><code>language: zh-Hans</code></p>
 </li>
 <li><p>配置文件要保存为UTF-8格式，不然会乱码</p>
+</li>
+<li><p>语法上的坑</p>
+<ul>
+<li>HEXO 表格与正文之间需要两个空行</li>
+</ul>
 </li>
 </ol>
 
