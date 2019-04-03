@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #3bfbff;
+  background: #acff85;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2660,25 +2660,51 @@ embed {
 .links-of-blogroll-inline .links-of-blogroll-item {
   display: inline-block;
 }
-body {
-  background: url("/images/4.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: 50% 50%;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -o-background-size: cover;
-  -moz-background-size: cover;
-  -ms-background-size: cover;
+@media screen and (min-width: 960px) {
+  body {
+    background: url("/images/4.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 50%;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+  }
+  .main-inner {
+    background: #fff;
+    opacity: 0.8;
+    padding: 50px;
+  }
+  .header-inner {
+    opacity: 0.8;
+  }
+  #footer > div > div {
+    color: #eee;
+  }
 }
-.main-inner {
-  background: #fff;
-  opacity: 0.8;
-  padding: 50px;
-}
-.header-inner {
-  opacity: 0.8;
-}
-#footer > div > div {
-  color: #eee;
+@media screen and (max-width: 960px) {
+  body {
+    background: url("/images/mobile.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 50%;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+  }
+  .main-inner {
+    background: #fff;
+    opacity: 0.8;
+    padding: 20px;
+  }
+  .header-inner {
+    opacity: 0.8;
+  }
+  #footer > div > div {
+    color: #eee;
+  }
 }
