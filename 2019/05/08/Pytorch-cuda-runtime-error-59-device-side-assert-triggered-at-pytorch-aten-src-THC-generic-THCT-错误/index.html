@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="这错误原因说了等于没说，完全不知道问题出在哪，只能靠 想 象 力  Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........错误 在新增了一个类别进入训练集之后（5+1）出现了非常奇怪的CUDA报错 这个错误原因一般是①网络输出的labe">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-08T07:54:49.186Z">
+<meta property="og:updated_time" content="2019-05-08T09:48:08.956Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="训练集增补后两个非常诡异的错误">
 <meta name="twitter:description" content="这错误原因说了等于没说，完全不知道问题出在哪，只能靠 想 象 力  Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........错误 在新增了一个类别进入训练集之后（5+1）出现了非常奇怪的CUDA报错 这个错误原因一般是①网络输出的labe">
@@ -370,11 +370,18 @@
 <p>②是否存在-1标签</p>
 <p>我的最后一层应该<code>nn.Linear(32768, 5)</code>改为<code>nn.Linear(32768, 6)</code></p>
 <p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了我半天时间，</p>
-<p><code>NMB</code></p>
 </li>
 <li><p><code>DataLoader worker (pid 20991) is killed by signal: Killed.</code></p>
+<p>检查内存，CPU %MEM一直在增加，跑了很多次都同样出错</p>
 <p><code>Out of memory</code>了</p>
-<p>Dataloader的子线程设置小一点</p>
+<p>查阅了很多资料，github上有些人也遇到这个问题，有说是因为后台线程设置太多，也以后说enumerate写法问题，还有个说是pytorch的问题</p>
+<blockquote>
+<blockquote>
+<p>a lot of those issues are because of third party libraries not being fork safe. One alternative resolution might be to use the spawn start method.</p>
+<p>然后忙活了几个小时一个字母没改再跑一遍，又没这个问题了。那看来就是第三方库本身的问题</p>
+</blockquote>
+</blockquote>
+<p><code>N M B</code></p>
 </li>
 </ol>
 
