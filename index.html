@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/" itemprop="url">Pytorch_ cuda runtime error (59)</a></h1>
+                <a class="post-title-link" href="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/" itemprop="url">训练集增补后两个非常诡异的错误</a></h1>
         
 
         <div class="post-meta">
@@ -365,12 +365,22 @@
       
         
           
-            <p><code>Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........</code>错误</p>
-<p>在新增了一个类别进入训练集之后（5+1）报了这个非常奇怪的错</p>
-<p>这个错误原因一般是①网络输出的label和标签（训练集种类）数量应该相同！</p>
+            <p>这错误原因说了等于没说，完全不知道问题出在哪，只能靠 <code>想 象 力</code></p>
+<ol>
+<li><p><code>Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........</code>错误</p>
+<p>在新增了一个类别进入训练集之后（5+1）出现了非常奇怪的CUDA报错</p>
+<p>这个错误原因一般是①网络输出的label和标签（训练集种类）数量应该相同</p>
 <p>②是否存在-1标签</p>
 <p>我的最后一层应该<code>nn.Linear(32768, 5)</code>改为<code>nn.Linear(32768, 6)</code></p>
-<p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了半天</p>
+<p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了我半天时间，<code>NMB</code></p>
+</li>
+</ol>
+<ol>
+<li><p><code>DataLoader worker (pid 20991) is killed by signal: Killed.</code></p>
+<p><code>Out of memory</code>了</p>
+<p>Dataloader的子线程设置小一点</p>
+</li>
+</ol>
 
           
         
