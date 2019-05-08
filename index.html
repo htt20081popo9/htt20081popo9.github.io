@@ -372,10 +372,9 @@
 <p>这个错误原因一般是①网络输出的label和标签（训练集种类）数量应该相同</p>
 <p>②是否存在-1标签</p>
 <p>我的最后一层应该<code>nn.Linear(32768, 5)</code>改为<code>nn.Linear(32768, 6)</code></p>
-<p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了我半天时间，<code>NMB</code></p>
+<p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了我半天时间，</p>
+<p><code>NMB</code></p>
 </li>
-</ol>
-<ol>
 <li><p><code>DataLoader worker (pid 20991) is killed by signal: Killed.</code></p>
 <p><code>Out of memory</code>了</p>
 <p>Dataloader的子线程设置小一点</p>
