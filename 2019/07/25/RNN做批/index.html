@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Apple,">
+  <meta name="keywords" content="RNN,">
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="&amp;#160; &amp;#160; &amp;#160; &amp;#160;在ios上，background-attachment: fixed;标签失效，导致背景图无法自适应屏幕。 &amp;#160; &amp;#160; &amp;#160; &amp;#160;解决办法： 1234567891011body:before &amp;#123;  content: &apos; &apos;;  position: fixed;  z-index: -1;  top: 0">
-<meta name="keywords" content="Apple">
+<meta name="description" content="输入RNN的是时间序列，与CNN是反过来的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。 在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。 训练每个batch">
+<meta name="keywords" content="RNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="fixed不生效">
-<meta property="og:url" content="https://aisakaki.com/2019/04/19/fixed不生效/index.html">
+<meta property="og:title" content="RNN做批">
+<meta property="og:url" content="https://aisakaki.com/2019/07/25/RNN做批/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="&amp;#160; &amp;#160; &amp;#160; &amp;#160;在ios上，background-attachment: fixed;标签失效，导致背景图无法自适应屏幕。 &amp;#160; &amp;#160; &amp;#160; &amp;#160;解决办法： 1234567891011body:before &amp;#123;  content: &apos; &apos;;  position: fixed;  z-index: -1;  top: 0">
+<meta property="og:description" content="输入RNN的是时间序列，与CNN是反过来的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。 在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。 训练每个batch">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-19T12:00:09.134Z">
+<meta property="og:image" content="https://aisakaki.com/2019/07/25/RNN做批/0.png">
+<meta property="og:updated_time" content="2019-07-25T03:27:56.644Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fixed不生效">
-<meta name="twitter:description" content="&amp;#160; &amp;#160; &amp;#160; &amp;#160;在ios上，background-attachment: fixed;标签失效，导致背景图无法自适应屏幕。 &amp;#160; &amp;#160; &amp;#160; &amp;#160;解决办法： 1234567891011body:before &amp;#123;  content: &apos; &apos;;  position: fixed;  z-index: -1;  top: 0">
+<meta name="twitter:title" content="RNN做批">
+<meta name="twitter:description" content="输入RNN的是时间序列，与CNN是反过来的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。 在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。 训练每个batch">
+<meta name="twitter:image" content="https://aisakaki.com/2019/07/25/RNN做批/0.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/2019/04/19/fixed不生效/">
+  <link rel="canonical" href="https://aisakaki.com/2019/07/25/RNN做批/">
 
 
 
 
 
-  <title>fixed不生效 | 宵晓咲</title>
+  <title>RNN做批 | 宵晓咲</title>
   
 
 
@@ -263,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/19/fixed不生效/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/25/RNN做批/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -280,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">fixed不生效</h1>
+          <h1 class="post-title" itemprop="name headline">RNN做批</h1>
         
 
         <div class="post-meta">
@@ -292,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-19T19:56:29+08:00">
-                2019-04-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T11:20:09+08:00">
+                2019-07-25
               </time>
             
 
@@ -315,19 +317,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/" itemprop="url" rel="index">
-                    <span itemprop="name">程序语言</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/HTML-JS-CSS/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML/JS/CSS</span>
+                  <a href="/categories/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
                   </a>
                 </span>
 
@@ -344,8 +335,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/19/fixed不生效/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/19/fixed不生效/" itemprop="commentCount"></span>
+                <a href="/2019/07/25/RNN做批/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/25/RNN做批/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -373,9 +364,11 @@
       
 
       
-        <p>&#160; &#160; &#160; &#160;在ios上，<code>background-attachment: fixed;</code>标签失效，导致背景图无法自适应屏幕。</p>
-<p>&#160; &#160; &#160; &#160;解决办法：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">' '</span>;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(/images/4.jpg) center <span class="number">0</span> no-repeat;</span><br><span class="line">  <span class="attribute">background-size</span>: cover;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+        <p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
+<p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
+<p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
+<p>以下通俗解释</p>
+<p><img src="//aisakaki.com/2019/07/25/RNN做批/0.png" alt="0"></p>
 
       
     </div>
@@ -393,7 +386,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Apple/" rel="tag"># Apple</a>
+            <a href="/tags/RNN/" rel="tag"># RNN</a>
           
         </div>
       
@@ -406,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/15/塞尔达传说：荒野之息/" rel="next" title="塞尔达传说：荒野之息">
-                <i class="fa fa-chevron-left"></i> 塞尔达传说：荒野之息
+              <a href="/2019/07/15/我永远喜欢间桐樱-jpg/" rel="next" title="我永远喜欢间桐樱">
+                <i class="fa fa-chevron-left"></i> 我永远喜欢间桐樱
               </a>
             
           </div>
@@ -415,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/" rel="prev" title="训练集增补后两个非常诡异的错误">
-                训练集增补后两个非常诡异的错误 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
