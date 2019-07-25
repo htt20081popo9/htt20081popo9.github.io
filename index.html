@@ -368,8 +368,12 @@
             <p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
 <p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
 <p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
-<p>以下通俗解释</p>
+<p>以下通俗理解</p>
 <p><img src="//aisakaki.com/2019/07/25/RNN做批/0.png" alt="0"></p>
+<p>于是对于一个可迭代的dataloader</p>
+<p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN输入结构2.png" alt="RNN输入结构2"></p>
+<p>对语料矩阵进行转置后可以更快捷方便生批</p>
+<p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN快捷生批.png" alt="RNN快捷生批"></p>
 
           
         
