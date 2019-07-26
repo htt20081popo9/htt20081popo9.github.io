@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="使用小批量可以 ①提高模型的训练速度，不用过于频繁地计算参数。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向  ②引入随机性以避免陷入局部极值 具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的） 输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-26T13:16:36.101Z">
+<meta property="og:updated_time" content="2019-07-26T13:18:52.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mini-batch 在网络里的并行计算">
 <meta name="twitter:description" content="使用小批量可以 ①提高模型的训练速度，不用过于频繁地计算参数。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向  ②引入随机性以避免陷入局部极值 具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的） 输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏">
@@ -367,7 +367,7 @@
 <p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
 <p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
 <p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移，激活函数)</p>
-<script type="math/tex; mode=display">W_{xh}=W_{v*h}$$ , $$W_{hh}=W_{h*h}$$, $$W_{ho}=W_{h*o}$$ ， $$seq_a = [a_0,a_1,a_2]$$ ,$$seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
+<script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
 <p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X_{t_0}=[a_0,b_0]=[a_{1*v},b_{1*v}]</script></p>
 <p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
 <script type="math/tex; mode=display">
