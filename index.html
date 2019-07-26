@@ -371,23 +371,23 @@
 <p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
 <p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移)</p>
 <script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
-<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X_{t_0}=[a_0,b_0]=[a_{1*v},b_{1*v}]</script></p>
+<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a_{1*v},b_{1*v}]</script></p>
 <p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
 <script type="math/tex; mode=display">
-X_{t_0} = X_{2*v} = 
+X^{t_0} = X_{2*v} = 
 \begin{bmatrix}
 {a_{1*v}}\\{b_{1*v}}
 \end{bmatrix}</script><p>于是一次循环：</p>
 <script type="math/tex; mode=display">
-\sigma (X_{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
+\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
 H^{(t_0)}_{2*h} = 
 \begin{bmatrix}
-{h^{a_0}_{1*v}}\\{h^{b_0}_{1*v}}
+{h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
 \end{bmatrix}</script><script type="math/tex; mode=display">
 H^{(t_0)}_{2*h}×W_{h*o} = O^{t_0}_{2*o}</script><script type="math/tex; mode=display">
 O^{t_0}_{2*o} =
 \begin{bmatrix}
-{o^{a_0}_{1*v}}\\{o^{b_0}_{1*v}}
+{o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
 \end{bmatrix}</script><p>由此可看出，在这个过程中，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
 <p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
 <p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
