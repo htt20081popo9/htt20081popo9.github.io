@@ -262,6 +262,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/26/mini-batch/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/mini-batch/" itemprop="url">mini-batch 在网络里的并行计算</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T21:11:32+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/26/mini-batch/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/mini-batch/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使用小批量可以</p>
+<p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
+<p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
+<p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
+<p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移，激活函数)</p>
+<p>$W_{xh}=W_{v<em>h}$ , $W_{hh}=W_{h</em>h}$ , $W_{ho}=W_{h*o}$ ， $seq_a = [a_0,a_1,a_2]$ ,$seq_b = [b_0,b_1,b_2]$ </p>
+<p>于是一个mini-batch为$[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3<em>2</em>v}$</p>
+<p>对其进行迭代，则$t_0$时刻输入矩阵$X_{t_0}=[a_0,b_0]=[a_{1<em>v},b_{1</em>v}]$</p>
+<p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
+<script type="math/tex; mode=display">
+X_{2*v} = 
+\begin{bmatrix}
+{a_{1*v}}\\{b_{1*v}}
+\end{bmatrix}</script><p>于是一次循环：</p>
+<script type="math/tex; mode=display">
+X_{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh}=X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h}=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
+H^{(t_0)}_{2*h} = 
+\begin{bmatrix}
+{h^{a_0}_{1*v}}\\{h^{b_0}_{1*v}}
+\end{bmatrix}</script><script type="math/tex; mode=display">
+H^{(t_0)}_{2*h}×W_{h*o} = O^{t_0}_{2*o}</script><script type="math/tex; mode=display">
+O^{t_0}_{2*o} =
+\begin{bmatrix}
+{o^{a_0}_{1*v}}\\{o^{b_0}_{1*v}}
+\end{bmatrix}</script><p>由此可看出，在这个过程中，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
+<p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
+<p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/25/RNN做批/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -368,14 +546,12 @@
             <p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
 <p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
 <p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
-<p>以下画图理解（注意紫色方框只是方便看，不是实际数据结构，一个batch是以一个序列输入进网络的）</p>
+<p>以下画图理解，注意紫色是实体结构</p>
 <p><img src="//aisakaki.com/2019/07/25/RNN做批/0.png" alt="0"></p>
 <p>于是对于一个可迭代的dataloader</p>
 <p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN输入结构2.png" alt="RNN输入结构2"></p>
 <p>对语料矩阵进行转置后可以更快捷方便生批</p>
 <p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN快捷生批.png" alt="RNN快捷生批"></p>
-<p>扁平化后输入模型</p>
-<p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN输入结构3.png" alt="RNN输入结构2"></p>
 
           
         
@@ -1689,231 +1865,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/01/使用markdown编辑数学公式/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/01/使用markdown编辑数学公式/" itemprop="url">使用markdown编辑数学公式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T17:22:44+08:00">
-                2019-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/01/使用markdown编辑数学公式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/01/使用markdown编辑数学公式/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
-<p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
-<h3 id="创建公式编辑栏的方式"><a href="#创建公式编辑栏的方式" class="headerlink" title="创建公式编辑栏的方式"></a>创建公式编辑栏的方式</h3><ul>
-<li>内联公式：两个$之间​</li>
-<li>公式块：两个$$之间</li>
-<li>ctrl + shift +m</li>
-</ul>
-<h3 id="常用公式的代码"><a href="#常用公式的代码" class="headerlink" title="常用公式的代码"></a>常用公式的代码</h3><p>   注意，一个块要用{}包裹起来，^_上下标叠着写就行</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">输入</th>
-<th style="text-align:center">公式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">x^2</td>
-<td style="text-align:center">$x^2$</td>
-</tr>
-<tr>
-<td style="text-align:center">x_1</td>
-<td style="text-align:center">$x_1$</td>
-</tr>
-<tr>
-<td style="text-align:center">\frac{x}{y}</td>
-<td style="text-align:center">$\frac{x}{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sqrt[x]{y}</td>
-<td style="text-align:center">$\sqrt[x]{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\vec{x}</td>
-<td style="text-align:center">$\vec{x}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\int_{a}^{b}{x}dx</td>
-<td style="text-align:center">$\int_{a}^{b}{x}dx$</td>
-</tr>
-<tr>
-<td style="text-align:center">\cdots</td>
-<td style="text-align:center">$\cdots$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sum_{n=1}^{100}{a_n}</td>
-<td style="text-align:center">$\sum_{n=1}^{100}{a_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\lim_{n\to +\infty}</td>
-<td style="text-align:center">$\lim_{n\to +\infty}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\prod_{n=1}^{99}{x_n}</td>
-<td style="text-align:center">$\prod_{n=1}^{99}{x_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">a \quad b</td>
-<td style="text-align:center">$a \quad b$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/01/使用markdown编辑数学公式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1959,7 +1915,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1981,7 +1937,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
