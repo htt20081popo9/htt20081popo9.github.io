@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="使用小批量可以 ①提高模型的训练速度，不用过于频繁地计算参数。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向  ②引入随机性以避免陷入局部极值 具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的） 输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-27T00:03:05.099Z">
+<meta property="og:updated_time" content="2019-07-27T00:18:55.097Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mini-batch 在网络里的并行计算">
 <meta name="twitter:description" content="使用小批量可以 ①提高模型的训练速度，不用过于频繁地计算参数。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向  ②引入随机性以避免陷入局部极值 具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的） 输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏">
@@ -371,25 +371,40 @@
 <p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a^{t_0}_{1*v},b^{t_0}_{1*v}]</script></p>
 <p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
 <script type="math/tex; mode=display">
+Input=
 X^{t_0} = X_{2*v} = 
 \begin{bmatrix}
 {a_{1*v}}\\{b_{1*v}}
 \end{bmatrix}</script><p>于是一次循环：</p>
 <script type="math/tex; mode=display">
-\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
-H^{(t_0)}_{2*h} = 
+Hidden=
+\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})</script><script type="math/tex; mode=display">
+= \sigma(
 \begin{bmatrix}
-\sigma (a^{t_0}_{1*v}×W_{v*h}+ H^{(t_0-1)}_{1*h}×W_{h*h})\\ \sigma (b^{t_0}_{1*v}×W_{v*h}+ H^{(t_0-1)}_{1*h}×W_{h*h})
+a^{t_0}_{1*v}×W_{v*h}\\  
+b^{t_0}_{1*v}×W_{v*h}
 \end{bmatrix}
++
+\begin{bmatrix}H^{(t_0-1)}_{1*h}×W_{h*h}\\ 
+H^{(t_0-1)}_{1*h}×W_{h*h}
+\end{bmatrix}
+)</script><script type="math/tex; mode=display">
 =
 \begin{bmatrix}
 {h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
+\end{bmatrix}
+=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
+Output=
+H^{(t_0)}_{2*h}×W_{h*o} = 
+\begin{bmatrix}
+{h^{a_0}_{1*h}×W_{h*o}}\\
+{h^{b_0}_{1*h}×W_{h*o}}
 \end{bmatrix}</script><script type="math/tex; mode=display">
-H^{(t_0)}_{2*h}×W_{h*o} = O^{t_0}_{2*o}</script><script type="math/tex; mode=display">
-O^{t_0}_{2*o} =
+=
 \begin{bmatrix}
 {o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
-\end{bmatrix}</script><p>由此可看出，在这个过程中，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
+\end{bmatrix}
+=O^{t_0}_{2*o}</script><p>由此可看出，在矩阵相乘的规则下，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
 <p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
 <p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
 
