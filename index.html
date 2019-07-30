@@ -416,7 +416,9 @@
 <h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
 <script type="math/tex; mode=display">
 \hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
-<h2 id="为什么会生成对抗样本"><a href="#为什么会生成对抗样本" class="headerlink" title="为什么会生成对抗样本"></a>为什么会生成对抗样本</h2>
+<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
+<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
+
           
         
       
@@ -1997,7 +1999,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

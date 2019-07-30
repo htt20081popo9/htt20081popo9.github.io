@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="对抗样本 智能对抗,">
+  <meta name="keywords" content="对抗样本,智能对抗,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="《Explaining and Harnessing Adversarial Examples》   Ian J. Goodfellow, Jonathon Shlens &amp;amp; Christian Szegedy   ICLR 2015  为什么会产生对抗样本？以前的观点： extreme nonlinearity of DNN and insufﬁcient model averagin">
-<meta name="keywords" content="对抗样本 智能对抗">
+<meta name="keywords" content="对抗样本,智能对抗">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Explaining and Harnessing Adversarial Examples">
 <meta property="og:url" content="https://aisakaki.com/2019/07/30/Examples/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="《Explaining and Harnessing Adversarial Examples》   Ian J. Goodfellow, Jonathon Shlens &amp;amp; Christian Szegedy   ICLR 2015  为什么会产生对抗样本？以前的观点： extreme nonlinearity of DNN and insufﬁcient model averagin">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-30T05:37:46.297Z">
+<meta property="og:updated_time" content="2019-07-30T07:51:24.880Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Explaining and Harnessing Adversarial Examples">
 <meta name="twitter:description" content="《Explaining and Harnessing Adversarial Examples》   Ian J. Goodfellow, Jonathon Shlens &amp;amp; Christian Szegedy   ICLR 2015  为什么会产生对抗样本？以前的观点： extreme nonlinearity of DNN and insufﬁcient model averagin">
@@ -413,7 +413,9 @@
 <h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
 <script type="math/tex; mode=display">
 \hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
-<h2 id="为什么会生成对抗样本"><a href="#为什么会生成对抗样本" class="headerlink" title="为什么会生成对抗样本"></a>为什么会生成对抗样本</h2>
+<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
+<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
+
       
     </div>
     
@@ -430,7 +432,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/对抗样本-智能对抗/" rel="tag"># 对抗样本 智能对抗</a>
+            <a href="/tags/对抗样本/" rel="tag"># 对抗样本</a>
+          
+            <a href="/tags/智能对抗/" rel="tag"># 智能对抗</a>
           
         </div>
       
@@ -553,7 +557,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -608,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会产生对抗样本？"><span class="nav-number">1.</span> <span class="nav-text">为什么会产生对抗样本？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RELATED-WORK"><span class="nav-number">2.</span> <span class="nav-text">RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对抗样本的线性解释"><span class="nav-number">3.</span> <span class="nav-text">对抗样本的线性解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性模型的线性扰动"><span class="nav-number">4.</span> <span class="nav-text">非线性模型的线性扰动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性模型的对抗训练"><span class="nav-number">5.</span> <span class="nav-text">线性模型的对抗训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度网络的对抗训练"><span class="nav-number">6.</span> <span class="nav-text">深度网络的对抗训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会生成对抗样本"><span class="nav-number">7.</span> <span class="nav-text">为什么会生成对抗样本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会产生对抗样本？"><span class="nav-number">1.</span> <span class="nav-text">为什么会产生对抗样本？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RELATED-WORK"><span class="nav-number">2.</span> <span class="nav-text">RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对抗样本的线性解释"><span class="nav-number">3.</span> <span class="nav-text">对抗样本的线性解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性模型的线性扰动"><span class="nav-number">4.</span> <span class="nav-text">非线性模型的线性扰动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性模型的对抗训练"><span class="nav-number">5.</span> <span class="nav-text">线性模型的对抗训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度网络的对抗训练"><span class="nav-number">6.</span> <span class="nav-text">深度网络的对抗训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对抗样本的泛化原因"><span class="nav-number">7.</span> <span class="nav-text">对抗样本的泛化原因</span></a></li></ol></div>
             
 
           </div>
