@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="DNS-System A Chinese Domain Name Server System, supporting cache and multi-query can be detected by wireshark.遵循..规范 include a client, a root server, a local server and 4 intermediate multilevel serve">
+<meta name="description" content="Introduce 支持中文域名解析，支持缓存与多请求  遵循RFC1180标准，可被wireshark抓包检测到    本系统包含一个客户端，四个中间多级DNS，一个根DNS，一个本地DNS  难点在于①不用python而使用C语言必须写非常多的底层操作，主要集中在defAndTools库中②DNS请求的逻辑   Project Structure    CODES EXPLAINATION">
 <meta name="keywords" content="DNS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多级中文域名解析系统-1（c语言）">
 <meta property="og:url" content="https://aisakaki.com/2018/04/05/中文DNS实现（c语言）/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="DNS-System A Chinese Domain Name Server System, supporting cache and multi-query can be detected by wireshark.遵循..规范 include a client, a root server, a local server and 4 intermediate multilevel serve">
+<meta property="og:description" content="Introduce 支持中文域名解析，支持缓存与多请求  遵循RFC1180标准，可被wireshark抓包检测到    本系统包含一个客户端，四个中间多级DNS，一个根DNS，一个本地DNS  难点在于①不用python而使用C语言必须写非常多的底层操作，主要集中在defAndTools库中②DNS请求的逻辑   Project Structure    CODES EXPLAINATION">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-05T05:22:54.192Z">
+<meta property="og:updated_time" content="2019-08-05T06:42:21.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多级中文域名解析系统-1（c语言）">
-<meta name="twitter:description" content="DNS-System A Chinese Domain Name Server System, supporting cache and multi-query can be detected by wireshark.遵循..规范 include a client, a root server, a local server and 4 intermediate multilevel serve">
+<meta name="twitter:description" content="Introduce 支持中文域名解析，支持缓存与多请求  遵循RFC1180标准，可被wireshark抓包检测到    本系统包含一个客户端，四个中间多级DNS，一个根DNS，一个本地DNS  难点在于①不用python而使用C语言必须写非常多的底层操作，主要集中在defAndTools库中②DNS请求的逻辑   Project Structure    CODES EXPLAINATION">
 
 
 
@@ -373,10 +373,17 @@
       
 
       
-        <h2 id="DNS-System"><a href="#DNS-System" class="headerlink" title="DNS-System"></a>DNS-System</h2><ul>
-<li>A Chinese Domain Name Server System, supporting cache and multi-query</li>
-<li>can be detected by wireshark.遵循..规范</li>
-<li>include a client, a root server, a local server and 4 intermediate multilevel servers</li>
+        <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
+<li><p>支持中文域名解析，支持缓存与多请求</p>
+</li>
+<li><p>遵循RFC1180标准，可被wireshark抓包检测到</p>
+</li>
+</ul>
+<ul>
+<li><p>本系统包含一个客户端，四个中间多级DNS，一个根DNS，一个本地DNS</p>
+</li>
+<li><p>难点在于①不用python而使用C语言必须写非常多的底层操作，主要集中在defAndTools库中②DNS请求的逻辑</p>
+</li>
 </ul>
 <h2 id="Project-Structure"><a href="#Project-Structure" class="headerlink" title="Project Structure"></a>Project Structure</h2><div class="table-container">
 <table>
@@ -682,7 +689,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-System"><span class="nav-number">1.</span> <span class="nav-text">DNS-System</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project-Structure"><span class="nav-number">2.</span> <span class="nav-text">Project Structure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defAndTools"><span class="nav-number">3.</span> <span class="nav-text">defAndTools</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce"><span class="nav-number">1.</span> <span class="nav-text">Introduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project-Structure"><span class="nav-number">2.</span> <span class="nav-text">Project Structure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defAndTools"><span class="nav-number">3.</span> <span class="nav-text">defAndTools</span></a></li></ol></div>
             
 
           </div>

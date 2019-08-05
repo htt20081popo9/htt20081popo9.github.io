@@ -1709,10 +1709,17 @@
 
       
         
-          <h2 id="DNS-System"><a href="#DNS-System" class="headerlink" title="DNS-System"></a>DNS-System</h2><ul>
-<li>A Chinese Domain Name Server System, supporting cache and multi-query</li>
-<li>can be detected by wireshark.遵循..规范</li>
-<li>include a client, a root server, a local server and 4 intermediate multilevel servers</li>
+          <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
+<li><p>支持中文域名解析，支持缓存与多请求</p>
+</li>
+<li><p>遵循RFC1180标准，可被wireshark抓包检测到</p>
+</li>
+</ul>
+<ul>
+<li><p>本系统包含一个客户端，四个中间多级DNS，一个根DNS，一个本地DNS</p>
+</li>
+<li><p>难点在于①不用python而使用C语言必须写非常多的底层操作，主要集中在defAndTools库中②DNS请求的逻辑</p>
+</li>
 </ul>
 <h2 id="Project-Structure"><a href="#Project-Structure" class="headerlink" title="Project Structure"></a>Project Structure</h2><div class="table-container">
 <table>
