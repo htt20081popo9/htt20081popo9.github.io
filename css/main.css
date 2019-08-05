@@ -1829,7 +1829,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffd5ff;
+  background: #2fbaa3;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2700,7 +2700,7 @@ embed {
     right: 0;
     bottom: 0;
     left: 0;
-    background: url("/images/mobile1.jpg") center 0 no-repeat;
+    background: url("/images/mobile2.jpg") center 0 no-repeat;
     background-size: cover;
   }
   .main-inner {
