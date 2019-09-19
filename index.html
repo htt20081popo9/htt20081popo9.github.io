@@ -427,6 +427,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/19/toMalwareDetection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/19/toMalwareDetection/" itemprop="url">Adversary Resistant Deep Neural Networks with an Application to Malware Detection</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T18:41:46+08:00">
+                2019-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/19/toMalwareDetection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/19/toMalwareDetection/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>《Adversary Resistant Deep Neural Networks with an Application to Malware Detection》<br>    Qinglong Wang ,Wenbo Guo,Kaixuan Zhang,AlexanderG.OrorbiaII, Xinyu Xing,Xue Liu,C.LeeGiles<br>    KDD 2017（CCF-A）</p>
+</blockquote>
+<h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
+<li><p>deep neural networks(DNNs) could help turn the tide in the war against malware infection</p>
+</li>
+<li><p>However, DNNs are vulnerable to adversarial samples</p>
+</li>
+<li>Past research in developing defense mechanisms relies on strong assumptions,which typically do not hold in many real-world scenarios. Also,these proposed techniques can only be empirically validated and do not provide any theoretical guarantees. This is particularly disconcerting when they are applied to security-critical applications such as malware detection. </li>
+</ul>
+<h2 id="Why-it-works？"><a href="#Why-it-works？" class="headerlink" title="Why it works？"></a>Why it works？</h2><ul>
+<li>随机性的引入使得attackers不容易发现DNN的”blind spots”（也就是AEs）</li>
+<li>这个adversary-resistant DNNs 只需要一点微小的工作，且可以维持分类的表现</li>
+<li>从理论上来说，本文的方法可以保证对AE的抵抗性</li>
+</ul>
+<p>该方法也可以应用在图像等其他DNN模型适用效果较好的领域</p>
+<h2 id="RELATED-WORKs"><a href="#RELATED-WORKs" class="headerlink" title="RELATED WORKs"></a>RELATED WORKs</h2><ul>
+<li><p><strong>Data Augmentation</strong></p>
+<p>Explaining and harnessing adversarial examples. arXiv preprint arXiv:1412.6572 (2014).</p>
+<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014). </p>
+<p>Unifying Adversarial Training Algorithms with Flexible Deep Data Gradient Regularization. arXiv:1601.07213 [cs] (2016).</p>
+<p>增强数据，主要是通过将潜在AEs与普通样本进行训练（<strong>对抗训练</strong>）以增加对AEs的鲁棒性</p>
+<p>作者指出的问题：blind spots空间太大，不可能去覆盖一个infinite space，且attackers也可以对对抗训练模型本身进行攻击（<em>how</em>），考虑到无限空间，每一次遇到AEs就必须再次训练对抗训练模型，如此反复迭代</p>
+</li>
+<li><p><strong>Enhancing Model Complexity</strong></p>
+<p>减少模型复杂度</p>
+<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014).</p>
+<p>Distillation as a defense to adversarial perturbations against deep neural networks. arXiv preprint arXiv:1511.04508 (2015).  （防御蒸馏机制，将第一个深度神经网络输出的软标签输入到第二个网络中进行训练，降低模型对微小扰动的敏感度。第一个模型的软标签熵编码了类之间的相对差异）</p>
+<p>作者指出的问题：攻击者可以使用两个近似性能的DNN来拟合整个机制（该论文作者承认了此机制很容易被拟合）</p>
+<p>同时该机制实际上是一个<strong>梯度掩码</strong>模型，并无法抵抗JSMA的攻击</p>
+</li>
+</ul>
+<h2 id="Random-feature-nullification"><a href="#Random-feature-nullification" class="headerlink" title="Random feature nullification"></a>Random feature nullification</h2><p>  we introduce random feature nullification to both the training and testing phases of DNN models, making the architectures non-deterministic. </p>
+<p>  引入随机性，对行为特征进行随机失活，看起来像是一种特殊的dropout正则</p>
+<p>  但区别在于dropout仅仅在训练的时候对神经元随即失活，而本文的方法是在train和test的时候都执行</p>
+<p>==施工中，未完待续==</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/18/security/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1865,166 +2052,6 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/25/RNN做批/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/25/RNN做批/" itemprop="url">RNN做批</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T11:20:09+08:00">
-                2019-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/25/RNN做批/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/25/RNN做批/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
-<p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
-<p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
-<p>以下画图理解，注意紫色是实体结构</p>
-<p><img src="//aisakaki.com/2019/07/25/RNN做批/0.png" alt="0"></p>
-<p>于是对于一个可迭代的dataloader</p>
-<p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN输入结构2.png" alt="RNN输入结构2"></p>
-<p>对语料矩阵进行转置后可以更快捷方便生批</p>
-<p><img src="//aisakaki.com/2019/07/25/RNN做批/RNN快捷生批.png" alt="RNN快捷生批"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2075,7 +2102,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-count">74</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
