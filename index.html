@@ -427,6 +427,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/21/神经风格迁移/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/21/神经风格迁移/" itemprop="url">神经风格迁移</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T17:55:30+08:00">
+                2019-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/21/神经风格迁移/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/21/神经风格迁移/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><p>风格迁移目的是将两张图片融合在一起，使内容图片在风格上近似风格图片，主要的特点在于引入了Gram矩阵来计算风格损失，然后将内容损失与风格损失混合在一起。（根据自己的需要还可以做其它改动，比如加入噪声损失）</p>
+<h2 id="特征的提取"><a href="#特征的提取" class="headerlink" title="特征的提取"></a>特征的提取</h2><p>这里使用以前用过的register_forward_hook()函数来hook</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayerActivations</span><span class="params">()</span>:</span></span><br><span class="line">    features = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,model,layer_nums)</span>:</span></span><br><span class="line">        <span class="comment">#这里要hook多层，要保存多层钩子</span></span><br><span class="line">        self.hooks = []</span><br><span class="line">        <span class="keyword">for</span> layer_num <span class="keyword">in</span> layer_nums:</span><br><span class="line">            self.hooks.append(model[layer_num].register_forward_hook(self.hook_fn))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hook_fn</span><span class="params">(self,module,input,output)</span>:</span></span><br><span class="line">        self.features.append(output)</span><br><span class="line">    <span class="comment">#捕捉完输出后不能忘掉remove方法，否则所有输入都累加在一起会内存溢出 </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> hook <span class="keyword">in</span> self.hooks:</span><br><span class="line">            hook.remove()</span><br><span class="line"></span><br><span class="line"><span class="comment">#该函数用于将图片输入进模型，经过钩子获取指定多层的特征输出       </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    la = LayerActivations(model=model,layer_nums=layers)</span><br><span class="line">    <span class="comment">#清空缓存</span></span><br><span class="line">    la.features=[]</span><br><span class="line">    <span class="comment">#运行模型，开钩</span></span><br><span class="line">    out = model(img)</span><br><span class="line">    <span class="comment">#已经获取到特征，这是我们关注的东西，然后注销钩子</span></span><br><span class="line">    la.remove()</span><br><span class="line">    <span class="comment">#注意这里返回的是列表，一次性钩了多层</span></span><br><span class="line">    <span class="keyword">return</span> la.features</span><br></pre></td></tr></table></figure>
+<h2 id="定义损失"><a href="#定义损失" class="headerlink" title="定义损失"></a>定义损失</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># content loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContentLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        self.weight = weight</span><br><span class="line">        mseloss = nn.MSELoss()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        out = mseloss(inputs,targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># style loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GramMatrix</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        b,c,h,w = inputs.size()</span><br><span class="line">        <span class="comment">#hw维度扁平化</span></span><br><span class="line">        features = inputs.view(b,c,h*w)</span><br><span class="line">        <span class="comment">#bmm(A) =  AxA^T</span></span><br><span class="line">        gram_matrix = torch.bmm(features,features.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">        <span class="comment">#为防止值过大，做归一化</span></span><br><span class="line">        gram_matrix.div_(h*w)</span><br><span class="line">        <span class="keyword">return</span> gram_matrix</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StyleLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.gramfunc = GramMatrix()</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        gram_inputs = self.gramfunc(inputs)</span><br><span class="line">        gram_targets = self.gramfunc(targets)</span><br><span class="line">        out = self.mseloss(gram_inputs,gram_targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loss function</span></span><br></pre></td></tr></table></figure>
+<p>===施工中，未完待续===</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/19/toMalwareDetection/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1889,202 +2047,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/26/mini-batch/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/26/mini-batch/" itemprop="url">mini-batch 在网络里的并行计算</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T21:11:32+08:00">
-                2019-07-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/26/mini-batch/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/mini-batch/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用小批量可以</p>
-<p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
-<p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
-<p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
-<p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移)</p>
-<script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
-<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a^{t_0}_{1*v},b^{t_0}_{1*v}]</script></p>
-<p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
-<script type="math/tex; mode=display">
-Input=
-X^{t_0} = X_{2*v} = 
-\begin{bmatrix}
-{a_{1*v}}\\{b_{1*v}}
-\end{bmatrix}</script><p>于是一次循环：</p>
-<script type="math/tex; mode=display">
-Hidden=
-\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})</script><script type="math/tex; mode=display">
-= \sigma(
-\begin{bmatrix}
-a^{t_0}_{1*v}×W_{v*h}\\  
-b^{t_0}_{1*v}×W_{v*h}
-\end{bmatrix}
-+
-\begin{bmatrix}H^{(t_0-1)}_{1*h}×W_{h*h}\\ 
-H^{(t_0-1)}_{1*h}×W_{h*h}
-\end{bmatrix}
-)</script><script type="math/tex; mode=display">
-=
-\begin{bmatrix}
-{h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
-\end{bmatrix}
-=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
-Output=
-H^{(t_0)}_{2*h}×W_{h*o} = 
-\begin{bmatrix}
-{h^{a_0}_{1*h}×W_{h*o}}\\
-{h^{b_0}_{1*h}×W_{h*o}}
-\end{bmatrix}</script><script type="math/tex; mode=display">
-=
-\begin{bmatrix}
-{o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
-\end{bmatrix}
-=O^{t_0}_{2*o}</script><p>由此可看出，在矩阵相乘的规则下，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
-<p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
-<p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2135,7 +2097,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2157,7 +2119,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
