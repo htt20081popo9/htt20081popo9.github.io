@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求得最值  \p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T08:16:16.226Z">
+<meta property="og:updated_time" content="2019-09-26T12:07:13.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="牛顿法求解非线性优化">
 <meta name="twitter:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求得最值  \p">
@@ -414,7 +414,8 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
 <p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
 </li>
 <li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
-<p> 比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+<p>补充PCG思想：结合梯度下降与牛顿法，在一个方向上用牛顿法，一次性迭代完，理论上N个方向N次即可收敛</p>
 </li>
 <li><p>拟牛顿法</p>
 </li>
