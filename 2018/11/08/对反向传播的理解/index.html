@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$ 要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导） 那么使用链式法则，我们可以画出">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T06:45:19.856Z">
+<meta property="og:updated_time" content="2019-09-26T06:48:19.880Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对BP算法的理解">
 <meta name="twitter:description" content="损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$ 要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导） 那么使用链式法则，我们可以画出">
@@ -780,6 +780,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
