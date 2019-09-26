@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="思想牛顿法中最困难的部分在于计算$H$和$H^{-1}$ 拟牛顿法的思想就是不用二阶偏导数而构造出可以近似$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数 拟牛顿条件由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了  \nabla f(x)=g_{k+1}+H_{k+1}(x-x_{k+1})设$x=x_k$ 记$s_k=x_{k+">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T11:23:01.732Z">
+<meta property="og:updated_time" content="2019-09-26T11:24:37.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拟牛顿法">
 <meta name="twitter:description" content="思想牛顿法中最困难的部分在于计算$H$和$H^{-1}$ 拟牛顿法的思想就是不用二阶偏导数而构造出可以近似$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数 拟牛顿条件由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了  \nabla f(x)=g_{k+1}+H_{k+1}(x-x_{k+1})设$x=x_k$ 记$s_k=x_{k+">
@@ -817,6 +817,26 @@ y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=d
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
