@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，而且每次迭代都要清除Loss，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O">
+<meta name="description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求得最值  \p">
 <meta name="keywords" content="非线性优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="牛顿法求解非线性优化">
 <meta property="og:url" content="https://aisakaki.com/2019/09/26/牛顿法求解非线性优化/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，而且每次迭代都要清除Loss，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O">
+<meta property="og:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求得最值  \p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T03:35:22.118Z">
+<meta property="og:updated_time" content="2019-09-26T04:29:32.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="牛顿法求解非线性优化">
-<meta name="twitter:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，而且每次迭代都要清除Loss，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O">
+<meta name="twitter:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求得最值  \p">
 
 
 
@@ -362,7 +362,7 @@
       
 
       
-        <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，而且每次迭代都要清除Loss，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
+        <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
 <h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
 <script type="math/tex; mode=display">
 \phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
@@ -555,7 +555,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">78</span>
+                  <span class="site-state-item-count">79</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -577,7 +577,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
