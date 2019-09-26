@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法，并做了些笔记 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-26T03:15:50.623Z">
+<meta property="og:updated_time" content="2019-09-26T03:21:19.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="牛顿法求解非线性优化">
 <meta name="twitter:description" content="前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法，并做了些笔记 牛顿法首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式  \phi(x) =f(x_k)+f&apos;(x_k)(x-x_k)+\frac{1}{2}f&apos;&apos;(x_k)(x-x_k)^2+O令导数为0即可求">
@@ -395,27 +395,29 @@ g_k+H_k(X-X_k)=0</script><p>$H_k$必为非奇异矩阵（满秩矩阵）</p>
 X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式，$d_k=-H_k^{-1}·g_k$称为<strong>牛顿方向</strong></p>
 <p>牛顿法求出的方向是一个逼近，因为其省略了泰勒的高阶展开项（但如果是二次函数，那就不是逼近了，这时候Hessian矩阵退化为常数矩阵，只需要一次运算即可到达最优点）</p>
 <h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
-<li>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</li>
+<li><p>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</p>
+</li>
 <li><p>会造成<strong>局部收敛</strong></p>
 </li>
 <li><p>Hessian矩阵的计算量是其它一阶优化方法的平方倍，所以对硬件计算负担要求极高</p>
 </li>
 <li><p>由于步长是定的，所以牛顿方向$-H_k^{-1}·g_k$并不能保证稳定下降，其并不是梯度下降算法</p>
 </li>
-<li>函数必须二阶可导，Hessian矩阵必须为正定矩阵</li>
+<li><p>函数必须二阶可导，Hessian矩阵必须为正定矩阵</p>
+</li>
 </ol>
+<p>   <em>深度学习通常都有很多局部极值，鞍点，且计算量巨大，所以很少在深度学习中使用牛顿法</em></p>
 <h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><ol>
-<li>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong></li>
-</ol>
+<li><p>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong></p>
 <p>仍然用$d_k$在方向上进行迭代，但是每次迭代的时候需要进行一次线搜索，寻求最优步长因子$\lambda_k $</p>
 <p>$d_k\to\lambda_k d_k$</p>
 <p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
-<ol>
-<li>可以通过多种手段避免直接对Hessian矩阵求逆</li>
-</ol>
-<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
-<ol>
-<li>拟牛顿法</li>
+</li>
+<li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
+<p> 比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+</li>
+<li><p>拟牛顿法</p>
+</li>
 </ol>
 
       
