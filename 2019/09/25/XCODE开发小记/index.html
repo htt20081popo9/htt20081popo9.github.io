@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后… 不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧 因为当时没用pods管理第三方库…以下踩坑记录  使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-25T10:14:47.985Z">
+<meta property="og:updated_time" content="2019-09-26T09:03:19.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IOS开发小记">
 <meta name="twitter:description" content="最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后… 不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧 因为当时没用pods管理第三方库…以下踩坑记录  使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文">
@@ -381,7 +381,7 @@
 </li>
 <li><p>如果   PODS生成的静态链接库没有被主工程target链接，要自己手动建立链接</p>
 </li>
-<li><p>在头文件搜索路径里 xxx/xxx/<em> re… 别忘了加</em>并设置迭代搜索</p>
+<li><p>在头文件搜索路径里 xxx/xxx/<em> re… 别忘了加\</em>并设置迭代搜索</p>
 </li>
 <li><p>build后修改代码，需要build clean再重新build，不然会报上次一样的错</p>
 </li>
@@ -523,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
