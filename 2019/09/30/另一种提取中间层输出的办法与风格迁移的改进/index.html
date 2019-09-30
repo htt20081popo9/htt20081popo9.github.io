@@ -91,7 +91,8 @@
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg">
-<meta property="og:updated_time" content="2019-09-30T08:50:58.543Z">
+<meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_Adam_TVDnoise.jpg">
+<meta property="og:updated_time" content="2019-09-30T09:25:45.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="另一种提取中间层输出的办法与风格迁移的改进">
 <meta name="twitter:description" content="提取中间层参数除了在我前面的文章pytorch获取中间层参数、输出与可视化 提到的使用hook函数获取中间层输出以外，还可以用另一种更直接的办法 不使用hook函数，将model中的每层拆解出来依次在监控下让数据流过可以借助isinstance(layer, nn.Conv2d)判断层类型 123456789101112def extract_layers(layers,img,model):">
@@ -382,6 +383,9 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
 <p>另外以下为两种优化算法对同样风格层迁移效果的对比</p>
 <p>原图：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg" alt="原图"><br>风格图：<img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png" alt="style"></p>
 <p>LBFGS：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg" alt="result_LBFGS"><br>Adam：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg" alt="result3_Adam_10020"></p>
+<p>Denoise Adam：</p>
+<p>加入降噪训练之后效果好很多</p>
+<p><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_Adam_TVDnoise.jpg" alt="result_Adam_TVDnoise"></p>
 
       
     </div>
