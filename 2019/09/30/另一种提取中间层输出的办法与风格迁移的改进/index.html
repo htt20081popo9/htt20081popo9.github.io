@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg">
-<meta property="og:updated_time" content="2019-09-30T07:47:38.410Z">
+<meta property="og:updated_time" content="2019-09-30T08:50:58.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="另一种提取中间层输出的办法与风格迁移的改进">
 <meta name="twitter:description" content="提取中间层参数除了在我前面的文章pytorch获取中间层参数、输出与可视化 提到的使用hook函数获取中间层输出以外，还可以用另一种更直接的办法 不使用hook函数，将model中的每层拆解出来依次在监控下让数据流过可以借助isinstance(layer, nn.Conv2d)判断层类型 123456789101112def extract_layers(layers,img,model):">
@@ -374,7 +374,10 @@
 <h2 id="对于噪点的改进-降噪"><a href="#对于噪点的改进-降噪" class="headerlink" title="对于噪点的改进-降噪"></a>对于噪点的改进-降噪</h2><p>修改方程，向方程中加入总变差损失(total variation denoising)</p>
 <script type="math/tex; mode=display">
 L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)+\gamma L_{noise}(C,G)</script><script type="math/tex; mode=display">
-L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script> <a id="more"></a>
+L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TotalVariationLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        <span class="comment">#矩阵计算，一步到位</span></span><br><span class="line">        loss = <span class="number">0.5</span>*((inputs[:, :, <span class="number">1</span>:, :]-inputs[:, :, :<span class="number">-1</span>, :]).abs().mean()+(inputs[:, :, :, <span class="number">1</span>:]-inputs[:, :, :, :<span class="number">-1</span>]).abs().mean())</span><br><span class="line">        <span class="keyword">return</span> loss * self.weight</span><br></pre></td></tr></table></figure>
+<p> 在<code>loss function</code>中对应作修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#总变差损失计算</span></span><br><span class="line">    noise_loss = TotalVariationLoss(noise_weight)</span><br><span class="line">    noise_loss_this = noise_loss(input_param)</span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this + content_loss_this + noise_loss_this</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h2 id="风格迁移的其它损失函数优化算法"><a href="#风格迁移的其它损失函数优化算法" class="headerlink" title="风格迁移的其它损失函数优化算法"></a>风格迁移的其它损失函数优化算法</h2><p>我最先采用的LBFGS算法是因为原论文是使用的该算法，使用LBFGS的优点在于能够快速收敛，但缺点也很明显，非常耗显存，图片大一点的话泰坦的12G显存迅速被耗尽</p>
 <p>另外以下为两种优化算法对同样风格层迁移效果的对比</p>
 <p>原图：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg" alt="原图"><br>风格图：<img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png" alt="style"></p>
