@@ -88,10 +88,10 @@
 <meta property="og:description" content="提取中间层参数除了在我前面的文章pytorch获取中间层参数、输出与可视化 提到的使用hook函数获取中间层输出以外，还可以用另一种更直接的办法 ===施工中 风格迁移的其它损失函数优化算法我最先采用的LBFGS算法是因为原论文是使用的该算法，使用LBFGS的优点在于能够快速收敛，但缺点也很明显，非常耗显存，图片大一点的话泰坦的12G显存迅速被耗尽 另外以下为两种优化算法对同样风格层迁移效果的对比">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg">
-<meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/aisakaki/source/_posts/另一种提取中间层输出的办法与风格迁移的改进/style.png">
+<meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg">
-<meta property="og:updated_time" content="2019-09-30T04:53:23.712Z">
+<meta property="og:updated_time" content="2019-09-30T04:57:47.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="另一种提取中间层输出的办法与风格迁移的改进">
 <meta name="twitter:description" content="提取中间层参数除了在我前面的文章pytorch获取中间层参数、输出与可视化 提到的使用hook函数获取中间层输出以外，还可以用另一种更直接的办法 ===施工中 风格迁移的其它损失函数优化算法我最先采用的LBFGS算法是因为原论文是使用的该算法，使用LBFGS的优点在于能够快速收敛，但缺点也很明显，非常耗显存，图片大一点的话泰坦的12G显存迅速被耗尽 另外以下为两种优化算法对同样风格层迁移效果的对比">
@@ -372,7 +372,7 @@
 <p>===施工中</p>
 <h2 id="风格迁移的其它损失函数优化算法"><a href="#风格迁移的其它损失函数优化算法" class="headerlink" title="风格迁移的其它损失函数优化算法"></a>风格迁移的其它损失函数优化算法</h2><p>我最先采用的LBFGS算法是因为原论文是使用的该算法，使用LBFGS的优点在于能够快速收敛，但缺点也很明显，非常耗显存，图片大一点的话泰坦的12G显存迅速被耗尽</p>
 <p>另外以下为两种优化算法对同样风格层迁移效果的对比</p>
-<p>原图：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg" alt="原图"><br>风格图：<img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/aisakaki\source\_posts\另一种提取中间层输出的办法与风格迁移的改进\style.png" alt="style"></p>
+<p>原图：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg" alt="原图"><br>风格图：<img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/style.png" alt="style"></p>
 <p>LBFGS：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg" alt="result_LBFGS"><br>Adam：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg" alt="result3_Adam_10020"></p>
 <h2 id="对于噪点的改进"><a href="#对于噪点的改进" class="headerlink" title="对于噪点的改进"></a>对于噪点的改进</h2><p>修改方程，向方程中加入噪声损失</p>
 <script type="math/tex; mode=display">
