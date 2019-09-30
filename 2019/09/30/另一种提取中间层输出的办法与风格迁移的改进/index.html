@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg">
 <meta property="og:image" content="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg">
-<meta property="og:updated_time" content="2019-09-30T04:46:53.607Z">
+<meta property="og:updated_time" content="2019-09-30T04:49:40.805Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="另一种提取中间层输出的办法与风格迁移的改进">
 <meta name="twitter:description" content="提取中间层参数除了在我前面的文章pytorch获取中间层参数、输出与可视化 提到的使用hook函数获取中间层输出以外，还可以用另一种更直接的办法 ===施工中 风格迁移的其它损失函数优化算法我最先采用的LBFGS算法是因为原论文是使用的该算法，使用LBFGS的优点在于能够快速收敛，但缺点也很明显，非常耗显存，图片大一点的话泰坦的12G显存迅速被耗尽 另外以下为两种优化算法对同样风格层迁移效果的对比">
@@ -373,7 +373,8 @@
 <p>另外以下为两种优化算法对同样风格层迁移效果的对比</p>
 <p>原图：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/原图.jpg" alt="原图"><br>LBFGS：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result_LBFGS.jpg" alt="result_LBFGS"><br>Adam：<br><img src="//aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/result3_Adam_10020.jpg" alt="result3_Adam_10020"></p>
 <h2 id="对于噪点的改进"><a href="#对于噪点的改进" class="headerlink" title="对于噪点的改进"></a>对于噪点的改进</h2><p>修改方程，向方程中加入噪声损失</p>
-
+<script type="math/tex; mode=display">
+L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)+\gamma L_{noise}(C,G)</script>
       
     </div>
     
@@ -806,6 +807,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
