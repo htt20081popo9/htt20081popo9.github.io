@@ -417,6 +417,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/09/Autoencoder/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/09/Autoencoder/" itemprop="url">Autoencoder</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T19:52:07+08:00">
+                2019-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/09/Autoencoder/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/Autoencoder/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
+<p>目标函数为重构误差（reconstruction error)，目标是使得解码器的输出与编码器的输入同分布</p>
+<p><strong>隐藏层单元数&lt;输入层单元数</strong>即可用于降维，如果编码的激活函数为线性函数就成为了<strong>PCA</strong></p>
+<p>但现在一般<strong>隐藏层单元数&gt;=输入层单元数</strong>比较多，这样可以挖掘更多高维特征，但容易造成神经网络的输出为输入的直接“复制”，为了解决这个问题，引入了<strong>正则</strong>和<strong>随机性</strong>等等，且可以组合使用</p>
+<h2 id="Regularized-Autoencoder"><a href="#Regularized-Autoencoder" class="headerlink" title="Regularized Autoencoder"></a>Regularized Autoencoder</h2><p>正则项自编码器</p>
+<p>神经网络的输入直接“复制”输出的一个具体表现就在于一些神经元权重过大，使得神经网路直接变成直连通路</p>
+<p>于是可以直接向损失函数正则项</p>
+<script type="math/tex; mode=display">
+L(x,g(f(x)))+\Omega(h)</script><p><strong>实现方法</strong>：使用传统的加入正则项实现方法</p>
+<h2 id="Sparse-Autoencoder"><a href="#Sparse-Autoencoder" class="headerlink" title="Sparse Autoencoder"></a>Sparse Autoencoder</h2><p>稀疏自编码器</p>
+<p>使得参数变得稀疏，避免神经元过于集中地被激活</p>
+<p>引入稀疏度公式</p>
+<script type="math/tex; mode=display">
+\hat{\rho}_j = \frac{1}{N} \Sigma_{i=1}^N h_j(x^{(i)})</script><p>此公式计算了第$j$个神经元在训练集$\{x^{i}\}$上激活度的平均值，那么就可以取一个足够小的$\rho$，保证$\hat{\rho}_j=\rho,j=1,2,3,\cdots$</p>
+<p>对于$\hat{\rho}_j&gt;&gt;\rho$，对其使用KL散度进行惩罚，KL散度可以用于衡量两个分布的相似度（在前面这篇论文的阅读笔记：<a href="https://aisakaki.com/2019/07/30/Examples/">Explaining and Harnessing Adversarial Examples</a>中使用到了这个数学工具。</p>
+<p>向损失函数中加入KL散度</p>
+<script type="math/tex; mode=display">
+J=L(x,g(f(x)))+\Sigma_{j=1}^mKL(\hat{\rho}_j||\rho)</script><script type="math/tex; mode=display">
+KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac{1-\rho}{1-\hat{\rho}_j}</script><p><strong>实现方法</strong>：可以设置一个三维矩阵，第一维为$||\{x^{(i)}\}||$，第二和第三维对应神经网络每一个神经元。然后在数据流经一次模型后抽取出每一层神经元的参数，作平均。抽取方法可以用我以前写的<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/">pytorch获取中间层参数、输出与可视化/</a>一文中提到的中间层参数可视化方法</p>
+<h2 id="Denoising-Autoencoder"><a href="#Denoising-Autoencoder" class="headerlink" title="Denoising Autoencoder"></a>Denoising Autoencoder</h2><p>降噪自编码器</p>
+<p>【未完待续，施工中】</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1861,162 +2033,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/18/security/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/18/security/" itemprop="url">some papers about GAN and AEs in model security</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-18T11:06:19+08:00">
-                2019-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文阅读笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/18/security/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/18/security/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><div style="text-align: center"><i>mainly collected from security conferences and journals，aiming at machine learning model security</i></div><br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/18/security/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2067,7 +2083,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">81</span>
+                  <span class="site-state-item-count">82</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2089,7 +2105,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
