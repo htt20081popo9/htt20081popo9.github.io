@@ -547,7 +547,7 @@ L(x,g(f(\hat{x})))</script><p><strong>实现方法：</strong>加入噪声的方
 <h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
 <p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
 <script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||^2</script><p>注意这里是矩阵的2-范数，即矩阵每项平方求和</p>
+J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
 
           
         
