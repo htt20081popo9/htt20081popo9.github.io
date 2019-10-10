@@ -545,6 +545,11 @@ KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac
 <script type="math/tex; mode=display">
 L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声的输入经过模型后还原得到的输出尽量一样</strong></p>
 <p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
+<blockquote>
+<p>补充：得分匹配是最大似然的代替。它提供了概率分布的一致性估计，使得模型在各个数据点$x$上获得与数据分布相同的得分，在这种情况下，得分是一个特定的梯度场：</p>
+</blockquote>
+<script type="math/tex; mode=display">
+\nabla_x\log p(x)</script><p>DAE的训练目标可以使得AE学到能估计数据分布得分的向量场$(g(f(x))-x)$</p>
 <h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
 <p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
 <script type="math/tex; mode=display">
