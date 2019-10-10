@@ -543,11 +543,12 @@ KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac
 <p>向输出加入噪声$\hat{x}$，并设置损失函数尽量减少输出的噪声，目标使得模型学习<strong>重构分布</strong>$p_{decoder}(x|\hat{x})$，增强模型健壮性</p>
 <p>最小化</p>
 <script type="math/tex; mode=display">
-L(x,g(f(\hat{x})))</script><p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
+L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声的输入经过模型后还原得到的输出尽量一样</strong></p>
+<p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
 <h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
 <p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
 <script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
+J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
 
           
         
