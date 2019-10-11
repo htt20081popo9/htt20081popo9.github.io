@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型概率图模型（PGM）描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-11T09:11:59.535Z">
+<meta property="og:updated_time" content="2019-10-11T10:17:51.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习中的结构化概率模型">
 <meta name="twitter:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型概率图模型（PGM）描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。">
@@ -417,6 +417,9 @@ F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="分离与d-分离—条件独立">
 <p>​                ②Gibbs采样</p>
 </li>
 </ol>
+<hr>
+<p>有已知值的变量被称为显变量，而值未被观察到的变量被称为隐变量</p>
+<p>深度学习模型可以看作一类特殊的图概率模型，拥有大量的<strong>潜变量</strong>，且在设计的时候不表示任何特定含义；而传统模型大多使用高阶项和结构学习来捕获变量之间复杂的非线性作用，即使有潜变量，数量也通常很少，且会被赋予特定的含义</p>
 
       
     </div>
