@@ -537,7 +537,7 @@ p(x)=\frac{1}{Z}\hat{p(x)}</script><p>其中$Z$是使得所有概率之和或者
 Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</strong>。计算$Z$需要对$x$的所有可能状态求联合概率分布，所以通常非常难计算，于是可以用一些近似方法求得。</p>
 <p>但有时候积分是发散的，不存在一个$F(x)$，这时候$Z$就不存在</p>
 <p>但注意如果指定发散函数的某定义域内是收敛的，那是OK的</p>
-<p>有向模型和无向模型的一个重要区别在于有向模型是通过从起始点的概率分布直接定义的，而无向模型的定义显得更加宽松，通过$\phi$函数转化为概率分布定义</p>
+<p>无向图在<strong>表示上</strong>存在模糊性，即“多大的团？”，这时候可以引入<strong>因子图</strong>解决，它将随机变量绘为圆形，将未归一化概率函数因子$\phi$绘为方形，仅当随机变量对应该函数因子的时候存在连接，连接该函数的随机变量构成一个团</p>
 <h2 id="基于能量的模型-Energy-Based-model-EBM"><a href="#基于能量的模型-Energy-Based-model-EBM" class="headerlink" title="基于能量的模型(Energy-Based model,EBM)"></a>基于能量的模型(Energy-Based model,EBM)</h2><p>无向模型依赖一个假设$\forall x,\hat{p}(x)&gt;0$，使得这个条件满足的一个简单方式是使用EBM</p>
 <script type="math/tex; mode=display">
 \hat{p}(x)=e^{-E(x)}</script><p>服从该形式的任意分布都是<strong>玻尔兹曼分布</strong>的一个实例，也因此我们把许多基于能量的模型成为<strong>玻尔兹曼机</strong></p>
@@ -547,7 +547,24 @@ Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</
 <p>公式中幂的负号只是为了保持机器学习文献与物理学文献之间的兼容性（能量无符号），对于机器学习来说可以自由决定符号</p>
 <p>很多对概率模型进行操作的算法是计算$\log p(x)$的，于是对于具有潜变量$h$的EBM，这些算法有时会将该量的负数称为<strong>自由能</strong>(free energy)：</p>
 <script type="math/tex; mode=display">
-F(x)=-\log \sum_h e^{-E(x,h)}</script><p>===施工中，未完待续===</p>
+F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="有向图和无向图的转化"><a href="#有向图和无向图的转化" class="headerlink" title="有向图和无向图的转化"></a>有向图和无向图的转化</h2><ol>
+<li><p>有向模型和无向模型的一个重要区别在于有向模型是通过从起始点的概率分布直接定义的，而无向模型的定义显得更加宽松，通过$\phi$函数转化为概率分布定义</p>
+</li>
+<li><p>有向图可以使用<strong>不道德图结构</strong>而无向图不行</p>
+<p>将有向模型图转换为无向模型图：①有向边变无向边   ②对于<strong>不道德</strong>（immorality)情况(a$\to$c，b$\to$c）需要在不道德的节点互相连线，变成<strong>道德图</strong>。由于道德化的过程中会加入很多边，因而会损失一些独立性条件</p>
+</li>
+<li><p>无向图可以使用<strong>环</strong>结构而有向图不行</p>
+<p>将环结构的无向图转化为有向图需要添加<strong>弦</strong>（环序列中任意两个非连续变量的连接），转化后的图称为<strong>弦图</strong>或<strong>三角形化图</strong>。但如果存在长度大于3的环，则转化过来会损失独立性条件。（注意不能出现有向环，否则无法定义有效的有向概率模型）</p>
+</li>
+</ol>
+<h2 id="从图模型中采样"><a href="#从图模型中采样" class="headerlink" title="从图模型中采样"></a>从图模型中采样</h2><ol>
+<li><p>有向图：原始采样，根据拓扑排序顺序采样。</p>
+<p>缺点：不是每次采样都是条件采样操作</p>
+</li>
+<li><p>无向图：①转化为有向图作原始采样</p>
+<p>​                ②Gibbs采样</p>
+</li>
+</ol>
 
           
         
