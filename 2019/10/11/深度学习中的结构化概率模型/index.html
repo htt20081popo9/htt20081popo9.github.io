@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文为\Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机场=马尔科夫网络对无向模型$">
+<meta name="description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
 <meta name="keywords" content="概率论">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习中的结构化概率模型">
 <meta property="og:url" content="https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="本文为\Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机场=马尔科夫网络对无向模型$">
+<meta property="og:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-11T02:34:29.292Z">
+<meta property="og:updated_time" content="2019-10-11T02:37:09.773Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习中的结构化概率模型">
-<meta name="twitter:description" content="本文为\Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机场=马尔科夫网络对无向模型$">
+<meta name="twitter:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
 
 
 
@@ -362,7 +362,7 @@
       
 
       
-        <p><em>本文为\<deep learning\="">Ch.16 学习后整理的笔记</deep></em></p>
+        <p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
 <h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示</p>
 <h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
 <p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
