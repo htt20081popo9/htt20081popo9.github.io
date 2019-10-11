@@ -417,6 +417,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/11/深度学习中的结构化概率模型/" itemprop="url">深度学习中的结构化概率模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T10:28:45+08:00">
+                2019-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/11/深度学习中的结构化概率模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/11/深度学习中的结构化概率模型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>本文为<deep learning="">Ch.16 学习后整理的笔记</deep></em></p>
+<h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示</p>
+<h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
+<p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
+<script type="math/tex; mode=display">
+p(x)=\prod_ip(x_i|P(x_i))</script><p>其中$P(x_i)$表示结点$x_i$的所有父节点。</p>
+<h2 id="无向图模型-马尔可夫随机场-马尔科夫网络"><a href="#无向图模型-马尔可夫随机场-马尔科夫网络" class="headerlink" title="无向图模型=马尔可夫随机场=马尔科夫网络"></a>无向图模型=马尔可夫随机场=马尔科夫网络</h2><p>对无向模型$M$中的一个团$C$称为一个<strong>因子</strong>$\phi(C)$，也叫<strong>团势能</strong>，<strong>势能函数</strong></p>
+<p>它们一起定义了<strong>未归一化概率函数</strong>：</p>
+<script type="math/tex; mode=display">
+p(\hat{x})=\prod_{C∈M}\phi(C)</script><p>(图的一个团是图中结点的一个子集，并且其中的点是全连接的)</p>
+<p>为了使得未归一化概率函数归一化，我们需要使用对应的归一化概率分布</p>
+<script type="math/tex; mode=display">
+p(x)=\frac{1}{Z}\hat{p(x)}</script><p>其中$Z$是使得所有概率之和或者积分为1的常数，且满足</p>
+<script type="math/tex; mode=display">
+Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</strong>。计算$Z$需要对$x$的所有可能状态求联合概率分布，所以通常非常难计算，于是可以用一些近似方法求得。</p>
+<p>但有时候积分是发散的，不存在一个$F(x)$，这时候$Z$就不存在</p>
+<p>但注意如果指定发散函数的某定义域内是收敛的，那是OK的</p>
+<p>有向模型和无向模型的一个重要区别在于有向模型是通过从起始点的概率分布直接定义的，而无向模型的定义显得更加宽松，通过$\phi$函数转化为概率分布定义</p>
+<h2 id="基于能量的模型-Energy-Based-model-EBM"><a href="#基于能量的模型-Energy-Based-model-EBM" class="headerlink" title="基于能量的模型(Energy-Based model,EBM)"></a>基于能量的模型(Energy-Based model,EBM)</h2><p>无向模型依赖一个假设$\forall x,\hat{p}(x)&gt;0$，使得这个条件满足的一个简单方式是使用EBM</p>
+<script type="math/tex; mode=display">
+\hat{p}(x)=e^{-E(x)}</script><p>服从该形式的任意分布都是<strong>玻尔兹曼分布</strong>的一个实例，也因此我们把许多基于能量的模型成为<strong>玻尔兹曼机</strong></p>
+<p>$E(x)$被称作<strong>能量函数</strong>(energy function)</p>
+<p>由于$e^{(a+b)}=e^a·e^b$，于是可以发现无向模型中不同的团对应于能量函数的不同项，也就是说<strong>EBM只是一种特殊的马尔科夫网络</strong>，这种网络满足求幂使能量函数中的每项对应于不同团的一个影子。</p>
+<p>比如对于一个MAP d-a-b-e,b-e,e-f(只写了连接关系)，通过为每个团选择适当的能量函数$E(a,b,c,d,e,f)$可以写成$E_{a,b}(a,b)+E_{b,c}(b,c)+E_{a,d}(a,d)+E_{b,e}(b,e)+E_{e,f}(e,f)$</p>
+<p>公式中幂的负号只是为了保持机器学习文献与物理学文献之间的兼容性（能量无符号），对于机器学习来说可以自由决定符号</p>
+<p>很多对概率模型进行操作的算法是计算$\log p(x)$的，于是对于具有潜变量$h$的EBM，这些算法有时会将该量的负数称为<strong>自由能</strong>(free energy)：</p>
+<script type="math/tex; mode=display">
+F(x)=-\log \sum_h e^{-E(x,h)}</script><p>===施工中，未完待续===</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/09/Autoencoder/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -554,7 +733,7 @@ L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声
 <p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
 <script type="math/tex; mode=display">
 J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
-<p>可以看出收缩惩罚目标是使得学习到的参数在所有方向上不变，而是在整体上进行参数的缩放，所以能够很好的学习到流形结构</p>
+<p>可以看出收缩惩罚目标是使得学习到的参数在所有方向上不变，而是在整体上进行参数的缩放，其使得函数梯度很小，所以能够很好的学习到流形结构，（而使得$J_x$很大的方向$x$，会快速改变$h$，则很可能是近似流形切平面的方向）</p>
 
           
         
@@ -1882,171 +2061,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/18/云雀/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/18/云雀/" itemprop="url">云雀</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-18T12:33:18+08:00">
-                2019-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/18/云雀/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/18/云雀/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="//aisakaki.com/2019/09/18/云雀/64633930_p0.png" alt="64633930_p0"></p>
-<div style="text-align: center"><i>懐かしくあどけない　悲しみを捨ててゆこう</i></div>
-<div style="text-align: center"><i>ひとすじ空へ舞い上がる　翼に心をのせて</i></div>
-<div style="text-align: center"><i>ねえ　本当はいつだって　一人は寂しいからね</i></div>
-<div style="text-align: center"><i>大事なものは　ひとつじゃないの</i></div>
-<div style="text-align: center"><i>呼び合っているような　雲雀の声だけ遠く</i></div>
-<div style="text-align: center"><i>雲の向こうへ　草原に優しい影を残して</i></div>
-<div style="text-align: center"><br> <br>  </div>
-<div style="text-align: center"><i>将让人留恋的天真与悲伤都舍弃掉吧</i></div>
-<div style="text-align: center"><i>任凭羽翼在碧空中划出舞蹈般的痕迹</i></div>
-<div style="text-align: center"><i>其实无论何时 孤独一人终会感到寂寞</i></div>
-<div style="text-align: center"><i>珍贵的宝物并非是唯一的</i></div>
-<div style="text-align: center"><i>如同呼唤彼此的云雀般 只有遥远的啼鸣</i></div>
-<div style="text-align: center"><i>在云之彼方的草原上 留下优雅的掠影</i></div>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2097,7 +2111,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-count">84</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2119,7 +2133,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
