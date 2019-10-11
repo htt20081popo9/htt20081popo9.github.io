@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
+<meta name="description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马">
 <meta name="keywords" content="概率论">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习中的结构化概率模型">
 <meta property="og:url" content="https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
+<meta property="og:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-11T05:25:03.770Z">
+<meta property="og:updated_time" content="2019-10-11T08:26:54.813Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习中的结构化概率模型">
-<meta name="twitter:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马尔可夫随机">
+<meta name="twitter:description" content="本文为 Deep Learning Ch.16 学习后整理的笔记 结构化概率模型图模型描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示 有向图模型=信念网络=贝叶斯网络方向仅表示依赖关系而不表明如何依赖 通过有向无环图和一系列局部条件概率分布定义  p(x)=\prod_ip(x_i|P(x_i))其中$P(x_i)$表示结点$x_i$的所有父节点。 无向图模型=马">
 
 
 
@@ -363,7 +363,7 @@
 
       
         <p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
-<h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>图模型描述概率有助于减少硬件开支，减少计算量，间接表示间接关系而不是直接表示</p>
+<h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>图模型描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示</p>
 <h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
 <p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
 <script type="math/tex; mode=display">
@@ -386,10 +386,20 @@ Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</
 <p>$E(x)$被称作<strong>能量函数</strong>(energy function)</p>
 <p>由于$e^{(a+b)}=e^a·e^b$，于是可以发现无向模型中不同的团对应于能量函数的不同项，也就是说<strong>EBM只是一种特殊的马尔科夫网络</strong>，这种网络满足求幂使能量函数中的每项对应于不同团的一个影子。</p>
 <p>比如对于一个MAP d-a-b-e,b-e,e-f(只写了连接关系)，通过为每个团选择适当的能量函数$E(a,b,c,d,e,f)$可以写成$E_{a,b}(a,b)+E_{b,c}(b,c)+E_{a,d}(a,d)+E_{b,e}(b,e)+E_{e,f}(e,f)$</p>
+<p>能量函数可以视为<strong>专家之积</strong>，其中每一项看作决定一个特定的软约束是否满足的“专家”</p>
 <p>公式中幂的负号只是为了保持机器学习文献与物理学文献之间的兼容性（能量无符号），对于机器学习来说可以自由决定符号</p>
 <p>很多对概率模型进行操作的算法是计算$\log p(x)$的，于是对于具有潜变量$h$的EBM，这些算法有时会将该量的负数称为<strong>自由能</strong>(free energy)：</p>
 <script type="math/tex; mode=display">
-F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="有向图和无向图的转化"><a href="#有向图和无向图的转化" class="headerlink" title="有向图和无向图的转化"></a>有向图和无向图的转化</h2><ol>
+F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="分离与d-分离—条件独立"><a href="#分离与d-分离—条件独立" class="headerlink" title="分离与d-分离—条件独立"></a>分离与d-分离—条件独立</h2><p>无向图中隐含的条件独立性称为<strong>分离</strong>，有向图中则被称为<strong>d-分离</strong>。（d代表依赖）</p>
+<p>如何判断哪些变量子集（d-）分离/彼此条件独立？</p>
+<p> ①两个随机变量之间没有路径，或</p>
+<p> ②两个随机变量之间<strong>所有路径</strong>都包含<strong>可观测变量</strong></p>
+<p>举个例子：一个房子的好坏（C）是由大小（A）和装潢（B）决定的，此时的图结构为A-&gt;C,B-&gt;C，如果我们知道了这个房子是好房子，也就是C为可观测变量（条件），那么<strong>A和B是C条件下的独立随机变量</strong></p>
+<p>记$a⊥b|c$表示给定$c$条件下$a$与$b$条件独立</p>
+<blockquote>
+<p>关于图模型条件独立的推导可以看这篇文章 <a href="https://my.oschina.net/liyangke/blog/2986515" target="_blank" rel="noopener">https://my.oschina.net/liyangke/blog/2986515</a></p>
+</blockquote>
+<h2 id="有向图和无向图的转化"><a href="#有向图和无向图的转化" class="headerlink" title="有向图和无向图的转化"></a>有向图和无向图的转化</h2><ol>
 <li><p>有向模型和无向模型的一个重要区别在于有向模型是通过从起始点的概率分布直接定义的，而无向模型的定义显得更加宽松，通过$\phi$函数转化为概率分布定义</p>
 </li>
 <li><p>有向图可以使用<strong>不道德图结构</strong>而无向图不行</p>
@@ -628,7 +638,7 @@ F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="有向图和无向图的转化"><a
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构化概率模型"><span class="nav-number">1.</span> <span class="nav-text">结构化概率模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有向图模型-信念网络-贝叶斯网络"><span class="nav-number">2.</span> <span class="nav-text">有向图模型=信念网络=贝叶斯网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无向图模型-马尔可夫随机场-马尔科夫网络"><span class="nav-number">3.</span> <span class="nav-text">无向图模型=马尔可夫随机场=马尔科夫网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于能量的模型-Energy-Based-model-EBM"><span class="nav-number">4.</span> <span class="nav-text">基于能量的模型(Energy-Based model,EBM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有向图和无向图的转化"><span class="nav-number">5.</span> <span class="nav-text">有向图和无向图的转化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从图模型中采样"><span class="nav-number">6.</span> <span class="nav-text">从图模型中采样</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构化概率模型"><span class="nav-number">1.</span> <span class="nav-text">结构化概率模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有向图模型-信念网络-贝叶斯网络"><span class="nav-number">2.</span> <span class="nav-text">有向图模型=信念网络=贝叶斯网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无向图模型-马尔可夫随机场-马尔科夫网络"><span class="nav-number">3.</span> <span class="nav-text">无向图模型=马尔可夫随机场=马尔科夫网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于能量的模型-Energy-Based-model-EBM"><span class="nav-number">4.</span> <span class="nav-text">基于能量的模型(Energy-Based model,EBM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分离与d-分离—条件独立"><span class="nav-number">5.</span> <span class="nav-text">分离与d-分离—条件独立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有向图和无向图的转化"><span class="nav-number">6.</span> <span class="nav-text">有向图和无向图的转化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从图模型中采样"><span class="nav-number">7.</span> <span class="nav-text">从图模型中采样</span></a></li></ol></div>
             
 
           </div>
