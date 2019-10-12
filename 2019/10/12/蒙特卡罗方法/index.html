@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-12T03:44:32.975Z">
+<meta property="og:updated_time" content="2019-10-12T03:50:20.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡罗方法">
 <meta name="twitter:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
@@ -373,8 +373,7 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
 <p>不可约即为任意两个取值之间总是能以非零的概率相互转移</p>
 <p>若马尔科夫过程是各态遍历的，无论初始值为何，随机变量的最终取值分布会收敛于一个唯一的平稳分布$\pi^*$</p>
 <script type="math/tex; mode=display">
-\lim_{t\to\infin}\pi^{(0)}P^t=\pi^*</script><p>且满足$\pi^<em>P=\pi^</em>$</p>
-<p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
+\lim_{t\to \infin }\pi^{(0)}P^t=\pi^*,且\pi^*P=\pi^*</script><p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
 <p>于是就可以<strong>利用马尔科夫链来进行蒙特卡罗估计</strong>，这类算法被称为<strong>马尔科夫链蒙特卡罗方法（MCMC）</strong></p>
 <p>由于要保证各态遍历性，于是MCMC方法<strong>最适用于基于能量的模型</strong>（见上一篇笔记）</p>
 <p>=====未完待续，施工中===</p>
