@@ -262,6 +262,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/26/mini-batch/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/mini-batch/" itemprop="url">mini-batch 在网络里的并行计算</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T21:11:32+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/26/mini-batch/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/mini-batch/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使用小批量可以</p>
+<p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
+<p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
+<p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
+<p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移)</p>
+<script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
+<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a^{t_0}_{1*v},b^{t_0}_{1*v}]</script></p>
+<p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
+<script type="math/tex; mode=display">
+Input=
+X^{t_0} = X_{2*v} = 
+\begin{bmatrix}
+{a_{1*v}}\\{b_{1*v}}
+\end{bmatrix}</script><p>于是一次循环：</p>
+<script type="math/tex; mode=display">
+Hidden=
+\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})</script><script type="math/tex; mode=display">
+= \sigma(
+\begin{bmatrix}
+a^{t_0}_{1*v}×W_{v*h}\\  
+b^{t_0}_{1*v}×W_{v*h}
+\end{bmatrix}
++
+\begin{bmatrix}H^{(t_0-1)}_{1*h}×W_{h*h}\\ 
+H^{(t_0-1)}_{1*h}×W_{h*h}
+\end{bmatrix}
+)</script><script type="math/tex; mode=display">
+=
+\begin{bmatrix}
+{h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
+\end{bmatrix}
+=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
+Output=
+H^{(t_0)}_{2*h}×W_{h*o} = 
+\begin{bmatrix}
+{h^{a_0}_{1*h}×W_{h*o}}\\
+{h^{b_0}_{1*h}×W_{h*o}}
+\end{bmatrix}</script><script type="math/tex; mode=display">
+=
+\begin{bmatrix}
+{o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
+\end{bmatrix}
+=O^{t_0}_{2*o}</script><p>由此可看出，在矩阵相乘的规则下，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
+<p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
+<p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/25/RNN做批/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1714,163 +1910,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/09/百年孤独/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/09/百年孤独/" itemprop="url">百年孤独</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T15:40:21+08:00">
-                2019-04-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/09/百年孤独/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/09/百年孤独/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>“多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。”</p>
-<p>“同一血脉的两个孤独者之间的接近与友谊无涉，却有助于他们承受将两人分离又联合的神秘孤独。”</p>
-<p>“奥雷里亚诺平生从未像此刻一般清醒，他忘却了家中的死者，忘却了死者的痛苦，用费尔南达留下的十字木条再次钉死门窗，远离世间一切干扰，因为他知道梅尔基亚德斯的羊皮卷上记载着自己的命运。他发现史前的植物、湿气蒸腾的水洼、发光的昆虫已将房间内一切人类踪迹消除净尽，但羊皮卷仍安然无恙。他顾不得拿到光亮处，就站在原地，仿佛那是用卡斯蒂利亚语写就，仿佛他正站在正午明亮的光线下阅读，开始毫不费力地大声破译。那是他家族的历史，连最琐碎的细节也无一遗漏，百年前由梅尔基亚德斯预先写出。他以自己的母语梵文书写，偶数行套用奥古斯都大帝的私人密码，奇数行择取斯巴达的军用密码。而最后一道防线，奥雷里亚诺在迷上阿玛兰妲·乌尔苏拉时就已隐隐猜到，那便是梅尔基亚德斯并未按照世人的惯常时间来叙述，而是将一个世纪的日常琐碎集中在一起，令所有事件在同一瞬间发生。奥雷里亚诺为这一发现激动不已，逐字逐句高声朗读教皇谕令般的诗行，当年阿尔卡蒂奥曾从梅尔基亚德斯口中听闻，却不知道那是关于自己死亡的预告。他读到羊皮卷中预言世上最美的女人的诞生，她的灵魂与肉身正一起向天飞升；他读到那对遗腹孪生子的来历，他们放弃破译羊皮卷不仅因为缺乏才能和毅力，更是因为时机尚未成熟。读到这里，奥雷里亚诺急于知道自己的身世，跳过几页。此时微风初起，风中充盈着过往的群声嘁喳，旧日天竺葵的昵喃窸窣，无法排遣的怀念来临之前的失望叹息。他对此毫无察觉，因为他发现了关于自己身世的初步线索。他读到一位好色的祖父一时迷了心窍穿越幻象丛生的荒野，寻找一个不会令他幸福的美女。奥雷里亚诺认出了他，沿着亲缘的隐秘小径追寻下去，找到了自己被赋予生命的一刻，那是在一间昏暗的浴室里，蝎子和黄蝴蝶的环绕间，一个工匠在一个因反叛家庭而委身于他的少女身上满足了欲望。他读得如此入神，仍未发觉风势又起，飓风刮落了门窗，掀掉了东面长廊的屋顶，拔出了房屋的地基。到这时，他才发现阿玛兰妲·乌尔苏拉不是他的姐妹，而是他的姨妈，而当年弗朗西斯·德雷克袭击里奥阿查不过是为了促成他们俩在繁复错综的血脉迷宫中彼此寻找，直到孕育出那个注定要终结整个家族的神话般的生物。当马孔多在《圣经》所载那种龙卷风的怒号中化作可怕的瓦砾与尘埃旋涡时，奥雷里亚诺为避免在熟知的事情上浪费时间又跳过十一页，开始破译他正度过的这一刻，译出的内容恰是他当下的经历，预言他正在破解羊皮卷的最后一页，宛如他正在会言语的镜中照影。他再次跳读去寻索自己死亡的日期和情形，但没等看到最后一行便已明白自己不会再走出这房间，因为可以预料这座镜子之城——或蜃景之城——将在奥雷里亚诺·巴比伦全部译出羊皮卷之时被飓风抹去，从世人记忆中根除，羊皮卷上所载一切自永远至永远不会再重复，因为注定经受百年孤独的家族不会有第二次机会在大地上出现。”</p>
-</blockquote>
-<p>​     “生命从来不曾离开过孤独而独立存在。无论是我们出生、我们成长、我们相爱、还是我们成功失败，直到最后的最后，孤独犹如影子一样存在于生命一隅。”<br>​    百年孤独。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1921,7 +1960,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1932,7 +1971,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
