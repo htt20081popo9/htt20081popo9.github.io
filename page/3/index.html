@@ -262,6 +262,210 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/30/Examples/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/Examples/" itemprop="url">Explaining and Harnessing Adversarial Examples</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T12:20:14+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/Examples/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/Examples/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
+</blockquote>
+<h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
+<p>本文的观点：<strong>Linear behavior</strong> in <strong>high-dimensional spaces</strong> is sufﬁcient to cause adversarial examples</p>
+<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ol>
+<li><p>Box-constrained L-BFGS can reliably ﬁnd adversarial examples.</p>
+</li>
+<li><p>On some datasets, such as ImageNet (Deng et al., 2009), the adversarial examples were so close to the original examples that the differences were indistinguishable to the human eye.</p>
+</li>
+<li><p>The same adversarial example is often misclassiﬁed by avariety of classiﬁers with different architectures or trained on different subsets of the training data.</p>
+</li>
+<li><p>Shallow softmax regression models are also vulnerable to adversarial examples. </p>
+</li>
+<li><p>Training on adversarial examples can regularize the model —however , this was not practical at the time due to the need for expensive constrained optimization in the inner loop</p>
+</li>
+</ol>
+<p>这就引起我们怀疑即便当前最好的模型是否只是虚有其表，并没有真正学习到内在的语义信息。仅仅能够fit现有样本，无法泛化。</p>
+<h2 id="对抗样本的线性解释"><a href="#对抗样本的线性解释" class="headerlink" title="对抗样本的线性解释"></a>对抗样本的线性解释</h2><p>本文提出了对对抗样本产生原因的线性解释.设置扰动$\eta,\epsilon$为一个小到可以被分类器忽略的值</p>
+<p>$\hat{x} = x+\eta$ ，若$||\eta||_\infty&lt;\epsilon$，分类器将无法将$x$与$\hat{x}$分开</p>
+<p>则$w^T\hat{x}=w^T(x+\eta)=w^Tx+w^T\eta$</p>
+<p>若维度很高，则即使$\eta$很小，也会使得$w^T\eta$非常大，影响分类器的判断</p>
+<p>令$\eta=sign(w)$即可使得$w^T\eta$最大</p>
+<h2 id="非线性模型的线性扰动"><a href="#非线性模型的线性扰动" class="headerlink" title="非线性模型的线性扰动"></a>非线性模型的线性扰动</h2><p>对于现在的神经网络都有很强的线性性质以至于无法抵抗对抗攻击，如 LSTMs (Hochreiter &amp; Schmidhuber, 1997), ReLUs (Jarrett et al., 2009; Glorot et al., 2011),  maxout networks (Goodfellow et al., 2013c) 都设计得具有很强的线性性质，所以也方便优化。FGSM将损失函数近似线性化，从而获取$||\eta||_\infty&lt;\epsilon$的最优扰动。</p>
+<p><strong>Fast Gradient Sign Method(FGSM)</strong></p>
+<script type="math/tex; mode=display">
+\eta = \epsilon sign(\nabla_xJ(\theta,x,y))​</script><script type="math/tex; mode=display">
+\hat{x} = x+\epsilon sign(\nabla_xJ(\theta,x,y))</script><p>注意这里$y=y_{true}$</p>
+<p>通过实验证明，作者的假设产生对抗样本的原因是由于模型的线性特性是正确的。这种方法也可以作为一种快速生成对抗样本的方法（即FGSM）</p>
+<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>在Logistics Regression上应用FGSM方法 ，$label\in\lbrace1,-1\rbrace$</p>
+<p>$P(y=1|x)=\sigma(w^Tx+b),\sigma(z)=softmax(z)$   </p>
+<p>$\therefore J = E{x,y \tilde{} p_{data}}[(-\frac{1+y}{2})\ln P(y=1|x)-\frac{1-y}{2}\ln P(y=-1|x)]$</p>
+<p>设$p=P(y=1|x),f=w^Tx+b$</p>
+<p>$\therefore J=-\frac{1}{2}\ln p-\frac{y}{2}\ln p-\frac{1}{2}\ln (1-p)+\frac{y}{2}\ln (1-p)$</p>
+<p>$=-\frac{1}{2}\ln p（1-p)-\frac{y}{2}\ln \frac{p}{1-p} $</p>
+<p>$= \frac{1}{2}(f-yf) + \ln(1+e^{-f})$</p>
+<p>$=\begin{cases} \ln(1+e^{-f}),y=1\\ f+\ln(1+e^{-f})=\ln e^f+\ln(1+e^{-f})=\ln(1+e^f),y=-1\end{cases}$</p>
+<p>$= \ln(1+e^{-yf})$</p>
+<p>$=\zeta(-yf)=E{x,y \tilde{} p_{data}}\zeta(-y(w^Tx+b)),\zeta(z) = \ln(1+e^z)$  </p>
+<p>$\therefore \eta=\epsilon sign(\nabla_xJ(\theta,x,y))$</p>
+<p>$=\epsilon sign(\nabla_x\zeta(-y(w^Tx+b)))$</p>
+<p>$= \epsilon sign(\frac{\partial \ln(1+e^{-y(w^Tx+b)})}{\partial x})$</p>
+<p>$=\epsilon sign(\frac{1}{1+e^{-y(w^Tx+b)}} ×(-e^{-y(w^Tx+b)})×(yw^T))$</p>
+<p>$=\epsilon sign(\frac{e^{-yf}}{1+e^{-yf}}×(-y)w)$</p>
+<p>$=\epsilon sign(-w)=-\epsilon sign(w)$</p>
+<p>$\because w^Tsign(w)=||w||_1，\hat{x}=x+\eta,\eta=\epsilon-sign(w)$</p>
+<p>$\therefore \hat{J}=E{x,y \tilde{} p_{data}}\zeta(y(\epsilon||w||_1 -w^Tx-b))$</p>
+<p>可以看到类似于$L^1$正则，不过是减去$L^1$惩罚项。当置信度很高，$w^Tx+b$足够大的时候，$\epsilon||w||_1$几乎不起作用，但是当模型欠拟合的时候，则会更加欠拟合</p>
+<h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
+<script type="math/tex; mode=display">
+\hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
+<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
+<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/27/Animation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1724,167 +1928,6 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/12/古都/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/12/古都/" itemprop="url">古都</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-12T10:40:59+08:00">
-                2019-04-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/12/古都/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/12/古都/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>“对美的幻影，总没有厌倦的时候吧。幻影是不能践踏的，践踏了只能自食其果。”</p>
-<p align="right">——《古都》 川端康成 </p>
-
-</blockquote>
-<p>&#160; &#160; &#160; &#160;川端先生不愧是日本传统美学的集大成者。</p>
-<p>&#160; &#160; &#160; &#160;18~20岁是第一次真正的感受到半遮面的现实的年纪。这些脆弱而细腻，复杂但单纯的情感，在川端先生的笔下如泉水一般汨汨而出，交织出一首含蓄的诗。好像每一句话都氤氲着回音。</p>
-<p>&#160; &#160; &#160; &#160;自在飞花轻似梦，无边细雨思如愁。</p>
-<p>&#160; &#160; &#160; &#160;在最美好的年纪，一切都终将会消散。纵使韶华易逝，但美犹存。是幻影，是执念。</p>
-<p>&#160; &#160; &#160; &#160;无论是千重子，还是雪，亦或是古都——</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1935,7 +1978,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-count">88</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1957,7 +2000,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
