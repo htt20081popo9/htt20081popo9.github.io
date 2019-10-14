@@ -160,7 +160,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">如花似火</p>
+        <p class="site-subtitle">且听风吟</p>
       
   </div>
 
@@ -248,6 +248,399 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/26/拟牛顿法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/拟牛顿法/" itemprop="url">拟牛顿法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T16:04:01+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/拟牛顿法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/拟牛顿法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>牛顿法中最困难的部分在于计算$H$和$H^{-1}$</p>
+<p>拟牛顿法的思想就是不用二阶偏导数而构造出可以<strong>近似</strong>$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数。但是不可能随便一个矩阵都能近似$H$，所以我们要给近似矩阵开一个条件，也就是下面的拟牛顿条件</p>
+<h2 id="拟牛顿条件"><a href="#拟牛顿条件" class="headerlink" title="拟牛顿条件"></a>拟牛顿条件</h2><p>由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了</p>
+<script type="math/tex; mode=display">
+\nabla f(x)=g_{k+1}+H_{k+1}(x-x_{k+1})</script><p>设$x=x_k$</p>
+<p>记$s_k=x_{k+1}-x_k,y_k=g_{k+1}-g_k$</p>
+<p>$\therefore y_k=H_{k+1}\cdot s_k$</p>
+<p>或$s_k=H^{-1}_{k+1}\cdot y_k$</p>
+<p>此即为拟牛顿条件</p>
+<p>选择合适的$B_{k+1}$做$H_{k+1}$的近似，合适的$D_{K+1}$做$H^{-1}_{k+1}$的近似，使他们满足拟牛顿条件即可</p>
+<p>相当于给拟合$H，H^{-1}$做了一个约束，使得在$f(x_k)与f(x_{k+1})$拟合矩阵与真实矩阵的一阶导相等</p>
+<p>以下不同的算法实际上就是<strong>设计拟合矩阵</strong>的算法</p>
+<h2 id="DFP算法"><a href="#DFP算法" class="headerlink" title="DFP算法"></a>DFP算法</h2><p>DFP算法通过迭代的方法对$D_{K+1}$做$H^{-1}_{k+1}$的近似</p>
+<p>主要设置$D_k$待定形式为</p>
+<script type="math/tex; mode=display">
+\Delta D_k=\alpha uu^T+\beta vv^T</script><p>推导过程类似BFGS算法，略，见下</p>
+<script type="math/tex; mode=display">
+D_{k+1}=D_{k}+\frac{s_ks_k^T}{s_k^Ty_k}-\frac{D_ky_ky_k^TD_k}{y_k^TD_ky_k},k=0,1,2,\cdots</script><p>一般$D_0=I$</p>
+<h2 id="BFGS算法"><a href="#BFGS算法" class="headerlink" title="BFGS算法"></a>BFGS算法</h2><p>BFGS算法通过迭代的方法对$B_{K+1}$做$H_{k+1}$的近似，直接逼近Hessian矩阵</p>
+<p>采用迭代法</p>
+<script type="math/tex; mode=display">
+B_{k+1}=B_k+\Delta B_k,k=0,1,2,\cdots</script><p>一般$B_0=I$</p>
+<p>设置$B_k$的待定形式</p>
+<script type="math/tex; mode=display">
+\Delta B_k=\alpha uu^T+\beta vv^T</script><p>$uu^T$和$vv^T$正好构成对称矩阵</p>
+<p>代入$y_k=H_{k+1}\cdot s_k$中（$B_{k+1}$逼近$H_{k+1}$）得</p>
+<script type="math/tex; mode=display">
+y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=display">
+=B_ks_k+\alpha u^Ts_k\cdot u+\beta v^ts_k\cdot v</script><p>$u^Ts_k$和$v^Ts_k$都是常数，不妨令$\alpha u^Ts_k=1,\beta v^ts_k=-1,u=y_k,v=B_ks_k$,</p>
+<script type="math/tex; mode=display">
+\therefore \alpha=\frac{1}{y_k^Ts_k},\beta=-\frac{1}{s_k^TB_ks_k}</script><script type="math/tex; mode=display">
+\therefore \Delta B_k=\frac{y_ky_k^T}{y_k^Ts_k}-\frac{B_ks_ks_k^TB_k}{s_k^TB_ks_k}</script><p>但由于必须储存$D$，使得储存开销很大，不适用大数据大型模型</p>
+<h2 id="LBFGS算法"><a href="#LBFGS算法" class="headerlink" title="LBFGS算法"></a>LBFGS算法</h2><p>通过避免储存完整的Hessian逆运算近似$D$,降低BFGS的储存代价</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/26/牛顿法求解非线性优化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/牛顿法求解非线性优化/" itemprop="url">牛顿法求解非线性优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T10:02:25+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/牛顿法求解非线性优化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/牛顿法求解非线性优化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
+<h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
+<script type="math/tex; mode=display">
+\phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
+<script type="math/tex; mode=display">
+\phi'(x)=0</script><p>省略掉高阶项，则</p>
+<script type="math/tex; mode=display">
+f'(x_k)+f''(x_k)(x-x_k)=0</script><p>$\therefore$</p>
+<script type="math/tex; mode=display">
+x = x_k-\frac{f'(x_k)}{f''(x_k)},k=0,1,2,···</script><p>于是我们就可以从初始$x_0$值开始用此式进行迭代来逼近极小值点，其逼近就是<strong>在每次迭代的时候直接跳到近似函数的最小点</strong></p>
+<p>那么对于高维度的情形，原泰勒公式就可以表示为</p>
+<script type="math/tex; mode=display">
+\phi(X) = \nabla f(X_k)·(X-X_k)+\frac{1}{2}(X-X_k)^T·\nabla^2f(X_k)·(X-X_k)</script><p>这里的$\nabla^2 f(X_k)$即为Hessian矩阵，其实就是二阶梯度</p>
+<script type="math/tex; mode=display">
+\nabla^2 f(X_k)=
+\begin{bmatrix}
+{\frac{\partial^2 f}{\partial x_1^2}}&{\frac{\partial^2 f}{\partial x_1\partial x_2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_1\partial x_n}}\\
+{\frac{\partial^2 f}{\partial x_2\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_2\partial x_n}}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{\frac{\partial^2 f}{\partial x_n\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_n\partial x_n}}\\
+\end{bmatrix}</script><p>$\nabla f(X_k)$就是一阶梯度，不展开了</p>
+<p>因为Hessian矩阵是实对称矩阵，我们可以将其分解为一组实特征值和一组特征向量的正交基。在特定方向$d$的二阶导数可以写成$d^THd$。</p>
+<p>当$d$是$H$的一个特征向量的时候，这个方向的二阶导数就是对应的特征值。对于其他方向$d$，方向二阶导数是所有特征值的加权平均，权重在0和1之间，且与$d$夹角越小的特征值权重越大。最大特征值确定最大二阶导数，最小特征值确定最小二阶导数。</p>
+<p>记$g_k=\nabla f(X_k)$,$H_k=\nabla^2 f(X_k)$，</p>
+<script type="math/tex; mode=display">
+\nabla \phi(X)=0</script><p>则</p>
+<script type="math/tex; mode=display">
+g_k+H_k(X-X_k)=0</script><p>$H_k$必为非奇异矩阵（满秩矩阵）</p>
+<p>$\therefore$</p>
+<script type="math/tex; mode=display">
+X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式，$d_k=-H_k^{-1}·g_k$称为<strong>牛顿方向</strong></p>
+<p>牛顿法求出的方向是一个逼近，因为其省略了泰勒的高阶展开项（但如果是二次函数，那就不是逼近了，这时候Hessian矩阵退化为常数矩阵，只需要一次运算即可到达最优点）</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
+<li><p>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</p>
+</li>
+<li><p>会造成<strong>局部收敛</strong></p>
+</li>
+<li><p>Hessian矩阵的计算量是其它一阶优化方法的平方倍，所以对硬件计算负担要求极高</p>
+</li>
+<li><p>由于步长是定的，所以牛顿方向$-H_k^{-1}·g_k$并不能保证稳定下降，其并不是梯度下降算法</p>
+</li>
+<li><p>函数必须二阶可导，Hessian矩阵必须为正定矩阵</p>
+</li>
+</ol>
+<p>   <em>深度学习通常都有很多局部极值，鞍点，且计算量巨大，所以很少在深度学习中使用牛顿法</em></p>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><ol>
+<li><p>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong>，称作<strong>阻尼牛顿法</strong>，这个思想和动量算法思想一样</p>
+<p>仍然用$d_k$在方向上进行迭代，但是每次迭代的时候需要进行一次线搜索，寻求最优步长因子$\lambda_k $</p>
+<p>$d_k\to\lambda_k d_k$</p>
+<p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
+</li>
+<li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
+<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+<p>补充PCG思想：结合梯度下降与牛顿法，在一个方向上用牛顿法，一次性迭代完，理论上N个方向N次即可收敛</p>
+</li>
+<li><p>拟牛顿法</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1302,748 +1695,11 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/08/28/个人NAS计划/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/28/个人NAS计划/" itemprop="url">个人NAS计划</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T10:48:00+08:00">
-                2019-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/硬件/" itemprop="url" rel="index">
-                    <span itemprop="name">硬件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/28/个人NAS计划/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/28/个人NAS计划/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>眼看着google drive容量即将撑爆..而且9月13号到期<img src="//aisakaki.com/2019/08/28/个人NAS计划/1.png" alt="1"><br>然后一看续费扩容计划…<br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/28/个人NAS计划/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/08/16/高达升级/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/16/高达升级/" itemprop="url">高达升级</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-16T10:40:51+08:00">
-                2019-08-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/硬件/" itemprop="url" rel="index">
-                    <span itemprop="name">硬件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/16/高达升级/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/16/高达升级/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个月又对我的台式机PC电脑的几个零件进行了升级，主要是更换了CPU，添加了固态硬盘，而且把原来CPU的单风扇120水冷换成了双风扇夹汉堡。</p>
-<p>9900k这货实在是个大火炉，发热量太大了。后来我才发现我忘了设置SYS_FAN的温度检测区域，导致CPU或GPU都热爆了风扇却不全速转起来。</p>
-<p>以下为升级后现在的配置：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>硬件</th>
-<th></th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CPU</td>
-<td>Inter i9 9900K</td>
-<td>主频3.6GHz，睿频5GHz</td>
-</tr>
-<tr>
-<td>CPU散热</td>
-<td>Alphacool 北极熊水冷</td>
-<td>120冷排，双be quiet风扇</td>
-</tr>
-<tr>
-<td>内存</td>
-<td>海盗船LPX 32G</td>
-<td>16G*2  3000GHz</td>
-</tr>
-<tr>
-<td>主板</td>
-<td>技嘉Z390M Gaming</td>
-<td>MATX主板</td>
-</tr>
-<tr>
-<td>显卡</td>
-<td>Inno RTX 2080Ti</td>
-<td>-</td>
-</tr>
-<tr>
-<td>显卡散热</td>
-<td>Alphacool 北极狼水冷</td>
-<td>240冷排，双be quiet风扇</td>
-</tr>
-<tr>
-<td>硬盘</td>
-<td>NVME 固态硬盘：三星970evo Plus</td>
-<td>1T</td>
-</tr>
-<tr>
-<td></td>
-<td>NVME 固态硬盘：海康威视C2000Pro</td>
-<td>2T</td>
-</tr>
-<tr>
-<td></td>
-<td>SATAIII 固态硬盘：西部数码 蓝盘</td>
-<td>2T</td>
-</tr>
-<tr>
-<td></td>
-<td>SATAIII 固态硬盘：英睿达 BX300</td>
-<td>0.5T    (MLC颗粒)</td>
-</tr>
-<tr>
-<td></td>
-<td>机械硬盘：希捷酷鱼</td>
-<td>1T</td>
-</tr>
-<tr>
-<td></td>
-<td>机械硬盘：西部数码</td>
-<td>1T</td>
-</tr>
-<tr>
-<td>电源</td>
-<td>振华 冰山金蝶GX650</td>
-<td>650W</td>
-</tr>
-<tr>
-<td>机箱</td>
-<td>酷冷至尊 Q300L</td>
-<td>-</td>
-</tr>
-<tr>
-<td>RGB风扇</td>
-<td>乔思伯 日食 Plus</td>
-<td>后置位一个</td>
-</tr>
-<tr>
-<td>显示器</td>
-<td>DELL U2718QM</td>
-<td>4K 27英寸</td>
-</tr>
-<tr>
-<td>鼠标</td>
-<td>罗技 G903</td>
-<td>-</td>
-</tr>
-<tr>
-<td>键盘</td>
-<td>IKBC W200</td>
-<td>红轴，霜冻之蓝键帽</td>
-</tr>
-<tr>
-<td>机箱手办</td>
-<td>美柑</td>
-<td>老婆</td>
-</tr>
-<tr>
-<td>耳机</td>
-<td>1000XM2</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>感觉Q300L这个机箱虽然很小巧，但不如迎广301的好看，但是迎广301散热真心捉急，暂时就先这样了吧</p>
-<p>以后考虑上sunmilo T03那款机箱，那个就得改用itx板子（必须双m2位），电源改sfx（+1000），CPU风扇用风冷。现在暂时先不折腾了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/08/11/summer/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/11/summer/" itemprop="url">再见，夏天</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T15:21:41+08:00">
-                2019-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/11/summer/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/11/summer/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="//aisakaki.com/2019/08/11/summer/F845CF3DE17D87ACAEB421026508A8A1.jpg" alt="F845CF3DE17D87ACAEB421026508A8A1"></p>
-<div style="text-align: center">朝着大海的列车，在书香，旋律与橘子芬香中，驶向夏天的终点 </div>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/08/05/JSY/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/05/JSY/" itemprop="url">夏休</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-05T11:58:05+08:00">
-                2019-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/05/JSY/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/05/JSY/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个暑假应该是人生最短的一次暑假了</p>
-<p>傍晚回到了中学时期住过的小区去看看，保卫大叔竟然一眼认出了我，还和我聊了些以前的事情</p>
-<p>我很惊讶那些小事他都记得，</p>
-<p>而且明明5年都没有回去过了。</p>
-<p>走出大门，蝉鸣声依然密密麻麻。渐行渐远，不一会儿变得窸窸窣窣。</p>
-<p>大叔叫我多回来玩，可我回来能去哪呢？</p>
-<p>蝉鸣声声响，可夏日并不长。</p>
-<p><img src="//aisakaki.com/2019/08/05/JSY/E9C4B851D57299086E6779C064F6C5B6.png" alt="E9C4B851D57299086E6779C064F6C5B6"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 

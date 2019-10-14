@@ -82,7 +82,7 @@
 <meta name="description" content="我的小站">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/page/6/index.html">
+<meta property="og:url" content="https://aisakaki.com/page/11/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="我的小站">
 <meta property="og:locale" content="zh-Hans">
@@ -118,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/page/6/">
+  <link rel="canonical" href="https://aisakaki.com/page/11/">
 
 
 
@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/08/notes-1108/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/18/113/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/08/notes-1108/" itemprop="url">notes_1108</a></h1>
+                <a class="post-title-link" href="/2016/05/18/113/" itemprop="url">...</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T11:35:24+08:00">
-                2018-11-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-18T07:55:19+08:00">
+                2016-05-18
               </time>
             
 
@@ -316,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
                   </a>
                 </span>
 
@@ -334,8 +334,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/08/notes-1108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/notes-1108/" itemprop="commentCount"></span>
+                <a href="/2016/05/18/113/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/18/113/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,30 +365,7 @@
       
         
           
-            <ol>
-<li><p>NN的输出是一个向量，包含对各个种类的输出值，最后一个层有多少个神经元，输出向量就有多少维，所以在求的时候是矩阵求梯度下降，Loss Function作用于一个矩阵</p>
-</li>
-<li><p>NN为什么用非线性激活函数</p>
-<p>线性函数公式写出来之后 会发现 无论多少层，他都只能生成线性分类器（成为了感知机）<br>无法去拟合绝大多数的真实情况<br>而非线性的组合 就可以去逼近任何函数</p>
-</li>
-<li><p>关于梯度下降的算法<br>一个训练样本的损失函数就是一个向量，有多少特征就有多少维<br>ML算法中的代价函数通常可以分解成每个样本的代价函数的总和<br>具体求和之后如何求导见1</p>
-<p>于是不使用batch的整体梯度下降需要计算($m$为训练集样本个数)。所有样本计算出最终结果来计算梯度。这样对显存的要求就极高（在大样本集上是不可能）</p>
-<script type="math/tex; mode=display">
-     \nabla_{\theta}J(\theta)=\frac{1}{m}\sum_{i=1}^m\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>如果使用minibatch，则变成（一个batch有$m’$个训练样本） 一个batch计算一个$g$来更新梯度</p>
-<script type="math/tex; mode=display">
- g=\frac{1}{m'}\sum_{i=1}^{m'}\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>然后使用如下的梯度下降算法估计梯度</p>
-<script type="math/tex; mode=display">
-    \theta \leftarrow \theta - \epsilon g</script><p>于是在一轮训练集中，要更新很多次梯度，目标去逼近整体更新梯度的方向<br>在一轮中的几个批次，可能是局部梯度减小，整体损失变大，但是在一轮下来之后，会变成朝着整体减小的方向震荡前进</p>
-</li>
-<li><p>CNN一个牛逼的地方就在于通过感受野和权值共享减少了神经网络需要训练的参数的个数，所谓权值共享就是同一个Feature Map中神经元权值共享，该Feature Map中的所有神经元使用同一个权值。因此参数个数与神经元的个数无关，只与卷积核的大小及Feature Map的个数相关。但是共有多少个连接个数就与神经元的个数相关了，神经元的个数也就是特征图的大小。</p>
-</li>
-<li><p>为什么用交叉熵作损失函数？每层怎么做计算<br><a href="https://blog.csdn.net/huwenxing0801/article/details/82791879" target="_blank" rel="noopener">https://blog.csdn.net/huwenxing0801/article/details/82791879</a><br>对于分类问题，用交叉熵损失函数更好，因为交叉熵函数公式可知道，<strong>交叉熵只关心对正确类别的预测概率</strong>，因为只要其值<strong>足够大</strong>，就可以保证分类结果正确。<br>对于回归问题，用平方差损失函数更好，它希望<strong>预测概率尽量完全等于标签概率</strong>。（比交叉熵损失函数严格很多）</p>
-</li>
-<li><p>前馈神经网络，如BP，RFN</p>
-<p>循环神经网络，RNN</p>
-</li>
-</ol>
-
+            
           
         
       
@@ -436,7 +413,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/07/使用markdown编辑数学公式/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/09/不要让你的生命留下太多遗憾/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -455,7 +432,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/07/使用markdown编辑数学公式/" itemprop="url">使用markdown编辑数学公式</a></h1>
+                <a class="post-title-link" href="/2016/05/09/不要让你的生命留下太多遗憾/" itemprop="url">不要让你的生命留下太多遗憾</a></h1>
         
 
         <div class="post-meta">
@@ -467,8 +444,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T17:22:44+08:00">
-                2018-11-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-09T23:58:15+08:00">
+                2016-05-09
               </time>
             
 
@@ -490,8 +467,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
                   </a>
                 </span>
 
@@ -508,8 +485,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/07/使用markdown编辑数学公式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/使用markdown编辑数学公式/" itemprop="commentCount"></span>
+                <a href="/2016/05/09/不要让你的生命留下太多遗憾/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/09/不要让你的生命留下太多遗憾/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -538,74 +515,325 @@
 
       
         
-          <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
-<p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
-<h3 id="创建公式编辑栏的方式"><a href="#创建公式编辑栏的方式" class="headerlink" title="创建公式编辑栏的方式"></a>创建公式编辑栏的方式</h3><ul>
-<li>内联公式：两个$之间​</li>
-<li>公式块：两个$$之间</li>
-<li>ctrl + shift +m</li>
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/09/TestMovie/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/05/09/TestMovie/" itemprop="url">TestMovie</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-09T23:46:31+08:00">
+                2016-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/05/09/TestMovie/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/09/TestMovie/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/" itemprop="url">链表，栈，队列、树四种结构的构建方式的简单理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-07T11:56:59+08:00">
+                2016-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>开个坑，有空填，方便自己考前速看一下</p>
+<hr>
+<p>两种储存结构 链式和顺式</p>
+<p>比较一下链表的链式储存结构、栈和队列的顺式储存结构（不代表他们只有链式/顺式，只是着重强调）</p>
+<p>假设所有的储存数据都是int型</p>
+<ul>
+<li>顺序栈的结构构建</li>
 </ul>
-<h3 id="常用公式的代码"><a href="#常用公式的代码" class="headerlink" title="常用公式的代码"></a>常用公式的代码</h3><p>   注意，一个块要用{}包裹起来，^_上下标叠着写就行</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">输入</th>
-<th style="text-align:center">公式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">x^2</td>
-<td style="text-align:center">$x^2$</td>
-</tr>
-<tr>
-<td style="text-align:center">x_1</td>
-<td style="text-align:center">$x_1$</td>
-</tr>
-<tr>
-<td style="text-align:center">\frac{x}{y}</td>
-<td style="text-align:center">$\frac{x}{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sqrt[x]{y}</td>
-<td style="text-align:center">$\sqrt[x]{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\vec{x}</td>
-<td style="text-align:center">$\vec{x}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\int_{a}^{b}{x}dx</td>
-<td style="text-align:center">$\int_{a}^{b}{x}dx$</td>
-</tr>
-<tr>
-<td style="text-align:center">\cdots</td>
-<td style="text-align:center">$\cdots$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sum_{n=1}^{100}{a_n}</td>
-<td style="text-align:center">$\sum_{n=1}^{100}{a_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\lim_{n\to +\infty}</td>
-<td style="text-align:center">$\lim_{n\to +\infty}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\prod_{n=1}^{99}{x_n}</td>
-<td style="text-align:center">$\prod_{n=1}^{99}{x_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">a \quad b</td>
-<td style="text-align:center">$a \quad b$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3>
+<p>两个参数：初始容量、每次增加的容量</p>
+<p>struct stack</p>
+<p>{</p>
+<p>int <em>base,</em>top;</p>
+<p>int length;</p>
+<p>};</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/11/07/使用markdown编辑数学公式/#more" rel="contents">
+            <a class="btn" href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -656,7 +884,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/06/更换HEXO框架/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/03/VMware虚拟机ping不通主机/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -675,7 +903,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/06/更换HEXO框架/" itemprop="url">更换HEXO框架</a></h1>
+                <a class="post-title-link" href="/2016/05/03/VMware虚拟机ping不通主机/" itemprop="url">VMware虚拟机ping不通主机</a></h1>
         
 
         <div class="post-meta">
@@ -687,8 +915,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T11:57:58+08:00">
-                2018-11-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-03T22:36:20+08:00">
+                2016-05-03
               </time>
             
 
@@ -728,8 +956,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/06/更换HEXO框架/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/06/更换HEXO框架/" itemprop="commentCount"></span>
+                <a href="/2016/05/03/VMware虚拟机ping不通主机/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/03/VMware虚拟机ping不通主机/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -759,11 +987,10 @@
       
         
           
-            <p>这两天将更换了个人网站的框架</p>
-<p>更改框架是个蛮麻烦的过程</p>
-<p>其中以前的文章很多格式都乱掉了</p>
-<p>而且图片全部没有了…….</p>
-<p>只能手动修正了</p>
+            <p>待解决  </p>
+<hr>
+<p>5月4日更新 </p>
+<p>问题解决了 <img src="http://aisakaki.com/wp-content/uploads/2016/05/image-2-300x298.jpeg" alt="image"> 使用桥接模式需要dhclient自动获取IP地址………..</p>
 
           
         
@@ -812,7 +1039,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/25/中秋/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/01/test-image/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -831,7 +1058,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/25/中秋/" itemprop="url">中秋</a></h1>
+                <a class="post-title-link" href="/2016/05/01/test-image/" itemprop="url">Test image</a></h1>
         
 
         <div class="post-meta">
@@ -843,164 +1070,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-25T20:11:51+08:00">
-                2018-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/25/中秋/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/25/中秋/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>中秋到了，月儿圆了。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/25/中秋/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/13/DigitalOcean成功迁移Vultr/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/13/DigitalOcean成功迁移Vultr/" itemprop="url">DigitalOcean成功迁移Vultr</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T22:39:26+08:00">
-                2018-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-01T15:21:43+08:00">
+                2016-05-01
               </time>
             
 
@@ -1040,8 +1111,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/13/DigitalOcean成功迁移Vultr/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/13/DigitalOcean成功迁移Vultr/" itemprop="commentCount"></span>
+                <a href="/2016/05/01/test-image/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/01/test-image/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1071,8 +1142,7 @@
       
         
           
-            <p>新日本东京服务器，平均延迟122ms，联通延迟更低，甚至可以加速器用233</p>
-<p>但是pixiv默认ban Vultr IP，这就很蛋疼了…..</p>
+            <p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"> 一脸懵逼</p>
 
           
         
@@ -1121,7 +1191,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/09/永无止境的庙会里/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/04/30/sever/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1140,7 +1210,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/09/永无止境的庙会里/" itemprop="url">永无止境的庙会里</a></h1>
+                <a class="post-title-link" href="/2016/04/30/sever/" itemprop="url">Sever.</a></h1>
         
 
         <div class="post-meta">
@@ -1152,8 +1222,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-09T20:51:31+08:00">
-                2018-09-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-30T23:10:05+08:00">
+                2016-04-30
               </time>
             
 
@@ -1175,8 +1245,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
                   </a>
                 </span>
 
@@ -1193,8 +1263,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/09/永无止境的庙会里/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/09/永无止境的庙会里/" itemprop="commentCount"></span>
+                <a href="/2016/04/30/sever/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/04/30/sever/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1224,8 +1294,7 @@
       
         
           
-            <p>永无止境的庙会，我能远离它吗？</p>
-
+            
           
         
       
@@ -1273,7 +1342,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/08/25/523/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/04/30/hello-world-2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1292,7 +1361,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/25/523/" itemprop="url">No title</a></h1>
+                <a class="post-title-link" href="/2016/04/30/hello-world-2/" itemprop="url">hello world</a></h1>
         
 
         <div class="post-meta">
@@ -1304,8 +1373,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-25T17:47:13+08:00">
-                2018-08-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-30T18:11:27+08:00">
+                2016-04-30
               </time>
             
 
@@ -1327,8 +1396,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
                   </a>
                 </span>
 
@@ -1345,8 +1414,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/25/523/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/25/523/" itemprop="commentCount"></span>
+                <a href="/2016/04/30/hello-world-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/04/30/hello-world-2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1376,170 +1445,9 @@
       
         
           
-            <blockquote>
-<p>Your time is limited, so don’t waste it living someone else’s life. Don’t be trapped by dogma — which is living with the results of other people’s thinking. Don’t let the noise of others’ opinions drown out your own inner voice. And most important, have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.</p>
-<p>By Steve Jobs</p>
-</blockquote>
+            <p>from aisaka</p>
 
           
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/08/15/旅途之后/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/15/旅途之后/" itemprop="url">旅途之后</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T21:45:03+08:00">
-                2018-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/15/旅途之后/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/15/旅途之后/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>从最后一节暑期课，到现在，快一个月了。我的旅途结束了。</p>
-<p>走了很多地方，看见了不同的人与景，进入了不同的生活。</p>
-<p>旅行也许是改变现在的尝试。回到了家。迷茫与困惑的感觉随之而归。一段旅行的结束，是思考的最好时机。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/15/旅途之后/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1577,7 +1485,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
   </nav>
 
 
