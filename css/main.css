@@ -1136,7 +1136,7 @@ pre .javascript .function {
 .site-subtitle {
   margin-top: 10px;
   font-size: 13px;
-  color: #999;
+  color: #fff;
 }
 .use-motion .brand {
   opacity: 0;
@@ -1829,7 +1829,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fabdf5;
+  background: #3055a4;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2676,12 +2676,12 @@ embed {
     right: 0;
     bottom: 0;
     left: 0;
-    background: url("/images/4.png") center 0 no-repeat;
+    background: url("/images/28.jpg") center 0 no-repeat;
     background-size: cover;
   }
   .main-inner {
     background: #fff;
-    opacity: 0.9;
+    opacity: 0.95;
     padding: 50px;
   }
   .header-inner {
@@ -2714,4 +2714,11 @@ embed {
   #footer > div > div {
     color: #eee;
   }
+}
+.menu .menu-item a {
+  padding: 1px 5px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
 }
