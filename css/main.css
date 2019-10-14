@@ -1829,7 +1829,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #3055a4;
+  background: #53d066;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2690,6 +2690,13 @@ embed {
   #footer > div > div {
     color: #eee;
   }
+  .menu .menu-item a {
+    padding: 1px 5px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+  }
 }
 @media screen and (max-aspect-ratio: 1/1) {
   body:before {
@@ -2700,7 +2707,7 @@ embed {
     right: 0;
     bottom: 0;
     left: 0;
-    background: url("/images/mobile2.jpg") center 0 no-repeat;
+    background: url("/images/59290839_p0.jpg") center 0 no-repeat;
     background-size: cover;
   }
   .main-inner {
@@ -2714,11 +2721,4 @@ embed {
   #footer > div > div {
     color: #eee;
   }
-}
-.menu .menu-item a {
-  padding: 1px 5px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  border-radius: 10px;
 }
