@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="采样,">
+  <meta name="keywords" content="采样,马尔科夫链,">
 
 
 
@@ -80,17 +80,19 @@
 
 
 <meta name="description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
-<meta name="keywords" content="采样">
+<meta name="keywords" content="采样,马尔科夫链">
 <meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡罗方法">
 <meta property="og:url" content="https://aisakaki.com/2019/10/12/蒙特卡罗方法/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-14T08:55:51.343Z">
+<meta property="og:image" content="https://aisakaki.com/2019/10/12/蒙特卡罗方法/0.png">
+<meta property="og:updated_time" content="2019-10-15T09:56:43.017Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡罗方法">
 <meta name="twitter:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
+<meta name="twitter:image" content="https://aisakaki.com/2019/10/12/蒙特卡罗方法/0.png">
 
 
 
@@ -367,16 +369,61 @@
 <script type="math/tex; mode=display">
 s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取$n$个样本$(x_1,\cdots,x_n)～p(x)$（同期望证明略，使用大数定理可证得）来近似之，则</p>
 <script type="math/tex; mode=display">
-\int_a^bh(x)dx=E_p(f(x))≈\frac{1}{n}\sum_{i=1}^nf(x_i)</script><h2 id="马尔科夫链蒙特卡罗方法"><a href="#马尔科夫链蒙特卡罗方法" class="headerlink" title="马尔科夫链蒙特卡罗方法"></a>马尔科夫链蒙特卡罗方法</h2><p>马尔科夫链是<em>随机过程</em>中的重要角色，不多赘述</p>
+\int_a^bh(x)dx=E_p(f(x))≈\frac{1}{n}\sum_{i=1}^nf(x_i)</script><p>蒙特卡罗方法是一种随机模拟技术</p>
+<h2 id="马尔科夫链蒙特卡罗方法（MCMC）"><a href="#马尔科夫链蒙特卡罗方法（MCMC）" class="headerlink" title="马尔科夫链蒙特卡罗方法（MCMC）"></a>马尔科夫链蒙特卡罗方法（MCMC）</h2><p>Markov Chain Monte Carlo</p>
+<p>马尔科夫链是<em>随机过程</em>中的重要角色，不多赘述</p>
 <p>马尔科夫过程<strong>各态遍历性</strong>需要满足：①非周期  ②不可约</p>
 <p>非周期即存在某个取值从它出发转移回自身所需要的转移次数总是整数$d(&gt;1)$的倍数，使得能够“连续”转移，这保证了马尔科夫过程的连续性，否则必须走特定步长（即周期）才能转移，使得马尔科夫过程不连续</p>
 <p>不可约即为任意两个取值之间总是能以非零的概率相互转移</p>
 <p>若马尔科夫过程是各态遍历的，无论初始值为何，随机变量的最终取值分布会收敛于一个唯一的平稳分布$\pi^*$</p>
 <script type="math/tex; mode=display">
-\lim_{t\to ∞ }\pi^{(0)}P^t=\pi^*,且\pi^*P=\pi^*</script><p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
+\lim_{t\to ∞ }\pi^{(0)}P^t=\pi^*</script><p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
+<p>可以从这个角度证明：</p>
+<script type="math/tex; mode=display">
+\pi_t=P^t\pi_0=(Pdiag(\lambda)P^{-1})^t\pi_0=Pdiag(\lambda)^tP^{-1}\pi_0</script><p>可见这个过程将导致$P$中不为1的特征值全部衰减到0，因此该过程就收敛到平稳分布</p>
+<script type="math/tex; mode=display">
+\pi^*=\pi P</script><p>得到一个特征向量方程，收敛之后的$\pi^*$是特征值为1所对应的特征向量</p>
 <p>于是就可以<strong>利用马尔科夫链来进行蒙特卡罗估计</strong>，这类算法被称为<strong>马尔科夫链蒙特卡罗方法（MCMC）</strong></p>
 <p>由于要保证各态遍历性，于是MCMC方法<strong>最适用于基于能量的模型</strong>（见上一篇笔记）</p>
-<p>====未完待续，施工中===</p>
+<p>马尔科夫链的<strong>磨合过程</strong>：运行马尔科夫过程直到收敛</p>
+<p>马尔科夫过程中的<strong>混合时间</strong>：在未收敛前的那段时间</p>
+<p>连续的马尔科夫链也叫<strong>哈里斯链</strong></p>
+<p>难以预测马尔科夫链是否收敛，目前方法：</p>
+<p>①看$P$的特征值是否趋近于0 （但通常$P^t$计算难度极大，难以表示）</p>
+<p>②启发式方法（手动检查样本；衡量样本间的相关性）</p>
+<p><strong>但注意一个问题：在一个马尔科夫链的一个抽样序列无法完全表达均衡分布！</strong></p>
+<p>因为在一个马尔科夫链达到平稳状态后，两个连续样本之间会<strong>高度相关</strong>。（在马尔科夫过程平稳后，$P$使得每次转移使得样本的分布不变，但是$P$会改变每一次转移后的样本的形态，但同一时间下的样本形态是高度相关的）</p>
+<p>解决办法之一是间隔抽样，另一个是使用<strong>多条马尔科夫链</strong>，每个样本从不同的马尔科夫链抽样，在深度学习中的通用实践是选取的马尔科夫链数目和小批量中的样本数相近。</p>
+<h2 id="如何采样？（采样方法）"><a href="#如何采样？（采样方法）" class="headerlink" title="如何采样？（采样方法）"></a>如何采样？（采样方法）</h2><p>对于$uniform(0,1)$，我们可以使用<strong>线性同余发生器算法</strong>LCG：$R=(A*R+B)\%M$，推导略</p>
+<p>对于常见的概率分布，可以使用<strong>逆采样</strong>方法，将其他概率分布<strong>映射到</strong>$uniform(0,1)$，推导略（大体思路是将CDF的反函数代入$uniform(0,1)$的概率密度函数）</p>
+<p>这需要是常见概率分布，因为必须要求累计概率分布CDF可以求逆，所以</p>
+<p>对于非常见概率分布，可以使用<strong>接受—拒绝采样</strong>，但对MCMC使用接受—拒绝采样效果并不好</p>
+<p>（以上的采样方法可以以后单独写篇笔记）</p>
+<p><strong>那MCMC该如何采样呢？</strong>我们需要采样目标概率分布$p(x)$，而目标概率分布是由转移概率决定的，所以也就是说我们要构造一个转移概率矩阵$P$，使得$p(x)$恰好是我们想要的目标概率分布</p>
+<h2 id="Metropolis-Hasting采样"><a href="#Metropolis-Hasting采样" class="headerlink" title="Metropolis Hasting采样"></a>Metropolis Hasting采样</h2><p>为了满足能够构造一个转移概率矩阵$P$，使得$p(x)$<strong>恰好是我们想要的目标概率分布</strong>，我们设定马尔科夫链满足<strong>细致平稳条件</strong></p>
+<script type="math/tex; mode=display">
+\pi(i)P_{ij}=\pi(j)P_{ji}, \forall i,j</script><p>若满足，则马尔科夫链为平稳分布。</p>
+<p>细致平稳条件可理解为从$i$状态转移到$j$状态的付出消耗与从$j$转移回$i$的吸收消耗相同，所以状态$i$上的概率质量$\pi(i)$是稳定的。</p>
+<p>那么一般情况下</p>
+<script type="math/tex; mode=display">
+p(i)q(i,j)≠p(j)q(j,i)</script><p>$Q$为转移矩阵，$q$为转移概率。为了强行让它相等，即满足细致平稳条件，则设计一个$\alpha$（称作跳转的<strong>接受率</strong>）使得$\alpha(i,j)=p(j)q(j,i),\alpha(j,i)=p(i)q(i,j)$（对称性）</p>
+<script type="math/tex; mode=display">
+p(i)q(i,j)\alpha(i,j)=p(j)q(j,i)\alpha(j,i)</script><p>$\hat{Q}(i,j)=q(i,j)\alpha(i,j),\hat{Q}(j,i)=q(j,i)\alpha(j,i)$</p>
+<p>$q$称为<strong>提议概率</strong>，$Q$称为提议转移矩阵，<strong>自己选择一种简单的分布即可</strong></p>
+<p>于是原来的转移矩阵$Q$变成了现在可以保证细致平稳条件的转移矩阵$\hat{Q}$，此转移矩阵的平稳分布就是$p(x)$了</p>
+<p>以上称为Metropolis抽样</p>
+<p><strong>那么$\alpha$该如何更好地取值呢？</strong>太小的话会导致拒绝率太高，收敛速度太慢。发现如果在等式两边同时扩大相同的倍数，等式依然成立，于是想到将等式两边同比例放大使得最大的一边放大到1（概率最大为1），即</p>
+<script type="math/tex; mode=display">
+\alpha^*(i,j)=\min\{\frac{\alpha(j,i)}{\alpha(i,j)},1\}=\min\{\frac{p(j)q(j,i)}{p(i)q(i,j)},1\}</script><p>（这里的推导：当$\alpha(i,j)&gt;\alpha(j,i),则\alpha(i,j)先到1，\alpha^<em>(j,i)=\frac{1}{\alpha(i,j)}·\alpha(j,i)&lt;1$ <em>*缩放</em></em></p>
+<p>当$\alpha(j,i)&gt;\alpha(i,j),则\alpha(j,i)先到1，\alpha^<em>(i,j)=\frac{\alpha(i,j)}{\alpha(j,i)}$ <em>*缩放</em></em></p>
+<p>整合上两式记得上面的等式）</p>
+<p><strong>于是</strong>$p(x)$是<strong>目标平稳概率分布，自设已知</strong>；$q(x)$为<strong>提议概率分布，自设已知</strong>，那么就可以求出<strong>转移概率</strong>$\alpha$了</p>
+<p>从$uniform(0,1)$中采样$u$，如果$u&lt;\alpha(i,j)$，则该跳转成功，否则该跳转失败，以此迭代（这里使用<strong>接受-拒绝采样算法的思想</strong>，用提议转移矩阵$Q$去求得转移矩阵$\hat{Q}$）</p>
+<p>这就是Metropolis Hasting采样算法</p>
+<p>算法如下：</p>
+<p><img src="//aisakaki.com/2019/10/12/蒙特卡罗方法/0.png" alt="0"></p>
+<h2 id="Gibbs采样（深度学习中的最佳选择）"><a href="#Gibbs采样（深度学习中的最佳选择）" class="headerlink" title="Gibbs采样（深度学习中的最佳选择）"></a>Gibbs采样（深度学习中的最佳选择）</h2><p>作为M-H采样算法的特殊形式，不拒绝</p>
+<p>===未完待续===</p>
 
       
     </div>
@@ -413,6 +460,8 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
         <div class="post-tags">
           
             <a href="/tags/采样/" rel="tag"># 采样</a>
+          
+            <a href="/tags/马尔科夫链/" rel="tag"># 马尔科夫链</a>
           
         </div>
       
@@ -539,7 +588,7 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -602,7 +651,7 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样与蒙特卡罗方法"><span class="nav-number">1.</span> <span class="nav-text">采样与蒙特卡罗方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#马尔科夫链蒙特卡罗方法"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫链蒙特卡罗方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样与蒙特卡罗方法"><span class="nav-number">1.</span> <span class="nav-text">采样与蒙特卡罗方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#马尔科夫链蒙特卡罗方法（MCMC）"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫链蒙特卡罗方法（MCMC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何采样？（采样方法）"><span class="nav-number">3.</span> <span class="nav-text">如何采样？（采样方法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Metropolis-Hasting采样"><span class="nav-number">4.</span> <span class="nav-text">Metropolis Hasting采样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gibbs采样（深度学习中的最佳选择）"><span class="nav-number">5.</span> <span class="nav-text">Gibbs采样（深度学习中的最佳选择）</span></a></li></ol></div>
             
 
           </div>
