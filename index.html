@@ -1167,8 +1167,7 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
 
       
         
-          
-            <p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
+          <p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
 <h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>概率图模型（PGM）描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示</p>
 <h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
 <p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
@@ -1196,38 +1195,14 @@ Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</
 <p>公式中幂的负号只是为了保持机器学习文献与物理学文献之间的兼容性（能量无符号），对于机器学习来说可以自由决定符号</p>
 <p>很多对概率模型进行操作的算法是计算$\log p(x)$的，于是对于具有潜变量$h$的EBM，这些算法有时会将该量的负数称为<strong>自由能</strong>(free energy)：</p>
 <script type="math/tex; mode=display">
-F(x)=-\log \sum_h e^{-E(x,h)}</script><h2 id="分离与d-分离—条件独立"><a href="#分离与d-分离—条件独立" class="headerlink" title="分离与d-分离—条件独立"></a>分离与d-分离—条件独立</h2><p>无向图中隐含的条件独立性称为<strong>分离</strong>，有向图中则被称为<strong>d-分离</strong>。（d代表依赖）</p>
-<p>如何判断哪些变量子集（d-）分离/彼此条件独立？</p>
-<p> ①两个随机变量之间没有路径，或</p>
-<p> ②两个随机变量之间<strong>所有路径</strong>都包含<strong>可观测变量</strong></p>
-<p>举个例子：一个房子的好坏（C）是由大小（A）和装潢（B）决定的，此时的图结构为A-&gt;C,B-&gt;C，如果我们知道了这个房子是好房子，也就是C为可观测变量（条件），那么<strong>A和B是C条件下的独立随机变量</strong></p>
-<p>记$a⊥b|c$表示给定$c$条件下$a$与$b$条件独立</p>
-<blockquote>
-<p>关于图模型条件独立的推导可以看这篇文章 <a href="https://my.oschina.net/liyangke/blog/2986515" target="_blank" rel="noopener">https://my.oschina.net/liyangke/blog/2986515</a></p>
-</blockquote>
-<h2 id="有向图和无向图的转化"><a href="#有向图和无向图的转化" class="headerlink" title="有向图和无向图的转化"></a>有向图和无向图的转化</h2><ol>
-<li><p>有向模型和无向模型的一个重要区别在于有向模型是通过从起始点的概率分布直接定义的，而无向模型的定义显得更加宽松，通过$\phi$函数转化为概率分布定义</p>
-</li>
-<li><p>有向图可以使用<strong>不道德图结构</strong>而无向图不行</p>
-<p>将有向模型图转换为无向模型图：①有向边变无向边   ②对于<strong>不道德</strong>（immorality)情况(a$\to$c，b$\to$c）需要在不道德的节点互相连线，变成<strong>道德图</strong>。由于道德化的过程中会加入很多边，因而会损失一些独立性条件</p>
-</li>
-<li><p>无向图可以使用<strong>环</strong>结构而有向图不行</p>
-<p>将环结构的无向图转化为有向图需要添加<strong>弦</strong>（环序列中任意两个非连续变量的连接），转化后的图称为<strong>弦图</strong>或<strong>三角形化图</strong>。但如果存在长度大于3的环，则转化过来会损失独立性条件。（注意不能出现有向环，否则无法定义有效的有向概率模型）</p>
-</li>
-</ol>
-<h2 id="从图模型中采样"><a href="#从图模型中采样" class="headerlink" title="从图模型中采样"></a>从图模型中采样</h2><ol>
-<li><p>有向图：原始采样，根据拓扑排序顺序采样。</p>
-<p>缺点：不是每次采样都是条件采样操作</p>
-</li>
-<li><p>无向图：①转化为有向图作原始采样</p>
-<p>​                ②Gibbs采样</p>
-</li>
-</ol>
-<hr>
-<p>有已知值的变量被称为显变量，而值未被观察到的变量被称为隐变量</p>
-<p>深度学习模型可以看作一类特殊的图概率模型，拥有大量的<strong>潜变量</strong>，且在设计的时候不表示任何特定含义；而传统模型大多使用高阶项和结构学习来捕获变量之间复杂的非线性作用，即使有潜变量，数量也通常很少，且会被赋予特定的含义</p>
-
-          
+F(x)=-\log \sum_h e^{-E(x,h)}</script>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/11/深度学习中的结构化概率模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
