@@ -1047,12 +1047,15 @@ p(i)q(i,j)\alpha(i,j)=p(j)q(j,i)\alpha(j,i)</script><p>$\hat{Q}(i,j)=q(i,j)\alph
 <p>当$\alpha(j,i)&gt;\alpha(i,j),则\alpha(j,i)先到1，\alpha^<em>(i,j)=\frac{\alpha(i,j)}{\alpha(j,i)}$ <em>*缩放</em></em></p>
 <p>整合上两式记得上面的等式）</p>
 <p><strong>于是</strong>$p(x)$是<strong>目标平稳概率分布，自设已知</strong>；$q(x)$为<strong>提议概率分布，自设已知</strong>，那么就可以求出<strong>转移概率</strong>$\alpha$了</p>
-<p>从$uniform(0,1)$中采样$u$，如果$u&lt;\alpha(i,j)$，则该跳转成功，否则该跳转失败，以此迭代（这里使用<strong>接受-拒绝采样算法的思想</strong>，用提议转移矩阵$Q$去求得转移矩阵$\hat{Q}$）</p>
+<p>从$uniform(0,1)$中采样$u$，如果$u&lt;\alpha(i,j)$，（相当于在拒绝采样中，随机采样点落入函数范围内），则该跳转成功，否则该跳转失败，以此迭代（这里使用<strong>接受-拒绝采样算法的思想</strong>，用提议转移矩阵$Q$去求得转移矩阵$\hat{Q}$）</p>
 <p>这就是Metropolis Hasting采样算法</p>
 <p>算法如下：</p>
 <p><img src="//aisakaki.com/2019/10/12/蒙特卡罗方法/0.png" alt="0"></p>
-<h2 id="Gibbs采样（深度学习中的最佳选择）"><a href="#Gibbs采样（深度学习中的最佳选择）" class="headerlink" title="Gibbs采样（深度学习中的最佳选择）"></a>Gibbs采样（深度学习中的最佳选择）</h2><p>作为M-H采样算法的特殊形式，不拒绝</p>
-<p>===未完待续===</p>
+<h2 id="Gibbs采样（深度学习中的最佳选择）"><a href="#Gibbs采样（深度学习中的最佳选择）" class="headerlink" title="Gibbs采样（深度学习中的最佳选择）"></a>Gibbs采样（深度学习中的最佳选择）</h2><p>针对高维的情形，发现在高维情况下自然成立一个式子使得细致平稳条件成立，也就可以不拒绝，使得收敛迅速。</p>
+<p>对平面上任意两点$X,Y$</p>
+<script type="math/tex; mode=display">
+p(X)=Q(X,Y)=p(Y)Q(Y,X)</script><p><img src="//aisakaki.com/2019/10/12/蒙特卡罗方法/1.jpg" alt="0"></p>
+<p>​    <img src="//aisakaki.com/2019/10/12/蒙特卡罗方法/2.jpg" alt="0"></p>
 
           
         
