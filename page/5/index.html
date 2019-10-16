@@ -540,6 +540,7 @@
 <p>dataloader参数的更多详细资料还可以参考下面资料：</p>
 <p><a href="https://www.jianshu.com/p/8ea7fba72673" target="_blank" rel="noopener">https://www.jianshu.com/p/8ea7fba72673</a><br><a href="https://www.jianshu.com/p/bb90bff9f6e5" target="_blank" rel="noopener">https://www.jianshu.com/p/bb90bff9f6e5</a></p>
 <p><a href="https://blog.csdn.net/weixin_30241919/article/details/95184794" target="_blank" rel="noopener">https://blog.csdn.net/weixin_30241919/article/details/95184794</a></p>
+<p><strong>dataloader的num_work子线程尽量数量开多点！不要让大量时间用去读数据.一般子线程设和核的个数相同</strong></p>
 <h2 id="getitem"><a href="#getitem" class="headerlink" title="getitem()"></a><strong>getitem</strong>()</h2><p>如果类中定义了<strong>getitem</strong>()方法,那么它的实例对象（假设为P）就可以P[Key]这样取值。当实例对象做P[Key]运算的时候就会调用<strong>getitem</strong>()方法，返回的就是这个方法的return</p>
 <p>dataset里有这个方法，当dataloader加载dataset的时候就会自动调用</p>
 
@@ -1610,7 +1611,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">92</span>
+                  <span class="site-state-item-count">93</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
