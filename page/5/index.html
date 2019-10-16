@@ -420,6 +420,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/05/Pytorch中自定义Dataset和Dataloader/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/05/Pytorch中自定义Dataset和Dataloader/" itemprop="url">Pytorch中自定义Dataset和Dataloader总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-05T20:32:04+08:00">
+                2019-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/05/Pytorch中自定义Dataset和Dataloader/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/05/Pytorch中自定义Dataset和Dataloader/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Dataset自定义数据集与DataLoader-数据集加载器"><a href="#Dataset自定义数据集与DataLoader-数据集加载器" class="headerlink" title="Dataset自定义数据集与DataLoader 数据集加载器"></a>Dataset自定义数据集与DataLoader 数据集加载器</h2><p><strong>Dataset定义了数据集的存在，其中包含了每个数据的路径和标签</strong>,<em>dataset类型不是拿来保存的！它只是相当于一个数据集索引器！并没有加载数据或封装数据！</em></p>
+<p><strong>Dataloader则定义了指定数据集的加载方法</strong></p>
+<p><strong>在对Dataloader进行迭代的时候，Dataset指向的数据集才正式被加载</strong></p>
+<h2 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h2><p>Dataset 定义并加载自己的数据集<br><strong>继承自Dataset</strong>并<strong>必须重写三个函数</strong>：<br><code>__init__(self, )</code>：将任何需要的初始化,比如读取全部数据路径等，不限制参数个数<br><code>__getitem__(self,index)</code>：根据每次调用时的index返回对应元素和标签<br><code>__len__(self)</code>：负责返回数据集中的元素个数</p>
+<p>以加载图片数据集为例<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="comment">#结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="comment">#self, 代表可以补充其他自定参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,  )</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment">#返回最大长度</span></span><br><span class="line">        <span class="keyword">return</span> len</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self,index)</span>:</span></span><br><span class="line">        <span class="comment">#返回每次应读取的单个数据</span></span><br><span class="line">        <span class="keyword">return</span> data,label</span><br><span class="line"></span><br><span class="line"><span class="comment">#例子</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,root,transform=None)</span>:</span></span><br><span class="line">        <span class="comment"># 所有图片的绝对路径</span></span><br><span class="line">        imgs=os.listdir(root)</span><br><span class="line">        <span class="comment">#这句话可以使用glob快速加载 见66.</span></span><br><span class="line">        self.imgs=[os.path.join(root,k) <span class="keyword">for</span> k <span class="keyword">in</span> imgs]</span><br><span class="line">        self.transforms=transform</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img_path = self.imgs[index]</span><br><span class="line">        pil_img = Image.open(img_path)</span><br><span class="line">        pil_img = pil_img.convert(<span class="string">"RGB"</span>)</span><br><span class="line">    <span class="keyword">if</span> self.transforms:</span><br><span class="line">            data = self.transforms(pil_img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">        pil_img = np.asarray(pil_img)</span><br><span class="line">            data = torch.from_numpy(pil_img)</span><br><span class="line">            label = xxxxx(这里省略，总之是得到这个图的标签）</span><br><span class="line">        <span class="keyword">return</span> data,label</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.imgs)</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建数据集实例并初始化</span></span><br><span class="line">dataSet=FlameSet(<span class="string">'./test'</span>,transform = transform)</span><br><span class="line"><span class="comment">#依然用Dataloader加载数据集</span></span><br><span class="line">data = torch.utils.data.DataLoader(myDataset,batch_size=BATCH_SIZE,shuffle=<span class="keyword">True</span>,num_workers=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="DataLoader"><a href="#DataLoader" class="headerlink" title="DataLoader"></a>DataLoader</h2><p>DataLoader将数据集对象和不同的取样器联合，如<code>SequentitalSampler</code>和<code>RandomSampler</code>，并使用单进程或多线程的迭代器，为我们提供批量数据。取样器是为算法提供数据的不同策略。<br><code>dataloader = torch.utils.data.DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True，num_workers=0,collate_fn=fn)</code><br>Dataloader的储存数据形式是一个batch一个batch存，取也是一个batch一个batch取，每组数据的内容分别为<strong>一组</strong>batch的input和该组batch每个数据对应的label<strong>组</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> phase:</span><br><span class="line">    inputs,label = data</span><br></pre></td></tr></table></figure>
+<p> 注意: <code>datalodaer.__len__()</code>得到的是<strong>batch（分组）总数</strong>而不是数据总数<br><code>dataset.__len__</code>得到的是数据总数</p>
+<p><strong>自定义DataLoader：</strong> </p>
+<p><strong>collate_fn</strong>是非常重要的，如nlp中经常在里面做padding<br>collate_fn是<strong>自定义函数来设计数据收集的方式</strong>，意思是已经通过上面的Dataset类中的<strong>getitem</strong>函数采样了batch_size数据，以一个包的形式传递给collate_fn所指定的函数<br>collate_fn的输入是一个list，list的长度是一个batch_size，list中的每个u岸数都是<strong>getitem</strong>得到的结果</p>
+<p><strong>以我一次项目中加载NLP数据集写的代码为例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成datasets</span></span><br><span class="line"><span class="comment"># 不进行转置，直接在网络中输入的时候调用RNN的函数进行转置</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">textDataset</span><span class="params">(dataset.Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,data,label)</span>:</span></span><br><span class="line">        self.data = data</span><br><span class="line">        self.label = label</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.data)</span><br><span class="line">    <span class="comment">#在取数据的时候调用</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self,index)</span>:</span></span><br><span class="line">        data = torch.Tensor(self.data[index])</span><br><span class="line">        <span class="comment"># 这里是在getitem的时候才会转化为long</span></span><br><span class="line">        <span class="comment">#注意这里在转tensor的时候必须得是list格式，然后转成了之后再取出第0项即为单tensor元素</span></span><br><span class="line">        label = torch.LongTensor([self.label[index]])[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> data,label</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span><span class="params">(batch_data)</span>:</span></span><br><span class="line">    max_seq_size = <span class="number">30</span> <span class="comment">#最大句长 （看清楚这里处理的句子是，分割or。分割）</span></span><br><span class="line">    vec_size = <span class="number">200</span></span><br><span class="line">    <span class="comment">#经过dataloader调用__getitem__方法从dataset取得的数据是这样的形式(dataset[0],dataset[1],xxxx)一个batch长度，</span></span><br><span class="line">    <span class="comment">#也就是相当于((data0,label0),(data1,label1),xxx)，所以用zip分别提取出来形成(data,label)</span></span><br><span class="line">    <span class="comment">#zip(*zipped) 是逆zip    </span></span><br><span class="line">    datas,labels = zip(*batch_data)</span><br><span class="line">    </span><br><span class="line">    corpus_vec_resize = list()</span><br><span class="line">    <span class="comment">#遍历每一行（每一个seq）</span></span><br><span class="line">    <span class="keyword">for</span> corpus_vec <span class="keyword">in</span> datas:</span><br><span class="line">        <span class="comment">#这里对每个data中的句子做padding   #【也可以使用掩码的方式做padding，生成掩码矩阵 应该有更简单的方法或工具】</span></span><br><span class="line">        <span class="comment">#将处理后的全部转为Tensor，如果转成narray再弄会出错</span></span><br><span class="line">        <span class="comment">#若长度过小,则从句尾开始填充</span></span><br><span class="line">        <span class="keyword">if</span> len(corpus_vec) &lt; max_seq_size:</span><br><span class="line">            pad_num = max_seq_size-len(corpus_vec) </span><br><span class="line">            padding = list([[<span class="number">0</span>]*vec_size]*pad_num)</span><br><span class="line">            seq_padded = np.append(corpus_vec,padding,axis=<span class="number">0</span>)</span><br><span class="line">            seq_padded = torch.Tensor(seq_padded)</span><br><span class="line">            corpus_vec_resize.append(seq_padded)</span><br><span class="line">            <span class="comment">#若长度过长,则依次从句头和句末开始修剪</span></span><br><span class="line">        <span class="keyword">if</span> len(corpus_vec) &gt; max_seq_size:</span><br><span class="line">            cut_num = len(corpus_vec)-max_seq_size</span><br><span class="line">            <span class="comment">#句头剪cut_num//2 句尾剪cut-num-cut_num//2</span></span><br><span class="line">            seq_cut = corpus_vec[cut_num//<span class="number">2</span>:len(corpus_vec)-(cut_num-cut_num//<span class="number">2</span>)] </span><br><span class="line">            seq_cut = torch.Tensor(seq_cut)</span><br><span class="line">            corpus_vec_resize.append(seq_cut)</span><br><span class="line">        <span class="keyword">if</span> len(corpus_vec) == max_seq_size:</span><br><span class="line">            corpus_vec = torch.Tensor(corpus_vec)</span><br><span class="line">            corpus_vec_resize.append(corpus_vec)   </span><br><span class="line">    <span class="comment">#将datas转变为tensor   </span></span><br><span class="line">    datas = torch.stack(corpus_vec_resize) </span><br><span class="line"></span><br><span class="line">    <span class="comment">#合并处理labels</span></span><br><span class="line">    label_res = list()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> labels:</span><br><span class="line">        <span class="comment">#处理打错的标签(非0和1)</span></span><br><span class="line">        <span class="keyword">if</span> i.item()!=<span class="number">0</span> <span class="keyword">and</span> i.item()!=<span class="number">1</span>:</span><br><span class="line">            label_res.append(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            label_res.append(i.item())</span><br><span class="line">    labels = torch.LongTensor(label_res)</span><br><span class="line"><span class="comment">#     print(labels)</span></span><br><span class="line"><span class="keyword">return</span> datas,labels</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#封装与加载</span></span><br><span class="line">corpus_dataset = textDataset(data=corpus_vec,label=labels)</span><br><span class="line"><span class="comment">#这里定义了加载的具体方法：preprocess</span></span><br><span class="line">textDataloader = dataloader.DataLoader(corpus_dataset,batch_size=batch_size,shuffle=<span class="keyword">False</span>,num_workers=<span class="number">1</span>,collate_fn=preprocess)</span><br></pre></td></tr></table></figure>
+<p>dataloader参数的更多详细资料还可以参考下面资料：</p>
+<p><a href="https://www.jianshu.com/p/8ea7fba72673" target="_blank" rel="noopener">https://www.jianshu.com/p/8ea7fba72673</a><br><a href="https://www.jianshu.com/p/bb90bff9f6e5" target="_blank" rel="noopener">https://www.jianshu.com/p/bb90bff9f6e5</a></p>
+<p><a href="https://blog.csdn.net/weixin_30241919/article/details/95184794" target="_blank" rel="noopener">https://blog.csdn.net/weixin_30241919/article/details/95184794</a></p>
+<h2 id="getitem"><a href="#getitem" class="headerlink" title="getitem()"></a><strong>getitem</strong>()</h2><p>如果类中定义了<strong>getitem</strong>()方法,那么它的实例对象（假设为P）就可以P[Key]这样取值。当实例对象做P[Key]运算的时候就会调用<strong>getitem</strong>()方法，返回的就是这个方法的return</p>
+<p>dataset里有这个方法，当dataloader加载dataset的时候就会自动调用</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/03/27/重新打理BLOG/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1201,7 +1371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/12/01/向目标函数加入正则的具体实现/">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/01/14/深度学习实践结构性经验总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1220,7 +1390,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/01/向目标函数加入正则的具体实现/" itemprop="url">向目标函数加入正则的具体实现</a></h1>
+                <a class="post-title-link" href="/2019/01/14/深度学习实践结构性经验总结/" itemprop="url">深度学习实践结构性经验总结</a></h1>
         
 
         <div class="post-meta">
@@ -1233,8 +1403,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-01T11:04:42+08:00">
-                2018-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T16:34:33+08:00">
+                2019-01-14
               </time>
             
 
@@ -1274,8 +1444,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/01/向目标函数加入正则的具体实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/01/向目标函数加入正则的具体实现/" itemprop="commentCount"></span>
+                <a href="/2019/01/14/深度学习实践结构性经验总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/深度学习实践结构性经验总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1305,180 +1475,61 @@
       
         
           
-            <ol>
-<li><p>在数据经过模型之后</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">l1, l2 = torch.tensor(<span class="number">0</span>), torch.tensor(<span class="number">0</span>)</span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = model(input)</span><br><span class="line"><span class="keyword">for</span> params <span class="keyword">in</span> model.parameters():</span><br><span class="line">    l1 += torch.norm(param,<span class="number">1</span>)  <span class="comment">#torch.norm(param,1)为求param的l1范数</span></span><br><span class="line">    l2 += torch.norm(param,<span class="number">2</span>)  <span class="comment">#torch.norm(param,2)为求param的l2范数</span></span><br><span class="line">loss_origin = loss(output,label)</span><br><span class="line">loss = loss_origin + l1 + l2</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
-<p>ATT：<strong>不能</strong>使用在模型中输出！</p>
-<p>使用以下这种方法是输出的中间层的输出，而不是参数！</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#错误示范</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        self.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">16</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input)</span>:</span></span><br><span class="line">        linear1_out = self.linear1(input)</span><br><span class="line">        linear2_out = self.linear2(linear1_out)</span><br><span class="line">        <span class="keyword">return</span> linear1_out,linear2_out</span><br></pre></td></tr></table></figure>
+            <h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
+<li>定义网络结构</li>
+<li>定义数据变换</li>
+<li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
+<li><p>读取训练集与测试集（自定义数据集，多种读入方式等..）<br><strong>开始训练</strong>：</p>
+<ul>
+<li><p><strong>训练一个Epoch</strong><br> 自适应学习率更新</p>
+<pre><code>**训练一个batch：从dataloader读取一个mini batch**
+
++ 转换为cuda变量
++ 梯度清0
+   **FORWARD**
++ 将数据输入模型得到结果
++ 根据结果得到预测标签
++ 计算train loss
+   **BACKWARD**
++ 反向计算梯度
++ 优化器更新
+   **统计本batch**
+</code></pre></li>
+</ul>
 </li>
-<li><p>使用pytorch自带的权重衰减</p>
-<p><code>torch.optim</code>自带的参数<code>weight_decay</code>可以设置权值衰减率，即可以实现L2正则化</p>
+<li><p><strong>统计本epoch</strong></p>
+<p>  【注】<br>  ①如果是<strong>测试</strong>，则取消[自适应学习率更新]和[BACKWARD]的步骤即可<br>  <strong>训练和测试可以结合起来</strong> train=datalodaer(trainset…),test=dataloader(testset…)<br>  则在开始训练一个epoch的时候，加一个循环 <code>for phase in [train,test]</code>即可，后面的在测试不需要的步骤作判断<code>if phase is train: do</code>就行<br>  ②可以设置一个全局的最优准确率，然后记录下来最佳准确率，并储存当时的<strong>最优模型</strong>权重<br>  ③注意<strong>设置模型模式</strong>，<code>model.train(True)</code>设置为训练模式，<code>model.eval(True)</code>设置为测试模式，见59.</p>
+<h2 id="定义网络结构"><a href="#定义网络结构" class="headerlink" title="定义网络结构"></a>定义网络结构</h2><p>在定义网络结构的时候,如下形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义的网络结构类必须继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 注意传入参数self到结构函数</span></span><br><span class="line">    <span class="comment"># init中的参数为初始化网络的参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__</span><br><span class="line">        <span class="comment"># 定义网络</span></span><br><span class="line">        <span class="comment"># 单个定义</span></span><br><span class="line">        self.s1 = nn.Conv2d(......)</span><br><span class="line">        <span class="comment"># 或集合定义</span></span><br><span class="line">        self.s1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(......),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 全连接层(对于卷积神经网络用于分类）</span></span><br><span class="line">        self.fc = nn.Linear()</span><br><span class="line">    <span class="comment"># 注意传入参数self和x（输入矩阵）！</span></span><br><span class="line">    <span class="comment"># forward中的参数为训练的时候要传入的参数 比如求output = model(x)时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        <span class="comment"># 经过特征提取层后，要扁平化才能进入fc层！</span></span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> F.softmax(x)</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/08/对反向传播的理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/08/对反向传播的理解/" itemprop="url">对BP算法的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T12:55:38+08:00">
-                2018-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/08/对反向传播的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/对反向传播的理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$</p>
-<p>要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导）</p>
-<p>那么使用链式法则，我们可以画出计算图</p>
-<p>①先标记出所有中间结点</p>
-<p>②对每一个结点，写出<strong>上一层直连结点</strong>（最顶层就是$J$）对该节点求得的偏导式（偏的是本结点中间变量），其他变量都视为常数</p>
-<p>③根据计算图，使用链式法则（两个结点之间，偏导式同路径相乘，所有路径相加）</p>
-<p>主要理解清，某一个中间结点对另一个邻层中间结点求导，<strong>是对中间变量求导</strong>，只看局部，<strong>其它的变量都视为常数</strong>，都先只计算<strong>邻接层求导</strong>，再分别计算完每个偏导式之后，再运用链式法则根据全路径计算<strong>跨层求导</strong></p>
-<p>这样一来会有很多的重复计算（重复路径）。</p>
-<p>为了解决这个问题，BP的做法是<strong>自顶向下，逐层反向求导，累计计算</strong></p>
-<p>也就是说从<strong>最高层$J$开始</strong>，<strong>按层计算</strong>出该层的偏导式值，然后再把这个值（<strong>是个含变量的表达式，但是对于这个中间层来说是个常数</strong>）发给这个结点下属路径下的每个结点（让他们乘上这个上层来的偏导式），然后再计算下一层的偏导式，如此<strong>迭代到输入层</strong></p>
-<p>注意都是先推导式子，最后再代入值计算，比如输入以及真实label都是最后推导完式子后计算的时候的一个常数值</p>
+</ul>
+<p>注意，一个误区：定义网络是定义网络的结构！输入一般输入一个batch，对该batch的处理为网络的内容</p>
+<p>nn包含了所有的层结构定义组件, F包含了所有的函数, nn中的每个组件都需要添加到nn.Module容器中才能使用. def参数中的self即指向nn.Module(指向本类,而本类继承自nn.Module), 通过定义self.diyiceng = nn.Conv2d(xxx) 即将组件添加到了nn.Module容器中 </p>
+<h2 id="nn-Sequential-组合一系列组件定义"><a href="#nn-Sequential-组合一系列组件定义" class="headerlink" title="nn.Sequential 组合一系列组件定义"></a><strong>nn.Sequential</strong> 组合一系列组件定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#eg</span></span><br><span class="line">self.conv2 = nn.Sequential( </span><br><span class="line">	nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">	nn.ReLU(),  </span><br><span class="line">	nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">)  </span><br><span class="line"><span class="comment">#这里就将三个组件组合成一个组件了</span></span><br><span class="line"><span class="comment">#注意里面直接写组件组成即可 不是变量定义</span></span><br></pre></td></tr></table></figure>
+<h2 id="建立深度学习模型一般实践"><a href="#建立深度学习模型一般实践" class="headerlink" title="建立深度学习模型一般实践"></a>建立深度学习模型一般实践</h2><p><strong>数据预处理与特征工程</strong></p>
+<ul>
+<li>向量化</li>
+<li>值归一化</li>
+<li>处理缺省值</li>
+<li>特征工程<br><strong>过拟合</strong></li>
+<li>获取更多数据、数据增强等</li>
+<li>缩小网络规模</li>
+<li>应用权重正则化</li>
+<li>应用dropout<br><strong>欠拟合</strong></li>
+<li>获取更多数据</li>
+<li>增加权重</li>
+</ul>
+<p><strong>一般流程</strong></p>
+<ul>
+<li>问题定义与数据集创建</li>
+<li>选择模型评估标准</li>
+<li>评估协议（测试集 验证集）</li>
+<li>准备数据</li>
+<li>模型基线（创建一个非常简单的模型来打破基线分数 如二分类为0.5)</li>
+<li>训练大达到过拟合</li>
+<li>应用正则化</li>
+<li>学习率选择策略</li>
+</ul>
 
           
         
@@ -1518,7 +1569,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1564,7 +1615,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">88</span>
+                  <span class="site-state-item-count">92</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1586,7 +1637,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
