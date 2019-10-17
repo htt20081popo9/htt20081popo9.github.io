@@ -284,6 +284,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/10/词向量/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/10/词向量/" itemprop="url">Word2Vec</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-10T10:42:09+08:00">
+                2019-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/10/词向量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/10/词向量/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="什么是词向量"><a href="#什么是词向量" class="headerlink" title="什么是词向量"></a>什么是词向量</h2><p>一种词的表示方法。通常NLP中使用one-hot或词向量表示</p>
+<p>one-hot即为一维一词，占用空间大，且无法体现词之间的关联性</p>
+<p>于是使用词向量可以包含更多信息，且使得向量在空间的表示更稠密。</p>
+<h2 id="如何生成词向量"><a href="#如何生成词向量" class="headerlink" title="如何生成词向量"></a>如何生成词向量</h2><h3 id="基于统计"><a href="#基于统计" class="headerlink" title="基于统计"></a>基于统计</h3><p>略。</p>
+<h3 id="语言模型生成词向量"><a href="#语言模型生成词向量" class="headerlink" title="语言模型生成词向量"></a>语言模型生成词向量</h3><ul>
+<li><p>NNLM（neural network language model）</p>
+<p><img src="//aisakaki.com/2019/04/10/词向量/0.png" alt="0"></p>
+<p>目标函数</p>
+<p>$L=\frac{1}{T}\Sigma^T_{t=1}f(w_t,w_{t-1},…,w{t-n+1})$</p>
+<p>这个函数即目标将每一步的文档集的平均输出概率最大化。</p>
+<p>但是这个模型在softmax层占用过多资源（与词表长度成正比）。</p>
+<p>这个模型虽然现在不使用了，但是却提出了一个很有意义的思路，embedding层，中间层，softmax层（除外）。后面word2vec会详细展开。</p>
+</li>
+<li><p>C&amp;W</p>
+<p>基于NNLM改变了目标函数，$L=max(0,1-(g_{\theta,E}(s)-g_{\theta,E}(z)))$</p>
+<p>原NNLM 模型的目标是构建一个语言概率模型 ，而 C&amp;W 则是以生成词向量为目标的模型。 在 NNLM 模型的求解中，最费时的部分当属隐藏层到输出层的权重计算(softmax层)。由于C&amp;W 模型没有采用语言模型的方式去求解词语上下文的条件概率，而是直接对 n 元短语打分，这是一种更为快速获取词向量的方式。C&amp;W 模型的核心机理是 : 如果 n 元短语在语料库中出现过，那么模型会给该短语打高分;如果是未出现在语料库中的短语则会得到较低的评分，将这两者的输出值差异最大化。</p>
+</li>
+<li><p><strong>Word2Vec</strong></p>
+<p>其中包含①CBoW ②skip gram</p>
+<ul>
+<li><p>CBoW</p>
+<p>输入为<strong>上下文（窗口）的one-hot</strong><br>比如我们要预测 <em>i love eating coffee</em>里的<em>eating</em><br>则one hot编码： <em>i</em> :0001  <em>love</em>:0010  <em>eating</em>:0100  <em>coffee</em>:1000<br>我们要输入eating的前后文（选择窗口），那么输入网络的就是 0001,0010,1000（对应三个块）</p>
+<p><img src="//aisakaki.com/2019/04/10/词向量/word2vec.png" alt="word2vec"></p>
+<p>中间那块儿projection layer得到的向量就是词向量，训练矩阵，我们保存了$W$矩阵（训练得到的权重）之后，以后再输入上下文one-hot就能得到对应的词向量了。</p>
+<p><strong>由输入层到映射层，降低维度的过程($k \to N$)，就是将one-hot转变为词向量的过程，也就是 word embedding（词嵌入）</strong><br><strong>之所以词向量能够保留上下文信息，就是因为在训练输入的时候，输入了其上下文信息</strong></p>
+</li>
+<li><p>skip gram</p>
+<p>  输入为一个词的one-hot，输出为多个词的one-hot（上下文），然后BP训练即可，相当于CBoW结构反过来，学的依然是$W$权重</p>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/09/百年孤独/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1374,207 +1557,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/01/14/深度学习实践结构性经验总结/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/14/深度学习实践结构性经验总结/" itemprop="url">深度学习实践结构性经验总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T16:34:33+08:00">
-                2019-01-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/14/深度学习实践结构性经验总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/深度学习实践结构性经验总结/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
-<li>定义网络结构</li>
-<li>定义数据变换</li>
-<li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
-<li><p>读取训练集与测试集（自定义数据集，多种读入方式等..）<br><strong>开始训练</strong>：</p>
-<ul>
-<li><p><strong>训练一个Epoch</strong><br>自适应学习率更新<br><strong>循环：训练一个batch——从dataloader读取一个mini batch</strong></p>
-<ul>
-<li>转换为cuda变量</li>
-<li>梯度清0<br><strong>FORWARD</strong></li>
-<li>将数据输入模型得到结果</li>
-<li>根据结果得到预测标签</li>
-<li>计算train loss<br><strong>BACKWARD</strong></li>
-<li>反向计算梯度</li>
-<li>优化器更新<br><strong>统计本batch</strong></li>
-</ul>
-</li>
-<li><strong>统计本epoch</strong></li>
-</ul>
-</li>
-</ul>
-<p>【注】<br>①如果是<strong>测试</strong>，则取消[自适应学习率更新]和[BACKWARD]的步骤即可<br><strong>训练和测试可以结合起来</strong> train=datalodaer(trainset…),test=dataloader(testset…)<br>则在开始训练一个epoch的时候，加一个循环 <code>for phase in [train,test]</code>即可，后面的在测试不需要的步骤作判断<code>if phase is train: do</code>就行<br>②可以设置一个全局的最优准确率，然后记录下来最佳准确率，并储存当时的<strong>最优模型</strong>权重<br>③注意<strong>设置模型模式</strong>，<code>model.train(True)</code>设置为训练模式<code>model.eval(True)</code>设置为测试模式</p>
-<h2 id="定义网络结构"><a href="#定义网络结构" class="headerlink" title="定义网络结构"></a>定义网络结构</h2><p>在定义网络结构的时候,如下形式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义的网络结构类必须继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 注意传入参数self到结构函数</span></span><br><span class="line">    <span class="comment"># init中的参数为初始化网络的参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__</span><br><span class="line">        <span class="comment"># 定义网络</span></span><br><span class="line">        <span class="comment"># 单个定义</span></span><br><span class="line">        self.s1 = nn.Conv2d(......)</span><br><span class="line">        <span class="comment"># 或集合定义</span></span><br><span class="line">        self.s1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(......),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 全连接层(对于卷积神经网络用于分类）</span></span><br><span class="line">        self.fc = nn.Linear()</span><br><span class="line">    <span class="comment"># 注意传入参数self和x（输入矩阵）！</span></span><br><span class="line">    <span class="comment"># forward中的参数为训练的时候要传入的参数 比如求output = model(x)时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        <span class="comment"># 经过特征提取层后，要扁平化才能进入fc层！</span></span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> F.softmax(x)</span><br></pre></td></tr></table></figure></p>
-<p>注意，一个误区：定义网络是定义网络的结构！输入一般输入一个batch，对该batch的处理为网络的内容</p>
-<p>nn包含了所有的层结构定义组件, F包含了所有的函数, nn中的每个组件都需要添加到nn.Module容器中才能使用. def参数中的self即指向nn.Module(指向本类,而本类继承自nn.Module), 通过定义self.diyiceng = nn.Conv2d(xxx) 即将组件添加到了nn.Module容器中 </p>
-<h2 id="nn-Sequential-组合一系列组件定义"><a href="#nn-Sequential-组合一系列组件定义" class="headerlink" title="nn.Sequential 组合一系列组件定义"></a><strong>nn.Sequential</strong> 组合一系列组件定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#eg</span></span><br><span class="line">self.conv2 = nn.Sequential( </span><br><span class="line">	nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">	nn.ReLU(),  </span><br><span class="line">	nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">)  </span><br><span class="line"><span class="comment">#这里就将三个组件组合成一个组件了</span></span><br><span class="line"><span class="comment">#注意里面直接写组件组成即可 不是变量定义</span></span><br></pre></td></tr></table></figure>
-<h2 id="建立深度学习模型一般实践"><a href="#建立深度学习模型一般实践" class="headerlink" title="建立深度学习模型一般实践"></a>建立深度学习模型一般实践</h2><p><strong>数据预处理与特征工程</strong></p>
-<ul>
-<li>向量化</li>
-<li>值归一化</li>
-<li>处理缺省值</li>
-<li>特征工程<br><strong>过拟合</strong></li>
-<li>获取更多数据、数据增强等</li>
-<li>缩小网络规模</li>
-<li>应用权重正则化</li>
-<li>应用dropout<br><strong>欠拟合</strong></li>
-<li>获取更多数据</li>
-<li>增加权重</li>
-</ul>
-<p><strong>一般流程</strong></p>
-<ul>
-<li>问题定义与数据集创建</li>
-<li>选择模型评估标准</li>
-<li>评估协议（测试集 验证集）</li>
-<li>准备数据</li>
-<li>模型基线（创建一个非常简单的模型来打破基线分数 如二分类为0.5)</li>
-<li>训练大达到过拟合</li>
-<li>应用正则化</li>
-<li>学习率选择策略</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1625,7 +1607,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">93</span>
+                  <span class="site-state-item-count">94</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1647,7 +1629,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
