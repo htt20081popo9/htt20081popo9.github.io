@@ -1829,7 +1829,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff5cf0;
+  background: #11f66c;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2684,9 +2684,6 @@ embed {
     opacity: 0.95;
     padding: 50px;
   }
-  .header-inner {
-    opacity: 0.9;
-  }
   #footer > div > div {
     color: #eee;
   }
@@ -2714,9 +2711,6 @@ embed {
     background: #fff;
     opacity: 0.9;
     padding: 20px;
-  }
-  .header-inner {
-    opacity: 0.9;
   }
   #footer > div > div {
     color: #eee;
