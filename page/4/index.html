@@ -284,6 +284,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/26/mini-batch/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/26/mini-batch/" itemprop="url">mini-batch 在网络里的并行计算</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T21:11:32+08:00">
+                2019-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/26/mini-batch/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/mini-batch/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使用小批量可以</p>
+<p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
+<p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
+<p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
+<p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移)</p>
+<script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
+<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a^{t_0}_{1*v},b^{t_0}_{1*v}]</script></p>
+<p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
+<script type="math/tex; mode=display">
+Input=
+X^{t_0} = X_{2*v} = 
+\begin{bmatrix}
+{a_{1*v}}\\{b_{1*v}}
+\end{bmatrix}</script><p>于是一次循环：</p>
+<script type="math/tex; mode=display">
+Hidden=
+\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})</script><script type="math/tex; mode=display">
+= \sigma(
+\begin{bmatrix}
+a^{t_0}_{1*v}×W_{v*h}\\  
+b^{t_0}_{1*v}×W_{v*h}
+\end{bmatrix}
++
+\begin{bmatrix}H^{(t_0-1)}_{1*h}×W_{h*h}\\ 
+H^{(t_0-1)}_{1*h}×W_{h*h}
+\end{bmatrix}
+)</script><script type="math/tex; mode=display">
+=
+\begin{bmatrix}
+{h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
+\end{bmatrix}
+=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
+Output=
+H^{(t_0)}_{2*h}×W_{h*o} = 
+\begin{bmatrix}
+{h^{a_0}_{1*h}×W_{h*o}}\\
+{h^{b_0}_{1*h}×W_{h*o}}
+\end{bmatrix}</script><script type="math/tex; mode=display">
+=
+\begin{bmatrix}
+{o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
+\end{bmatrix}
+=O^{t_0}_{2*o}</script><p>由此可看出，在矩阵相乘的规则下，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
+<p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
+<p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/25/RNN做批/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1392,167 +1588,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/04/12/古都/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/12/古都/" itemprop="url">古都</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-12T10:40:59+08:00">
-                2019-04-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/04/12/古都/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/12/古都/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>“对美的幻影，总没有厌倦的时候吧。幻影是不能践踏的，践踏了只能自食其果。”</p>
-<p align="right">——《古都》 川端康成 </p>
-
-</blockquote>
-<p>&#160; &#160; &#160; &#160;川端先生不愧是日本传统美学的集大成者。</p>
-<p>&#160; &#160; &#160; &#160;18~20岁是第一次真正的感受到半遮面的现实的年纪。这些脆弱而细腻，复杂但单纯的情感，在川端先生的笔下如泉水一般汨汨而出，交织出一首含蓄的诗。好像每一句话都氤氲着回音。</p>
-<p>&#160; &#160; &#160; &#160;自在飞花轻似梦，无边细雨思如愁。</p>
-<p>&#160; &#160; &#160; &#160;在最美好的年纪，一切都终将会消散。纵使韶华易逝，但美犹存。是幻影，是执念。</p>
-<p>&#160; &#160; &#160; &#160;无论是千重子，还是雪，亦或是古都——</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1603,7 +1638,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">94</span>
+                  <span class="site-state-item-count">95</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1625,7 +1660,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
