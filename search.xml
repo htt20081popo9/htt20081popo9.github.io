@@ -3,7 +3,28 @@
   <entry>
     <title>配分函数</title>
     <url>/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
+<h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="[https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/](https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">深度学习的结构化概率模型</a> )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
+<p>$x$为模型中的所有参数组成的向量，可以记为：</p>
+<script type="math/tex; mode=display">
+p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子需要求</p>
+<script type="math/tex; mode=display">
+Z=\int \hat{p}(x;\theta)dx</script><script type="math/tex; mode=display">
+or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p>
+<script type="math/tex; mode=display">
+\therefore \nabla_{MLE}=\nabla_\theta \log \hat{p}(x;\theta)=\nabla_\theta \log \frac{\hat{p}(x)}{\int \hat{p}(x;\theta)dx}</script><script type="math/tex; mode=display">
+=\nabla_\theta\log \hat{p}(x)-\nabla_\theta\log \int \hat{p}(x;\theta)dx</script><p>前半部分分为正相，后半部分称为负相</p>
+<a id="more"></a>
+<p>正相很好解决，对于一个mini-batch中的样本直接计算即可</p>
+<p>负相就非常难或者无法计算了，可以看到$\int \hat{p}(x;\theta)dx$实际上就是对概率图网络中的所有可能出现的$\vec x$求积分</p>
+<h2 id="MCMC求负相"><a href="#MCMC求负相" class="headerlink" title="MCMC求负相"></a>MCMC求负相</h2><p>从离散表达式开始推导</p>
+<script type="math/tex; mode=display">
+\nabla_\theta \log Z=\frac{\nabla_\theta Z}{Z}</script><script type="math/tex; mode=display">
+=\frac{\nabla_\theta\sum_{\vec x}\hat{p}(x;\theta)}{Z}</script><script type="math/tex; mode=display">
+=\frac{\sum_{\vec x}\nabla_\theta\hat{p}(x)}{Z}</script><p>显然$e^{\log \hat{p}(x)}=\hat{p}(x)$，</p>
+<script type="math/tex; mode=display">
+\therefore \nabla_\theta \log Z=\frac{\sum_{\vec x}e^{\log \hat{p}(x)}\nabla_\theta\hat{p}(x)}{Z}</script><script type="math/tex; mode=display">
+=</script>]]></content>
       <categories>
         <category>神经网络</category>
       </categories>
@@ -339,6 +360,8 @@ p(X)=Q(X,Y)=p(Y)Q(Y,X)</script><p><img src="//aisakaki.com/2019/10/12/蒙特卡�
       <tags>
         <tag>采样</tag>
         <tag>马尔科夫链</tag>
+        <tag>数学</tag>
+        <tag>统计数学</tag>
       </tags>
   </entry>
   <entry>
