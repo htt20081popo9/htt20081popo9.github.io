@@ -387,10 +387,10 @@
       
         
           <p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
-<h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="[https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/](https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">深度学习的结构化概率模型</a> )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
+<h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习的结构化概率模型</a>中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
 <p>$x$为模型中的所有参数组成的向量，可以记为：</p>
 <script type="math/tex; mode=display">
-p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子需要求</p>
+p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：</p>
 <script type="math/tex; mode=display">
 Z=\int \hat{p}(x;\theta)dx</script><script type="math/tex; mode=display">
 or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p>

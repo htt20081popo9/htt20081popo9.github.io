@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型 )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子需要求  Z=\int \hat{p}(x;\thet">
+<meta name="description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：">
 <meta name="keywords" content="数学,统计物理学">
 <meta property="og:type" content="article">
 <meta property="og:title" content="配分函数">
 <meta property="og:url" content="https://aisakaki.com/2019/10/18/配分函数/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型 )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子需要求  Z=\int \hat{p}(x;\thet">
+<meta property="og:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-18T08:28:41.369Z">
+<meta property="og:updated_time" content="2019-10-18T11:35:00.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配分函数">
-<meta name="twitter:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型 )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子需要求  Z=\int \hat{p}(x;\thet">
+<meta name="twitter:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：">
 
 
 
@@ -385,10 +385,10 @@
 
       
         <p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
-<h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="[https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/](https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">深度学习的结构化概率模型</a> )中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
+<h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习的结构化概率模型</a>中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
 <p>$x$为模型中的所有参数组成的向量，可以记为：</p>
 <script type="math/tex; mode=display">
-p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子需要求</p>
+p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：</p>
 <script type="math/tex; mode=display">
 Z=\int \hat{p}(x;\theta)dx</script><script type="math/tex; mode=display">
 or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p>
@@ -402,10 +402,23 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
 <script type="math/tex; mode=display">
 \nabla_\theta \log Z=\frac{\nabla_\theta Z}{Z}</script><script type="math/tex; mode=display">
 =\frac{\nabla_\theta\sum_{\vec x}\hat{p}(x;\theta)}{Z}</script><script type="math/tex; mode=display">
-=\frac{\sum_{\vec x}\nabla_\theta\hat{p}(x)}{Z}</script><p>显然$e^{\log \hat{p}(x)}=\hat{p}(x)$，</p>
+=\frac{\sum_{\vec x}\nabla_\theta\hat{p}(x;\theta)}{Z}</script><p>显然$e^{\log \hat{p}(x;\theta)}=\hat{p}(x;\theta)$，这里要这样变换的目的是为了凑出$\mathbb{E}_{x～p(x)}=\int p(x)f(x)$形式，以使用MCMC算法来模拟</p>
 <script type="math/tex; mode=display">
-\therefore \nabla_\theta \log Z=\frac{\sum_{\vec x}e^{\log \hat{p}(x)}\nabla_\theta\hat{p}(x)}{Z}</script><script type="math/tex; mode=display">
-=</script>
+\therefore \nabla_\theta \log Z=\frac{\sum_{\vec x}e^{\log \hat{p}(x;\theta)}\nabla_\theta\hat{p}(x;\theta)}{Z}</script><script type="math/tex; mode=display">
+=\frac{\sum_{\vec x}\hat{p}(x)\nabla_\theta\log \hat{p}(x)}{Z}</script><script type="math/tex; mode=display">
+=\sum_{\vec x}p(x)\nabla_\theta\log \hat{p}(x)</script><script type="math/tex; mode=display">
+=\mathbb{E}_{\vec x～p(\vec x)}\nabla_\theta\log \hat{p}(\vec x)</script><p>这样就可以用MCMC方法对一个mini-batch的数据运用MCMC算法来求$\nabla_\theta \log Z$了，连续情况同理</p>
+<p>在深度学习中，经常采用能量函数$p(x)=e^{-E(x)}$来参数化$p(x)$，这种情况下正相可以解释为压低训练样本的能量，负相可以解释为提高模型抽取出的样本的能量。确切地说就是正相推高了数据点未归一化的概率，负相压低了数据点未归一化的概率，当数据分布和模型分布相等时，正相推高数据点和负相压低数据点的机会相等，这时候就不会有任何梯度了，训练停止。</p>
+<p>于是就可以求得$\nabla_\theta \log \hat{p}(x;\theta)$然后使用梯度算法更新模型参数$\theta$</p>
+<h2 id="随机最大似然和对比散度"><a href="#随机最大似然和对比散度" class="headerlink" title="随机最大似然和对比散度"></a>随机最大似然和对比散度</h2><p>如果对每个batch都做MCMC算法直到马尔科夫过程收敛才开始采样，磨合过程太花时间。</p>
+<p>以下两种算法都是基于一个思想：初始化马尔科夫链为一个非常接近模型分布的分布，从而大大减小磨合过程 </p>
+<p><strong>对比散度</strong>（contrastive divergence）：在每个步骤中初始化马尔科夫链为采样自数据分布中的样本（具有$k$个Gibbs步骤的叫CD-$k$）</p>
+<p><strong>随机最大似然</strong>（stochastic maximum likelihood）也叫 <strong>持续对比发散</strong>（persistent contrastive divergence）：在每个梯度步骤中初始化马尔科夫链为先前梯度步骤的状态值（每个更新中具有$k$个Gibbs步骤的叫PCD-$k$）</p>
+<h2 id="伪似然"><a href="#伪似然" class="headerlink" title="伪似然"></a>伪似然</h2><p>===未完待续，施工中===</p>
+<h2 id="得分匹配"><a href="#得分匹配" class="headerlink" title="得分匹配"></a>得分匹配</h2><h2 id="比率匹配"><a href="#比率匹配" class="headerlink" title="比率匹配"></a>比率匹配</h2><h2 id="去噪得分匹配"><a href="#去噪得分匹配" class="headerlink" title="去噪得分匹配"></a>去噪得分匹配</h2><h2 id="噪声对比估计"><a href="#噪声对比估计" class="headerlink" title="噪声对比估计"></a>噪声对比估计</h2><p> Noise Contrastive Estimation, NCE</p>
+<h2 id="估计配分函数"><a href="#估计配分函数" class="headerlink" title="估计配分函数"></a>估计配分函数</h2><p><strong>退火重要采样</strong>（Annealed Importance Sampling）</p>
+<p><strong>桥式采样</strong>（Bridge Sampling）</p>
+
       
     </div>
     
@@ -632,7 +645,7 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配分函数"><span class="nav-number">1.</span> <span class="nav-text">配分函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCMC求负相"><span class="nav-number">2.</span> <span class="nav-text">MCMC求负相</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配分函数"><span class="nav-number">1.</span> <span class="nav-text">配分函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCMC求负相"><span class="nav-number">2.</span> <span class="nav-text">MCMC求负相</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机最大似然和对比散度"><span class="nav-number">3.</span> <span class="nav-text">随机最大似然和对比散度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪似然"><span class="nav-number">4.</span> <span class="nav-text">伪似然</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#得分匹配"><span class="nav-number">5.</span> <span class="nav-text">得分匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比率匹配"><span class="nav-number">6.</span> <span class="nav-text">比率匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去噪得分匹配"><span class="nav-number">7.</span> <span class="nav-text">去噪得分匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#噪声对比估计"><span class="nav-number">8.</span> <span class="nav-text">噪声对比估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#估计配分函数"><span class="nav-number">9.</span> <span class="nav-text">估计配分函数</span></a></li></ol></div>
             
 
           </div>
