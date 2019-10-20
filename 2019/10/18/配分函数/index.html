@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-18T11:35:00.808Z">
+<meta property="og:updated_time" content="2019-10-19T09:14:03.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配分函数">
 <meta name="twitter:description" content="本文为 Deep Learning Ch.18 学习后总结的笔记 配分函数配分函数是统计物理学中常使用的概念，在前面深度学习的结构化概率模型中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$ $x$为模型中的所有参数组成的向量，可以记为：  p(x)=\frac{1}{Z}\hat{p}(x)为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：">
@@ -415,8 +415,9 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
 <p>于是就可以求得$\nabla_\theta \log \hat{p}(x;\theta)$然后使用梯度算法更新模型参数$\theta$</p>
 <h2 id="随机最大似然和对比散度"><a href="#随机最大似然和对比散度" class="headerlink" title="随机最大似然和对比散度"></a>随机最大似然和对比散度</h2><p>如果对每个batch都做MCMC算法直到马尔科夫过程收敛才开始采样，磨合过程太花时间。</p>
 <p>以下两种算法都是基于一个思想：初始化马尔科夫链为一个非常接近模型分布的分布，从而大大减小磨合过程 </p>
-<p><strong>对比散度</strong>（contrastive divergence）：在每个步骤中初始化马尔科夫链为采样自数据分布中的样本（具有$k$个Gibbs步骤的叫CD-$k$）</p>
+<p><strong>对比散度</strong>（contrastive divergence）：在每个步骤中初始化马尔科夫链为采样自数据分布中的样本（具有$k$个Gibbs步骤的叫CD-$k$）。在开始的时候随着正相学习到模型的概率越来越精准，负相也会相应有所提高。</p>
 <p><strong>随机最大似然</strong>（stochastic maximum likelihood）也叫 <strong>持续对比发散</strong>（persistent contrastive divergence）：在每个梯度步骤中初始化马尔科夫链为先前梯度步骤的状态值（每个更新中具有$k$个Gibbs步骤的叫PCD-$k$）</p>
+<p>一般来说PCD的方法好于CD</p>
 <h2 id="伪似然"><a href="#伪似然" class="headerlink" title="伪似然"></a>伪似然</h2><p>===未完待续，施工中===</p>
 <h2 id="得分匹配"><a href="#得分匹配" class="headerlink" title="得分匹配"></a>得分匹配</h2><h2 id="比率匹配"><a href="#比率匹配" class="headerlink" title="比率匹配"></a>比率匹配</h2><h2 id="去噪得分匹配"><a href="#去噪得分匹配" class="headerlink" title="去噪得分匹配"></a>去噪得分匹配</h2><h2 id="噪声对比估计"><a href="#噪声对比估计" class="headerlink" title="噪声对比估计"></a>噪声对比估计</h2><p> Noise Contrastive Estimation, NCE</p>
 <h2 id="估计配分函数"><a href="#估计配分函数" class="headerlink" title="估计配分函数"></a>估计配分函数</h2><p><strong>退火重要采样</strong>（Annealed Importance Sampling）</p>
@@ -563,7 +564,7 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-count">97</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
