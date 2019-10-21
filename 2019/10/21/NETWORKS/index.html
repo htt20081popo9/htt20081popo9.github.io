@@ -88,7 +88,7 @@
 <meta property="og:description" content="《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》Alec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016  RELATED WORK Unsupervised representation learning">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/10/21/NETWORKS/0.png">
-<meta property="og:updated_time" content="2019-10-21T11:57:53.860Z">
+<meta property="og:updated_time" content="2019-10-21T13:05:28.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks">
 <meta name="twitter:description" content="《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》Alec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016  RELATED WORK Unsupervised representation learning">
@@ -410,7 +410,7 @@
 <li><p>all convolutional net (Springenberg et al., 2014) </p>
 <p><strong>不使用池化层</strong></p>
 <p>在判别模型中用<strong>步长卷积 (strided convolutions )</strong>替代</p>
-<p>在生成模型中用<strong>微步卷积（fractionally-strided convolutions）</strong>替代（注意不同于反卷积）</p>
+<p>在生成模型中用<strong>转置卷积/微步卷积（fractionally-strided convolutions）</strong>替代</p>
 <p>这样可以允许生成和判别模型学习自己空间的下采样，使得网络可微。</p>
 </li>
 <li><p>trend towards eliminating fully connected layers on top of convolutional features <strong>不使用FC层</strong>，替而代之使用<strong>global pooling（全局池化层）</strong></p>
@@ -425,8 +425,38 @@
 <p>判别模型使用Leaky ReLU，尤其在高分辨率模型中效果非常好</p>
 </li>
 </ol>
-<p><strong>网络结构：</strong></p>
+<p><strong>生成模型结构：</strong></p>
 <p><img src="//aisakaki.com/2019/10/21/NETWORKS/0.png" alt="0"></p>
+<h2 id="实验结论与方法总结"><a href="#实验结论与方法总结" class="headerlink" title="实验结论与方法总结"></a>实验结论与方法总结</h2><ol>
+<li><p><strong>对于无监督表示学习算法通常的验证方法</strong>： apply them as a feature extractor on supervised datasets and evaluate the performance of linear models ﬁtted on top of these features. 在监督学习数据集中，将训练好的模型当成特征提取器，使用线性模型用来匹配特征以衡量性能（相当于将监督学习训练好的模型作为判别器）</p>
+<p>作者使用在ImageNet-1K上训练得到的生成模型，使用所有层的所有CNN特征作为输入，将每一层的CNN特征使用最大池化的方式降到4×4，扁平化成一个28672维的向量，输入到L2-SVM中，明显DCGAN效果优于其他无监督表示模型</p>
+</li>
+<li><p>对于隐空间，可以对经过生成模型之前的初始向量进行差值的方式探索隐空间</p>
+</li>
+<li><p>如果图像急剧变化，可能是因为没有学习到特征，只是记住了图像；如果缓慢渐变，说明学习到了特征</p>
+</li>
+<li><p>在标签数据较少的情况下，DCGAN效果最好。 </p>
+</li>
+<li><p>使用 guided backpropagation ( Striving for Simplicity: The All Convolutional Net  Springenberg et al.,2014)可视化判别模型中的特征 </p>
+</li>
+<li><p>GAN中可以类似word2vec一样进行向量运算，直接对输入生成模型的那个向量进行加减</p>
+</li>
+</ol>
+<hr>
+<p>补充：</p>
+<p><strong>全局平均池化：global average pooling（GAP）</strong></p>
+<p>$W×H×C\to1×1×C$</p>
+<p>即将一个Channel变成成一个值，原Channel每个位置的权值为$\frac{1}{W×H}$</p>
+<p>GAP的真正意义是:<strong>对整个网路在结构上做正则化防止过拟合。</strong>其直接剔除了全连接层中黑箱的特征，直接赋予了每个channel实际的内别意义。 </p>
+<p><strong>反卷积/转置卷积/微步卷积（fractionally-strided convolutions）</strong></p>
+<p>判别模型输入维度&gt;输出维度，需要用卷积，下采样；</p>
+<p>但生成模型输入维度&lt;输出维度，就需要用卷积的逆过程，也就是反卷积，也就是上采样</p>
+<p><strong>反卷积的输出公式</strong>:$O=S<em>(I-1)+K-2</em>P$</p>
+<p>(O=output, S=Stride,I=Input,K=Kernel,P=Padding)</p>
+<p><strong>上采样(upsampling)</strong></p>
+<p>一般两种方法：</p>
+<p>①图像缩放，如双线性插值</p>
+<p>②逆卷积/转置卷积</p>
 
       
     </div>
@@ -652,7 +682,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RELATED-WORK"><span class="nav-number">1.</span> <span class="nav-text">RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APPROACH-AND-MODEL-ARCHITECTURE"><span class="nav-number">2.</span> <span class="nav-text">APPROACH AND MODEL ARCHITECTURE</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RELATED-WORK"><span class="nav-number">1.</span> <span class="nav-text">RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APPROACH-AND-MODEL-ARCHITECTURE"><span class="nav-number">2.</span> <span class="nav-text">APPROACH AND MODEL ARCHITECTURE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结论与方法总结"><span class="nav-number">3.</span> <span class="nav-text">实验结论与方法总结</span></a></li></ol></div>
             
 
           </div>
@@ -1181,6 +1211,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
