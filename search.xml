@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks</title>
+    <url>/2019/10/21/NETWORKS/</url>
+    <content><![CDATA[<blockquote>
+<p>Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks<br>Alec Radford&amp;Luke Metz ,Soumith Chintala<br>ICLR 2016</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>GAN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>游戏中的心理学</title>
     <url>/2019/10/20/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BF%83%E7%90%86%E5%AD%A6/</url>
     <content><![CDATA[<p><em>week2-游戏中的心理学 课堂总结</em></p>
@@ -46,7 +60,7 @@
 <p><em>难度不断降低，门槛不断降低，受众不断变广</em></p>
 <p>这个趋势会持续下去吗？不会，看图</p>
 <p>如何寻找合适的目标市场，并且找到他们的Point点，圈住最主流的用户，一直是制作人们最头疼的问题</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>今天选出了PM，真是各路大佬各显神通….人均做过游戏，人均拿奖到手软，人均编程美术策划全能….甚至有个负责的游戏DAU 1.5亿的大佬，还有上来就展示导过的电影的…….</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>今天选出了PM，真是各路大佬各显神通….人均做过游戏，人均拿奖到手软，人均编程美术策划全能….甚至有个负责的游戏DAU 0.5亿的大佬，还有上来就展示导过的电影的…….</p>
 <p>瑟瑟发抖……….</p>
 <p>下周开始就要正式分组进行Mini-game制作了，我也是加把劲骑士！</p>
 ]]></content>
