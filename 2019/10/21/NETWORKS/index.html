@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial NetworksAlec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016">
+<meta name="description" content="《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》Alec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016  RELATED WORK Unsupervised representation learning">
 <meta name="keywords" content="GAN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks">
 <meta property="og:url" content="https://aisakaki.com/2019/10/21/NETWORKS/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial NetworksAlec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016">
+<meta property="og:description" content="《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》Alec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016  RELATED WORK Unsupervised representation learning">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-21T01:07:05.616Z">
+<meta property="og:image" content="https://aisakaki.com/2019/10/21/NETWORKS/0.png">
+<meta property="og:updated_time" content="2019-10-21T11:57:53.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks">
-<meta name="twitter:description" content="Unsupervised Representation Learning With Deep Convolutional Generative Adversarial NetworksAlec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016">
+<meta name="twitter:description" content="《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》Alec Radford&amp;amp;Luke Metz ,Soumith ChintalaICLR 2016  RELATED WORK Unsupervised representation learning">
+<meta name="twitter:image" content="https://aisakaki.com/2019/10/21/NETWORKS/0.png">
 
 
 
@@ -388,8 +390,43 @@
 
       
         <blockquote>
-<p>Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks<br>Alec Radford&amp;Luke Metz ,Soumith Chintala<br>ICLR 2016</p>
+<p>《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》<br>Alec Radford&amp;Luke Metz ,Soumith Chintala<br>ICLR 2016</p>
 </blockquote>
+<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ul>
+<li><p>Unsupervised representation learning 无监督表示学习领域（聚类，AE，DBN）</p>
+</li>
+<li><p>Generative image models生成模型（参数化模型，非参数化模型）</p>
+<p>Variational sampling approach (2013) 模糊</p>
+<p>GAN(2014) 噪点多，难以理解</p>
+<p>A recurrent network approach(Gregor et al.,2015, a deconvolution network approach(Dosovitskiy et al.,2014)  未用生成器监督</p>
+</li>
+<li><p>VISUALIZING THE INTERNALS OF CNNS 通过反卷积和最大池化可以找到网络中每个卷积核学到的内容 (Zeiler &amp; Fergus, 2014) ，对输入使用梯度下降可以推断出卷积核的理想子集(Mordvintsev et al.).</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="APPROACH-AND-MODEL-ARCHITECTURE"><a href="#APPROACH-AND-MODEL-ARCHITECTURE" class="headerlink" title="APPROACH AND MODEL ARCHITECTURE"></a>APPROACH AND MODEL ARCHITECTURE</h2><p>Core to our approach is adopting and modifying three recently demonstrated changes to CNN architectures. </p>
+<p>模型采用CNN</p>
+<ol>
+<li><p>all convolutional net (Springenberg et al., 2014) </p>
+<p><strong>不使用池化层</strong></p>
+<p>在判别模型中用<strong>步长卷积 (strided convolutions )</strong>替代</p>
+<p>在生成模型中用<strong>微步卷积（fractionally-strided convolutions）</strong>替代（注意不同于反卷积）</p>
+<p>这样可以允许生成和判别模型学习自己空间的下采样，使得网络可微。</p>
+</li>
+<li><p>trend towards eliminating fully connected layers on top of convolutional features <strong>不使用FC层</strong>，替而代之使用<strong>global pooling（全局池化层）</strong></p>
+<p>目的是减轻运算量，提高了模型的稳定性，但不利于收敛速度。 </p>
+</li>
+<li><p>Batch Normalization <strong>批归一化</strong> (Ioffe &amp; Szegedy, 2015)  （BN现在已经是非常常用的工具了）</p>
+<p>有效解决GANs训练中常遇到的梯度消失问题，也解决初始化问题，并防止生成模型把所有样本都收敛到一个点</p>
+<p>但不要对生成模型的输出层和判别模型的输入层使用，否则会导致模型不稳定</p>
+</li>
+<li><p>activation 激活函数的选择</p>
+<p>生成模型中使用ReLU，除了输出层用tanh</p>
+<p>判别模型使用Leaky ReLU，尤其在高分辨率模型中效果非常好</p>
+</li>
+</ol>
+<p><strong>网络结构：</strong></p>
+<p><img src="//aisakaki.com/2019/10/21/NETWORKS/0.png" alt="0"></p>
 
       
     </div>
@@ -501,8 +538,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -580,7 +626,7 @@
                   </li>
                 
                   <li class="links-of-blogroll-item">
-                    <a href="https://leafjame.github.io/links/" title="北宸" target="_blank">北宸</a>
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
                   </li>
                 
               </ul>
@@ -596,6 +642,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RELATED-WORK"><span class="nav-number">1.</span> <span class="nav-text">RELATED WORK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APPROACH-AND-MODEL-ARCHITECTURE"><span class="nav-number">2.</span> <span class="nav-text">APPROACH AND MODEL ARCHITECTURE</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
