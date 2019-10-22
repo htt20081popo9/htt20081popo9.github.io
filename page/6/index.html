@@ -1479,7 +1479,7 @@
 <li><p><strong>BN（Batch Normalization）是个好文明</strong></p>
 </li>
 <li><p>损失函数选择<br>对于回归问题,通常使用MSE(均方误差)<br>对于分类问题,通常使用交叉熵<br>(MSE对于每一个输出的结果都非常看重，而交叉熵只对正确分类的结果看重。)<br>其他的</p>
-<p>| 损失函数           | 通常用法                                            |<br>| ————————— | —————————————————————————- |<br>| L1 loss            | 通常作为正则化器使用                                |<br>| MSE loss           | 均方误差损失,用于回归问题的损失函数                 |<br>| Cross-entropy loss | 交叉熵损失,用于二分类和多分类问题                   |<br>| NLL Loss           | 用于分类问题,允许用户使用特定的权重处理不平衡数据集 |<br>| NLL Loss2d         | 用于像素级分类,通常和图像分割问题有关               |<br><strong>注意</strong>：<br>①<strong>若使用了nn.CrossEntropyLoss() 函数，则最后一层就不应该使用softmax函数！</strong><br>这个函数包含了<strong>log_softmax</strong>，其操作为“使用对数似然损失函数和log_softmax激活函数进行DNN分类输出”  CrossEntropyLoss()=log_softmax() + NLLLoss()<br><strong>但是，使用log_softmax运算是在output输出进入损失函数的时候。如果要获取输出概率，那就得在得到outputs后，在网络外面单独求一个<code>F.softmax(outputs.data,dim=1)</code></strong>(但若使用log_softmax() + NLLLoss()， log_softmax函数是在网络里的（获得网络输出之前），所以不需要在网络外面单独求softmax)<br>②损失函数 CrossEntropyLoss() 与 NLLLoss() 类似<br>③<strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong>  </p>
+<p>| 损失函数           | 通常用法 |<br>| —- | —- |<br>| L1 loss            | 通常作为正则化器使用 |<br>| MSE loss           | 均方误差损失,用于回归问题的损失函数 |<br>| Cross-entropy loss | 交叉熵损失,用于二分类和多分类问题  |<br>| NLL Loss           | 用于分类问题,允许用户使用特定的权重处理不平衡数据集 |<br>| NLL Loss2d         | 用于像素级分类,通常和图像分割问题有关|<br><strong>注意</strong>：<br>①<strong>若使用了nn.CrossEntropyLoss() 函数，则最后一层就不应该使用softmax函数！</strong><br>这个函数包含了<strong>log_softmax</strong>，其操作为“使用对数似然损失函数和log_softmax激活函数进行DNN分类输出”  CrossEntropyLoss()=log_softmax() + NLLLoss()<br><strong>但是，使用log_softmax运算是在output输出进入损失函数的时候。如果要获取输出概率，那就得在得到outputs后，在网络外面单独求一个<code>F.softmax(outputs.data,dim=1)</code></strong>(但若使用log_softmax() + NLLLoss()， log_softmax函数是在网络里的（获得网络输出之前），所以不需要在网络外面单独求softmax)<br>②损失函数 CrossEntropyLoss() 与 NLLLoss() 类似<br>③<strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong>  </p>
 </li>
 <li><p>log_softmax和softmax的选择<br><strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong><br>用了log_softmax得到的结果是对softmax求次对数（并非采用直接求 ，而是一种较快的方式）</p>
 </li>
@@ -1500,7 +1500,7 @@
 <p> 神经网络初始权值不能全部设置一样，否则学不到<br> <a href="https://blog.csdn.net/u012328159/article/details/80025785" target="_blank" rel="noopener">深度学习中神经网络的几种权重初始化方法</a></p>
 </li>
 <li><p>常见学习率选择策略</p>
-<p>| 策略              | 解释                                                         |<br>| ————————- | —————————————————————————————— |<br>| StepLR            | 步长规则，学习率倍数变化(步长内变gamma倍)                    |<br>| MultiStepLR       | 步长不规则，学习率倍数变化                                   |<br>| ExponentialLR     | 步长为1，学习率乘数变化                                      |<br>| ReduceLROnPlateau | 常用。当特定的度量指标，如训练损失、验证损失或准确率不再变化时，学习率就会改变。通用实践是降为原来的1/2~1/10 |</p>
+<p>| 策略              | 解释 |<br>| —- | —-|<br>| StepLR            | 步长规则，学习率倍数变化(步长内变gamma倍)  |<br>| MultiStepLR       | 步长不规则，学习率倍数变化 |<br>| ExponentialLR     | 步长为1，学习率乘数变化 |<br>| ReduceLROnPlateau | 常用。当特定的度量指标，如训练损失、验证损失或准确率不再变化时，学习率就会改变。通用实践是降为原来的1/2~1/10 |</p>
 </li>
 <li><p>池化/卷积 与 ReLU的顺序<br> 在最大池化之后或者在应用卷积<strong>之后使用非线性层</strong>是通用的最佳实践</p>
 </li>
