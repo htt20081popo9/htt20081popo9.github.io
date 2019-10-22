@@ -1752,6 +1752,23 @@ H^{(t_0)}_{2*h}×W_{h*o} =
       </tags>
   </entry>
   <entry>
+    <title>Generative Adversarial Nets</title>
+    <url>/2019/06/01/GenerativeAdversarialNets/</url>
+    <content><![CDATA[<blockquote>
+<p>《Generative Adversarial Nets》</p>
+<p>Ian J.Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair†, Aaron Courville, Yoshua Bengio</p>
+<p>ICLR 2014</p>
+<p>GAN开山之作</p>
+</blockquote>
+<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2>]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>GAN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>n-gram实践</title>
     <url>/2019/05/29/n-gram%E5%AE%9E%E8%B7%B5/</url>
     <content><![CDATA[<p>对于加固的应用，可以用通过在沙箱穷举各种可能操作返回的API操作序列来建立模型，处理API序列可以用N-gram来分析语义。</p>
