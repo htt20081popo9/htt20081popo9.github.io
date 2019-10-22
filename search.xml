@@ -1003,9 +1003,9 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
         <category>论文阅读笔记</category>
       </categories>
       <tags>
-        <tag>GAN</tag>
         <tag>对抗样本</tag>
         <tag>智能对抗</tag>
+        <tag>GAN</tag>
       </tags>
   </entry>
   <entry>
@@ -2212,10 +2212,8 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span>  <span class="title">AssignValue</span><span class="params">(object)</span>:</span> </span><br><span class="line">        <span class="function"><span class="keyword">def</span>  <span class="title">__init__</span><span class="params">(self, value)</span>:</span> </span><br><span class="line">            self.value = value  </span><br><span class="line">    my_value = AssignValue(<span class="number">6</span>)  </span><br><span class="line">print(<span class="string">'value 为: &#123;0.value&#125;'</span>.format(my_value))  <span class="comment"># "0" 是可选的</span></span><br><span class="line">    </span><br><span class="line">    &gt;&gt;value 为:  <span class="number">6</span></span><br></pre></td></tr></table></figure>
 <p>数字格式化：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">"&#123;:.2f&#125;"</span>.format(<span class="number">3.1415926</span>));  </span><br><span class="line">&gt;&gt;<span class="number">3.14</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
 <p>更多用法列表见网页</p>
-<ol>
+</li>
 <li><p>可以这样用</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">'-'</span>*<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
 </li>
@@ -2520,9 +2518,9 @@ drop掉1后就变成
 <p>如何解决：deepcopy一份，一个列表用于循环，一个列表用于移除值</p>
 <p>（<code>from copy import deepcopy</code>)</p>
 </li>
-<li><p>调换维度。<br>使用numpyarrray.swapaxes(ax0,ax1)</p>
+<li><p>调换维度。<br>  使用numpyarrray.swapaxes(ax0,ax1)</p>
 </li>
-<li><p>numpy.size()函数<br>a = np.array(…)<br>np.size(a) 计算数组和矩阵所有数据的个数<br>np.size(a,1)计算该array第1维（第一个维度为0）的元素个数</p>
+<li><p>numpy.size()函数<br>  a = np.array(…)<br>  np.size(a) 计算数组和矩阵所有数据的个数<br>  np.size(a,1)计算该array第1维（第一个维度为0）的元素个数</p>
 </li>
 <li><p>tensor/array值归一化</p>
 <p><code>tensor.div_()</code></p>
@@ -2564,6 +2562,89 @@ drop掉1后就变成
       </categories>
       <tags>
         <tag>神说，要有光</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图像预处理：transforms和PIL小结</title>
+    <url>/2019/01/28/%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9Atransforms%E5%92%8CPIL%E5%B0%8F%E7%BB%93/</url>
+    <content><![CDATA[<p><em>色图真好玩.jpg</em></p>
+<h2 id="transforms"><a href="#transforms" class="headerlink" title="transforms"></a>transforms</h2><p>Ⅰ. <code>transforms.ToTensor()</code></p>
+<p>①将(H,W,C)输入的numpy array或img转换成(C,H,W)格式</p>
+<p>通道的具体顺序与cv2读的还是PIL.Image读的图片有关系<br>cv2:<code>(B,G,R)</code><br>PIL.Image:<code>(R, G, B)</code></p>
+<p>②<strong>归一化</strong>，归一到$(0,1)$区间</p>
+<p>Ⅱ. <code>transforms.Normalize()</code></p>
+<p>标准化。</p>
+<p>即使输入的每个值分布到$(-1，1)$中</p>
+<p>公式为$Normalize = \frac{(x-mean)}{std}$(std为标准差，mean为均值)</p>
+<p>标准差公式$std = \sigma = \sqrt{\frac{1}{N} \Sigma^N_{i=1}(x_i-μ)^2 }$</p>
+<p><strong>注意实际是img里的每个像素（每个值）都要经过此公式运算</strong></p>
+<p>通过标准化后可以让数据<strong>服从标准正态分布</strong></p>
+<p>一般来说参数为 <code>transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></p>
+<p>这里的三个维度是因为输入的$x$为三维的，如果$x$是灰度图，那就是一维</p>
+<p>$(0.5,0.5,0.5)$即为<strong>三个维度（分别对应RGB三个通道）</strong>的均值和标准差。这里默认为该值，如果你能够计算出你的数据集的均值和标准差，那么用计算出来的值更好。（如imagenet数据集提供方就给出了该数据集的均值和标准差）</p>
+<p>以上两个函数通常是连着用的</p>
+<p>Ⅲ.<code>transforms.Lambda</code></p>
+<p>用法:<code>transforms.Lambda(lambda img:func(img,))</code></p>
+<p>这里的<code>func</code><strong>可以是自己定义的函数，也可以直接调用表达式</strong>比如<code>transforms.Lambda(lambda img:img)</code>(什么都没处理，返回了自己本身)</p>
+<p>在transforms库中存在很多官方给的预处理工具，但是如果需要自己定义，比如截取图像指定区域，则需要自己用Lambda函数封装一个处理函数</p>
+<p>eg:自己定义一个截取图片的crop函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__crop</span><span class="params">(img, pos, size)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param img: 输入的图像</span></span><br><span class="line"><span class="string">    :param pos: 图像截取的位置,类型为元组，包含(x, y)</span></span><br><span class="line"><span class="string">    :param size: 图像截取的大小</span></span><br><span class="line"><span class="string">    :return: 返回截取后的图像</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    ow, oh = img.size</span><br><span class="line">    x1, y1 = pos</span><br><span class="line">    tw = th = size</span><br><span class="line">    <span class="comment"># 有足够的大小截取</span></span><br><span class="line">    <span class="comment"># img.crop坐标表示 (left, upper, right, lower)</span></span><br><span class="line">    <span class="keyword">if</span> (ow &gt; tw <span class="keyword">or</span> oh &gt; th):</span><br><span class="line">        <span class="keyword">return</span> img.crop((x1, y1, x1+tw, y1+th))</span><br><span class="line">    <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后使用transforms.Lambda封装其为transforms策略</span></span><br><span class="line"><span class="comment"># 然后定义新的transforms为</span></span><br><span class="line">normalize = transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">data_transforms = transforms.Compose([</span><br><span class="line">    <span class="comment">#注意这里的用法</span></span><br><span class="line">    transforms.Lambda(<span class="keyword">lambda</span> img: __crop(img, (<span class="number">5</span>,<span class="number">5</span>), <span class="number">224</span>)),</span><br><span class="line">    transforms.RandomHorizontalFlip(),  <span class="comment"># 随机水平翻转给定的PIL.Image,翻转概率为0.5</span></span><br><span class="line">    transforms.ToTensor(),  <span class="comment"># 转成Tensor格式，大小范围为[0,1]</span></span><br><span class="line">    normalize</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>Ⅳ. <strong>逆过程</strong></p>
+<p><code>transforms.Normalize()</code>的逆过程即<strong>原公式求反函数</strong></p>
+<p>原公式$Normalize = \frac{(x-(-mean))}{std}$的反函数即为</p>
+<p>$x = Normalize*std+mean$</p>
+<p>注意是$x$中的<strong>每个元素</strong>都要经过此逆运算，可以使用numpy array的矩阵批量乘法</p>
+<p>如果$std$和$mean$三个维度（RGB情况）是不一样的，那就要分别在三个维度上单独做逆运算</p>
+<p><code>transforms.ToTensor()</code>的逆过程为<code>transforms.ToPILImage()</code>(这个类里面就包含各种处理了包括逆归一化)</p>
+<p>这里也可以直接用<code>plt.imshow(tensor)</code>来显示图像</p>
+<p>这里tensor要*255，因为.ToTensor也有归一化的功能</p>
+<p>注：另外<strong>transforms组件可以单独拿出来用</strong>，不一定要compose组合</p>
+<p><strong>但有个问题需要注意！用法是</strong></p>
+<p><code>transforms.ToPILImage()(tensor)</code></p>
+<p><strong>因为transforms里的组件都是对象！不是方法，得建立对象之后再调用对象的方法!</strong></p>
+<h2 id="PIL"><a href="#PIL" class="headerlink" title="PIL"></a>PIL</h2><p>Ⅰ. 打开图片</p>
+<ul>
+<li><p>使用PIL.Image.open只会调用本地图片浏览器打开图片<br>所以要用<code>matplotlib.pyplot.imshow()</code>来打开PIL导入的图片</p>
+<p>(一般<code>import matplotlib.pyplot as plt</code>)</p>
+<p><strong>注意先要将PIL.Image导入的图片转化为narray格式 (np.array)（导入进来的时候是PIL.Image.Image对象）</strong></p>
+</li>
+<li><p>注意<code>open</code>: 打开并识别所提供的图像文件。不过，使用这函数的时候，<strong>真正的图像数据在你进行数据处理之前并没有被读取出来</strong>。可使用 <code>load</code>函数进行强制加载。 mode 参数可以省略，但它只能是 “r” 值。</p>
+</li>
+<li><p>如果想要迭代打开多张图片每张都显示，则必须</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">plt.imshow(img)</span><br><span class="line"><span class="comment">#多一句show</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>也可以使用<code>PIL.Image.open</code>加载图片</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(iMagePath)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意读取单个图片进入神经网络训练的时候</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">imga = torch.unsqueeze(imga, <span class="number">0</span>)</span><br><span class="line">imga = imga.cuda()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Ⅱ. plt.imshow()不能同时显示多张图片<br>如果想要显示多张，<strong>可以在每个plt.imshow()后面加一个plt.show()</strong></p>
+<p>Ⅲ. 图片处理部分</p>
+   <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   <span class="comment">#resize并不会改变长宽比例！ 重要问题1</span></span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>),   <span class="comment">#resize后要crop！</span></span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#然后可以用这个来处理单个PIL图片</span></span><br><span class="line">img = transform(img)</span><br><span class="line"><span class="comment">#这样即应用了变换</span></span><br><span class="line"><span class="comment">#也可以用以下这个来处理数据集</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br></pre></td></tr></table></figure>
+<p>   Ⅳ. 应用图片数据预处理 transforms模块</p>
+<p>   生成的transforms直接作用在PIL上</p>
+   <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 比如这段定义了变换之后</span></span><br><span class="line">  transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   </span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>), </span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#如果是用loader来加载的话就是</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br><span class="line"><span class="comment">#如果是直接应用到一个图片上的话就是</span></span><br><span class="line">img = Image.open(picPath)</span><br><span class="line">imga = transform(img)</span><br></pre></td></tr></table></figure>
+<p>   Ⅴ. resize与toTensor的先后顺序</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)),</span><br><span class="line">     ])</span><br><span class="line"><span class="comment"># 这里面的变换是有顺序的！</span></span><br><span class="line"><span class="comment"># transforms.Resize()是图片变换，是作用在PIL.Images上的！所以一定要在ToTensor之前！</span></span><br></pre></td></tr></table></figure>
+<p>   <strong>图片变换》ToTensor》归一化</strong><br>   <code>transforms.Resize()</code> works on <code>PIL.Images</code>, so just swap the order of your transformations and your code should run.<br>   否则会报错TypeError: img should be PIL Image. Got <class 'torch.tensor'=""></class></p>
+<p>Ⅵ. resize和crop的区别<br>resize并不会改变长宽比例！是等比缩放的<br>crop是在图中挖出一部分（裁剪） 这个才会改变比例！<br><strong>resize后要crop！</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">transforms.Resize(<span class="number">256</span>)</span><br><span class="line">transforms.CenterCrop(<span class="number">256</span>)</span><br></pre></td></tr></table></figure>
+<p>crop 有很多种方式 待学习<br>crop和resize的作用范围都是PIL而不是tensor</p>
+<h2 id="ImageFolder"><a href="#ImageFolder" class="headerlink" title="ImageFolder"></a>ImageFolder</h2><p>图片数据集定义<br>   <code>trainset = torchvision.datasets.ImageFolder(root=train_dir)</code><br>   train_dir中要有子文件夹！ 按照子文件夹读取标签！</p>
+<p>   <strong>imageFolder打标签的问题：</strong>和文件夹的顺序有关<br>   【按照各子文件夹的顺序打上0.1.2….  且是刷新后的顺序！ 所以最好是直接0,1,2,3给子文件夹命名，自己清楚里面代表的是啥就是了！】<br>   所以如果说两个文件夹内的子文件夹都是一样的话，相同分类打的标签就是一样的</p>
+<p>   <strong>ImageFolder两个重要属性</strong>： ①class_to_idx ②classes</p>
+<h2 id="关于输入网络的图片尺寸"><a href="#关于输入网络的图片尺寸" class="headerlink" title="关于输入网络的图片尺寸"></a>关于输入网络的图片尺寸</h2><p>输入图片尺寸必须一样是因为在出特征提取层，进入全连接层的时候，全连接层是固定的，所以如果只是要提取出特征的话，并不要求输入图片尺寸一样！</p>
+<p>有个很好玩的FCN（全卷积网络）就是这样</p>
+]]></content>
+      <categories>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>图像处理</tag>
       </tags>
   </entry>
   <entry>
