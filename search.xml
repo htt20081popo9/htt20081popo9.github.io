@@ -184,9 +184,9 @@
     <url>/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
 <h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习的结构化概率模型</a>中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
-<p>$x$为模型中的所有参数组成的向量，可以记为：</p>
+<p>$x$为模型中的所有参数组成的向量，记为：</p>
 <script type="math/tex; mode=display">
-p(x)=\frac{1}{Z}\hat{p}(x)</script><p>为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：</p>
+p(x)=\frac{1}{Z}\hat{p}(x;\theta)</script><p>为归一化此式子我们需要等比缩放，将$\hat{p}(x)$缩放到1，即：</p>
 <script type="math/tex; mode=display">
 Z=\int \hat{p}(x;\theta)dx</script><script type="math/tex; mode=display">
 or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p>
@@ -213,8 +213,23 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
 <p><strong>对比散度</strong>（contrastive divergence）：在每个步骤中初始化马尔科夫链为采样自数据分布中的样本（具有$k$个Gibbs步骤的叫CD-$k$）。在开始的时候随着正相学习到模型的概率越来越精准，负相也会相应有所提高。</p>
 <p><strong>随机最大似然</strong>（stochastic maximum likelihood）也叫 <strong>持续对比发散</strong>（persistent contrastive divergence）：在每个梯度步骤中初始化马尔科夫链为先前梯度步骤的状态值（每个更新中具有$k$个Gibbs步骤的叫PCD-$k$）</p>
 <p>一般来说PCD的方法好于CD</p>
+<p><strong>以下几种方法是绕过了对配分函数进行求值</strong></p>
 <h2 id="伪似然"><a href="#伪似然" class="headerlink" title="伪似然"></a>伪似然</h2><p>===未完待续，施工中===</p>
-<h2 id="得分匹配"><a href="#得分匹配" class="headerlink" title="得分匹配"></a>得分匹配</h2><h2 id="比率匹配"><a href="#比率匹配" class="headerlink" title="比率匹配"></a>比率匹配</h2><h2 id="去噪得分匹配"><a href="#去噪得分匹配" class="headerlink" title="去噪得分匹配"></a>去噪得分匹配</h2><h2 id="噪声对比估计"><a href="#噪声对比估计" class="headerlink" title="噪声对比估计"></a>噪声对比估计</h2><p> Noise Contrastive Estimation, NCE</p>
+<h2 id="得分匹配"><a href="#得分匹配" class="headerlink" title="得分匹配"></a>得分匹配</h2><p>在前面的文章<a href="https://aisakaki.com/2019/10/09/Autoencoder/">Autoencoder</a>中用到过</p>
+<p>定义得分（score）：$\nabla_x\log p(x)$</p>
+<p>其<strong>训练策略是最小化模型对数密度和数据对数密度关于输入的导数之间的平方差期望</strong></p>
+<p>这样就可以<strong>避免了$Z$带来的问题，因为$Z$不是$x$的函数</strong>，所以$\nabla_xZ=0$</p>
+<p>$L(x,\theta)=\frac{1}{2}||\nabla_x\log p_{model}(x;\theta)-\nabla_x\log p_{data}(x)||_2^2$</p>
+<p>$J(\theta)=\frac{1}{2}\mathbb{E}_{p_{data(x)}}L(x;\theta)$</p>
+<p>$\theta^*=\min_{\theta}J(\theta)$</p>
+<p>【不适用离散情况【？】why？ 理解】</p>
+<h2 id="比率匹配"><a href="#比率匹配" class="headerlink" title="比率匹配"></a>比率匹配</h2><p>将得分匹配推广到离散情况，主要运用在二元模型</p>
+<script type="math/tex; mode=display">
+L^{RM}(x,\theta)=\sum^n_{j=1}(\frac{1}{1+\frac{p_{model}(x;\theta)}{p_{model}(f(x),j;\theta)}})^2</script><h2 id="噪声对比估计"><a href="#噪声对比估计" class="headerlink" title="噪声对比估计"></a>噪声对比估计</h2><p>Noise Contrastive Estimation, NCE</p>
+<p>思路：用一个变量来代替负相</p>
+<script type="math/tex; mode=display">
+\nabla_{\theta}\log p_{model}(x)=\nabla_{\theta}\log \hat{p}_{model}(x)+c</script><p>$c$作为模型训练学习的参数之一</p>
+<p>但不能使用最大似然估计方法了，否则$c$会被无限扩大，而是将问题转化为一个概率二分类器的监督学习问题</p>
 <h2 id="估计配分函数"><a href="#估计配分函数" class="headerlink" title="估计配分函数"></a>估计配分函数</h2><p><strong>退火重要采样</strong>（Annealed Importance Sampling）</p>
 <p><strong>桥式采样</strong>（Bridge Sampling）</p>
 ]]></content>
@@ -988,9 +1003,9 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
         <category>论文阅读笔记</category>
       </categories>
       <tags>
+        <tag>GAN</tag>
         <tag>对抗样本</tag>
         <tag>智能对抗</tag>
-        <tag>GAN</tag>
       </tags>
   </entry>
   <entry>
@@ -2033,6 +2048,496 @@ H^{(t_0)}_{2*h}×W_{h*o} =
       </tags>
   </entry>
   <entry>
+    <title>python相关笔记</title>
+    <url>/2019/03/27/python%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><em>迄今为止在python上遇到的坑，超长预警</em></p>
+<a id="more"></a>
+<ol>
+<li><p><code>with open</code>的使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'/path/to/file'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">print(f.read())</span><br></pre></td></tr></table></figure>
+<p>等效于</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    f = open(<span class="string">'/path/to/file'</span>, <span class="string">'r'</span>)</span><br><span class="line">    print(f.read())</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">if</span> f:</span><br><span class="line">        f.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>os.listdir(path)</code> 返回path路径下的所有文件和文件夹列表</p>
+</li>
+<li><code>os.path.join(path1,str)</code> 将两个字符串合并生成一个新路径</li>
+<li><p>列表解析功能</p>
+<p> 比如<code>b =[i+2 for i in a]</code><br> <code>apk_dirs = [os.path.join(BASE_PATH, name) for name in names]</code></p>
+</li>
+<li><p><code>list</code>用于将元组转换为列表</p>
+<p> 元祖不可更改，列表可以更改。列表对应一大批操作函数。</p>
+</li>
+<li><p>通过这种方式可以遍历打开Path路径下的所有文件<br> 注意冒号</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(Path):</span><br><span class="line"><span class="keyword">with</span> open(os.path.join(Path, file), <span class="string">'r'</span>) <span class="keyword">as</span> f</span><br><span class="line"><span class="string">'''熟悉用python操作文件路径 熟悉使用2 3 for in等</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python JSON<br><a href="http://www.runoob.com/python/python-json.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-json.html</a><br><code>json.dumps</code> 将 Python 对象编码成 JSON 字符串<br><code>json.loads</code> 将已编码的 JSON 字符串解码为 Python 对象</p>
+</li>
+<li><p>字典<code>{</code><br>元组<code>(</code><br>列表<code>[</code></p>
+</li>
+<li>经常用<code>a.append(1)</code>来代表一位记录特征</li>
+<li><code>shutil.copy(source, destination)</code><br>将source路径的文件复制为destination路径的文件（相当于cp）</li>
+<li><code>matplotlib.pyplot</code> 用于画画的库</li>
+<li><code>dict.value()</code> 方法<br>返回所有的字典值组成的列表</li>
+<li><code>index()</code> 函数用于从列表中找出某个值第一个匹配项的索引位置。</li>
+<li>jupyter可以方便选择哪几个指定模块来执行 而不用执行整个文件</li>
+<li><p>python目录与文件操作（部分）</p>
+<ul>
+<li><code>os.path.exists(path)</code> 判断一个目录是否存在</li>
+<li><code>os.makedirs(path)</code> 多层创建目录</li>
+<li><code>os.mkdir(path)</code> 创建目录</li>
+<li><code>shutil.copy(fileA, fileB)</code> 将路径文件A复制到路径文件B。注意如果fileB路径的中间路径并不存在，需要建立中间的目录！（手动or用os.makedirs）</li>
+</ul>
+</li>
+<li><p>混淆矩阵<br><code>sklearn.metrics.confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)</code><br>y_true: 是样本真实分类结果，y_pred: 是样本预测分类结果<br>labels：是所给出的类别，通过这个可对类别进行选择<br>sample_weight:样本权重<br>后两者可以没有<br>详细用法见 <a href="https://blog.csdn.net/m0_38061927/article/details/77198990" target="_blank" rel="noopener">https://blog.csdn.net/m0_38061927/article/details/77198990</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/m0_37518259/article/details/80658131" target="_blank" rel="noopener">https://blog.csdn.net/m0_37518259/article/details/80658131</a></p>
+</li>
+<li><p>读取文件的编码问题，字符串编码问题 超级大坑<br>超级大坑！！！！！<br><a href="https://stackoverflow.com/questions/956867/how-to-get-string-objects-instead-of-unicode-from-json" target="_blank" rel="noopener">https://stackoverflow.com/questions/956867/how-to-get-string-objects-instead-of-unicode-from-json</a></p>
+</li>
+<li><p>python格式化输出<br><code>print (&quot;Name:%10s Age:%8d Height:%8.2f&quot;%(&quot;Aviad&quot;,25,1.83))</code></p>
+</li>
+<li><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#in   not in </span></span><br><span class="line"><span class="comment">#正确写法</span></span><br><span class="line">key = <span class="string">"aaa"</span></span><br><span class="line">lt = [<span class="string">"aaa"</span>,<span class="string">"bbb"</span>,<span class="string">"vvv"</span>]</span><br><span class="line"><span class="keyword">if</span> key <span class="keyword">in</span> lt:</span><br><span class="line">    print(<span class="string">"list is true"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"list is false"</span>)</span><br><span class="line">&gt;&gt;&gt;list <span class="keyword">is</span> true</span><br><span class="line"></span><br><span class="line"><span class="comment">#错误写法1：key写成一个列表。 in语法是要一个元素in一个列表</span></span><br><span class="line">key = [<span class="string">"aaa"</span>]</span><br><span class="line">lt = [<span class="string">"aaa"</span>,<span class="string">"bbb"</span>,<span class="string">"vvv"</span>]</span><br><span class="line"><span class="keyword">if</span> key <span class="keyword">in</span> lt:</span><br><span class="line">    print(<span class="string">"list is true"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"list is false"</span>)</span><br><span class="line">&gt;&gt;&gt;list <span class="keyword">is</span> false</span><br><span class="line"></span><br><span class="line"><span class="comment">#错误写法2：if a in b is True。 不能用is True。原因不明（？）</span></span><br><span class="line">key = <span class="string">"aaa"</span></span><br><span class="line">lt = [<span class="string">"aaa"</span>,<span class="string">"bbb"</span>,<span class="string">"vvv"</span>]</span><br><span class="line"><span class="keyword">if</span> key <span class="keyword">in</span> lt <span class="keyword">is</span> <span class="keyword">True</span>:</span><br><span class="line">    print(<span class="string">"list is true"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"list is false"</span>)</span><br><span class="line">&gt;&gt;&gt;list <span class="keyword">is</span> false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有时候python无法判断该数据为数值or字符串。<br>所以在输出的时候，有些无法分清的情况需要<code>print(str(key))</code></p>
+</li>
+<li><p>python的函数参数传递（实参和形参）<br>在函数体内修改参数内容会影响到函数外的对象吗？<br>（1）如果数字、字符串或元组，本身就是不可变的，自然也不会影响到函数体外的对象<br>（2）如果是列表或字典，那么函数内修改参数内容，就会影响到函数体外的对象。<br>备注：这里的修改参数是修改参数对象内部的值，不是赋值哦。即var[1]=’hello’和var=[‘hello’,’world’]区别。即使是列表，在函数体内对参数重新赋值了，不会影响到函数体外的对象哦。注意和c++的比较。<br>相当于python函数参数传递是一个指针</p>
+</li>
+<li><p>字典添加新pair</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dict =&#123;&#125;</span><br><span class="line">dict[<span class="string">'aaa'</span>]= <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>python中没有do while循环。可以由如下代码代替<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">	xxxx</span><br><span class="line">	<span class="keyword">if</span> condtion满足:</span><br><span class="line">		<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>求列表元素个数<code>len(list)</code></p>
+</li>
+<li><p><code>for i in range(a,b)</code> 包含a不包含b</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for line in file:</span><br><span class="line">	line = line.spilt(&apos;,‘)</span><br><span class="line">这样读出来的列表元素全是字符串形式！</span><br><span class="line">而且 末尾的/n也会包含在最后一个字符里</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><code>`str.strip（）</code>去掉字符串末尾字符（常用来去掉’/n’等</p>
+</li>
+<li><p><code>list</code>有序而<code>dict</code>无序</p>
+</li>
+<li><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">total_list = sorted(total_dict.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> (key, value) <span class="keyword">in</span> total_list:</span><br></pre></td></tr></table></figure>
+<p>python中字典是无序的，list是有序的<br>想要对字典或列表等排序需要借助<code>sort</code>函数。然而由于字典是无序的，经<code>sort</code>函数操作之后会变成一个列表。如果直接使用<code>sort(dict.values)</code>的话，将生成一个只由字典的value构成的排序后的列表，如果<code>sort(dict.keys)</code>的话同理为只由键组成的排序后的列表。如果要输出键值对的话，就按照上面的代码，转化为了有序元组列表的形式。<br><code>lambda</code>表示语法形式<br><code>lambda x: x[1]</code>中<code>x[0]</code>表示对键进行排序，<code>x[1]</code>表示对值进行排序<br><code>sort</code>函数默认是从小到大排序，如果要从大到小则添加参数<code>reverse=True</code><br>【以上内容可继续探索】</p>
+</li>
+<li><p>python3 中 <code>\</code>即为直接除法</p>
+</li>
+<li><p>判断类型是 <code>type(a) is dict</code><br>不是 <code>a is dict</code>！</p>
+</li>
+<li><p>字典无法在遍历中动态改变，而类别可以</p>
+</li>
+<li><p>Debug:Error loading notebook An unknown error occurred while loading this notebook.<br>这个错误的弥补方法是修改~/.local/share/jupyter文件夹的权限：<br><code>sudo chmod -R 777 ~/.local/share/jupyter</code></p>
+</li>
+<li><p>if os.path.splitext(resPath + file)[1] == ‘.jpg’ </p>
+</li>
+<li><p><code>ls -l filename|grep total</code><br>统计文件夹下文件个数</p>
+</li>
+<li><p>递归删除文件夹<br><code>shutil.rmtree(path=folderPath)</code><br>在shutil库下</p>
+</li>
+<li><p>python多进程默认不能共享全局变量<br><a href="https://blog.csdn.net/houyanhua1/article/details/78236514" target="_blank" rel="noopener">https://blog.csdn.net/houyanhua1/article/details/78236514</a><br>python多进程相当于将环境所有变量什么的给每一个进程复制一份，所以你在子进程修改了变量自然不会修改到全局</p>
+</li>
+<li><p>python子进程不报错 需要用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> ex:</span><br><span class="line">print(ex)</span><br></pre></td></tr></table></figure>
+<p>来捕获</p>
+</li>
+<li><p>重置索引用reset_index然后drop掉index列即可<br>reindex就是一坨屎</p>
+</li>
+<li><p>截取字符串操作</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">str = ‘0123456789’</span><br><span class="line">print str[0:3] #截取第一位到第三位的字符</span><br><span class="line">print str[:] #截取字符串的全部字符</span><br><span class="line">print str[6:] #截取第七个字符到结尾</span><br><span class="line">print str[:-3] #截取从头开始到倒数第三个字符之前</span><br><span class="line">print str[2] #截取第三个字符</span><br><span class="line">print str[-1] #截取倒数第一个字符</span><br><span class="line">print str[::-1] #创造一个与原字符串顺序相反的字符串</span><br><span class="line">print str[-3:-1] #截取倒数第三位与倒数第一位之前的字符</span><br><span class="line">print str[-3:] #截取倒数第三位到结尾</span><br><span class="line">print str[:-5:-3] #逆序截取，具体啥意思没搞明白？</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>位运算<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np.bitwise_and([<span class="number">7</span>],[<span class="number">3</span>])=<span class="number">3</span></span><br><span class="line">np.bitwise_or([<span class="number">7</span>],[<span class="number">3</span>])=<span class="number">7</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>路径字符串分割<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">path.split(&apos;/&apos;)[-1]</span><br><span class="line">以/为分隔符，保留倒数第一段</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><code>dataFrame.to_csv(savePath,mode=&#39;a&#39;,header=0,index=False)</code></p>
+</li>
+<li><p>python list/字符串替换</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Python replace() 方法把字符串中的 old（旧字符串/list） 替换成 new(新字符串/list)，如果指定第三个参数max，则替换不超过 max 次。</span></span><br><span class="line">str = str.replace(old, new[, max])</span><br><span class="line"><span class="comment"># 注意不会改变原始内容，要赋值回去！</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><strong>python多线程</strong><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 由于每个python模块（python文件）都包含内置的变量__name__，当运行模块被执行的时候，__name__等于文件名（包含了后缀.py）。如果import到其他模块中，则__name__等于模块名称（不包含后缀.py）。而“__main__”等于当前执行文件的名称（包含了后缀.py）。所以当模块被直接执行时，__name__ == '__main__'结果为真；而当模块被import到其他模块中时，__name__ == '__main__'结果为假，就是不调用对应的方法。</span></span><br><span class="line"><span class="comment"># __name__ 是当前模块名，当模块被直接运行时模块名为 __main__ 。当模块被直接运行时，代码将被运行，当模块是被导入时，代码不被运行</span></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建线程对象</span></span><br><span class="line">pool = Pool(processes=k)</span><br><span class="line"></span><br><span class="line"><span class="comment">#开始执行线程内容 func即为我们每个线程要执行的东西，args为传入func函数参数</span></span><br><span class="line">pool.apply_async(func,args=(agr1,arg2,arg3))</span><br><span class="line"></span><br><span class="line"><span class="comment">#等待所有进程结束</span></span><br><span class="line">pool.close()</span><br><span class="line">pool.join()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>常见迭代方法：<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate(list)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><code>os.path.getsize</code>函数的单位为字节B</p>
+</li>
+<li><p>正则表达式<br><a href="https://blog.csdn.net/u014535666/article/details/82972089#" target="_blank" rel="noopener">https://blog.csdn.net/u014535666/article/details/82972089#</a><br>注意python3中 .? .+等要用括号包起来！ <code>(.?)</code> <code>(.+)</code><br>且注意 findall返回的list元组！<br>python正则表达式常用函数的理解:<br><a href="https://www.cnblogs.com/papapython/p/7482349.html" target="_blank" rel="noopener">https://www.cnblogs.com/papapython/p/7482349.html</a></p>
+</li>
+<li><p>df.drop(x)  如果df.drop([等式]) 会出事！直接全没了！ 验证一下</p>
+</li>
+<li><p>linux语句返回输出<br><code>os.system()可以执行linux语句但无法获取输出</code><br><code>os.popen()</code>就可以获取命令行输出 ，返回的是一个文件<br>还要</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = os.popen(commend)</span><br><span class="line">result = r.read()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>python赋值、copy与deepcopy<br>list中套list得用deepcopy<br><a href="https://blog.csdn.net/u010712012/article/details/79754132" target="_blank" rel="noopener">https://blog.csdn.net/u010712012/article/details/79754132</a><br>赋值与深浅拷贝<br><a href="https://www.cnblogs.com/Eva-J/p/5534037.html" target="_blank" rel="noopener">https://www.cnblogs.com/Eva-J/p/5534037.html</a><br>python一切都是对象，赋值是传递引用</p>
+</li>
+<li><p>eval函数在python中做数据类型的转换还是很有用的。它的作用就是把数据还原成它本身或者是能够转化成的数据类型.<br>注意 为了安全性 还有个ast.literal_eval<br><a href="http://www.php.cn/python-tutorials-376459.html" target="_blank" rel="noopener">http://www.php.cn/python-tutorials-376459.html</a></p>
+</li>
+<li><p>xgboost版本为0.6a1的时候 对应scikit-learn的版本为0.19.0<br>版本要匹配！</p>
+</li>
+<li><p>弱智错误：<code>os.system(str)</code>里面只能是一个字符串，如果是要多段拼接是用加号不是逗号！<br><code>os.system(&quot;ps&quot;,&quot;-ef&quot;) 错误！</code><br><code>os.system(&quot;ps&quot;+&quot;-ef&quot;)正确！</code></p>
+</li>
+<li><p>python继承</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#定义类A</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#B继承A</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><code>if __name__ == &#39;__main__&#39;:</code></p>
+</li>
+<li><p><code>os.path.join</code><br>用这个组合路径更好！</p>
+</li>
+<li><p>format函数 (python格式化输出）<br><a href="https://www.runoob.com/python/att-string-format.html" target="_blank" rel="noopener">https://www.runoob.com/python/att-string-format.html</a><br>format函数输出可以不限制括号内的参数类型，转化为字符串输出<br>format 函数可以接受不限个参数，位置可以不按顺序。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">"&#123;&#125; &#123;&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)  <span class="comment"># 不设置指定位置，按默认顺序</span></span><br><span class="line">&gt;&gt;<span class="string">'hello world'</span></span><br><span class="line"><span class="string">"&#123;0&#125; &#123;1&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)  <span class="comment"># 设置指定位置</span></span><br><span class="line">&gt;&gt;<span class="string">'hello world'</span></span><br><span class="line"><span class="string">"&#123;1&#125; &#123;0&#125; &#123;1&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)  <span class="comment"># 设置指定位置</span></span><br><span class="line">&gt;&gt;<span class="string">'world hello world'</span></span><br></pre></td></tr></table></figure>
+<p>也可以设置参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(name=<span class="string">"菜鸟教程"</span>, url=<span class="string">"www.runoob.com"</span>))</span><br><span class="line">    <span class="comment"># 通过字典设置参数  </span></span><br><span class="line">    site = &#123;<span class="string">"name"</span>: <span class="string">"菜鸟教程"</span>, <span class="string">"url"</span>: <span class="string">"www.runoob.com"</span>&#125; </span><br><span class="line">    print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(**site))</span><br><span class="line">    <span class="comment"># 通过列表索引设置参数  </span></span><br><span class="line">    my_list = [<span class="string">'菜鸟教程'</span>, <span class="string">'www.runoob.com'</span>]  </span><br><span class="line">print(<span class="string">"网站名：&#123;0[0]&#125;, 地址 &#123;0[1]&#125;"</span>.format(my_list))  <span class="comment"># "0" 是必须的</span></span><br><span class="line">    </span><br><span class="line">    &gt;&gt;网站名：菜鸟教程,  地址 www.runoob.com </span><br><span class="line">    网站名：菜鸟教程,  地址 www.runoob.com </span><br><span class="line">    网站名：菜鸟教程,  地址 www.runoob.com</span><br></pre></td></tr></table></figure>
+<p>也可以向 str.format() 传入对象：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span>  <span class="title">AssignValue</span><span class="params">(object)</span>:</span> </span><br><span class="line">        <span class="function"><span class="keyword">def</span>  <span class="title">__init__</span><span class="params">(self, value)</span>:</span> </span><br><span class="line">            self.value = value  </span><br><span class="line">    my_value = AssignValue(<span class="number">6</span>)  </span><br><span class="line">print(<span class="string">'value 为: &#123;0.value&#125;'</span>.format(my_value))  <span class="comment"># "0" 是可选的</span></span><br><span class="line">    </span><br><span class="line">    &gt;&gt;value 为:  <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>数字格式化：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">"&#123;:.2f&#125;"</span>.format(<span class="number">3.1415926</span>));  </span><br><span class="line">&gt;&gt;<span class="number">3.14</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>更多用法列表见网页</p>
+<ol>
+<li><p>可以这样用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">'-'</span>*<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除法<br><code>/</code> 一般除法<br><code>//</code>整除<br><code>%</code>求余</p>
+</li>
+<li><p><strong>plt画图</strong><br>导库<code>import matplotlib.pyplot as plt</code><br><a href="https://blog.csdn.net/majinlei121/article/details/83994935" target="_blank" rel="noopener">https://blog.csdn.net/majinlei121/article/details/83994935</a><br>常用函数(用法参数见help）<br><code>plt.plot()</code>画图<br><code>plt.show()</code>显示图像<br><code>plt.legend()</code>显示图像和图例</p>
+<p><code>plt.xticks()``plt.yticks()</code>x,y坐标轴的值设置(可以设置旋转坐标值等）<br><code>plt.xlabel()``plt.ylabel()</code>x,y轴标签设置<br><code>plt.title()</code>设置图像标题</p>
+<p><code>w1 = plt.figure()</code> 新建一个画图窗口 w1指向<br><code>ax1 = fig.add_subplot(2,1,1)</code> 向窗口中加入子图，参数为排列位置， ax1指向， 画2行1列个图形的第1个<br><code>ax1.plot()</code> 向ax1中画图</p>
+<p>注意：无论是在子图中画图还是直接画图，都要用<code>plt.show()</code>来显示图像<br>在子图中画图，要用 <code>子图窗口.plot()</code>来画图，不用子图则<code>plt.plot()来画图</code></p>
+<p><code>plt.scatter()</code>画散点图<br><code>plt.bar()</code>画柱状图</p>
+</li>
+<li><p>返回对象的属性值<br><code>vars()</code><br>用法<code>vars(object)</code><br>可用于很多封装对象</p>
+</li>
+<li><p>zip函数 打包<br>网上摘抄理解<br><a href="https://www.cnblogs.com/waltsmith/p/8029539.html" target="_blank" rel="noopener">https://www.cnblogs.com/waltsmith/p/8029539.html</a></p>
+<p>zip函数非常好用！常用</p>
+</li>
+<li><p><code>class()(x)</code> 这种用法<br><code>class()</code>即为生成class对象，后面跟个<code>(x)</code>就是调用该生成对象的方法！</p>
+</li>
+<li><p><strong>getitem</strong>()<br>如果类中定义了<strong>getitem</strong>()方法,那么它的实例对象（假设为P）就可以P[Key]这样取值。当实例对象做P[Key]运算的时候就会调用<strong>getitem</strong>()方法，返回的就是这个方法的return</p>
+</li>
+<li><p>pip install xxx -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple" target="_blank" rel="noopener">https://pypi.tuna.tsinghua.edu.cn/simple</a><br>中科大源</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>PYTHON</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>python数据分析相关笔记</title>
+    <url>/2019/03/27/python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><em>迄今为止在python数据分析相关库上遇到的坑，超长预警</em></p>
+<a id="more"></a>
+<ol>
+<li><code>source .bashrc</code></li>
+</ol>
+<ol>
+<li><p><code>source activate base</code>先激活base环境</p>
+<p>再<code>jupyter notebook</code>启动jupyter notebook！先前anaconda安装的包都是在base环境下的！</p>
+</li>
+</ol>
+<p>   在jupyter中<code>sys.path</code>就可以看出环境对没对！如果不是指定anaconda3中（我安装的）环境，那就没对！</p>
+<p>   查看anconda3有哪些环境<code>conda info --envs</code></p>
+<ol>
+<li><p>.ipynb文件转.py文件</p>
+<p><code>jupyter nbconvert --to script demo.ipynb</code></p>
+</li>
+<li><p><code>for i in (a,b)</code> <code>for i in range(a,b)</code> 别搞混了！</p>
+</li>
+</ol>
+<p>   且range左闭右开</p>
+<ol>
+<li><code>black10w.drop(black10w[black10w[&#39;Filename&#39;]==filename].index,axis=0,inplace=True)</code></li>
+</ol>
+<p>   去掉dataframe中文件名为filename的那一行</p>
+<ol>
+<li><code>virtualenv --python=/usr/bin/python3.5 --no-site-packages envNAME</code></li>
+</ol>
+<p>   用此命令建立新的python环境，并使用系统的python3.5</p>
+<p>   <a href="http://www.cnblogs.com/freely/p/8022923.html" target="_blank" rel="noopener">http://www.cnblogs.com/freely/p/8022923.html</a></p>
+<ol>
+<li><p>+见20181123的周记</p>
+</li>
+<li><p>drop函数是个返回值！ <strong>pandas</strong>里好多函数都是返回值形式！一定勿忘赋值回去！不然不会改变<br><code>df = df.drop(list)</code> drop掉list中索引的内容，默认drop行（axis=0）<br>如<code>df=df.drop([0])</code>就是把第0行去掉<br>如果设置axis=1就是去掉列 索引可以不一定是序号 列用str索引那么列表里的元素就是list即可！<br><code>drop</code>掉指定行之后，不会自己重新索引！ 要手动重新索引!<br><code>df = df.reset_index(drop = True)</code><br>也可以直接修改列索引<br><code>df = pd.DataFrame(df,columns = [&#39;One&#39;,&#39;Two&#39;,&#39;Three&#39;])</code><br>（如果不需要用索引刻意不重建）</p>
+</li>
+<li><p>pandas中的<code>append()</code>函数也是个返回值！<br><code>df=df.append(x)</code><br>在<code>append</code>两个dataframe之后，索引可能就乱了！要在append里加参数<code>ignore_index=True</code>即可自动重建索引<br><code>df=df.append(x,ignore_index=True)</code></p>
+<p><strong>但是</strong>，非pandas库中的不一定是！比如对于list，不在pandas中，则必须直接<code>list.append()</code></p>
+</li>
+<li><p><strong>iloc函数是按行数（编号）的！而不是index索引</strong>，即使drop后 index没有被重新排列，iloc也是从1开始数来定位</p>
+<pre><code>drop函数是drop的对应index，而不是编号！
+比如
+      a b c
+  0    1 6 4
+  1    2 7 4
+  2    3 8 5
+
+drop掉1后就变成
+      a b c
+  0    1 6 4
+  2    3 8 5
+而这时候iloc[2]就out of bonud了，因为编号2已经不在了，在的是index2
+</code></pre><p>但是 <strong>loc是按索引取号！</strong></p>
+<p>即使这行删了，他也不会out of bonud 因为想要的索引那行并没有被删！</p>
+<p><strong>所以在循环删除满足条件的行的时候，要用loc来删除！因为删除行后每行的索引是不变的！但行号是会变的！iloc是按行号来算的，所以就会出错！</strong></p>
+<p><code>drop(x)</code> <strong>这里x是索引而不是行号</strong></p>
+</li>
+<li><p>item = ‘t2_asd’<br>  item[0:3]</p>
+<pre><code>  输出：t2_
+
+截取和range一样，也是左闭右开
+</code></pre></li>
+<li><p><code>feaMatrix[:,&#39;a&#39;]</code>等效于<code>feaMatrix.a</code></p>
+</li>
+<li><p>DataFrame.values</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">values是DataFrame的一个特殊属性，得到一个array包含每一行的值(一个list)</span><br><span class="line"></span><br><span class="line">columns和rows也是DF的特殊属性，分布得到Index类型的列索引和行索引</span><br><span class="line"></span><br><span class="line">如果feaMatrix.columns.values则得到array类型的列索引列表和行索引列表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;feaMatrix.columns.values</span><br><span class="line">array([<span class="string">'a'</span>, <span class="string">'b'</span>], dtype=object)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>切片和range都是左闭右开</strong>！！！！！</p>
+</li>
+<li><p>切片的时候 行用：而列不能用：</p>
+</li>
+<li><p>矩阵合并<br>可以用merge和append，都属于pandas库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pd.merge(left, right, how=&apos;inner&apos;, on=None, left_on=None, right_on=None,</span><br><span class="line">left_index=False, right_index=False, sort=True,</span><br><span class="line">suffixes=(&apos;_x&apos;, &apos;_y&apos;), copy=True, indicator=False)</span><br></pre></td></tr></table></figure>
+<p>left︰ 对象<br>right︰ 另一个对象<br>on︰ 要加入的列 （名称）。必须在左、 右综合对象中找到。如果不能通过 left_index 和 right_index 是假，将推断 DataFrames 中的列的交叉点为连接键<br>left_on︰ 从左边的综合使用作为键列。可以是列名或数组的长度等于长度综合<br>right_on︰ 从正确的综合，以用作键列。可以是列名或数组的长度等于长度综合<br>left_index︰ 如果为 True，则使用索引 （行标签） 从左综合作为其联接键。在与多重 （层次） 的综合，级别数必须匹配联接键从右综合的数目<br>right_index︰ 相同用法作为正确综合 left_index<br>how︰ 之一 ‘左’，’右’，’外在’、 ‘内部’。默认为内部。每个方法的更详细说明请参阅︰<br>sort︰ 综合通过联接键按字典顺序对结果进行排序。默认值为 True，设置为 False将提高性能极大地在许多情况下<br>suffixes︰ 字符串后缀并不适用于重叠列的元组。默认值为 (‘_x’，’_y’)。<br>copy︰ 即使重新索引是不必要总是从传递的综合对象，复制的数据 （默认值True）。在许多情况下不能避免，但可能会提高性能 / 内存使用情况。可以避免复制上述案件有些病理但尽管如此提供此选项。<br>indicator︰ 将列添加到输出综合呼吁 _merge 与信息源的每一行。_merge 是绝对类型，并对观测其合并键只出现在 ‘左’ 的综合，观测其合并键只会出现在 ‘正确’ 的综合，和两个如果观察合并关键发现在两个 right_only left_only 的值。<br>eg：<code>result = pd.merge(left, right, how=&#39;outer&#39;, on=[&#39;key1&#39;, &#39;key2&#39;])</code></p>
+<p><strong>遇见大坑:</strong><br>合并中发生排列组合问题！<br>当两个要合并的dataframe里合并关键字有<strong>重名项</strong>的时候，将会发生排列组合！</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a  b</span><br><span class="line"><span class="number">1</span>  <span class="number">0</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">a  c  d</span><br><span class="line"><span class="number">1</span>  <span class="number">1</span>  <span class="number">5</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">6</span></span><br><span class="line">    </span><br><span class="line">按a合并，结果是</span><br><span class="line">a	b	c	d</span><br><span class="line"><span class="number">1</span>	<span class="number">0</span>	<span class="number">1</span>	<span class="number">5</span></span><br><span class="line"><span class="number">1</span>	<span class="number">0</span>	<span class="number">2</span>	<span class="number">6</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">1</span>	<span class="number">5</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">2</span>	<span class="number">6</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>矩阵检索</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#对于两个矩阵，找同一项的另一项，直接找速度非常慢。可以采用矩阵合并之后，再搜索</span></span><br><span class="line">df.loc[df.Filename==filename, <span class="string">'label'</span>] = <span class="number">1</span></span><br><span class="line">tencent[tencent.Filename == <span class="string">'5F94E5453CF23ACBF0256575D629A442'</span>]</span><br><span class="line"><span class="comment">#以上两种都可以找</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dataframe删除行或列</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">用法：DataFrame.drop(labels=<span class="keyword">None</span>,axis=<span class="number">0</span>, index=<span class="keyword">None</span>, columns=<span class="keyword">None</span>, inplace=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">在这里默认：axis=<span class="number">0</span>，指删除index，因此删除columns时要指定axis=<span class="number">1</span>；</span><br><span class="line"></span><br><span class="line">inplace=<span class="keyword">False</span>，默认该删除操作不改变原数据，而是返回一个执行删除操作后的新dataframe；</span><br><span class="line"></span><br><span class="line">inplace=<span class="keyword">True</span>，则会直接在原数据上进行删除操作，删除后就回不来了。</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">tencent = tencent.drop([tencent[tencent.Filename == <span class="string">'6A6709AA7F9DF362CF90D2DE063D1FFF'</span>].index.values[<span class="number">0</span>]],inplace=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里tencent[tencent.Filename == '6A6709AA7F9DF362CF90D2DE063D1FFF'] 找到了该行，.index.values[0]]取出了索引号，然后由drop函数去drop，inplace=True重建索引，然后赋值回给tencent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##################################</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;df = pd.DataFrame(np.arange(<span class="number">12</span>).reshape(<span class="number">3</span>,<span class="number">4</span>), columns=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>])</span><br><span class="line">&gt;&gt;&gt;df</span><br><span class="line"></span><br><span class="line">   A   B   C   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">1</span>   <span class="number">2</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">5</span>   <span class="number">6</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>   <span class="number">9</span>  <span class="number">10</span>  <span class="number">11</span></span><br><span class="line"><span class="comment">#Drop columns,下面两种方法等价</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop([<span class="string">'B'</span>, <span class="string">'C'</span>], axis=<span class="number">1</span>)</span><br><span class="line">   A   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">11</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop(columns=[<span class="string">'B'</span>, <span class="string">'C'</span>])</span><br><span class="line">   A   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">11</span></span><br><span class="line"><span class="comment">#Drop rows by index</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">   A  B   C   D</span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">9</span>  <span class="number">10</span>  <span class="number">11</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于<code>index</code>类型，可以用<code>index.values</code>转化为<code>array类型</code></p>
+</li>
+<li><p><code>.values</code>是什么属性</p>
+</li>
+<li><p>JSON和字典</p>
+<p>[JSON]和[字典]的标准格式是用<code>{}</code>包起来的内容！必须要有外面的{}</p>
+<p><code>dict = eval(str)</code>可以将字符串转化为字典</p>
+</li>
+<li><p>inplace</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">inplace参数的理解：</span><br><span class="line">修改一个对象时：</span><br><span class="line">inplace=<span class="keyword">True</span>：不创建新的对象，直接对原始对象进行修改；</span><br><span class="line">inplace=<span class="keyword">False</span>：对数据进行修改，创建并返回新的对象承载其修改结果。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>python中list转字符串</p>
+<p>命令：’’.join(list)</p>
+<p>其中，引号中是字符之间的分割符，如“,”，“;”，“\t”等等</p>
+<p>如：</p>
+<p>list = [1, 2, 3, 4, 5]</p>
+<p>‘’.join(list) 结果即为：12345</p>
+<p>‘,’.join(list) 结果即为：1,2,3,4,5</p>
+</li>
+<li><p>json函数库</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">dict = json.loads(string)</span><br><span class="line"><span class="comment">#即可将string转换为json，其中里面的一切格式问题都不用管，json.loads全部解决</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>python分割</p>
+<p>除了用<code>split</code>方法以外，还可以用正则表达式实现多规则分割</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">"Hello world!How are you?My friend.Tom"</span></span><br><span class="line">re.split(<span class="string">" !|\?|\."</span>, a)</span><br><span class="line">[<span class="string">'Hello'</span>, <span class="string">'world'</span>, <span class="string">'How'</span>, <span class="string">'are'</span>, <span class="string">'you'</span>, <span class="string">'My'</span>, <span class="string">'friend'</span>, <span class="string">'Tom'</span>]</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">但要注意，对? ( ) . 等字符分割的时候要转义，即要写 \. \( \) \?</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>append的时候勿忘<code>ignore_index = True</code> 否则索引就凉了！</p>
+</li>
+<li><p>python广播</p>
+<p>numpy广播使得不同数组间可以进行运算</p>
+<p>如一个向量+一个常数的时候，常数会被自动扩展成一个向量</p>
+<p>见松鼠书P435</p>
+</li>
+<li><p><strong>numpy向量化计算</strong></p>
+<p>尽量少使用显式循环</p>
+<p>用向量化（并行运算） 即将元素作为向量进行计算</p>
+<p>numpy.dot(x,y)</p>
+<p>numpy.exp(v)</p>
+<p>等等 numpy有很多向量化函数</p>
+<p>即为点乘</p>
+<p>平时计算的时候也可以直接用向量化计算，速度快很多</p>
+</li>
+<li><p>numpy中常用reshape来确保数组的形式</p>
+</li>
+<li><p><code>a.T</code>转置</p>
+</li>
+<li><p><code>numpy.random.randn(5)</code>随机生成矩阵 1<em>5    <em>*注意生成的只有一个[]</em></em></p>
+<p><code>numpy.random.randn(1,5)</code>随机生成矩阵 <strong>注意生成的是[[]]</strong>  <strong>==用这个</strong></p>
+<p>（numpy array格式）</p>
+<p><strong>不要用上面那种写法，容易出错！不直观，它既不是行向量也不是列向量</strong></p>
+</li>
+<li><p>不要吝惜使用<code>reshape</code></p>
+</li>
+<li><p><code>assert(表达式)</code>语句用于检查表达式是否正确，如果不正确程序在这里引发错误</p>
+<p>方便检查</p>
+</li>
+<li><p><code>list.append()</code></p>
+<p>不需要a = a.append()</p>
+</li>
+<li><p>改变DATAFRAME的顺序</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">order = [<span class="string">'date'</span>, <span class="string">'time'</span>, <span class="string">'open'</span>, <span class="string">'high'</span>, <span class="string">'low'</span>, <span class="string">'close'</span>, <span class="string">'volumefrom'</span>, <span class="string">'volumeto'</span>]</span><br><span class="line">df = df[order]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dataframe遍历</p>
+<p>不能用<code>for Line in DataFrame</code>来遍历！</p>
+<p>要么用iloc index方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(df)):</span><br><span class="line">    <span class="keyword">print</span> df.iloc[i][<span class="string">'c1'</span>], df.iloc[i][<span class="string">'c2'</span>]</span><br></pre></td></tr></table></figure>
+<p>要么用iterrows（<a href="https://blog.csdn.net/ls13552912394/article/details/79349809）" target="_blank" rel="noopener">https://blog.csdn.net/ls13552912394/article/details/79349809）</a></p>
+</li>
+<li><p>排序不成功问题</p>
+<p>问题：遇到排序问题，使用下面的语句对pandas的某列进行排序时,发现根本没排序成功。</p>
+<p>bada_air.sort_value(by=’time’,ascending=False)<br>解决方案：这里牵扯到很重要的参数inplace,默认的inplace设置是False,并没有对本体进行覆盖，所以解决方法有两个：</p>
+<p>1.设置本体覆盖，令inplace=True</p>
+<p>bada_air.sort_value(by=’time’,ascending=False,inplace=True)<br>2.设置传值覆盖</p>
+<p>bada_air=bada_air.sort_value(by=’time’,ascending=False)</p>
+</li>
+<li><p>pd.read_csv出现Unnamed:0这一列<br>解决办法：pd.read_csv(path,index_col=0)</p>
+</li>
+<li><p>记清楚</p>
+<p>loc[行限制，列限制]</p>
+<p>比如行限制就可以A=A.loc[A.Filename = ‘aaa’,:]</p>
+<p>或者其他选法等等</p>
+</li>
+<li><p>合并 merge join 等的用法</p>
+<p><a href="https://www.jianshu.com/p/5ecea164cec6" target="_blank" rel="noopener">https://www.jianshu.com/p/5ecea164cec6</a></p>
+</li>
+<li><p>错点！ series别忘了转成list 再用in！ a in list O     a in  Series X</p>
+</li>
+<li><p>df1=df2 传递的不是指针，而是内容复制了一份</p>
+</li>
+<li><p>关于drop</p>
+<ul>
+<li><p>drop是drop的索引</p>
+</li>
+<li><p>注意drop属于panda 要用df = df.drop(x)</p>
+</li>
+<li>inplace=True参数设置重建索引，df = df.drop(x,inplace=True)</li>
+</ul>
+</li>
+<li><p><strong>重建索引</strong></p>
+<p>df = df.reset_index(drop = True)</p>
+</li>
+<li><p><strong>修改DF某元素</strong>（最终选择方法二）</p>
+<p>一。</p>
+<p>一个大坑</p>
+<p>在<strong>修改df元素</strong>的时候，iloc和loc有重大区别！</p>
+<p>loc和iloc都可以进行切片，但是用<strong>iloc不可以修改切片中的元素！</strong></p>
+<p><strong>loc可以修改切片中的元素！</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test.iloc[<span class="number">2</span>].c+=<span class="number">2</span>  <span class="comment">#用iloc</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">0</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br><span class="line"></span><br><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test.loc[<span class="number">2</span>].c+=<span class="number">2</span>  <span class="comment">#用loc</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">2</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>二。但是！！</strong> 在很多情况下 这样还是无法修改！！！！</p>
+<p><strong>所以用这个方法！！</strong></p>
+<p><strong>不用loc iloc 先选列索引 再选行索引！</strong></p>
+<p><strong><code>test[&#39;c&#39;][2]+=2</code></strong>  <strong>统一使用此方法！</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test[<span class="string">'c'</span>][<span class="number">2</span>]+=<span class="number">2</span>  <span class="comment">#看这里！！！！！！！！！！！！！！！！</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">2</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在处理大批量数据时,如果需要先向df对象插入空列,在后期再填充空列中对应位置的元素,应优先考虑使用loc而不是iloc,因为前者的访问速度比后者快几十倍</p>
+</li>
+<li><p>dict排序</p>
+<p><a href="https://www.cnblogs.com/dylan-wu/p/6041465.html" target="_blank" rel="noopener">https://www.cnblogs.com/dylan-wu/p/6041465.html</a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dict = sorted(dict.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># items()将dict转化为迭代器，lambda正咋表达式，item[1]即为迭代器的第二项</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断nan</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">math.isnan(x) <span class="comment">#x得是float类型</span></span><br><span class="line"></span><br><span class="line">type(x) != float      <span class="comment">#用类型判断，因为nan属于float类型</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>python取数据！ python搜索数据 重要总结！</strong></p>
+<p><a href="https://www.jianshu.com/p/805f20ac6e06" target="_blank" rel="noopener">https://www.jianshu.com/p/805f20ac6e06</a></p>
+</li>
+<li><p>python搜索数据的时候 这种情况要用isin</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">allDatasetApiCorpus[allDatasetApiCorpus[<span class="string">'Filename'</span>].isin(list)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Series可以直接与int比大小，等于对每一项比大小！</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">eg:</span><br><span class="line">lis = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-3</span>]</span><br><span class="line">lis = pd.Series(lis)</span><br><span class="line">lis[lis&gt;<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>    <span class="number">1</span></span><br><span class="line"><span class="number">1</span>    <span class="number">2</span></span><br><span class="line"><span class="number">2</span>    <span class="number">3</span></span><br><span class="line">dtype: int64</span><br><span class="line"></span><br><span class="line">lis&gt;<span class="number">0</span></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">1</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">2</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">3</span>    <span class="keyword">False</span></span><br><span class="line"><span class="number">4</span>    <span class="keyword">False</span></span><br><span class="line"><span class="number">5</span>    <span class="keyword">False</span></span><br><span class="line">dtype: bool</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>枚举 enumerate的用法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">lis = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-3</span>]</span><br><span class="line"><span class="keyword">for</span> index, var <span class="keyword">in</span> enumerate(lis):</span><br><span class="line">    print(index,<span class="string">' '</span>,var)</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>   <span class="number">1</span></span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br><span class="line"><span class="number">2</span>   <span class="number">3</span></span><br><span class="line"><span class="number">3</span>   <span class="number">-1</span></span><br><span class="line"><span class="number">4</span>   <span class="number">-2</span></span><br><span class="line"><span class="number">5</span>   <span class="number">-3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元组可以这样用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s = (<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">s[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;<span class="number">2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>转置</p>
+<p><code>narray.T, dataframe.T</code></p>
+</li>
+<li><p>去重 <code>drop_duplicates()</code></p>
+<p><code>drop_duplicates()</code>是去除重复行，要想去除重复列要先转置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">DataFrame = DataFrame.drop_duplicates(subset=<span class="keyword">None</span>, keep=<span class="string">'first'</span>, inplace=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">subset : column label or sequence of labels, optional</span></span><br><span class="line"><span class="string">用来指定特定的列，默认所有列（指的是以哪些列为参考删除行，删的还是行）</span></span><br><span class="line"><span class="string">keep : &#123;‘first’, ‘last’, False&#125;, default ‘first’</span></span><br><span class="line"><span class="string">删除重复项并保留第一次出现的项</span></span><br><span class="line"><span class="string">inplace : boolean, default False</span></span><br><span class="line"><span class="string">是直接在原来数据上修改还是保留一个副本</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化列表 list</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 一维列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化递增的list，与L = [i for i in range(10)] 效果相同</span></span><br><span class="line">L = range(<span class="number">10</span>)  </span><br><span class="line"><span class="comment"># print(L)</span></span><br><span class="line"><span class="comment"># [0,1,2,3,4,5,6,7,8,9]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#初始化每项为0的一维列表</span></span><br><span class="line">L = [<span class="number">0</span>] * <span class="number">5</span></span><br><span class="line"><span class="comment"># print(L)</span></span><br><span class="line"><span class="comment">#[0,0,0,0,0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维列表</span></span><br><span class="line"></span><br><span class="line">L = [[<span class="number">0</span>] * <span class="number">5</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</span><br><span class="line"><span class="comment">#print(L)</span></span><br><span class="line"><span class="comment">#[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#这里需要注意，虽然L = [[0] * 5] * 5，也输出同样的效果，但是万万不能这样做！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#因为[0] * 5是一个一维列表的对象，再* 5的话只是把对象的引用复制了3次。什么意思呢，就是如果我们将L[0][0] = 1，#再输出L如下：</span></span><br><span class="line">L = [[<span class="number">0</span>] * <span class="number">5</span>] * <span class="number">5</span></span><br><span class="line">L[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line"><span class="comment">#print(L)</span></span><br><span class="line"><span class="comment">#[[1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#我们只是想改变L[0][0]，结果L[[n][0]全部改变了！这回知道为啥不能这么做了吧！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#所以对于一位列表初始化，也建议大家用L = [[0] for i in range(5)]来代替L = [[0] * 5]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Numpy扁平化函数 ravel和flatten</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">a = arange(<span class="number">12</span>).reshape(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">print(a)</span><br><span class="line"><span class="comment"># [[ 0  1  2  3]</span></span><br><span class="line"><span class="comment">#  [ 4  5  6  7]</span></span><br><span class="line"><span class="comment">#  [ 8  9 10 11]]</span></span><br><span class="line">print(a.ravel())</span><br><span class="line"><span class="comment"># [ 0  1  2  3  4  5  6  7  8  9 10 11]</span></span><br><span class="line">print(a.flatten())</span><br><span class="line"><span class="comment"># [ 0  1  2  3  4  5  6  7  8  9 10 11]</span></span><br><span class="line"></span><br><span class="line">可以看到这两个函数实现的功能一样,但我们在平时使用的时候flatten()更为合适.在使用过程中flatten()分配了新的内存,但ravel()返回的是一个数组的视图.视图是数组的引用(说引用不太恰当,因为原数组和ravel()返回后的数组的地址并不一样),在使用过程中应该注意避免在修改视图时影响原本的数组.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>[confusion_matrix - too many values to unpack]</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">you can only assign multiple variables dynamically <span class="keyword">if</span> the number of outputs <span class="keyword">is</span> certain. If you 		assign the result of `confusion_matrix` to a single variable, you can then check its contents 		<span class="keyword">in</span> a loop <span class="keyword">and</span> assign the contents conditionally:</span><br><span class="line">returned = confusion_matrix(y_true, y_predict).ravel()</span><br><span class="line">   <span class="keyword">for</span> var <span class="keyword">in</span> returned:</span><br><span class="line">   <span class="comment">#... do stuff with each item in the returned collection</span></span><br><span class="line">You could also just check its length <span class="keyword">and</span> <span class="keyword">if</span> it <span class="keyword">is</span> <span class="number">4</span>, you can proceed <span class="keyword">as</span> usual:</span><br><span class="line"><span class="keyword">if</span> len(returned) == <span class="number">4</span>:</span><br><span class="line">       tn, fp, fn, tp = returned</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>遍历dataframe<br><code>for col in df</code>遍历的是列标签<br>要遍历行有几种方案<a href="https://blog.csdn.net/ls13552912394/article/details/79349809" target="_blank" rel="noopener">https://blog.csdn.net/ls13552912394/article/details/79349809</a><br>遍历这种东西在df选取等操作中不是一个好的解决方案，可以通过df的搜索loc iloc等很多方式来实现，比遍历好得多方便的多</p>
+</li>
+<li><p>python list去重<br>运用set的特性<br><code>opList = list(set(opList))</code></p>
+</li>
+<li><p>切片的时候若不存在<br>msgTrojanDynamicDF.loc[:,[‘android.content.Intent_setAction’,’sss’] ]<br>其中如果sss不存在，则sss列全为NaN<br>但如果两列都不存在，就会报错</p>
+</li>
+<li><p>Series.sum(axis-1)可以统计竖向的和</p>
+</li>
+<li><p>拼接dataframe</p>
+<p><code>df = pd.concat([A,B,C])</code><br>numpy.transpose 用于翻转<br><a href="https://blog.csdn.net/u012762410/article/details/78912667" target="_blank" rel="noopener">https://blog.csdn.net/u012762410/article/details/78912667</a></p>
+</li>
+<li><p><code>torch.cat 拼接Tensor</code><br>torch.cat((a,b),1)`</p>
+</li>
+<li><p>转置<br><code>np.transpose()</code><br><code>torch.transpose()</code></p>
+</li>
+<li><p><strong>左闭右开</strong><br>注意python各个库的左闭右开原则 [:]切片的时候注意！ range,list,numpy,pandas,torch都这样</p>
+</li>
+<li><p>将数据结构转化为集合可以自动去重！（#去重）<br><code>a = set(a)</code><br><code>set(1,2,3) = set(1,1,1,1,1,1,2,3)</code></p>
+</li>
+<li><p>tensor,numpy array的创建与扩展</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#创建</span></span><br><span class="line">np.zeros([<span class="number">3</span>,<span class="number">10</span>]) <span class="comment">#创建一个3x10的array</span></span><br><span class="line">torch.zeros(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#创建一个3x10的tensor</span></span><br><span class="line">list([<span class="number">0</span>])*<span class="number">10</span>  <span class="comment">#[10,10,10,10,10,10,10,10,10,10]</span></span><br><span class="line">list([[<span class="number">0</span>]*<span class="number">10</span>]*<span class="number">3</span>) <span class="comment">#创建一个3x10的list</span></span><br><span class="line"></span><br><span class="line">np.random.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的array</span></span><br><span class="line">torch.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的tensor</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">#合并/拓展</span></span><br><span class="line">a.extend([<span class="number">4</span>,<span class="number">5</span>]) <span class="comment">#[1,2,3,4,5]</span></span><br><span class="line"><span class="comment">#注意用法</span></span><br><span class="line">extend后保存的值就为a，和append用法类似</span><br><span class="line"></span><br><span class="line">removes = np.append(array1,array2,axis=<span class="number">0</span>) <span class="comment">#axis为合并的维度</span></span><br><span class="line">tensor 使用torch.stack进行合并</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>list 删除元素</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">list.remove(x)</span><br><span class="line">print(list)</span><br></pre></td></tr></table></figure>
+<p>该方法没有返回值<br>只会删掉匹配到的第一个<br>还有2个方法懒得记了</p>
+<p>python remove里有个巨坑！<br>如果用for循环来remove的话，for循环的时候，每删除一个元素，长度就会改变，索引就会变化！所以remove就会出问题！</p>
+<p>比如 要依次删除1，2位置的元素。</p>
+<p>第一次删除了1位置，那么列表索引就变了，2元素成为了1元素，3元素成为了2元素！2元素就这样被跳过了！</p>
+<p>解决办法见下</p>
+</li>
+<li><p>for循环 <strong>动态修改列表</strong>的时候的注意事项</p>
+<p>见68</p>
+<p>如何解决：deepcopy一份，一个列表用于循环，一个列表用于移除值</p>
+<p>（<code>from copy import deepcopy</code>)</p>
+</li>
+<li><p>调换维度。<br>使用numpyarrray.swapaxes(ax0,ax1)</p>
+</li>
+<li><p>numpy.size()函数<br>a = np.array(…)<br>np.size(a) 计算数组和矩阵所有数据的个数<br>np.size(a,1)计算该array第1维（第一个维度为0）的元素个数</p>
+</li>
+<li><p>tensor/array值归一化</p>
+<p><code>tensor.div_()</code></p>
+<p><code>narray.div_()</code></p>
+</li>
+<li><p>windows路径\\变成/即可</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>PYTHON</category>
+      </categories>
+  </entry>
+  <entry>
     <title>WE NEED R!G!B!</title>
     <url>/2019/02/27/R-G-B/</url>
     <content><![CDATA[<p>北极狼和北极熊水冷性能虽然很强，但是他们有个缺点就是没有RGB————</p>
@@ -2059,6 +2564,78 @@ H^{(t_0)}_{2*h}×W_{h*o} =
       </categories>
       <tags>
         <tag>神说，要有光</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>炼丹小结</title>
+    <url>/2019/01/20/%E7%82%BC%E4%B8%B9%E5%B0%8F%E7%BB%93/</url>
+    <content><![CDATA[<ol>
+<li><p>40层网络的参数比4层网络多10倍 因为每层都有参数<br>所以batch size也要相应的减小！不然太大了</p>
+</li>
+<li><p>train loss 一直处于一个摇摆（震荡）状态可能是学习率设置过大导致的</p>
+</li>
+<li><p>如何选择神经网络的自适应优化算法：</p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SGD：随机梯度下降</span><br><span class="line">SGD+Momentum: 基于动量的SGD（在SGD基础上做过优化）</span><br><span class="line">SGD+Nesterov+Momentum：基于动量，两步更新的SGD（在SGD+Momentum基础上做过优化）</span><br><span class="line">Adagrad：自适应地为各个参数分配不同学习速率</span><br><span class="line">Adadelta： 针对Adagrad问题，优化过的算法（在Adagrad基础上做过优化）</span><br><span class="line">RMSprop：对于循环神经网络（RNNs）是最好的优化器（在Adadelta基础上做过优化）</span><br><span class="line">Adam：对每个权值都计算自适应的学习速率（在RMSprop基础上做过优化）</span><br></pre></td></tr></table></figure>
+<p> 如果数据输入量很小，那就选一种自适应学习速率的方法（如Adam）。这样你就不用对学习速率进行调优，因为你的数据本来就小，NN学习耗时也小。这种情况你更应该关心网络分类的准确率；<br> 对于稀疏数据集，应该使用某种自适应学习率的方法（如Adam），且另一好处为不需要人为调整学习率，使用默认参数就可能获得最优值；<br> <strong>如果想使训练深层网络模型快速收敛或所构建的神经网络较为复杂，则应该使用自适应学习速率的方法</strong>（如Adam），通常它们收敛起来比较快，实际效果更优；</p>
+<p> Adam在不同超参数下的鲁棒性较好，<strong>不过有时可能需要调整下η值。Adam算法中的超参数β1和β2以及learning-rate也会显著影响模型，有时需要调试</strong>；</p>
+<p> RMSprop, Adadelta, 和 Adam 非常相似，在相同的情况下表现都很好，但偏置校验让Adam的效果稍微比RMSprop好一点；</p>
+<p> <strong>如果不知道为你的神经网络选择哪种优化算法，就直接选Adam</strong></p>
+<p> [Insofar, Adam might be the best overall choice.]</p>
+<p> 上面的结论都未必正确，重在自己的实践</p>
+<p> （本段总结自 <a href="https://www.jianshu.com/p/e8c2d0371c8a" target="_blank" rel="noopener">神经网络优化算法的选择</a>）</p>
+</li>
+<li><p>超参数搜索</p>
+<p>python有超参数自动搜索模块</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sklearn.model_selection</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/nwpuxuezha/p/6618205.html" target="_blank" rel="noopener">Python超参数自动搜索模块GridSearchCV上手</a><br><a href="https://www.jianshu.com/p/5378ef009cae" target="_blank" rel="noopener">ML模型超参数调节：网格搜索、随机搜索与贝叶斯优化</a></p>
+</li>
+<li><p>基于要解决的问题类别,神经网络的最后一层通常是确定的.</p>
+<ul>
+<li><strong>回归</strong>问题: 最后使用一个有输出的线性层,输出的值是连续的.</li>
+<li><strong>二分类</strong>问题:最后使用sigmoid激活函数, 因为它的输出值不是接近1就是接近0</li>
+<li>对于<strong>多分类</strong>问题,网络最后使用softmax层. 它从前一先行层获取输入,并输出给定数量样例上的概率. (所有概率相加的总和必然为1)<br>(当然如果二分类问题想要输出概率也可以用softmax)</li>
+</ul>
+</li>
+<li><p><strong>BN（Batch Normalization）是个好文明</strong></p>
+</li>
+<li><p>损失函数选择<br>对于回归问题,通常使用MSE(均方误差)<br>对于分类问题,通常使用交叉熵<br>(MSE对于每一个输出的结果都非常看重，而交叉熵只对正确分类的结果看重。)<br>其他的</p>
+<p>| 损失函数           | 通常用法                                            |<br>| ————————— | —————————————————————————- |<br>| L1 loss            | 通常作为正则化器使用                                |<br>| MSE loss           | 均方误差损失,用于回归问题的损失函数                 |<br>| Cross-entropy loss | 交叉熵损失,用于二分类和多分类问题                   |<br>| NLL Loss           | 用于分类问题,允许用户使用特定的权重处理不平衡数据集 |<br>| NLL Loss2d         | 用于像素级分类,通常和图像分割问题有关               |<br><strong>注意</strong>：<br>①<strong>若使用了nn.CrossEntropyLoss() 函数，则最后一层就不应该使用softmax函数！</strong><br>这个函数包含了<strong>log_softmax</strong>，其操作为“使用对数似然损失函数和log_softmax激活函数进行DNN分类输出”  CrossEntropyLoss()=log_softmax() + NLLLoss()<br><strong>但是，使用log_softmax运算是在output输出进入损失函数的时候。如果要获取输出概率，那就得在得到outputs后，在网络外面单独求一个<code>F.softmax(outputs.data,dim=1)</code></strong>(但若使用log_softmax() + NLLLoss()， log_softmax函数是在网络里的（获得网络输出之前），所以不需要在网络外面单独求softmax)<br>②损失函数 CrossEntropyLoss() 与 NLLLoss() 类似<br>③<strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong>  </p>
+</li>
+<li><p>log_softmax和softmax的选择<br><strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong><br>用了log_softmax得到的结果是对softmax求次对数（并非采用直接求 ，而是一种较快的方式）</p>
+</li>
+<li><p>一般用loader加载的时候，num_workers使用少于机器内核数量的woker是一个通用的实践</p>
+</li>
+<li><p>权值增速比 0.01比较好</p>
+</li>
+<li><p><strong>网络结构中的参数计算</strong><br> O=输出图像的尺寸 output<br> I=输入图像的尺寸 input<br> K=卷积层的核尺寸 kernal<br> N=核数量 number of kernal<br> S=移动步长 strike<br> P =填充数 padding<br> ①想要con2d卷积出来的图片尺寸没有变化, </p>
+<script type="math/tex; mode=display">P=\frac{K-1}{2}</script><p> 每层连接的参数计算：<a href="https://blog.csdn.net/guo1988kui/article/details/78480282" target="_blank" rel="noopener">详细解释CNN卷积神经网络各层的参数和链接个数的计算</a><br> ②输出图像的大小计算<br> 输出图像尺寸的计算公式如下：</p>
+<script type="math/tex; mode=display">O=\frac{I-K+2P}{S}+1</script></li>
+<li><p>Softmax 是神经网络中另一种输出层函数，计算输出层的值。主要用于神经网络最后一层，作为输出层进行多分类，是Logistic二分类的推广。也可以单独使用。</p>
+</li>
+<li><p>batch size的选择<br> <a href="https://www.jiqizhixin.com/articles/2018-07-12-4" target="_blank" rel="noopener">训练神经网络时如何确定batch size</a></p>
+</li>
+<li><p>学习率变更策略<br> <a href="https://www.jianshu.com/p/1f943de39582" target="_blank" rel="noopener">如何选择最适合你的学习率变更策略</a></p>
+</li>
+<li><p>神经网络权值初始化</p>
+<p> 神经网络初始权值不能全部设置一样，否则学不到<br> <a href="https://blog.csdn.net/u012328159/article/details/80025785" target="_blank" rel="noopener">深度学习中神经网络的几种权重初始化方法</a></p>
+</li>
+<li><p>常见学习率选择策略</p>
+<p>| 策略              | 解释                                                         |<br>| ————————- | —————————————————————————————— |<br>| StepLR            | 步长规则，学习率倍数变化(步长内变gamma倍)                    |<br>| MultiStepLR       | 步长不规则，学习率倍数变化                                   |<br>| ExponentialLR     | 步长为1，学习率乘数变化                                      |<br>| ReduceLROnPlateau | 常用。当特定的度量指标，如训练损失、验证损失或准确率不再变化时，学习率就会改变。通用实践是降为原来的1/2~1/10 |</p>
+</li>
+<li><p>池化/卷积 与 ReLU的顺序<br> 在最大池化之后或者在应用卷积<strong>之后使用非线性层</strong>是通用的最佳实践</p>
+</li>
+<li><p>FC, dropput都是可以有多层，不是只能用一层</p>
+</li>
+<li><p>深度学习的11个常见陷阱应对方法总结</p>
+<p> <a href="https://36kr.com/p/5091825" target="_blank" rel="noopener">神经网络 11 大常见陷阱及应对方法</a></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>神经网络</category>
+      </categories>
+      <tags>
+        <tag>炼丹</tag>
       </tags>
   </entry>
   <entry>
@@ -2185,7 +2762,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
       </tags>
   </entry>
   <entry>
-    <title>Pytorch中常用的维度变换与torch.max()</title>
+    <title>维度及Pytorch中常用的维度变换与torch.max()</title>
     <url>/2018/11/12/Pytorch%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8Etorch-max/</url>
     <content><![CDATA[<h2 id="Tensor-view-扁平化"><a href="#Tensor-view-扁平化" class="headerlink" title="Tensor.view() 扁平化"></a>Tensor.view() 扁平化</h2><p>简单说就是一个把tensor 进行reshape的操作。<br>常常配合 <code>a.size(0)</code>来取得某一位的维度数</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a=torch.randn(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line">b = a.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">print(b.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">1</span>, <span class="number">420</span>])</span><br></pre></td></tr></table></figure>
@@ -2204,6 +2781,8 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>eg<br><code>_, preds = torch.max(outputs.data, 1)</code></p>
 <p>输出的outputs也是torch.autograd.Variable格式，得到输出后（网络的全连接层的输出）还希望能到到模型预测该样本属于哪个类别的信息，这里采用torch.max。torch.max()的第一个输入是tensor格式，所以用outputs.data而不是outputs作为输入；第二个参数1是代表dim的意思，也就是取每一行的最大值，<strong>其实就是我们常见的取概率最大的那个index</strong>；第三个参数loss也是</p>
 <p>这个函数可以直接处理组</p>
+<h2 id="对于python中的维度的理解-tensor-array等"><a href="#对于python中的维度的理解-tensor-array等" class="headerlink" title="对于python中的维度的理解(tensor array等)"></a>对于python中的<strong>维度</strong>的理解(tensor array等)</h2><p>[   [    [    ]   ]   ]<br>最外层是第0维，中间层是第1维，最里层是第二维<br>操作哪一维，就相当于该维以外的维度都<strong>固定</strong>住，操作只在该维下进行，对于更高维度（外维），<strong>都执行相同的操作</strong></p>
+<p>对于网络中fc层之后还要返回计算softmax的值的时候，应该选择<code>return F.los_softmax(x,dim=1)</code><br>因为经过fc层之后的矩阵结构为[[a1,a2],[b1,b2]]  (假设二分类，batch=2）<br>则要对[a1,a2]求softmax，再对[b1,b2]求softmax，所以是固定第0维，操作第1维，对第一维的每组求softmax</p>
 ]]></content>
       <categories>
         <category>神经网络</category>
@@ -2511,6 +3090,119 @@ H^{(t_0)}_{2*h}×W_{h*o} =
       </categories>
   </entry>
   <entry>
+    <title>notes_0915</title>
+    <url>/2018/09/15/notes-0915/</url>
+    <content><![CDATA[<ol>
+<li>尽量少使用显式循环<br>用向量化（并行运算） 即将元素作为向量进行计算<br>numpy.dot(x,y)<br>numpy.exp(v)<br>等等 numpy有很多向量化函数<br>即为点乘<br>平时计算的时候也可以直接用向量化计算，速度快很多</li>
+</ol>
+<ol>
+<li><p>神经网络——堆叠的线性分类器<br>一个网元就是一个线性分类器</p>
+</li>
+<li><p>激活函数的选择 ReLU&gt;sigmod<br>ReLU最常用，sigmod基本不用</p>
+</li>
+<li><p>tensor = 张量<br>在pytorch中，matrix即为张量</p>
+</li>
+<li><p>tensor，list，numpy array, tensor list的 <strong>转换方法</strong></p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]]</span><br><span class="line">tensor = torch.Tensor(list) <span class="comment">#List-&gt;Tensor</span></span><br><span class="line">narray = numpy.array(list)  <span class="comment">#List-&gt;narray</span></span><br><span class="line">tensor = torch.from_numpy(narray) <span class="comment">#narray-&gt;tensor</span></span><br><span class="line">narray = tensor.numpy()   <span class="comment">#Tensor-&gt;narray</span></span><br><span class="line">注意list narray tensor之间的转换方法</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">将tensor list转变为tensor： </span><br><span class="line">用torch.stack而不是torch.Tensor</span><br><span class="line">tensor_list = [tensor0,tensor1,tensor2..]=&gt;tensor</span><br><span class="line">tensor = torch.stack(tensor_list)</span><br><span class="line">注意tensor中的格式必须相同，如果想要和list一样合并变长tensor必须用cat）</span><br></pre></td></tr></table></figure>
+ <a id="more"></a>
+</li>
+<li><p>Tensor数学运算</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tensor.sub(b)  <span class="comment">#tensor-b</span></span><br><span class="line">fin = torch.add(tensor1,tensor2) <span class="comment">#fin = tensor1+tensor2</span></span><br><span class="line">(mul div同add)</span><br><span class="line"></span><br><span class="line">torch.sum()</span><br><span class="line"></span><br><span class="line"><span class="comment">#批矩阵相乘函数</span></span><br><span class="line">torch.bmm(A,B)</span><br></pre></td></tr></table></figure>
+<p> 对numpy array求math function，不要用math.function，直接用numpy.function如</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np.exp(nparray)</span><br></pre></td></tr></table></figure>
+<p> 如果对tensor求math函数的报错<code>only one element tensors can be converted to Python scalars</code>的话，就将tensor转化为numpy array再用numpy库的数学函数求</p>
+</li>
+<li><p><strong>torch.Varibale和torch.Tensor用法基本一致，可以替换使用</strong><br><code>Variable</code>包装了一个<code>Tensor</code>，并且保存着梯度和创建这个<code>Variable</code>function的引用<br>本质上Variable和Tensor没有什么区别，<br>不过Variable会放在一个计算图里面，<br>可以进行前向传播和反向传播以及求导</p>
+</li>
+<li><p>显卡信息<br>nvidia-smi</p>
+</li>
+<li><p><code>sum(condition)</code><br>计算满足condition的总数<br>eg：<code>sum(predict == label)</code><br>preidict 是一个list<br>label是一个list<br>他们形状相同<br>则统计两个列表中对应元素相同的个数</p>
+</li>
+<li><p>batch<br>每一次从训练集/验证集/预测集 里面取数（从dataloader里取），都是以一个batch为一组来取<br>按batch进行训练的模型，在使用的时候也是按batch进行预测，输出的也是按batch的输出值</p>
+</li>
+<li><p>释放CUDA显存<br> <code>torch.cuda.empty_cache()</code></p>
+</li>
+<li><p>保存和加载模型</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#直接保存模型和参数</span></span><br><span class="line">torch.save(model_object, <span class="string">'resnet.pth'</span>)</span><br><span class="line"><span class="comment">#直接加载模型和参数</span></span><br><span class="line">model = torch.load(<span class="string">'resnet.pth'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#但要注意！ 加载的时候，得先运行网络的定义！（即要先有网络结构，它才会把加载的参数填入网络）</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#加载预训练模型</span></span><br><span class="line">https://blog.csdn.net/lscelory/article/details/<span class="number">81482586</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>测试的时候爆显存</strong>有可能是忘记设置no_grad, 示例代码如下：</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> ii,(inputs,filelist) <span class="keyword">in</span> tqdm(enumerate(test_loader), desc=<span class="string">'predict'</span>):</span><br><span class="line">            <span class="keyword">if</span> opt.use_gpu:</span><br><span class="line">                inputs = inputs.cuda()</span><br><span class="line">                <span class="keyword">if</span> len(inputs.shape) &lt; <span class="number">4</span>:</span><br><span class="line">                    inputs = inputs.unsqueeze(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> len(inputs.shape) &lt; <span class="number">4</span>:</span><br><span class="line">                    inputs = torch.transpose(inputs, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">                    inputs = inputs.unsqueeze(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p> 先设置不使用梯度，然后将测试时候的batchsize设置成训练时候的二分之一或者三分之一就不会爆了。<br> 可能原因是测试的时候真的需要更大的显存。</p>
+</li>
+<li><p>指定使用哪块GPU 0123</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>] = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存和加载模型 ,获得模型权重参数</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 保存和加载整个模型</span></span><br><span class="line">torch.save(model, <span class="string">'model.pkl'</span>)</span><br><span class="line">model = torch.load(<span class="string">'model.pkl'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 仅保存和加载模型参数(推荐使用)</span></span><br><span class="line">torch.save(model.state_dict(), <span class="string">'params.pkl'</span>)</span><br><span class="line"><span class="comment"># 注意是先在里面torch.load文件 在加载到model（网络实例）的权重字典里</span></span><br><span class="line">model.load_state_dict(torch.load(<span class="string">'params.pkl'</span>))</span><br></pre></td></tr></table></figure>
+<p> 得到模型权重： <code>model.state_dict</code></p>
+</li>
+<li><p>查看trainset打的标签<br>  <code>trainset.class_to_idx</code></p>
+</li>
+<li><p><code>nn.Linear层</code>就相当于一个<code>y = w·x + b</code></p>
+</li>
+<li><p>对于带有梯度的tensor（由于variable和tensor合并了， 在cuda且求了grad），要对其操作则要<br> tensor.cpu().detach() 再进行运算操作<br> <code>detach</code>可以去掉去梯度部分</p>
+</li>
+<li><p><strong>Pytorch 训练和测试时记得加 model.train 和 model.eval</strong> 设置模型模式<br> 如果用到了BN和dropout，用PyTorch进行训练和测试时一定注意要把实例化的model指定train/eval，eval（）时，框架会自动把BN和DropOut固定住，不会取平均，而是用训练好的值，不然的话，一旦test的batch_size过小，很容易就会被BN层导致生成图片颜色失真极大。<br> <strong>这两个方法是针对在网络train和eval时采用不同方式的情况，比如Batch Normalization和Dropout</strong></p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Class Inpaint_Network()</span><br><span class="line">......</span><br><span class="line">Model = Inpaint_Nerwoek()</span><br><span class="line"><span class="comment">#train:</span></span><br><span class="line">Model.train(mode=<span class="keyword">True</span>)</span><br><span class="line">.....</span><br><span class="line"><span class="comment">#test:</span></span><br><span class="line">Model.eval()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>glob模块</strong> (非常有用的文件读取操作模块）<br> glob是python自己带的一个文件操作相关模块，用它可以查找符合自己目的的文件，类似于Windows下的文件搜索，支持通配符操作，_,?,[]这三个通配符，_代表0个或多个字符，?代表一个字符，[]匹配指定范围内的字符，如[0-9]匹配数字。两个主要方法如下。<br> <strong>①glob方法</strong>：<br> glob模块的主要方法就是glob,该方法返回所有匹配的文件路径<strong>列表</strong>（list）；该方法需要一个参数用来指定匹配的路径字符串（字符串可以为绝对路径也可以为相对路径），其返回的文件名只包括当前目录里的文件名，不包括子文件夹里的文件。<br> 比如：</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">glob.glob(r’c:*.txt’)</span><br><span class="line"><span class="comment">#我这里就是获得C盘下的所有txt文件</span></span><br><span class="line">glob.glob(r’E:\pic**.jpg’)</span><br><span class="line"><span class="comment">#获得指定目录下的所有jpg文件</span></span><br><span class="line"><span class="comment">#使用相对路径：</span></span><br><span class="line">glob.glob(r’../*.py’)</span><br></pre></td></tr></table></figure>
+<p> <strong>②iglob方法</strong></p>
+<pre><code> 获取一个**迭代器**（ iterator ）对象，使用它可以逐个获取匹配的文件路径名。与glob.glob()的区别是：glob.glob同时获取所有的匹配路径，而 glob.iglob一次只获取一个匹配路径。
+</code></pre><p> 这样就可以不一次性读完所有文件，节约内存<br> 下面是一个简单的例子：</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = glob.iglob(<span class="string">r'../*.py'</span>) </span><br><span class="line"><span class="keyword">print</span> f </span><br><span class="line">&gt;&gt; &lt;generator object iglob at <span class="number">0x00B9FF80</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> py <span class="keyword">in</span> f:</span><br><span class="line">    <span class="keyword">print</span> py</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用<strong>help</strong>看用法..torch里的函数用法繁多</p>
+</li>
+<li><p>向量运算的一个注意点：要先去掉梯度！<br> 涉及梯度计算的Tensor（以前是被封装成Variable，但后来合并了），需要用<code>.data</code>来取得其tensor<br> eg:<code>loss.data</code> <code>outputs.data</code><br> 损失函数返回值，模型输出，都是含有梯度的向量，需要用<code>.data</code>再参与运算！</p>
+</li>
+<li><p>注意<strong>单元素tensor</strong>！<br> Use tensor.item() to convert a 0-dim tensor to a Python number<br> 比如每个batch的loss返回值、sum(tensor1==tensor2)等都是单元素tensor<br> tensor和普通数字不能随意运算，不然会出错<br> <strong>要注意，tensor运算得到的结果也是tensor，就算是sum(tensor1==tensor2)得到相等元素数量，得到的也是tensor(x) （x为相等元素数量，一个常数），依然需要sum(temsor1==temsor2).item()才能参与普通数字运算</strong><br> 否则会出莫名其妙的错误！：比如</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">t1 = torch.Tensor([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line">t2 = torch.Tensor([<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">6</span>])</span><br><span class="line">sum(t1==t2)</span><br><span class="line">&gt;&gt; tensor(<span class="number">2</span>,dtype=torch.uint8)</span><br><span class="line">sum(t1==t2)/<span class="number">10</span></span><br><span class="line">&gt;&gt; tensor(<span class="number">0</span>,dtype=torch.uint8)</span><br><span class="line">torch.sum(t1==t2)</span><br><span class="line">&gt;&gt; tensor(<span class="number">2</span>)</span><br><span class="line">torch.sum(t1==t2)/<span class="number">10</span></span><br><span class="line">&gt;&gt; tensor(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这样才正确</span></span><br><span class="line">sum(t1==t2).item()/<span class="number">10</span></span><br><span class="line">&gt;&gt; <span class="number">0.2</span></span><br><span class="line">torch.sum(t1==t2).item()/<span class="number">10</span></span><br><span class="line">&gt;&gt; <span class="number">0.2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#tensor除(/)一个常数是整除！</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据集<br> 最好使用三个数据集：训练集、验证集、测试集<br>  <code>sklearn.model_selection.train_test_split</code> 函数可用于方便的划分数据集</p>
+</li>
+<li><p>dropout 和 dropout2d的区别<br> torch.nn.Dropout对所有元素中<strong>每个元素</strong>按照概率0.5更改为零<br> 而torch.nn.Dropout2d是对<strong>每个通道</strong>按照概率0.5置为0（即一个通道全为0）</p>
+</li>
+<li><p>对于网络</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span></span></span><br><span class="line"><span class="class">...</span></span><br><span class="line"><span class="class"></span></span><br><span class="line">net = model()</span><br><span class="line"></span><br><span class="line">model.features</span><br><span class="line">net</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意<code>a = a.cuda()</code> 要赋值回去</p>
+</li>
+<li><p><strong>torch的交叉熵的输入第一个位置的输入应该是在每个label下的概率, 而不是对应的label</strong><br>否则会报错dimension out of range (expected to be in range of [-1, 0], but got 1)</p>
+</li>
+<li><p>返回对象的属性值<br><code>vars()</code><br>用法<code>vars(object)</code><br>可用于很多封装对象如dataloader等等</p>
+</li>
+<li><p>交叉熵损失函数中的weight参数 （权重）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">weight = torch.FloatTensor([<span class="number">0.13859937</span>, <span class="number">0.5821059</span>, <span class="number">0.63871904</span>, <span class="number">2.30220396</span>, <span class="number">7.1588294</span>, <span class="number">0</span>]).cuda()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>迁移学习修改网络应该直接修改层，修改线性层的out_features会遇到问题</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#应该直接修改最后一层网络</span></span><br><span class="line">vgg.classifier[<span class="number">6</span>] = nn.Linear(<span class="number">4096</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意初始化网络结构和传入参数到网络里进行计算的区别<br> 初始化网络实体的时候是传入<strong>init</strong>()里的参数，相当于初始化网络部件<br> 传入参数是传入forward()里的传输，这个传入的就需要计算了<br> 先初始化网络再传入参数进行计算</p>
+</li>
+<li><p><strong>输入损失函数的真实标签项，必须为long类型</strong> 不能是tensor float！tensor int！</p>
+<p> 具体如此生成：</p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">tensor = torch.LongTensor(list)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cuda runtime error: device-side assert triggered at xxx<br> 这个问题一般来自模型输出的label数量和标签类别种类数量不同。要洗一遍数据集的标签</p>
+</li>
+<li><p><strong>自定义层</strong></p>
+<p> 可以自己定义层，只需要继承自<code>nn.Module</code>并实现<code>forward()</code>函数</p>
+<p> <strong>问题：需要实现backwards函数吗？它会自动求导吗？</strong>：</p>
+<p> pytorch可以自动求导，但如果实现的层<strong>不可导</strong>，就需要<strong>自己实现梯度的反向传递</strong>（<strong>比如存在if条件，孤立点，拐点</strong>，就需要自定义求导式）也就是所谓的 “Extending torch.autograd”. 官网虽然给了例子</p>
+<p> 以下举例，自己建立了一个计算Gram Matrix 格拉姆矩阵的层（由于是可导的，所以不需要自己实现）</p>
+</li>
+<li><p>继承的时候别忘了<code>super().__init__()</code></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>神经网络</category>
+      </categories>
+  </entry>
+  <entry>
     <title>DigitalOcean成功迁移Vultr</title>
     <url>/2018/09/13/DigitalOcean%E6%88%90%E5%8A%9F%E8%BF%81%E7%A7%BBVultr/</url>
     <content><![CDATA[<p>新日本东京服务器，平均延迟122ms，联通延迟更低，甚至可以加速器用233</p>
@@ -2518,6 +3210,18 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 ]]></content>
       <categories>
         <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>优化器optimizer和超参数更新</title>
+    <url>/2018/09/10/%E4%BC%98%E5%8C%96%E5%99%A8optimizer%E5%92%8C%E8%B6%85%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<h2 id="optimizer"><a href="#optimizer" class="headerlink" title="optimizer"></a>optimizer</h2><p><code>optimizer.param_group</code><br>记录了模型迭代的优化器参数信息<br><code>optimizer.step</code>后可从<code>optimizer.param_groups[0][‘params’]</code>查看参数变化<br><code>optimizer.param_groups[0]</code>是一个字典<br>包含<code>dict_keys([&#39;params&#39;, &#39;lr&#39;, &#39;betas&#39;, &#39;eps&#39;, &#39;weight_decay&#39;, &#39;amsgrad&#39;])</code><br>所以可以自己看想要的信息，也可以直接修改！</p>
+<p>模型权重参数是存在于<code>model.parameters()</code>中的，这个也是要传入optimizer的变量</p>
+<h2 id="超参数更新"><a href="#超参数更新" class="headerlink" title="超参数更新"></a>超参数更新</h2><p>（<code>optimizer</code>和<code>scheduler</code>都是自己事先定义的变量，前者为优化器，后者为自适应学习率优化器<br><code>optimzer = torch.optim.Adam(……)</code><br><code>scheduler = torch.optim.lr_scheduler.StrpLR(……)</code>)</p>
+<p><code>optimizer.step()</code>：通常用在<strong>每个mini-batch之中</strong>，用了之后<strong>模型才会更新</strong><br><code>scheduler.step()</code>：通常用在<strong>epoch里面</strong>，用了之后才会<strong>对学习率lr进行调整</strong><br><code>optimizer.zero_grad()</code> 用在<strong>每个mini-batch之中</strong>，梯度参数清0，以避免参数把上一次optimizer调用时创建的梯度累加在一起（根据pytorch中的backward()函数的计算，当网络参量进行反馈时，梯度是被积累的而不是被替换掉；但是在每一个batch时毫无疑问并不需要将两个batch的梯度混合起来累积，因此这里就需要每个batch设置一遍zero_grad 了。）</p>
+]]></content>
+      <categories>
+        <category>神经网络</category>
       </categories>
   </entry>
   <entry>

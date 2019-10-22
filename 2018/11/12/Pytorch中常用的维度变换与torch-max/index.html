@@ -82,14 +82,14 @@
 <meta name="description" content="Tensor.view() 扁平化简单说就是一个把tensor 进行reshape的操作。常常配合 a.size(0)来取得某一位的维度数 1234a=torch.randn(3,4,5,7)b = a.view(1,-1)print(b.size())&amp;gt;&amp;gt;torch.Size([1, 420]) 其中参数-1表示剩下的值的个数一起构成一个维度。如上例中，第一个参数1将第一个维度的大小">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pytorch中常用的维度变换与torch.max()">
+<meta property="og:title" content="维度及Pytorch中常用的维度变换与torch.max()">
 <meta property="og:url" content="https://aisakaki.com/2018/11/12/Pytorch中常用的维度变换与torch-max/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Tensor.view() 扁平化简单说就是一个把tensor 进行reshape的操作。常常配合 a.size(0)来取得某一位的维度数 1234a=torch.randn(3,4,5,7)b = a.view(1,-1)print(b.size())&amp;gt;&amp;gt;torch.Size([1, 420]) 其中参数-1表示剩下的值的个数一起构成一个维度。如上例中，第一个参数1将第一个维度的大小">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-16T13:33:21.203Z">
+<meta property="og:updated_time" content="2019-10-22T02:41:04.887Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pytorch中常用的维度变换与torch.max()">
+<meta name="twitter:title" content="维度及Pytorch中常用的维度变换与torch.max()">
 <meta name="twitter:description" content="Tensor.view() 扁平化简单说就是一个把tensor 进行reshape的操作。常常配合 a.size(0)来取得某一位的维度数 1234a=torch.randn(3,4,5,7)b = a.view(1,-1)print(b.size())&amp;gt;&amp;gt;torch.Size([1, 420]) 其中参数-1表示剩下的值的个数一起构成一个维度。如上例中，第一个参数1将第一个维度的大小">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>Pytorch中常用的维度变换与torch.max() | 宵晓咲</title>
+  <title>维度及Pytorch中常用的维度变换与torch.max() | 宵晓咲</title>
   
 
 
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Pytorch中常用的维度变换与torch.max()</h1>
+          <h1 class="post-title" itemprop="name headline">维度及Pytorch中常用的维度变换与torch.max()</h1>
         
 
         <div class="post-meta">
@@ -404,6 +404,8 @@
 <p>eg<br><code>_, preds = torch.max(outputs.data, 1)</code></p>
 <p>输出的outputs也是torch.autograd.Variable格式，得到输出后（网络的全连接层的输出）还希望能到到模型预测该样本属于哪个类别的信息，这里采用torch.max。torch.max()的第一个输入是tensor格式，所以用outputs.data而不是outputs作为输入；第二个参数1是代表dim的意思，也就是取每一行的最大值，<strong>其实就是我们常见的取概率最大的那个index</strong>；第三个参数loss也是</p>
 <p>这个函数可以直接处理组</p>
+<h2 id="对于python中的维度的理解-tensor-array等"><a href="#对于python中的维度的理解-tensor-array等" class="headerlink" title="对于python中的维度的理解(tensor array等)"></a>对于python中的<strong>维度</strong>的理解(tensor array等)</h2><p>[   [    [    ]   ]   ]<br>最外层是第0维，中间层是第1维，最里层是第二维<br>操作哪一维，就相当于该维以外的维度都<strong>固定</strong>住，操作只在该维下进行，对于更高维度（外维），<strong>都执行相同的操作</strong></p>
+<p>对于网络中fc层之后还要返回计算softmax的值的时候，应该选择<code>return F.los_softmax(x,dim=1)</code><br>因为经过fc层之后的矩阵结构为[[a1,a2],[b1,b2]]  (假设二分类，batch=2）<br>则要对[a1,a2]求softmax，再对[b1,b2]求softmax，所以是固定第0维，操作第1维，对第一维的每组求softmax</p>
 
       
     </div>
@@ -424,7 +426,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2018/11/12/Pytorch中常用的维度变换与torch-max/" title="Pytorch中常用的维度变换与torch.max()">https://aisakaki.com/2018/11/12/Pytorch中常用的维度变换与torch-max/</a>
+    <a href="https://aisakaki.com/2018/11/12/Pytorch中常用的维度变换与torch-max/" title="维度及Pytorch中常用的维度变换与torch.max()">https://aisakaki.com/2018/11/12/Pytorch中常用的维度变换与torch-max/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -544,7 +546,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">99</span>
+                  <span class="site-state-item-count">104</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +557,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -566,7 +568,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -633,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tensor-view-扁平化"><span class="nav-number">1.</span> <span class="nav-text">Tensor.view() 扁平化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsqueeze降维-和squeeze升维"><span class="nav-number">2.</span> <span class="nav-text">unsqueeze降维 和squeeze升维</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#torch-max函数"><span class="nav-number">3.</span> <span class="nav-text">torch.max函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tensor-view-扁平化"><span class="nav-number">1.</span> <span class="nav-text">Tensor.view() 扁平化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsqueeze降维-和squeeze升维"><span class="nav-number">2.</span> <span class="nav-text">unsqueeze降维 和squeeze升维</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#torch-max函数"><span class="nav-number">3.</span> <span class="nav-text">torch.max函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于python中的维度的理解-tensor-array等"><span class="nav-number">4.</span> <span class="nav-text">对于python中的维度的理解(tensor array等)</span></a></li></ol></div>
             
 
           </div>
