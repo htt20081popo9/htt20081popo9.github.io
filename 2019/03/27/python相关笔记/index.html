@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="迄今为止在python上遇到的坑，超长预警">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-22T03:31:38.902Z">
+<meta property="og:updated_time" content="2019-10-23T02:10:41.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python相关笔记">
 <meta name="twitter:description" content="迄今为止在python上遇到的坑，超长预警">
@@ -408,14 +408,12 @@
 <li><p><code>os.listdir(path)</code> 返回path路径下的所有文件和文件夹列表</p>
 </li>
 <li><code>os.path.join(path1,str)</code> 将两个字符串合并生成一个新路径</li>
-<li><p>列表解析功能</p>
-<p> 比如<code>b =[i+2 for i in a]</code><br> <code>apk_dirs = [os.path.join(BASE_PATH, name) for name in names]</code></p>
+<li><p>列表解析功能<br> 比如<code>b =[i+2 for i in a]</code><br> <code>apk_dirs = [os.path.join(BASE_PATH, name) for name in names]</code></p>
 </li>
-<li><p><code>list</code>用于将元组转换为列表</p>
-<p> 元祖不可更改，列表可以更改。列表对应一大批操作函数。</p>
+<li><p><code>list</code>用于将元组转换为列表<br> 元祖不可更改，列表可以更改。列表对应一大批操作函数。</p>
 </li>
 <li><p>通过这种方式可以遍历打开Path路径下的所有文件<br> 注意冒号</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(Path):</span><br><span class="line"><span class="keyword">with</span> open(os.path.join(Path, file), <span class="string">'r'</span>) <span class="keyword">as</span> f</span><br><span class="line"><span class="string">'''熟悉用python操作文件路径 熟悉使用2 3 for in等</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(Path):</span><br><span class="line"><span class="keyword">with</span> open(os.path.join(Path, file), <span class="string">'r'</span>) <span class="keyword">as</span> f</span><br><span class="line"><span class="string">'''熟悉用python操作文件路径 熟悉使用2 3 for in等'''</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Python JSON<br><a href="http://www.runoob.com/python/python-json.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-json.html</a><br><code>json.dumps</code> 将 Python 对象编码成 JSON 字符串<br><code>json.loads</code> 将已编码的 JSON 字符串解码为 Python 对象</p>
 </li>
@@ -466,7 +464,7 @@
 </li>
 </ol>
 <ol>
-<li><p><code>`str.strip（）</code>去掉字符串末尾字符（常用来去掉’/n’等</p>
+<li><p><code>str.strip（）</code>去掉字符串末尾字符（常用来去掉’/n’等</p>
 </li>
 <li><p><code>list</code>有序而<code>dict</code>无序</p>
 </li>
