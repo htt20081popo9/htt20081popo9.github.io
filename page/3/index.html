@@ -578,6 +578,62 @@
 </li>
 <li><p>mac自带的ruby权限较小，开发不要用这个。我们要自己安装rvm并创建ruby环境，随后我们的cocoapods是在这个环境使用的</p>
 </li>
+<li><p>respondsToSelector 用来判断某一个方法时候实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#如果destroy这个方法实现了，就执行之</span><br><span class="line">if ([subViewController respondsToSelector:@selector(destroy)])</span><br><span class="line">&#123;</span><br><span class="line">	[subViewController destroy];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UINavigationController 导航控制器</p>
+<p>开发的时候一般都是多控制器，由一个父控制器管理多个子控制器</p>
+<p>一般都是在Appdelegate中生成（可以将Nav写在一个VC中，然后在Appdelegate中实例化这个VC）</p>
+<p>使用方法：</p>
+<ul>
+<li><p>初始化UINavigationController实例</p>
+</li>
+<li><p>在AppDelegate中设置一个根控制器，即设置<code>self.window.rootViewController=UINavigationController</code>（在AppDelegate中设置,self指的appdelegate）</p>
+</li>
+<li><p>通过push方法添加需要的子控制器</p>
+<p>在初始化UINavagationController的时候调用构造方法<code>initWithRootViewController:</code>就会自动push自己设定的根控制器，但其它view就要创建后手动push</p>
+</li>
+</ul>
+<p>当前view所属控制器<code>self.navigationController</code></p>
+<p>控制器跳转：<code>[self.navigationController pushViewController:xxxViewController animated:YES]</code></p>
+<p>压入(push)控制器：<code>-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
+<p>移除(pop)栈顶控制器:<code>-(UIViewController *)popViewControllerAnimated:(BOOL)animated;</code>即可返回上一层控制器</p>
+<p>回到(popTo)指定子控制器:<code>-(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
+<p>回到根(popToRoot)控制器（栈底）:<code>-(NSArray *)popToRootViewControllerAnimated:(BOOL)Animated;</code></p>
+<p>一次压入多个控制器<code>setViewController</code></p>
+<p>栈顶控制器<code>nav.topViewController</code></p>
+<p>当前可见视图控制器<code>nav.visibleViewController</code></p>
+</li>
+<li><p>ViewController相关</p>
+<p>根据名字获取VC：<code>_homeViewController = self.viewControllers[TABBAR_HOME_INDEX];</code></p>
+</li>
+<li><p>账户登入状态等信息可以用单例模式来管理</p>
+</li>
+<li><p>AppDelegate负责管理程序周期，是程序入口</p>
+<p>如<code>-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code></p>
+<p>这里就是程序launch完后做的事情，这时候就可以初始化Root VC了</p>
+</li>
+<li><p>协议 接口 委托</p>
+<p>委托：A委托B去做某事，B如果没有这个方法，B从C继承，C有这个方法，就会执行C中的该方法（与java一样的向上转型）</p>
+<ul>
+<li>A是B的委托对象</li>
+<li>B引用一个A</li>
+<li>A将实现B的委托方法</li>
+<li>B通过委托方法通知</li>
+</ul>
+<p>接口：接口就相当于一个头文件，告诉外部可以用，联想生物细胞的构造</p>
+<p>在h文件里写@interfacae，在m文件里实现该interface，就相当于建立了一个类，只有interface暴露的东西才能被外部使用，这种设计是为了更好的安全性</p>
+<p>java类和oc类的核心区别在于，java类的共有私用是由类里面自己实现的，可以设置共私有变量和方法，而OC中每个类都是由一个接口interface和实现该interface的类来完成，只有interface中的东西暴露给了外部</p>
+<pre><code> 协议：协议可以类比java中的interface
+</code></pre></li>
+<li><p><code>Universal Link</code>, 中文是通用链接. 可以通过<code>http(s)</code>来唤醒<code>App</code></p>
+</li>
+<li><p>prepareForSegue:sender: </p>
+<p>为了区分视图的跳转，可以用上一个、下一个来表示，也可以用源视图、目标视图来表示。 即： sourceViewController 和destinationViewController。  目标视图控制器是指：即将显示（加载）的视图， 而源视图控制器是指：即将被取代的视图控制器。</p>
+</li>
+<li><p>跳转总结</p>
+<p><a href="https://www.jianshu.com/p/ceaf978f9dfe" target="_blank" rel="noopener">https://www.jianshu.com/p/ceaf978f9dfe</a></p>
+</li>
 </ol>
 
           
@@ -873,7 +929,18 @@ G=
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/论文阅读笔记/" itemprop="url" rel="index">
                     <span itemprop="name">论文阅读笔记</span>
                   </a>
                 </span>
@@ -1264,7 +1331,18 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/论文阅读笔记/" itemprop="url" rel="index">
                     <span itemprop="name">论文阅读笔记</span>
                   </a>
                 </span>
@@ -1844,7 +1922,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
