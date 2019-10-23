@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 近似推断Expectation Maximization 概念补充：边缘化 实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理）">
+<meta name="description" content="施工中 近似推断">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EM算法">
 <meta property="og:url" content="https://aisakaki.com/2019/10/23/EM算法/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 近似推断Expectation Maximization 概念补充：边缘化 实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理）">
+<meta property="og:description" content="施工中 近似推断">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-23T01:59:10.551Z">
+<meta property="og:updated_time" content="2019-10-23T09:52:44.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
-<meta name="twitter:description" content="施工中 近似推断Expectation Maximization 概念补充：边缘化 实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理）">
+<meta name="twitter:description" content="施工中 近似推断">
 
 
 
@@ -398,10 +398,20 @@
 
       
         <p><em>施工中</em></p>
-<h2 id="近似推断"><a href="#近似推断" class="headerlink" title="近似推断"></a>近似推断</h2><h2 id="Expectation-Maximization"><a href="#Expectation-Maximization" class="headerlink" title="Expectation Maximization"></a>Expectation Maximization</h2><hr>
-<p>概念补充：边缘化</p>
+<h2 id="近似推断"><a href="#近似推断" class="headerlink" title="近似推断"></a>近似推断</h2> <a id="more"></a>
+<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
+<p>则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)p(z_k|d_i)$</p>
+<p>这里$z$就是不知道的变量=潜变量=隐变量</p>
+<p>样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod_{j=1,\cdots,M}P(d_i,w_j)^{n(w_j,d_i)}$</p>
+<p>$n(w,d)$表示$w$在$d$中出现的次数</p>
+<p>于是对其求对数最大似然求梯度</p>
+<p>$L(\theta)=\log P(D,V;\theta)=P(D,V)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_j,d_i)\log P(d_i,w_j)$</p>
+<p>由于隐变量的存在且概率空间维度极高，求解非常困难，所以才要用近似推断方法</p>
+<h2 id="Expectation-Maximization"><a href="#Expectation-Maximization" class="headerlink" title="Expectation Maximization"></a>Expectation Maximization</h2><p>期望最大化，EM算法</p>
+<hr>
+<p>概念补充：<strong>边缘化</strong></p>
 <p>实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
- <a id="more"></a>
+
       
     </div>
     
@@ -620,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#近似推断"><span class="nav-number">1.</span> <span class="nav-text">近似推断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Expectation-Maximization"><span class="nav-number">2.</span> <span class="nav-text">Expectation Maximization</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#近似推断"><span class="nav-number">1.</span> <span class="nav-text">近似推断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现实中的例子"><span class="nav-number">2.</span> <span class="nav-text">现实中的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Expectation-Maximization"><span class="nav-number">3.</span> <span class="nav-text">Expectation Maximization</span></a></li></ol></div>
             
 
           </div>

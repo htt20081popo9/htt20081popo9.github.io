@@ -4,10 +4,20 @@
     <title>EM算法</title>
     <url>/2019/10/23/EM%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<p><em>施工中</em></p>
-<h2 id="近似推断"><a href="#近似推断" class="headerlink" title="近似推断"></a>近似推断</h2><h2 id="Expectation-Maximization"><a href="#Expectation-Maximization" class="headerlink" title="Expectation Maximization"></a>Expectation Maximization</h2><hr>
-<p>概念补充：边缘化</p>
+<h2 id="近似推断"><a href="#近似推断" class="headerlink" title="近似推断"></a>近似推断</h2> <a id="more"></a>
+<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
+<p>则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)p(z_k|d_i)$</p>
+<p>这里$z$就是不知道的变量=潜变量=隐变量</p>
+<p>样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod_{j=1,\cdots,M}P(d_i,w_j)^{n(w_j,d_i)}$</p>
+<p>$n(w,d)$表示$w$在$d$中出现的次数</p>
+<p>于是对其求对数最大似然求梯度</p>
+<p>$L(\theta)=\log P(D,V;\theta)=P(D,V)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_j,d_i)\log P(d_i,w_j)$</p>
+<p>由于隐变量的存在且概率空间维度极高，求解非常困难，所以才要用近似推断方法</p>
+<h2 id="Expectation-Maximization"><a href="#Expectation-Maximization" class="headerlink" title="Expectation Maximization"></a>Expectation Maximization</h2><p>期望最大化，EM算法</p>
+<hr>
+<p>概念补充：<strong>边缘化</strong></p>
 <p>实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
- <a id="more"></a>]]></content>
+]]></content>
       <categories>
         <category>人工智能</category>
         <category>机器学习与统计学习</category>
