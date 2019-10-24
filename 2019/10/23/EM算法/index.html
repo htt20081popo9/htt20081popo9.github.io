@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="现实中的例子对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。 由于隐变量的存在， 则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$ 这里$z$就是不知道的变量=潜变量=隐变量 样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-24T13:17:38.767Z">
+<meta property="og:updated_time" content="2019-10-24T13:21:54.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上帝算法：EM">
 <meta name="twitter:description" content="现实中的例子对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。 由于隐变量的存在， 则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$ 这里$z$就是不知道的变量=潜变量=隐变量 样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod">
@@ -416,7 +416,7 @@
 <p>$=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))$（可理解为全概率公式）</p>
 <p>那么计算第$i$次迭代后的差</p>
 <p>$L(\theta)-L(\theta^i)=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))-\log P(Y|\theta^i)$</p>
-<p>下面拼凑一个$(Z|Y,\theta^i)$出来，<strong>拼凑的目的之一是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Z|Y,\theta^i)=1$</p>
+<p>下面拼凑一个$(Z|Y,\theta^i)$出来，<strong>拼凑的目的是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Z|Y,\theta^i)=1$</p>
 <p>$=\log(\sum_Z P(Z|Y,\theta^i)\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)})-\log P(Y|\theta^i)$</p>
 <p><strong>由Jensen不等式</strong>，$\log \sum_j\lambda_jy_j≥\sum_j\lambda_j\log y_j,\lambda_j≥0,\sum_j\lambda_j=1$</p>
 <p>$\therefore L(\theta)-L(\theta^i)≥=\sum_Z P(Z|Y,\theta^i)\log\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)}-\log P(Y|\theta^i)$</p>
