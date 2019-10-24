@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="现实中的例子对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。 由于隐变量的存在， 则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$ 这里$z$就是不知道的变量=潜变量=隐变量 样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-24T10:14:41.165Z">
+<meta property="og:updated_time" content="2019-10-24T10:16:01.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="现实中的例子对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。 由于隐变量的存在， 则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$ 这里$z$就是不知道的变量=潜变量=隐变量 样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod">
@@ -449,7 +449,7 @@ P(Y|\theta^{i+1})≥P(Y|\theta^i)</script><p>定理二：设$L(\theta)=\log P(Y|
 <p>对于观测变量数据$Y$，隐变量数据$Z$，联合分布$P(Y,Z|\theta)$，条件分布$P(Z|Y,\theta)$，选择初值$\theta^0$开始迭代</p>
 <p><strong>E-step：</strong>在第$i+1$步的时候，计算在第$i$次迭代的参数估计值$\theta^i$的$Q$函数：</p>
 <script type="math/tex; mode=display">
-Q(\theta,\theta^i)=\sum_Z\log P(Z|Y,\theta^i)P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]</script><p><strong>M-step：</strong></p>
+Q(\theta,\theta^i)=\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]</script><p><strong>M-step：</strong></p>
 <script type="math/tex; mode=display">
 \theta^{i+1}=\arg\max_\theta Q(\theta,\theta^i)</script><p>迭代直到$||\theta^{i+1}-\theta^i||或||Q(\theta^{i+1},\theta^i)-Q(\theta^{i},\theta^i)||$足够小</p>
 <h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><p><strong>边缘化</strong>：实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
