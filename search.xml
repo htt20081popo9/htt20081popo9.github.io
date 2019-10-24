@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>EM算法</title>
+    <title>上帝算法：EM</title>
     <url>/2019/10/23/EM%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
 <p>由于隐变量的存在，</p>
