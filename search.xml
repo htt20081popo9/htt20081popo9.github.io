@@ -15,13 +15,14 @@
 <p>由于隐变量的存在，我们需要对隐变量求边缘化（见第一个式子），于是求解需要对<strong>和的对数</strong>，$\log P(d_i,w_j)$求导，非常困难，所以才要用近似推断方法</p>
  <a id="more"></a>
 <h2 id="Expectation-Maximization原理"><a href="#Expectation-Maximization原理" class="headerlink" title="Expectation Maximization原理"></a>Expectation Maximization原理</h2><p>期望最大化，EM算法</p>
-<p><strong>思想：通过迭代逐步近似极大化$L(\theta)$，每一次迭代$L(\theta)&gt;L(\theta^{i+1})&gt;L(\theta^i)&gt;\cdots$，计算迭代式非常容易，以此来逐渐接近$L(\theta)$</strong></p>
+<p><strong>思想：通过迭代增大下界的最大似然的方式逐步近似极大化$L(\theta)$，每一次迭代$L(\theta)&gt;L(\theta^{i+1})&gt;L(\theta^i)&gt;\cdots$，计算迭代式非常容易，以此来逐渐接近$L(\theta)$；那么如何构造下限？Jensen不等式！</strong></p>
 <p>设$Y$为<strong>观测数据</strong>（不完全数据），$Z$是<strong>未观测数据</strong>，$\theta^i$表示第$i$次迭代的模型参数$\theta$</p>
 <p>可以理解为$\theta\to Z\to Y$</p>
 <p>$L(\theta)=\log P(Y|\theta)=\log \sum_Z P(Y,Z|\theta)$(逆边缘化+贝叶斯公式)</p>
 <p>$=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))$（可理解为全概率公式）</p>
 <p>那么计算第$i$次迭代后的差</p>
-<p>$L(\theta)-L(\theta^i)=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))-\log P(Y|\theta^i)$，下面拼凑一个$(Z|Y,\theta^i)$出来，<strong>拼凑的目的是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Z|Y,\theta^i)=1$</p>
+<p>$L(\theta)-L(\theta^i)=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))-\log P(Y|\theta^i)$</p>
+<p>下面拼凑一个$(Z|Y,\theta^i)$出来，<strong>拼凑的目的是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Z|Y,\theta^i)=1$</p>
 <p>$=\log(\sum_Z P(Z|Y,\theta^i)\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)})-\log P(Y|\theta^i)$</p>
 <p><strong>由Jensen不等式</strong>，$\log \sum_j\lambda_jy_j≥\sum_j\lambda_j\log y_j,\lambda_j≥0,\sum_j\lambda_j=1$</p>
 <p>$\therefore L(\theta)-L(\theta^i)≥=\sum_Z P(Z|Y,\theta^i)\log\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)}-\log P(Y|\theta^i)$</p>
@@ -41,7 +42,7 @@
 <p>$\therefore \theta^{i+1}=\arg\max_\theta(\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta))$，</p>
 <p>记为$\arg\max_\theta Q(\theta,\theta^i)$</p>
 <p>$Q(\theta,\theta^i)=\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]$</p>
-<p>此式子为EM算法的核心</p>
+<p>即：<strong>完全数据的对数似然在后验潜变量上的期望</strong>，此式子为EM算法的核心</p>
 <h2 id="敛散性"><a href="#敛散性" class="headerlink" title="敛散性"></a>敛散性</h2><p>定理一：设$P(Y|\theta)$为观测数据的似然函数，$\theta^i(i=1,2,\cdots)$为EM算法得到的参数估计序列，$P(Y|\theta^i)(i=1,2,\cdots)$为对应的似然函数序列，则$P(Y|\theta^i)$是单调递增的，即</p>
 <script type="math/tex; mode=display">
 P(Y|\theta^{i+1})≥P(Y|\theta^i)</script><p>定理二：设$L(\theta)=\log P(Y|\theta)$为观测数据的对数似然函数，$\theta^i(i=1,2,\cdots)$为EM算法得到的参数估计序列，$L(\theta^i)(i=1,2,\cdots)$为对数函数似然序列</p>
@@ -58,9 +59,12 @@ P(Y|\theta^{i+1})≥P(Y|\theta^i)</script><p>定理二：设$L(\theta)=\log P(Y|
 Q(\theta,\theta^i)=\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]</script><p><strong>M-step：</strong></p>
 <script type="math/tex; mode=display">
 \theta^{i+1}=\arg\max_\theta Q(\theta,\theta^i)</script><p>迭代直到$||\theta^{i+1}-\theta^i||或||Q(\theta^{i+1},\theta^i)-Q(\theta^{i},\theta^i)||$足够小</p>
-<h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><p><strong>边缘化</strong>：实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p><strong>边缘化</strong>：实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
 <p><strong>概率论中的条件期望</strong>：$\mathbb E_Z[P(X)|C]=\int_ZP(X)P(Z|C)dZ$</p>
 <p><strong>在推导中常犯的一个马虎错误：</strong>看清楚积分的作用域，比如$\sum_xf(x)g(x)$，如果$\sum_x f(x)=1$，别直接就给求和了= =，后面还有一个带积分变量$x$的函数呢！</p>
+<p><strong>求极大值</strong>可以用求0导数法也可以用拉格朗日乘数法将边界条件限制进去</p>
+<p><strong>算Q</strong>可以借助期望运算的性质来减小运算量</p>
+<p>EM算法实在是非常的精妙，更多扩展可以看知乎上的这篇文章：<a href="https://www.zhihu.com/question/40797593/answer/275171156" target="_blank" rel="noopener">EM算法存在的意义是什么？</a>，包含了诠释EM算法的九层境界</p>
 ]]></content>
       <categories>
         <category>人工智能</category>
