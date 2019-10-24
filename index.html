@@ -753,7 +753,16 @@
       
         
           <p><em>施工中</em></p>
-<h2 id="近似推断"><a href="#近似推断" class="headerlink" title="近似推断"></a>近似推断</h2>
+<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
+<p>由于隐变量的存在，</p>
+<p>则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$</p>
+<p>这里$z$就是不知道的变量=潜变量=隐变量</p>
+<p>样本集分布为$P(D,V)=\prod_{i=1,\cdots,N}\prod_{j=1,\cdots,M}P(d_i,w_j)^{n(w_j,d_i)}$</p>
+<p>$n(w,d)$表示$w$在$d$中出现的次数</p>
+<p>于是对其求对数最大似然</p>
+<p>$L(\theta)=\log P(D,V;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_j,d_i)\log P(d_i,w_j)$</p>
+<p>$\theta^*=\arg\max L(\theta)$</p>
+<p>由于隐变量的存在，我们需要对隐变量求边缘化（见第一个式子），于是求解需要对<strong>和的对数</strong>，$\log P(d_i,w_j)$求导，非常困难，所以才要用近似推断方法</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/10/23/EM算法/#more" rel="contents">
