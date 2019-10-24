@@ -64,7 +64,7 @@ Q(\theta,\theta^i)=\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta)=\mathbb E_Z[\log P(Y
 <p><strong>在推导中常犯的一个马虎错误：</strong>看清楚积分的作用域，比如$\sum_xf(x)g(x)$，如果$\sum_x f(x)=1$，别直接就给求和了= =，后面还有一个带积分变量$x$的函数呢！</p>
 <p><strong>求极大值</strong>可以用求0导数法也可以用拉格朗日乘数法将边界条件限制进去</p>
 <p><strong>算Q</strong>可以借助期望运算的性质来减小运算量</p>
-<p>EM算法实在是非常的精妙，更多扩展可以看知乎上的这篇文章：<a href="https://www.zhihu.com/question/40797593/answer/275171156" target="_blank" rel="noopener">EM算法存在的意义是什么？</a>，包含了诠释EM算法的九层境界</p>
+<p>EM算法实在是非常的美妙，很多人称其为“上帝的算法”；更多扩展可以看知乎上的这篇文章：<a href="https://www.zhihu.com/question/40797593/answer/275171156" target="_blank" rel="noopener">EM算法存在的意义是什么？</a>，包含了诠释EM算法的九层境界</p>
 ]]></content>
       <categories>
         <category>人工智能</category>
