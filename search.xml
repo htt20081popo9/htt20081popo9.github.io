@@ -3,8 +3,7 @@
   <entry>
     <title>EM算法</title>
     <url>/2019/10/23/EM%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p><em>施工中</em></p>
-<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
+    <content><![CDATA[<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
 <p>由于隐变量的存在，</p>
 <p>则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$</p>
 <p>这里$z$就是不知道的变量=潜变量=隐变量</p>
@@ -15,31 +14,53 @@
 <p>$\theta^*=\arg\max L(\theta)$</p>
 <p>由于隐变量的存在，我们需要对隐变量求边缘化（见第一个式子），于是求解需要对<strong>和的对数</strong>，$\log P(d_i,w_j)$求导，非常困难，所以才要用近似推断方法</p>
  <a id="more"></a>
-<h2 id="Expectation-Maximization"><a href="#Expectation-Maximization" class="headerlink" title="Expectation Maximization"></a>Expectation Maximization</h2><p>期望最大化，EM算法</p>
+<h2 id="Expectation-Maximization原理"><a href="#Expectation-Maximization原理" class="headerlink" title="Expectation Maximization原理"></a>Expectation Maximization原理</h2><p>期望最大化，EM算法</p>
 <p><strong>思想：通过迭代逐步近似极大化$L(\theta)$，每一次迭代$L(\theta)&gt;L(\theta^{i+1})&gt;L(\theta^i)&gt;\cdots$，计算迭代式非常容易，以此来逐渐接近$L(\theta)$</strong></p>
 <p>设$Y$为<strong>观测数据</strong>（不完全数据），$Z$是<strong>未观测数据</strong>，$\theta^i$表示第$i$次迭代的模型参数$\theta$</p>
 <p>可以理解为$\theta\to Z\to Y$</p>
 <p>$L(\theta)=\log P(Y|\theta)=\log \sum_Z P(Y,Z|\theta)$(逆边缘化+贝叶斯公式)</p>
-<p>$=\log (\sum_ZP(Y|Z,\theta)P(Z,\theta))$（可理解为全概率公式）</p>
+<p>$=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))$（可理解为全概率公式）</p>
 <p>那么计算第$i$次迭代后的差</p>
-<p>$L(\theta)-L(\theta^i)=\log (\sum_ZP(Y|Z,\theta)P(Z,\theta))-\log P(Y|\theta^i)$，这里拼凑一个$(Y|Z,\theta^i)$出来，<strong>拼凑的目的是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Y|Z,\theta^i)=1$</p>
-<p>$=\log(\sum_Z P(Y|Z,\theta^i)\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Y|Z,\theta^i)})-\log P(Y|\theta^i)$</p>
-<p>将负部合并进去</p>
-<p>$=\log(\sum_Z P(Y|Z,\theta^i)\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Y|Z,\theta^i) P(Y|\theta^i)})$</p>
+<p>$L(\theta)-L(\theta^i)=\log (\sum_ZP(Z,\theta)P(Y|Z,\theta))-\log P(Y|\theta^i)$，下面拼凑一个$(Z|Y,\theta^i)$出来，<strong>拼凑的目的是为了构造出Jensen不等式的形式以创造出一个表示下界的不等式</strong>，因为显然$\sum_Z P(Z|Y,\theta^i)=1$</p>
+<p>$=\log(\sum_Z P(Z|Y,\theta^i)\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)})-\log P(Y|\theta^i)$</p>
 <p><strong>由Jensen不等式</strong>，$\log \sum_j\lambda_jy_j≥\sum_j\lambda_j\log y_j,\lambda_j≥0,\sum_j\lambda_j=1$</p>
-<p>$\therefore \Delta=L(\theta)-L(\theta^i)≥=\sum_Z P(Y|Z,\theta^i)\log\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Y|Z,\theta^i) P(Y|\theta^i)}$</p>
-<p><strong>这里就将和的对数，转换成了对数的和，计算其导数（求最大似然）就容易多了</strong></p>
+<p>$\therefore L(\theta)-L(\theta^i)≥=\sum_Z P(Z|Y,\theta^i)\log\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)}-\log P(Y|\theta^i)$</p>
+<p>$\because\sum_Z P(Z|Y,\theta^i)=1$，于是可以<strong>在负部凭空构造出此求和以合并两式</strong></p>
+<p>$\therefore L(\theta)-L(\theta^i)=\sum_Z P(Z|Y,\theta^i)\log\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)}-\sum_ZP(Z|Y,\theta^i)\log P(Y,\theta^i)$</p>
+<p>$=\sum_Z [P(Z|Y,\theta^i)\log\frac{P(Z,\theta)P(Y|Z,\theta)}{P(Z|Y,\theta^i)}-P(Z|Y,\theta^i)\log P(Y,\theta^i)]$</p>
+<p>$=\sum_Z P(Z|Y,\theta^i)\log\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Z|Y,\theta^i) P(Y|\theta^i)}$</p>
+<p><strong>这里就将和的对数，转换成了对数的和，计算其导数（求最大似然）（对每个参数求偏导）就容易多了</strong></p>
+<p>$\Delta =\sum_Z P(Z|Y,\theta^i)\log\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Z|Y,\theta^i) P(Y|\theta^i)}$</p>
 <p>令$B(\theta,\theta^i)=L(\theta^i)+ \Delta$</p>
-<p>则$L(\theta)≥B(\theta,\theta^i)$，即$B(\theta,\theta^i)$为$L(\theta)$的一个下界。那么极大化$B(\theta,\theta^i)$自然也<strong>等同于</strong>极大化$L(\theta)$</p>
+<p>则$L(\theta)≥B(\theta,\theta^i)$，即$B(\theta,\theta^i)$为$L(\theta)$的一个<strong>下界</strong>。那么极大化$B(\theta,\theta^i)$下界自然也<strong>等同于</strong>极大化$L(\theta)$</p>
 <p>$\therefore \theta^{i+1}=\arg \max_\theta B(\theta,\theta^i)≤\arg\max L(\theta)$</p>
 <p>同时注意到$L(\theta^i)=B(\theta^i,\theta^i)$，很显然，如果$\theta=\theta^i$，即通过迭代$i$次之后模型参数已经完全一样，那自然是极大对数似然=近似极大对数似然</p>
-<p>$\therefore \theta^{i+1}=\arg \max_\theta(L(\theta^i)+\sum_Z P(Y|Z,\theta^i)\log\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Y|Z,\theta^i) P(Y|\theta^i)})$</p>
-<p>$=\arg\max_\theta(\sum_Z\log P(Z|Y,\theta^i)P(Y,Z|\theta))$，省掉了与$\theta$无关的项，且$P(Y,Z|\theta)=P(Y|Z,\theta)P(Z,\theta))$</p>
+<p>$\therefore \theta^{i+1}=\arg \max_\theta(L(\theta^i)+\sum_Z P(Z|Y,\theta^i)\log\frac{P(Y|Z,\theta)P(Z,\theta))}{P(Z|Y,\theta^i) P(Y|\theta^i)})$</p>
+<p>该式子中$P(Z|Y,\theta^i) P(Y|\theta^i)和L(\theta)$与极大化$\theta$没有关系，所以可以直接忽略（注意$\log$外的$P(Z|Y,\theta^i)$不忽略，因为有它方便计算），$P(Z|Y,\theta^i)$是一个可以求得的<strong>潜变量后验概率</strong></p>
+<p>且$\because P(Y,Z|\theta)=P(Y|Z,\theta)P(Z,\theta))$</p>
+<p>$\therefore \theta^{i+1}=\arg\max_\theta(\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta))$，</p>
 <p>记为$\arg\max_\theta Q(\theta,\theta^i)$</p>
-<p>$Q(\theta,\theta^i)=\sum_Z(\log P(Z|Y,\theta^i)P(Y,Z|\theta))=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]$</p>
-<p><strong>显然EM算法不能保证找到全局最优值</strong></p>
-<h2 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h2><h2 id="概念补充："><a href="#概念补充：" class="headerlink" title="概念补充："></a>概念补充：</h2><p><strong>边缘化</strong>：实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
+<p>$Q(\theta,\theta^i)=\sum_Z P(Z|Y,\theta^i)\log P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]$</p>
+<p>此式子为EM算法的核心</p>
+<h2 id="敛散性"><a href="#敛散性" class="headerlink" title="敛散性"></a>敛散性</h2><p>定理一：设$P(Y|\theta)$为观测数据的似然函数，$\theta^i(i=1,2,\cdots)$为EM算法得到的参数估计序列，$P(Y|\theta^i)(i=1,2,\cdots)$为对应的似然函数序列，则$P(Y|\theta^i)$是单调递增的，即</p>
+<script type="math/tex; mode=display">
+P(Y|\theta^{i+1})≥P(Y|\theta^i)</script><p>定理二：设$L(\theta)=\log P(Y|\theta)$为观测数据的对数似然函数，$\theta^i(i=1,2,\cdots)$为EM算法得到的参数估计序列，$L(\theta^i)(i=1,2,\cdots)$为对数函数似然序列</p>
+<ol>
+<li>如果$P(Y|\theta)$有上界，则$L(\theta^i)=\log P(Y|\theta^i)$收敛到某一值（单调有界定理）</li>
+<li>在函数$Q(\theta,\hat\theta)$与$L(\theta)$满足一定条件下，由EM算法得到的参数估计序列$\theta^i$的收敛值$\theta^*$是$L(\theta)$的稳定点</li>
+</ol>
+<p>证略</p>
+<p><strong>显然EM算法不能保证找到全局最优值，只能收敛到稳定点，也因此初值选择非常重要</strong></p>
+<h2 id="Expectation-Maximization-Algorithm"><a href="#Expectation-Maximization-Algorithm" class="headerlink" title="Expectation Maximization Algorithm"></a>Expectation Maximization Algorithm</h2><p>于是根据原理推导出来的公式可以给出EM算法：</p>
+<p>对于观测变量数据$Y$，隐变量数据$Z$，联合分布$P(Y,Z|\theta)$，条件分布$P(Z|Y,\theta)$，选择初值$\theta^0$开始迭代</p>
+<p><strong>E-step：</strong>在第$i+1$步的时候，计算在第$i$次迭代的参数估计值$\theta^i$的$Q$函数：</p>
+<script type="math/tex; mode=display">
+Q(\theta,\theta^i)=\sum_Z\log P(Z|Y,\theta^i)P(Y,Z|\theta)=\mathbb E_Z[\log P(Y,Z|\theta)|Y,\theta^i]</script><p><strong>M-step：</strong></p>
+<script type="math/tex; mode=display">
+\theta^{i+1}=\arg\max_\theta Q(\theta,\theta^i)</script><p>迭代直到$||\theta^{i+1}-\theta^i||或||Q(\theta^{i+1},\theta^i)-Q(\theta^{i},\theta^i)||$足够小</p>
+<h2 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h2><p><strong>边缘化</strong>：实际上就是求出边缘概率以消去变量 $p(x)=\int_{-∞}^{+∞}p(y)dy$，那么$y$就被消去了，通过边缘化可以获得我们想要的任何属性（推理） </p>
 <p><strong>概率论中的条件期望</strong>：$\mathbb E_Z[P(X)|C]=\int_ZP(X)P(Z|C)dZ$</p>
+<p><strong>在推导中常犯的一个马虎错误：</strong>看清楚积分的作用域，比如$\sum_xf(x)g(x)$，如果$\sum_x f(x)=1$，别直接就给求和了= =，后面还有一个带积分变量$x$的函数呢！</p>
 ]]></content>
       <categories>
         <category>人工智能</category>
