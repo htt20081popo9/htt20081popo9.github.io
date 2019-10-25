@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="我的小站">
-<meta property="og:type" content="website">
-<meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/categories/游戏设计/index.html">
+<meta name="description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隐马尔可夫模型">
+<meta property="og:url" content="https://aisakaki.com/2019/10/25/隐马尔可夫模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="我的小站">
+<meta property="og:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-25T10:30:48.782Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="宵晓咲">
-<meta name="twitter:description" content="我的小站">
+<meta name="twitter:title" content="隐马尔可夫模型">
+<meta name="twitter:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/categories/游戏设计/">
+  <link rel="canonical" href="https://aisakaki.com/2019/10/25/隐马尔可夫模型/">
 
 
 
 
 
-  <title>分类: 游戏设计 | 宵晓咲</title>
+  <title>隐马尔可夫模型 | 宵晓咲</title>
   
 
 
@@ -143,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -269,79 +270,243 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>游戏设计<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/25/隐马尔可夫模型/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/10/20/游戏中的心理学/" itemprop="url">
-              
-                <span itemprop="name">游戏中的心理学</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">隐马尔可夫模型</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-20T14:30:45+08:00" content="2019-10-20">
-          10-20
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-25T09:37:14+08:00">
+                2019-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/25/隐马尔可夫模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/25/隐马尔可夫模型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/10/13/腾讯游戏策划培训课课堂笔记-week1/" itemprop="url">
-              
-                <span itemprop="name">腾讯游戏策划培训课堂笔记-week1</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-13T18:30:32+08:00" content="2019-10-13">
-          10-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p><em>施工中</em></p>
+<h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
+<p>HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是<strong>第一个随机过程为状态序列随机过程</strong>，这和一般的<strong>齐次</strong>马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），<strong>第二个随机过程为观测序列的随机过程</strong>，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列随机过程的当前状态有关，与随机过程中其它观测和状态无论未来还是过去无关。即：</p>
+<script type="math/tex; mode=display">
+P_{状态}(i_t|i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(i_t|i_{t-1}),t=1,2,\cdots,T</script><script type="math/tex; mode=display">
+P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</script><p> HMM观测序列每生成一个新的状态就生成一次新观测</p>
+<a id="more"></a>
+<h2 id="符号表记"><a href="#符号表记" class="headerlink" title="符号表记"></a>符号表记</h2><p>HMM中符号较多</p>
+<p>$\lambda=(A,B,\pi)$表记一个HMM，$A$：状态转移概率矩阵，$B$：观测概率矩阵，$\pi$：初始状态概率向量</p>
+<p>$i_t$：一个状态，$I=(i_1,i_2,\cdots,i_T)$：状态序列，经过指定状态序列$i_1,i_2,\cdots,i_T$后到达指定最终状态$i_T$的概率</p>
+<p>$o_k$：一个观测，$O=(o_1,o_2,\cdots,o_T)$：观测序列，对指定状态序列过程中产生的每一时刻状态进行观测（产生一个观测），这些观测构成指定序列的概率</p>
+<p>$N$：可能的状态数，$Q=\{q_1.q_2.\cdots,q_N\}$：可能的状态集合</p>
+<p>$M$：可能的观测数，$V=\{v_1,v_2,\cdots,v_M\}$：可能的观测集合</p>
+<p>注意$i∈(i_1,\cdots,i_t)$但$q∈(q_1,\cdots,q_N),v∈(v_1,\cdots,v_M)$</p>
+<p>$a_{ij}=P(i_{t+1}|i_t)$：$t$时刻下状态$i_t$到$t+1$时刻下状态$i_{t+1}$的转移概率</p>
+<p>$b_{i_t}(o_t)$：$t$时刻下，由状态$i_t$产生的观测$o_t$的概率</p>
+<h2 id="概率计算算法—预测观测概率"><a href="#概率计算算法—预测观测概率" class="headerlink" title="概率计算算法—预测观测概率"></a>概率计算算法—预测观测概率</h2><p>求$P(O|\lambda)$</p>
+<h3 id="直接计算"><a href="#直接计算" class="headerlink" title="直接计算"></a>直接计算</h3><p>$T$时间后到达某状态序列概率：$P(I|\lambda)=\pi a_{i_1i_2}a_{i_2i_3},\cdots,a_{i_{T-1}i_T}$</p>
+<p>在$I$状态序列下，$T$时间后输出某观测序列的概率：$P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\cdots b_{i_T}(o_T)$</p>
+<p>$\therefore$$T$时间后到达某状态序列后输出某观测序列的概率为联合分布：</p>
+<p>$P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=(\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
+<p>（加括号仅为表明每个观测的状态对位关系）</p>
+<p>$\therefore P(O|\lambda)=\sum_{i_1,i_2,\cdots,i_T}P(O,I|\lambda)=\sum_{i_1,i_2,\cdots,i_T}(\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
+<p>观察这个式子，对于第一次迭代求和$T=1$：$P_1(O|\lambda)=\pi_{i_1} b_{i_1}(o_1)$</p>
+<p>$T=2:P_2(O|\lambda)=(\pi_{i_1} b_{i_1}(o_1))(a_{i_1i_2}b_{i_2}(o_2))$</p>
+<p>$\cdots$</p>
+<p>最后$P(O|\lambda)=P_1(O|\lambda)+P_2(O|\lambda)+\cdots+P_T(O|\lambda)$</p>
+<p>这样算下去就很麻烦了，最后要把全部迭代式子加起来，计算量非常大</p>
+<p><strong>结论：8行</strong></p>
+<h3 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h3><p><strong>核心思想</strong>：通过观察直接求和式，可以发现每一次求和的迭代都包含上一次迭代式子，于是我们保存每一次迭代的计算结果，就可以大幅减少计算量</p>
+<p>观测到迭代求和式子中，$P_2(O|\lambda)=P_1(O|\lambda)(a_{i_1i_2}b_{i_2}(o_2))$</p>
+<p>以此类推，每一词迭代求和都包含上一次迭代的子式子，就可以写出迭代式：</p>
+<p>$P_t(O|\lambda)=P_{t-1}(O|\lambda)(a_{i_{t-1}i_t}b_{i_t}(o_t))$</p>
+<p><strong>于是可以写出算法</strong>：</p>
+<p>初始值：$\alpha_1(i)=\pi_ib_i(0_1),i=1,2,\cdots,N$</p>
+<p>递推式：$\alpha_{t+1}(i)=[\sum^N_{j=1}\alpha_t(j)\alpha_{ji}]b_i(o_{t+1}),i=1,2,\cdots,N$</p>
+<p>终止后：$P(O|\lambda)=\sum^N_{i=1}\alpha_T(i)$</p>
+<p><em>符号表示待修改</em></p>
+<h3 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h3><h2 id="学习算法—预测模型参数"><a href="#学习算法—预测模型参数" class="headerlink" title="学习算法—预测模型参数"></a>学习算法—预测模型参数</h2><h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><h3 id="Baum-Welch算法"><a href="#Baum-Welch算法" class="headerlink" title="Baum-Welch算法"></a>Baum-Welch算法</h3><p>EM算法解决</p>
+<h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3>
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisakaki.com/2019/10/25/隐马尔可夫模型/" title="隐马尔可夫模型">https://aisakaki.com/2019/10/25/隐马尔可夫模型/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/23/EM算法/" rel="next" title="上帝算法：EM">
+                <i class="fa fa-chevron-left"></i> 上帝算法：EM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -349,6 +514,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -369,8 +541,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -464,6 +645,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-Markov-Model"><span class="nav-number">1.</span> <span class="nav-text">Hidden Markov Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表记"><span class="nav-number">2.</span> <span class="nav-text">符号表记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算算法—预测观测概率"><span class="nav-number">3.</span> <span class="nav-text">概率计算算法—预测观测概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接计算"><span class="nav-number">3.1.</span> <span class="nav-text">直接计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">3.2.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">3.3.</span> <span class="nav-text">后向算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数"><span class="nav-number">4.</span> <span class="nav-text">学习算法—预测模型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">4.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法"><span class="nav-number">4.2.</span> <span class="nav-text">Baum-Welch算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态"><span class="nav-number">5.</span> <span class="nav-text">预测算法—预测序列状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">5.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">5.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -586,6 +783,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
