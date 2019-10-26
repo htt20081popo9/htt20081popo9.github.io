@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-25T10:30:48.782Z">
+<meta property="og:updated_time" content="2019-10-25T10:34:10.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型">
 <meta name="twitter:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
@@ -434,6 +434,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
 <p>初始值：$\alpha_1(i)=\pi_ib_i(0_1),i=1,2,\cdots,N$</p>
 <p>递推式：$\alpha_{t+1}(i)=[\sum^N_{j=1}\alpha_t(j)\alpha_{ji}]b_i(o_{t+1}),i=1,2,\cdots,N$</p>
 <p>终止后：$P(O|\lambda)=\sum^N_{i=1}\alpha_T(i)$</p>
+<p>注意对于$\pi$是向量，那么$A,B,\alpha$也都是向量</p>
 <p><em>符号表示待修改</em></p>
 <h3 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h3><h2 id="学习算法—预测模型参数"><a href="#学习算法—预测模型参数" class="headerlink" title="学习算法—预测模型参数"></a>学习算法—预测模型参数</h2><h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><h3 id="Baum-Welch算法"><a href="#Baum-Welch算法" class="headerlink" title="Baum-Welch算法"></a>Baum-Welch算法</h3><p>EM算法解决</p>
 <h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3>
