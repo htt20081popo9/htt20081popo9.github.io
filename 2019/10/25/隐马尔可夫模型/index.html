@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
+<meta name="description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="隐马尔可夫模型">
+<meta property="og:title" content="隐马尔可夫模型（一）">
 <meta property="og:url" content="https://aisakaki.com/2019/10/25/隐马尔可夫模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
+<meta property="og:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-25T10:34:10.271Z">
+<meta property="og:updated_time" content="2019-10-28T08:47:29.670Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="隐马尔可夫模型">
-<meta name="twitter:description" content="施工中 Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与">
+<meta name="twitter:title" content="隐马尔可夫模型（一）">
+<meta name="twitter:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>隐马尔可夫模型 | 宵晓咲</title>
+  <title>隐马尔可夫模型（一） | 宵晓咲</title>
   
 
 
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">隐马尔可夫模型</h1>
+          <h1 class="post-title" itemprop="name headline">隐马尔可夫模型（一）</h1>
         
 
         <div class="post-meta">
@@ -397,8 +397,7 @@
       
 
       
-        <p><em>施工中</em></p>
-<h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
+        <h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
 <p>HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是<strong>第一个随机过程为状态序列随机过程</strong>，这和一般的<strong>齐次</strong>马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），<strong>第二个随机过程为观测序列的随机过程</strong>，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列随机过程的当前状态有关，与随机过程中其它观测和状态无论未来还是过去无关。即：</p>
 <script type="math/tex; mode=display">
 P_{状态}(i_t|i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(i_t|i_{t-1}),t=1,2,\cdots,T</script><script type="math/tex; mode=display">
@@ -412,32 +411,64 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
 <p>$M$：可能的观测数，$V=\{v_1,v_2,\cdots,v_M\}$：可能的观测集合</p>
 <p>注意$i∈(i_1,\cdots,i_t)$但$q∈(q_1,\cdots,q_N),v∈(v_1,\cdots,v_M)$</p>
 <p>$a_{ij}=P(i_{t+1}|i_t)$：$t$时刻下状态$i_t$到$t+1$时刻下状态$i_{t+1}$的转移概率</p>
-<p>$b_{i_t}(o_t)$：$t$时刻下，由状态$i_t$产生的观测$o_t$的概率</p>
-<h2 id="概率计算算法—预测观测概率"><a href="#概率计算算法—预测观测概率" class="headerlink" title="概率计算算法—预测观测概率"></a>概率计算算法—预测观测概率</h2><p>求$P(O|\lambda)$</p>
-<h3 id="直接计算"><a href="#直接计算" class="headerlink" title="直接计算"></a>直接计算</h3><p>$T$时间后到达某状态序列概率：$P(I|\lambda)=\pi a_{i_1i_2}a_{i_2i_3},\cdots,a_{i_{T-1}i_T}$</p>
-<p>在$I$状态序列下，$T$时间后输出某观测序列的概率：$P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\cdots b_{i_T}(o_T)$</p>
-<p>$\therefore$$T$时间后到达某状态序列后输出某观测序列的概率为联合分布：</p>
-<p>$P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=(\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
+<p>$b_{i_t}(o_t)$：$t$时刻下，由状态$i_t$产生的观测$o_t$的概率，<strong>具体的，$b_{q_{i_t}}(o_t)$即状态$i_t$取值为$q_{i_t}$时候，观测为$o_t$的概率</strong></p>
+<p><strong>注意</strong> 对于当前状态$\sigma_t$，状态转移矩阵$A$,回到上一状态$\sigma_{t-1}=A\sigma_t$，到达下一状态$\sigma_{t+1}=\sigma_tA$</p>
+<h2 id="概率计算算法—预测观测概率-P-O-lambda"><a href="#概率计算算法—预测观测概率-P-O-lambda" class="headerlink" title="概率计算算法—预测观测概率$P(O|\lambda)$"></a>概率计算算法—预测观测概率$P(O|\lambda)$</h2><h3 id="直接计算"><a href="#直接计算" class="headerlink" title="直接计算"></a>直接计算</h3><p>$T$时间后到达某状态序列概率：$P(I|\lambda)=\pi a_{i_1i_2}a_{i_2i_3},\cdots,a_{i_{T-1}i_T}$</p>
+<p>在$I$状态序列下，$T$时间后输出某观测序列$O=(o_1,o_2,\cdots,o_T)$的概率：$P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\cdots b_{i_T}(o_T)$</p>
+<p>$\therefore$$T$时间后到达某状态序列$I$后输出某观测序列的概率为联合分布：</p>
+<p>$P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
 <p>（加括号仅为表明每个观测的状态对位关系）</p>
-<p>$\therefore P(O|\lambda)=\sum_{i_1,i_2,\cdots,i_T}P(O,I|\lambda)=\sum_{i_1,i_2,\cdots,i_T}(\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
-<p>观察这个式子，对于第一次迭代求和$T=1$：$P_1(O|\lambda)=\pi_{i_1} b_{i_1}(o_1)$</p>
-<p>$T=2:P_2(O|\lambda)=(\pi_{i_1} b_{i_1}(o_1))(a_{i_1i_2}b_{i_2}(o_2))$</p>
+<p>$\therefore$ <strong>为了求得$T$时间后观测得指定观测序列$O=(o_1,o_2,\cdots,o_T)$的概率</strong>，需要边缘化联合概率公式中的$I$，$I=(i_1,i_2,\cdots,i_N),i_1,i_2,\cdots,i_t=1,2,\cdots,N$</p>
+<p>$\therefore P(O|\lambda)=\sum_{i_1,i_2,\cdots,i_T}P(O,I|\lambda)=\sum_{i_1,i_2,\cdots,i_T}((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
+<p><strong>注意表示法$\sum_{i_1,i_2,\cdots,i_T},其中i_1,i_2,\cdots,i_t=1,2,\cdots,N$(每个状态$i_t$下都有$N$种取值)，意思是对所有可能的$I$序列取值组合，计算右边式子之后，再对所有式子结果求和</strong></p>
+<p><strong>关系为$\lambda\to I\to O$，所以求$O$的时候可以看成一个全链接路径图或FC DNN</strong></p>
+<p>观察这个式子，对于$,i_1=1,2,\cdots,N$：</p>
+<p>$t=1: P_1(O|\lambda)=\sum_{i_1}\pi_{i_1} b_{i_1}(o_1)=\pi_{q_1}b_{q_1}(o_1)+\pi_{q_2}b_{q_2}(o_1)+\cdots+\pi_{q_N}b_{q_N}(o_1)$</p>
+<p>$t=2: P_2(O|\lambda)=\sum_{i_1,i_2}((\pi_{i_1} b_{i_1}(o_1))a_{i_1i_2}b_{i_2}(o_2)$</p>
+<p>$=((\pi_{q_1}b_{q_1}(o_1))a_{q_1q_1}b_{q_1}(o_2)+((\pi_{q_1}b_{q_1}(o_1))a_{q_1q_2}b_{q_2}(o_2)+\cdots+((\pi_{q_1}b_{q_1}(o_1))a_{q_1q_N}b_{q_N}(o_2)+$​</p>
+<p>$((\pi_{q_2}b_{q_2}(o_1))a_{q_2q_1}b_{q_1}(o_2)+((\pi_{q_2}b_{q_2}(o_1))a_{q_2q_2}b_{q_2}(o_2)+\cdots+((\pi_{q_2}b_{q_2}(o_1))a_{q_2q_N}b_{q_N}(o_2)+$</p>
+<p>$\cdots+$</p>
+<p>$((\pi_{q_N}b_{q_N}(o_1))a_{q_Nq_1}b_{q_1}(o_2)+((\pi_{q_N}b_{q_N}(o_1))a_{q_Nq_2}b_{q_2}(o_2)+\cdots+((\pi_{q_N}b_{q_N}(o_1))a_{q_Nq_N}b_{q_N}(o_2)$</p>
 <p>$\cdots$</p>
-<p>最后$P(O|\lambda)=P_1(O|\lambda)+P_2(O|\lambda)+\cdots+P_T(O|\lambda)$</p>
-<p>这样算下去就很麻烦了，最后要把全部迭代式子加起来，计算量非常大</p>
+<p>$t=T:\cdots$</p>
+<p>这样算下去就很麻烦了，路径非常多，计算量非常大</p>
 <p><strong>结论：8行</strong></p>
-<h3 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h3><p><strong>核心思想</strong>：通过观察直接求和式，可以发现每一次求和的迭代都包含上一次迭代式子，于是我们保存每一次迭代的计算结果，就可以大幅减少计算量</p>
-<p>观测到迭代求和式子中，$P_2(O|\lambda)=P_1(O|\lambda)(a_{i_1i_2}b_{i_2}(o_2))$</p>
-<p>以此类推，每一词迭代求和都包含上一次迭代的子式子，就可以写出迭代式：</p>
-<p>$P_t(O|\lambda)=P_{t-1}(O|\lambda)(a_{i_{t-1}i_t}b_{i_t}(o_t))$</p>
+<h3 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h3><p>观测到式子中存在大量重复子式，如$t=2$时，重复了在$t=1$中的子式$\pi_{q_1}b_{q_1}(o_1),\pi_{q_2}b_{q_2}(o_1),\cdots,\pi_{q_N}b_{q_N}(o_1)$各$N$次，于是想到可以用BP一样的解决办法，即</p>
+<p><strong>核心思想</strong>：可以观察到<strong>计算图如同一张全连接的深度神经网络，状态空间维度$N$即为每层隐藏神经元个数，时间序列运行时间$T$即为网络深度</strong>，于是我们只要<strong>保存每一个结点的计算结果</strong>，就可以大幅减少计算量</p>
 <p><strong>于是可以写出算法</strong>：</p>
-<p>初始值：$\alpha_1(i)=\pi_ib_i(0_1),i=1,2,\cdots,N$</p>
+<p>定义到时刻$t$部分观测序列为$o_1,o_2,\cdots,o_t$且状态为$q_i$的概率为前向概率：$\alpha_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)$</p>
+<p>初始值：$\alpha_1(i)=\pi_ib_i(o_1),i=1,2,\cdots,N$</p>
 <p>递推式：$\alpha_{t+1}(i)=[\sum^N_{j=1}\alpha_t(j)\alpha_{ji}]b_i(o_{t+1}),i=1,2,\cdots,N$</p>
-<p>终止后：$P(O|\lambda)=\sum^N_{i=1}\alpha_T(i)$</p>
-<p>注意对于$\pi$是向量，那么$A,B,\alpha$也都是向量</p>
-<p><em>符号表示待修改</em></p>
-<h3 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h3><h2 id="学习算法—预测模型参数"><a href="#学习算法—预测模型参数" class="headerlink" title="学习算法—预测模型参数"></a>学习算法—预测模型参数</h2><h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><h3 id="Baum-Welch算法"><a href="#Baum-Welch算法" class="headerlink" title="Baum-Welch算法"></a>Baum-Welch算法</h3><p>EM算法解决</p>
-<h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3>
+<p>终止：$P(O|\lambda)=\sum^N_{i=1}\alpha_T(i)$</p>
+<p>很像DNN的前向传递</p>
+<p><strong>前向算法最小结构</strong>就是<strong>当前时刻所有状态$i_t$转移到下一时刻的某状态</strong>$i_{t+1}$，有$N$个这一时刻的状态$i_t$，1个下一时刻的<strong>某</strong>状态$i_{t+1}$和1个对下一时刻状态的观测$b_i(o_{t+1})$（观测是先验）</p>
+<p><strong>注意一个理解：</strong>整个概率的计算是在时间$t$过程的前向转播中不断迭代产生的，<strong>每一个结点的计算都包含了全路径状态的转移概率和某一时刻的先验观测概率，所以完整的先验需要运行整个过程。</strong>当在$t=T$，最后一层结点计算完的时候，那么再对全状态路径求和才能求得<strong>先验$O=(o_1,o_2,\cdots,o_T)$下的概率</strong>。若对所有可能存在的观测序列$O$计算那必然$P(O|\lambda)=1$。</p>
+<h3 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h3><p>同理</p>
+<p>定义在时刻$t$状态为$q_i$的条件下，从$t+1$到$T$的部分观测序列$o_{t+1},o_{t+2},\cdots,o_T$的概率为后向概率：$\beta_t(i)=P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)$</p>
+<p>初始值：$\beta_T(i)=1,i=1,2,\cdots,N$</p>
+<p>递推式：$\beta_{t}(i)=\sum^N_{j=1}a_{ij}b_j(o_{t+1})\beta_{t+1}(j),i=1,2,\cdots,N$</p>
+<p>终止：$P(O|\lambda)=\sum_{i=1}^N\pi_ib_i(o_1)\beta_1(i)$</p>
+<p>很像DNN的反向传递…</p>
+<p><strong>后向算法最小结构</strong>就是<strong>下一时刻的所有状态$i_{t+1}$回退到当前时刻某状态</strong>$i_{t}$，有1个这一时刻的<strong>某</strong>状态$i_t$，有$N$个下一时刻的状态$i_{t+1}$，和$N$个对下一时刻状态的观测$b_j(o_{t+1})$（观测是先验）</p>
+<p>同理，整个概率的计算是在时间$t$过程的后向转播中不断迭代产生的，这个先验需要运行整个过程，只不过这个过程是反着运行的。</p>
+<h3 id="单独概率计算"><a href="#单独概率计算" class="headerlink" title="单独概率计算"></a>单独概率计算</h3><p><strong>利用前向概率与后向概率的定义</strong>，可以将观测序列概率统一可写成：$P(O|\lambda)=\sum_{i=1}^N\sum_{j=1}^N\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j),t=1,2,\cdots,T-1$</p>
+<p>式中$\alpha_t(i)$即为$i$状态下$t$时刻以前的概率，$\beta_{t+1}(j)$即为$i$状态下$t+1$时刻以后的概率，这个式子等于枚举出了网络中所有的路径</p>
+<ol>
+<li><p>给定模型$\lambda$和观测$O$，求在时刻$t$处于状态$q_i$的概率$\gamma_t(i)$</p>
+<p>记$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}$</p>
+<p>由前向概率和后向概率定义可得$\alpha_t(i)\beta_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)*P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)=P(i_t=q_i,O|\lambda)$</p>
+<p>$\therefore \gamma_t(i)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
+<p>对各个时刻求和，于是可以求出在观测$O$下状态$i$出现的期望值$=\sum_{t=1}^T \gamma_t(i)$</p>
+<p>同理，在观测$O$下由状态$i$转移的期望值$=\sum_{t=1}^{T-1} \gamma_t(i)$</p>
+</li>
+<li><p>给定模型$\lambda$和观测$O$，在时刻$t$处于状态$q_i$且在时刻$t+1$处于状态$q_j$的概率$\epsilon_t(i,j)$</p>
+<p>$\epsilon_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{\sum^N_{i=1}\sum^N_{j=1}P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}$</p>
+<p>由于$P(i_t=q_i,i_{t+1}=q_j,O|\lambda)=\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)$</p>
+<p>$\therefore \epsilon_t(i,j)=\frac{\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}{\sum^N_{i=1}\sum^N_{j=1}\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}$</p>
+<p>在观测$O$下由状态$i$转移到状态$j$的期望值$=\sum_{t=1}^{T-1} \epsilon_t(i,j)$</p>
+</li>
+</ol>
+
       
     </div>
     
@@ -457,7 +488,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/10/25/隐马尔可夫模型/" title="隐马尔可夫模型">https://aisakaki.com/2019/10/25/隐马尔可夫模型/</a>
+    <a href="https://aisakaki.com/2019/10/25/隐马尔可夫模型/" title="隐马尔可夫模型（一）">https://aisakaki.com/2019/10/25/隐马尔可夫模型/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -488,6 +519,10 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/27/项目管理基础/" rel="prev" title="项目管理基础">
+                项目管理基础 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -567,7 +602,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">109</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -656,7 +691,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-Markov-Model"><span class="nav-number">1.</span> <span class="nav-text">Hidden Markov Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表记"><span class="nav-number">2.</span> <span class="nav-text">符号表记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算算法—预测观测概率"><span class="nav-number">3.</span> <span class="nav-text">概率计算算法—预测观测概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接计算"><span class="nav-number">3.1.</span> <span class="nav-text">直接计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">3.2.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">3.3.</span> <span class="nav-text">后向算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数"><span class="nav-number">4.</span> <span class="nav-text">学习算法—预测模型参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">4.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法"><span class="nav-number">4.2.</span> <span class="nav-text">Baum-Welch算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态"><span class="nav-number">5.</span> <span class="nav-text">预测算法—预测序列状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">5.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">5.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-Markov-Model"><span class="nav-number">1.</span> <span class="nav-text">Hidden Markov Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表记"><span class="nav-number">2.</span> <span class="nav-text">符号表记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算算法—预测观测概率-P-O-lambda"><span class="nav-number">3.</span> <span class="nav-text">概率计算算法—预测观测概率$P(O|\lambda)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接计算"><span class="nav-number">3.1.</span> <span class="nav-text">直接计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">3.2.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">3.3.</span> <span class="nav-text">后向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单独概率计算"><span class="nav-number">3.4.</span> <span class="nav-text">单独概率计算</span></a></li></ol></li></ol></div>
             
 
           </div>
