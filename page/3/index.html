@@ -284,206 +284,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/09/Autoencoder/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/09/Autoencoder/" itemprop="url">Autoencoder</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T19:52:07+08:00">
-                2019-10-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/09/Autoencoder/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/Autoencoder/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
-<p>目标函数为重构误差（reconstruction error)，目标是使得解码器的输出与编码器的输入同分布</p>
-<p><strong>隐藏层单元数&lt;输入层单元数</strong>即可用于降维，如果编码的激活函数为线性函数就成为了<strong>PCA</strong></p>
-<p>但现在一般<strong>隐藏层单元数&gt;=输入层单元数</strong>比较多，这样可以挖掘更多高维特征，但容易造成神经网络的输出为输入的直接“复制”，为了解决这个问题，引入了<strong>正则</strong>和<strong>随机性</strong>等等，且可以组合使用</p>
-<h2 id="Regularized-Autoencoder"><a href="#Regularized-Autoencoder" class="headerlink" title="Regularized Autoencoder"></a>Regularized Autoencoder</h2><p>正则项自编码器</p>
-<p>神经网络的输入直接“复制”输出的一个具体表现就在于一些神经元权重过大，使得神经网路直接变成直连通路</p>
-<p>于是可以直接向损失函数正则项</p>
-<script type="math/tex; mode=display">
-L(x,g(f(x)))+\Omega(h)</script><p><strong>实现方法</strong>：使用传统的加入正则项实现方法</p>
-<h2 id="Sparse-Autoencoder"><a href="#Sparse-Autoencoder" class="headerlink" title="Sparse Autoencoder"></a>Sparse Autoencoder</h2><p>稀疏自编码器</p>
-<p>使得参数变得稀疏，避免过多神经元被激活</p>
-<p>引入稀疏度公式</p>
-<script type="math/tex; mode=display">
-\hat{\rho}_j = \frac{1}{N} \Sigma_{i=1}^N h_j(x^{(i)})</script><p>此公式计算了第$j$个神经元在训练集$\{x^{i}\}$上激活度的平均值，那么就可以取一个足够小的$\rho$，保证$\hat{\rho}_j=\rho,j=1,2,3,\cdots$</p>
-<p>对于$\hat{\rho}_j&gt;&gt;\rho$，对其使用KL散度进行惩罚，KL散度可以用于衡量两个分布的相似度（在前面这篇论文的阅读笔记：<a href="https://aisakaki.com/2019/07/30/Examples/">Explaining and Harnessing Adversarial Examples</a>中使用到了这个数学工具。</p>
-<p>向损失函数中加入KL散度</p>
-<script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\Sigma_{j=1}^mKL(\hat{\rho}_j||\rho)</script><script type="math/tex; mode=display">
-KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac{1-\rho}{1-\hat{\rho}_j}</script><p><strong>实现方法</strong>：可以设置一个三维矩阵，第一维为$||\{x^{(i)}\}||$，第二和第三维对应神经网络每一个神经元。然后在数据流经一次模型后抽取出每一层神经元的参数，作平均。抽取方法可以用我以前写的<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/">pytorch获取中间层参数、输出与可视化/</a>一文中提到的中间层参数可视化方法</p>
-<h2 id="Denoising-Autoencoder"><a href="#Denoising-Autoencoder" class="headerlink" title="Denoising Autoencoder"></a>Denoising Autoencoder</h2><p>降噪自编码器（DAE）</p>
-<p>向输出加入噪声$\hat{x}$，并设置损失函数尽量减少输出的噪声，目标使得模型学习<strong>重构分布</strong>$p_{decoder}(x|\hat{x})$，增强模型健壮性</p>
-<p>最小化</p>
-<script type="math/tex; mode=display">
-L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声的输入经过模型后还原得到的输出尽量一样</strong></p>
-<p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
-<blockquote>
-<p>补充：得分匹配是最大似然的代替。它提供了概率分布的一致性估计，使得模型在各个数据点$x$上获得与数据分布相同的得分，在这种情况下，得分是一个特定的梯度场：</p>
-</blockquote>
-<script type="math/tex; mode=display">
-\nabla_x\log p(x)</script><p>DAE的训练目标可以使得AE学到能估计数据分布得分的向量场$(g(f(x))-x)$</p>
-<h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
-<p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
-<script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
-<p>可以看出收缩惩罚目标是使得学习到的参数在所有方向上不变，而是在整体上进行参数的缩放，其使得函数梯度很小，所以能够很好的学习到流形结构，（而使得$J_x$很大的方向$x$，会快速改变$h$，则很可能是近似流形切平面的方向）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/03/不要回头，一直向前/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1784,6 +1584,240 @@ G=
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loss function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_fn</span><span class="params">(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span>:</span></span><br><span class="line">    loss = <span class="number">0</span> </span><br><span class="line">    <span class="comment">#提取风格图片的特征并计算,注意这里是提取input（合成）和风格/内容的，都要提取</span></span><br><span class="line">    style_features = extract_layers(style_layers,style_img,model)  </span><br><span class="line">    input_features = extract_layers(style_layers,input_param,model) </span><br><span class="line">    <span class="keyword">for</span> style_layer_index <span class="keyword">in</span> range(len(style_layers)):</span><br><span class="line">        style_loss = StyleLoss(style_weight)</span><br><span class="line">        style_loss_this = style_loss(input_features[style_layer_index],style_features[style_layer_index])      </span><br><span class="line">        </span><br><span class="line">    <span class="comment">#提取内容图片的特征并计算   </span></span><br><span class="line">    content_features = extract_layers(content_layers,content_img,model)</span><br><span class="line">    input_features = extract_layers(content_layers,input_param,model)     </span><br><span class="line">    <span class="keyword">for</span> content_layer_index <span class="keyword">in</span> range(len(content_layers)):</span><br><span class="line">        content_loss = ContentLoss(content_weight)</span><br><span class="line">        content_loss_this = content_loss(input_features[content_layer_index],content_features[content_layer_index])    </span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this+content_loss_this</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> times % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'style loss:&#123;:.4f&#125; , content loss:&#123;:.4f&#125;'</span>.format(style_loss_this,content_loss_this))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
 <h2 id="TRAIN"><a href="#TRAIN" class="headerlink" title="TRAIN"></a>TRAIN</h2><p>使用LBGFS作为优化函数，LBFGS使用的时候就需要用到闭包</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(Epoch,input_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_weight,style_weight,content_img,style_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_layers=[<span class="number">21</span>],style_layers=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">11</span>,<span class="number">20</span>,<span class="number">25</span>])</span>:</span></span><br><span class="line">    <span class="comment">#默认vgg模型</span></span><br><span class="line">    model = get_model().cuda()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化合成图片，将input_img作为初始的合成图片并参数化</span></span><br><span class="line">    input_param = nn.Parameter(input_img.data)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化优化器</span></span><br><span class="line">    optimizer = torch.optim.LBFGS([input_param])</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(Epoch):</span><br><span class="line">        print(<span class="string">'epoch:&#123;&#125;'</span>.format(epoch))</span><br><span class="line">        <span class="comment">#开始训练</span></span><br><span class="line">        <span class="keyword">global</span> times</span><br><span class="line">        times=<span class="number">0</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">()</span>:</span></span><br><span class="line">            optimizer.zero_grad() <span class="comment">#勿忘</span></span><br><span class="line">            <span class="keyword">global</span> times</span><br><span class="line">            times+=<span class="number">1</span></span><br><span class="line">            loss = loss_fn(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span><br><span class="line">            loss.backward() </span><br><span class="line">            <span class="keyword">return</span> loss</span><br><span class="line">        optimizer.step(closure) </span><br><span class="line">    <span class="keyword">return</span> input_param.data </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showImg</span><span class="params">(res)</span>:</span></span><br><span class="line">    img = res[<span class="number">0</span>]</span><br><span class="line">    img = img.cpu()</span><br><span class="line">    img = transforms.ToPILImage()(img) </span><br><span class="line">    plt.imshow(img)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/19/toMalwareDetection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/19/toMalwareDetection/" itemprop="url">Adversary Resistant Deep Neural Networks with an Application to Malware Detection</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T18:41:46+08:00">
+                2019-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/论文阅读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/19/toMalwareDetection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/19/toMalwareDetection/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>《Adversary Resistant Deep Neural Networks with an Application to Malware Detection》<br>    Qinglong Wang ,Wenbo Guo,Kaixuan Zhang,AlexanderG.OrorbiaII, Xinyu Xing,Xue Liu,C.LeeGiles<br>    KDD 2017（CCF-A）</p>
+</blockquote>
+<h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
+<li><p>deep neural networks(DNNs) could help turn the tide in the war against malware infection</p>
+</li>
+<li><p>However, DNNs are vulnerable to adversarial samples</p>
+</li>
+<li>Past research in developing defense mechanisms relies on strong assumptions,which typically do not hold in many real-world scenarios. Also,these proposed techniques can only be empirically validated and do not provide any theoretical guarantees. This is particularly disconcerting when they are applied to security-critical applications such as malware detection. </li>
+</ul>
+<h2 id="Why-It-Works？"><a href="#Why-It-Works？" class="headerlink" title="Why It Works？"></a>Why It Works？</h2><ul>
+<li>随机性的引入使得attackers不容易发现DNN的”blind spots”（也就是AEs）</li>
+<li>这个adversary-resistant DNNs 只需要一点微小的工作，且可以维持分类的表现</li>
+<li>从理论上来说，本文的方法可以保证对AE的抵抗性</li>
+</ul>
+<p>该方法也可以应用在图像等其他DNN模型适用效果较好的领域</p>
+<h2 id="Related-Works"><a href="#Related-Works" class="headerlink" title="Related Works"></a>Related Works</h2><ul>
+<li><p><strong>Data Augmentation</strong></p>
+<p>Explaining and harnessing adversarial examples. arXiv preprint arXiv:1412.6572 (2014).</p>
+<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014). </p>
+<p>Unifying Adversarial Training Algorithms with Flexible Deep Data Gradient Regularization. arXiv:1601.07213 [cs] (2016).</p>
+<p>增强数据，主要是通过将潜在AEs与普通样本进行训练（<strong>对抗训练</strong>）以增加对AEs的鲁棒性，对抗训练已被证明很有用</p>
+<p>作者指出的问题：blind spots空间太大，不可能去覆盖一个infinite space，且attackers也可以对对抗训练模型本身进行攻击（<em>how</em>），考虑到无限空间，每一次遇到AEs就必须再次训练对抗训练模型，如此反复迭代</p>
+</li>
+<li><p><strong>Enhancing Model Complexity</strong></p>
+<p>增加模型复杂度</p>
+<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014).</p>
+<p>Distillation as a defense to adversarial perturbations against deep neural networks. arXiv preprint arXiv:1511.04508 (2015).  （防御蒸馏机制，将第一个深度神经网络输出的软标签输入到第二个网络中进行训练，降低模型对微小扰动的敏感度。第一个模型的软标签熵编码了类之间的相对差异）</p>
+<p>作者指出的问题：攻击者可以使用两个近似性能的DNN来拟合整个机制（该论文作者承认了此机制很容易被拟合）</p>
+<p>同时该机制实际上是一个<strong>梯度掩码</strong>模型，并无法抵抗JSMA的攻击</p>
+</li>
+</ul>
+<h2 id="Random-Feature-Nullification"><a href="#Random-Feature-Nullification" class="headerlink" title="Random Feature Nullification"></a>Random Feature Nullification</h2><p>  we introduce random feature nullification to both the training and testing phases of DNN models, making the architectures non-deterministic. </p>
+<p>  引入随机性，对行为特征进行随机失活，看起来像是一种特殊的dropout正则</p>
+<p>  但区别在于dropout仅仅在训练的时候对神经元随即失活，而本文的方法是在train和test的时候都执行</p>
+<p><img src="//aisakaki.com/2019/09/19/toMalwareDetection/1.png" alt="1"></p>
+<p>作者在input与hidden之间加了一层<strong>Nullification层</strong></p>
+<p>超参数：$μ_p,\sigma^2_p $</p>
+<h2 id="Model-Description"><a href="#Model-Description" class="headerlink" title="Model Description"></a>Model Description</h2><p>$X\in R^{N*M}$ ($N$ 个样本，$M$维特征)</p>
+<p>$\hat{I}_p\in R^{N*M}$ (mask matrix)</p>
+<p>Nullification来源于$X$与$\hat{I}_p$按位乘</p>
+<p>经验证在Random Nullification中会损失有用的分类特征信息，于是为了解决这个问题，本文为每个样本引入了<strong>Nullification Rate</strong>：$p^i$，且不仅哪个神经元失活是随机的，失活神经元的数量也是随机的</p>
+<p>单个输入$x_i$对应一个$I_{p^i}$，后者是一个二进制向量，0的数量取决于$p^i$，且随机分布。作者使用了高斯分布和均匀分布。</p>
+<p>$⌈M·p^i⌉$ :$I_{p^i}$中随机分布的0的个数，$p^i$是从高斯分布$N(μ_p,\sigma^2_p)$中的一次采样样本</p>
+<p>于是DNN的目标函数定义为</p>
+<script type="math/tex; mode=display">
+\min_\theta \Sigma^N_{i=1} L(f(x_i,I_{p^i};\theta),y_i)</script><p>随机特征失活过程（random feature nullification process）表示为$q(x_i,I_{p^i})=x^i⊙I_{p^i}$</p>
+<p>(⊙为Hadamard product，一种特殊的矩阵乘法，同阶矩阵，$c_{ij}=a_{ij}*b_{ij}$)</p>
+<p>于是$f(x_i,I_{p^i};\theta)=f(q(x_i,I_{p^i});\theta)$</p>
+<p>在训练中使用SGD求解目标函数，但这里不同之处在于$I_{p^i}$在<strong>一个</strong>样本的前向传播和反向传播过程中是固定的，这使得容易计算$L(f(x_i,I_{p^i};\theta),y_i)$的导数</p>
+<p>在测试中由于参数固定，使用高斯分布$N(μ_p,\sigma^2_p)$的期望作为辅助的随机变量$p^i$</p>
+<h2 id="Analysis-Model-Resistance-to-Adversaries"><a href="#Analysis-Model-Resistance-to-Adversaries" class="headerlink" title="Analysis: Model Resistance to Adversaries"></a>Analysis: Model Resistance to Adversaries</h2><p><strong>攻击防御：</strong></p>
+<p>对抗攻击需要求解如下导数($\hat{x}$是任一测试样本)</p>
+<script type="math/tex; mode=display">
+J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}</script><script type="math/tex; mode=display">
+=J_L(q)·\frac{\partial q(\hat{x},I_p)}{\partial \hat{x}}</script><p>where $J_L(q)=\partial L(f(x_i,I_{p^i};\theta),\hat{y})/\partial q(\hat{x},I_p)$，$I_p$是在测试中使用的mask matrix</p>
+<p>只要此式子求解，攻击者便可以生成AE发动攻击$\hat{x} \to\hat{x}+ \phi sign(J_L(\hat{x}))$</p>
+<p>但此时由于乘随机变量$I_p$的存在，使得攻击者无法轻易算出$J_L(q)$</p>
+<p>这里作者说明了如果$I_p$是加随机变量的话$J_L(q)$将可以被轻易求解</p>
+<p><strong>模拟攻击：</strong></p>
+<p>因此，攻击者要想攻击此模型的最佳办法就算去拟合$I_p$.</p>
+<p>作者假设 $I^*_p$ 为 $I_p$ 的最佳拟合，DNNs为黑盒，最佳的扰动为 $\delta\hat{x}$ </p>
+<p>则最佳合成攻击样本为 $\hat{x}+\delta\hat{x}⊙I^*_p$ </p>
+<p>假设攻击者用此来攻击下面图2中的系统</p>
+<p><img src="//aisakaki.com/2019/09/19/toMalwareDetection/2.png" alt="2"></p>
+<p>如图可以看到，<strong>攻击必须经过feature nullification layer才能抵达实际的DNN</strong>，由如下式子表示</p>
+<script type="math/tex; mode=display">
+(\hat{x}+\delta\hat{x}⊙I^*_p)⊙I_p=(\hat{x}⊙I_p)+\delta\hat{x}⊙I^*_p⊙I_p</script><p>式子中 $\hat{x}⊙I_p$ 即为一个真实的nullified样本，$\delta\hat{x}⊙I^*_p⊙I_p$ 就是发动攻击的添加的扰动</p>
+<p>这里可以看到，尽管 $\delta\hat{x}$ 是非常有效的扰动，但 $I^*_p⊙I_p$ 的存在使得该扰动大幅减弱</p>
 
           
         
