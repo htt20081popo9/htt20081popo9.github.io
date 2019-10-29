@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T08:48:30.019Z">
+<meta property="og:updated_time" content="2019-10-29T09:50:51.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -475,7 +475,9 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
 <p>以此得到状态序列$I^<em>=(i^</em>_1,i^<em>_2,\dots,i^</em>_T)$</p>
 <p>但存在问题：可能存在$\gamma_t(i)=0$也就是情况不发生的情况，那么该公式就会失效了</p>
 <p>但尽管如此近似算法依然是有用的</p>
-<h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
+<h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><p>动态规划，类似传统的Dijkstra算法，本文不细展开了，略</p>
+<p>需要注意的就是递推公式的时候，概率最大化的是观测概率也就是$\max\{\delta_i(t)a_{ij}b_j(o_{t+1})\}$，而不是状态</p>
+<h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
 <p>将$\sum_{i=1}^N\log\pi_i$展开：</p>
 <p>$\sum_{i=1}^N\log\pi_i=\log \pi_1+\log \pi_2+\cdots+\log \pi_N$</p>
 <p>若$i=1$，则$\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial\pi_1}=\frac{1}{\pi_1}$</p>
