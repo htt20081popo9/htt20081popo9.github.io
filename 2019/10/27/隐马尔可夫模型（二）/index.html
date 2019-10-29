@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-28T12:51:13.329Z">
+<meta property="og:updated_time" content="2019-10-29T02:35:52.566Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -405,8 +405,8 @@
 <h3 id="Baum-Welch算法-EM"><a href="#Baum-Welch算法-EM" class="headerlink" title="Baum-Welch算法(EM)"></a>Baum-Welch算法(EM)</h3><p>假定训练数据为$S$个长度为$T$的观测序列$\{O_1,O_2,\cdots,O_S\}$，不知其状态序列（隐变量）</p>
 <p>目标：学习$\lambda=(A,B,\pi)$</p>
 <p>EM算法实现</p>
-<p>需要用到上一篇的公式$\gamma_t(i)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
-<p>$\epsilon_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{\sum^N_{i=1}\sum^N_{j=1}P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}$</p>
+<p>需要用到上一篇的公式$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$——①   </p>
+<p>$\epsilon_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{\sum^N_{i=1}\sum^N_{j=1}P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}$——②</p>
 <p>手推（键盘推）Baum-Welch公式：</p>
 <p>$P(O,I|\lambda)=P((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
 <p>由$Q(\lambda,\hat \lambda)=\mathbb E_I(\log P(O,I|\lambda)|O,\hat \lambda)$</p>
@@ -415,13 +415,23 @@
 <p>$\therefore Q(\lambda,\hat \lambda)=\sum_I \log P(O,I|\lambda)P(O,I|\hat \lambda)$</p>
 <p>将$P(O,I|\lambda)$代入$Q$函数得：</p>
 <p>$Q(\lambda,\hat \lambda)=\sum_I \log \pi_{i} P(O,I|\hat \lambda)+\sum_I\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}P(O,I|\hat \lambda)+\sum_I\sum_{t=1}^T\log b_{i_t}(o_t)P(O,I|\hat \lambda)$</p>
-<p>将三个参数分布归到三个子项后，下面根据自己的需要对$P(O,I|\hat \lambda)$进行逆边缘化</p>
-<p>$=\sum_{i=1}^N \log \pi_{i} P(O,i_1=i|\hat \lambda)$——①   </p>
-<p>$+\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)$——②</p>
-<p>$+\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$——③</p>
-<p>对于$\pi_i:①$</p>
-<p>对于$a_{ij}:②$</p>
-<p>对于$b_j(o_t):③$</p>
+<p>将三个参数分布归到三个子项后，<strong>下面根据参数的需要对$P(O,I|\hat \lambda)$中的$I$变量进行逆边缘化</strong>，注意分开时间和状态空间的关系</p>
+<p>$=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)$——③   </p>
+<p>$+\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)$——④ 时间连续，但状态空间是任意组合的</p>
+<p>$+\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$——⑤</p>
+<p>用拉格日朗子乘数法求0偏导（否则算出负概率）</p>
+<p>对于$\pi_i:③$</p>
+<p>$\sum_{i=1}^N \pi_i=1$    $\pi$是初始<strong>概率</strong>向量，表初始的时候各状态的概率，别搞混了</p>
+<p>$\therefore \mathbb L=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1)$</p>
+<p>令$\frac{\partial \mathbb L}{\partial \pi_i}=0,\therefore \frac{\partial(\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1))}{\partial \pi_i}=0$</p>
+<p>$\therefore P(O,i_1=i|\hat \lambda)+\gamma\pi_i=0$  ——⑥</p>
+<p>左右两边同时求和：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化</p>
+<p>$\therefore P(O|\hat \lambda)+\gamma=0$</p>
+<p>$\therefore \gamma=-P(O|\hat \lambda)$，代入回⑥得：</p>
+<p>$P(O,i_1=i|\hat \lambda)-\pi_iP(O|\hat \lambda)=0$</p>
+<p>$\therefore \pi_i=\frac{P(O,i_1=i|\hat \lambda)}{P(O|\hat \lambda)}=P(i_t=i_1|O,\lambda)$，由①得：$\pi_i=\gamma_1(i)$</p>
+<p>对于$a_{ij}:④$</p>
+<p>对于$b_j(o_t):⑤$</p>
 <h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3>
       
     </div>

@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-28T10:47:39.779Z">
+<meta property="og:updated_time" content="2019-10-29T02:34:53.716Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（一）">
 <meta name="twitter:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的齐次马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列">
@@ -404,7 +404,7 @@ P_{状态}(i_t|i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(i_t|i_{t-1}),t=1,2,\cdots,T</sc
 P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</script><p> HMM观测序列每生成一个新的状态就生成一次新观测</p>
 <a id="more"></a>
 <h2 id="符号表记"><a href="#符号表记" class="headerlink" title="符号表记"></a>符号表记</h2><p>HMM中符号较多</p>
-<p>$\lambda=(A,B,\pi)$表记一个HMM，$A$：状态转移概率矩阵，$B$：观测概率矩阵，$\pi$：初始状态概率向量</p>
+<p>$\lambda=(A,B,\pi)$表记一个HMM，$A$：状态转移概率矩阵，$B$：观测概率矩阵，$\pi$：初始状态<strong>概率向量</strong>(比如$\pi=[0.2,0,4,0,4]$即表示在$t=1$时状态为$q_1,q_2,q_3$的初始概率分别为$0.2,0,4,0,4$</p>
 <p>$i_t$：一个状态，$I=(i_1,i_2,\cdots,i_T)$：状态序列，经过指定状态序列$i_1,i_2,\cdots,i_T$后到达指定最终状态$i_T$的概率</p>
 <p>$o_k$：一个观测，$O=(o_1,o_2,\cdots,o_T)$：观测序列，对指定状态序列过程中产生的每一时刻状态进行观测（产生一个观测），这些观测构成指定序列的概率</p>
 <p>$N$：可能的状态数，$Q=\{q_1.q_2.\cdots,q_N\}$：可能的状态集合</p>
@@ -461,7 +461,7 @@ P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b
 <p>记$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}$</p>
 <p>由前向概率和后向概率定义可得</p>
 <p>$\alpha_t(i)\beta_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)*P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)=P(i_t=q_i,O|\lambda)$</p>
-<p>$\therefore \gamma_t(i)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
+<p>$\therefore \gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
 <p>对各个时刻求和，于是可以求出在观测$O$下状态$i$出现的期望值$=\sum_{t=1}^T \gamma_t(i)$</p>
 <p>同理，在观测$O$下由状态$i$转移的期望值$=\sum_{t=1}^{T-1} \gamma_t(i)$</p>
 </li>
