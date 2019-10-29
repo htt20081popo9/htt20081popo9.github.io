@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T03:54:39.377Z">
+<meta property="og:updated_time" content="2019-10-29T08:37:27.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -411,11 +411,11 @@
 <p>$P(O,I|\lambda)=P((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b_{i_2}(o_2)) \cdots(a_{i_{T-1}i_T}b_{i_T}(o_T))$</p>
 <p>由$Q(\lambda,\hat \lambda)=\mathbb E_I(\log P(O,I|\lambda)|O,\hat \lambda)$</p>
 <p>$=\sum_I \log P(O,I|\lambda)P(I|O,\hat \lambda)$</p>
-<p>$=\sum_I \log P(O,I|\lambda)\frac{P(I,O|\hat \lambda)}{P(O|\hat \lambda)}$，由于$P(O|\hat \lambda)$为常数，</p>
+<p>$=\sum_I \log P(O,I|\lambda)\frac{P(I,O|\hat \lambda)}{P(O|\hat \lambda)}$，由于$P(O|\hat \lambda)$为常数，可以省略掉</p>
 <p>$\therefore Q(\lambda,\hat \lambda)=\sum_I \log P(O,I|\lambda)P(O,I|\hat \lambda)$</p>
 <p>将$P(O,I|\lambda)$代入$Q$函数得：</p>
 <p>$Q(\lambda,\hat \lambda)=\sum_I \log \pi_{i} P(O,I|\hat \lambda)+\sum_I\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}P(O,I|\hat \lambda)+\sum_I\sum_{t=1}^T\log b_{i_t}(o_t)P(O,I|\hat \lambda)$</p>
-<p>将三个参数分布归到三个子项后，<strong>下面根据参数的需要对$P(O,I|\hat \lambda)$中的$I$变量进行逆边缘化</strong>，注意时间和状态空间的关系，是独立的</p>
+<p>将三个参数分布归到三个子项后，<strong>下面根据参数的需要对$P(O,I|\hat \lambda)$中的$I$变量进行对应的逆边缘化</strong>，注意时间和状态空间的关系，是独立的</p>
 <p>$=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)$——③   </p>
 <p>$+\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)$——④ 时间连续，但状态空间是任意组合的</p>
 <p>$+\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$——⑤</p>
@@ -424,35 +424,51 @@
 <p>$\sum_{i=1}^N \pi_i=1$    $\pi$是初始<strong>概率</strong>向量，表初始的时候各状态的概率，别搞混了</p>
 <p>$\therefore \mathbb L=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1)$</p>
 <p>令$\frac{\partial \mathbb L}{\partial \pi_i}=0,\therefore \frac{\partial(\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1))}{\partial \pi_i}=0$ </p>
-<p>$\therefore \frac{1}{\pi_i}P(O,i_1=i|\hat \lambda)+\gamma=0$ （<strong>这里容易求错，见备注：见求和函数求导</strong>）</p>
+<p>$\therefore \frac{1}{\pi_i}P(O,i_1=i|\hat \lambda)+\gamma=0$ （<strong>这里容易求错，见后求和函数求导</strong>）</p>
 <p>$\therefore P(O,i_1=i|\hat \lambda)+\gamma\pi_i=0$  ——⑥   </p>
-<p>左右两边同时求和：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化（求和可以使用更多信息以消去$\gamma$）</p>
+<p><strong>左右两边同时求和</strong>：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化（求和可以使用更多信息以消去$\gamma$）</p>
 <p>$\therefore P(O|\hat \lambda)+\gamma=0$</p>
 <p>$\therefore \gamma=-P(O|\hat \lambda)$，代入回⑥得：</p>
 <p>$P(O,i_1=i|\hat \lambda)-\pi_iP(O|\hat \lambda)=0$</p>
-<p>$\therefore \pi_i=\frac{P(O,i_1=i|\hat \lambda)}{P(O|\hat \lambda)}=P(i_t=i_1|O,\lambda)$，由①得：$\pi_i=\gamma_1(i)$</p>
+<p>$\therefore \pi_i=\frac{P(O,i_1=i|\hat \lambda)}{P(O|\hat \lambda)}=P(i_t=i_1|O,\lambda)$，由①得：$\pi_i=\gamma_1(i)$    ——⑦  </p>
 <p>Ⅱ.对于$a_{ij}:\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)$ （④式）</p>
 <p>$\sum_j^Na_{ij}=1$</p>
 <p>$\therefore \mathbb L=\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)+\gamma(\sum_j^Na_{ij}-1)$</p>
 <p>令$\frac{\partial \mathbb L}{\partial a_{ij}}=0,\therefore \frac{\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)+(\sum_j^Na_{ij}-1)}{\partial a_{ij}}=0$</p>
+<p>$\therefore \sum_{t=1}^{T-1}\frac{1}{a_{ij}}P(O,i_t=i,i_{t+1}=j|\hat \lambda)+\gamma =0$</p>
 <p>$\therefore \sum_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\hat \lambda)+\gamma a_{ij}=0$</p>
 <p>两边同时求和：$\sum_j^N\sum_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\hat \lambda)+\gamma \sum_j^Na_{ij}=0$</p>
 <p>$\therefore\gamma=-\sum_{t=1}^{T-1}P(O,i_t=i|\hat \lambda)$，回代原式</p>
 <p>$\therefore \sum_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\hat \lambda)-\sum_{t=1}^{T-1}P(O,i_t=i|\hat \lambda) a_{ij}=0$</p>
 <p>$\therefore a_{ij}=\frac{\sum_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\hat \lambda)}{\sum_{t=1}^{T-1}P(O,i_t=i|\hat \lambda)}$</p>
 <p>由①②得：</p>
-<p>$a_{ij}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}$</p>
+<p>$a_{ij}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}$  ——⑧  </p>
 <p>Ⅲ.对于$b_j(o_t):\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$ （⑤式）</p>
-<p>$\sum_j^Nb_j(o_t)=1$</p>
-<p>$\mathbb L=\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_j^Nb_j(o_t)-1)$</p>
-<p>令$\frac{\partial \mathbb L}{\partial b_j(o_t)}=0,\therefore \frac{\partial(\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_j^Nb_j(o_t)-1))}{\partial b_j(o_t)}=0$</p>
-<p>$\therefore \sum_{t=1}^TP(O,i_t=j|\hat \lambda)+\gamma b_j(o_t)=0$</p>
-<p>左右两边同时求和</p>
-<p>$\therefore \sum_{t=1}^TP(O|\hat \lambda)+\gamma =0,\gamma=-\sum_{t=1}^TP(O|\hat \lambda)$，回代：</p>
-<p>$\sum_{t=1}^TP(O,i_t=j|\hat \lambda)-\sum_{t=1}^TP(O|\hat \lambda) b_j(o_t)=0$</p>
-<p>$\therefore b_j(o_t)=\frac{\sum_{t=1}^TP(O,i_t=j|\hat \lambda)}{\sum_{t=1}^TP(O|\hat \lambda)}$</p>
-<p>由①得</p>
-<p>$b_j(o_t)=$</p>
+<p>注意这里有所不同，$b_j(k)$的观测空间为$(o_1,o_2,\cdots,o_M)$。约束条件为$\sum_{k=1}^Mb_j(k)=1$</p>
+<p>$\mathbb L=\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_{k=1}^Mb_j(k)-1)$</p>
+<p>令$\frac{\partial \mathbb L}{\partial b_j(k)}=0,\therefore \frac{\partial(\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_{k=1}^Mb_j(k)-1)}{\partial b_j(k)}=0$</p>
+<p>仅在$o_t=v_k$的时候$(b_j(o_t)=b_j(k))$，$\frac{\partial b_j(o_t)}{\partial b_j(k)}≠0$，以$I(o_t=v_k)$表示，$I(o_t=v_k)=1,I(o_t≠v_k)=0$</p>
+<p>$\therefore \sum_{t=1}^T\frac{1}{b_j(o_t)}P(O,i_t=j|\hat \lambda)I(o_t=v_k)+\gamma =0$</p>
+<p>$\therefore \sum_{t=1}^TP(O,i_t=j|\hat \lambda)I(o_t=v_k)+\gamma b_j(k)=0$</p>
+<p>左右两边同时求和$\therefore \sum_{k=1}^M\sum_{t=1}^TP(O,i_t=j|\hat \lambda)I(o_t=v_k)+\gamma \sum_{k=1}^Mb_j(k)=0$</p>
+<p>$\therefore \sum_{k=1}^M\sum_{t=1}^TP(O,i_t=j|\hat \lambda)I(o_t=v_k)+\gamma =0$</p>
+<p>对这个式子进行化简，其等价于：$\sum_{t=1}^TP(O,i_t=j|\hat \lambda)+\gamma=0$ (<em>有疑问</em>)</p>
+<p>$\therefore \gamma=-\sum_{t=1}^TP(O,i_t=j|\hat \lambda)$，回代</p>
+<p>$\sum_{t=1}^TP(O,i_t=j|\hat \lambda)I(o_t=v_k)-\sum_{t=1}^TP(O,i_t=j|\hat \lambda)b_j(k)=0$</p>
+<p>$\therefore b_j(k)=\frac{\sum_{t=1}^TP(O,i_t=j|\hat \lambda)I(o_t=v_k)}{\sum_{t=1}^TP(O,i_t=j|\hat \lambda)}$，由①得</p>
+<p>$b_j(k)=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}$  ——⑨  </p>
+<hr>
+<p><strong>综上所述</strong>：$\frac{\partial Q}{\partial \pi_i}=⑦,\frac{\partial Q}{\partial a_{ij}}=⑧,\frac{\partial Q}{\partial b_j(k)}=⑨$</p>
+<p>于是可以写出<strong>Baum-Welch算法：</strong>（仅对一个观测序列$O∈\{O_1,O_2,\dots,O_S\}$）</p>
+<p>输入观测数据$O=(o_1,o_2,\dots,o_n)$，求$\lambda=(A,B,\pi)$</p>
+<p>初始化：对$n=0$，选取$a_{ij}^{(0)},b_j(k)^{(0)},\pi_i^{(0)}$，得到模型$\lambda^{(0)}=(A^{(0)},B^{(0)},\pi^{(0)})$</p>
+<p>递推：</p>
+<script type="math/tex; mode=display">
+\pi_i^{(n+1)}=\gamma_1(i)</script><script type="math/tex; mode=display">
+a_{ij}^{(n+1)}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}</script><script type="math/tex; mode=display">
+b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}</script><p>(每一个参数矩阵的中要计算出多个上述三式子（所有$i,j$情况）才能得到新迭代的模型参数)</p>
+<p>其中各值按观测$O=(o_1,o_2,\dots,o_n)$和模型$\lambda^{(n)}=(A^{(n)},B^{(n)},\pi^{(n)})$计算</p>
+<p>最终得到模型参数$\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$</p>
 <h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
 <p>将$\sum_{i=1}^N\log\pi_i$展开：</p>
 <p>$\sum_{i=1}^N\log\pi_i=\log \pi_1+\log \pi_2+\cdots+\log \pi_N$</p>
