@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T03:46:07.912Z">
+<meta property="og:updated_time" content="2019-10-29T03:54:39.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -426,7 +426,7 @@
 <p>令$\frac{\partial \mathbb L}{\partial \pi_i}=0,\therefore \frac{\partial(\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1))}{\partial \pi_i}=0$ </p>
 <p>$\therefore \frac{1}{\pi_i}P(O,i_1=i|\hat \lambda)+\gamma=0$ （<strong>这里容易求错，见备注：见求和函数求导</strong>）</p>
 <p>$\therefore P(O,i_1=i|\hat \lambda)+\gamma\pi_i=0$  ——⑥   </p>
-<p>左右两边同时求和：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化</p>
+<p>左右两边同时求和：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化（求和可以使用更多信息以消去$\gamma$）</p>
 <p>$\therefore P(O|\hat \lambda)+\gamma=0$</p>
 <p>$\therefore \gamma=-P(O|\hat \lambda)$，代入回⑥得：</p>
 <p>$P(O,i_1=i|\hat \lambda)-\pi_iP(O|\hat \lambda)=0$</p>
@@ -443,6 +443,16 @@
 <p>由①②得：</p>
 <p>$a_{ij}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}$</p>
 <p>Ⅲ.对于$b_j(o_t):\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$ （⑤式）</p>
+<p>$\sum_j^Nb_j(o_t)=1$</p>
+<p>$\mathbb L=\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_j^Nb_j(o_t)-1)$</p>
+<p>令$\frac{\partial \mathbb L}{\partial b_j(o_t)}=0,\therefore \frac{\partial(\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)+\gamma(\sum_j^Nb_j(o_t)-1))}{\partial b_j(o_t)}=0$</p>
+<p>$\therefore \sum_{t=1}^TP(O,i_t=j|\hat \lambda)+\gamma b_j(o_t)=0$</p>
+<p>左右两边同时求和</p>
+<p>$\therefore \sum_{t=1}^TP(O|\hat \lambda)+\gamma =0,\gamma=-\sum_{t=1}^TP(O|\hat \lambda)$，回代：</p>
+<p>$\sum_{t=1}^TP(O,i_t=j|\hat \lambda)-\sum_{t=1}^TP(O|\hat \lambda) b_j(o_t)=0$</p>
+<p>$\therefore b_j(o_t)=\frac{\sum_{t=1}^TP(O,i_t=j|\hat \lambda)}{\sum_{t=1}^TP(O|\hat \lambda)}$</p>
+<p>由①得</p>
+<p>$b_j(o_t)=$</p>
 <h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
 <p>将$\sum_{i=1}^N\log\pi_i$展开：</p>
 <p>$\sum_{i=1}^N\log\pi_i=\log \pi_1+\log \pi_2+\cdots+\log \pi_N$</p>
