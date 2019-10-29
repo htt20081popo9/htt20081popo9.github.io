@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>海</title>
+    <url>/2019/10/29/%E6%B5%B7/</url>
+    <content><![CDATA[<p><img src="//aisakaki.com/2019/10/29/海/0.jpg" alt="0"></p>
+<div style="text-align: center"><i>未来へ</i></div>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=535056564&auto=1&height=66"></iframe>
+
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>隐马尔可夫模型（二）</title>
     <url>/2019/10/27/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<p><em>施工中</em></p>
@@ -1360,7 +1373,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 <div style="text-align: center"><i>珍贵的宝物并非是唯一的</i></div>
 <div style="text-align: center"><i>如同呼唤彼此的云雀般 只有遥远的啼鸣</i></div>
 <div style="text-align: center"><i>在云之彼方的草原上 留下优雅的掠影</i></div>
-
 ]]></content>
       <categories>
         <category>日记</category>
