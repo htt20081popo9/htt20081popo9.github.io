@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T08:37:27.227Z">
+<meta property="og:updated_time" content="2019-10-29T08:46:01.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="施工中 学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -469,7 +469,13 @@ a_{ij}^{(n+1)}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i
 b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}</script><p>(每一个参数矩阵的中要计算出多个上述三式子（所有$i,j$情况）才能得到新迭代的模型参数)</p>
 <p>其中各值按观测$O=(o_1,o_2,\dots,o_n)$和模型$\lambda^{(n)}=(A^{(n)},B^{(n)},\pi^{(n)})$计算</p>
 <p>最终得到模型参数$\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$</p>
-<h2 id="预测算法—预测序列状态"><a href="#预测算法—预测序列状态" class="headerlink" title="预测算法—预测序列状态"></a>预测算法—预测序列状态</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
+<h2 id="预测算法—预测序列状态-I-P-I-O-lambda"><a href="#预测算法—预测序列状态-I-P-I-O-lambda" class="headerlink" title="预测算法—预测序列状态$I=P(I|O,\lambda)$"></a>预测算法—预测序列状态$I=P(I|O,\lambda)$</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><p><strong>思想：选出在每一个时刻最有可能出现的状态来构成状态序列，用前面正反向算法推导出的单独概率公式求解</strong></p>
+<p>由在$t$时刻处于状态$q_i$的概率公式：$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
+<p>在每一时刻$t$最有可能的状态$i^*_t=\arg\max_{1≤i≤N}[\gamma_t(i)],t=1,2,\dots,T$</p>
+<p>得到状态序列$I^<em>=(i^</em>_1,i^<em>_2,\dots,i^</em>_T)$</p>
+<p>但存在问题：可能存在$\gamma_t(i)=0$也就是情况不发生的情况，那么该公式就会失效了</p>
+<p>但尽管如此近似算法依然是有用的</p>
+<h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
 <p>将$\sum_{i=1}^N\log\pi_i$展开：</p>
 <p>$\sum_{i=1}^N\log\pi_i=\log \pi_1+\log \pi_2+\cdots+\log \pi_N$</p>
 <p>若$i=1$，则$\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial\pi_1}=\frac{1}{\pi_1}$</p>
@@ -700,7 +706,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法-EM"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法(EM)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导问题"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法-EM"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法(EM)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态-I-P-I-O-lambda"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态$I=P(I|O,\lambda)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导问题"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导问题</span></a></li></ol></div>
             
 
           </div>
