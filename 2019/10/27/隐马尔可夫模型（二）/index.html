@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T09:55:03.962Z">
+<meta property="og:updated_time" content="2019-10-29T10:30:12.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
@@ -471,7 +471,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
 <h2 id="预测算法—预测序列状态-I-P-I-O-lambda"><a href="#预测算法—预测序列状态-I-P-I-O-lambda" class="headerlink" title="预测算法—预测序列状态$I=P(I|O,\lambda)$"></a>预测算法—预测序列状态$I=P(I|O,\lambda)$</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><p><strong>思想：选出在每一个时刻最有可能出现的状态来构成状态序列，用前面正反向算法推导出的单独概率公式求解</strong></p>
 <p>由在$t$时刻处于状态$q_i$的概率公式：$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
 <p>在每一时刻$t$最有可能的状态$i^*_t=\arg\max_{1≤i≤N}[\gamma_t(i)],t=1,2,\dots,T$（计算出当前$t$下哪个$i$使得$\gamma_t(i)$最大）</p>
-<p>以此得到状态序列$I^<em>=(i^</em>_1,i^<em>_2,\dots,i^</em>_T)$</p>
+<p>以此得到状态序列$I^{<em>}=(i^{</em>}_1,i^{<em>}_2,\dots,i^{</em>}_T)$</p>
 <p>但存在问题：可能存在$\gamma_t(i)=0$也就是情况不发生的情况，那么该公式就会失效了</p>
 <p>但尽管如此近似算法依然是有用的</p>
 <h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><p>动态规划，类似传统的Dijkstra算法，本文不细展开了，略</p>
@@ -608,7 +608,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">aisaka</p>
-              <p class="site-description motion-element" itemprop="description">我的小站</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -618,7 +618,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">110</span>
+                  <span class="site-state-item-count">111</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

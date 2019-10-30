@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="我的小站">
+<meta name="description" content="心情、思考、时光">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
 <meta property="og:url" content="https://aisakaki.com/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="我的小站">
+<meta property="og:description" content="心情、思考、时光">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="宵晓咲">
-<meta name="twitter:description" content="我的小站">
+<meta name="twitter:description" content="心情、思考、时光">
 
 
 
@@ -633,6 +633,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/29/条件随机场/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/29/条件随机场/" itemprop="url">条件随机场</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-29T19:05:15+08:00">
+                2019-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/29/条件随机场/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/29/条件随机场/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>施工中</p>
+<h2 id="Conditional-Random-Field"><a href="#Conditional-Random-Field" class="headerlink" title="Conditional Random Field"></a>Conditional Random Field</h2><p>在我前面的文章中有一些概率图模型的基础知识：<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习中的结构化概率模型</a></p>
+<p>如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：<a href="https://aisakaki.com/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/">配分函数</a>，其中用到了蒙特卡罗方法，参看前文：<a href="https://aisakaki.com/2019/10/12/%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%96%B9%E6%B3%95/">蒙特卡罗方法</a></p>
+<p>将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的<strong>因子分解</strong>(factorization)</p>
+<p><strong>标注问题：</strong>在条件概率模型$P(Y|X)$中，$Y$是输出变量，表示输出的标记序列（或状态序列），$X$是输入变量，表示需要标注的观测序列。HMM和LCRF都可以用于标注问题（只是其中一个应用）。</p>
+<p><strong>条件随机场(conditional random field,CRF)</strong>：给定随机变量$X$条件下，随机变量$Y$的马尔可夫随机场</p>
+<p><strong>线性链条件随机场(linear chain conditional random field,Linear-Chain CRF)</strong>：定义如下</p>
+<p>设$X=\{X_1,X_2,\cdots,X_n\},Y=\{Y_1,Y_2,\cdots,Y_n\}$均为线性链表示的随机变量序列，若在给定随机变量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性：</p>
+<script type="math/tex; mode=display">
+P(Y_i|X,Y_1,\cdots,Y_{i-1},Y_{i+1},\cdots,Y_n)=P(Y_i|X,Y_{i-1},Y_{i+1}),i=1,2,\cdots,n</script><p>则称$P(Y|X)$为线性链条件随机场。意思是$Y_i$只与$X$(观测序列)，$Y_{i-1},Y_{i+1}$有关</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/29/条件随机场/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/27/隐马尔可夫模型（二）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1079,7 +1258,7 @@
       
         
           <h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
-<p>HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是<strong>第一个随机过程为状态序列随机过程</strong>，这和一般的<strong>齐次</strong>马尔可夫链一致（当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），<strong>第二个随机过程为观测序列的随机过程</strong>，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列随机过程的当前状态有关，与随机过程中其它观测和状态无论未来还是过去无关。即：</p>
+<p>HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是<strong>第一个随机过程为状态序列随机过程</strong>，这和一般的<strong>马尔可夫链</strong>一致（具有马尔可夫性，当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），<strong>第二个随机过程为观测序列的随机过程</strong>，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列随机过程的当前状态有关，与随机过程中其它观测和状态无论未来还是过去无关。即：</p>
 <script type="math/tex; mode=display">
 P_{状态}(i_t|i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(i_t|i_{t-1}),t=1,2,\cdots,T</script><script type="math/tex; mode=display">
 P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</script><p> HMM观测序列每生成一个新的状态就生成一次新观测</p>
@@ -1485,168 +1664,6 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/20/游戏中的心理学/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/20/游戏中的心理学/" itemprop="url">游戏中的心理学</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-20T14:30:45+08:00">
-                2019-10-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/游戏设计/" itemprop="url" rel="index">
-                    <span itemprop="name">游戏设计</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/20/游戏中的心理学/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/20/游戏中的心理学/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><em>week2-游戏中的心理学 课堂总结</em></p>
-<h2 id="乐趣原理"><a href="#乐趣原理" class="headerlink" title="乐趣原理"></a>乐趣原理</h2><p>人为什么需要玩游戏？为什么在漫长的进化过程中，只有人类有对游戏的需要？</p>
-<p>游戏的本质：人类对现实或超现实世界里 <strong>某种模式</strong> （对事物的规律的抽象提炼）的仿真和模仿</p>
-<p>掌握和学习模式其实是人类进化的需求。人类的大脑有一种其他生物不具备的能力和喜好，就是从现实环境中不断<strong>识别和仿真模式</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/10/20/游戏中的心理学/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1687,7 +1704,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">aisaka</p>
-              <p class="site-description motion-element" itemprop="description">我的小站</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -1697,7 +1714,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">110</span>
+                  <span class="site-state-item-count">111</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
