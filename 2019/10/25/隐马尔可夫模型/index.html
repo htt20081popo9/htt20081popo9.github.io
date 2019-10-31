@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的马尔可夫链一致（具有马尔可夫性，当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-30T08:51:19.898Z">
+<meta property="og:updated_time" content="2019-10-31T03:39:40.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（一）">
 <meta name="twitter:description" content="Hidden Markov Model隐马尔可夫模型，HMM，属于生成模型 HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是第一个随机过程为状态序列随机过程，这和一般的马尔可夫链一致（具有马尔可夫性，当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），第二个随机过程为观测序列的随机过程，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值">
@@ -413,7 +413,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
 <p>$a_{ij}=P(i_{t+1}|i_t)$：$t$时刻下状态$i_t$到$t+1$时刻下状态$i_{t+1}$的转移概率</p>
 <p>$b_{i_t}(o_t)$：$t$时刻下，由状态$i_t$产生的观测$o_t$的概率，<strong>具体的，$b_{q_{i_t}}(o_t)$即状态$i_t$取值为$q_{i_t}$时候，观测为$o_t$的概率</strong></p>
 <p><strong>注意</strong> 对于当前状态$\sigma_t$，状态转移矩阵$A$,回到上一状态$\sigma_{t-1}=A\sigma_t$，到达下一状态$\sigma_{t+1}=\sigma_tA$</p>
-<h2 id="概率计算算法—预测观测概率-P-O-lambda"><a href="#概率计算算法—预测观测概率-P-O-lambda" class="headerlink" title="概率计算算法—预测观测概率$P(O|\lambda)$"></a>概率计算算法—预测观测概率$P(O|\lambda)$</h2><h3 id="直接计算"><a href="#直接计算" class="headerlink" title="直接计算"></a>直接计算</h3><p>$T$时间后到达某状态序列概率：$P(I|\lambda)=\pi a_{i_1i_2}a_{i_2i_3},\cdots,a_{i_{T-1}i_T}$</p>
+<h2 id="概率计算算法—预测观测概率-max-P-O-lambda"><a href="#概率计算算法—预测观测概率-max-P-O-lambda" class="headerlink" title="概率计算算法—预测观测概率$\max\{P(O|\lambda)\}$"></a>概率计算算法—预测观测概率$\max\{P(O|\lambda)\}$</h2><h3 id="直接计算"><a href="#直接计算" class="headerlink" title="直接计算"></a>直接计算</h3><p>$T$时间后到达某状态序列概率：$P(I|\lambda)=\pi a_{i_1i_2}a_{i_2i_3},\cdots,a_{i_{T-1}i_T}$</p>
 <p>在$I$状态序列下，$T$时间后输出某观测序列$O=(o_1,o_2,\cdots,o_T)$的概率：$P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\cdots b_{i_T}(o_T)$</p>
 <p>$\therefore$$T$时间后到达某状态序列$I$后输出某观测序列的概率为联合分布：</p>
 <script type="math/tex; mode=display">
@@ -695,7 +695,7 @@ P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-Markov-Model"><span class="nav-number">1.</span> <span class="nav-text">Hidden Markov Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表记"><span class="nav-number">2.</span> <span class="nav-text">符号表记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算算法—预测观测概率-P-O-lambda"><span class="nav-number">3.</span> <span class="nav-text">概率计算算法—预测观测概率$P(O|\lambda)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接计算"><span class="nav-number">3.1.</span> <span class="nav-text">直接计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">3.2.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">3.3.</span> <span class="nav-text">后向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它应用"><span class="nav-number">3.4.</span> <span class="nav-text">其它应用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hidden-Markov-Model"><span class="nav-number">1.</span> <span class="nav-text">Hidden Markov Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表记"><span class="nav-number">2.</span> <span class="nav-text">符号表记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算算法—预测观测概率-max-P-O-lambda"><span class="nav-number">3.</span> <span class="nav-text">概率计算算法—预测观测概率$\max\{P(O|\lambda)\}$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接计算"><span class="nav-number">3.1.</span> <span class="nav-text">直接计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">3.2.</span> <span class="nav-text">前向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">3.3.</span> <span class="nav-text">后向算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它应用"><span class="nav-number">3.4.</span> <span class="nav-text">其它应用</span></a></li></ol></li></ol></div>
             
 
           </div>

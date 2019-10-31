@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
+<meta name="description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="隐马尔可夫模型（二）">
 <meta property="og:url" content="https://aisakaki.com/2019/10/27/隐马尔可夫模型（二）/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
+<meta property="og:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-29T10:30:12.128Z">
+<meta property="og:updated_time" content="2019-10-31T03:55:27.009Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
-<meta name="twitter:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$">
+<meta name="twitter:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
 
 
 
@@ -397,13 +397,14 @@
       
 
       
-        <h2 id="学习算法—预测模型参数-lambda-A-B-pi"><a href="#学习算法—预测模型参数-lambda-A-B-pi" class="headerlink" title="学习算法—预测模型参数$\lambda=(A,B,\pi)$"></a>学习算法—预测模型参数$\lambda=(A,B,\pi)$</h2><p>知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$</p>
+        <h2 id="学习算法—预测模型参数-lambda-A-B-pi"><a href="#学习算法—预测模型参数-lambda-A-B-pi" class="headerlink" title="学习算法—预测模型参数$\lambda=(A,B,\pi)$"></a>学习算法—预测模型参数$\lambda=(A,B,\pi)$</h2><p>若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法</p>
+<p>若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法</p>
 <a id="more"></a>
 <h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><p>通过转移状态与观测出现的频率来估算参数</p>
 <p>但这样就需要人工标注，有时候代价过高</p>
-<h3 id="Baum-Welch算法-EM"><a href="#Baum-Welch算法-EM" class="headerlink" title="Baum-Welch算法(EM)"></a>Baum-Welch算法(EM)</h3><p>假定训练数据为$S$个长度为$T$的观测序列$\{O_1,O_2,\cdots,O_S\}$，不知其状态序列（隐变量）</p>
+<h3 id="Baum-Welch算法"><a href="#Baum-Welch算法" class="headerlink" title="Baum-Welch算法"></a>Baum-Welch算法</h3><p>使用MLE，由于隐变量的存在，很难求，所以用EM算法来近似MLE</p>
+<p>假定训练数据为$S$个长度为$T$的观测序列$\{O_1,O_2,\cdots,O_S\}$，不知其状态序列（隐变量）</p>
 <p>目标：学习$\lambda=(A,B,\pi)$</p>
-<p>EM算法实现</p>
 <p>需要用到上一篇的公式$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$——①   </p>
 <p>$\epsilon_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}{\sum^N_{i=1}\sum^N_{j=1}P(i_t=q_i,i_{t+1}=q_j,O|\lambda)}$——②</p>
 <p>手推（键盘推O_O）Baum-Welch公式：</p>
@@ -468,7 +469,7 @@ a_{ij}^{(n+1)}=\frac{\sum_{t=1}^{T-1}\epsilon_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i
 b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}</script><p>(每一个参数矩阵的中要计算出多个上述三式子（所有$i,j$情况）才能得到新迭代的模型参数)</p>
 <p>其中各值按观测$O=(o_1,o_2,\dots,o_n)$和模型$\lambda^{(n)}=(A^{(n)},B^{(n)},\pi^{(n)})$计算</p>
 <p>最终得到模型参数$\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$</p>
-<h2 id="预测算法—预测序列状态-I-P-I-O-lambda"><a href="#预测算法—预测序列状态-I-P-I-O-lambda" class="headerlink" title="预测算法—预测序列状态$I=P(I|O,\lambda)$"></a>预测算法—预测序列状态$I=P(I|O,\lambda)$</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><p><strong>思想：选出在每一个时刻最有可能出现的状态来构成状态序列，用前面正反向算法推导出的单独概率公式求解</strong></p>
+<h2 id="预测算法—预测序列状态-I-arg-I-max-P-I-O-lambda"><a href="#预测算法—预测序列状态-I-arg-I-max-P-I-O-lambda" class="headerlink" title="预测算法—预测序列状态$I=\arg_I\max\{P(I|O,\lambda)\}$"></a>预测算法—预测序列状态$I=\arg_I\max\{P(I|O,\lambda)\}$</h2><h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><p><strong>思想：选出在每一个时刻最有可能出现的状态来构成状态序列，用前面正反向算法推导出的单独概率公式求解</strong></p>
 <p>由在$t$时刻处于状态$q_i$的概率公式：$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{\alpha_t(i)\beta_t(i)}{\sum^N_{j=1}\alpha_t(j)\beta_t(j)}$</p>
 <p>在每一时刻$t$最有可能的状态$i^*_t=\arg\max_{1≤i≤N}[\gamma_t(i)],t=1,2,\dots,T$（计算出当前$t$下哪个$i$使得$\gamma_t(i)$最大）</p>
 <p>以此得到状态序列$I^{<em>}=(i^{</em>}_1,i^{<em>}_2,\dots,i^{</em>}_T)$</p>
@@ -707,7 +708,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法-EM"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法(EM)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态-I-P-I-O-lambda"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态$I=P(I|O,\lambda)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导问题"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态-I-arg-I-max-P-I-O-lambda"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态$I=\arg_I\max\{P(I|O,\lambda)\}$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导问题"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导问题</span></a></li></ol></div>
             
 
           </div>

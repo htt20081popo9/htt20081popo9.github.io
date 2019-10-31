@@ -87,7 +87,7 @@
 <meta property="og:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/10/29/条件随机场/0.jpg">
-<meta property="og:updated_time" content="2019-10-31T02:50:46.871Z">
+<meta property="og:updated_time" content="2019-10-31T03:51:22.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条件随机场">
 <meta name="twitter:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
@@ -428,11 +428,15 @@ Z(x)=\sum_ye^{(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls_l(y_i,x,
 <p>如$(Y_1=2,X,1)$就表示在$i=1$的$X$序列位置上，$Y$的取值（观测值）为2，也可以写成$Y(X_1)=2$</p>
 <p>然后就可以通过上面的结点和边特征函数以及权重将概率图绘制出来，一切求和就得出CRF的概率分布</p>
 <h3 id="其它形式"><a href="#其它形式" class="headerlink" title="其它形式"></a>其它形式</h3><p><strong>拼接</strong>$：K_1$个转移特征，$K_2$个状态特征，$K=K_1+K_2$</p>
-<p><strong>求和</strong>：对同一特征在各个位置求和（<strong>同一特征在不止一个位置上有定义</strong>），$\sum_i^n$就是对各个位置$i$求和</p>
+<p><strong>求和</strong>：对同一特征在各个位置求和（<strong>同一特征在不止一个位置上有定义</strong>）</p>
 <p>$f_k(y_{i-1},y_i,x,i)=\begin{cases} t_k(y_{i-1},y_i,x,i),k=1,2,\dots,K_1\\ s_l(y_i,x,i),k=K_1+l;l+1,2,\dots,K_2\end{cases}$——①</p>
+<p><strong>组一：</strong></p>
 <p>$f_k(y,x)=\sum_{i=1}^n f_k(y_{i-1},y_i,x,i),k=1,2,\dots,K$ （<strong>对同一特征函数$f_k$在所有位置$\sum_i^n~$上求和</strong>）</p>
 <p>$F(y,x)=(f_1(y,x),f_2(y,x),\dots,f_K(y,x))^T$（上面那个求和组成的向量，方便用于下面简化形式的内积形式）——③</p>
-<p>$f_i(y_{i-1},y_i|x)=\sum_{k=1}^Kf_k(y_{i-1},y_i,x,i)$   （某一位置$i$下所有特征函数的和，于上上面的$f_k(y,x)$刚好反过来，先对一个位置$i$积分所有特征函数$f_k$，再积分所有位置$i$）——④</p>
+<p><strong>组二：</strong></p>
+<p>$F_i(y_{i-1},y_i|x)=(f_1(y_{i-1},y_i,x,i),f_2(y_{i-1},y_i,x,i)，\cdots,f_K(y_{i-1},y_i,x,i))$  (<strong>某一位置$i$下所有特征函数组成的向量</strong>）</p>
+<p>$\therefore w·F_i(y_{i-1},y_i|x)=\sum_{k=1}^Kw_kf_k(y_{i-1},y_i,x,i)$   （与上上面的$f_k(y,x)$刚好反过来，先对一个位置$i$积分所有特征函数$f_k$，再积分所有位置$i$）——④</p>
+<p>注意这一组的$F$下标和上面那组的含义是不一样的，一个是$k:$特征函数数量一个是$i:$位置数量</p>
 <p>$w_k=\begin{cases} \lambda_k,k=1,2,\dots,K_1\\ \mu_l,k=K_1+l;l+1,2,\dots,K_2\end{cases}$——②</p>
 <p>$w=(w_1,w_2,\dots,w_K)^T$</p>
 <h3 id="简化形式—对每个特征函数求其在所有位置的和"><a href="#简化形式—对每个特征函数求其在所有位置的和" class="headerlink" title="简化形式—对每个特征函数求其在所有位置的和"></a>简化形式—对每个特征函数求其在所有位置的和</h3><p>由②③：</p>
@@ -445,10 +449,10 @@ Z_w(x)=\sum_ye^{w·F(y,x)}</script><h3 id="矩阵形式—在每个位置求所�
 <script type="math/tex; mode=display">
 P_w(y|x)=\frac{1}{Z_w(x)}\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)</script><script type="math/tex; mode=display">
 Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>由于矩阵表示可以很直观的表示序列上每个位置的矩阵，所以很好用，下面概率计算的时候直接累乘即可</p>
-<p>不用矩阵可以表示为：</p>
+<p><strong>非矩阵形式</strong>可以表示为：（注意这个式子的$f_i(x,y)=$组二中的$F_i(y_{i-1},y_i|x)$）</p>
 <script type="math/tex; mode=display">
 P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}</script><p><strong>此形式即最大熵模型形式！对Linear-Chain CRF参数的学习与对最大熵模型参数的学习一样</strong></p>
-<h2 id="概率计算—求-P-Y-i-y-i-x-P-Y-i-1-y-i-1-Y-i-y-i-x"><a href="#概率计算—求-P-Y-i-y-i-x-P-Y-i-1-y-i-1-Y-i-y-i-x" class="headerlink" title="概率计算—求$P(Y_i=y_i|x),P(Y_{i-1}=y_{i-1},Y_i=y_i|x)$"></a>概率计算—求$P(Y_i=y_i|x),P(Y_{i-1}=y_{i-1},Y_i=y_i|x)$</h2><p><strong>与HMM一样使用前向-后向算法</strong>，递归计算，用矩阵形式表达方便</p>
+<h2 id="概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x"><a href="#概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x" class="headerlink" title="概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$"></a>概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$</h2><p><strong>与HMM一样使用前向-后向算法</strong>，递归计算，用矩阵形式表达方便</p>
 <p><strong>前向算法：</strong> 前向右乘$M$矩阵（$\alpha^T$将原横着的序列变<strong>列向量</strong>与$M$矩阵相乘）</p>
 <p>初始化：$\alpha_0(y|x)=\begin{cases} 1, y=start\\ 0,otherwise\end{cases}$</p>
 <p>递推公式：$\alpha_i^T(y_i|x)=\alpha_{i-1}^T(y_{i-1}|x)[M_i(y_{i-1},y_i|x)],i=1,2,\dots,n+1$</p>
@@ -462,7 +466,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
 <p><strong>[O]期望值计算：</strong></p>
 <p>$\mathbb E_{P(Y|X)}[f_k]=\sum_yP(y|x)f_k(y,x)=略$</p>
 <p>$\mathbb E_{P(X|Y)}[f_k]=\sum_{x,y}P(x,y)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)=略$</p>
-<h2 id="学习算法—求模型参数-hat-w"><a href="#学习算法—求模型参数-hat-w" class="headerlink" title="学习算法—求模型参数$\hat w$"></a>学习算法—求模型参数$\hat w$</h2><p>Linear-Chain CRF的位置求和形式，也即最大熵模型形式，于是可以用与MEM一样的方法来求模型参数</p>
+<h2 id="学习算法—求模型参数-hat-w"><a href="#学习算法—求模型参数-hat-w" class="headerlink" title="学习算法—求模型参数$\hat w$"></a>学习算法—求模型参数$\hat w$</h2><p>Linear-Chain CRF的位置求和形式，也即最大熵模型形式，于是可以<strong>用与MEM一样的方法来求模型参数</strong></p>
 <h3 id="Improved-Iterative-Scaling"><a href="#Improved-Iterative-Scaling" class="headerlink" title="Improved Iterative Scaling"></a>Improved Iterative Scaling</h3><p>IIS，改进的迭代尺度法，具体略</p>
 <p><strong>注意</strong>模型参数是$w$，而$f_k$（或者全局特征向量$F(y,x)$）是先验参数！</p>
 <p>经验概率$\hat P(X,Y)$即为在训练集上直接通过观测法求得的经验概率，如通过多次抛硬币频数法求得概率一样</p>
@@ -472,11 +476,15 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
 <p>对其使用IIS，略</p>
 <h3 id="拟牛顿法"><a href="#拟牛顿法" class="headerlink" title="拟牛顿法"></a>拟牛顿法</h3><p>可以见我以前写的文章<a href="https://aisakaki.com/2019/09/26/%E7%89%9B%E9%A1%BF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BC%98%E5%8C%96/">牛顿法求解非线性优化</a>和<a href="https://aisakaki.com/2019/09/26/%E6%8B%9F%E7%89%9B%E9%A1%BF%E6%B3%95/">拟牛顿法</a></p>
 <p>直接对$P_w(y|x)$求对数似然得优化目标函数</p>
-<p>$\min_{w∈R_n}f(w)=$</p>
 <p>依然使用简化形式$P_w(y|x)$</p>
 <p>对其使用BFGS，略</p>
-<h2 id="预测算法—求-y"><a href="#预测算法—求-y" class="headerlink" title="预测算法—求$y^*$"></a>预测算法—求$y^*$</h2><p>与HMM一样的维比特算法，动态规划，注意递推式。</p>
-<p>对简化形式，求$max_y(w·F(y,x))=\max_y\sum_{i=1}^nw·F_i(y_{i-1},y_i,x) $ </p>
+<h2 id="预测算法—求-y-arg-y-max-P-w-y-x"><a href="#预测算法—求-y-arg-y-max-P-w-y-x" class="headerlink" title="预测算法—求$y^*=\arg_y\max P_w(y|x) $"></a>预测算法—求$y^*=\arg_y\max P_w(y|x) $</h2><p>给定输入序列/观测序列$x$，求条件概率最大输出序列$y^*$，即求$\arg_y\max P_w(y|x)$</p>
+<p>与HMM一样的维比特算法，动态规划，注意递推式。</p>
+<p>由于要确定路径，则使用在每个位置求特征和的积分方法，即上面的非矩阵形式公式，化简后可得：</p>
+<p>求$\max_y\sum_{i=1}^nw·F_i(y_{i-1},y_i,x) $ </p>
+<p>$F_i(y_{i-1},y_i|x)=(f_1(y_{i-1},y_i|x),f_2(y_{i-1},y_i|x),\cdots,f_K(y_{i-1},y_i|x))$为局部特征向量</p>
+<p>递推式：$\max\{\delta_{i-1}+w·F_i(y_{i-1},y_i,x)\}$</p>
+<p>具体略</p>
 <h2 id="HMM和CRF的对比区别"><a href="#HMM和CRF的对比区别" class="headerlink" title="HMM和CRF的对比区别"></a>HMM和CRF的对比区别</h2><ol>
 <li><p>HMM是生成模型，CRF是判别模型</p>
 <p> <img src="//aisakaki.com/2019/10/29/条件随机场/0.jpg" alt="0"></p>
@@ -718,7 +726,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-Random-Field"><span class="nav-number">1.</span> <span class="nav-text">Conditional Random Field</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Chain-CRF形式化表示"><span class="nav-number">2.</span> <span class="nav-text">Linear-Chain CRF形式化表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数化形式"><span class="nav-number">2.1.</span> <span class="nav-text">参数化形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它形式"><span class="nav-number">2.2.</span> <span class="nav-text">其它形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化形式—对每个特征函数求其在所有位置的和"><span class="nav-number">2.3.</span> <span class="nav-text">简化形式—对每个特征函数求其在所有位置的和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵形式—在每个位置求所有特征函数的和"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵形式—在每个位置求所有特征函数的和</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算—求-P-Y-i-y-i-x-P-Y-i-1-y-i-1-Y-i-y-i-x"><span class="nav-number">3.</span> <span class="nav-text">概率计算—求$P(Y_i=y_i|x),P(Y_{i-1}=y_{i-1},Y_i=y_i|x)$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—求模型参数-hat-w"><span class="nav-number">4.</span> <span class="nav-text">学习算法—求模型参数$\hat w$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Improved-Iterative-Scaling"><span class="nav-number">4.1.</span> <span class="nav-text">Improved Iterative Scaling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拟牛顿法"><span class="nav-number">4.2.</span> <span class="nav-text">拟牛顿法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—求-y"><span class="nav-number">5.</span> <span class="nav-text">预测算法—求$y^*$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HMM和CRF的对比区别"><span class="nav-number">6.</span> <span class="nav-text">HMM和CRF的对比区别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-Random-Field"><span class="nav-number">1.</span> <span class="nav-text">Conditional Random Field</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Chain-CRF形式化表示"><span class="nav-number">2.</span> <span class="nav-text">Linear-Chain CRF形式化表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数化形式"><span class="nav-number">2.1.</span> <span class="nav-text">参数化形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它形式"><span class="nav-number">2.2.</span> <span class="nav-text">其它形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化形式—对每个特征函数求其在所有位置的和"><span class="nav-number">2.3.</span> <span class="nav-text">简化形式—对每个特征函数求其在所有位置的和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵形式—在每个位置求所有特征函数的和"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵形式—在每个位置求所有特征函数的和</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x"><span class="nav-number">3.</span> <span class="nav-text">概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—求模型参数-hat-w"><span class="nav-number">4.</span> <span class="nav-text">学习算法—求模型参数$\hat w$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Improved-Iterative-Scaling"><span class="nav-number">4.1.</span> <span class="nav-text">Improved Iterative Scaling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拟牛顿法"><span class="nav-number">4.2.</span> <span class="nav-text">拟牛顿法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—求-y-arg-y-max-P-w-y-x"><span class="nav-number">5.</span> <span class="nav-text">预测算法—求$y^*=\arg_y\max P_w(y|x) $</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HMM和CRF的对比区别"><span class="nav-number">6.</span> <span class="nav-text">HMM和CRF的对比区别</span></a></li></ol></div>
             
 
           </div>
