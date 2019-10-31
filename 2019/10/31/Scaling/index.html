@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 IntroIIS和EM一样，也是一种构造下界计算近似MLE的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。 IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。 在EM算法中，每次迭代获取">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-31T12:56:45.328Z">
+<meta property="og:updated_time" content="2019-10-31T13:24:35.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="改进的迭代尺度法">
 <meta name="twitter:description" content="施工中 IntroIIS和EM一样，也是一种构造下界计算近似MLE的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。 IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。 在EM算法中，每次迭代获取">
@@ -384,19 +384,19 @@
 <p>$\therefore \Delta≥\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\frac{Z_{w+\delta}(x)}{Z_{w}(x)}$</p>
 <p>$=\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\sum_yP_w(y|x)e^{\sum_{i=1}^n\delta_if_i(x,y)}$ （下界）</p>
 <p>这个时候已经可以对$\Delta$求0导数来获取最大值了（这样就和EM一样，只是用了不同的下界不等式），但是问题在于这个式子里的$\delta_i$是一个向量，包含多个变量，不易于同时优化。【】于是我们只将其中一个变量$\delta_i$作为变量，其它$\delta_j$作为固定常数$i≠j$。【】</p>
-<p>为了构造Jensen不等式，以创造第二个下界，令$f^<em>(x,y)=\sum_if(x,y)$，MEM中$f_i(x,y)∈\{0,1\}$，是一个二值函数，于是$f^</em>(x,y)$表示所有特征在$(x,y)$出现的次数，<strong>这样就可以拼凑出一个求和等于1的分式并满足Jensen不等式形式</strong>。这里很需要技巧。</p>
+<p>为了构造Jensen不等式，以创造第二个下界，令$f^o(x,y)=\sum_if(x,y)$，MEM中$f_i(x,y)∈\{0,1\}$，是一个二值函数，于是$f^o(x,y)$表示所有特征在$(x,y)$出现的次数，<strong>这样就可以拼凑出一个求和等于1的分式并满足Jensen不等式形式</strong>。这里很需要技巧。</p>
 <p>下面就是拼凑出的Jensen不等式形式（Jensen不等式见下面大标题）：</p>
-<p>$\lambda_i=\frac{f_i(x,y)}{f^<em>(x,y)},x_i=\delta_if^</em>(x,y),f(\sum_i\lambda_ix_i)=e^{\sum_i\lambda_ix_i}$</p>
+<p>$\lambda_i=\frac{f_i(x,y)}{f^o(x,y)},x_i=\delta_if^o(x,y),f(\sum_i\lambda_ix_i)=e^{\sum_i\lambda_ix_i}$</p>
 <p>其中$\lambda_i&gt;0,\sum_i\lambda_i=1,f(X)=e^X$为凸函数，则$e^{\sum_i\lambda_ix_i}≤\sum_i\lambda_ie^{x_i}$</p>
-<p>$\therefore \Delta=\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\sum_yP_w(y|x)e^{\sum_{i=1}^n \frac{f_i(x,y)}{f^<em>(x,y)}\delta_if^</em>(x,y)}$</p>
-<p>$≥\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^n\frac{f_i(x,y)}{f^<em>(x,y)}e^{ \delta_if^</em>(x,y)}$（新下界）</p>
+<p>$\therefore \Delta=\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\sum_yP_w(y|x)e^{\sum_{i=1}^n \frac{f_i(x,y)}{f^o(x,y)}\delta_if^o(x,y)}$</p>
+<p>$≥\sum_{x,y}\hat P(x,y)\sum_{i=1}^n\delta_if_i(x,y)+1-\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^n\frac{f_i(x,y)}{f^o(x,y)}e^{ \delta_if^o(x,y)}$（新下界）</p>
 <p>（注意前面有个负号！$-e^{\sum_i\lambda_ix_i}≥-\sum_i\lambda_ie^{x_i}$）</p>
 <p>记右式为$B(\delta|w),\therefore L(w+\delta)-L(w)≥B(\delta|w)$</p>
-<p>$\therefore \frac{\partial B(\delta|w)}{\partial \delta_i}=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nf_i(x,y)-\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^nf_i(x,y)e^{ \delta_if^*(x,y)}$</p>
+<p>$\therefore \frac{\partial B(\delta|w)}{\partial \delta_i}=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nf_i(x,y)-\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^nf_i(x,y)e^{ \delta_if^o(x,y)}$</p>
 <p>该式中只有$\delta_i$是变量，令$\frac{\partial B(\delta|w)}{\partial \delta_i}=0$即可求得$\delta_i$</p>
 <p>其中$\sum_{x,y}\hat P(x,y)\sum_{i=1}^nf_i(x,y)=\mathbb E_{\hat P}(f_i)$</p>
-<p>于是计算每一大步迭代，$\delta$中的一个参数$\delta_i$的公式为：$\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^nf_i(x,y)e^{ \delta_if^*(x,y)}=\mathbb E_{\hat P}(f_i)$</p>
-<p>其中$f^*(x,y)=\sum_if(x,y)$</p>
+<p>于是计算每一大步迭代，$\delta$中的一个参数$\delta_i$的公式为：$\sum_{x}\hat P(x)\sum_yP_w(y|x)\sum_{i=1}^nf_i(x,y)e^{ \delta_if^o(x,y)}=\mathbb E_{\hat P}(f_i)$</p>
+<p>其中$f^o(x,y)=\sum_if(x,y)$</p>
 <h2 id="Improved-Iterative-Scaling-Algorithm"><a href="#Improved-Iterative-Scaling-Algorithm" class="headerlink" title="Improved Iterative Scaling Algorithm"></a>Improved Iterative Scaling Algorithm</h2><h2 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h2><p>由凸函数性质可得：$\lambda f(x_1)+(1-\lambda)f(x_2)≥f(\lambda x_1+ (1-\lambda)x_2)$</p>
 <p>$\therefore$ 对于任意点集$\{x_i\}$，若$\lambda_i≥0$，且$\sum_i\lambda_i=1$</p>
 <p>通过数学归纳法可以证明凸函数$f(x)$满足$f(\sum_{i=1}^M\lambda_ix_i)≤\sum_{i=1}^M\lambda_if(x_i)$</p>
