@@ -87,7 +87,7 @@
 <meta property="og:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/10/29/条件随机场/0.jpg">
-<meta property="og:updated_time" content="2019-10-31T03:51:22.652Z">
+<meta property="og:updated_time" content="2019-10-31T04:43:28.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条件随机场">
 <meta name="twitter:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
@@ -481,8 +481,8 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
 <h2 id="预测算法—求-y-arg-y-max-P-w-y-x"><a href="#预测算法—求-y-arg-y-max-P-w-y-x" class="headerlink" title="预测算法—求$y^*=\arg_y\max P_w(y|x) $"></a>预测算法—求$y^*=\arg_y\max P_w(y|x) $</h2><p>给定输入序列/观测序列$x$，求条件概率最大输出序列$y^*$，即求$\arg_y\max P_w(y|x)$</p>
 <p>与HMM一样的维比特算法，动态规划，注意递推式。</p>
 <p>由于要确定路径，则使用在每个位置求特征和的积分方法，即上面的非矩阵形式公式，化简后可得：</p>
-<p>求$\max_y\sum_{i=1}^nw·F_i(y_{i-1},y_i,x) $ </p>
-<p>$F_i(y_{i-1},y_i|x)=(f_1(y_{i-1},y_i|x),f_2(y_{i-1},y_i|x),\cdots,f_K(y_{i-1},y_i|x))$为局部特征向量</p>
+<p>求$\max_y\sum_{i=1}^nw·F_i(y_{i-1},y_i,x) $  （即求$\max_y ④$)</p>
+<p>$F_i(y_{i-1},y_i|x)$为局部特征向量</p>
 <p>递推式：$\max\{\delta_{i-1}+w·F_i(y_{i-1},y_i,x)\}$</p>
 <p>具体略</p>
 <h2 id="HMM和CRF的对比区别"><a href="#HMM和CRF的对比区别" class="headerlink" title="HMM和CRF的对比区别"></a>HMM和CRF的对比区别</h2><ol>
@@ -558,6 +558,10 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/31/Scaling/" rel="prev" title="改进的迭代尺度法">
+                改进的迭代尺度法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -637,7 +641,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-count">112</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -659,7 +663,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
