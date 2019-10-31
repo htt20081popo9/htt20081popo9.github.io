@@ -87,7 +87,7 @@
 <meta property="og:description" content="施工中 Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/10/29/条件随机场/0.jpg">
-<meta property="og:updated_time" content="2019-10-30T12:29:18.004Z">
+<meta property="og:updated_time" content="2019-10-30T14:00:25.822Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条件随机场">
 <meta name="twitter:description" content="施工中 Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在">
@@ -471,10 +471,8 @@ Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>（实际上$P_w(y
 <h2 id="HMM和CRF的对比区别"><a href="#HMM和CRF的对比区别" class="headerlink" title="HMM和CRF的对比区别"></a>HMM和CRF的对比区别</h2><ol>
 <li><p>HMM是生成模型，CRF是判别模型</p>
 <p> <img src="//aisakaki.com/2019/10/29/条件随机场/0.jpg" alt="0"></p>
+<p> <em>（本图来自知乎）</em></p>
 </li>
-</ol>
-<p><em>（本图来自知乎）</em></p>
-<ol>
 <li><p>CRF的优化函数，可以做到全局最优</p>
 </li>
 <li><p>定义</p>
@@ -483,7 +481,7 @@ Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>（实际上$P_w(y
 </li>
 <li><p>HMM可以由CRF表达，CRF的范围更广。也就说，<strong>每一个HMM都可以被CRF表示</strong></p>
 </li>
-<li><p>CRF要归一化而HMM不需要  【为什么CRF要归一化】</p>
+<li><p>CRF要归一化而HMM不需要 </p>
 <p>因为CRF的权重值是任意的，而HMM是概率值必须满足概率约束条件</p>
 </li>
 <li><p>CRF可以依赖更多全局特征（Linear-Chain CRF的依赖也比较有限）</p>

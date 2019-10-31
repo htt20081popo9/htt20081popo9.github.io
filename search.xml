@@ -75,10 +75,8 @@ Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>（实际上$P_w(y
 <h2 id="HMM和CRF的对比区别"><a href="#HMM和CRF的对比区别" class="headerlink" title="HMM和CRF的对比区别"></a>HMM和CRF的对比区别</h2><ol>
 <li><p>HMM是生成模型，CRF是判别模型</p>
 <p> <img src="//aisakaki.com/2019/10/29/条件随机场/0.jpg" alt="0"></p>
+<p> <em>（本图来自知乎）</em></p>
 </li>
-</ol>
-<p><em>（本图来自知乎）</em></p>
-<ol>
 <li><p>CRF的优化函数，可以做到全局最优</p>
 </li>
 <li><p>定义</p>
@@ -87,7 +85,7 @@ Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>（实际上$P_w(y
 </li>
 <li><p>HMM可以由CRF表达，CRF的范围更广。也就说，<strong>每一个HMM都可以被CRF表示</strong></p>
 </li>
-<li><p>CRF要归一化而HMM不需要  【为什么CRF要归一化】</p>
+<li><p>CRF要归一化而HMM不需要 </p>
 <p>因为CRF的权重值是任意的，而HMM是概率值必须满足概率约束条件</p>
 </li>
 <li><p>CRF可以依赖更多全局特征（Linear-Chain CRF的依赖也比较有限）</p>
