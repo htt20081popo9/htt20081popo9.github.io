@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-31T03:55:42.995Z">
+<meta property="og:updated_time" content="2019-11-01T02:22:57.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
@@ -419,7 +419,9 @@
 <p>$=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)$——③   </p>
 <p>$+\sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij}P(O,i_t=i,i_{t+1}=j|\hat \lambda)$——④ 时间连续，但状态空间是任意组合的</p>
 <p>$+\sum_j^N\sum_{t=1}^T\log b_j(o_t)P(O,i_t=j|\hat \lambda)$——⑤</p>
-<p>用拉格日朗子乘数法求0偏导（否则算出负概率）</p>
+<p>由于$\lambda=(A,B,\pi)$中的三个参数变量都相互独立且求得的$Q$的三个子式只包含一个独立的变量，于是</p>
+<p>$\max_{A,B,\pi}Q=\{\max_A ④,\max_B ⑤,\max_ \pi ③\}$</p>
+<p><div><br></div><br><strong>于是用拉格日朗子乘数法分别对各变量求0偏导（否则算出负概率）</strong></p>
 <p>Ⅰ.对于$\pi_i :\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)$ （③式）</p>
 <p>$\sum_{i=1}^N \pi_i=1$    $\pi$是初始<strong>概率</strong>向量，表初始的时候各状态的概率，别搞混了</p>
 <p>$\therefore \mathbb L=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1)$</p>

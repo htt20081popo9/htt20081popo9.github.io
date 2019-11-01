@@ -904,11 +904,10 @@
 
       
         
-          <p>施工中</p>
-<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>IIS和EM一样，也是一种<strong>构造下界计算近似MLE</strong>的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。</p>
+          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>IIS和EM一样，也是一种<strong>构造下界计算近似MLE</strong>的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。</p>
 <p>IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。</p>
-<p>在EM算法中，每次迭代获取到新的边界$B(\theta,\theta^i)$后，需要求$\theta^{i+1}=\arg\max_\theta B(\theta,\theta^i)$，简化$B$成$Q$函数后，即是要求$\frac{\partial Q}{\partial \theta}=0$，然后$\theta^i\to\theta^{i+1}$。在这种方法下，如果$\theta$维度很高（即模型参数很多，含有多个变量）的话，优化起来速度就会比较慢，于是IIS采用了一次只优化$\theta$中的一个变量$\delta_i$，而固定其他变量$\delta_j$的方法。</p>
-<p>IIS可以用在HMM，CRF，MEM等模型中（HMM属于一种特殊的CRF，所以）</p>
+<p>在EM算法中，每次迭代获取到新的边界$B(\theta,\theta^i)$后，需要求$\theta^{i+1}=\arg\max_\theta B(\theta,\theta^i)$，简化$B$成$Q$函数后，即是要求$\frac{\partial Q}{\partial \theta}=0$，然后$\theta^i\to\theta^{i+1}$。在这种方法下，如果$\theta$维度很高又不独立的话（即模型参数很多，含有多个变量）的话，就不能对各参数分别求0偏导，需要全局优化。于是IIS另辟蹊径，采用了一次只优化$\theta$中的一个变量$\delta_i$，而固定其他变量$\delta_j$的方法。</p>
+<p>IIS可以用在CRF，MEM等模型中（HMM属于一种特殊的CRF，也可以用，但效果没EM好）</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/10/31/Scaling/#more" rel="contents">
