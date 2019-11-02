@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>最大熵模型</title>
+    <url>/2019/11/01/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>施工中</p>
+<h2 id="Maximum-Entropy-Theory"><a href="#Maximum-Entropy-Theory" class="headerlink" title="Maximum Entropy Theory"></a>Maximum Entropy Theory</h2><p>最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。</p>
+<p>也就是说，在已知部分前提信息（目前已观测到的信息）下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况概率均等）</p>
+<a id="more"></a>
+<h2 id="Maximum-Entropy-Model"><a href="#Maximum-Entropy-Model" class="headerlink" title="Maximum Entropy Model"></a>Maximum Entropy Model</h2>]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>机器学习与统计学习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Game Month!</title>
     <url>/2019/10/31/month/</url>
     <content><![CDATA[<div style="text-align: center">纪念一下</div>
@@ -36,7 +49,7 @@
 <p>IIS可以用在CRF，MEM等模型中（HMM属于一种特殊的CRF，也可以用，但效果没EM好）</p>
 <a id="more"></a>
 <h2 id="Improved-Iterative-Scaling"><a href="#Improved-Iterative-Scaling" class="headerlink" title="Improved Iterative Scaling"></a>Improved Iterative Scaling</h2><p>IIS，改进迭代尺度法（本文求的是MEM模型的IIS）</p>
-<p>首先已知MEM（本文：$P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum^n_{i=1}w_if_i(x,y)}$，$Z_w(x)=\sum_ye^{\sum_{i=1}^nw_if_i(x,y)}$</p>
+<p>首先已知MEM：$P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum^n_{i=1}w_if_i(x,y)}$，$Z_w(x)=\sum_ye^{\sum_{i=1}^nw_if_i(x,y)}$</p>
 <p>则对数似然函数为：$L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x,y)-\sum_x\hat P(x)\log Z_w(x)$</p>
 <p>求：$\arg_w\max L(w)$</p>
 <p><strong>思想：</strong>对MEM模型参数向量$w=(w_1,w_2,\cdots,w_n)^T$，寻找一个新的参数向量$w\to w+\delta$：</p>
@@ -3731,7 +3744,7 @@ drop掉1后就变成
 <p>然后这就是两年过去了。跨过了毕业的槛，现在正坐在实验室里，对着面前的数据绞尽脑汁。</p>
 <p>经历了动荡的一年，现在，这几天算是终于安稳下来了。有了自由的空间，有了喜欢的研究的东西，电脑也配好了，也能和朋友一起玩了。</p>
 <p>即将到来的是9天国庆，又能够好好休息一阵子。</p>
-<p>远离了庙会对喧嚣（我也不知道是好是坏，对我来说，也是有两面性的。）也终于能够开始做高中毕业就要想做的那件事了。</p>
+<p>远离了喧嚣（我也不知道是好是坏，对我来说，也是有两面性的。）也终于能够开始做高中毕业就要想做的那些事了。</p>
 <p>さ、はじまるよ</p>
 ]]></content>
       <categories>

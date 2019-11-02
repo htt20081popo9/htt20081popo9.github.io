@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="IntroIIS和EM一样，也是一种构造下界计算近似MLE的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。 IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。 在EM算法中，每次迭代获取到新的边">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-01T02:39:27.600Z">
+<meta property="og:updated_time" content="2019-11-01T02:57:41.042Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="改进的迭代尺度法">
 <meta name="twitter:description" content="IntroIIS和EM一样，也是一种构造下界计算近似MLE的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。 IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。 在EM算法中，每次迭代获取到新的边">
@@ -403,7 +403,7 @@
 <p>IIS可以用在CRF，MEM等模型中（HMM属于一种特殊的CRF，也可以用，但效果没EM好）</p>
 <a id="more"></a>
 <h2 id="Improved-Iterative-Scaling"><a href="#Improved-Iterative-Scaling" class="headerlink" title="Improved Iterative Scaling"></a>Improved Iterative Scaling</h2><p>IIS，改进迭代尺度法（本文求的是MEM模型的IIS）</p>
-<p>首先已知MEM（本文：$P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum^n_{i=1}w_if_i(x,y)}$，$Z_w(x)=\sum_ye^{\sum_{i=1}^nw_if_i(x,y)}$</p>
+<p>首先已知MEM：$P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum^n_{i=1}w_if_i(x,y)}$，$Z_w(x)=\sum_ye^{\sum_{i=1}^nw_if_i(x,y)}$</p>
 <p>则对数似然函数为：$L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x,y)-\sum_x\hat P(x)\log Z_w(x)$</p>
 <p>求：$\arg_w\max L(w)$</p>
 <p><strong>思想：</strong>对MEM模型参数向量$w=(w_1,w_2,\cdots,w_n)^T$，寻找一个新的参数向量$w\to w+\delta$：</p>
@@ -596,7 +596,7 @@ f^o(x,y)=\sum_if(x,y)</script><p>（b）更新$w_i$的值：$w_i \leftarrow  w_i
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">113</span>
+                  <span class="site-state-item-count">114</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
