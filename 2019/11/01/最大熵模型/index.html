@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-05T11:53:15.946Z">
+<meta property="og:updated_time" content="2019-11-05T12:04:09.745Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型">
 <meta name="twitter:description" content="Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示">
@@ -407,7 +407,7 @@ H(P)=-\sum_xP(x)\log P(x),其中0≤H(P)≤\log|X|</script><p>表示随机变量
 <p>我们要求最准确的模型：$P(y|x)$</p>
 <p>$1^o$ <strong>特征函数与经验分布</strong></p>
 <p>①<strong>特征函数(feature function)（$X$的约束）</strong>：</p>
-<p>$f(x,y)$表示训练数据中<strong>输入$x$和输出$y$之间</strong>的一个<strong>事实（关系）</strong>，只要满足事实（一般存在<strong>很多对</strong>满足该事实的$(x_i,y_i)$，特征函数也有很多$f_i$，即有多个事实约束），则$(x_i,y_i)$就能用该特征函数$f(x,y)$表示一组数据</p>
+<p>$f(x,y)$表示训练数据中<strong>输入$x$和输出$y$之间</strong>的一个<strong>事实（关系）</strong>，只要满足事实（一般存在<strong>很多对</strong>满足该事实的$(x_i,y_i)$，特征函数也有很多$f_i$，即有多个事实约束），则$(x_i,y_i)$就能用该特征函数$f(x,y)$表示<strong>一组数据</strong></p>
 <script type="math/tex; mode=display">
 f(x,y)=
 
@@ -422,7 +422,7 @@ f(x,y)=
 <p>②已知从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$：</p>
 <p>$f(x_1,x_2,y)= \begin{cases}1,x_1=红且x_2=白,或x_1=白且x_2=红,y=\frac{3}{10}\\ 0,否则 \end{cases}$</p>
 <p>③也可以想CRF中的特征函数的意义，是一样的</p>
-<p>注：输入$x$可以是很多个随机变量，所以实际应该表示为$f(\vec x,y)$或写成$f(x_1,x_2,\cdots,x_n,y)$，为了方便写，全都记成$f(x,y)$</p>
+<p><strong>注：</strong>输入$x$可以是很多个随机变量，所以实际应该表示为$f(\vec x,y)$或写成$f(x_1,x_2,\cdots,x_n,y)$，为了方便写，全都记成$f(x,y)$，同时一个模型中的特征函数也是可以有很多的，每个特征函数都表述了一组数据。</p>
 <p>理解特征函数的意义：<strong>一是泛化表示</strong>，一个特征函数可以表示多组数据，相当于“从输入和输出中抽取了特征”，其实就是<strong>用来形式化表示X的相关知识信息</strong>。（比如从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$，就可以用特征函数来形式化的表示它）</p>
 <p><strong>二是</strong>放入公式中这样也相当于给数据添加了一个<strong>约束条件</strong>，即是在Maximum Entropy Theory Intro部分所述的约束条件，其也可以相当于是一个已知的<strong>前提信息，先验知识</strong>。（比如从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$就是一个先验知识，这就是个模型约束条件）</p>
 <p>这里的特征feature，和机器学习中的特征feature<strong>不是一个概念</strong></p>
