@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P">
+<meta name="description" content="Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最大熵模型">
 <meta property="og:url" content="https://aisakaki.com/2019/11/01/最大熵模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P">
+<meta property="og:description" content="Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-04T13:06:36.340Z">
+<meta property="og:updated_time" content="2019-11-05T11:53:15.946Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型">
-<meta name="twitter:description" content="施工中 Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P">
+<meta name="twitter:description" content="Maximum Entropy Theory Intro最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用约束条件来确定概率模型的集合，所以最大熵原理也可以表述为在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型。 也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示">
 
 
 
@@ -397,8 +397,7 @@
       
 
       
-        <p>施工中</p>
-<h2 id="Maximum-Entropy-Theory-Intro"><a href="#Maximum-Entropy-Theory-Intro" class="headerlink" title="Maximum Entropy Theory Intro"></a>Maximum Entropy Theory Intro</h2><p>最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用<strong>约束条件</strong>来确定概率模型的集合，所以最大熵原理也可以表述为<strong>在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型</strong>。</p>
+        <h2 id="Maximum-Entropy-Theory-Intro"><a href="#Maximum-Entropy-Theory-Intro" class="headerlink" title="Maximum Entropy Theory Intro"></a>Maximum Entropy Theory Intro</h2><p>最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用<strong>约束条件</strong>来确定概率模型的集合，所以最大熵原理也可以表述为<strong>在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型</strong>。</p>
 <p>也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示$P$的不确定性，<strong>最不确定的情况=熵最大的情况=每种未知情况都等可能发生</strong>，这就给出了最好模型选择的准则</p>
 <script type="math/tex; mode=display">
 H(P)=-\sum_xP(x)\log P(x),其中0≤H(P)≤\log|X|</script><p>表示随机变量$X$的概率分布$P(X)$的熵，$|X|$表示$X$的取值个数。当且仅当$X$的分布是均匀分布时右边等号成立，这时候<strong>条件熵最大</strong>。即：在已知信息下，$P(X)$的熵最大</p>
@@ -420,15 +419,17 @@ f(x,y)=
 
 \end{cases}</script><p>此函数为一个二值函数，要么0要么1（也可以是任意实值函数）。事实可以来源于<strong>先验知识</strong>等。</p>
 <p>举几例：①$f(x,y)= \begin{cases}1,x为抛硬币出现正面,y为\frac{1}{2}\\ 0,否则 \end{cases}$</p>
-<p>②已知从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$：$f(x_1,x_2,y)= \begin{cases}1,x_1=红且x_2=白,或x_1=白且x_2=红,y=\frac{3}{10}\\ 0,否则 \end{cases}$</p>
+<p>②已知从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$：</p>
+<p>$f(x_1,x_2,y)= \begin{cases}1,x_1=红且x_2=白,或x_1=白且x_2=红,y=\frac{3}{10}\\ 0,否则 \end{cases}$</p>
 <p>③也可以想CRF中的特征函数的意义，是一样的</p>
+<p>注：输入$x$可以是很多个随机变量，所以实际应该表示为$f(\vec x,y)$或写成$f(x_1,x_2,\cdots,x_n,y)$，为了方便写，全都记成$f(x,y)$</p>
 <p>理解特征函数的意义：<strong>一是泛化表示</strong>，一个特征函数可以表示多组数据，相当于“从输入和输出中抽取了特征”，其实就是<strong>用来形式化表示X的相关知识信息</strong>。（比如从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$，就可以用特征函数来形式化的表示它）</p>
 <p><strong>二是</strong>放入公式中这样也相当于给数据添加了一个<strong>约束条件</strong>，即是在Maximum Entropy Theory Intro部分所述的约束条件，其也可以相当于是一个已知的<strong>前提信息，先验知识</strong>。（比如从箱子里顺序两次抽出红球和白球的概率为$\frac{3}{10}$就是一个先验知识，这就是个模型约束条件）</p>
 <p>这里的特征feature，和机器学习中的特征feature<strong>不是一个概念</strong></p>
 <p>②<strong>经验分布</strong>即已知<strong>训练集的分布（$X$的分布）</strong>：</p>
 <script type="math/tex; mode=display">
-\hat P(X=x,Y=y)=\frac{|(X=x,Y=y)|}{N}</script><script type="math/tex; mode=display">
-\hat P(X=x)=\frac{|(X=x,Y)|}{N}</script><p>其中$||$表该数据样本出现的次数。</p>
+\hat P(X=x,Y=y)=\frac{||(X=x,Y=y)||_0}{N}</script><script type="math/tex; mode=display">
+\hat P(X=x)=\frac{||(X=x,Y)||_0}{N}</script><p>其中$||||_0$表该数据样本出现的次数。</p>
 <p>为什么要有经验分布？经验分布即训练集现在已知的分布，是在Maximum Entropy Theory Intro部分所述的<strong>已知部分前提信息</strong>。其中包含了已知信息$x,y$出现的概率，根据最大熵原理，这是我们应该作为已知事实考虑的。</p>
 <p>那么如何将经验分布考虑进最大熵？只需要求概率分布期望的时候是<strong>对经验分布求期望</strong>即可，$x,y$的经验分布就相当于$x,y$的权重，见$2^o$。</p>
 <p>③<strong>特征函数与经验分布一起构成了已知信息</strong></p>
@@ -467,29 +468,74 @@ H(P)=-\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)</script><p>则模型集合$\mathbb C$
 <p>$+\sum_{i=1}^nw_i(\sum_{x,y}\hat P(x,y)f_i(x,y)-\sum_{x,y} \hat P(x)P(y|x)f_i(x,y))$</p>
 <p>于是我们需要优化：</p>
 <script type="math/tex; mode=display">
-\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，于是该优化问题等价于其对偶问题：(拉格朗日对偶性问题见后)</p>
+\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：(拉格朗日对偶性问题见后)</p>
 <script type="math/tex; mode=display">
-\max_w \min_{P∈\mathbb C}L(P,w)</script><p>先解决内部的极小化问题。</p>
+\max_w \min_{P∈\mathbb C}L(P,w)</script><h3 id="mathbb-S2-o-内部求拉格朗日0导数"><a href="#mathbb-S2-o-内部求拉格朗日0导数" class="headerlink" title="$\mathbb S2^o$内部求拉格朗日0导数"></a>$\mathbb S2^o$内部求拉格朗日0导数</h3><p>先解决内部的极小化问题。</p>
+<p>由于$L(P,w)$是凸函数，那对其直接求拉格朗日乘子法0导数即可</p>
 <p>记$\Phi(w)=\min_{P∈\mathbb C}L(P,w)=L(P_w,w)$，$\Phi(w)$称为对偶函数</p>
 <p>则对偶函数的解$P_w=\arg\min_{P∈\mathbb C}L(P,w)=P_w(y|x)$ ，即：求使得$L(P,w)$最小的$P(y|x)$</p>
-<p>于是使用0导数法： （这里的求和偏导要特别注意）</p>
-<p>$\frac{\partial L(P,w)}{\partial P(y|x)}=\sum_{x,y}\hat P(x)\log P(y|x)+\sum_{x,y}\hat P(x)-w_0\sum_y×1-\sum_{x,y}\hat P(x)\sum_{i=1}^nw_if_i(x,y)=0$</p>
-<p>其中$\sum_{x,y}\hat P(x)=1$，$w_0\sum_y×1=w_0\sum_{x,y}×1$</p>
+<p><strong>于是使用0导数法</strong>： （易错。见HMM中求和函数求导）</p>
+<p>$\frac{\partial L(P,w)}{\partial P(y|x)}=\hat P(x)\log P(y|x)+\hat P(x)-w_0-\hat P(x)\sum_{i=1}^nw_if_i(x,y)=0$</p>
+<p><strong>为了利用更多分布信息，左右两边同时求$\sum_{x,y}$</strong>（就可以给$w_0$项再凑一个$\hat P(x)$来消去所有的$\hat P(x)$，与HMM中解EM的Q函数的拉格朗日0导方程的方法一样）</p>
+<p>$\therefore \sum_{x,y}\hat P(x)\log P(y|x)+\sum_{x,y}\hat P(x)-\sum_{x,y}w_0-\sum_{x,y}\hat P(x)\sum_{i=1}^nw_if_i(x,y)=0$</p>
+<p>由于$\sum_{x,y}\hat P(x)=1且w_0与x,y不相关$，$\therefore \sum_{x,y}w_0=w_0\sum_{x,y}=w_0\sum_{x,y}\hat P(x)$</p>
 <p>$\therefore \sum_{x,y}\hat P(x)(\log P(y|x)+1-w_0-\sum_{i=1}^nw_if_i(x,y))=0$</p>
-<h3 id="mathbb-S2-o-外部等价于极大似然估计"><a href="#mathbb-S2-o-外部等价于极大似然估计" class="headerlink" title="$\mathbb S2^o$外部等价于极大似然估计"></a>$\mathbb S2^o$外部等价于极大似然估计</h3><p>对偶函数的极大化等价于最大熵模型的极大似然估计。为什么？证明：</p>
-<p>于是可以将MEM表示为更一般的形式：</p>
-<h3 id="mathbb-S3-o-求解MEM的极大似然估计"><a href="#mathbb-S3-o-求解MEM的极大似然估计" class="headerlink" title="$\mathbb S3^o$求解MEM的极大似然估计"></a>$\mathbb S3^o$求解MEM的极大似然估计</h3><p>IIS，梯度下降，牛顿法或拟牛顿法都可以求解</p>
-<p>IIS，牛顿法和拟牛顿法可以看前面的文章</p>
-<h2 id="拉格日朗对偶性"><a href="#拉格日朗对偶性" class="headerlink" title="拉格日朗对偶性"></a>拉格日朗对偶性</h2><p>单独专题</p>
+<p>又经验分布$\hat P(x)&gt;0$，那么该乘式必然右边部分$=0$</p>
+<p>$\therefore \log P(y|x)+1-w_0-\sum_{i=1}^nw_if_i(x,y)=0$ </p>
+<p>$\therefore P(y|x)=e^{\sum_{i=1}^nw_if_i(x,y)+w_0-1}=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{e^{1-w_0}}$</p>
+<p>$\because \sum_{y}P(y|x)=1$，所以为了归一化$P(y|x)$，引入归一化因子</p>
+<p>$\therefore  P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum_{i=1}^nw_if_i(x,y)}$，$Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}$</p>
+<p>（注意$Z_w(x)$式子中$y$被边缘化了，所以$Z_w(x)$只与$x$有关）</p>
+<p>其中$Z_w$称为规范化因子，$f_i(x,y)$是特征函数，$w_i$是特征的权值。</p>
+<p>$P_w=P_w(y|x)$就是最大熵模型，$w$是最大熵模型中的参数向量</p>
+<h3 id="mathbb-S3-o-外部等价于求极大似然估计最优化"><a href="#mathbb-S3-o-外部等价于求极大似然估计最优化" class="headerlink" title="$\mathbb S3^o$外部等价于求极大似然估计最优化"></a>$\mathbb S3^o$外部等价于求极大似然估计最优化</h3><p>于是我们下一步要求的就是对偶问题外部极大化问题：</p>
+<script type="math/tex; mode=display">
+\max_w \Phi(w)</script><script type="math/tex; mode=display">
+w^o=\arg\max_w\Phi(w)</script><p><strong>对偶函数的极大化等价于最大熵模型的极大似然估计</strong>：$\Phi(w)=L_{\hat P}(P_w)$ </p>
+<p>证明：将$\mathbb S2^o$中求出来的$P_w(y|x)$表达式代入$\mathbb S2^o$中的$L(P,w)$，恰好等于$L_{\hat P}(P_w)$（见$\mathbb S4^o$中），而$L(P,w)$就是对偶函数</p>
+<p><strong>也就是说，我们对上面已经求得的内部最小化一般形式MEM：$P_w$，求出$w$使得$MLE_{P_w}$最大即可，也是MEM学习过程</strong></p>
+<p><strong>可以将MEM表示为更一般的形式【重要】：</strong></p>
+<script type="math/tex; mode=display">
+P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum_{i=1}^nw_if_i(x,y)}</script><script type="math/tex; mode=display">
+Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\R^n$为输入，$y∈\{1,2,\cdots,K\}$为输出，$w∈\R^n$为权值向量，$f_i(x,y),i=1,2,\cdots,n$为任意实值的特征函数</p>
+<p><strong>【MEM的学习目标就转为学$w$】</strong></p>
+<p><strong>形象化地举例：</strong></p>
+<p>假如我们知道昨天天气是雨$x_1$，今天天气是雷暴$x_2$，那么想要预测明天天气$y$，就可以给出：</p>
+<p>$P(y|x_1,x_2,subject)=\frac{e^{w_1(x_1,x_2,y)+w_2(subject,y)}}{Z(x_1,x_2,subject)}$</p>
+<p>这里$f_1(x_1,x_2,y),f_2(subject,y)$即为特征函数，即是约束条件，比如可以设定$f_1(x_1,x_2,y)=$三天都是坏天气（自己定义什么是坏天气）不同时发生，等等。$w_1,w_2$即为权重</p>
+<p><strong>确定参数$w$的过程就是训练模型的过程</strong></p>
+<hr>
+<p><strong>于是我们开始求MLE表达式：</strong></p>
+<p><strong>先求出$P_w$的对数似然估计函数：</strong></p>
+<p>$L_{\hat P}(P_w)=\log\prod_{i=1}^nP(y_i|x_i)=P(y_1|x_1)P(y_2|x_2)\cdots P(y_n|x_n)$</p>
+<p><strong>将相同的样本乘在一起。【注意这里！】</strong>对相同的一组$x,y$，那么有$t$组指数就会为$t$，也就相当于乘了$t$次，这样对所有相同的$x,y$，都可以表示为$L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{||(x,y)||_0}$</p>
+<p>极大化这个$L_{\hat P}(P_w)$也等同于极大化（指数部分分母除以$N$）：$L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{\hat P(x,y)}$</p>
+<p><strong>于是MLE可以表示为【重要】：</strong></p>
+<script type="math/tex; mode=display">
+L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{\hat P(x,y)}=\sum_{x,y}\hat P(x,y)\log P(y|x)</script><p>$\therefore L_{\hat P}(P_w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x,y)-\sum_{x,y}\hat P(x,y)\log Z_w(x)$</p>
+<p>$=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\log Z_w(x)\sum_y\hat P(x,y)$ （拆离只含$x$变量的$Z_w(x)$）</p>
+<p>$=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)$ （$y$被边缘化）</p>
+<p>（<strong>注意</strong>这里MLE的化简！）</p>
+<p><strong>最终形式：</strong></p>
+<script type="math/tex; mode=display">
+L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</script><h3 id="mathbb-S4-o-求解外部的极大似然估计"><a href="#mathbb-S4-o-求解外部的极大似然估计" class="headerlink" title="$\mathbb S4^o$求解外部的极大似然估计"></a>$\mathbb S4^o$求解外部的极大似然估计</h3><p>MEM的学习目标就转为学$w$后，我们就求解其$MLE_w$即可</p>
+<p>IIS，梯度下降，牛顿法或拟牛顿法都可以求解，可以看前面的文章</p>
+<p><strong>IIS：</strong></p>
+<p>展开似然函数表达形式：$L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x,y)-\sum_x\hat P(x)\log Z_w(x)$为目标函数</p>
+<p>求$\arg\max_wL(w)$</p>
+<p><strong>牛顿法：</strong></p>
+<p>展开似然函数表达形式：$L_1(w)=\sum_x\hat P(x)\log \sum_y e^{\sum_{i=1}^nw_if_i(x,y)}-\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x,y)$为目标函数</p>
+<p>求$\arg\min_wL_1(w)$</p>
+<p><strong>梯度下降法：</strong></p>
+<p>略</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p>回顾<strong>理解复合函数期望</strong>：$\mathbb E_{g(x)}f(x)=\int_x g(x)f(x)$</p>
 <p>若$f(x)$理解为关于$x$的概率分布，那么$g(x)$可以理解为$x$的权重</p>
 </li>
-<li><p>$\sum_y×1=1$</p>
-<p>小细节错误：</p>
-<p>$\frac{\partial w_0(1-\sum_yP(y|x))}{\partial P(y|x)}=w_0\sum_y$</p>
+<li><p>为什么要用<strong>对数的</strong>似然？——对数函数将乘法变为和</p>
 </li>
-<li>$\sum_{y}d=\sum_{x,y}d=\sum_{x,y,z,r,s,t}d$</li>
+<li><p>拉格朗日对偶性</p>
+</li>
 </ol>
 
       
@@ -714,7 +760,7 @@ H(P)=-\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)</script><p>则模型集合$\mathbb C$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maximum-Entropy-Theory-Intro"><span class="nav-number">1.</span> <span class="nav-text">Maximum Entropy Theory Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maximum-Entropy-Model"><span class="nav-number">2.</span> <span class="nav-text">Maximum Entropy Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大熵模型的学习"><span class="nav-number">3.</span> <span class="nav-text">最大熵模型的学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大熵模型求解"><span class="nav-number">4.</span> <span class="nav-text">最大熵模型求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性"><span class="nav-number">4.1.</span> <span class="nav-text">$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S2-o-外部等价于极大似然估计"><span class="nav-number">4.2.</span> <span class="nav-text">$\mathbb S2^o$外部等价于极大似然估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S3-o-求解MEM的极大似然估计"><span class="nav-number">4.3.</span> <span class="nav-text">$\mathbb S3^o$求解MEM的极大似然估计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉格日朗对偶性"><span class="nav-number">5.</span> <span class="nav-text">拉格日朗对偶性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maximum-Entropy-Theory-Intro"><span class="nav-number">1.</span> <span class="nav-text">Maximum Entropy Theory Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maximum-Entropy-Model"><span class="nav-number">2.</span> <span class="nav-text">Maximum Entropy Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大熵模型的学习"><span class="nav-number">3.</span> <span class="nav-text">最大熵模型的学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大熵模型求解"><span class="nav-number">4.</span> <span class="nav-text">最大熵模型求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性"><span class="nav-number">4.1.</span> <span class="nav-text">$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S2-o-内部求拉格朗日0导数"><span class="nav-number">4.2.</span> <span class="nav-text">$\mathbb S2^o$内部求拉格朗日0导数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S3-o-外部等价于求极大似然估计最优化"><span class="nav-number">4.3.</span> <span class="nav-text">$\mathbb S3^o$外部等价于求极大似然估计最优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathbb-S4-o-求解外部的极大似然估计"><span class="nav-number">4.4.</span> <span class="nav-text">$\mathbb S4^o$求解外部的极大似然估计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

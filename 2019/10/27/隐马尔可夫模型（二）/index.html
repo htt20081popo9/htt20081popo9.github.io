@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-01T02:22:57.585Z">
+<meta property="og:updated_time" content="2019-11-05T06:58:35.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔可夫模型（二）">
 <meta name="twitter:description" content="学习算法—预测模型参数$\lambda=(A,B,\pi)$若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法 若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法">
@@ -426,7 +426,7 @@
 <p>$\sum_{i=1}^N \pi_i=1$    $\pi$是初始<strong>概率</strong>向量，表初始的时候各状态的概率，别搞混了</p>
 <p>$\therefore \mathbb L=\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1)$</p>
 <p>令$\frac{\partial \mathbb L}{\partial \pi_i}=0,\therefore \frac{\partial(\sum_{i=1}^N \log \pi_i P(O,i_1=i|\hat \lambda)+\gamma(\sum_{i=1}^N \pi_i-1))}{\partial \pi_i}=0$ </p>
-<p>$\therefore \frac{1}{\pi_i}P(O,i_1=i|\hat \lambda)+\gamma=0$ （<strong>这里容易求错，见后求和函数求导</strong>）</p>
+<p>$\therefore \frac{1}{\pi_i}P(O,i_1=i|\hat \lambda)+\gamma=0$ （<strong>这里容易求错，见下面的求和函数求导</strong>）</p>
 <p>$\therefore P(O,i_1=i|\hat \lambda)+\gamma\pi_i=0$  ——⑥   </p>
 <p><strong>左右两边同时求和</strong>：$\sum_{i=1}^NP(O,i_1=i|\hat \lambda)+\sum_{i=1}^N\gamma\pi_i=0$ ，$I$被边缘化（求和可以使用更多信息以消去$\gamma$）</p>
 <p>$\therefore P(O|\hat \lambda)+\gamma=0$</p>
@@ -479,14 +479,24 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
 <p>但尽管如此近似算法依然是有用的</p>
 <h3 id="维比特算法"><a href="#维比特算法" class="headerlink" title="维比特算法"></a>维比特算法</h3><p>动态规划，类似传统的Dijkstra算法，本文不细展开了，略</p>
 <p>需要注意的就是递推公式的时候，概率最大化的是观测概率也就是$\max\{\delta_i(t)a_{ij}b_j(o_{t+1})\}$，而不是状态</p>
-<h2 id="求和函数求导问题"><a href="#求和函数求导问题" class="headerlink" title="求和函数求导问题"></a>求和函数求导问题</h2><p>求$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
+<h2 id="求和函数求导"><a href="#求和函数求导" class="headerlink" title="求和函数求导"></a>求和函数求导</h2><ol>
+<li><p><strong>求解：</strong>$\frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}$</p>
 <p>将$\sum_{i=1}^N\log\pi_i$展开：</p>
 <p>$\sum_{i=1}^N\log\pi_i=\log \pi_1+\log \pi_2+\cdots+\log \pi_N$</p>
+<p>$\therefore \frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}=\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial \pi_i}$</p>
 <p>若$i=1$，则$\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial\pi_1}=\frac{1}{\pi_1}$</p>
 <p>若$i=2$，则$\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial\pi_2}=\frac{1}{\pi_2}$</p>
 <p>若$i=i$，则$\frac{\partial(\log \pi_1+\log \pi_2+\cdots+\log \pi_N)}{\partial\pi_i}=\frac{1}{\pi_i}$</p>
+<p>$\therefore \frac{\partial(\sum_{i=1}^N\log\pi_i)}{\partial\pi_i}=\frac{1}{\pi_i}$</p>
 <p>同理$\frac{\partial(\sum_{i=1}^N\pi_i)}{\partial\pi_i}=1$</p>
-<p><em>一次只能对一个变量求导，其余视为常数</em></p>
+<p><em>一次只能对一个变量求导，其余视为不相关常数</em></p>
+<p>理解对$\pi_i$求导的意义，即无论被求导式为何，对其结果对$\pi_i$求导</p>
+</li>
+<li><p>$\sum_y×1=||y||_0×1$</p>
+<p>就像$\sum_{i=1}^nm=nm,\sum_{y}^n×1=n$一样，求和的参数决定了循环求和次数</p>
+<p>于是：$\sum_{y}d=\sum_{x,y}d$，只有当$||y||_0=||(x,y)||_0$才成立</p>
+</li>
+</ol>
 
       
     </div>
@@ -710,7 +720,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态-I-arg-I-max-P-I-O-lambda"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态$I=\arg_I\max\{P(I|O,\lambda)\}$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导问题"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—预测模型参数-lambda-A-B-pi"><span class="nav-number">1.</span> <span class="nav-text">学习算法—预测模型参数$\lambda=(A,B,\pi)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监督学习方法"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch算法"><span class="nav-number">1.2.</span> <span class="nav-text">Baum-Welch算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—预测序列状态-I-arg-I-max-P-I-O-lambda"><span class="nav-number">2.</span> <span class="nav-text">预测算法—预测序列状态$I=\arg_I\max\{P(I|O,\lambda)\}$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">近似算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维比特算法"><span class="nav-number">2.2.</span> <span class="nav-text">维比特算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求和函数求导"><span class="nav-number">3.</span> <span class="nav-text">求和函数求导</span></a></li></ol></div>
             
 
           </div>
