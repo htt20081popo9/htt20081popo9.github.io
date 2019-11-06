@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
+<meta name="description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑斯谛回归模型">
 <meta property="og:url" content="https://aisakaki.com/2019/11/06/逻辑斯谛回归模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
+<meta property="og:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-06T04:22:19.312Z">
+<meta property="og:updated_time" content="2019-11-06T04:24:53.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑斯谛回归模型">
-<meta name="twitter:description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
+<meta name="twitter:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
 
 
 
@@ -397,7 +397,7 @@
       
 
       
-        <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
+        <h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
 <p>二项逻辑斯谛回归模型</p>
 <script type="math/tex; mode=display">
 P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
@@ -623,7 +623,7 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Binomial-Logistic-Regression-Model"><span class="nav-number">2.</span> <span class="nav-text">Binomial Logistic Regression Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数估计"><span class="nav-number">3.</span> <span class="nav-text">参数估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多项逻辑斯谛回归"><span class="nav-number">4.</span> <span class="nav-text">多项逻辑斯谛回归</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Binomial-Logistic-Regression-Model"><span class="nav-number">1.</span> <span class="nav-text">Binomial Logistic Regression Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数估计"><span class="nav-number">2.</span> <span class="nav-text">参数估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多项逻辑斯谛回归"><span class="nav-number">3.</span> <span class="nav-text">多项逻辑斯谛回归</span></a></li></ol></div>
             
 
           </div>
