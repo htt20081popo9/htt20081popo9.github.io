@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-05T15:57:21.222Z">
+<meta property="og:updated_time" content="2019-11-06T00:19:07.874Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型（二）">
 <meta name="twitter:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
@@ -433,7 +433,7 @@ w^o=\arg\max_w\Phi(w)</script><p><strong>对偶函数的极大化等价于最大
 <p><strong>可以将MEM表示为更一般的形式【重要】：</strong></p>
 <script type="math/tex; mode=display">
 P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum_{i=1}^nw_if_i(x,y)}</script><script type="math/tex; mode=display">
-Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\R^n$为输入，$y∈\{1,2,\cdots,K\}$为输出，$w∈\R^n$为权值向量，$f_i(x,y),i=1,2,\cdots,n$为任意实值的特征函数</p>
+Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\mathbb R^n$为输入，$y∈\{1,2,\cdots,K\}$为输出，$w∈\mathbb R^n$为权值向量，$f_i(x,y),i=1,2,\cdots,n$为任意实值的特征函数</p>
 <p><strong>【MEM的学习目标就转为学$w$】</strong></p>
 <p><strong>形象化地举例：</strong></p>
 <p>假如我们知道昨天天气是雨$x_1$，今天天气是雷暴$x_2$，那么想要预测明天天气$y$，就可以给出：</p>
@@ -525,6 +525,10 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/11/05/拉格朗日对偶性/" rel="prev" title="拉格朗日对偶性">
+                拉格朗日对偶性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -603,7 +607,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-count">119</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

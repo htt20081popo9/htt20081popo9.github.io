@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>逻辑斯谛回归模型</title>
+    <url>/2019/11/06/%E9%80%BB%E8%BE%91%E6%96%AF%E8%B0%9B%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><a id="more"></a>
+]]></content>
+  </entry>
+  <entry>
+    <title>拉格朗日对偶性</title>
+    <url>/2019/11/05/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E5%AF%B9%E5%81%B6%E6%80%A7/</url>
+    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题</p>
+<script type="math/tex; mode=display">
+\min_{x∈\mathbb R^n}f(x)</script><script type="math/tex; mode=display">
+s.t.\quad c_i(x)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
+s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原始最优化问题或原始问题</p>
+<a id="more"></a>
+<h2 id="广义拉格朗日极小极大问题"><a href="#广义拉格朗日极小极大问题" class="headerlink" title="广义拉格朗日极小极大问题"></a>广义拉格朗日极小极大问题</h2><p>对于原始问题，要求解就用拉格朗日乘子法：</p>
+<p>$L(x,\alpha,\beta)=f(x)+\sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)$</p>
+<p>这里$x=(x^{(1)},x^{(2)},\cdots,x^{(n)})^T∈\mathbb R^n\quad\alpha_i,\beta_j$是拉格朗日乘子。</p>
+<p>尝试构造这个最大化</p>
+<p>$\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)=\max\{f(x)+\sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)\}$</p>
+<p><strong>会发现一个特点</strong>：</p>
+<p>如果原始问题的约束条件$c_i(x)≤0,h_j(x)=0$不成立，也就是说$c_i(x)≥0,h_j(x)≠0$，那为了让$L$最大，$\alpha_i$就会取$+∞$，$\beta_j$就会取$-sign(h_j(x))·∞$，这时候$\max_{\alpha,\beta:\alpha≥0}=+∞$</p>
+<p>显然这是不可以的。</p>
+<p>只有当约束条件$c_i(x)≤0,h_j(x)=0$成立的时候，才不会出现这种情况。因为这种情况下为了让$L$最大，$\alpha_i$就会取$0$，同时$h_j(x)=0$</p>
+<p>所以当约束条件成立的时候，可以得到这个等式：$\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)=f(x)$</p>
+<p><strong>也就是说，Intro中的那串定义，包含约束条件的$f(x)$可以仅仅由一个式子表示</strong>：$\max_{\alpha,\beta:\alpha_i≥0} L(x,\alpha,\beta)$</p>
+<p>于是我们要求约束$c_i(x)≤0,h_j(x)=0$下的最优化问题$\min_x f(x)$，即是要求$\min_x\max_{\alpha,\beta:\alpha_i≥0} L(x,\alpha,\beta)$</p>
+<p>这就是<strong>广义拉格朗日极小极大问题：</strong></p>
+<script type="math/tex; mode=display">
+原始问题等价于\min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)</script><p>设$d^o=\arg \min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)$</p>
+<p><strong>为什么要转化为极小极大形式：这个形式将约束糅合进式子里，明显比原始问题方便求解</strong></p>
+<h2 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h2><p>原始问题的广义拉格朗日极小极大问题$\min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)$的<strong>对偶问题为：</strong></p>
+<script type="math/tex; mode=display">
+\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)</script><p>设$p^o=\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)$</p>
+<p><strong>为什么要有对偶问题：对偶问题比极小极大问题更好求解。因为里面的$\min_x L(x,\alpha,\beta)$是只有$x$为变量且没有任何限制的，于是就可以尽情使用0导数法求得内部极值为一个关于$\alpha,\beta$表达式，这时候再求外部问题，只需要求使得外部问题最大化的$\alpha,\beta$即可。</strong></p>
+<p><strong>举例</strong>：在MEM中，就是先求里面的极小化问题以$x$为变量求出最小的$P_w$，然后就只需要再求出能使$P_w$极大化的$w$即可，外部极大化$P_w$就可以求MLE，具体的方法，如IIS，牛顿法与伪牛顿法，梯度下降。</p>
+<p><strong>定理$1^o$：</strong>若原始问题和对偶问题都有最优值，则：</p>
+<p><strong>对偶问题≤原始问题（或其广义拉格朗日极小极大问题）</strong></p>
+<script type="math/tex; mode=display">
+p^o=\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)≤\arg \min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)=d^o</script><p>证略。此式即为弱对偶性。</p>
+<p><strong>此式就可以求出原始问题的下限。</strong></p>
+<hr>
+<p><strong>何时相等（强对偶性）？即何时「解原始问题最优化=解对偶问题最优化」所以要引出下面的结论：</strong></p>
+<p><strong>推论$1^o$：</strong> 设$x^o$和$\alpha^o,\beta^o$分别是原始问题和对偶问题的可行解，并且$d^o=p^o$，则$x^o$和$\alpha^o,\beta^o$分别是原始问题和对偶问题的最优解。 </p>
+<p>翻译：若存在<strong>某个解</strong>使得原始问题和对偶问题的<strong>最优值</strong>相同，那么这个解<strong>同时是</strong>原始问题和对偶问题的<strong>最优解（即值同解同）</strong></p>
+<p>注意<strong>解</strong>是$\alpha,\beta,x$，<strong>值</strong>是式子的值$p^o,d^o$</p>
+<p><strong>定理$2^o$：</strong>考虑原始问题和对偶问题，假设函数$f(x)$和$c_i(x)$是<strong>凸函数</strong>，$h_j(x)$是<strong>仿射函数</strong>；并且假设不等式<strong>约束</strong>$c_i(x)$是严格可行的，即存在$x$，对所有$i$有$c_i(x)&lt;0$，则存在$x^o$和$\alpha^o,\beta^o$，使$x^o$是原始问题的解，$\alpha^o,\beta^o$是对偶问题的解，并且有$p^o=d^o=L(x^o,\alpha^o,\beta^o)$。也叫<strong>Slater条件</strong>。</p>
+<p>翻译：在某些条件下，存在最优解且使得原始问题最优值=对偶问题最优值（即相同最优解<strong>存在</strong>），<strong>即强对偶性成立</strong></p>
+<p><strong>「也就是说只要满足凸函数+仿射函数+约束，那么强对偶性就成立，原始问题和对偶问题就完全等价」</strong></p>
+<p><strong>定理$3^o$：在定理2的条件的基础上，$x^o,\alpha^o,\beta^o$分别是原始问题和对偶问题的解的充分必要条件</strong>是，$x^o,\alpha^o,\beta^o$ 满足下面的<strong>KKT(Karush-Kuhn-Tucker)条件</strong>：</p>
+<script type="math/tex; mode=display">
+\nabla_xL(x^o,\alpha^o,\beta^o)=0</script><script type="math/tex; mode=display">
+\alpha^o_ic_i(x^o)=0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
+c_i(x^o)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
+\alpha_i^o≥0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
+h_j(x^o)=0,j=1,2,\cdots,l</script><p><strong>也就是说只要满足强对偶性（定理2的条件），只要再加一条其目标函数与约束函数可微 ，就会满足KKT条件</strong></p>
+<p>第二个式子称为KKT的对偶互补条件，由此条件可知，若$\alpha_i^o＞0,则c_i(x^o)=0$。</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>机器学习与统计学习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>最大熵模型（二）</title>
     <url>/2019/11/04/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h2 id="最大熵模型求解"><a href="#最大熵模型求解" class="headerlink" title="最大熵模型求解"></a>最大熵模型求解</h2><h3 id="mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性"><a href="#mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性" class="headerlink" title="$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性"></a>$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性</h3><p>使用拉格朗日乘子法：</p>
@@ -39,7 +102,7 @@ w^o=\arg\max_w\Phi(w)</script><p><strong>对偶函数的极大化等价于最大
 <p><strong>可以将MEM表示为更一般的形式【重要】：</strong></p>
 <script type="math/tex; mode=display">
 P_w(y|x)=\frac{1}{Z_w(x)}e^{\sum_{i=1}^nw_if_i(x,y)}</script><script type="math/tex; mode=display">
-Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\R^n$为输入，$y∈\{1,2,\cdots,K\}$为输出，$w∈\R^n$为权值向量，$f_i(x,y),i=1,2,\cdots,n$为任意实值的特征函数</p>
+Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\mathbb R^n$为输入，$y∈\{1,2,\cdots,K\}$为输出，$w∈\mathbb R^n$为权值向量，$f_i(x,y),i=1,2,\cdots,n$为任意实值的特征函数</p>
 <p><strong>【MEM的学习目标就转为学$w$】</strong></p>
 <p><strong>形象化地举例：</strong></p>
 <p>假如我们知道昨天天气是雨$x_1$，今天天气是雷暴$x_2$，那么想要预测明天天气$y$，就可以给出：</p>
