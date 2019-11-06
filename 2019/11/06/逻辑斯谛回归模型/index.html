@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Intro">
+<meta name="description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑斯谛回归模型">
 <meta property="og:url" content="https://aisakaki.com/2019/11/06/逻辑斯谛回归模型/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="Intro">
+<meta property="og:description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-06T04:02:28.583Z">
+<meta property="og:updated_time" content="2019-11-06T04:22:19.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑斯谛回归模型">
-<meta name="twitter:description" content="Intro">
+<meta name="twitter:description" content="IntroBinomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为">
 
 
 
@@ -327,6 +327,39 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -364,8 +397,14 @@
       
 
       
-        <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><a id="more"></a>
-
+        <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
+<p>二项逻辑斯谛回归模型</p>
+<script type="math/tex; mode=display">
+P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
+P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$wx$是$w·x$的简写，为内积</p>
+<a id="more"></a>
+<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>将$Y=1,Y=0$的情况整合进一个式子，直接推MLE</p>
+<h2 id="多项逻辑斯谛回归"><a href="#多项逻辑斯谛回归" class="headerlink" title="多项逻辑斯谛回归"></a>多项逻辑斯谛回归</h2>
       
     </div>
     
@@ -584,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Binomial-Logistic-Regression-Model"><span class="nav-number">2.</span> <span class="nav-text">Binomial Logistic Regression Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数估计"><span class="nav-number">3.</span> <span class="nav-text">参数估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多项逻辑斯谛回归"><span class="nav-number">4.</span> <span class="nav-text">多项逻辑斯谛回归</span></a></li></ol></div>
             
 
           </div>
@@ -1113,6 +1152,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

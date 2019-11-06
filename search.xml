@@ -3,8 +3,18 @@
   <entry>
     <title>逻辑斯谛回归模型</title>
     <url>/2019/11/06/%E9%80%BB%E8%BE%91%E6%96%AF%E8%B0%9B%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><a id="more"></a>
-]]></content>
+    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
+<p>二项逻辑斯谛回归模型</p>
+<script type="math/tex; mode=display">
+P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
+P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$wx$是$w·x$的简写，为内积</p>
+<a id="more"></a>
+<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>将$Y=1,Y=0$的情况整合进一个式子，直接推MLE</p>
+<h2 id="多项逻辑斯谛回归"><a href="#多项逻辑斯谛回归" class="headerlink" title="多项逻辑斯谛回归"></a>多项逻辑斯谛回归</h2>]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>机器学习与统计学习</category>
+      </categories>
   </entry>
   <entry>
     <title>拉格朗日对偶性</title>
