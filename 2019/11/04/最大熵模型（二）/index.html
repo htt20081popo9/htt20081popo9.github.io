@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-06T00:19:07.874Z">
+<meta property="og:updated_time" content="2019-11-06T07:12:13.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型（二）">
 <meta name="twitter:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
@@ -444,7 +444,7 @@ Z_w(x)=\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}</script><p>$x∈\mathbb R^n$为输入�
 <p><strong>于是我们开始求MLE表达式：</strong></p>
 <p><strong>先求出$P_w$的对数似然估计函数：</strong></p>
 <p>$L_{\hat P}(P_w)=\log\prod_{i=1}^nP(y_i|x_i)=P(y_1|x_1)P(y_2|x_2)\cdots P(y_n|x_n)$</p>
-<p><strong>将相同的样本乘在一起。【注意这里！】</strong>对相同的一组$x,y$，那么有$t$组指数就会为$t$，也就相当于乘了$t$次，这样对所有相同的$x,y$，都可以表示为$L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{||(x,y)||_0}$</p>
+<p><strong>将相同的样本乘在一起。【注意这里构造MLE表达式】</strong>对相同的一组$x,y$，那么有$t$组指数就会为$t$，也就相当于乘了$t$次，这样对所有相同的$x,y$，都可以表示为$P(y|x)^{||(x,y)||_0}$，则对所有不同和相同的$x,y$，最终表示成了：$L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{||(x,y)||_0}$</p>
 <p>极大化这个$L_{\hat P}(P_w)$也等同于极大化（指数部分分母除以$N$）：$L_{\hat P}(P_w)=\log\prod_{x,y}P(y|x)^{\hat P(x,y)}$</p>
 <p><strong>于是MLE可以表示为【重要】：</strong></p>
 <script type="math/tex; mode=display">

@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-06T04:24:53.141Z">
+<meta property="og:updated_time" content="2019-11-06T07:34:17.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑斯谛回归模型">
 <meta name="twitter:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
@@ -403,8 +403,35 @@
 P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
 P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$wx$是$w·x$的简写，为内积</p>
 <a id="more"></a>
-<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>将$Y=1,Y=0$的情况整合进一个式子，直接推MLE</p>
-<h2 id="多项逻辑斯谛回归"><a href="#多项逻辑斯谛回归" class="headerlink" title="多项逻辑斯谛回归"></a>多项逻辑斯谛回归</h2>
+<p>$P(Y=0|x)=1-P(Y=1|x)$</p>
+<p><strong>简写：</strong>有时候可以把$b$包含进$w$里，$wx+b$写成$wx$，此时：</p>
+<p>$w=(w^{(1)},w^{(2)},\cdots,w^{(n)},b)^T$，$x=(x^{(1)},x^{(2)},\cdots,x^{(n)},1)$</p>
+<script type="math/tex; mode=display">
+P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}},P(Y=0|x)=\frac{1}{1+e^{wx}}</script><p><strong>对数几率：</strong>$\log(p=1)=\log\frac{p}{1-p}=\log\frac{P(Y=1|x)}{1-P(Y=1|x)}=wx$（内积 $w·x$）</p>
+<p><strong>也就是说：输出$Y=1$的对数几率是输入$x$的线性函数，</strong>或者说输出$Y=1$的对数几率是由输入$x$的线性函数表示的模型，也就是逻辑斯谛回归模型。<strong>所以说LR模型是一个线性对数模型（MEM也是个对数线性模型）</strong></p>
+<p><strong>可以理解</strong>公式$P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}}$其实就是一个概率，线性函数的值越接近于正无穷，概率值越接近于1；其值越小，概率值越趋近于0。</p>
+<p>LR分布与LRM曲线，略</p>
+<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>对给定训练集：$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\},x_i∈\mathbb R^n,y_i∈\{0,1\}$</p>
+<p>设$P(Y=1|x)=\pi(x)$，则$P(Y=0|x)=1-\pi(x)$</p>
+<p>$y_i$表示第$i$项的输出</p>
+<p><strong>注意这里如何构造MLE表示：</strong></p>
+<p><strong>LR的构造MLE表示的想法和MEM一样，都是想构造指数函数来表示多分类的多项之积，但具体的构造方式「完全不同」</strong></p>
+<script type="math/tex; mode=display">
+MLE_{P(y|x)}=\prod_{i=1}^N[\pi(x_i)]^{y_i}[1-\pi(x_i)]^{1-y_i}</script><p><strong>这个式子将多分类的多项之积的MLE写成一个式子，当$y_i=1$时，只有$[\pi(x_i)]^{y_i}$会生效，$[1-\pi(x_i)]^{1-y_i}$由于指数部分为0使得该子项等于1；反之$y_i=0$时，只有后半部分会生效。</strong></p>
+<p>于是其对数似然函数为$L(w)=\log MLE_{P(y|x)}$，即：</p>
+<script type="math/tex; mode=display">
+L(w)=\sum_{i=1}^N[y_i\log \pi(x_i)+(1-y_i)\log(1-\pi(x_i))]</script><p>化简之：$=\sum_{i=1}^N[y_i\log \pi(x_i)+\log(1-\pi(x_i))-y_i\log(1-\pi(x_i))]$</p>
+<p>$=\sum_{i=1}^N[y_i\log\frac{\pi(x_i)}{1-\pi(x_i)}+\log(1-\pi(x_i))]$</p>
+<p>所以可得</p>
+<script type="math/tex; mode=display">
+L(w)=\sum_{i=1}^N[y_i(w·x)-\log(1+e^{w·x})]</script><p>以此对数似然函数为极大化目标求出$w$即为模型参数，常用牛顿拟牛顿法，梯度下降法</p>
+<p>以梯度下降法为例，求$\nabla_wL(w)$，然后在各个$w_i$的方向上梯度下降，这里写总式：$w\to w+\epsilon\nabla_wL(w)$</p>
+<h2 id="多项逻辑斯谛回归"><a href="#多项逻辑斯谛回归" class="headerlink" title="多项逻辑斯谛回归"></a>多项逻辑斯谛回归</h2><p>$Y$的取值集合为$\{1,2,\cdots,K\}$</p>
+<script type="math/tex; mode=display">
+P(Y=k|x)=\frac{e^{w_kx}}{1+\sum_{k=1}^{K-1}e^{w_kx}},k=1,2,\cdots,K-1</script><script type="math/tex; mode=display">
+P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_k∈\mathbb R^{n+1}$</p>
+<p>这里的MLE构造就可以用和MEM一样的构造方法来构造了</p>
+
       
     </div>
     
