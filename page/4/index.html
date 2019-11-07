@@ -284,6 +284,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/11/深度学习中的结构化概率模型/" itemprop="url">深度学习中的结构化概率模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T10:28:45+08:00">
+                2019-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/11/深度学习中的结构化概率模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/11/深度学习中的结构化概率模型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
+<h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>概率图模型（PGM）描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示</p>
+<h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
+<p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
+<script type="math/tex; mode=display">
+p(x)=\prod_ip(x_i|P(x_i))</script><p>其中$P(x_i)$表示结点$x_i$的所有父节点。</p>
+<h2 id="无向图模型-马尔可夫随机场-马尔科夫网络"><a href="#无向图模型-马尔可夫随机场-马尔科夫网络" class="headerlink" title="无向图模型=马尔可夫随机场=马尔科夫网络"></a>无向图模型=马尔可夫随机场=马尔科夫网络</h2><p>对无向模型$M$中的一个团$C$称为一个<strong>因子</strong>$\phi(C)$，也叫<strong>团势能</strong>，<strong>势能函数</strong></p>
+<p>它们一起定义了<strong>未归一化概率函数</strong>：</p>
+<script type="math/tex; mode=display">
+p(\hat{x})=\prod_{C∈M}\phi(C)</script><p>(图的一个团是图中结点的一个子集，并且其中的点是全连接的)</p>
+<p>为了使得未归一化概率函数归一化，我们需要使用对应的归一化概率分布</p>
+<script type="math/tex; mode=display">
+p(x)=\frac{1}{Z}\hat{p(x)}</script><p>其中$Z$是使得所有概率之和或者积分为1的常数，且满足</p>
+<script type="math/tex; mode=display">
+Z=\int \hat{p}(x)dx</script><p>归一化常数$Z$被称为<strong>配分函数</strong>。计算$Z$需要对$x$的所有可能状态求联合概率分布，所以通常非常难计算，于是可以用一些近似方法求得。</p>
+<p>但有时候积分是发散的，不存在一个$F(x)$，这时候$Z$就不存在</p>
+<p>但注意如果指定发散函数的某定义域内是收敛的，那是OK的</p>
+<p>无向图在<strong>表示上</strong>存在模糊性，即“多大的团？”，这时候可以引入<strong>因子图</strong>解决，它将随机变量绘为圆形，将未归一化概率函数因子$\phi$绘为方形，仅当随机变量对应该函数因子的时候存在连接，连接该函数的随机变量构成一个团</p>
+<h2 id="基于能量的模型-Energy-Based-model-EBM"><a href="#基于能量的模型-Energy-Based-model-EBM" class="headerlink" title="基于能量的模型(Energy-Based model,EBM)"></a>基于能量的模型(Energy-Based model,EBM)</h2><p>无向模型依赖一个假设$\forall x,\hat{p}(x)&gt;0$，使得这个条件满足的一个简单方式是使用EBM</p>
+<script type="math/tex; mode=display">
+\hat{p}(x)=e^{-E(x)}</script><p>服从该形式的任意分布都是<strong>玻尔兹曼分布</strong>的一个实例，也因此我们把许多基于能量的模型成为<strong>玻尔兹曼机</strong></p>
+<p>$E(x)$被称作<strong>能量函数</strong>(energy function)</p>
+<p>由于$e^{(a+b)}=e^a·e^b$，于是可以发现无向模型中不同的团对应于能量函数的不同项，也就是说<strong>EBM只是一种特殊的马尔科夫网络</strong>，这种网络满足求幂使能量函数中的每项对应于不同团的一个影子。</p>
+<p>比如对于一个MAP d-a-b-e,b-e,e-f(只写了连接关系)，通过为每个团选择适当的能量函数$E(a,b,c,d,e,f)$可以写成$E_{a,b}(a,b)+E_{b,c}(b,c)+E_{a,d}(a,d)+E_{b,e}(b,e)+E_{e,f}(e,f)$</p>
+<p>能量函数可以视为<strong>专家之积</strong>，其中每一项看作决定一个特定的软约束是否满足的“专家”</p>
+<p>公式中幂的负号只是为了保持机器学习文献与物理学文献之间的兼容性（能量无符号），对于机器学习来说可以自由决定符号</p>
+<p>很多对概率模型进行操作的算法是计算$\log p(x)$的，于是对于具有潜变量$h$的EBM，这些算法有时会将该量的负数称为<strong>自由能</strong>(free energy)：</p>
+<script type="math/tex; mode=display">
+F(x)=-\log \sum_h e^{-E(x,h)}</script>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/11/深度学习中的结构化概率模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/09/Autoencoder/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1630,195 +1828,6 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/21/神经风格迁移/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/21/神经风格迁移/" itemprop="url">神经风格迁移</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T17:55:30+08:00">
-                2019-09-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/21/神经风格迁移/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/21/神经风格迁移/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><script type="math/tex; mode=display">
-L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)</script><p>内容图像（C）,生成的图像（G ）,样式图像（S）</p>
-<p>合成图像为唯一需要学习（更新）的参数（视为模型参数），也是生成的结果，而不是VGG</p>
-<p>输入：C</p>
-<p>初始化：可以选择让G=C，也可以随机初始化一个G</p>
-<p>这个算法里面的参数(也就是是合成图片里面的每个像素点，我们可以将内容图片直接 copy 成合成图片，<strong>然后训练使得他的风格和我们的风格图片相似，同时也可以随机化一张图片作为合成图片（两种初始化）</strong>，然后训练他使得他与内容图片以及风格图片具有相似性。特征的提取</p>
-<h2 id="model"><a href="#model" class="headerlink" title="model"></a>model</h2><p>这里不训练模型，直接使用预训练的vgg来提取特征</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    vgg = models.vgg19(pretrained=<span class="keyword">True</span>).features</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> vgg.parameters():</span><br><span class="line">        param.requires_grad = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">return</span> vgg</span><br></pre></td></tr></table></figure>
-<h2 id="extract-loss"><a href="#extract-loss" class="headerlink" title="extract loss"></a>extract loss</h2><p>这里使用以前用过的register_forward_hook()函数来hook</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayerActivations</span><span class="params">()</span>:</span></span><br><span class="line">    features = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,model,layer_nums)</span>:</span></span><br><span class="line">        <span class="comment">#这里要hook多层，要保存多层钩子</span></span><br><span class="line">        self.hooks = []</span><br><span class="line">        <span class="keyword">for</span> layer_num <span class="keyword">in</span> layer_nums:</span><br><span class="line">            self.hooks.append(model[layer_num].register_forward_hook(self.hook_fn))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hook_fn</span><span class="params">(self,module,input,output)</span>:</span></span><br><span class="line">        self.features.append(output)</span><br><span class="line">    <span class="comment">#捕捉完输出后不能忘掉remove方法，否则所有输入都累加在一起会内存溢出 </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> hook <span class="keyword">in</span> self.hooks:</span><br><span class="line">            hook.remove()</span><br><span class="line"></span><br><span class="line"><span class="comment">#该函数用于将图片输入进模型，经过钩子获取指定多层的特征输出      </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    la = LayerActivations(model=model,layer_nums=layers)</span><br><span class="line">    <span class="comment">#清空缓存</span></span><br><span class="line">    la.features=[]</span><br><span class="line">    <span class="comment">#运行模型，开钩</span></span><br><span class="line">    out = model(img)       </span><br><span class="line">    <span class="comment">#已经获取到特征，这是我们关注的东西，然后注销钩子</span></span><br><span class="line">    la.remove()</span><br><span class="line">    <span class="comment">#注意这里返回的是列表，一次性钩了多层</span></span><br><span class="line">    <span class="keyword">return</span> la.features</span><br></pre></td></tr></table></figure>
-<h2 id="定义损失"><a href="#定义损失" class="headerlink" title="定义损失"></a>定义损失</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># content loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContentLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        out = self.mseloss(inputs,targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
-<p>衡量风格损失使用的是Gram Matrix，对于$k$个向量$\alpha_1,\alpha_2,\cdots,\alpha_k$</p>
-<script type="math/tex; mode=display">
-G=
-\begin{bmatrix}
-{(\alpha_1,\alpha_1)}&{(\alpha_1,\alpha_2)}&{\cdots}&{(\alpha_1,\alpha_k)}\\
-{(\alpha_2,\alpha_1)}&{(\alpha_2,\alpha_2)}&{\cdots}&{(\alpha_2,\alpha_k)}\\
-{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
-{(\alpha_k,\alpha_1)}&{(\alpha_k,\alpha_2)}&{\cdots}&{(\alpha_k,\alpha_k)}\\
-\end{bmatrix}</script><p>把特征提取输出变换为$k$行$h*w$列的矩阵$X$，那么$X=&lt;\alpha_1,\alpha_2,\cdots,\alpha_k&gt;$，其中向量$x_i$代表了通道$i$上的样式特征，于是Gram矩阵实际上计算出了各个通道的两两相关性</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># style loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GramMatrix</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        b,c,h,w = inputs.size()</span><br><span class="line">        <span class="comment">#hw维度扁平化</span></span><br><span class="line">        features = inputs.view(b,c,h*w)</span><br><span class="line">        <span class="comment">#bmm(A) =  AxA^T</span></span><br><span class="line">        gram_matrix = torch.bmm(features,features.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">        <span class="comment">#为防止值过大，做归一化</span></span><br><span class="line">        gram_matrix.div_(h*w)</span><br><span class="line">        <span class="keyword">return</span> gram_matrix</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StyleLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.gramfunc = GramMatrix()</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        gram_inputs = self.gramfunc(inputs)</span><br><span class="line">        gram_targets = self.gramfunc(targets)</span><br><span class="line">        out = self.mseloss(gram_inputs,gram_targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loss function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_fn</span><span class="params">(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span>:</span></span><br><span class="line">    loss = <span class="number">0</span> </span><br><span class="line">    <span class="comment">#提取风格图片的特征并计算,注意这里是提取input（合成）和风格/内容的，都要提取</span></span><br><span class="line">    style_features = extract_layers(style_layers,style_img,model)  </span><br><span class="line">    input_features = extract_layers(style_layers,input_param,model) </span><br><span class="line">    <span class="keyword">for</span> style_layer_index <span class="keyword">in</span> range(len(style_layers)):</span><br><span class="line">        style_loss = StyleLoss(style_weight)</span><br><span class="line">        style_loss_this = style_loss(input_features[style_layer_index],style_features[style_layer_index])      </span><br><span class="line">        </span><br><span class="line">    <span class="comment">#提取内容图片的特征并计算   </span></span><br><span class="line">    content_features = extract_layers(content_layers,content_img,model)</span><br><span class="line">    input_features = extract_layers(content_layers,input_param,model)     </span><br><span class="line">    <span class="keyword">for</span> content_layer_index <span class="keyword">in</span> range(len(content_layers)):</span><br><span class="line">        content_loss = ContentLoss(content_weight)</span><br><span class="line">        content_loss_this = content_loss(input_features[content_layer_index],content_features[content_layer_index])    </span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this+content_loss_this</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> times % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'style loss:&#123;:.4f&#125; , content loss:&#123;:.4f&#125;'</span>.format(style_loss_this,content_loss_this))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
-<h2 id="TRAIN"><a href="#TRAIN" class="headerlink" title="TRAIN"></a>TRAIN</h2><p>使用LBGFS作为优化函数，LBFGS使用的时候就需要用到闭包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(Epoch,input_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_weight,style_weight,content_img,style_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_layers=[<span class="number">21</span>],style_layers=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">11</span>,<span class="number">20</span>,<span class="number">25</span>])</span>:</span></span><br><span class="line">    <span class="comment">#默认vgg模型</span></span><br><span class="line">    model = get_model().cuda()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化合成图片，将input_img作为初始的合成图片并参数化</span></span><br><span class="line">    input_param = nn.Parameter(input_img.data)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化优化器</span></span><br><span class="line">    optimizer = torch.optim.LBFGS([input_param])</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(Epoch):</span><br><span class="line">        print(<span class="string">'epoch:&#123;&#125;'</span>.format(epoch))</span><br><span class="line">        <span class="comment">#开始训练</span></span><br><span class="line">        <span class="keyword">global</span> times</span><br><span class="line">        times=<span class="number">0</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">()</span>:</span></span><br><span class="line">            optimizer.zero_grad() <span class="comment">#勿忘</span></span><br><span class="line">            <span class="keyword">global</span> times</span><br><span class="line">            times+=<span class="number">1</span></span><br><span class="line">            loss = loss_fn(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span><br><span class="line">            loss.backward() </span><br><span class="line">            <span class="keyword">return</span> loss</span><br><span class="line">        optimizer.step(closure) </span><br><span class="line">    <span class="keyword">return</span> input_param.data </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showImg</span><span class="params">(res)</span>:</span></span><br><span class="line">    img = res[<span class="number">0</span>]</span><br><span class="line">    img = img.cpu()</span><br><span class="line">    img = transforms.ToPILImage()(img) </span><br><span class="line">    plt.imshow(img)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1869,7 +1878,7 @@ G=
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">119</span>
+                  <span class="site-state-item-count">120</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
