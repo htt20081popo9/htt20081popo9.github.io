@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-06T07:38:37.619Z">
+<meta property="og:updated_time" content="2019-11-07T00:40:50.435Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑斯谛回归模型">
 <meta name="twitter:description" content="Binomial Logistic Regression ModelLR是最基本的模型之一。 二项逻辑斯谛回归模型  P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}} P(Y=0|x)=\frac{1}{1+e^{wx+b}}$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$w">
@@ -409,9 +409,12 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
 <script type="math/tex; mode=display">
 P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}},P(Y=0|x)=\frac{1}{1+e^{wx}}</script><p><strong>对数几率：</strong>$\log(p=1)=\log\frac{p}{1-p}=\log\frac{P(Y=1|x)}{1-P(Y=1|x)}=wx$（内积 $w·x$）</p>
 <p><strong>也就是说：输出$Y=1$的对数几率是输入$x$的线性函数，</strong>或者说输出$Y=1$的对数几率是由输入$x$的线性函数表示的模型，也就是逻辑斯谛回归模型。<strong>所以说LR模型是一个线性对数模型（MEM也是个对数线性模型）</strong></p>
-<p><strong>可以这么理解</strong>，$wx$为一个对$x$进行分类的线性函数，使用LR的定义将其转化为了一个概率：</p>
+<p><strong>理解</strong>：$wx$为一个对$x$进行分类的线性函数（线性分类器），使用LR的定义将其转化为了一个概率：</p>
 <p>$P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}}$。线性函数的值越接近于正无穷，概率值越接近于1；其值越小，概率值越趋近于0。</p>
+<p><strong>更本质地理解：</strong>其实逻辑斯谛模型就是$P(Y=1|x)=g(wx)$，相当于将线性分类器$wx,x∈\mathbb R^n$映射到了概率区间$(0,1)$上，即$g(wx)∈(0,1)$。见S形曲线。</p>
 <p>LR分布与LRM曲线，略</p>
+<p>逻辑斯谛分布的<strong>分布函数</strong>属于逻辑斯谛函数，<strong>逻辑斯谛回归模型</strong>$P(Y=1|x)$函数也属于逻辑斯谛函数。</p>
+<p>逻辑斯谛函数都<strong>呈S形曲线</strong></p>
 <h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>对给定训练集：$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\},x_i∈\mathbb R^n,y_i∈\{0,1\}$</p>
 <p>设$P(Y=1|x)=\pi(x)$，则$P(Y=0|x)=1-\pi(x)$</p>
 <p>$y_i$表示第$i$项的输出</p>
@@ -474,8 +477,8 @@ P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/05/拉格朗日对偶性/" rel="next" title="拉格朗日对偶性">
-                <i class="fa fa-chevron-left"></i> 拉格朗日对偶性
+              <a href="/2019/11/05/拉格朗日对偶性/" rel="next" title="拉格朗日乘子与对偶性">
+                <i class="fa fa-chevron-left"></i> 拉格朗日乘子与对偶性
               </a>
             
           </div>
@@ -626,6 +629,10 @@ P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="www.lonelyi.cn" title="lonelyi" target="_blank">lonelyi</a>
                   </li>
                 
               </ul>

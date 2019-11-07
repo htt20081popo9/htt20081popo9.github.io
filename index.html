@@ -994,7 +994,7 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/05/拉格朗日对偶性/" itemprop="url">拉格朗日对偶性</a></h1>
+                <a class="post-title-link" href="/2019/11/05/拉格朗日对偶性/" itemprop="url">拉格朗日乘子与对偶性</a></h1>
         
 
         <div class="post-meta">
@@ -1269,11 +1269,11 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
 <p>$L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$</p>
 <p>$=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))$</p>
 <p>$+\sum_{i=1}^nw_i(\sum_{x,y}\hat P(x,y)f_i(x,y)-\sum_{x,y} \hat P(x)P(y|x)f_i(x,y))$</p>
-<p>于是我们需要优化：</p>
+<p>难以求极值，<strong>转化为广义拉格朗日极大极小问题</strong>，于是我们需要优化：</p>
 <script type="math/tex; mode=display">
-\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：(拉格朗日对偶性问题见后)</p>
+\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
-\max_w \min_{P∈\mathbb C}L(P,w)</script>
+\max_w \min_{P∈\mathbb C}L(P,w)</script><p>（<strong>更多阅读拉格朗日乘子和对偶性专题</strong>）</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/11/04/最大熵模型（二）/#more" rel="contents">
@@ -1770,6 +1770,10 @@ H(P)=-\sum_xP(x)\log P(x),其中0≤H(P)≤\log|X|</script><p>表示随机变量
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="www.lonelyi.cn" title="lonelyi" target="_blank">lonelyi</a>
                   </li>
                 
               </ul>

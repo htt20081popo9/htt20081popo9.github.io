@@ -15,9 +15,12 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
 <script type="math/tex; mode=display">
 P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}},P(Y=0|x)=\frac{1}{1+e^{wx}}</script><p><strong>对数几率：</strong>$\log(p=1)=\log\frac{p}{1-p}=\log\frac{P(Y=1|x)}{1-P(Y=1|x)}=wx$（内积 $w·x$）</p>
 <p><strong>也就是说：输出$Y=1$的对数几率是输入$x$的线性函数，</strong>或者说输出$Y=1$的对数几率是由输入$x$的线性函数表示的模型，也就是逻辑斯谛回归模型。<strong>所以说LR模型是一个线性对数模型（MEM也是个对数线性模型）</strong></p>
-<p><strong>可以这么理解</strong>，$wx$为一个对$x$进行分类的线性函数，使用LR的定义将其转化为了一个概率：</p>
+<p><strong>理解</strong>：$wx$为一个对$x$进行分类的线性函数（线性分类器），使用LR的定义将其转化为了一个概率：</p>
 <p>$P(Y=1|x)=\frac{e^{wx}}{1+e^{wx}}$。线性函数的值越接近于正无穷，概率值越接近于1；其值越小，概率值越趋近于0。</p>
+<p><strong>更本质地理解：</strong>其实逻辑斯谛模型就是$P(Y=1|x)=g(wx)$，相当于将线性分类器$wx,x∈\mathbb R^n$映射到了概率区间$(0,1)$上，即$g(wx)∈(0,1)$。见S形曲线。</p>
 <p>LR分布与LRM曲线，略</p>
+<p>逻辑斯谛分布的<strong>分布函数</strong>属于逻辑斯谛函数，<strong>逻辑斯谛回归模型</strong>$P(Y=1|x)$函数也属于逻辑斯谛函数。</p>
+<p>逻辑斯谛函数都<strong>呈S形曲线</strong></p>
 <h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>对给定训练集：$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\},x_i∈\mathbb R^n,y_i∈\{0,1\}$</p>
 <p>设$P(Y=1|x)=\pi(x)$，则$P(Y=0|x)=1-\pi(x)$</p>
 <p>$y_i$表示第$i$项的输出</p>
@@ -45,7 +48,7 @@ P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_
       </categories>
   </entry>
   <entry>
-    <title>拉格朗日对偶性</title>
+    <title>拉格朗日乘子与对偶性</title>
     <url>/2019/11/05/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E5%AF%B9%E5%81%B6%E6%80%A7/</url>
     <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题</p>
 <script type="math/tex; mode=display">
@@ -53,27 +56,31 @@ P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_
 s.t.\quad c_i(x)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
 s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原始最优化问题或原始问题</p>
 <a id="more"></a>
-<h2 id="广义拉格朗日极小极大问题"><a href="#广义拉格朗日极小极大问题" class="headerlink" title="广义拉格朗日极小极大问题"></a>广义拉格朗日极小极大问题</h2><p>对于原始问题，要求解就用拉格朗日乘子法：</p>
+<h2 id="拉格朗日乘子法"><a href="#拉格朗日乘子法" class="headerlink" title="拉格朗日乘子法"></a>拉格朗日乘子法</h2><p>对于原始问题，要求解就用拉格朗日乘子法：</p>
 <p>$L(x,\alpha,\beta)=f(x)+\sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)$</p>
 <p>这里$x=(x^{(1)},x^{(2)},\cdots,x^{(n)})^T∈\mathbb R^n\quad\alpha_i,\beta_j$是拉格朗日乘子。</p>
-<p>尝试构造这个最大化</p>
+<p><strong>「拉格朗日乘子法将有约束问题转化为了无约束问题」</strong></p>
+<p>那么我们就要<strong>对$L(x,\alpha,\beta)$求极值</strong>。这个式子$x,\alpha,\beta$都是变量，也就是说我们要求出多元变量式子的极值。</p>
+<p>有的情况可以求出极值（给了足够多个方程可以解出算子，如HMM的EM中包含一个隐藏方程可以解出算子），但有的就无法直接求了。于是我们想要<strong>分离</strong>$x$和算子，于是我们将表达式改写为广义拉格朗日极小极大。</p>
+<p>同时由于$\nabla_xL(x,\alpha,\beta)=\nabla_xf(x)$，所以这么转换是等价的，但$\nabla_\alpha L(x,\alpha,\beta)=0,则c(x)=0$，显然约束条件不等价，改写成了广义拉格朗日极小极大才使得式子和原式完全等价。</p>
+<h2 id="广义拉格朗日极小极大问题"><a href="#广义拉格朗日极小极大问题" class="headerlink" title="广义拉格朗日极小极大问题"></a>广义拉格朗日极小极大问题</h2><p>尝试构造这个最大化</p>
 <p>$\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)=\max\{f(x)+\sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)\}$</p>
 <p><strong>会发现一个特点</strong>：</p>
 <p>如果原始问题的约束条件$c_i(x)≤0,h_j(x)=0$不成立，也就是说$c_i(x)≥0,h_j(x)≠0$，那为了让$L$最大，$\alpha_i$就会取$+∞$，$\beta_j$就会取$-sign(h_j(x))·∞$，这时候$\max_{\alpha,\beta:\alpha≥0}=+∞$</p>
 <p>显然这是不可以的。</p>
 <p>只有当约束条件$c_i(x)≤0,h_j(x)=0$成立的时候，才不会出现这种情况。因为这种情况下为了让$L$最大，$\alpha_i$就会取$0$，同时$h_j(x)=0$</p>
 <p>所以当约束条件成立的时候，可以得到这个等式：$\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)=f(x)$</p>
-<p><strong>也就是说，Intro中的那串定义，包含约束条件的$f(x)$可以仅仅由一个式子表示</strong>：$\max_{\alpha,\beta:\alpha_i≥0} L(x,\alpha,\beta)$</p>
+<p><strong>也就是说，Intro中的那串定义，包含约束条件的$f(x)$可以由一个式子表示：$\max_{\alpha,\beta:\alpha_i≥0} L(x,\alpha,\beta)$，成功地将算子和$x$分离开来，同时与原式完全等价。</strong>里面求使$L$最大化的算子，外面求使$L$最小化的$x$。</p>
 <p>于是我们要求约束$c_i(x)≤0,h_j(x)=0$下的最优化问题$\min_x f(x)$，即是要求$\min_x\max_{\alpha,\beta:\alpha_i≥0} L(x,\alpha,\beta)$</p>
 <p>这就是<strong>广义拉格朗日极小极大问题：</strong></p>
 <script type="math/tex; mode=display">
 原始问题等价于\min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)</script><p>设$d^o=\arg \min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)$</p>
-<p><strong>为什么要转化为极小极大形式：这个形式将约束糅合进式子里，明显比原始问题方便求解</strong></p>
+<p><strong>「为什么要转化为极小极大形式：使得与原式完全等价，且对所有情况都可以求解。如果直接求拉格朗日乘子式的极值，在乘子多于已知方程的情况下无法求解」</strong></p>
 <h2 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h2><p>原始问题的广义拉格朗日极小极大问题$\min_x\max_{\alpha,\beta:\alpha≥0} L(x,\alpha,\beta)$的<strong>对偶问题为：</strong></p>
 <script type="math/tex; mode=display">
 \max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)</script><p>设$p^o=\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)$</p>
-<p><strong>为什么要有对偶问题：对偶问题比极小极大问题更好求解。因为里面的$\min_x L(x,\alpha,\beta)$是只有$x$为变量且没有任何限制的，于是就可以尽情使用0导数法求得内部极值为一个关于$\alpha,\beta$表达式，这时候再求外部问题，只需要求使得外部问题最大化的$\alpha,\beta$即可。</strong></p>
-<p><strong>举例</strong>：在MEM中，就是先求里面的极小化问题以$x$为变量求出最小的$P_w$，然后就只需要再求出能使$P_w$极大化的$w$即可，外部极大化$P_w$就可以求MLE，具体的方法，如IIS，牛顿法与伪牛顿法，梯度下降。</p>
+<p><strong>为什么要有对偶问题：有时候对偶问题比极小极大问题更好求解。因为里面的$\min_x L(x,\alpha,\beta)$是只有$x$为变量且没有任何限制的，于是就可以尽情使用0导数法求得内部极值为一个关于$\alpha,\beta$表达式，这时候再求外部问题，只需要求使得外部问题最大化的$\alpha,\beta$即可。</strong></p>
+<p><strong>举例</strong>：在MEM中，就是先求里面的极小化问题以$x$为变量求出最小的$P_w$，然后就只需要再求出能使$P_w$极大化的$w$即可，外部极大化$P_w$可证等于MLE（不用零导法，这么多变量怎么零导法），具体的方法，如IIS，牛顿法与伪牛顿法，梯度下降。</p>
 <p><strong>定理$1^o$：</strong>若原始问题和对偶问题都有最优值，则：</p>
 <p><strong>对偶问题≤原始问题（或其广义拉格朗日极小极大问题）</strong></p>
 <script type="math/tex; mode=display">
@@ -108,18 +115,19 @@ h_j(x^o)=0,j=1,2,\cdots,l</script><p><strong>也就是说只要满足强对偶�
 <p>$L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$</p>
 <p>$=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))$</p>
 <p>$+\sum_{i=1}^nw_i(\sum_{x,y}\hat P(x,y)f_i(x,y)-\sum_{x,y} \hat P(x)P(y|x)f_i(x,y))$</p>
-<p>于是我们需要优化：</p>
+<p>难以求极值，<strong>转化为广义拉格朗日极大极小问题</strong>，于是我们需要优化：</p>
 <script type="math/tex; mode=display">
-\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：(拉格朗日对偶性问题见后)</p>
+\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
-\max_w \min_{P∈\mathbb C}L(P,w)</script><a id="more"></a>
-<h3 id="mathbb-S2-o-内部求拉格朗日0导数"><a href="#mathbb-S2-o-内部求拉格朗日0导数" class="headerlink" title="$\mathbb S2^o$内部求拉格朗日0导数"></a>$\mathbb S2^o$内部求拉格朗日0导数</h3><p>先解决内部的极小化问题。</p>
-<p>由于$L(P,w)$是凸函数，那对其直接求拉格朗日乘子法0导数即可</p>
+\max_w \min_{P∈\mathbb C}L(P,w)</script><p>（<strong>更多阅读拉格朗日乘子和对偶性专题</strong>）</p>
+<a id="more"></a>
+<h3 id="mathbb-S2-o-内部求仅含-x-变量的0导数"><a href="#mathbb-S2-o-内部求仅含-x-变量的0导数" class="headerlink" title="$\mathbb S2^o$内部求仅含$x$变量的0导数"></a>$\mathbb S2^o$内部求仅含$x$变量的0导数</h3><p>先解决内部的极小化问题。</p>
+<p>由于$L(P,w)$是凸函数，那对其直接求0导数即可</p>
 <p>记$\Phi(w)=\min_{P∈\mathbb C}L(P,w)=L(P_w,w)$，$\Phi(w)$称为对偶函数</p>
 <p>则对偶函数的解$P_w=\arg\min_{P∈\mathbb C}L(P,w)=P_w(y|x)$ ，即：求使得$L(P,w)$最小的$P(y|x)$</p>
 <p><strong>于是使用0导数法</strong>： （易错。见HMM中求和函数求导）</p>
 <p>$\frac{\partial L(P,w)}{\partial P(y|x)}=\hat P(x)\log P(y|x)+\hat P(x)-w_0-\hat P(x)\sum_{i=1}^nw_if_i(x,y)=0$</p>
-<p><strong>为了利用更多分布信息，左右两边同时求$\sum_{x,y}$</strong>（就可以给$w_0$项再凑一个$\hat P(x)$来消去所有的$\hat P(x)$，与HMM中解EM的Q函数的拉格朗日0导方程的方法一样）</p>
+<p><strong>为了利用更多分布信息，左右两边同时求$\sum_{x,y}$</strong>（就可以给$w_0$项再凑一个$\hat P(x)$来消去所有的$\hat P(x)$）</p>
 <p>$\therefore \sum_{x,y}\hat P(x)\log P(y|x)+\sum_{x,y}\hat P(x)-\sum_{x,y}w_0-\sum_{x,y}\hat P(x)\sum_{i=1}^nw_if_i(x,y)=0$</p>
 <p>由于$\sum_{x,y}\hat P(x)=1且w_0与x,y不相关$，$\therefore \sum_{x,y}w_0=w_0\sum_{x,y}=w_0\sum_{x,y}\hat P(x)$</p>
 <p>$\therefore \sum_{x,y}\hat P(x)(\log P(y|x)+1-w_0-\sum_{i=1}^nw_if_i(x,y))=0$</p>
@@ -131,11 +139,12 @@ h_j(x^o)=0,j=1,2,\cdots,l</script><p><strong>也就是说只要满足强对偶�
 <p>（注意$Z_w(x)$式子中$y$被边缘化了，所以$Z_w(x)$只与$x$有关）</p>
 <p>其中$Z_w$称为规范化因子，$f_i(x,y)$是特征函数，$w_i$是特征的权值。</p>
 <p>$P_w=P_w(y|x)$就是最大熵模型，$w$是最大熵模型中的参数向量</p>
-<h3 id="mathbb-S3-o-外部等价于求极大似然估计最优化"><a href="#mathbb-S3-o-外部等价于求极大似然估计最优化" class="headerlink" title="$\mathbb S3^o$外部等价于求极大似然估计最优化"></a>$\mathbb S3^o$外部等价于求极大似然估计最优化</h3><p>于是我们下一步要求的就是对偶问题外部极大化问题：</p>
+<h3 id="mathbb-S3-o-外部恰好等价于求极大似然估计"><a href="#mathbb-S3-o-外部恰好等价于求极大似然估计" class="headerlink" title="$\mathbb S3^o$外部恰好等价于求极大似然估计"></a>$\mathbb S3^o$外部恰好等价于求极大似然估计</h3><p>于是我们下一步要求的就是对偶问题外部极大化问题：</p>
 <script type="math/tex; mode=display">
 \max_w \Phi(w)</script><script type="math/tex; mode=display">
-w^o=\arg\max_w\Phi(w)</script><p><strong>对偶函数的极大化等价于最大熵模型的极大似然估计</strong>：$\Phi(w)=L_{\hat P}(P_w)$ </p>
-<p>证明：将$\mathbb S2^o$中求出来的$P_w(y|x)$表达式代入$\mathbb S2^o$中的$L(P,w)$，恰好等于$L_{\hat P}(P_w)$（见$\mathbb S4^o$中），而$L(P,w)$就是对偶函数</p>
+w^o=\arg\max_w\Phi(w)</script><p>（发现这个式子就可以用最优化算法来求了）</p>
+<p><strong>对偶函数的极大化等价于最大熵模型的极大似然估计</strong>：$\Phi(w)=L_{\hat P}(P_w)$ </p>
+<p>证明：将$\mathbb S2^o$中求出来的$P_w(y|x)$表达式代入$\mathbb S2^o$中的$L(P,w)$，即为对偶函数，恰好等于$P_w(y|x)$的似然函数$L_{\hat P}(P_w)$（见$\mathbb S4^o$中）。</p>
 <p><strong>也就是说，我们对上面已经求得的内部最小化一般形式MEM：$P_w$，求出$w$使得$MLE_{P_w}$最大即可，也是MEM学习过程</strong></p>
 <p><strong>可以将MEM表示为更一般的形式【重要】：</strong></p>
 <script type="math/tex; mode=display">
@@ -177,7 +186,9 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
 </li>
 <li><p>为什么要用<strong>对数的</strong>似然？——对数函数将乘法变为和</p>
 </li>
-<li><p>拉格朗日对偶性</p>
+<li><p>拉格朗日对偶性见专题</p>
+</li>
+<li><p>拉个朗日对偶性求解的外部$\max_{w}$为什么不用零导数法？因为这时候可以用最优化算法来求了。零导数法一堆变量$w_i$没法求 （O）</p>
 </li>
 </ol>
 ]]></content>
