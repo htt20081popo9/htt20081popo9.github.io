@@ -30,16 +30,13 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 <h2 id="从逻辑斯谛回归LR来理解SVM"><a href="#从逻辑斯谛回归LR来理解SVM" class="headerlink" title="从逻辑斯谛回归LR来理解SVM"></a>从逻辑斯谛回归LR来理解SVM</h2><p>LR的输出是一个概率输出，LR实际上就是将通过线性分类器$w·x+b,x∈\mathbb R^n$将输入$x$映射到概率空间$(0,1)$上，其越靠近上边界$1$，就认为其标签为$1$的概率越高；其越靠近下边界$0$，就认为其标签为$0$的概率越高，这时候我们可以给一个<strong>决策标准</strong>$th=0.5$，对于一个样本$x_i$和逻辑斯谛回归分类器$f(w·x+b)$（也可以表示为$P(Y=1|x)$)，此时对$x_i$的<strong>决策结果</strong>就是$f(x_i)=\begin{cases} 1,f(w·x_i+b)≥0.5\\ 0,f(w·x_i+b)＜0.5 \end{cases}$</p>
 <p><strong>如果</strong>我们将LR中的判断标签的阈值改为$0$，分类器改为$f(w·x+b)=w·x+b$，标签从$0,1$改为$-1,+1$，此时对$x_i$的分类结果就是：$f(x)=\begin{cases} +1,w·x_i+b≥0\\ -1,w·x_i+b＜0 \end{cases}$。<strong>震惊，这不就是个标准的SVM了吗！</strong></p>
 <p>①<strong>LR中的$0$相当于SVM的负例，$1$相当于SVM的正例；</strong></p>
-<p>②<strong>LR中的阈值$0.5$，而SVM的阈值为$0$</strong>，即在SVM中，分类器的输出$≥0$，就判断为正例，$＜0$就判断为负例；分类器输出越大则样本为正例的概率越大（<strong>确信度越高</strong>），输出越小则样本为负例的概率越大（<strong>确信度越高</strong>）。（后面会说到SVM分类器输出的绝对值乘以标签($+1 or-1$)：$y_i|w·x_i+b|$即为<strong>函数间隔</strong>）</p>
+<p>②<strong>LR中的阈值$0.5$，而SVM的阈值为$0$</strong>，即在SVM中，分类器的输出$≥0$，就判断为正例，$＜0$就判断为负例；分类器输出越大则样本为正例的概率越大（<strong>确信度越高</strong>），输出越小则样本为负例的概率越大（<strong>确信度越高</strong>）。（SVM分类器输出的绝对值乘以标签($+1 or-1$)：$y_i|w·x_i+b|$即为<strong>函数间隔</strong>）</p>
 <p>③<strong>LR的分类器输出在$(0,1)$上</strong>，且决策阈值为$0.5$；<strong>而SVM的分类器输出可以在$(-∞,+∞)$</strong>，决策阈值为$0$。<strong>为什么分类器输出差别这么大？</strong>因为LR的输出值是线性分类器$w·x+b$的<strong>逻辑斯谛分布作为映射</strong>，就是它将输出映射到了$(0,1)$上，其恰好就是概率。而线性SVM的分类器就直接是一个<strong>线性函数映射</strong>，它的输出映射到了整个实域</p>
 <p><strong>结论：LR和SVM本质是一样的</strong>。借LR可以更好地理解SVM（这段写得有点啰嗦）。</p>
-<h2 id="间隔表示"><a href="#间隔表示" class="headerlink" title="间隔表示"></a>间隔表示</h2><p><strong>学习SVM的过程</strong>就是学习最优超平面的过程，也就是确定超平面$w·x+b$的参数$w,b$</p>
-<p><strong>什么是我们想要的最优的超平面（分类器）：「尽可能</strong>提高<strong>最</strong>难以分类的点的<strong>分类确信度</strong>」。</p>
-<p><strong>从几何角度解释：</strong>使得离超平面最近的样本点到超平面的距离最大的超平面，「也就是说要尽量<u>扩大</u><strong>超平面</strong>与<strong>离超平面最近点</strong>的<u>间隔</u>」。这就是<strong>间隔最大化</strong></p>
-<p>于是引出下面的概念。样本点$(x_i,y_i)$到超平面$(w,b)$。</p>
+<h2 id="间隔表示"><a href="#间隔表示" class="headerlink" title="间隔表示"></a>间隔表示</h2><p>前面引出了间隔，这里具体定义。对于样本点$(x_i,y_i)∈T$到超平面$(w,b)$。</p>
 <p><strong>某点到超平面面的函数间隔：</strong></p>
 <script type="math/tex; mode=display">
-\hat\gamma_i=y_i(w·x+b)</script><p><strong>样本集$T$所有点到面的函数间隔：</strong>这就是前面所说的我们最想要的最优超平面的标准（见上）：</p>
+\hat\gamma_i=y_i(w·x_i+b)</script><p><strong>样本集$T$所有点到面的函数间隔：</strong>这就是前面所说的我们最想要的最优超平面的标准（见上）：</p>
 <script type="math/tex; mode=display">
 \hat\gamma=\min_{i=1,\cdots,N}\hat\gamma_i</script><p>如果$w,b$成比例改变，那么实际上超平面并没有变，但是函数间隔却番倍了，所以我们要统一让超平面的参数标准化，所以<strong>标准化</strong>后，得：</p>
 <p><strong>某点到超平面面的几何间隔：</strong></p>
@@ -47,8 +44,18 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 \gamma_i=y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})</script><p><strong>样本集$T$所有点到面的几何间隔：</strong></p>
 <script type="math/tex; mode=display">
 \gamma=\min_{i=1,\cdots,N}\gamma_i</script><p><strong>函数间隔和几何间隔的特点：同时表示了分类的「正确性」和「确信度」</strong>（确信度见上文理解，正确性是因为<strong>如果分类错</strong>误，那么算出来的间隔会是<strong>负</strong>；分类正确才会得出正值，根据式子容易看出来）</p>
-<p>显然有函数间隔与几何间隔的关系：$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$</p>
-<h2 id="硬间隔最大化"><a href="#硬间隔最大化" class="headerlink" title="硬间隔最大化"></a>硬间隔最大化</h2>]]></content>
+<p>显然有函数间隔$\hat \gamma$与几何间隔$\gamma$的关系：$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$</p>
+<h2 id="硬间隔最大化"><a href="#硬间隔最大化" class="headerlink" title="硬间隔最大化"></a>硬间隔最大化</h2><p><strong>学习SVM的过程</strong>就是学习最优超平面的过程，也就是确定超平面$w·x+b$的参数$w,b$</p>
+<p><strong>什么是我们想要的最优的超平面（分类器）：「尽可能</strong>提高<strong>最</strong>难以分类的点的<strong>分类确信度</strong>」。</p>
+<p><strong>从几何角度解释：</strong>使得离超平面最近的样本点到超平面的距离最大的超平面，「也就是说要尽量<u>扩大</u><strong>超平面</strong>与<strong>离超平面最近点</strong>的<u>间隔</u>」。这就是<strong>间隔最大化</strong></p>
+<p>间隔最大化可以表述为：</p>
+<script type="math/tex; mode=display">
+\max_{w,b}\gamma</script><script type="math/tex; mode=display">
+s.t.\quad y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})≥\gamma,i=1,2,\cdots,N</script><p>即：<strong>尽量提高几何间隔的下限</strong></p>
+<p>为了由$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$，可把问题改写（但实际还是几何间隔）为用函数间隔表示为：</p>
+<p>$\max_{w,b}\frac{\hat\gamma}{||w||}$</p>
+<p>$s.t.\quad y_i(w·x_i+b)≥\hat\gamma,i=1,2,\cdots,N$</p>
+]]></content>
       <categories>
         <category>人工智能</category>
         <category>机器学习与统计学习</category>
