@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-07T12:46:34.539Z">
+<meta property="og:updated_time" content="2019-11-08T11:36:24.436Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机（一）">
 <meta name="twitter:description" content="施工中 Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
@@ -407,6 +407,7 @@
 <h2 id="线性可分支持向量机"><a href="#线性可分支持向量机" class="headerlink" title="线性可分支持向量机"></a>线性可分支持向量机</h2><p><strong>假定训练集线性可分。</strong></p>
 <p><strong>数据集：</strong>假定特征空间上的训练集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，其中</p>
 <p>$x_i∈\mathbb R^n,y_i∈\{+1,-1\},i=1,2,\cdots,N$，$x_i$为第$i$个特征向量，$y_i$为类标记。当$y_i=+1$，称$x_i$为正例；当当$y_i=-1$，称$x_i$为负例。$(x_i,y_i)$称为<strong>样本点</strong>。</p>
+<p>具体举例：如正例点$x_i=(3,5),y_1=+1$，$(3,5)$存在于<strong>欧式空间</strong>而$(x_1,+1)$存在于<strong>特征空间</strong>。</p>
 <p><strong>学习目标：</strong>在特征空间上找到一个<strong>分离超平面</strong>，能将实例分到不同的类。分离超平面对应于方程$w·x+b=0$，由法向量$w$和截距$b$决定，可以用$(w,b)$表示。其将特征空间划分为两部分：法向量指向的一侧为正类，另一侧为负类。</p>
 <p><strong>理解这个超平面：</strong>$w·x+b=0$中$w,x,b$都是向量，向量中每一个位置都是一个特征维度，可以理解为这个超平面有很多个维度，在每一个维度都有一个分界线，从而整体构成一个高维度的超级分界面。</p>
 <p><strong>这个超平面就是分类器</strong></p>
@@ -422,7 +423,7 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 <p><strong>点$x$距离超平面的距离</strong> $=|w·x+b|$</p>
 <p>$w·x_i+b$的符号若与训练样本$x_i$的标签$y_i$一致，则<strong>分类正确</strong>；不一致则分类错误。</p>
 <h2 id="从逻辑斯谛回归LR来理解SVM"><a href="#从逻辑斯谛回归LR来理解SVM" class="headerlink" title="从逻辑斯谛回归LR来理解SVM"></a>从逻辑斯谛回归LR来理解SVM</h2><p>LR的输出是一个概率输出，LR实际上就是将通过线性分类器$w·x+b,x∈\mathbb R^n$将输入$x$映射到概率空间$(0,1)$上，其越靠近上边界$1$，就认为其标签为$1$的概率越高；其越靠近下边界$0$，就认为其标签为$0$的概率越高，这时候我们可以给一个<strong>决策标准</strong>$th=0.5$，对于一个样本$x_i$和逻辑斯谛回归分类器$f(w·x+b)$（也可以表示为$P(Y=1|x)$)，此时对$x_i$的<strong>决策结果</strong>就是$f(x_i)=\begin{cases} 1,f(w·x_i+b)≥0.5\\ 0,f(w·x_i+b)＜0.5 \end{cases}$</p>
-<p><strong>如果</strong>我们将LR中的判断标签的阈值改为$0$，分类器改为$f(w·x+b)=w·x+b$，标签从$0,1$改为$-1,+1$，此时对$x_i$的分类结果就是：$f(x)=\begin{cases} +1,w·x_i+b≥0\\ -1,w·x_i+b＜0 \end{cases}$。<strong>震惊，这不就是个标准的SVM了吗！</strong></p>
+<p><strong>如果</strong>我们将LR中的决策标准的阈值改为$0$，分类器改为$f(w·x+b)=w·x+b$，标签从$0,1$改为$-1,+1$，此时对$x_i$的分类结果就是：$f(x)=\begin{cases} +1,w·x_i+b≥0\\ -1,w·x_i+b＜0 \end{cases}$。<strong>震惊，这不就是个标准的SVM了吗！</strong></p>
 <p>①<strong>LR中的$0$相当于SVM的负例，$1$相当于SVM的正例；</strong></p>
 <p>②<strong>LR中的阈值$0.5$，而SVM的阈值为$0$</strong>，即在SVM中，分类器的输出$≥0$，就判断为正例，$＜0$就判断为负例；分类器输出越大则样本为正例的概率越大（<strong>确信度越高</strong>），输出越小则样本为负例的概率越大（<strong>确信度越高</strong>）。（SVM分类器输出的绝对值乘以标签($+1 or-1$)：$y_i|w·x_i+b|$即为<strong>函数间隔</strong>）</p>
 <p>③<strong>LR的分类器输出在$(0,1)$上</strong>，且决策阈值为$0.5$；<strong>而SVM的分类器输出可以在$(-∞,+∞)$</strong>，决策阈值为$0$。<strong>为什么分类器输出差别这么大？</strong>因为LR的输出值是线性分类器$w·x+b$的<strong>逻辑斯谛分布作为映射</strong>，就是它将输出映射到了$(0,1)$上，其恰好就是概率。而线性SVM的分类器就直接是一个<strong>线性函数映射</strong>，它的输出映射到了整个实域</p>
@@ -432,13 +433,15 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 <script type="math/tex; mode=display">
 \hat\gamma_i=y_i(w·x_i+b)</script><p><strong>样本集$T$所有点到面的函数间隔：</strong>这就是前面所说的我们最想要的最优超平面的标准（见上）：</p>
 <script type="math/tex; mode=display">
-\hat\gamma=\min_{i=1,\cdots,N}\hat\gamma_i</script><p>如果$w,b$成比例改变，那么实际上超平面并没有变，但是函数间隔却番倍了，所以我们要统一让超平面的参数标准化，所以<strong>标准化</strong>后，得：</p>
-<p><strong>某点到超平面面的几何间隔：</strong></p>
+\hat\gamma=\min_{i=1,\cdots,N}\hat\gamma_i</script><p>如果$w,b$成比例改变，那么实际上超平面$\lambda w·x_i+\lambda b=0=w·x_i+b=0$并没有变，但是函数间隔却番倍了，所以我们要统一让超平面的参数标准化，使得该间隔确定。所以<strong>标准化</strong>后，得：</p>
+<p><strong>某点到超平面面的几何间隔：</strong>（其实就是欧式空间中的点到平面的距离公式再加个正负来判断分类正确性）</p>
 <script type="math/tex; mode=display">
 \gamma_i=y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})</script><p><strong>样本集$T$所有点到面的几何间隔：</strong></p>
 <script type="math/tex; mode=display">
 \gamma=\min_{i=1,\cdots,N}\gamma_i</script><p><strong>函数间隔和几何间隔的特点：同时表示了分类的「正确性」和「确信度」</strong>（确信度见上文理解，正确性是因为<strong>如果分类错</strong>误，那么算出来的间隔会是<strong>负</strong>；分类正确才会得出正值，根据式子容易看出来）</p>
-<p>显然有函数间隔$\hat \gamma$与几何间隔$\gamma$的关系：$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$</p>
+<p>函数间隔无论如何改变，几何间隔都是<strong>不变</strong>的。<strong>表征特征空间上的关系的是几何间隔。</strong>（也就是SVM最常见的那个图）</p>
+<p>显然有<strong>函数间隔$\hat \gamma$与几何间隔$\gamma$的关系</strong>：$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$</p>
+<p>（$||w||$为向量$w$的第二范数，即$||w||=\sqrt{w_1^2+w_2^2+\cdots+w_n^2} $），后面取其平方以去掉根号方便计算）</p>
 <h2 id="硬间隔最大化"><a href="#硬间隔最大化" class="headerlink" title="硬间隔最大化"></a>硬间隔最大化</h2><p><strong>学习SVM的过程</strong>就是学习最优超平面的过程，也就是确定超平面$w·x+b$的参数$w,b$</p>
 <p><strong>什么是我们想要的最优的超平面（分类器）：「尽可能</strong>提高<strong>最</strong>难以分类的点的<strong>分类确信度</strong>」。</p>
 <p><strong>从几何角度解释：</strong>使得离超平面最近的样本点到超平面的距离最大的超平面，「也就是说要尽量<u>扩大</u><strong>超平面</strong>与<strong>离超平面最近点</strong>的<u>间隔</u>」。这就是<strong>间隔最大化</strong></p>
@@ -446,9 +449,76 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 <script type="math/tex; mode=display">
 \max_{w,b}\gamma</script><script type="math/tex; mode=display">
 s.t.\quad y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})≥\gamma,i=1,2,\cdots,N</script><p>即：<strong>尽量提高几何间隔的下限</strong></p>
-<p>为了由$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$，可把问题改写（但实际还是几何间隔）为用函数间隔表示为：</p>
+<p>为了由$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$，可把问题改写（但实际还是几何间隔）为<strong>用函数间隔表示</strong>为：</p>
 <p>$\max_{w,b}\frac{\hat\gamma}{||w||}$</p>
 <p>$s.t.\quad y_i(w·x_i+b)≥\hat\gamma,i=1,2,\cdots,N$</p>
+<p>前面说过，函数间隔不会影响解的结果，也就是将$w,b$按比例改变，函数间隔虽然变了，但超平面是没变的。</p>
+<p>于是，我们想到<strong>直接将函数间隔人为设定为1</strong>，就相当于让$w,b$以一个比例缩放，使得函数间隔$\hat\gamma=1$，这个乘上的比例因子是多少我们不需要求它，因为即使$w,b$以一个未知的比例等比缩放了，求得的超平面还是一样的，<strong>约束优化问题还是等价的</strong>，（此时几何间隔为$\gamma=\frac{1}{||w||}$），也就是将<strong>问题等价简化为</strong>：</p>
+<p>$\max_{w,b}\frac{1}{||w||}$</p>
+<p>$s.t.\quad y_i(w·x_i+b)≥1,i=1,2,\cdots,N$</p>
+<p>显然$\max_{w,b}\frac{1}{||w||}$<strong>等价于</strong>$\min_{w,b}\frac{1}{2}||w||^2$，则原问题改写为一个易于求解的<strong>凸二次规划问题</strong>：</p>
+<script type="math/tex; mode=display">
+\min_{w,b}\frac{1}{2}||w||^2</script><script type="math/tex; mode=display">
+s.t.\quad y_i(w·x_i+b)-1≥0,i=1,2,\cdots,N</script><p>求得该凸二次规划问题即可得到最优解$w^o,b^o$</p>
+<p>由此得到分离超平面$w^o·x+b^o=0$，分类决策函数$f(x)=sign(w^o·x+b^o)$</p>
+<p>这个求解过程就是线性可分SVM的学习算法：<strong>最大间隔法(maximum margin method)</strong></p>
+<p>线性可分SVM的最大间隔分离超平面<strong>存在</strong>且<strong>唯一</strong>（证略）</p>
+<hr>
+<p><strong>支持向量(support vector)：</strong>训练数据集中的样本点与分离超平面距离最近的样本点的实例</p>
+<p>支持向量点$(x_i,y_i)$是使得约束条件取等号：$y_i(w·x_i+b)-1=0$的点</p>
+<p>对于正例：$y_i=+1,支持向量在超平面\quad w·x+b=1$上；</p>
+<p>对于负例：$y_i=-1,支持向量在超平面\quad w·x+b=-1$上</p>
+<p><strong>支持向量到超平面的距离就是几何间隔</strong>$\gamma=\frac{\hat \gamma}{||w||}$，由于设定了$\hat \gamma=1$，则$\gamma=\frac{1}{||w||}$</p>
+<p>两个超平面的距离称为<strong>间隔(margin)</strong>。$\therefore 间隔 =\frac{2}{||w||}$，两个超平面称为间隔边界。</p>
+<p>支持向量在确定分离超平面上取决定性作用，SVM实际上是由很少的重要的训练样本——支持向量所确定的，所以才得名支持向量机(Support Vector Machines)</p>
+<h2 id="通过拉格朗日对偶性求解硬间隔最大化"><a href="#通过拉格朗日对偶性求解硬间隔最大化" class="headerlink" title="通过拉格朗日对偶性求解硬间隔最大化"></a>通过拉格朗日对偶性求解硬间隔最大化</h2><p>也叫线性可分SVM的<strong>对偶算法(dual alogorithm)</strong>。这样做①对偶问题往往更容易求解②自然引入核函数，可以进而推广到非线性SVM</p>
+<p>见前面拉格朗日乘子与对偶性专题，这里就不详细解释了。</p>
+<p>对于上一节的凸二次规划问题，首先<strong>引入拉格朗日函数</strong>(<strong>这里$w,b$是我们的目标变量，相当于标准形式中的$x$</strong>)</p>
+<p>这里是减去拉格朗日乘子项</p>
+<script type="math/tex; mode=display">
+L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>根据拉格朗日对偶性，原始问题满足Slater条件，<strong>转换为对偶问题</strong>：</p>
+<script type="math/tex; mode=display">
+\min_{w,b}\frac{1}{2}||w||^2=L(w,b,\alpha)=\min_{w,\beta}\max_\alpha L(w,b,\alpha)=\max_\alpha \min_{w,\beta}L(w,b,\alpha)</script><p>于是求内部问题$\min_{w,\beta}L(w,b,\alpha)$：</p>
+<p>对两个独立变量的子式使用零导数法：</p>
+<p>$\nabla_w L(w,b,\alpha)=w-\sum_{i=1}^N\alpha_iy_ix_i=0$（<strong>注意</strong>第二范数求导：见后记2）</p>
+<p>$\nabla_b L(w,b,\alpha)=-\sum_{i=1}^N\alpha_iy_i=0$</p>
+<p>$\therefore w=\sum_{i=1}^N\alpha_iy_ix_i,\quad\sum_{i=1}^N\alpha_iy_i=0$</p>
+<p>回代$L(w,b,\alpha)$得：</p>
+<p>$L(w,b,\alpha)=\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_iy_i((\sum_{j=1}^N\alpha_jy_jx_j)·x_i+b)+\sum_{i=1}^N\alpha_i$</p>
+<p>$=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
+<p><strong>这里注意</strong>①2-范数运算，见后记3 ②无关求和代入的时候，求和符号的迭代变量要换一个以免重合</p>
+<p>于是<strong>问题等价为外部问题</strong>，求：</p>
+<p>$\max_\alpha-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
+<p>$s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N$</p>
+<p>转化为易求的$\min$形式</p>
+<script type="math/tex; mode=display">
+\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
+s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N</script><p><strong>满足朗格朗日对偶性中的KKT条件</strong>，则</p>
+<h2 id="线性可分SVM学习算法总结"><a href="#线性可分SVM学习算法总结" class="headerlink" title="线性可分SVM学习算法总结"></a>线性可分SVM学习算法总结</h2><p>又上可得，线性可分支持向量机学习算法：略（整理整理就是了）</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p><strong>凸二次规划问题</strong></p>
+<script type="math/tex; mode=display">
+ \min_w f(w)</script><script type="math/tex; mode=display">
+ s.t. \quad g_i(w)≤0\quad,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
+ s.t. \quad h_i(w)=0\quad,i=1,2,\cdots,l</script><p> 其中目标函数$f(w)$和约束函数$g_i(w)$都是$\mathbb R^n$上的连续可微<strong>凸函数</strong>，约束函数$h_i(w)$是$\mathbb R^n$上的仿射函数。</p>
+<p> 在此之上，当目标函数$f(w)$是<strong>二次函数</strong>且约束函数$g_i(w)$是<strong>仿射函数</strong>时，上述凸最优化问题转化为凸二次规划问题。</p>
+<p> <strong>凸二次规划问题满足拉格朗日对偶性中的Slater条件和KKT条件</strong></p>
+</li>
+<li><p>2-范数求导</p>
+<p>$\frac{\partial\frac{1}{2}||w||^2}{\partial w}=\frac{\frac{1}{2} \partial(\sqrt{w_1^2+w_2^2+\cdots+w_n^2})^2}{\partial (w_1,w_2,\cdots,w_n)}=\frac{\frac{1}{2} \partial (w_1^2+w_2^2+\cdots+w_n^2)}{\partial (w_1,w_2,\cdots,w_n)}$</p>
+<p>$=(\frac{\frac{1}{2} \partial w_1^2}{\partial (w_1,w_2,\cdots,w_n)},\frac{\frac{1}{2} \partial w_2^2}{\partial (w_1,w_2,\cdots,w_n)},\cdots,\frac{\frac{1}{2} \partial w_n^2}{\partial (w_1,w_2,\cdots,w_n)})$</p>
+<p>对于每个子分子中的求导变量$w_i$，分母中只有$w_i$为对应维度的变量，所以是对每个维度分别求导</p>
+<p>$\therefore 原式 = (w_1,w_2,\cdots,w_n)=w$</p>
+</li>
+<li><p>复合矩阵范数计算</p>
+<p>$||w||^2=w^Tw=$</p>
+<p>$\therefore ||\sum_{i=1}^N\alpha_iy_ix_i||=\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)$</p>
+</li>
+<li><p>注意求和函数的作用域，如果作用域内还有迭代变量，不能直接局部求和</p>
+</li>
+<li><p>$w·x=w^Tx$</p>
+</li>
+</ol>
 
       
     </div>
@@ -672,7 +742,7 @@ s.t.\quad y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})≥\gamma,i=1,2,\cdots,N</scr
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Support-Vector-Machines"><span class="nav-number">1.</span> <span class="nav-text">Support Vector Machines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从逻辑斯谛回归LR来理解SVM"><span class="nav-number">3.</span> <span class="nav-text">从逻辑斯谛回归LR来理解SVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔表示"><span class="nav-number">4.</span> <span class="nav-text">间隔表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬间隔最大化"><span class="nav-number">5.</span> <span class="nav-text">硬间隔最大化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Support-Vector-Machines"><span class="nav-number">1.</span> <span class="nav-text">Support Vector Machines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从逻辑斯谛回归LR来理解SVM"><span class="nav-number">3.</span> <span class="nav-text">从逻辑斯谛回归LR来理解SVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔表示"><span class="nav-number">4.</span> <span class="nav-text">间隔表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬间隔最大化"><span class="nav-number">5.</span> <span class="nav-text">硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过拉格朗日对偶性求解硬间隔最大化"><span class="nav-number">6.</span> <span class="nav-text">通过拉格朗日对偶性求解硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分SVM学习算法总结"><span class="nav-number">7.</span> <span class="nav-text">线性可分SVM学习算法总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">8.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

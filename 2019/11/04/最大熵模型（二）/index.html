@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-07T03:59:27.124Z">
+<meta property="og:updated_time" content="2019-11-08T03:50:41.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型（二）">
 <meta name="twitter:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
@@ -474,7 +474,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
 </li>
 <li><p>拉格朗日对偶性见专题</p>
 </li>
-<li><p>拉个朗日对偶性求解的外部$\max_{w}$为什么不用零导数法？因为这时候可以用最优化算法来求了。零导数法一堆变量$w_i$没法求 （O）</p>
+<li><p>拉个朗日对偶性求解的外部$\max_{w}$为什么不用零导数法？因为将内部求出的表达式代入回去之后发现无法分离出独立变量的子式，无法用零导法来求</p>
 </li>
 </ol>
 

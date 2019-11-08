@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Intro假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题  \min_{x∈\mathbb R^n}f(x) s.t.\quad c_i(x)≤0,i=1,2,\cdots,k s.t.\quad h_j(x)=0,j=1,2,\cdots,l称此约束最优化问题为原始最优化问题或原始问题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-07T06:13:20.637Z">
+<meta property="og:updated_time" content="2019-11-08T08:36:35.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="拉格朗日乘子与对偶性">
 <meta name="twitter:description" content="Intro假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题  \min_{x∈\mathbb R^n}f(x) s.t.\quad c_i(x)≤0,i=1,2,\cdots,k s.t.\quad h_j(x)=0,j=1,2,\cdots,l称此约束最优化问题为原始最优化问题或原始问题">
@@ -427,7 +427,7 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
 <script type="math/tex; mode=display">
 \max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)</script><p>设$p^o=\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)$</p>
 <p><strong>为什么要有对偶问题：有时候对偶问题比极小极大问题更好求解。因为里面的$\min_x L(x,\alpha,\beta)$是只有$x$为变量且没有任何限制的，于是就可以尽情使用0导数法求得内部极值为一个关于$\alpha,\beta$表达式，这时候再求外部问题，只需要求使得外部问题最大化的$\alpha,\beta$即可。</strong></p>
-<p><strong>举例</strong>：在MEM中，就是先求里面的极小化问题以$x$为变量求出最小的$P_w$，然后就只需要再求出能使$P_w$极大化的$w$即可，外部极大化$P_w$可证等于MLE（不用零导法，这么多变量怎么零导法），具体的方法，如IIS，牛顿法与伪牛顿法，梯度下降。</p>
+<p><strong>举例</strong>：在MEM中，就是先求里面的极小化问题以$x$为变量求出最小的$P_w$，然后就只需要再求出能使$P_w$极大化的$w$即可，外部极大化$P_w$可证等于MLE，具体的方法，如IIS，牛顿法与伪牛顿法，梯度下降。</p>
 <p><strong>定理$1^o$：</strong>若原始问题和对偶问题都有最优值，则：</p>
 <p><strong>对偶问题≤原始问题（或其广义拉格朗日极小极大问题）</strong></p>
 <script type="math/tex; mode=display">
@@ -438,17 +438,33 @@ p^o=\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)≤\arg \min_x\max_{\
 <p><strong>推论$1^o$：</strong> 设$x^o$和$\alpha^o,\beta^o$分别是原始问题和对偶问题的可行解，并且$d^o=p^o$，则$x^o$和$\alpha^o,\beta^o$分别是原始问题和对偶问题的最优解。 </p>
 <p>翻译：若存在<strong>某个解</strong>使得原始问题和对偶问题的<strong>最优值</strong>相同，那么这个解<strong>同时是</strong>原始问题和对偶问题的<strong>最优解（即值同解同）</strong></p>
 <p>注意<strong>解</strong>是$\alpha,\beta,x$，<strong>值</strong>是式子的值$p^o,d^o$</p>
-<p><strong>定理$2^o$：</strong>考虑原始问题和对偶问题，假设函数$f(x)$和$c_i(x)$是<strong>凸函数</strong>，$h_j(x)$是<strong>仿射函数</strong>；并且假设不等式<strong>约束</strong>$c_i(x)$是严格可行的，即存在$x$，对所有$i$有$c_i(x)&lt;0$，则存在$x^o$和$\alpha^o,\beta^o$，使$x^o$是原始问题的解，$\alpha^o,\beta^o$是对偶问题的解，并且有$p^o=d^o=L(x^o,\alpha^o,\beta^o)$。也叫<strong>Slater条件</strong>。</p>
-<p>翻译：在某些条件下，存在最优解且使得原始问题最优值=对偶问题最优值（即相同最优解<strong>存在</strong>），<strong>即强对偶性成立</strong></p>
-<p><strong>「也就是说只要满足凸函数+仿射函数+约束，那么强对偶性就成立，原始问题和对偶问题就完全等价」</strong></p>
+<p><strong>定理$2^o$：</strong>考虑原始问题和对偶问题，假设函数$f(x)$和$c_i(x)$是<strong>凸函数</strong>，$h_j(x)$是<strong>仿射函数</strong>；并且假设不等式<strong>约束</strong>$c_i(x)$是严格可行的，即存在$x$，对所有$i$有$c_i(x)&lt;0$，则存在$x^o$和$\alpha^o,\beta^o$，使$x^o$是原始问题的解，$\alpha^o,\beta^o$是对偶问题的解，并且有$p^o=d^o=L(x^o,\alpha^o,\beta^o)$。此即<strong>Slater条件</strong>。</p>
+<p>翻译：在某些条件下，存在最优解且使得原始问题最优值=对偶问题最优值（即相同最优解<strong>存在</strong>），<strong>即强对偶性成立：</strong></p>
+<script type="math/tex; mode=display">
+原始问题等价于\max_{\alpha,\beta:\alpha≥0} \min_x L(x,\alpha,\beta)</script><p>「<strong>也就是说</strong>只要满足<strong>目标函数和不等式约束为凸函数</strong>+<strong>等式约束为仿射函数</strong>，<strong>那么强对偶性就成立</strong>，原始问题和对偶问题就完全等价」</p>
 <p><strong>定理$3^o$：在定理2的条件的基础上，$x^o,\alpha^o,\beta^o$分别是原始问题和对偶问题的解的充分必要条件</strong>是，$x^o,\alpha^o,\beta^o$ 满足下面的<strong>KKT(Karush-Kuhn-Tucker)条件</strong>：</p>
 <script type="math/tex; mode=display">
 \nabla_xL(x^o,\alpha^o,\beta^o)=0</script><script type="math/tex; mode=display">
 \alpha^o_ic_i(x^o)=0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
 c_i(x^o)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
 \alpha_i^o≥0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
-h_j(x^o)=0,j=1,2,\cdots,l</script><p><strong>也就是说只要满足强对偶性（定理2的条件），只要再加一条其目标函数与约束函数可微 ，就会满足KKT条件</strong></p>
+h_j(x^o)=0,j=1,2,\cdots,l</script><p>「<strong>也就是说</strong>只要<strong>满足强对偶性（Slater条件）</strong>，只要再加一条其<strong>目标函数与约束函数可微</strong> ，就会<strong>满足KKT条件</strong>」</p>
+<p>(毕竟KKT的内容就有求微分)</p>
 <p>第二个式子称为KKT的对偶互补条件，由此条件可知，若$\alpha_i^o＞0,则c_i(x^o)=0$。</p>
+<h2 id="关于零导数法求极值"><a href="#关于零导数法求极值" class="headerlink" title="关于零导数法求极值"></a>关于零导数法求极值</h2><p>对于极值问题，使用零导数法。</p>
+<p>假定求$\min_{x,y,z}L(x,y,z),\quad L(x,y,z)=f(x)+g(y)+q(z)$</p>
+<p>就可以对各个变量分别求偏导零导数：</p>
+<p>$\nabla L(x,y,z)=0 \to \nabla_x f(x)=0,\nabla_y g(y)=0,\nabla_z q(z)=0 $</p>
+<hr>
+<p>但如果各个子式之间变量无法分离，如：</p>
+<p>$\min_{x,y,z}L(x,y,z),\quad L(x,y,z)=f(x,y)+g(y,z)+q(x,y,z)$</p>
+<p>那就得考虑如$\nabla_{x,y}f(x,y)=0$同时满足$x,y$，需要用<strong>多元函数求极值的方法</strong>。</p>
+<p>具体就是</p>
+<p>①解$\nabla_{x}f(x,y)=0,\nabla_{y}f(x,y)=0$，求出一切驻点。</p>
+<p>②对于每一个驻点$(x_0，y_0)$，求出二阶偏导数的值A、B、C</p>
+<p>③定出$AC-B^2$的符号，按充分条件进行判定$f(x_0，y_0)$是否是极大值、极小值。 </p>
+<p>这只是二元不独立的情况，如果变量更多，是<strong>很难求甚至没法求的。所以这种情况下一般不用零导数法</strong>（比如IIS中就是因为这个原因要构造第二下界来求解）</p>
+<p>（另外也要根据函数本身判断）</p>
 
       
     </div>
@@ -676,7 +692,7 @@ h_j(x^o)=0,j=1,2,\cdots,l</script><p><strong>也就是说只要满足强对偶�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉格朗日乘子法"><span class="nav-number">2.</span> <span class="nav-text">拉格朗日乘子法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广义拉格朗日极小极大问题"><span class="nav-number">3.</span> <span class="nav-text">广义拉格朗日极小极大问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对偶问题"><span class="nav-number">4.</span> <span class="nav-text">对偶问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉格朗日乘子法"><span class="nav-number">2.</span> <span class="nav-text">拉格朗日乘子法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广义拉格朗日极小极大问题"><span class="nav-number">3.</span> <span class="nav-text">广义拉格朗日极小极大问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对偶问题"><span class="nav-number">4.</span> <span class="nav-text">对偶问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于零导数法求极值"><span class="nav-number">5.</span> <span class="nav-text">关于零导数法求极值</span></a></li></ol></div>
             
 
           </div>
