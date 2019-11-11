@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-08T03:50:41.218Z">
+<meta property="og:updated_time" content="2019-11-11T08:36:07.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最大熵模型（二）">
 <meta name="twitter:description" content="最大熵模型求解$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性使用拉格朗日乘子法： $L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$ $=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))">
@@ -403,7 +403,7 @@
 <p>$+\sum_{i=1}^nw_i(\sum_{x,y}\hat P(x,y)f_i(x,y)-\sum_{x,y} \hat P(x)P(y|x)f_i(x,y))$</p>
 <p>难以求极值，<strong>转化为广义拉格朗日极大极小问题</strong>，于是我们需要优化：</p>
 <script type="math/tex; mode=display">
-\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>于是该优化问题等价于其对偶问题</strong>：</p>
+\min_{P∈\mathbb C}\max_wL(P,w)</script><p>由于拉格朗日函数$L(P,w)$是$P$的凸函数，<strong>满足KKT条件</strong>，<strong>于是该优化问题等价于其对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
 \max_w \min_{P∈\mathbb C}L(P,w)</script><p>（<strong>更多阅读拉格朗日乘子和对偶性专题</strong>）</p>
 <a id="more"></a>
@@ -611,7 +611,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">122</span>
+                  <span class="site-state-item-count">123</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -633,7 +633,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
