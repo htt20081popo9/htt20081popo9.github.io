@@ -146,7 +146,7 @@ s.t.\quad y_i(w·x_i+b)-1≥0,i=1,2,\cdots,N</script><p>求得该凸二次规划
 <p>对于上一节的凸二次规划问题，首先<strong>引入拉格朗日函数</strong>(<strong>这里$w,b$是我们的目标变量，相当于标准形式中的$x$</strong>)</p>
 <p>这里是减去拉格朗日乘子项</p>
 <script type="math/tex; mode=display">
-L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>注意这里设置减去算子项，是为了后面用KKT条件的时候，构造出$\alpha_i≥0$（<strong>不等式约束的乘子$\alpha$要规定$\alpha≥0$</strong>，是为了满足后文KKT的对偶可行条件）</p>
+L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>注意这里设置<strong>减去算子项</strong>，是为了后面用KKT条件的时候，构造出$\alpha_i≥0$（<strong>不等式约束的乘子$\alpha$要规定$\alpha≥0$</strong>，是为了满足后文KKT的对偶可行条件）</p>
 <p>根据拉格朗日对偶性，原始问题满足Slater条件，<strong>转换为对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
 \min_{w,b}\frac{1}{2}||w||^2=L(w,b,\alpha)=\min_{w,\beta}\max_\alpha L(w,b,\alpha)=\max_\alpha \min_{w,\beta}L(w,b,\alpha)</script><p>于是求内部问题$\min_{w,\beta}L(w,b,\alpha)$：</p>
@@ -167,7 +167,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N</script><p>于是这里就用通用的算法来求解此二次规划问题(<strong>用SMO求解</strong>，见后面的专题)</p>
 <p><strong>假设已经求出</strong>对偶最优化的最优解为$\alpha^o$，于是可以求得原始最优化对$(w,b)$的解：$w^o,b^o$</p>
 <p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解</p>
-<p><strong>于是可以得到：</strong>（<strong>可以由原始问题</strong>拉格朗日表达式对$w$求导得到见上；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
+<p><strong>于是可以得到：</strong>（<strong>可以由等价关系得：</strong>拉格朗日表达式对$w$求导得到见上求对偶问题最小化的时候，就已经求出来了内部极值$w^o,b^o$与$\alpha$的关系；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
 <p>$\nabla_wL(w^o,\beta^o,\alpha^o)=0$得到）（顺便后记-6附上了这里的所有KKT条件表达式）：</p>
 <script type="math/tex; mode=display">
 w^o=\sum_{i=1}^N\alpha_i^oy_ix_i</script><p>对于$\alpha_i≥0$，至少存在一个$\alpha_j＞0$（反证法，若全$=0$，则回代上面公式得$w=0$，非解，矛盾；另外<strong>该乘子对应的样本点就是支持向量</strong>）</p>
