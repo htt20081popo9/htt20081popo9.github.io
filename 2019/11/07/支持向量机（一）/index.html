@@ -82,14 +82,14 @@
 <meta name="description" content="Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
 <meta name="keywords" content="凸优化,SVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线性可分支持向量机">
+<meta property="og:title" content="线性（可分）支持向量机">
 <meta property="og:url" content="https://aisakaki.com/2019/11/07/支持向量机（一）/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-11T12:06:46.513Z">
+<meta property="og:updated_time" content="2019-11-12T03:33:03.977Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线性可分支持向量机">
+<meta name="twitter:title" content="线性（可分）支持向量机">
 <meta name="twitter:description" content="Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>线性可分支持向量机 | 宵晓咲</title>
+  <title>线性（可分）支持向量机 | 宵晓咲</title>
   
 
 
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线性可分支持向量机</h1>
+          <h1 class="post-title" itemprop="name headline">线性（可分）支持向量机</h1>
         
 
         <div class="post-meta">
@@ -449,6 +449,7 @@ f(x)=\begin{cases} +1,w^o·x+b^o≥0\\ -1,w^o·x+b^o＜0 \end{cases}</script><p>
 <script type="math/tex; mode=display">
 \max_{w,b}\gamma</script><script type="math/tex; mode=display">
 s.t.\quad y_i(\frac{w}{||w||}·x_i+\frac{b}{||w||})≥\gamma,i=1,2,\cdots,N</script><p>即：<strong>尽量提高几何间隔的下限</strong></p>
+<p>需求解使得目标函数最优的参数$w,b$</p>
 <p>为了由$\gamma_i=\frac{\hat \gamma_i}{||w||},\gamma=\frac{\hat \gamma}{||w||}$，可把问题改写（但实际还是几何间隔）为<strong>用函数间隔表示</strong>为：</p>
 <p>$\max_{w,b}\frac{\hat\gamma}{||w||}$</p>
 <p>$s.t.\quad y_i(w·x_i+b)≥\hat\gamma,i=1,2,\cdots,N$</p>
@@ -474,7 +475,7 @@ s.t.\quad y_i(w·x_i+b)-1≥0,i=1,2,\cdots,N</script><p>求得该凸二次规划
 <h2 id="通过拉格朗日对偶性求解硬间隔最大化"><a href="#通过拉格朗日对偶性求解硬间隔最大化" class="headerlink" title="通过拉格朗日对偶性求解硬间隔最大化"></a>通过拉格朗日对偶性求解硬间隔最大化</h2><p>也叫线性可分SVM的<strong>对偶算法(dual alogorithm)</strong>。这样做①对偶问题往往更容易求解②自然引入核函数，可以进而推广到非线性SVM</p>
 <p>见前面拉格朗日乘子与对偶性专题，这里就不详细解释了。</p>
 <p>对于上一节的凸二次规划问题，首先<strong>引入拉格朗日函数</strong>(<strong>这里$w,b$是我们的目标变量，相当于标准形式中的$x$</strong>)</p>
-<p>这里是减去拉格朗日乘子项</p>
+<p>这里是<strong>减去</strong>拉格朗日乘子项（加乘子项也可以，但推理表示会麻烦一些，所以记得用减乘子项！）</p>
 <script type="math/tex; mode=display">
 L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>注意这里设置<strong>减去算子项</strong>，是为了后面用KKT条件的时候，构造出$\alpha_i≥0$（<strong>不等式约束的乘子$\alpha$要规定$\alpha≥0$</strong>，是为了满足后文KKT的对偶可行条件）</p>
 <p>根据拉格朗日对偶性，原始问题满足Slater条件，<strong>转换为对偶问题</strong>：</p>
@@ -483,7 +484,8 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 <p>对两个独立变量的子式使用零导数法：</p>
 <p>$\nabla_w L(w,b,\alpha)=w-\sum_{i=1}^N\alpha_iy_ix_i=0$（<strong>注意</strong>第二范数求导：见后记2）</p>
 <p>$\nabla_b L(w,b,\alpha)=-\sum_{i=1}^N\alpha_iy_i=0$</p>
-<p>$\therefore w=\sum_{i=1}^N\alpha_iy_ix_i,\quad\sum_{i=1}^N\alpha_iy_i=0$（后面那个<strong>不能丢</strong>，作为对偶问题的限制条件！）</p>
+<p>$\therefore w=\sum_{i=1}^N\alpha_iy_ix_i$</p>
+<p>$\sum_{i=1}^N\alpha_iy_i=0$（<strong>不能丢，作为对偶问题的约束条件！</strong>除非是像第一个能够将原式所有的$w$全部替换的形式，这样该约束条件实质就已经被完全包含在代入后的式子中而失效了，才可以丢）</p>
 <p>回代$L(w,b,\alpha)$得：</p>
 <p>$L(w,b,\alpha)=\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_iy_i((\sum_{j=1}^N\alpha_jy_jx_j)·x_i+b)+\sum_{i=1}^N\alpha_i$</p>
 <p>$=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
@@ -497,7 +499,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N</script><p>于是这里就用通用的算法来求解此二次规划问题(<strong>用SMO求解</strong>，见后面的专题)</p>
 <p><strong>假设已经求出</strong>对偶最优化的最优解为$\alpha^o$，于是可以求得原始最优化对$(w,b)$的解：$w^o,b^o$</p>
 <p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解</p>
-<p><strong>于是可以得到：</strong>（<strong>可以由等价关系得：</strong>拉格朗日表达式对$w$求导得到见上求对偶问题最小化的时候，就已经求出来了内部极值$w^o,b^o$与$\alpha$的关系；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
+<p><strong>于是可以得到：</strong>（<strong>可以由等价关系得：</strong>拉格朗日表达式对$w$求导得到见上求对偶问题最小化的时候，就已经求出来了内部极值$w^o,b^o$与$\alpha$的关系表达式；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
 <p>$\nabla_wL(w^o,\beta^o,\alpha^o)=0$得到）（顺便后记-6附上了这里的所有KKT条件表达式）：</p>
 <script type="math/tex; mode=display">
 w^o=\sum_{i=1}^N\alpha_i^oy_ix_i</script><p>对于$\alpha_i≥0$，至少存在一个$\alpha_j＞0$（反证法，若全$=0$，则回代上面公式得$w=0$，非解，矛盾；另外<strong>该乘子对应的样本点就是支持向量</strong>）</p>
@@ -514,6 +516,26 @@ b^o=y_j-\sum_{i=1}^N\alpha_i^oy_i(x_i·x_j)</script><p>根据前面原始问题�
 <p><strong>②训练的时候，$b^o,w^o$的取值只与$\alpha_i^o＞0$的样本$x_i$有关，也就是只和支持向量有关。</strong></p>
 <p>这与前面定义的概念相符</p>
 <h2 id="线性可分SVM学习算法总结"><a href="#线性可分SVM学习算法总结" class="headerlink" title="线性可分SVM学习算法总结"></a>线性可分SVM学习算法总结</h2><p>由上可得，线性可分支持向量机学习算法：略（整理整理就是了）</p>
+<h2 id="线性支持向量机"><a href="#线性支持向量机" class="headerlink" title="线性支持向量机"></a>线性支持向量机</h2><p>我们引入<strong>松弛变量</strong>$\epsilon_i≥0$，使得$y_i(w·x_i+b)+\epsilon_i≥1$，也即$y_i(w·x_i+b)≥1-\epsilon_i$</p>
+<p>同时目标函数变为$\frac{1}{2}||w||^2+C\sum_{i=1}^N\epsilon_i$（引入目的是使得对每个松弛变量$\epsilon_i$都支付一个代价$\epsilon_i$，代价也可以设定为$\epsilon^2$等）</p>
+<p>$C&gt;0$是<strong>惩罚参数</strong>，值越大则对误分类的惩罚越大，反之反之</p>
+<p>$C$是需要自己设定的</p>
+<p>问题变成了<strong>软间隔最大化</strong>：</p>
+<script type="math/tex; mode=display">
+\min_{w,b,\epsilon}\frac{1}{2}||w||^2+C\sum_{i=1}^N\epsilon_i</script><script type="math/tex; mode=display">
+s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type="math/tex; mode=display">
+\epsilon_i≥0\quad,i=1,2,\cdots,N</script><p>需求解使得目标函数最优的参数$w,b,\epsilon$</p>
+<p>此目标函数即包含了①前项表使得间隔尽量小②后项表使得误分类点尽量少，$C$即是二者的调和系数</p>
+<p>注意用拉格朗日乘子法依然是<strong>减去</strong>乘子项，依然注意求得的对偶问题约束条件</p>
+<p>对于求得的对偶约束条件被用来消去之后，$C-\alpha_i-\mu_i=0,\alpha_i≥0,\mu_i≥0$会被合写为$0≤\alpha_i≤C$，且可以证得不能取等号，即为：$0＜\alpha_i＜C$</p>
+<p>最后推得的结果会发现，与线性可分SVM的区别在于<strong>约束条件多了一个限制</strong>：$0＜\alpha_i＜C,i=1,2,\cdots,N$，在计算$w^o$的时候，<strong>选取的$\alpha^o_j$需要考虑此条件</strong>（也就是说不符合此条件的$\alpha^o_j$对应的$x_j$会被忽略掉，或者说<strong>不拿来训练模型</strong>。<strong>这些点就是不可分点、误分类点、非支持向量点</strong>。我们可以<strong>类比线性可分SVM</strong>，在线性可分SVM中计算$w$时候，选$\alpha_j$的约束条件为$\alpha^o_j＞0$，也就是说只获取支持向量（事实上此约束不成立的点即$\alpha^o_j=0$，回代$w$即发现$x_j$与原式无关，自然也就等同于“选择$\alpha^o_j＞0$”，但在线性SVM的约束$0＜\alpha_i＜C,i=1,2,\cdots,N$中，就真的是要选择了））</p>
+<p><strong>具体来说</strong>：对于实例$x_i$到间隔边界的距离为$\frac{\epsilon_i}{||w||}$。</p>
+<p>若$\alpha^o_i＜C$，则$\epsilon_i=0$，支持向量$x_i$恰好落在间隔边界上；</p>
+<p>若$\alpha^o_i=C,0＜\epsilon_i＜1$，则分类正确，$x_i$在间隔边界与分离超平面之间；</p>
+<p>若$\alpha^o_i=C,\epsilon_i=1$，则$x_i$在分离超平面上；若$\alpha^o_i=C,\epsilon_i＞1$，则$x_i$位于分离超平面误分类一侧。</p>
+<p>$b$的解可能不是唯一的（但一般实践只会出现一种情况）</p>
+<p>整体推导方法和线性可分SVM差不多，这里<strong>略</strong></p>
+<p>合页损失函数是线性SVM的另一种结束，这里<strong>略</strong></p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p><strong>凸二次规划问题</strong></p>
 <script type="math/tex; mode=display">
@@ -568,7 +590,7 @@ b^o=y_j-\sum_{i=1}^N\alpha_i^oy_i(x_i·x_j)</script><p>根据前面原始问题�
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/11/07/支持向量机（一）/" title="线性可分支持向量机">https://aisakaki.com/2019/11/07/支持向量机（一）/</a>
+    <a href="https://aisakaki.com/2019/11/07/支持向量机（一）/" title="线性（可分）支持向量机">https://aisakaki.com/2019/11/07/支持向量机（一）/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -783,7 +805,7 @@ b^o=y_j-\sum_{i=1}^N\alpha_i^oy_i(x_i·x_j)</script><p>根据前面原始问题�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Support-Vector-Machines"><span class="nav-number">1.</span> <span class="nav-text">Support Vector Machines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从逻辑斯谛回归LR来理解SVM"><span class="nav-number">3.</span> <span class="nav-text">从逻辑斯谛回归LR来理解SVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔表示"><span class="nav-number">4.</span> <span class="nav-text">间隔表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬间隔最大化"><span class="nav-number">5.</span> <span class="nav-text">硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过拉格朗日对偶性求解硬间隔最大化"><span class="nav-number">6.</span> <span class="nav-text">通过拉格朗日对偶性求解硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分SVM学习算法总结"><span class="nav-number">7.</span> <span class="nav-text">线性可分SVM学习算法总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">8.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Support-Vector-Machines"><span class="nav-number">1.</span> <span class="nav-text">Support Vector Machines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从逻辑斯谛回归LR来理解SVM"><span class="nav-number">3.</span> <span class="nav-text">从逻辑斯谛回归LR来理解SVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔表示"><span class="nav-number">4.</span> <span class="nav-text">间隔表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬间隔最大化"><span class="nav-number">5.</span> <span class="nav-text">硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过拉格朗日对偶性求解硬间隔最大化"><span class="nav-number">6.</span> <span class="nav-text">通过拉格朗日对偶性求解硬间隔最大化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分SVM学习算法总结"><span class="nav-number">7.</span> <span class="nav-text">线性可分SVM学习算法总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性支持向量机"><span class="nav-number">8.</span> <span class="nav-text">线性支持向量机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">9.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
