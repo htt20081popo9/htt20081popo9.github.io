@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-12T03:33:03.977Z">
+<meta property="og:updated_time" content="2019-11-12T08:14:03.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线性（可分）支持向量机">
 <meta name="twitter:description" content="Support Vector Machines支持向量机，SVM SVM应用于二分类问题。 输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。 线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。">
@@ -478,7 +478,7 @@ s.t.\quad y_i(w·x_i+b)-1≥0,i=1,2,\cdots,N</script><p>求得该凸二次规划
 <p>这里是<strong>减去</strong>拉格朗日乘子项（加乘子项也可以，但推理表示会麻烦一些，所以记得用减乘子项！）</p>
 <script type="math/tex; mode=display">
 L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>注意这里设置<strong>减去算子项</strong>，是为了后面用KKT条件的时候，构造出$\alpha_i≥0$（<strong>不等式约束的乘子$\alpha$要规定$\alpha≥0$</strong>，是为了满足后文KKT的对偶可行条件）</p>
-<p>根据拉格朗日对偶性，原始问题满足Slater条件，<strong>转换为对偶问题</strong>：</p>
+<p>根据拉格朗日对偶性，KKT条件是凸问题的充要条件，<strong>转换为等价对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
 \min_{w,b}\frac{1}{2}||w||^2=L(w,b,\alpha)=\min_{w,\beta}\max_\alpha L(w,b,\alpha)=\max_\alpha \min_{w,\beta}L(w,b,\alpha)</script><p>于是求内部问题$\min_{w,\beta}L(w,b,\alpha)$：</p>
 <p>对两个独立变量的子式使用零导数法：</p>
@@ -490,7 +490,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 <p>$L(w,b,\alpha)=\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_iy_i((\sum_{j=1}^N\alpha_jy_jx_j)·x_i+b)+\sum_{i=1}^N\alpha_i$</p>
 <p>$=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
 <p><strong>这里注意</strong>①2-范数运算，见后记3 ②无关求和代入的时候，求和符号的迭代变量要换一个以免重合</p>
-<p>于是<strong>问题等价为外部问题</strong>，求：</p>
+<p><strong>内部问题求解出来了，于是问题等价为外部问题</strong>，求：</p>
 <p>$\max_\alpha-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
 <p>$s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N$</p>
 <p>转化为易求的$\min$形式，此为<strong>求解算法的第一步公式：</strong></p>
@@ -498,7 +498,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 \min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
 s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N</script><p>于是这里就用通用的算法来求解此二次规划问题(<strong>用SMO求解</strong>，见后面的专题)</p>
 <p><strong>假设已经求出</strong>对偶最优化的最优解为$\alpha^o$，于是可以求得原始最优化对$(w,b)$的解：$w^o,b^o$</p>
-<p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解</p>
+<p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解（前面已经说明过等价，这里再强调一下）</p>
 <p><strong>于是可以得到：</strong>（<strong>可以由等价关系得：</strong>拉格朗日表达式对$w$求导得到见上求对偶问题最小化的时候，就已经求出来了内部极值$w^o,b^o$与$\alpha$的关系表达式；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
 <p>$\nabla_wL(w^o,\beta^o,\alpha^o)=0$得到）（顺便后记-6附上了这里的所有KKT条件表达式）：</p>
 <script type="math/tex; mode=display">
@@ -734,7 +734,7 @@ s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type=
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

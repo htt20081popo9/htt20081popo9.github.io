@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>非线性支持向量机</title>
+    <title>非线性支持向量机与序列最小最优化算法</title>
     <url>/2019/11/12/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</url>
     <content><![CDATA[<p><em>施工中</em></p>
-<a id="more"></a>]]></content>
+<p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
+<a id="more"></a>    
+<h2 id="核技巧"><a href="#核技巧" class="headerlink" title="核技巧"></a>核技巧</h2><p>kernel trick</p>
+<p>运用<strong>核技巧思想一</strong>，会发现如果我们想要直接计算映射，会非常困难。于是我们选择<strong>计算内积</strong>（<strong>将输入空间中的内积转换为输出空间的内积</strong>），恰好在使用SVM学习算法的时候，<strong>无论是目标函数还是决策函数都只涉及输入实例与实例之间的内积</strong>，于是有以下方法——</p>
+<p>在学习和预测中只定义核函数$K(x,z)$，而不显式定义映射函数$\phi$。因为通常直接计算核函数$K(x,z)$比较容易，而直接计算映射$\phi(x)和\phi(z)$并不容易。</p>
+<p>观察到线性SVM的对偶问题中，无论是目标函数还是决策函数都只涉及输入实例与实例之间的内积，于是在对偶问题的目标函数中的内积$x_i·x_j$可以用核函数$K(x_i,x_j)=\phi(x_i)·\phi(x_j)$来代替。此时：</p>
+<script type="math/tex; mode=display">
+对偶问题目标函数：\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
+最后的分类决策函数也修改：f(x)=sign(\sum_{i=1}^N\alpha_i^oy_iK(x_i,x_j)+b^o)</script><p><strong>然后就只需要按照原来的线性可分SVM的学习算法</strong>，求对偶问题的外部问题，即求极值下的最优参数$\alpha^o$（可用SMO），然后再用KKT或等价求得$w^o,b^o$，得到超平面表达式</p>
+<p>这等价于经过映射函数$\phi$将原来的输入空间变换到一个新的特征空间，<strong>将输入空间中的内积$x_i·x_j$变换为特征空间中的内积$\phi(x_i)·\phi(x_j)$</strong></p>
+<p><strong>总结一下，核方法做了两件事：①样本空间映射到特征空间②计算了两样本在特征空间的内积</strong>（核技巧）</p>
+<h2 id="寻找核函数-正定核"><a href="#寻找核函数-正定核" class="headerlink" title="寻找核函数-正定核"></a>寻找核函数-正定核</h2><p>函数$F(x,z)$满足什么条件才能成为核函数？也就是说对于映射函数$\phi$，直接计算$F(x,z)$即可而不用计算$\phi(x),\phi(z)$的条件是什么？</p>
+<p>这种核函数一般都是<strong>正定核</strong>，直接给出结论：</p>
+<p><strong>正定核的充要条件</strong>：设$K:\mathbb X×\mathbb X\to \mathbb R$是<strong>对称函数</strong>，则$K(x,z)$为正定核函数的<strong>充要条件</strong>是对任意$x_i∈\mathbb X,i=1,2,\cdots,m,K(x,z)$对应的<strong>Gram矩阵</strong>：</p>
+<script type="math/tex; mode=display">
+K=[K(x_i,x_j)]_{m×m}</script><p>是<strong>半正定矩阵</strong>（见后记-1）</p>
+<p><strong>正定核的等价定义</strong>：设$\mathbb X \subset \mathbb R^n,K(x,z)$是定义在$\mathbb X×\mathbb X$上的<strong>对称函数</strong>，如果对任意</p>
+<p>$x_i∈\mathbb X,i=1,2,\cdots,m,K(x,z)$对应的<strong>Gram矩阵</strong>：</p>
+<script type="math/tex; mode=display">
+K=[K(x_i,x_j)]_{m×m}</script><p>是<strong>半正定矩阵</strong>，则称$K(x,z)$是正定核</p>
+<p>推导和证明略（先定义映射，构造向量空间；再构造内积空间；再完备化为希尔伯特空间；再在此之上证明）</p>
+<p>这一定义在构造核函数的时候很有用，但要验证某函数是否为正定核函数是不容易的，因为要对所有输入集验证$K$对应的Gram矩阵是否为半正定矩阵。所以在实际问题中一般使用已有的核函数，见下</p>
+<h2 id="常用核函数"><a href="#常用核函数" class="headerlink" title="常用核函数"></a>常用核函数</h2><ol>
+<li><p>多项式核函数</p>
+<script type="math/tex; mode=display">
+K(x,z)=(x·z+1)^p</script></li>
+<li><p>高斯核函数</p>
+<script type="math/tex; mode=display">
+K(x,z)=e^{-\frac{||x-z||^2}{2\sigma^2}}</script></li>
+<li><p>字符串核函数</p>
+</li>
+</ol>
+<h2 id="非线性支持向量机算法"><a href="#非线性支持向量机算法" class="headerlink" title="非线性支持向量机算法"></a>非线性支持向量机算法</h2><p>第一部分即讲了与线性支持向量机算法的区别，用核函数替换内积即可，其它一样，略</p>
+<h2 id="序列最小最优化算法"><a href="#序列最小最优化算法" class="headerlink" title="序列最小最优化算法"></a>序列最小最优化算法</h2><p>sequential minimal optimization，SMO</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p>正定矩阵和半正定矩阵</p>
+<p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
+<p>正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx＞0$恒成立</p>
+</li>
+</ol>
+]]></content>
       <categories>
         <category>人工智能</category>
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>凸优化</tag>
         <tag>SVM</tag>
+        <tag>矩阵论</tag>
       </tags>
   </entry>
   <entry>
@@ -152,7 +192,7 @@ s.t.\quad y_i(w·x_i+b)-1≥0,i=1,2,\cdots,N</script><p>求得该凸二次规划
 <p>这里是<strong>减去</strong>拉格朗日乘子项（加乘子项也可以，但推理表示会麻烦一些，所以记得用减乘子项！）</p>
 <script type="math/tex; mode=display">
 L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><p>注意这里设置<strong>减去算子项</strong>，是为了后面用KKT条件的时候，构造出$\alpha_i≥0$（<strong>不等式约束的乘子$\alpha$要规定$\alpha≥0$</strong>，是为了满足后文KKT的对偶可行条件）</p>
-<p>根据拉格朗日对偶性，原始问题满足Slater条件，<strong>转换为对偶问题</strong>：</p>
+<p>根据拉格朗日对偶性，KKT条件是凸问题的充要条件，<strong>转换为等价对偶问题</strong>：</p>
 <script type="math/tex; mode=display">
 \min_{w,b}\frac{1}{2}||w||^2=L(w,b,\alpha)=\min_{w,\beta}\max_\alpha L(w,b,\alpha)=\max_\alpha \min_{w,\beta}L(w,b,\alpha)</script><p>于是求内部问题$\min_{w,\beta}L(w,b,\alpha)$：</p>
 <p>对两个独立变量的子式使用零导数法：</p>
@@ -164,7 +204,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 <p>$L(w,b,\alpha)=\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_iy_i((\sum_{j=1}^N\alpha_jy_jx_j)·x_i+b)+\sum_{i=1}^N\alpha_i$</p>
 <p>$=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
 <p><strong>这里注意</strong>①2-范数运算，见后记3 ②无关求和代入的时候，求和符号的迭代变量要换一个以免重合</p>
-<p>于是<strong>问题等价为外部问题</strong>，求：</p>
+<p><strong>内部问题求解出来了，于是问题等价为外部问题</strong>，求：</p>
 <p>$\max_\alpha-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)+\sum_{i=1}^N\alpha_i$</p>
 <p>$s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N$</p>
 <p>转化为易求的$\min$形式，此为<strong>求解算法的第一步公式：</strong></p>
@@ -172,7 +212,7 @@ L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_i[y_i(w·x_i+b)-1]</script><
 \min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i·x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
 s.t.\quad \quad\sum_{i=1}^N\alpha_iy_i=0,\quad \alpha_i≥0,\quad i=1,2,\cdots,N</script><p>于是这里就用通用的算法来求解此二次规划问题(<strong>用SMO求解</strong>，见后面的专题)</p>
 <p><strong>假设已经求出</strong>对偶最优化的最优解为$\alpha^o$，于是可以求得原始最优化对$(w,b)$的解：$w^o,b^o$</p>
-<p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解</p>
+<p><strong>KKT条件是凸问题的充要条件，则原始问题与对偶问题完全等价</strong>，$w^o,b^o$就是最优解（前面已经说明过等价，这里再强调一下）</p>
 <p><strong>于是可以得到：</strong>（<strong>可以由等价关系得：</strong>拉格朗日表达式对$w$求导得到见上求对偶问题最小化的时候，就已经求出来了内部极值$w^o,b^o$与$\alpha$的关系表达式；<strong>也可以由对偶问题</strong>的KKT的$w$梯度条件：</p>
 <p>$\nabla_wL(w^o,\beta^o,\alpha^o)=0$得到）（顺便后记-6附上了这里的所有KKT条件表达式）：</p>
 <script type="math/tex; mode=display">

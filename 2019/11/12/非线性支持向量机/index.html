@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="凸优化,SVM,">
+  <meta name="keywords" content="SVM,矩阵论,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="施工中">
-<meta name="keywords" content="凸优化,SVM">
+<meta name="description" content="施工中 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。（核">
+<meta name="keywords" content="SVM,矩阵论">
 <meta property="og:type" content="article">
-<meta property="og:title" content="非线性支持向量机">
+<meta property="og:title" content="非线性支持向量机与序列最小最优化算法">
 <meta property="og:url" content="https://aisakaki.com/2019/11/12/非线性支持向量机/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中">
+<meta property="og:description" content="施工中 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。（核">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-12T06:19:45.729Z">
+<meta property="og:updated_time" content="2019-11-12T10:24:40.814Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="非线性支持向量机">
-<meta name="twitter:description" content="施工中">
+<meta name="twitter:title" content="非线性支持向量机与序列最小最优化算法">
+<meta name="twitter:description" content="施工中 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。（核">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>非线性支持向量机 | 宵晓咲</title>
+  <title>非线性支持向量机与序列最小最优化算法 | 宵晓咲</title>
   
 
 
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">非线性支持向量机</h1>
+          <h1 class="post-title" itemprop="name headline">非线性支持向量机与序列最小最优化算法</h1>
         
 
         <div class="post-meta">
@@ -399,7 +399,47 @@
 
       
         <p><em>施工中</em></p>
-<a id="more"></a>
+<p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
+<a id="more"></a>    
+<h2 id="核技巧"><a href="#核技巧" class="headerlink" title="核技巧"></a>核技巧</h2><p>kernel trick</p>
+<p>运用<strong>核技巧思想一</strong>，会发现如果我们想要直接计算映射，会非常困难。于是我们选择<strong>计算内积</strong>（<strong>将输入空间中的内积转换为输出空间的内积</strong>），恰好在使用SVM学习算法的时候，<strong>无论是目标函数还是决策函数都只涉及输入实例与实例之间的内积</strong>，于是有以下方法——</p>
+<p>在学习和预测中只定义核函数$K(x,z)$，而不显式定义映射函数$\phi$。因为通常直接计算核函数$K(x,z)$比较容易，而直接计算映射$\phi(x)和\phi(z)$并不容易。</p>
+<p>观察到线性SVM的对偶问题中，无论是目标函数还是决策函数都只涉及输入实例与实例之间的内积，于是在对偶问题的目标函数中的内积$x_i·x_j$可以用核函数$K(x_i,x_j)=\phi(x_i)·\phi(x_j)$来代替。此时：</p>
+<script type="math/tex; mode=display">
+对偶问题目标函数：\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
+最后的分类决策函数也修改：f(x)=sign(\sum_{i=1}^N\alpha_i^oy_iK(x_i,x_j)+b^o)</script><p><strong>然后就只需要按照原来的线性可分SVM的学习算法</strong>，求对偶问题的外部问题，即求极值下的最优参数$\alpha^o$（可用SMO），然后再用KKT或等价求得$w^o,b^o$，得到超平面表达式</p>
+<p>这等价于经过映射函数$\phi$将原来的输入空间变换到一个新的特征空间，<strong>将输入空间中的内积$x_i·x_j$变换为特征空间中的内积$\phi(x_i)·\phi(x_j)$</strong></p>
+<p><strong>总结一下，核方法做了两件事：①样本空间映射到特征空间②计算了两样本在特征空间的内积</strong>（核技巧）</p>
+<h2 id="寻找核函数-正定核"><a href="#寻找核函数-正定核" class="headerlink" title="寻找核函数-正定核"></a>寻找核函数-正定核</h2><p>函数$F(x,z)$满足什么条件才能成为核函数？也就是说对于映射函数$\phi$，直接计算$F(x,z)$即可而不用计算$\phi(x),\phi(z)$的条件是什么？</p>
+<p>这种核函数一般都是<strong>正定核</strong>，直接给出结论：</p>
+<p><strong>正定核的充要条件</strong>：设$K:\mathbb X×\mathbb X\to \mathbb R$是<strong>对称函数</strong>，则$K(x,z)$为正定核函数的<strong>充要条件</strong>是对任意$x_i∈\mathbb X,i=1,2,\cdots,m,K(x,z)$对应的<strong>Gram矩阵</strong>：</p>
+<script type="math/tex; mode=display">
+K=[K(x_i,x_j)]_{m×m}</script><p>是<strong>半正定矩阵</strong>（见后记-1）</p>
+<p><strong>正定核的等价定义</strong>：设$\mathbb X \subset \mathbb R^n,K(x,z)$是定义在$\mathbb X×\mathbb X$上的<strong>对称函数</strong>，如果对任意</p>
+<p>$x_i∈\mathbb X,i=1,2,\cdots,m,K(x,z)$对应的<strong>Gram矩阵</strong>：</p>
+<script type="math/tex; mode=display">
+K=[K(x_i,x_j)]_{m×m}</script><p>是<strong>半正定矩阵</strong>，则称$K(x,z)$是正定核</p>
+<p>推导和证明略（先定义映射，构造向量空间；再构造内积空间；再完备化为希尔伯特空间；再在此之上证明）</p>
+<p>这一定义在构造核函数的时候很有用，但要验证某函数是否为正定核函数是不容易的，因为要对所有输入集验证$K$对应的Gram矩阵是否为半正定矩阵。所以在实际问题中一般使用已有的核函数，见下</p>
+<h2 id="常用核函数"><a href="#常用核函数" class="headerlink" title="常用核函数"></a>常用核函数</h2><ol>
+<li><p>多项式核函数</p>
+<script type="math/tex; mode=display">
+K(x,z)=(x·z+1)^p</script></li>
+<li><p>高斯核函数</p>
+<script type="math/tex; mode=display">
+K(x,z)=e^{-\frac{||x-z||^2}{2\sigma^2}}</script></li>
+<li><p>字符串核函数</p>
+</li>
+</ol>
+<h2 id="非线性支持向量机算法"><a href="#非线性支持向量机算法" class="headerlink" title="非线性支持向量机算法"></a>非线性支持向量机算法</h2><p>第一部分即讲了与线性支持向量机算法的区别，用核函数替换内积即可，其它一样，略</p>
+<h2 id="序列最小最优化算法"><a href="#序列最小最优化算法" class="headerlink" title="序列最小最优化算法"></a>序列最小最优化算法</h2><p>sequential minimal optimization，SMO</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p>正定矩阵和半正定矩阵</p>
+<p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
+<p>正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx＞0$恒成立</p>
+</li>
+</ol>
+
       
     </div>
     
@@ -419,7 +459,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/11/12/非线性支持向量机/" title="非线性支持向量机">https://aisakaki.com/2019/11/12/非线性支持向量机/</a>
+    <a href="https://aisakaki.com/2019/11/12/非线性支持向量机/" title="非线性支持向量机与序列最小最优化算法">https://aisakaki.com/2019/11/12/非线性支持向量机/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -434,9 +474,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/凸优化/" rel="tag"># 凸优化</a>
-          
             <a href="/tags/SVM/" rel="tag"># SVM</a>
+          
+            <a href="/tags/矩阵论/" rel="tag"># 矩阵论</a>
           
         </div>
       
@@ -512,8 +552,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -550,7 +599,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -611,6 +660,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核技巧"><span class="nav-number">1.</span> <span class="nav-text">核技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找核函数-正定核"><span class="nav-number">2.</span> <span class="nav-text">寻找核函数-正定核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用核函数"><span class="nav-number">3.</span> <span class="nav-text">常用核函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性支持向量机算法"><span class="nav-number">4.</span> <span class="nav-text">非线性支持向量机算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列最小最优化算法"><span class="nav-number">5.</span> <span class="nav-text">序列最小最优化算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
