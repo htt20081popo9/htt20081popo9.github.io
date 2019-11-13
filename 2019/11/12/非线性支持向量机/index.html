@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章） 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T03:40:23.659Z">
+<meta property="og:updated_time" content="2019-11-13T03:50:39.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="非线性支持向量机与序列最小最优化算法">
 <meta name="twitter:description" content="（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章） 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线">
@@ -443,10 +443,18 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
 0≤\alpha_i≤C\quad,i=1,2,\cdots,N</script><p>其中$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)^T$，那么如何才能求得一个$\alpha_i$序列（也即向量$\alpha$）使得该问题为最优解呢？也即如何使得<strong>序列最小最优化</strong>。</p>
 <p><strong>算法：</strong></p>
 <p>知乎上看到一个讲得很好的，直接贴上来</p>
-<p>两个二次规划变量的求解： <a href="https://zhuanlan.zhihu.com/p/78599113" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78599113</a> </p>
-<p>变量的选择： <a href="https://zhuanlan.zhihu.com/p/78788836" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78788836</a> </p>
+<ol>
+<li><p>两个二次规划变量的求解： <a href="https://zhuanlan.zhihu.com/p/78599113" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78599113</a> </p>
+<p><strong>将其中一个作为变量来求解</strong></p>
+</li>
+<li><p>变量的选择： <a href="https://zhuanlan.zhihu.com/p/78788836" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78788836</a> </p>
+<p>选取第一个变量$\alpha_1$的过程称为外层循环，选取<strong>违反KKT条件最严重的点</strong></p>
+<p>选取第二个变量$\alpha_2$的过程称为内层循环，选取能使$\alpha_2$<strong>变化足够大的点</strong></p>
+<p>如果第二个$\alpha_2$不能够使得目标函数有足够的下降，那就遍历数据集选取$\alpha_2$，如果遍历完了还没找到，那就通过外层循环重新寻找另外的$\alpha_1$</p>
+</li>
+</ol>
 <p><strong>总结：</strong></p>
-<p>略</p>
+<p>先选择两个变量，再求解析解，直到达到停机条件</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p>正定矩阵和半正定矩阵</p>
 <p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
