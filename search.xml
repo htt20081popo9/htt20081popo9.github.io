@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>决策树</title>
+    <url>/2019/11/13/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
+    <content><![CDATA[<p>施工中</p>
+<h2 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h2><p>机器学习最基本模型之一，DT</p>
+<p>决策树可以看成路径的集合，路径的集合<strong>可以看成$if-then$规则的集合</strong>，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是<strong>互斥且完备</strong>的（每一个实例都被包含在DT里）</p>
+<p>决策树也可以对应于一个<strong>条件概率分布</strong></p>
+<a id="more"></a>    
+<hr>
+<p>数据集$D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$</p>
+<p>其中$x_i=(x_i^{(1)},x_i^{(2)},\cdots,x_i^{(n)})^T$为输入实例（特征向量），$n$为特征个数，$y_i∈\{1,2,\cdots,K\}$为类别标记，</p>
+<p>$i=1,2,\cdots,N$，$N$为样本容量。</p>
+<p><strong>目标</strong>就是学习到这个$if-then$规则集合，同时与训练数据矛盾较小（不欠拟合），又可以很好的预测位置数据（不过拟合）。DT学习算法是对训练数据分割的过程，也是特征空间划分的过程，也是决策树的构建过程。</p>
+<p><strong>DT算法一般三大步骤①特征选择②决策树生成③剪枝</strong></p>
+<p><strong>剪枝</strong>的目的是防止过拟合（剪掉了树上过于细分的结点，使其退回到父节点或更高的结点）</p>
+<h2 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h2><p>特征用来划分特征空间，对数据进行实际分类。我们通过<strong>信息增益</strong>或<strong>信息增益比</strong>来选择特征。</p>
+<p>$P(X=x_i)=p_i\quad,P(X=x_i,Y=y_j)=p_{ij}\quad,i=1,2,\cdots,n;j=1,2,\cdots,m$</p>
+<p><strong>随机变量$X$的熵</strong>：</p>
+<script type="math/tex; mode=display">
+H(X)=-\sum_{i=1}^np_i\log p_i</script><p>由于<strong>只依赖$X$的分布</strong>而与$X$的取值没关系，则也可表示为$H(p)=-\sum_{i=1}^np_i\log p_i$</p>
+<p>(对于$X=0,1$的熵表达式可以写为$H(p)=-p\log_2p-(1-p)\log_2(1-p)$)</p>
+<p>给定$X$下随机变量<strong>$Y$的条件熵</strong>即为条件概率分布的熵$H(Y|X=x_i)$对$X$分布的<strong>数学期望</strong>：</p>
+<script type="math/tex; mode=display">
+H(Y|X)=\sum_{i=1}^nP(X=x_i)H(Y|X=x_i)</script><p><strong>信息增益(Information Gain)</strong>：表示<strong>如果得知</strong>特征$X$的信息而使得<strong>类$Y$的信息</strong>的<strong>不确定性减少的程度</strong></p>
+<p>对于决策树，<strong>特征$A$对训练数据集$D$的信息增益$g(D,A)$为：</strong></p>
+<script type="math/tex; mode=display">
+g(D,A)=H(D)-H(D|A)</script><p>$H(D)$为数据集的经验熵，$H(D|A)$为条件经验熵（$H(Y)-H(Y|X)$叫互信息，与决策树中的信息增益等价）</p>
+<p>很明显可以理解，<strong>某特征的信息增益越大，该特征分类能力越强</strong></p>
+<p><strong>信息增益比(Information Gain Ratio)：</strong></p>
+<script type="math/tex; mode=display">
+g_R(D,A)=\frac{g(D,A)}{H_A(D)}\quad，H_A(D)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\log_2\frac{|D_i|}{|D|}</script><p>其中$n$为特征$A$的取值个数</p>
+<p><strong>信息增益存在偏向选择取值较多的特征的问题，于是信息增益比可以对这一问题进行校正。</strong></p>
+<hr>
+<p><strong>对于实际训练集</strong>：如果由数据估得则为<strong>经验熵</strong>，<strong>经验条件熵</strong>。那么设定$D$为数据集，$C_k$是类别为$k$的样本集（<strong>真实标签</strong>），根据特征$A$可以将数据集划分为$D_1,D_2,\cdots,D_n$（<strong>根据特征判断的标签</strong>），第$i$个子集即为$D_i$，$D_{ik}$表示$D_{i}$中同属于类$C_k$样本集的样本即$D_{ik}=D_i∩C_k$（也就是该类别中标签打对了的样本），则：</p>
+<script type="math/tex; mode=display">
+H(D)=-\sum_{i=1}^K\frac{|C_k|}{|D|}\log_2\frac{|C_k|}{|D|}</script><script type="math/tex; mode=display">
+H(D|A)=\sum_{i=1}^n\frac{|D_i|}{|D|}H(D_i)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\sum_{i=1}^K\frac{|D_{ik}|}{|D_i|}\log_2\frac{|D_{ik}|}{|D_i|}</script><p>代入信息增益即可求得特征$A$对数据集$D$的信息增益</p>
+<h2 id="决策树的生成"><a href="#决策树的生成" class="headerlink" title="决策树的生成"></a>决策树的生成</h2><h3 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h3><h3 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h3><h2 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h2><h2 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h2><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><p>启发式？次最优</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>机器学习与统计学习</category>
+      </categories>
+  </entry>
+  <entry>
     <title>非线性支持向量机与序列最小最优化算法</title>
     <url>/2019/11/12/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</url>
     <content><![CDATA[<p>（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章）</p>
@@ -82,8 +126,8 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>SVM</tag>
         <tag>矩阵论</tag>
+        <tag>SVM</tag>
       </tags>
   </entry>
   <entry>
@@ -322,8 +366,8 @@ s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type=
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>凸优化</tag>
         <tag>SVM</tag>
+        <tag>凸优化</tag>
       </tags>
   </entry>
   <entry>

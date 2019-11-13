@@ -284,6 +284,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/08/notes-1108/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/08/notes-1108/" itemprop="url">notes_1108</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T11:35:24+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/08/notes-1108/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/notes-1108/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>NN的输出是一个向量，包含对各个种类的输出值，最后一个层有多少个神经元，输出向量就有多少维，所以在求的时候是矩阵求梯度下降，Loss Function作用于一个矩阵</p>
+</li>
+<li><p>NN为什么用非线性激活函数</p>
+<p>线性函数公式写出来之后 会发现 无论多少层，他都只能生成线性分类器（成为了感知机）<br>无法去拟合绝大多数的真实情况<br>而非线性的组合 就可以去逼近任何函数</p>
+</li>
+<li><p>关于梯度下降的算法<br>一个训练样本的损失函数就是一个向量，有多少特征就有多少维<br>ML算法中的代价函数通常可以分解成每个样本的代价函数的总和<br>具体求和之后如何求导见1</p>
+<p>于是不使用batch的整体梯度下降需要计算($m$为训练集样本个数)。所有样本计算出最终结果来计算梯度。这样对显存的要求就极高（在大样本集上是不可能）</p>
+<script type="math/tex; mode=display">
+     \nabla_{\theta}J(\theta)=\frac{1}{m}\sum_{i=1}^m\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>如果使用minibatch，则变成（一个batch有$m’$个训练样本） 一个batch计算一个$g$来更新梯度</p>
+<script type="math/tex; mode=display">
+ g=\frac{1}{m'}\sum_{i=1}^{m'}\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>然后使用如下的梯度下降算法估计梯度</p>
+<script type="math/tex; mode=display">
+    \theta \leftarrow \theta - \epsilon g</script><p>于是在一轮训练集中，要更新很多次梯度，目标去逼近整体更新梯度的方向<br>在一轮中的几个批次，可能是局部梯度减小，整体损失变大，但是在一轮下来之后，会变成朝着整体减小的方向震荡前进</p>
+</li>
+<li><p>CNN一个牛逼的地方就在于通过感受野和权值共享减少了神经网络需要训练的参数的个数，所谓权值共享就是同一个Feature Map中神经元权值共享，该Feature Map中的所有神经元使用同一个权值。因此参数个数与神经元的个数无关，只与卷积核的大小及Feature Map的个数相关。但是共有多少个连接个数就与神经元的个数相关了，神经元的个数也就是特征图的大小。</p>
+</li>
+<li><p>为什么用交叉熵作损失函数？每层怎么做计算<br><a href="https://blog.csdn.net/huwenxing0801/article/details/82791879" target="_blank" rel="noopener">https://blog.csdn.net/huwenxing0801/article/details/82791879</a><br>对于分类问题，用交叉熵损失函数更好，因为交叉熵函数公式可知道，<strong>交叉熵只关心对正确类别的预测概率</strong>，因为只要其值<strong>足够大</strong>，就可以保证分类结果正确。<br>对于回归问题，用平方差损失函数更好，它希望<strong>预测概率尽量完全等于标签概率</strong>。（比交叉熵损失函数严格很多）</p>
+</li>
+<li><p>前馈神经网络，如BP，RFN</p>
+<p>循环神经网络，RNN</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/07/使用markdown编辑数学公式/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1506,175 +1694,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/10/优化器optimizer和超参数更新/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/10/优化器optimizer和超参数更新/" itemprop="url">优化器optimizer和超参数更新</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T10:01:03+08:00">
-                2018-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/10/优化器optimizer和超参数更新/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/10/优化器optimizer和超参数更新/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="optimizer"><a href="#optimizer" class="headerlink" title="optimizer"></a>optimizer</h2><p><code>optimizer.param_group</code><br>记录了模型迭代的优化器参数信息<br><code>optimizer.step</code>后可从<code>optimizer.param_groups[0][‘params’]</code>查看参数变化<br><code>optimizer.param_groups[0]</code>是一个字典<br>包含<code>dict_keys([&#39;params&#39;, &#39;lr&#39;, &#39;betas&#39;, &#39;eps&#39;, &#39;weight_decay&#39;, &#39;amsgrad&#39;])</code><br>所以可以自己看想要的信息，也可以直接修改！</p>
-<p>模型权重参数是存在于<code>model.parameters()</code>中的，这个也是要传入optimizer的变量</p>
-<h2 id="超参数更新"><a href="#超参数更新" class="headerlink" title="超参数更新"></a>超参数更新</h2><p>（<code>optimizer</code>和<code>scheduler</code>都是自己事先定义的变量，前者为优化器，后者为自适应学习率优化器<br><code>optimzer = torch.optim.Adam(……)</code><br><code>scheduler = torch.optim.lr_scheduler.StrpLR(……)</code>)</p>
-<p><code>optimizer.step()</code>：通常用在<strong>每个mini-batch之中</strong>，用了之后<strong>模型才会更新</strong><br><code>scheduler.step()</code>：通常用在<strong>epoch里面</strong>，用了之后才会<strong>对学习率lr进行调整</strong><br><code>optimizer.zero_grad()</code> 用在<strong>每个mini-batch之中</strong>，梯度参数清0，以避免参数把上一次optimizer调用时创建的梯度累加在一起（根据pytorch中的backward()函数的计算，当网络参量进行反馈时，梯度是被积累的而不是被替换掉；但是在每一个batch时毫无疑问并不需要将两个batch的梯度混合起来累积，因此这里就需要每个batch设置一遍zero_grad 了。）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1725,7 +1744,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">123</span>
+                  <span class="site-state-item-count">124</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
