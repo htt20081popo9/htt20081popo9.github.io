@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T11:29:50.733Z">
+<meta property="og:updated_time" content="2019-11-13T12:00:27.338Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="施工中 Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -413,24 +413,30 @@
 <p>$P(X=x_i)=p_i\quad,P(X=x_i,Y=y_j)=p_{ij}\quad,i=1,2,\cdots,n;j=1,2,\cdots,m$</p>
 <p><strong>随机变量$X$的熵</strong>：</p>
 <script type="math/tex; mode=display">
-H(X)=-\sum_{i=1}^np_i\log p_i</script><p>由于<strong>只依赖$X$的分布</strong>而与$X$的取值没关系，则也可表示为$H(p)=-\sum_{i=1}^np_i\log p_i$</p>
+H(X)=-\sum_{i=1}^np_i\log p_i</script><p>熵表达了随机变量$X$的不确定性</p>
+<p>由于<strong>只依赖$X$的分布</strong>而与$X$的取值没关系，则也可表示为$H(p)=-\sum_{i=1}^np_i\log p_i$</p>
 <p>(对于$X=0,1$的熵表达式可以写为$H(p)=-p\log_2p-(1-p)\log_2(1-p)$)</p>
-<p>给定$X$下随机变量<strong>$Y$的条件熵</strong>即为条件概率分布的熵$H(Y|X=x_i)$对$X$分布的<strong>数学期望</strong>：</p>
+<p>给定$X$下随机变量<strong>$Y$的条件熵</strong>即为条件概率分布的熵$H(Y|X=x_i)$对$X$分布的<strong>数学期望</strong>（给每个$X_i$下的熵加了一个权值）：</p>
 <script type="math/tex; mode=display">
-H(Y|X)=\sum_{i=1}^nP(X=x_i)H(Y|X=x_i)</script><p><strong>信息增益(Information Gain)</strong>：表示<strong>如果得知</strong>特征$X$的信息而使得<strong>类$Y$的信息</strong>的<strong>不确定性减少的程度</strong></p>
+H(Y|X)=\sum_{i=1}^nP(X=x_i)H(Y|X=x_i)</script><p>条件熵表达了在已知条件$X$下随机变量$Y$的不确定性</p>
+<p><strong>信息增益(Information Gain)</strong>：表示<strong>如果得知</strong>特征$X$的信息而使得<strong>类$Y$的信息</strong>的<strong>不确定性减少的程度</strong></p>
 <p>对于决策树，<strong>特征$A$对训练数据集$D$的信息增益$g(D,A)$为：</strong></p>
 <script type="math/tex; mode=display">
 g(D,A)=H(D)-H(D|A)</script><p>$H(D)$为数据集的经验熵，$H(D|A)$为条件经验熵（$H(Y)-H(Y|X)$叫互信息，与决策树中的信息增益等价）</p>
-<p>很明显可以理解，<strong>某特征的信息增益越大，该特征分类能力越强</strong></p>
+<p>很明显可以理解，<strong>某特征的信息增益越大，该特征分类能力越强</strong>（因为IG越大，就代表我能够因此获得的确定性越多，也就是分类越好）</p>
 <p><strong>信息增益比(Information Gain Ratio)：</strong></p>
 <script type="math/tex; mode=display">
-g_R(D,A)=\frac{g(D,A)}{H_A(D)}\quad，H_A(D)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\log_2\frac{|D_i|}{|D|}</script><p>其中$n$为特征$A$的取值个数</p>
+g_R(D,A)=\frac{g(D,A)}{H_A(D)}\quad，H_A(D)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\log_2\frac{|D_i|}{|D|}</script><p>其中$n$为特征$A$的取值个数，$H_A(D)$为训练数据集$D$关于特征$A$的值的熵</p>
 <p><strong>信息增益存在偏向选择取值较多的特征的问题，于是信息增益比可以对这一问题进行校正。</strong></p>
 <hr>
-<p><strong>对于实际训练集</strong>：如果由数据估得则为<strong>经验熵</strong>，<strong>经验条件熵</strong>。那么设定$D$为数据集，$C_k$是类别为$k$的样本集（<strong>真实标签</strong>），根据特征$A$可以将数据集划分为$D_1,D_2,\cdots,D_n$（<strong>根据特征判断的标签</strong>），第$i$个子集即为$D_i$，$D_{ik}$表示$D_{i}$中同属于类$C_k$样本集的样本即$D_{ik}=D_i∩C_k$（也就是该类别中标签打对了的样本），则：</p>
+<p><strong>对于实际训练集</strong>：如果由数据估得则为<strong>经验熵</strong>，<strong>经验条件熵</strong>。那么设定$D$为数据集，$C_k$是类别为第$k$的样本集（<strong>真实标签</strong>），总共有$K$个类；根据特征$A$可以将数据集划分为$n$个子集。$D_1,D_2,\cdots,D_n$（<strong>根据特征判断的标签</strong>），第$i$个子集即为$D_i$，$D_{ik}$表示$D_{i}$中同属于类$C_k$样本集的样本即$D_{ik}=D_i∩C_k$（也就是该类别中标签打对了的样本），则：</p>
 <script type="math/tex; mode=display">
 H(D)=-\sum_{i=1}^K\frac{|C_k|}{|D|}\log_2\frac{|C_k|}{|D|}</script><script type="math/tex; mode=display">
 H(D|A)=\sum_{i=1}^n\frac{|D_i|}{|D|}H(D_i)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\sum_{i=1}^K\frac{|D_{ik}|}{|D_i|}\log_2\frac{|D_{ik}|}{|D_i|}</script><p>代入信息增益即可求得特征$A$对数据集$D$的信息增益</p>
+<p><strong>理解：</strong></p>
+<p>条件熵中直接表达式的$H(D_i)$即相当于用特征$A$进行分类分得的第$i$类的样本集$D_i$的熵（不确定性程度）</p>
+<p>这里的$H(D)$表达了数据集整体的不确定性；条件熵$H(D|A)$即表达了在用特征$A$进行分类的情况下，对$D$进行划分，每个被划分成的$D_i$的不确定性之和，也就是在$A$特征划分之和数据集整体的不确定性</p>
+<p>这里的不确定性即为我们对数据分类的预测的不确定性</p>
 <h2 id="决策树的生成"><a href="#决策树的生成" class="headerlink" title="决策树的生成"></a>决策树的生成</h2><h3 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h3><h3 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h3><h2 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h2><h2 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h2><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><p>启发式？次最优</p>
 
       
