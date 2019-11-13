@@ -3,8 +3,8 @@
   <entry>
     <title>非线性支持向量机与序列最小最优化算法</title>
     <url>/2019/11/12/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</url>
-    <content><![CDATA[<p><em>施工中</em></p>
-<p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
+    <content><![CDATA[<p>（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章）</p>
+<p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
 <a id="more"></a>    
 <h2 id="核技巧"><a href="#核技巧" class="headerlink" title="核技巧"></a>核技巧</h2><p>kernel trick</p>
 <p>运用<strong>核技巧思想一</strong>，会发现如果我们想要直接计算映射，会非常困难。于是我们选择<strong>计算内积</strong>（<strong>将输入空间中的内积转换为输出空间的内积</strong>），恰好在使用SVM学习算法的时候，<strong>无论是目标函数还是决策函数都只涉及输入实例与实例之间的内积</strong>，于是有以下方法——</p>
@@ -15,6 +15,7 @@
 最后的分类决策函数也修改：f(x)=sign(\sum_{i=1}^N\alpha_i^oy_iK(x_i,x_j)+b^o)</script><p><strong>然后就只需要按照原来的线性可分SVM的学习算法</strong>，求对偶问题的外部问题，即求极值下的最优参数$\alpha^o$（可用SMO），然后再用KKT或等价求得$w^o,b^o$，得到超平面表达式</p>
 <p>这等价于经过映射函数$\phi$将原来的输入空间变换到一个新的特征空间，<strong>将输入空间中的内积$x_i·x_j$变换为特征空间中的内积$\phi(x_i)·\phi(x_j)$</strong></p>
 <p><strong>总结一下，核方法做了两件事：①样本空间映射到特征空间②计算了两样本在特征空间的内积</strong>（核技巧）</p>
+<p>核技巧并不是SVM专用，可以用在其它地方</p>
 <h2 id="寻找核函数-正定核"><a href="#寻找核函数-正定核" class="headerlink" title="寻找核函数-正定核"></a>寻找核函数-正定核</h2><p>函数$F(x,z)$满足什么条件才能成为核函数？也就是说对于映射函数$\phi$，直接计算$F(x,z)$即可而不用计算$\phi(x),\phi(z)$的条件是什么？</p>
 <p>这种核函数一般都是<strong>正定核</strong>，直接给出结论：</p>
 <p><strong>正定核的充要条件</strong>：设$K:\mathbb X×\mathbb X\to \mathbb R$是<strong>对称函数</strong>，则$K(x,z)$为正定核函数的<strong>充要条件</strong>是对任意$x_i∈\mathbb X,i=1,2,\cdots,m,K(x,z)$对应的<strong>Gram矩阵</strong>：</p>
@@ -33,11 +34,24 @@ K(x,z)=(x·z+1)^p</script></li>
 <li><p>高斯核函数</p>
 <script type="math/tex; mode=display">
 K(x,z)=e^{-\frac{||x-z||^2}{2\sigma^2}}</script></li>
-<li><p>字符串核函数</p>
+<li><p>字符串核函数 O</p>
+<p>$k_n(s,t)$给出字符串$s$和$t$中长度为$n$的所有子串组成的特征向量的余弦相似度。两个字符串相似的字串越多，它们就越相似，字符串核函数的值就越大。</p>
 </li>
 </ol>
 <h2 id="非线性支持向量机算法"><a href="#非线性支持向量机算法" class="headerlink" title="非线性支持向量机算法"></a>非线性支持向量机算法</h2><p>第一部分即讲了与线性支持向量机算法的区别，用核函数替换内积即可，其它一样，略</p>
 <h2 id="序列最小最优化算法"><a href="#序列最小最优化算法" class="headerlink" title="序列最小最优化算法"></a>序列最小最优化算法</h2><p>sequential minimal optimization，SMO</p>
+<p><strong>思想：不断</strong>地将原多变量的二次规划问题<strong>分解</strong>为只有两个变量的二次规划子问题，并对子问题进行<strong>解析求解</strong>，<strong>直到所有变量满足KKT条件为止</strong>（因为KKT条件是下面要求的最优化问题的充分必要条件）</p>
+<p><strong>目的：</strong>SMO算法主要是为了求解SVM中对偶问题的外部问题：</p>
+<script type="math/tex; mode=display">
+\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
+s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display">
+0≤\alpha_i≤C\quad,i=1,2,\cdots,N</script><p>其中$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)^T$，那么如何才能求得一个$\alpha_i$序列（也即向量$\alpha$）使得该问题为最优解呢？也即如何使得<strong>序列最小最优化</strong>。</p>
+<p><strong>算法：</strong></p>
+<p>知乎上看到一个讲得很好的，直接贴上来</p>
+<p>两个二次规划变量的求解： <a href="https://zhuanlan.zhihu.com/p/78599113" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78599113</a> </p>
+<p>变量的选择： <a href="https://zhuanlan.zhihu.com/p/78788836" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78788836</a> </p>
+<p><strong>总结：</strong></p>
+<p>略</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p>正定矩阵和半正定矩阵</p>
 <p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
