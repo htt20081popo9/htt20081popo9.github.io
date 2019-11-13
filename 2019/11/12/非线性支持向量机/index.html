@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章） 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T03:50:39.786Z">
+<meta property="og:updated_time" content="2019-11-13T06:32:11.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="非线性支持向量机与序列最小最优化算法">
 <meta name="twitter:description" content="（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章） 线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题，这样我们就可以对新的线">
@@ -438,23 +438,33 @@ K(x,z)=e^{-\frac{||x-z||^2}{2\sigma^2}}</script></li>
 <p><strong>思想：不断</strong>地将原多变量的二次规划问题<strong>分解</strong>为只有两个变量的二次规划子问题，并对子问题进行<strong>解析求解</strong>，<strong>直到所有变量满足KKT条件为止</strong>（因为KKT条件是下面要求的最优化问题的充分必要条件）</p>
 <p><strong>目的：</strong>SMO算法主要是为了求解SVM中对偶问题的外部问题：</p>
 <script type="math/tex; mode=display">
-\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
+目标函数：\min_\alpha\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i</script><script type="math/tex; mode=display">
 s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display">
 0≤\alpha_i≤C\quad,i=1,2,\cdots,N</script><p>其中$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)^T$，那么如何才能求得一个$\alpha_i$序列（也即向量$\alpha$）使得该问题为最优解呢？也即如何使得<strong>序列最小最优化</strong>。</p>
+<p>SMO是一个<strong>启发式算法</strong>，通过<strong>循环迭代</strong>的方式求得序列最优最小值。SMO输出的是一个<strong>近似解</strong>。</p>
 <p><strong>算法：</strong></p>
 <p>知乎上看到一个讲得很好的，直接贴上来</p>
 <ol>
 <li><p>两个二次规划变量的求解： <a href="https://zhuanlan.zhihu.com/p/78599113" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78599113</a> </p>
 <p><strong>将其中一个作为变量来求解</strong></p>
+<p>求解过程中设定的记号$v,g(x_i),E,\eta$都是为了方便表示求解过程，实际上求解思路就是</p>
+<p>①将目标函数改写为记号表示形式（这里很复杂），$x_i,x_j分别为\alpha_1,\alpha_2$</p>
+<p>②根据约束条件表示出$\alpha_1$，代入目标函数中，于是目标函数就只含$\alpha_1$变量</p>
+<p>③对目标函数用对$\alpha_2$的0导数法，求得最优的$\alpha_2$表示</p>
+<p>④上面求出的是未经剪辑的最优解，下一步求出经过剪辑的最优解即可</p>
+<p>注意：$k=\alpha_1^{old}-\alpha_2^{old}，k=\alpha_1^{old}+\alpha_2^{old}$这个表示方法理解</p>
 </li>
 <li><p>变量的选择： <a href="https://zhuanlan.zhihu.com/p/78788836" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/78788836</a> </p>
-<p>选取第一个变量$\alpha_1$的过程称为外层循环，选取<strong>违反KKT条件最严重的点</strong></p>
-<p>选取第二个变量$\alpha_2$的过程称为内层循环，选取能使$\alpha_2$<strong>变化足够大的点</strong></p>
+<p>①选取第一个变量$\alpha_1$的过程称为外层循环，选取<strong>违反KKT条件最严重的点</strong></p>
+<p>②选取第二个变量$\alpha_2$的过程称为内层循环，选取能使$\alpha_2$<strong>变化足够大的点</strong>（加快计算速度，使得目标函数尽快变小。根据公式$\alpha_2$依赖于$y_2(E_1-E_2)$，由于$\alpha_1$已定，那么$E_1$就定了，那么就可以选择合适的$\alpha_2$）</p>
 <p>如果第二个$\alpha_2$不能够使得目标函数有足够的下降，那就遍历数据集选取$\alpha_2$，如果遍历完了还没找到，那就通过外层循环重新寻找另外的$\alpha_1$</p>
+</li>
+<li><p>先选择变量，然后计算最优解，然后就要<strong>更新阈值$b$和差值$E_i$</strong></p>
 </li>
 </ol>
 <p><strong>总结：</strong></p>
-<p>先选择两个变量，再求解析解，直到达到停机条件</p>
+<p>先选择两个变量，再求解析解，直到达到<strong>停机条件</strong>（检验是否所有样本点都符合KKT条件，在精度$\epsilon$下进行）</p>
+<p>具体略</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p>正定矩阵和半正定矩阵</p>
 <p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
