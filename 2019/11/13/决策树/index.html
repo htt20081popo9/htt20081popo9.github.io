@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-14T11:45:47.702Z">
+<meta property="og:updated_time" content="2019-11-15T12:06:00.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="施工中 Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -440,6 +440,7 @@ H(D|A)=\sum_{i=1}^n\frac{|D_i|}{|D|}H(D_i)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\sum_{i
 <p>不确定性即为我们对数据分类的预测的不确定性</p>
 <p>$P(A取第i个取值)=\frac{|D_i|}{|D|}$</p>
 <p>特征的熵$H_A(D)$：特征$A$的取值作为随机变量。通过数据集中被$A$打为第$i$个标签的数量与总数量的比即可求得特征$A$打第$i$个标签的概率，因此可以求得特征$A$的熵；见上面的IGR的惩罚系数</p>
+<p><strong>注意在计算每个子数据集$D_i$的经验熵时，随机变量为$D_i$中$D_{ik}$的概率，即$D_i$中属于$k$类（真实标签）的样本的概率。凡是求数据集的熵，随机变量必然都是该数据里某类（真实标签）的概率。</strong></p>
 <h3 id="基尼指数-Gini"><a href="#基尼指数-Gini" class="headerlink" title="基尼指数(Gini)"></a>基尼指数(Gini)</h3><p>对于IGR，当特征取值较少时$H_A(D)$的值较小，因此其倒数较大，因而信息增益比较大。因而偏向取值较少的特征。 于是引入基尼指数。</p>
 <p>分类问题中，假设有$K$个类，样本点属于第$k$类的概率为$p_k$，则概率分布的基尼指数定义为：</p>
 <script type="math/tex; mode=display">
@@ -451,8 +452,10 @@ Gini(D)=1-\sum_{k=1}^K(\frac{|C_k|}{|D|})^2</script><p>基尼指数$Gini(D)$表�
 <script type="math/tex; mode=display">
 Gini(D,A)=\frac{|D_1|}{|D|}Gini(D_1)+\frac{|D_2|}{|D|}Gini(D_2)</script><p>式子中如$\frac{|D_i|}{|D|}$与上面一样，也就是划分为$D_1$的概率（特征$A$取值为第一个的概率）。</p>
 <p>$Gini(D,A)$表示经$A=a$划分后集合$D$的不确定性。基尼指数越大，样本集合的不确定性也越大，与熵一致。</p>
-<h2 id="决策树的生成"><a href="#决策树的生成" class="headerlink" title="决策树的生成"></a>决策树的生成</h2><h3 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h3><p>在决策树各个结点上用<strong>信息增益</strong>来选择特征</p>
+<h2 id="决策树的生成"><a href="#决策树的生成" class="headerlink" title="决策树的生成"></a>决策树的生成</h2><p>以下ID3和C4.5都是生成多叉树，且只适用分类问题</p>
+<h3 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h3><p>在决策树各个结点上用<strong>信息增益</strong>来选择特征</p>
 <p>设置一个<strong>阈值</strong>$\epsilon$，当$D_i$的IG小于该阈值的时候，表示该数据集可认为全是同一类别，无需再继续划分</p>
+<p>只用于分类（离散数据）</p>
 <hr>
 <p><strong>举例：</strong></p>
 <p>有$K$个特征</p>
@@ -468,14 +471,114 @@ Gini(D,A)=\frac{|D_1|}{|D|}Gini(D_1)+\frac{|D_2|}{|D|}Gini(D_2)</script><p>式�
 <p>⑥依次类推$\cdots\cdots$</p>
 <hr>
 <p>其中第④步就是返回到了第①步，$D换成了D_i$。（不过注意这里默认$D$并不是同一类，默认要继续划分）</p>
-<p><strong>注意</strong>在计算每个子数据集$D_i$的经验熵和经验条件熵的小标，是求的什么，见上一小节</p>
 <p>具体略</p>
 <h3 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h3><p>在决策树各个结点上用<strong>信息增益比</strong>来选择特征</p>
 <p>设置一个阈值，当IGR小于该阈值的时候，算法停止</p>
 <p>具体略</p>
-<p>以上两种算法容易过拟合，所以要剪枝</p>
+<p>（连续属性值算法见后记-2）</p>
+<p><strong>以上两种算法容易过拟合，所以要剪枝</strong></p>
 <h2 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h2><p>决策树的剪枝是从<strong>全局角度减小决策树复杂度</strong>以防止过拟合</p>
-<h2 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h2><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3>
+<p>通过极小化DT整体的损失函数来实现</p>
+<p>设：树$T$，叶结点个数$|T|$，$t$为某叶结点，该叶结点上有$N_t$个样本点，其中$k$类样本点有$N_{tk}$个，$k=1,2,\cdots,K$，$H_t(T)$为叶结点$t$上的经验熵，$\alpha≥0$为参数。</p>
+<p><strong>DT学习的损失函数：</strong></p>
+<script type="math/tex; mode=display">
+C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_{tk}}{N_t}\log \frac{N_{tk}}{N_t}</script><script type="math/tex; mode=display">
+记C_\alpha(T)右端第一项为：C(T)=\sum_{t=1}^{|T|}N_tH_t(T)=-\sum_{t=1}^{|T|}\sum_{k=1}^KN_{tk}\log \frac{N_{tk}}{N_t}</script><script type="math/tex; mode=display">
+则有简记：C_\alpha(T)=C(T)+\alpha|T|</script><p>$C(T)$就是计算出<strong>每个叶子结点的已分类数据集的熵之和</strong>，熵越小，则DT整体的不确定性程度越低，就代表分类越确定。此项越小，就代表模型与训练集的<strong>拟合程度</strong>越高。</p>
+<p>$|T|$是叶子结点的个数，它就能表征DT模型的复杂度。此项越小，模型的复杂度就越低，就越不容易过拟合。</p>
+<p>于是$\alpha≥0$就控制了两者之间的关系；如当$\alpha=0$，就代表模型只考虑拟合度不考虑复杂度，etc。该损失函数就相当于一个正则化的极大似然估计</p>
+<p>含有这两者的损失函数就代表了拟合度和复杂度的一个平衡关系。可以看到决策树的生成是学习局部模型的，但决策树的剪枝是学习整体的模型。该</p>
+<p><strong>剪枝算法的目的，就是在给定$\alpha$下，求出使得损失函数$C_\alpha(T)$最小的子树$T’$</strong></p>
+<p><strong>剪枝算法：（在用前面的算法生成完决策树之后）</strong></p>
+<p>①计算每个结点的经验熵</p>
+<p>②递归地从树的叶结点$t_{|T|}$向上回缩直到根节点$T$。具体地，</p>
+<p>对于该叶结点，如果将其回缩到其父节点之后：</p>
+<p>——如果树整体的损失函数变小，则回缩该结点；</p>
+<p>——否则，不回缩该结点。</p>
+<p>③以此迭代</p>
+<p>由于回缩计算差值的时候，树上只有局部有改变，所以在计算损失函数差值的时候只需要在局部进行</p>
+<h2 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h2><p>CART: classification and regression tree 分类与回归树。CART既可以用于分类也可以用于回归。</p>
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><p>CART算法生成的是<strong>二叉决策树</strong>。（二叉决策树不是哈夫曼树形式，别搞错了）</p>
+<p><strong>思想：</strong>使用启发式算法，<strong>不断地</strong>寻找<strong>最优特征</strong>和<strong>最优切割点</strong>$(j,s)$，对数据集进行<strong>二元切分</strong>。</p>
+<p><strong>多值/多段回归</strong>特征很明显可以<strong>重复使用</strong>，一次无法将多值的某特征从数据集分离开（二值特征使用一次就不能再使用）（多段回归特征类似于分类中的多值特征，只不过预测的连续变量可以被划分为多个段）</p>
+<ol>
+<li><p><strong>分类：</strong></p>
+<p>（使用基尼指数来衡量最优特征和最优切分点，基尼指数越小，不确定越低，每个样本分类越相同）</p>
+<p>通过对数据集$D_m$求$D_m$对每个特征$A_i$的基尼系数：<strong>即遍历$i,k$，求使得$Gini(D,A_i=k)$最小的最优特征和最优特征的切分点$(j,s)$组合</strong>（对应于<strong>遍历组合</strong>的标号$i,k$）。求出一个$D_m$的$(j,s)$就能将其<strong>划分</strong>为<strong>两个子数据集</strong>。再对两个子数据集<strong>重复迭代</strong>上述过程，若结点中的<strong>样本个数小于预订阈值/样本集的基尼指数低于预定阈值（样本基本属于同一类）/没有更多特征</strong>，该结点就是叶子结点。</p>
+<p>具体算法略</p>
+</li>
+<li><p><strong>回归：</strong></p>
+<p>在回归问题中，模型输出一个连续变量。</p>
+<p>$D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，数据集被划分为了$M$个单元$R_1,R_2,\cdots,R_M$，在每个单元上有一个固定的输出值为$c_m$</p>
+<p>在回归中用<strong>平方误差来替代分类中的基尼指数</strong>：使用该结点数据集的每个样本中的【<strong>每个真实输出$y_i$与模型输出$f(x_i)$的均值$c_m$</strong>】的<strong>平方误差</strong>$\sum_{x_i}(y_i-c_m)^2$来找最优特征和最优切分点$(j,s)$。<strong>平方误差越小，样本分类越准确</strong>。（这个是回归与分类不同的关键）</p>
+<p>与分类中一样的思路：</p>
+<p>选定第$j$个特征和其取值$s$为切分点，将父节点数据集$R$切分成了两个子节点（子数据集）：</p>
+<p>$R_1(j,s)=\{x|x^{(j)}≤s\}$，$R_2(j,s)=\{x|x^{(j)}＞s\}$</p>
+<p>以$R_1$为例，$\{x|x^{(j)}≤s\}$是指数据集中第$j$个特征的取值$≤s$的样本组成的新数据集，也就是一个划分，$R_2$同理。</p>
+<p>同时设$c_m=ave(y_i|x∈R_m)=\frac{1}{N_m}\sum_{x_i∈R_m(j,s)}y_i$，表示<strong>被特征与切分组合$(j,s)$切分后数据集上模型输出$y$的均值</strong></p>
+<p>于是我们就能求得每个子数据集的平方误差了（公式见上）</p>
+<p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优均值$\hat c_m$：</p>
+<script type="math/tex; mode=display">
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p><strong>求得$(j,s)$就告诉我们决策树怎么生存，选什么特征怎么切分（同分类）</strong></p>
+<p>每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能求得对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），<strong>这个均值就是特征值$j$的回归输出</strong></p>
+<p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
+<p>这样生成的树叫<strong>最小二乘回归树</strong></p>
+</li>
+</ol>
+<p>（连续属性值算法见后记-2）</p>
+<h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><h2 id="比较ID3-C4-5和CART来理解"><a href="#比较ID3-C4-5和CART来理解" class="headerlink" title="比较ID3/C4.5和CART来理解"></a>比较ID3/C4.5和CART来理解</h2><ol>
+<li><p><strong>划分</strong></p>
+<p>在ID3和C4.5中，通过IG或IGR求出<strong>最优特征</strong>之后，直接将特征的所有可能取值作为切分点，那么就成了<strong>多分类</strong>。那么ID3/C4.5生成的是一个多叉树</p>
+<p>而CART要求出<strong>最优特征</strong>和<strong>最优切分点</strong>的组合，以将该特征下的取值切分成<strong>二类</strong>。CART生成一个二叉树。</p>
+<p><strong>举例：</strong>特征为年龄，取值为青年、中年、老年，那么ID3/C4.5就可能分成$O\{青年\}\{中年\}\{老年\}$，CART就可能分为$O\{青年\}\{中年、老年\}$ （$O$代表父节点，$\{\}代表子节点集合$）</p>
+</li>
+<li><p><strong>特征变量的使用</strong></p>
+<p><strong>特征变量</strong>的使用中，多分的分类变量ID3和C4.5层级之间只<strong>单次使用</strong>，CART可<strong>多次重复使用</strong></p>
+<p><strong>举例：</strong>继续上面的例子，在ID3/C4.5中，该特征（年龄）被一次划分为三个子数据集$\{青年\}\{中年\}\{老年\}$，于是该特征被删除特征集，不再使用。继续迭代就在其它特征中来选择最优特征</p>
+<p>而在CART中，两个子节点为$O\{青年\}\{中年、老年\}$，对于这两个子节点进行迭代的时候，<strong>由于特征（年龄）并没有将所有年龄特征分开，则还可以再使用用过的特征（年龄）来继续二分类！</strong>（假设在右节点使用年龄的基尼系数相比其他特征和划分最低的话，那么下次就再使用年龄特征，只有二分类所以直接划分为$\{中年\}\{老年\}$）不过再次使用该特征并不一定是接着使用，这需要<strong>根据基尼指数最小/平方误差最小计算</strong>。</p>
+<p>也因此CART一般比ID3/C4.5深</p>
+</li>
+<li><p>输入与输出</p>
+<p>ID3和C4.5只能做分类，CART可以做回归和分类</p>
+<p>ID3只能作用离散值属性，C4.5和CART可以作用连续值属性</p>
+<p>注意区别见后记-3</p>
+</li>
+<li><p>计算代价</p>
+<p>CART计算更快，消耗资源更少，因为CART不需要进行熵中的log运算（基尼指数和熵效果差不多，但没用log，这就是用基尼指数的原因）</p>
+</li>
+<li><p>缺失值</p>
+<p><strong>ID3对缺失值敏感</strong>，而C4.5和CART对缺失值可以进行多种方式的处理 O</p>
+</li>
+<li><p>剪枝方法不同【】</p>
+<p>C4.5是通过枝剪来修正树的准确性，而CART是直接利用全部数据发现所有树的结构进行对比 </p>
+</li>
+<li><p>C4.5是ID3的优化 IGR替代了IG</p>
+<p>因为信息增益的缺点是倾向于选择取值较多的屬性，在有些情况下这类属性可能不会提供太多有价值的信息。 </p>
+</li>
+<li><p>总结一下使用地方</p>
+<p>只从样本量考虑，小样本建议考虑c4.5、大样本建议考虑cart。而cart本身是一种大样本的统计方法，小样本处理下泛化误差较大【】</p>
+</li>
+</ol>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p>缺失值处理</p>
+<p>①抛弃缺失值</p>
+<p>②补充缺失值</p>
+<p>③概率化缺失值（C4.5使用此方式， 对缺失值的样本赋予该属性所有属性值的概率分布）</p>
+<p>④缺失值单独分支</p>
+</li>
+<li><p>属性为连续值的划分问题</p>
+<p>离散化技术</p>
+<p>C4.5用于连续值属性的算法：（于是就成了二叉树了）</p>
+<p>采用离散化技术（如二分法）进行处理。<strong>将属性值从小到大排序，然后选择中间值作为分割点</strong>，数值比它小的点被划分到左子树，数值不小于它的点被分到又子树，对所有可能的分割法，计算分割的信息增益率，选择信息增益率IGR最大的属性值进行分割。 </p>
+<p>CART的连续值属性的算法：只是把IGR换成了基尼指数或平方误差，其它一样</p>
+</li>
+<li><p><strong>【注意】回归预测</strong>与<strong>连续值属性</strong>的区别</p>
+<p><strong>回归预测</strong>指<strong>输出</strong>（预测）的是一个连续变量的值，比如要求输出概率（又比如说要预测房价）</p>
+<p><strong>属性为连续值</strong>指的是<strong>输入</strong>的属性是连续的，即取值无限，如输入的$x是实数$，那就得用离散化方法，C4.5采用了二分，即把$x是实数\to \{x&lt;A_i\},\{x≥A_i\}$两个结点。（或者如输入的值是房价）</p>
+<p><strong>属性就是特征，属性的值即特征的取值</strong></p>
+</li>
+</ol>
+
       
     </div>
     
@@ -698,7 +801,7 @@ Gini(D,A)=\frac{|D_1|}{|D|}Gini(D_1)+\frac{|D_2|}{|D|}Gini(D_2)</script><p>式�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Decision-Tree"><span class="nav-number">1.</span> <span class="nav-text">Decision Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征选择"><span class="nav-number">2.</span> <span class="nav-text">特征选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵"><span class="nav-number">2.1.</span> <span class="nav-text">熵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益-Information-Gain"><span class="nav-number">2.2.</span> <span class="nav-text">信息增益(Information Gain)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益比-Information-Gain-Ratio"><span class="nav-number">2.3.</span> <span class="nav-text">信息增益比(Information Gain Ratio)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解"><span class="nav-number">2.4.</span> <span class="nav-text">理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基尼指数-Gini"><span class="nav-number">2.5.</span> <span class="nav-text">基尼指数(Gini)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的生成"><span class="nav-number">3.</span> <span class="nav-text">决策树的生成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3算法"><span class="nav-number">3.1.</span> <span class="nav-text">ID3算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-5算法"><span class="nav-number">3.2.</span> <span class="nav-text">C4.5算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的剪枝"><span class="nav-number">4.</span> <span class="nav-text">决策树的剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CART算法"><span class="nav-number">5.</span> <span class="nav-text">CART算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成"><span class="nav-number">5.1.</span> <span class="nav-text">生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝"><span class="nav-number">5.2.</span> <span class="nav-text">剪枝</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Decision-Tree"><span class="nav-number">1.</span> <span class="nav-text">Decision Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征选择"><span class="nav-number">2.</span> <span class="nav-text">特征选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#熵"><span class="nav-number">2.1.</span> <span class="nav-text">熵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益-Information-Gain"><span class="nav-number">2.2.</span> <span class="nav-text">信息增益(Information Gain)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益比-Information-Gain-Ratio"><span class="nav-number">2.3.</span> <span class="nav-text">信息增益比(Information Gain Ratio)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解"><span class="nav-number">2.4.</span> <span class="nav-text">理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基尼指数-Gini"><span class="nav-number">2.5.</span> <span class="nav-text">基尼指数(Gini)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的生成"><span class="nav-number">3.</span> <span class="nav-text">决策树的生成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3算法"><span class="nav-number">3.1.</span> <span class="nav-text">ID3算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-5算法"><span class="nav-number">3.2.</span> <span class="nav-text">C4.5算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树的剪枝"><span class="nav-number">4.</span> <span class="nav-text">决策树的剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CART算法"><span class="nav-number">5.</span> <span class="nav-text">CART算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成"><span class="nav-number">5.1.</span> <span class="nav-text">生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝"><span class="nav-number">5.2.</span> <span class="nav-text">剪枝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较ID3-C4-5和CART来理解"><span class="nav-number">6.</span> <span class="nav-text">比较ID3/C4.5和CART来理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
