@@ -81,14 +81,14 @@
 
 <meta name="description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
 <meta property="og:type" content="article">
-<meta property="og:title" content="提升方法">
+<meta property="og:title" content="Boosting">
 <meta property="og:url" content="https://aisakaki.com/2019/11/17/提升方法/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-18T11:44:43.269Z">
+<meta property="og:updated_time" content="2019-11-18T12:05:01.462Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="提升方法">
+<meta name="twitter:title" content="Boosting">
 <meta name="twitter:description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>提升方法 | 宵晓咲</title>
+  <title>Boosting | 宵晓咲</title>
   
 
 
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">提升方法</h1>
+          <h1 class="post-title" itemprop="name headline">Boosting</h1>
         
 
         <div class="post-meta">
@@ -426,9 +426,11 @@ w_{2i}=\frac{1}{Z_1}w_{1i}e^{-\alpha_1y_iG_1(x_i)}</script><p>权值为概率，
 <p><strong>⑥</strong>$\cdots$，进入第$m$轮迭代，迭代计算$e_m,\alpha_m,G_{m+1}$</p>
 <p><strong>⑦</strong>迭代结束后，得到强分类器</p>
 <script type="math/tex; mode=display">
-G(x)=sign(\sum_m\alpha_mG_m(x))</script><h3 id="AdaBoost算法的训练误差分析"><a href="#AdaBoost算法的训练误差分析" class="headerlink" title="AdaBoost算法的训练误差分析"></a>AdaBoost算法的训练误差分析</h3><p>AdaBoost最基本的性质是它能在学习过程中不断减少训练误差，即在训练数据集上的分类误差率。</p>
-<p>可以在每一轮选取适当的$G_m$使得$Z_m$最小，从而使训练误差下降最快</p>
-<h3 id="AdaBoost算法的解释"><a href="#AdaBoost算法的解释" class="headerlink" title="AdaBoost算法的解释"></a>AdaBoost算法的解释</h3><h2 id="提升树"><a href="#提升树" class="headerlink" title="提升树"></a>提升树</h2><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+G(x)=sign(\sum_m\alpha_mG_m(x))</script><hr>
+<p>AdaBoost算法的训练误差分析：略</p>
+<p>AdaBoost算法的前向分布算法解释：略</p>
+<p>可以在每一轮选取适当的$G_m$使得$Z_m$最小，从而使训练误差下降最快解释</p>
+<h2 id="提升树"><a href="#提升树" class="headerlink" title="提升树"></a>提升树</h2><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li>$I(True)=1,I(False)=0$</li>
 </ol>
 
@@ -451,7 +453,7 @@ G(x)=sign(\sum_m\alpha_mG_m(x))</script><h3 id="AdaBoost算法的训练误差分
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/11/17/提升方法/" title="提升方法">https://aisakaki.com/2019/11/17/提升方法/</a>
+    <a href="https://aisakaki.com/2019/11/17/提升方法/" title="Boosting">https://aisakaki.com/2019/11/17/提升方法/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -658,7 +660,7 @@ G(x)=sign(\sum_m\alpha_mG_m(x))</script><h3 id="AdaBoost算法的训练误差分
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">1.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost-Algorithm"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoost Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost算法的训练误差分析"><span class="nav-number">2.2.</span> <span class="nav-text">AdaBoost算法的训练误差分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost算法的解释"><span class="nav-number">2.3.</span> <span class="nav-text">AdaBoost算法的解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提升树"><span class="nav-number">3.</span> <span class="nav-text">提升树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">1.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost-Algorithm"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoost Algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提升树"><span class="nav-number">3.</span> <span class="nav-text">提升树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
