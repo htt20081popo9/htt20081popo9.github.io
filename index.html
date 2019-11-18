@@ -908,9 +908,9 @@
         
           <p><em>施工中</em></p>
 <p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
-<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，再<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
-<p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，以学习一个新的弱分类器来分开它们，它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
-<p><strong>Boost方法要考虑两个问题：</strong></p>
+<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，于是<strong>每个弱分类器各有所长</strong>，<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
+<p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，降低分类效果好的样本的权值，以学习一个新的弱分类器来分开它们，它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
+<p><strong>根据这个思想，Boost方法要考虑两个问题：</strong></p>
 <p>①每一轮<strong>训练数据的权值</strong>如何改变</p>
 <p>②<strong>如何将弱分类器组合</strong>成一个强分类器</p>
           <!--noindex-->
