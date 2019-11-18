@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-18T07:35:09.955Z">
+<meta property="og:updated_time" content="2019-11-18T07:53:29.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -534,7 +534,7 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p>$C_\alpha(t)=C(t)+\alpha|t|=C(t)+\alpha$</p>
 <p>以$t$为根节点（即<strong>不剪枝</strong>）的树$T_t$的损失函数为：$C_\alpha(T_t)=C(T_t)+\alpha|T_t|$</p>
 <p>当$C_\alpha(T_t)=C_\alpha(t)$的时候，联立以上两式得：$\alpha^o=\frac{C(t)-C(T_t)}{|T_t|-1}$，这个式子即表示<strong>剪枝与不剪枝损失函数相等</strong>的时候$\alpha$的<strong>值$\alpha^o$，我们把它用$g(t)$表示</strong>。</p>
-<p>根据上述式子推可得，$\alpha$越大，那么不剪枝的整体损失函数就会大于剪去的，那么就该剪（因为目的是最小化损失函数），反之就不该剪。于是$g(t)$就可以作为一个用来判断对于一个结点$t$，给定$\alpha$下该不该剪枝的<strong>阈值</strong>。</p>
+<p>根据上述式子推可得，$\alpha$越大，那么不剪枝的整体损失函数就会大于剪枝的整体损失函数（因为$C_\alpha(T_t)$的$\alpha$项后面跟着$|T_t|≥1$)，那么就该剪（因为目的是最小化损失函数），反之就不该剪。于是$g(t)$就可以作为一个用来判断对于一个结点$t$，给定$\alpha$下该不该剪枝的<strong>阈值</strong>。</p>
 <p>于是对于本次迭代的$\alpha$下，计算树$T$中<strong>每个结点$t$</strong>的剪枝判断阈值$g(t)$值：</p>
 <script type="math/tex; mode=display">
 g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>对树中的<strong>每个结点$t$</strong>作<strong>阈值判断</strong>：如果$\alpha≥g(t)，剪；\alpha＜g(t)，不剪$</p>
@@ -574,7 +574,7 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
 <li><p>C4.5是ID3的优化 IGR替代了IG</p>
 <p>因为信息增益的缺点是倾向于选择取值较多的屬性，在有些情况下这类属性可能不会提供太多有价值的信息。 </p>
 </li>
-<li><p>总结一下使用地方</p>
+<li><p>样本量</p>
 <p>只从样本量考虑，小样本建议考虑c4.5、大样本建议考虑cart。而cart本身是一种大样本的统计方法，小样本处理下泛化误差较大</p>
 </li>
 </ol>
@@ -649,8 +649,8 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/17/11月游戏简报/" rel="prev" title="11月游戏简评">
-                11月游戏简评 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/11/17/提升方法/" rel="prev" title="提升方法">
+                提升方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -731,7 +731,7 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">125</span>
+                  <span class="site-state-item-count">126</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

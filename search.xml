@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>11月游戏简评</title>
-    <url>/2019/11/17/11%E6%9C%88%E6%B8%B8%E6%88%8F%E7%AE%80%E6%8A%A5/</url>
+    <url>/2019/11/18/11%E6%9C%88%E6%B8%B8%E6%88%8F%E7%AE%80%E6%8A%A5/</url>
     <content><![CDATA[<p>历来的年末都是各大厂商血拼的时候，今年也不例外。</p>
 <p>在死亡搁浅搁浅之后，还以为今年的GOTY会陷入无人可领的地步，没想到横空杀出了个大黑马，星球大战：绝地真的是把我惊艳到了，或者说震惊到了。</p>
 <h2 id="星球大战：香"><a href="#星球大战：香" class="headerlink" title="星球大战：香"></a>星球大战：香</h2><h3 id="星球大战：绝地武士陨落"><a href="#星球大战：绝地武士陨落" class="headerlink" title="星球大战：绝地武士陨落"></a>星球大战：绝地武士陨落</h3><p>集各家游戏之所长，继承泰坦陨落的灵魂，以星战之衣钵，重生工作室又一次给玩家们交了一张几近满分的答卷（不是满分是因为发行商名字没取对，改名某某某就满分了）。我在这个游戏里看到了塞尔达，黑魂只狼，神海等等各家游戏的优点，又结合了自家出色的手感（可重生以前打击感做得好都是FPS的枪感好，并没有什么ACT的打击感开发经验，这是怎么做到一出手就如此优秀的？incredible. 仁王好好学学别人！！）</p>
@@ -37,7 +37,7 @@
 <p>这个以后专门开一篇来写好了。</p>
 <h2 id="GF：我们重质量不重数量"><a href="#GF：我们重质量不重数量" class="headerlink" title="GF：我们重质量不重数量"></a>GF：我们重质量不重数量</h2><p>神奇GF重新定义“质量”。</p>
 <p>这里我就打个滑稽，以下一万字略</p>
-<p><img src="//aisakaki.com/2019/11/17/11月游戏简报/1.png" alt="1"></p>
+<p><img src="//aisakaki.com/2019/11/18/11月游戏简报/1.png" alt="1"></p>
 <h2 id="XGN？"><a href="#XGN？" class="headerlink" title="XGN？"></a>XGN？</h2><p>你说的这个某GN，它厉害吗？厉害。可信吗？不好说。</p>
 <p>经过多年观察，我发现某GN有几个明显的特点：</p>
 <p>①喜欢同一系列作纵向，如果前作一般，但这次大大超越了前作，会给很高的分</p>
@@ -55,6 +55,24 @@
 ]]></content>
       <categories>
         <category>Game</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>提升方法</title>
+    <url>/2019/11/17/%E6%8F%90%E5%8D%87%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p><em>施工中</em></p>
+<p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
+<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，再<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
+<p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，以学习一个新的弱分类器来分开它们，它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
+<p><strong>Boost方法要考虑两个问题：</strong></p>
+<p>①每一轮<strong>训练数据的权值</strong>如何改变</p>
+<p>②<strong>如何将弱分类器组合</strong>成一个强分类器</p>
+<a id="more"></a>    
+<h2 id="AdaBoost"><a href="#AdaBoost" class="headerlink" title="AdaBoost"></a>AdaBoost</h2><p>AdaBoost</p>
+]]></content>
+      <categories>
+        <category>人工智能</category>
+        <category>机器学习与统计学习</category>
       </categories>
   </entry>
   <entry>
@@ -197,7 +215,7 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p>$C_\alpha(t)=C(t)+\alpha|t|=C(t)+\alpha$</p>
 <p>以$t$为根节点（即<strong>不剪枝</strong>）的树$T_t$的损失函数为：$C_\alpha(T_t)=C(T_t)+\alpha|T_t|$</p>
 <p>当$C_\alpha(T_t)=C_\alpha(t)$的时候，联立以上两式得：$\alpha^o=\frac{C(t)-C(T_t)}{|T_t|-1}$，这个式子即表示<strong>剪枝与不剪枝损失函数相等</strong>的时候$\alpha$的<strong>值$\alpha^o$，我们把它用$g(t)$表示</strong>。</p>
-<p>根据上述式子推可得，$\alpha$越大，那么不剪枝的整体损失函数就会大于剪去的，那么就该剪（因为目的是最小化损失函数），反之就不该剪。于是$g(t)$就可以作为一个用来判断对于一个结点$t$，给定$\alpha$下该不该剪枝的<strong>阈值</strong>。</p>
+<p>根据上述式子推可得，$\alpha$越大，那么不剪枝的整体损失函数就会大于剪枝的整体损失函数（因为$C_\alpha(T_t)$的$\alpha$项后面跟着$|T_t|≥1$)，那么就该剪（因为目的是最小化损失函数），反之就不该剪。于是$g(t)$就可以作为一个用来判断对于一个结点$t$，给定$\alpha$下该不该剪枝的<strong>阈值</strong>。</p>
 <p>于是对于本次迭代的$\alpha$下，计算树$T$中<strong>每个结点$t$</strong>的剪枝判断阈值$g(t)$值：</p>
 <script type="math/tex; mode=display">
 g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>对树中的<strong>每个结点$t$</strong>作<strong>阈值判断</strong>：如果$\alpha≥g(t)，剪；\alpha＜g(t)，不剪$</p>
@@ -237,7 +255,7 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
 <li><p>C4.5是ID3的优化 IGR替代了IG</p>
 <p>因为信息增益的缺点是倾向于选择取值较多的屬性，在有些情况下这类属性可能不会提供太多有价值的信息。 </p>
 </li>
-<li><p>总结一下使用地方</p>
+<li><p>样本量</p>
 <p>只从样本量考虑，小样本建议考虑c4.5、大样本建议考虑cart。而cart本身是一种大样本的统计方法，小样本处理下泛化误差较大</p>
 </li>
 </ol>
@@ -2586,9 +2604,9 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
         <category>论文阅读笔记</category>
       </categories>
       <tags>
+        <tag>GAN</tag>
         <tag>对抗样本</tag>
         <tag>智能对抗</tag>
-        <tag>GAN</tag>
       </tags>
   </entry>
   <entry>
