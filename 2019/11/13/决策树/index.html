@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-18T03:29:54.666Z">
+<meta property="og:updated_time" content="2019-11-18T07:35:09.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -525,7 +525,26 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 </li>
 </ol>
 <p>（连续属性值算法见后记-2）</p>
-<h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><p>剪枝过程中的损失函数同样为$C_\alpha(T)=C(T)+\alpha|T|$</p>
+<h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><p><strong>思想：</strong>尝试所有的$\alpha$对树进行剪枝，找出最佳子树</p>
+<p><strong>过程：</strong></p>
+<ol>
+<li><p><strong>迭代$\alpha$，剪枝，求每个$\alpha$下的最小子树</strong></p>
+<p>①对一棵树$T$，<strong>令$\alpha$从0从小到大开始进行一次迭代</strong>。</p>
+<p>对<strong>一个$\alpha$</strong>，对<strong>从下到上</strong>对<strong>每一个</strong>结点$t$，以$t$为单结点（<strong>即$t$以下的树结点全部剪掉</strong>）的损失函数为：</p>
+<p>$C_\alpha(t)=C(t)+\alpha|t|=C(t)+\alpha$</p>
+<p>以$t$为根节点（即<strong>不剪枝</strong>）的树$T_t$的损失函数为：$C_\alpha(T_t)=C(T_t)+\alpha|T_t|$</p>
+<p>当$C_\alpha(T_t)=C_\alpha(t)$的时候，联立以上两式得：$\alpha^o=\frac{C(t)-C(T_t)}{|T_t|-1}$，这个式子即表示<strong>剪枝与不剪枝损失函数相等</strong>的时候$\alpha$的<strong>值$\alpha^o$，我们把它用$g(t)$表示</strong>。</p>
+<p>根据上述式子推可得，$\alpha$越大，那么不剪枝的整体损失函数就会大于剪去的，那么就该剪（因为目的是最小化损失函数），反之就不该剪。于是$g(t)$就可以作为一个用来判断对于一个结点$t$，给定$\alpha$下该不该剪枝的<strong>阈值</strong>。</p>
+<p>于是对于本次迭代的$\alpha$下，计算树$T$中<strong>每个结点$t$</strong>的剪枝判断阈值$g(t)$值：</p>
+<script type="math/tex; mode=display">
+g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>对树中的<strong>每个结点$t$</strong>作<strong>阈值判断</strong>：如果$\alpha≥g(t)，剪；\alpha＜g(t)，不剪$</p>
+<p>②继续增大$\alpha$，选择下一个$\alpha$重复上述过程</p>
+<p>③迭代结束，得到一个子树序列：$\{T_0,T_1,\cdots,T_n\}$，每个子树对应于不同的$\alpha$值，每个子树都是对应$\alpha$值的最小子树</p>
+</li>
+<li><p><strong>对获取的最小子树序列进行选择最优$\alpha$和最优子树</strong></p>
+<p>利用独立验证数据集测试各子树的平方误差或基尼指数，求得最优解</p>
+</li>
+</ol>
 <h2 id="比较ID3-C4-5和CART来理解"><a href="#比较ID3-C4-5和CART来理解" class="headerlink" title="比较ID3/C4.5和CART来理解"></a>比较ID3/C4.5和CART来理解</h2><ol>
 <li><p><strong>划分</strong></p>
 <p>在ID3和C4.5中，通过IG或IGR求出<strong>最优特征</strong>之后，直接将特征的所有可能取值作为切分点，那么就成了<strong>多分类</strong>。那么ID3/C4.5生成的是一个多叉树</p>
@@ -550,13 +569,13 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p><strong>ID3对缺失值敏感</strong>，而C4.5和CART对缺失值可以进行多种方式的处理 O</p>
 </li>
 <li><p>剪枝方法不同</p>
-<p>C4.5是通过枝剪来修正树的准确性，而CART是直接利用全部数据发现<strong>所有</strong>树的结构进行对比 </p>
+<p>C4.5是通过枝剪来修正树的准确性，而CART是直接利用<strong>全部数据发现所有</strong>树的结构进行对比 </p>
 </li>
 <li><p>C4.5是ID3的优化 IGR替代了IG</p>
 <p>因为信息增益的缺点是倾向于选择取值较多的屬性，在有些情况下这类属性可能不会提供太多有价值的信息。 </p>
 </li>
 <li><p>总结一下使用地方</p>
-<p>只从样本量考虑，小样本建议考虑c4.5、大样本建议考虑cart。而cart本身是一种大样本的统计方法，小样本处理下泛化误差较大【】</p>
+<p>只从样本量考虑，小样本建议考虑c4.5、大样本建议考虑cart。而cart本身是一种大样本的统计方法，小样本处理下泛化误差较大</p>
 </li>
 </ol>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
