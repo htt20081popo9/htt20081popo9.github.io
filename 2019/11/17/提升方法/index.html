@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
+<meta name="description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Boosting">
 <meta property="og:url" content="https://aisakaki.com/2019/11/17/提升方法/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
+<meta property="og:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-19T05:12:19.840Z">
+<meta property="og:updated_time" content="2019-11-19T09:15:02.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting">
-<meta name="twitter:description" content="施工中 Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地">
+<meta name="twitter:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
 
 
 
@@ -397,8 +397,7 @@
       
 
       
-        <p><em>施工中</em></p>
-<p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
+        <p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
 <h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，于是<strong>每个弱分类器各有所长</strong>，<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
 <p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，降低分类效果好的样本的权值，以学习一个新的弱分类器来分开它们（<strong>在整个训练集上学习</strong>），它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
 <p><strong>根据这个思想，Boost方法要考虑两个问题：</strong></p>
@@ -429,15 +428,14 @@ w_{2i}=\frac{1}{Z_1}w_{1i}e^{-\alpha_1y_iG_1(x_i)}</script><p>权值为概率，
 <p><strong>⑦</strong>迭代结束后，得到强分类器</p>
 <script type="math/tex; mode=display">
 G(x)=sign(\sum_m\alpha_mG_m(x))</script><hr>
-<p>AdaBoost算法的训练误差分析：略</p>
-<p>可以在每一轮选取适当的$G_m$使得$Z_m$最小，从而使训练误差下降最快解释</p>
+<p>AdaBoost算法的训练误差分析：<strong>略</strong></p>
 <h2 id="前向分步算法"><a href="#前向分步算法" class="headerlink" title="前向分步算法"></a>前向分步算法</h2><p><strong>具体算法与公式略</strong></p>
 <p>思想：因为学习的是加法模型，如果能够从前往后，每一步只学习一个基函数及其系数，逐步逼近优化目标函数式，那么就可以简化优化的复杂度。</p>
 <p>AdaBoost算法的前向分布算法解释：AdaBoost算法是前向分步算法的特例。这时，模型是由基本分类器组成的加法模型，损失函数就是指数函数（<strong>证略</strong>）</p>
 <p>Boost方法实质上是使用了加法模型与前向分步算法。</p>
 <p>前向分步算法每一步相当于AdaBoost中的每一轮（但具体细节会有差别）</p>
 <p>更多地可以通过提升树来理解，提升树就是直接用的前向分布算法。</p>
-<h2 id="提升树"><a href="#提升树" class="headerlink" title="提升树"></a>提升树</h2><p>提升树是以决策树为基函数的提升方法。表示为决策树的加法模型：</p>
+<h2 id="BDT-提升树"><a href="#BDT-提升树" class="headerlink" title="BDT 提升树"></a>BDT 提升树</h2><p>提升树是以决策树为基函数的提升方法。表示为决策树的加法模型：</p>
 <script type="math/tex; mode=display">
 f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Theta_m$为决策树的参数，$M$为树的个数</p>
 <p>树的线性组合可以很好地拟合训练数据，即使输入与输出之间的关系很复杂也如此，于是提升树是一个很高功能的学习算法</p>
@@ -445,7 +443,7 @@ f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Th
 <p>第$m+1$步的模型为：$f_{m+1}(x)=f_{m}(x)+T(x;\Theta_{m+1})$$\quad ,f_{m}(x)$即为当前第$m$步的已有模型，<strong>由上一步第$m-1$步学到</strong></p>
 <p>于是通过<strong>ERM</strong>确定下一个决策树的最优参数：$\hat \Theta_{m+1}=\arg\min_{\Theta_{m+1}}\sum_{i=1}^NL(y_i,f_{m}(x_i)+T(x_i,\Theta_{m+1}))$</p>
 <p>根据不同的问题，使用不同的损失函数；回归问题用平方误差，分类问题用指数损失函数；一般决策问题用一般损失函数</p>
-<p><strong>①二分类问题</strong>：线性分类器为二类分类树（<strong>CART分类树</strong>）的AdaBoost</p>
+<p><strong>①二分类问题：线性分类器为二类分类树（CART分类树）的AdaBoost</strong></p>
 <p><strong>②回归问题</strong>：<strong>基函数是CART回归树</strong></p>
 <p>对第$m$步</p>
 <p>采用平方误差损失，则$L(y_i,f_{m}(x_i)+T(x,\Theta_{m+1}))=(y_i-f_{m}(x_i)-T(x_i;\Theta_{m+1}))^2$</p>
@@ -461,13 +459,52 @@ f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Th
 <p>总结（回归问题）：</p>
 <p>①每一轮训练数据的权值如何改变：不直接设置权值，而是计算残差</p>
 <p>②如何将弱分类器组合成一个强分类器：拟合残差得到的决策树相加</p>
-<h2 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h2><p>梯度提升决策树，依然基于CART分类器，是<strong>回归问题提升树的改进</strong></p>
-<p>像前面的平方，指数损失函数都很容易最优化，但对于一般损失函数，每一步求最优化都不容易。于是使用<strong>梯度提升算法来求解损失函数最优化问题</strong>，其是最速下降法的近似方法。</p>
-<p><strong>在提升树基础上修改：</strong>利用<strong>损失函数的负梯度在当前模型的值</strong>作为回归问题提升树算法中的<strong>残差的近似值</strong></p>
+<h2 id="GBDT-梯度提升决策树（回归）"><a href="#GBDT-梯度提升决策树（回归）" class="headerlink" title="GBDT 梯度提升决策树（回归）"></a>GBDT 梯度提升决策树（回归）</h2><h3 id="GDBT-Algorithm"><a href="#GDBT-Algorithm" class="headerlink" title="GDBT Algorithm"></a>GDBT Algorithm</h3><p>依然基于CART分类器，是<strong>回归问题提升树的改进</strong></p>
+<p>像前面的平方，指数损失函数都很容易最优化，但对于一般损失函数，如huber损失、quantile损失，每一步求最优化都不容易。于是使用<strong>梯度提升（不是梯度上升！梯度依然是下降以求最小损失函数）算法来求解损失函数最优化问题</strong>，其是<strong>最速下降法</strong>（搜索最佳步长的梯度下降法）的近似方法。</p>
+<p><strong>在提升树基础上修改：</strong>利用<strong>损失函数的[负梯度]在当前模型的值</strong>作为回归问题提升树算法中的<strong>残差的近似值</strong></p>
+<hr>
+<p><strong>过程：</strong></p>
+<p>$m$代表步（轮）数</p>
+<p><strong>①初始化：</strong></p>
 <script type="math/tex; mode=display">
-r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script><p>于是新的决策树就去拟合这个残差，其它不变。</p>
-<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
-<li>$I(True)=1,I(False)=0$</li>
+f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)</script><p><strong>①对该步（轮）每个样本计算残差为：</strong></p>
+<script type="math/tex; mode=display">
+r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script><p><strong>②拟合当前残差得到下一步用的新决策树的[结构]：</strong></p>
+<p>用这个新决策树<strong>对残差</strong>估得<strong>叶结点区域</strong>（划分）$R_{mj}\quad,j=1,2,\cdots,J$</p>
+<p><strong>[此时只是确定了树的结构，但是还未确定叶子节点中的输出值，下一步③中通过最小化当前的损失函数，求得每个叶子节点中的输出值 ]</strong> </p>
+<p><strong>③</strong>对<strong>每个</strong>区域<strong>用线性搜索计算叶结点区域的值</strong>（最速下降法），使得<strong>损失函数最小化</strong>：</p>
+<script type="math/tex; mode=display">
+c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="math/tex; mode=display">
+更新：f_{m+1}(x)=f_{m}(x)+\sum_{j=1}^Jc_{mj}I(x∈R_{mj})</script><p>注意这里的表示方法。$I(x∈R_{mj})$就表示了新学得的决策树输出的结构，乘上该区域结点输出值$c_{mj}$，此即在当前步下最终学到的下一步用的新决策树$\sum_{j=1}^Jc_{mj}I(x∈R_{mj})$</p>
+<p><strong>④最终的强分类器为：</strong></p>
+<script type="math/tex; mode=display">
+\hat f(x)=f_M(x)=\sum_{m=1}^M\sum_{j=1}^Jc_{mj}I(x∈R_{mj})</script><p>于是新的决策树就去拟合这个残差，其它不变。</p>
+<hr>
+<p>残差其实是梯度提升的一种特例，将损失函数换为平方差损失可以推导出</p>
+<p>如果样本输出类别为$k$，则$y_k=1$；$p_k(x)$表示模型$f(x)$判定$x$属于第$k$类的概率：$p_k(x)=\frac{e^{f_k(x)}}{\sum_{l=1}^Ke^{f_l(x)}}$</p>
+<p>注意，对于多分类问题，回归树训练时，会为每一个类别训练一个决策树。O</p>
+<p>具体算法略</p>
+<p>GDBT分类算法略O</p>
+<h3 id="GDBT-损失函数选择"><a href="#GDBT-损失函数选择" class="headerlink" title="GDBT 损失函数选择"></a>GDBT 损失函数选择</h3><p>OReason</p>
+<ol>
+<li><p>分类问题 </p>
+<p>指数损失函数、对数损失函数</p>
+</li>
+<li><p>回归问题</p>
+<p>均方差损失函数、绝对损失函数</p>
+</li>
+<li><p>huber损失函数和分位数（quantile）损失函数，也用于回归问题，可以增加回归问题的健壮性，减少异常点对损失函数的影响</p>
+</li>
+</ol>
+<h3 id="GDBT的优缺点"><a href="#GDBT的优缺点" class="headerlink" title="GDBT的优缺点"></a>GDBT的优缺点</h3><p>可以处理各种类型的数据，预测准确率高，使用huber和分位数损失函数可以增加回归问题的健壮性（Huber函数 在值为0时也是可微分的 ）</p>
+<p>但是由于基学习器存在依赖关系，难以并行化处理，不过通过子采样的SGBT来实现部分并行 </p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p>$I(True)=1,I(False)=0$</p>
+</li>
+<li><p>更多资料可以看此文 <a href="https://blog.csdn.net/zhang15953709913/article/details/84586592" target="_blank" rel="noopener">https://blog.csdn.net/zhang15953709913/article/details/84586592</a> </p>
+</li>
+<li><p>梯度下降法/最速下降法中用的就是加上负梯度（相当于减去梯度）以缩小损失函数，加梯度就越来越大了</p>
+</li>
 </ol>
 
       
@@ -603,7 +640,7 @@ r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">126</span>
+                  <span class="site-state-item-count">127</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -696,7 +733,7 @@ r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">1.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost-Algorithm"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoost Algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前向分步算法"><span class="nav-number">3.</span> <span class="nav-text">前向分步算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提升树"><span class="nav-number">4.</span> <span class="nav-text">提升树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT"><span class="nav-number">5.</span> <span class="nav-text">GBDT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XGBoost"><span class="nav-number">6.</span> <span class="nav-text">XGBoost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">1.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost-Algorithm"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoost Algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前向分步算法"><span class="nav-number">3.</span> <span class="nav-text">前向分步算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BDT-提升树"><span class="nav-number">4.</span> <span class="nav-text">BDT 提升树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT-梯度提升决策树（回归）"><span class="nav-number">5.</span> <span class="nav-text">GBDT 梯度提升决策树（回归）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDBT-Algorithm"><span class="nav-number">5.1.</span> <span class="nav-text">GDBT Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GDBT-损失函数选择"><span class="nav-number">5.2.</span> <span class="nav-text">GDBT 损失函数选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GDBT的优缺点"><span class="nav-number">5.3.</span> <span class="nav-text">GDBT的优缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
