@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-19T03:04:08.774Z">
+<meta property="og:updated_time" content="2019-11-20T09:26:07.790Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -518,8 +518,8 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p>于是我们就能求得每个子数据集的平方误差了（公式见上）</p>
 <p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优均值$\hat c_m$：</p>
 <script type="math/tex; mode=display">
-\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p><strong>求得$(j,s)$就告诉我们决策树怎么生存，选什么特征怎么切分（同分类）</strong></p>
-<p>每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能求得对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），<strong>这个均值就是特征值$j$的回归输出</strong></p>
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p>①【<strong>切割</strong>】：<strong>求得$(j,s)$就告诉我们决策树怎么生成，选什么特征怎么切分（同分类），遍历选择$j,s$选最优划分。【这时候计算损失就是选择左\右划分（结点）的所有点到切割点的损失，选取使共损失最小的切割方法。】</strong></p>
+<p>②【<strong>决定均值/输出</strong>】：每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能求得对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），<strong>这个均值就是特征值$j$的回归输出</strong>。<strong>【这时候就是在各自每一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小。】</strong></p>
 <p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
 <p>这样生成的树叫<strong>最小二乘回归树</strong></p>
 </li>

@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-19T12:15:51.335Z">
+<meta property="og:updated_time" content="2019-11-20T09:27:41.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting(AdaBoost、DBT、GBDT)">
 <meta name="twitter:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
@@ -434,6 +434,7 @@ G(x)=sign(\sum_m\alpha_mG_m(x))</script><hr>
 <p>AdaBoost算法的前向分布算法解释：AdaBoost算法是前向分步算法的特例。这时，模型是由基本分类器组成的加法模型，损失函数就是指数函数（<strong>证略</strong>）</p>
 <p>Boost方法实质上是使用了加法模型与前向分步算法。</p>
 <p>前向分步算法每一步相当于AdaBoost中的每一轮（但具体细节会有差别）</p>
+<p>前向分步算法的求解本质是<strong>贪心方法</strong></p>
 <p>更多地可以通过提升树来理解，提升树就是直接用的前向分布算法。</p>
 <h2 id="BDT-提升树"><a href="#BDT-提升树" class="headerlink" title="BDT 提升树"></a>BDT 提升树</h2><p>提升树是以决策树为基函数的提升方法。表示为决策树的加法模型：</p>
 <script type="math/tex; mode=display">
@@ -461,34 +462,48 @@ f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Th
 <p>②如何将弱分类器组合成一个强分类器：拟合残差得到的决策树相加</p>
 <h2 id="GBDT-梯度提升决策树（回归）"><a href="#GBDT-梯度提升决策树（回归）" class="headerlink" title="GBDT 梯度提升决策树（回归）"></a>GBDT 梯度提升决策树（回归）</h2><h3 id="GDBT-Algorithm"><a href="#GDBT-Algorithm" class="headerlink" title="GDBT Algorithm"></a>GDBT Algorithm</h3><p>依然基于CART分类器，是<strong>回归问题提升树的改进</strong></p>
 <p>像前面的平方，指数损失函数都很容易最优化，但对于一般损失函数，如huber损失、quantile损失，每一步求最优化都不容易。于是使用<strong>梯度提升（不是梯度上升！梯度依然是下降以求最小损失函数）算法来求解损失函数最优化问题</strong>，其是<strong>最速下降法</strong>（搜索最佳步长的梯度下降法）的近似方法。</p>
-<p><strong>在提升树基础上修改：</strong>利用<strong>损失函数的[负梯度]在当前模型的值</strong>作为回归问题提升树算法中的<strong>残差的近似值</strong></p>
+<p><strong>在提升树基础上修改：</strong>利用损失函数的<strong>[负梯度在当前模型的值]</strong>替代回归问题提升树算法中的<strong>残差</strong></p>
+<p>GBRT 几乎可用于所有的回归问题（线性/非线性） 问题O</p>
 <hr>
 <p><strong>过程：</strong></p>
 <p>$m$代表步（轮）数</p>
 <p><strong>①初始化：</strong></p>
 <script type="math/tex; mode=display">
-f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)</script><p><strong>①对该步（轮）每个样本计算残差为：</strong></p>
+f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)</script><p><strong>②对该步（轮）每个样本计算[负梯度在当前模型的值=残差的估计]为：</strong></p>
 <script type="math/tex; mode=display">
-r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script><p><strong>②拟合当前残差得到下一步用的新决策树的[结构]：</strong></p>
-<p>用这个新决策树<strong>对残差</strong>估得<strong>叶结点区域</strong>（划分）$R_{mj}\quad,j=1,2,\cdots,J$</p>
-<p><strong>[此时只是确定了树的结构，但是还未确定叶子节点中的输出值，下一步③中通过最小化当前的损失函数，求得每个叶子节点中的输出值 ]</strong> 。更多细节见下面的“注意理解”</p>
-<p><strong>③</strong>对<strong>每个</strong>区域<strong>用线性搜索计算叶结点区域的值</strong>（最速下降法），使得<strong>损失函数最小化</strong>：</p>
+r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script><p>推导见下面【②中残差的推导】</p>
+<p><strong>③拟合上面计算出的每个样本的[残差]，得到下一步用的新决策树的[结构]：</strong></p>
+<p>用这个新决策树<strong>对残差</strong>学习得到<strong>叶结点区域</strong>（划分）$R_{mj}\quad,j=1,2,\cdots,J$</p>
+<p><strong>[此时只是确定了树的结构，但是还未确定叶子节点中的输出值，下一步④中通过最小化当前的损失函数，求得每个叶子节点中的输出值，和CART中的算法一样，不同的就在于下面确定输出值的时候是让输出而不是残差去拟合$y_i$ ]</strong> 。更多细节见下面的【注意理解】</p>
+<p><strong>④</strong>对<strong>每个划分</strong>用线性搜索叶结点区域的最优值（最速下降法），使得<strong>损失函数最小化</strong>：</p>
 <script type="math/tex; mode=display">
 c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="math/tex; mode=display">
 更新：f_{m+1}(x)=f_{m}(x)+\sum_{j=1}^Jc_{mj}I(x∈R_{mj})</script><p>注意这里的表示方法。$I(x∈R_{mj})$就表示了新学得的决策树输出的结构，乘上该区域结点输出值$c_{mj}$，此即在当前步下最终学到的下一步用的新决策树$\sum_{j=1}^Jc_{mj}I(x∈R_{mj})$</p>
-<p><strong>④最终的强分类器为：</strong></p>
+<p><strong>⑤最终的强分类器为：</strong></p>
 <script type="math/tex; mode=display">
 \hat f(x)=f_M(x)=\sum_{m=1}^M\sum_{j=1}^Jc_{mj}I(x∈R_{mj})</script><p>于是新的决策树就去拟合这个残差，其它不变。</p>
 <hr>
 <p><strong>【注意理解】：</strong>这里需要好好回想生成CART回归树的步骤。将CART回归树表达式中是损失函数扩展为任意，则：</p>
 <p>$\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}L(y_i,c_1)+\min_{c_2}\sum_{x_i∈R_2(j,s)}L(y_i,c_2)]$</p>
-<p>②中就相当于通过拟合残差（也就是该式子损失函数中的拟合$y_i$替换为拟合$r_i$）先求了CART回归树的外围参数最小值$j,s$，即特征选择和<strong>划分</strong></p>
-<p>③中就是求在划分下，使得损失函数最小的$c$，而这个$c$就是对应划分的回归输出（通过求该划分下的平均值求得），也就是上面所提到的叶结点区域的值</p>
+<p>③中就相当于通过拟合残差（也就是该式子损失函数中的拟合$y_i$替换为拟合$r_i$）先求了CART回归树的外围参数最小值$j,s$，即<strong>特征选择</strong>和<strong>划分</strong>（回看CART回归生成，遍历选择$j,s$选最优划分）</p>
+<p>④中就是求在划分下，使得损失函数最小的$c$，而这个$c$就是对应划分的残差的回归输出（通过求该划分下的平均值求得，为CART中损失函数中的模型输出值），也就是上面所提到的叶结点区域的值。（回看CART回归生成，在一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小）</p>
+<p>由于这里拟合的是残差（除了第一步决策树是拟合的训练集），其他决策树回归输出的$c$都是拟合的残差的平均值（回归输出），于是要求<strong>对训练集的回归输出</strong>（此轮模型输出）还要加上从第一颗决策树输出与中间决策树拟合残差输出迭代而来的前$m$步模型$f_{m}(x_i)$（第$m$轮），所以某划分的模型实际回归输出为$f_{m}(x_i)+c$。（前向分步算法的基本求法。）<strong>所以我们在每轮（第一轮除外）拟合决策树求划分的时候，是拟合残差（③）；但是在求划分得到的叶结点区域的输出值的时候，我们是要去拟合[真实输出值]而不是残差，所以是用$f_{m}(x_i)+c$去拟合！得损失函数极值及极值的时候的$c$（④）</strong></p>
 <hr>
-<p>残差其实是梯度提升的一种特例，将损失函数换为平方差损失可以推导出</p>
+<p><strong>【②中残差的推导】：</strong>损失函数为</p>
+<p>$L(y_{i+1},f_{m+1}(x_i))=L(y_{i+1},f_{m}(x_i)+T(x,\Theta_{m+1}))$，$y$为常数（样本真实输出）</p>
+<p>令$x’=\hat f_{m}(x_i)+T(x,\Theta_{m+1})$，对于在$x_0$的泰勒展开：$f(x)=f(x_0)+\cdots+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+R_n(x)$</p>
+<p>(此$x’$即为泰勒展开式形式的自变量，为了区分损失函数中的$x$)</p>
+<p>则该损失函数<strong>在当前模型$\hat f_{m}(x_i)$处</strong>进行<strong>一阶泰勒展开</strong>：</p>
+<p>$L(y_{i+1},f_{m+1}(x_i))=L(y_{i+1},f_{m}(x_i)+T(x,\Theta_{m+1}))≈L(y_{i+1},\hat f_{m}(x_i))+\frac{\partial L(y_{i+1},\hat f_{m}(x_i))}{\partial f_{m}(x_i)}(x’-\hat f_{m}(x_i))$</p>
+<p>$=L(y_{i+1},\hat f_{m}(x_i))+\frac{\partial L(y_{i+1},\hat f_{m}(x_i))}{\partial f_{m}(x_i)}T(x,\Theta_{m+1})$</p>
+<p>所以要使损失函数最低，那么按照梯度下降思想，我们求出梯度，然后只需要令损失函数向梯度反方向增加即可。所以我们让损失函数对要优化的变量$T(x,\Theta_{m+1})$求导（$L(y_{i+1},\hat f_{m}(x_i))$显然为无关项）：</p>
+<p>$\nabla L(y_{i+1},f_{m+1}(x_i))=\frac{\partial L(y_{i+1},f_{m+1}(x_i))}{\partial T(x,\Theta_{m+1})}=\frac{\partial L(y_{i+1},\hat f_{m}(x_i))}{\partial f_{m}(x_i)}$，于是我们就要让函数在：</p>
+<p>$r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}$上梯度下降，该负梯度的在当前模型的值即为残差的估计。</p>
+<hr>
+<p>残差其实是梯度提升中负梯度的一种特例，就是导数的近似值，将损失函数换为平方差损失可以推导出</p>
 <p>具体算法略</p>
 <h3 id="GDBT分类算法O"><a href="#GDBT分类算法O" class="headerlink" title="GDBT分类算法O"></a>GDBT分类算法O</h3><p>如果样本输出类别为$k$，则$y_k=1$；$p_k(x)$表示模型$f(x)$判定$x$属于第$k$类的概率：$p_k(x)=\frac{e^{f_k(x)}}{\sum_{l=1}^Ke^{f_l(x)}}$</p>
-<p>注意，对于多分类问题，回归树训练时，会为每一个类别训练一个决策树。O</p>
+<p>注意，对于多分类问题，回归树训练时，会为每一个类别训练一个决策树。</p>
 <h3 id="GDBT的正则化"><a href="#GDBT的正则化" class="headerlink" title="GDBT的正则化"></a>GDBT的正则化</h3><ol>
 <li>与AdaBoost一样，每个决策树乘上一个弱化系数</li>
 <li>对CART树剪枝，降低CART树复杂度</li>
@@ -513,6 +528,8 @@ c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="ma
 <li><p>更多资料可以看此文 <a href="https://blog.csdn.net/zhang15953709913/article/details/84586592" target="_blank" rel="noopener">https://blog.csdn.net/zhang15953709913/article/details/84586592</a> </p>
 </li>
 <li><p>梯度下降法/最速下降法中用的就是加上负梯度（相当于减去梯度）以缩小损失函数，加梯度就越来越大了</p>
+</li>
+<li><p>这里有一个GDBT回归问题求解的一个例子： <a href="https://blog.csdn.net/zpalyq110/article/details/79527653" target="_blank" rel="noopener">https://blog.csdn.net/zpalyq110/article/details/79527653</a> ，也可以作为自己练习O</p>
 </li>
 </ol>
 
