@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-20T09:27:41.772Z">
+<meta property="og:updated_time" content="2019-11-20T11:56:30.201Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting(AdaBoost、DBT、GBDT)">
 <meta name="twitter:description" content="Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法 Boosting思想：对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到将复杂的分类问题分而治之，由每个弱分类器负责学习一个相对比较简单的分类问题，于是每个弱分类器各有所长，将多个弱分类器组合成一个强分类器，就可以解决复杂分类问题。 具体地，我们在">
@@ -460,6 +460,7 @@ f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Th
 <p>总结（回归问题）：</p>
 <p>①每一轮训练数据的权值如何改变：不直接设置权值，而是计算残差</p>
 <p>②如何将弱分类器组合成一个强分类器：拟合残差得到的决策树相加</p>
+<p>BDT的求解过程一般化就是前向分步算法的求解过程，需要理解，以便后面变形方便使用</p>
 <h2 id="GBDT-梯度提升决策树（回归）"><a href="#GBDT-梯度提升决策树（回归）" class="headerlink" title="GBDT 梯度提升决策树（回归）"></a>GBDT 梯度提升决策树（回归）</h2><h3 id="GDBT-Algorithm"><a href="#GDBT-Algorithm" class="headerlink" title="GDBT Algorithm"></a>GDBT Algorithm</h3><p>依然基于CART分类器，是<strong>回归问题提升树的改进</strong></p>
 <p>像前面的平方，指数损失函数都很容易最优化，但对于一般损失函数，如huber损失、quantile损失，每一步求最优化都不容易。于是使用<strong>梯度提升（不是梯度上升！梯度依然是下降以求最小损失函数）算法来求解损失函数最优化问题</strong>，其是<strong>最速下降法</strong>（搜索最佳步长的梯度下降法）的近似方法。</p>
 <p><strong>在提升树基础上修改：</strong>利用损失函数的<strong>[负梯度在当前模型的值]</strong>替代回归问题提升树算法中的<strong>残差</strong></p>
@@ -489,9 +490,10 @@ c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="ma
 <p>④中就是求在划分下，使得损失函数最小的$c$，而这个$c$就是对应划分的残差的回归输出（通过求该划分下的平均值求得，为CART中损失函数中的模型输出值），也就是上面所提到的叶结点区域的值。（回看CART回归生成，在一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小）</p>
 <p>由于这里拟合的是残差（除了第一步决策树是拟合的训练集），其他决策树回归输出的$c$都是拟合的残差的平均值（回归输出），于是要求<strong>对训练集的回归输出</strong>（此轮模型输出）还要加上从第一颗决策树输出与中间决策树拟合残差输出迭代而来的前$m$步模型$f_{m}(x_i)$（第$m$轮），所以某划分的模型实际回归输出为$f_{m}(x_i)+c$。（前向分步算法的基本求法。）<strong>所以我们在每轮（第一轮除外）拟合决策树求划分的时候，是拟合残差（③）；但是在求划分得到的叶结点区域的输出值的时候，我们是要去拟合[真实输出值]而不是残差，所以是用$f_{m}(x_i)+c$去拟合！得损失函数极值及极值的时候的$c$（④）</strong></p>
 <hr>
-<p><strong>【②中残差的推导】：</strong>损失函数为</p>
+<p><strong>【②中残差的推导】：</strong>损失函数为（这里是单个样本的损失函数，多个样本加个求和符号即可，求出的每个样本的残差结论不变）</p>
 <p>$L(y_{i+1},f_{m+1}(x_i))=L(y_{i+1},f_{m}(x_i)+T(x,\Theta_{m+1}))$，$y$为常数（样本真实输出）</p>
-<p>令$x’=\hat f_{m}(x_i)+T(x,\Theta_{m+1})$，对于在$x_0$的泰勒展开：$f(x)=f(x_0)+\cdots+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+R_n(x)$</p>
+<p>令$x’=\hat f_{m}(x_i)+T(x,\Theta_{m+1})$，对于在$x_0$的泰勒展开：</p>
+<p>$f(x)=f(x_0)+\cdots+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+R_n(x)$</p>
 <p>(此$x’$即为泰勒展开式形式的自变量，为了区分损失函数中的$x$)</p>
 <p>则该损失函数<strong>在当前模型$\hat f_{m}(x_i)$处</strong>进行<strong>一阶泰勒展开</strong>：</p>
 <p>$L(y_{i+1},f_{m+1}(x_i))=L(y_{i+1},f_{m}(x_i)+T(x,\Theta_{m+1}))≈L(y_{i+1},\hat f_{m}(x_i))+\frac{\partial L(y_{i+1},\hat f_{m}(x_i))}{\partial f_{m}(x_i)}(x’-\hat f_{m}(x_i))$</p>
@@ -523,14 +525,11 @@ c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="ma
 <h3 id="GDBT的优缺点"><a href="#GDBT的优缺点" class="headerlink" title="GDBT的优缺点"></a>GDBT的优缺点</h3><p>可以处理各种类型的数据，预测准确率高，使用huber和分位数损失函数可以增加回归问题的健壮性（Huber函数 在值为0时也是可微分的 ）</p>
 <p>但是由于基学习器存在依赖关系，难以并行化处理，不过通过子采样的SGBT来实现部分并行 </p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
-<li><p>$I(True)=1,I(False)=0$</p>
-</li>
-<li><p>更多资料可以看此文 <a href="https://blog.csdn.net/zhang15953709913/article/details/84586592" target="_blank" rel="noopener">https://blog.csdn.net/zhang15953709913/article/details/84586592</a> </p>
-</li>
-<li><p>梯度下降法/最速下降法中用的就是加上负梯度（相当于减去梯度）以缩小损失函数，加梯度就越来越大了</p>
-</li>
-<li><p>这里有一个GDBT回归问题求解的一个例子： <a href="https://blog.csdn.net/zpalyq110/article/details/79527653" target="_blank" rel="noopener">https://blog.csdn.net/zpalyq110/article/details/79527653</a> ，也可以作为自己练习O</p>
-</li>
+<li>$I(True)=1,I(False)=0$</li>
+<li>更多资料可以看此文 <a href="https://blog.csdn.net/zhang15953709913/article/details/84586592" target="_blank" rel="noopener">https://blog.csdn.net/zhang15953709913/article/details/84586592</a> </li>
+<li>梯度下降法/最速下降法中用的就是加上负梯度（相当于减去梯度）以缩小损失函数，加梯度就越来越大了</li>
+<li>这里有一个GDBT回归问题求解的一个例子： <a href="https://blog.csdn.net/zpalyq110/article/details/79527653" target="_blank" rel="noopener">https://blog.csdn.net/zpalyq110/article/details/79527653</a> ，也可以作为自己练习O</li>
+<li>表记轮数/步数下标的时候我都是观测的$m,m+1$，可以各自减一改为观测$m-1,m$</li>
 </ol>
 
       

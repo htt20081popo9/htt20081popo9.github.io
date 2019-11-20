@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta name="description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Boosting(XGBoost、lightGBM)和Random Forest">
 <meta property="og:url" content="https://aisakaki.com/2019/11/19/Forest/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta property="og:description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-20T09:29:35.659Z">
+<meta property="og:updated_time" content="2019-11-20T12:34:37.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting(XGBoost、lightGBM)和Random Forest">
-<meta name="twitter:description" content="基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta name="twitter:description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
 
 
 
@@ -397,23 +397,32 @@
       
 
       
-        <p><em>基础部分见上篇</em></p>
+        <p><em>施工中</em></p>
+<p><em>基础部分见上篇</em></p>
 <h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。</p>
 <p>这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。</p>
 <p>XGBoost在GBDT上做了一定改进</p>
 <a id="more"></a>    
-<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p>定义正则项：</p>
+<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p>定义每一步损失函数的正则项：($m$为步/轮数)</p>
 <script type="math/tex; mode=display">
-\Omega(f)=\gamma T+\frac{1}{2}\lambda||c||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$c$为<strong>叶子节点的输出值</strong></p>
-<p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)：</p>
+\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$c$为<strong>叶子节点的输出值</strong></p>
+<p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)变为（样本总体损失函数）：</p>
 <script type="math/tex; mode=display">
-L(y_i,f(x_i))=\sum_iL'(y_i,f(x_i))+\sum_k\Omega(f_k)</script><h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
+L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
 <p>在GDBT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
 <p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
 <script type="math/tex; mode=display">
-令：g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>则有</p>
-<script type="math/tex; mode=display">
-L≈\sum_i[L'(y_i,f(x_i))+g_if(x_i)+\frac{1}{2}h_if^2(x_i)]+\sum_k\Omega(f_k)</script><h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
+g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>于是用和GBDT一样的方法，对无正则的原损失函数（单个样本）$L’(y_{i+1},f_{m+1}(x_i))$在$\hat f_m(x_i)$处进行泰勒二阶展开，这里简要推导：</p>
+<p>$L’(y_{i+1},f_{m+1}(x_i))=L’(y_{i+1},f_m(x_i)+T(x,\Theta_{m+1}))$ </p>
+<p>对右式在$\hat f_m(x_i)$二阶泰勒展开，并令$x’=\hat f_m(x_i)+T(x,\Theta_{m+1})$，$y$为无关常量</p>
+<p>$\therefore 原式≈L’(y_{i+1},f_m(x_i))+g_i(x’-\hat f_m(x_i))+\frac{1}{2}h_i(x’-\hat f_m(x_i))^2$</p>
+<p>$=L’(y_{i+1},f_m(x_i))+g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
+<p>由于对本轮优化来说，$L’(y_{i+1},f_m(x_i))$是个常数，不会影响损失函数，于是：</p>
+<p>$L’(y_{i+1},f_{m+1}(x_i))≈g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
+<p>于是计算整个样本集的损失函数加上前面的正则的表达式构成目标损失函数：</p>
+<p>$Obj_m=\sum_{i=1}^m[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||c||^2$</p>
+<p>【转换标记】</p>
+<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
 
       
     </div>
