@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta name="description" content="施工中 XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法； XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 注意理解上一篇GBDT中的【注意理解】部分，读">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Boosting(XGBoost、lightGBM)和Random Forest">
+<meta property="og:title" content="Boosting(XGBoost、LightGBM)和Random Forest">
 <meta property="og:url" content="https://aisakaki.com/2019/11/19/Forest/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta property="og:description" content="施工中 XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法； XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 注意理解上一篇GBDT中的【注意理解】部分，读">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-20T12:34:37.275Z">
+<meta property="og:updated_time" content="2019-11-21T13:01:39.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boosting(XGBoost、lightGBM)和Random Forest">
-<meta name="twitter:description" content="施工中 基础部分见上篇 XGBoost基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。 这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。 XGBoost在GBDT上做了一定改进">
+<meta name="twitter:title" content="Boosting(XGBoost、LightGBM)和Random Forest">
+<meta name="twitter:description" content="施工中 XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法； XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 注意理解上一篇GBDT中的【注意理解】部分，读">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>Boosting(XGBoost、lightGBM)和Random Forest | 宵晓咲</title>
+  <title>Boosting(XGBoost、LightGBM)和Random Forest | 宵晓咲</title>
   
 
 
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Boosting(XGBoost、lightGBM)和Random Forest</h1>
+          <h1 class="post-title" itemprop="name headline">Boosting(XGBoost、LightGBM)和Random Forest</h1>
         
 
         <div class="post-meta">
@@ -398,19 +398,21 @@
 
       
         <p><em>施工中</em></p>
-<p><em>基础部分见上篇</em></p>
-<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。</p>
-<p>这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。</p>
-<p>XGBoost在GBDT上做了一定改进</p>
-<a id="more"></a>    
-<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p>定义每一步损失函数的正则项：($m$为步/轮数)</p>
+<p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法；</em></p>
+<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>原论文： <a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">https://arxiv.org/abs/1603.02754</a> </p>
+<p>基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进</p>
+<p>注意理解上一篇GBDT中的【注意理解】部分，读本篇需要先熟练掌握CART回归树和GBDT算法。</p>
+<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p><strong>表记</strong>$T(x;\Theta_{m})=w_{q(x)}$，$x$为一个样本，$q(x)$表示<strong>该样本所在的叶子结点</strong>，$w_q$为叶子节点$q$的回归输出；于是$w_{q(x)}$即表示每个样本的回归输出，即决策树的输出。定义集合$I_j=\{i|q(x^{(i)})=j\}$表示划分到叶结点$j$的所有训练样本的集合即上一篇的表示法：$\{x|x∈R_{j}\}$。$T$为叶子节点个数（即划分个数）$m$为步/轮数，$N$为样本个数。</p>
+<p>定义每一步生成新决策树的损失函数的正则项：</p>
 <script type="math/tex; mode=display">
-\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$c$为<strong>叶子节点的输出值</strong></p>
+\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||w||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$w$为<strong>每个样本的输出值</strong></p>
+<p>（也可以用$c$表示：$\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2$，$c$即每个划分的输出值，也就对应了每个样本的输出）</p>
 <p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)变为（样本总体损失函数）：</p>
 <script type="math/tex; mode=display">
-L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
-<p>在GDBT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
-<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
+L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><a id="more"></a>    
+<h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
+<p>在GBDT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
+<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度，正因为使用损失函数的二阶泰勒展开，因此与损失函数更接近，比只使用了一阶展开的GBDT收敛速度更快</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
 <script type="math/tex; mode=display">
 g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>于是用和GBDT一样的方法，对无正则的原损失函数（单个样本）$L’(y_{i+1},f_{m+1}(x_i))$在$\hat f_m(x_i)$处进行泰勒二阶展开，这里简要推导：</p>
 <p>$L’(y_{i+1},f_{m+1}(x_i))=L’(y_{i+1},f_m(x_i)+T(x,\Theta_{m+1}))$ </p>
@@ -419,10 +421,103 @@ g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i
 <p>$=L’(y_{i+1},f_m(x_i))+g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
 <p>由于对本轮优化来说，$L’(y_{i+1},f_m(x_i))$是个常数，不会影响损失函数，于是：</p>
 <p>$L’(y_{i+1},f_{m+1}(x_i))≈g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
-<p>于是计算整个样本集的损失函数加上前面的正则的表达式构成目标损失函数：</p>
-<p>$Obj_m=\sum_{i=1}^m[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||c||^2$</p>
-<p>【转换标记】</p>
-<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
+<p>于是计算整个样本集的损失函数（前面的损失函数都是单个样本的）加上前面的正则构成目标损失函数：</p>
+<p>$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||w||^2$，转换表示，见开头的表记方法</p>
+<p>$=\sum_{i=1}^N[g_iw_{q(x_i)}+\frac{1}{2}h_iw^2_{q(x_i)}]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^Tw_j^2$ ，将对样本求和改为对划分求和，同一个叶子节点/划分$j$的输出值是相同的，即$w_{q(x_i)}=w_j\quad if\quad i∈I_j$，于是改写为：</p>
+<p>$Obj_{m+1}=\sum_{j=1}^T[(\sum_{i∈I_j} g_i)w_j+\frac{1}{2}(\sum_{i∈I_j}h_i+\lambda)w_j^2]+\gamma T$</p>
+<p>令$G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad$，则：</p>
+<script type="math/tex; mode=display">
+Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T</script><p><strong>①</strong>于是<strong>【根据此损失函数先确定$(j,s)$划分，确定决策树的结构】</strong></p>
+<p>但是注意到实际上在确定决策树结构（选择最优特征和分割点）的时候，决策树结构数量是无穷的，所以<strong>实际上并不能穷举所有可能的决策树结构。</strong>什么样的决策树结构是最优的呢？<strong>通常使用贪心策略来生成决策树的每个结点。</strong>——因为对某个结点采取的是二分策略，分别对应<strong>左子结点和右子结点</strong>，除了当前待处理的结点，其他结点对应的$Obj_{m+1}$值都不变，所以对于收益的计算只需要考虑当前结点的$Obj_{m+1}$值即可。</p>
+<p>（其它DT和基于DT的boosting通常也用贪心策略）</p>
+<ol>
+<li>从深度为0的树开始<strong>对每个叶子结点穷举所有的可用特征</strong>；</li>
+<li>针对每一个特征，把属于该结点的训练样本的该<strong>特征升序排列</strong>，通过线性扫描的方式来决定该特征的<strong>最佳分裂点</strong>，并采用最佳分裂点时的<strong>收益</strong>；</li>
+<li>选择<strong>收益最大的特征作为分裂特征</strong>，用该特征的最佳分裂点作为分裂位置，把该结点生成出左右两个新的叶子结点，并为每个新结点关联新的样本集；</li>
+<li>退回到第一步，继续<strong>递归</strong>操作直到满足特定条件。</li>
+</ol>
+<p>不过原作者通过没有直接这样暴力枚举，因为即使贪心策略只考虑当前结点，该结点内可能的分裂点也很多。于是原作者<strong>通过加权分位数的算法选出了一些可能的分裂点（见后文）</strong>。</p>
+<p>下面我们就要通过一个<strong>增益函数/打分函数</strong>来判断谁是最佳特征和分裂点了：</p>
+<p>分裂前针对该结点的最优目标函数(<strong>这个最优目标函数是假设结构已经固定的情况下在第②步中先求出来的</strong>）为： </p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(before)}=-\frac{1}{2}\frac{G^2}{H+\lambda}+\gamma=-\frac{1}{2}\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}+\gamma</script><p>分裂后的最优目标函数为：（$G分为左G_L和右G_R,H同理$）</p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(later)}=-\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}]+2\gamma</script><p>于是对于目标函数$Obj_m$，分裂后的收益为$Gain=Obj_{m+1}^{(before)}-Obj_{m+1}^{(later)}$：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p><strong>为了限制树的生长</strong>，我们可以加入阈值，当增益大于阈值时才让节点分裂，上式中的<strong>$\gamma$即阈值</strong>，它是正则项里叶子节点数$T$的系数，所以XGBoost在优化目标函数的同时<strong>相当于做了预剪枝</strong>。 同时可以看出该式子中<strong>$\lambda$起了对叶结点score做平滑的作用</strong>。（这俩参数定义见最前面的正则化公式）这两个参数在这里求分裂的时候也<strong>都起了正则化作用</strong></p>
+<p><strong>故可用此公式决定最优分裂特征和分裂点，贪心地选择收益最大的作为分裂点</strong></p>
+<p><strong>②【根据损失函数确定每个结点的最优回归输出】</strong></p>
+<p>由于决策树的结构已经固定了，那么就知道了$q(<em>),I_j$。（<strong>这里的①与GDBT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<em>*在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</em></em>）；</p>
+<p>又由于$g_i,h_i$是对当前已知模型(上一步/轮求出来的)$f_m(x_i)$的导数，那么$G_j,H_j$也是已知常数，于是让目标损失函数$Obj_{m+1}$对$w_j$<strong>求0导</strong>（我们原来是要对$T(x;\Theta_{m})$求导的，而$T(x;\Theta_{m})=w_{q(x)}$）可得</p>
+<script type="math/tex; mode=display">
+w^o=-\frac{G_j}{H_j+\lambda}</script><script type="math/tex; mode=display">
+最优损失函数:Obj_{m+1}=-\frac{1}{2}\sum_{j=1}^T\frac{G^2_j}{H_j+\lambda}+\gamma T</script><p>$w^o=-\frac{G_j}{H_j+\lambda}$即为叶子节点的最优输出，相当于GDBT的第④步</p>
+<h3 id="引入学习率-缩减（Shrinkage）"><a href="#引入学习率-缩减（Shrinkage）" class="headerlink" title="引入学习率/缩减（Shrinkage）"></a>引入学习率/缩减（Shrinkage）</h3><p>在更新前向分步模型的时候，在新树的输出引入学习率，以防止过拟合</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><h3 id="引入加权分位数方法"><a href="#引入加权分位数方法" class="headerlink" title="引入加权分位数方法"></a>引入加权分位数方法</h3><p>在决策树分裂的时候引入的减小计算量的方法。</p>
+<p>决策树的分裂基本都是基于贪心的，也就是只考虑当前结点的最优特征和划分而不考虑全局最优，但这样依然需要穷举该结点内每个可能的分裂点。当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数方法</p>
+<p>分位数切分就是将样本集多等分</p>
+<p>对原目标式：$Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T$</p>
+<p>可以将一阶导$G_j$和二阶导$H_j$看作输出$w_j$的权重</p>
+<p>思想：我们将特征样本排序，划分成不同区域，对样本取分位数点，每个分位数点落在区域内，但由于<strong>样本权重越高的区域，预测结果越是不确定的样本区域，切分的粒度就应该越密集。</strong></p>
+<h3 id="允许缺失值存在"><a href="#允许缺失值存在" class="headerlink" title="允许缺失值存在"></a>允许缺失值存在</h3><p>XGBoost模型允许缺失值的存在。对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。</p>
+<p>具体地，XGBoost把缺失值当做稀疏矩阵来对待，即本身的在节点<strong>[遍历寻找某特征的最优分裂点时不考虑缺失值的数值，只对非缺失值进行遍历]&lt;=允许缺失值存在的核心</strong>。所以缺失值对树生成不会有影响，缺失值数据会继续被其他特征进行最优划分，最终学习到分类（如果用下面的①可以最优但增加计算负担，用②也可以，实际上影响不大）。</p>
+<p>于是两种处理方法：</p>
+<p>①将缺失值分到左子树和右子树分别计算损失，选择较优的那个。</p>
+<p>②也可以直接设定缺失值默认分类方向。实际处理时，比如可以将缺失值设置成missing=-999等，大大提高运算速度。</p>
+<p>如果训练中没有数据缺失，预测时出现了数据缺失，那么默认被分类到右子树。 </p>
+<p>（在原始的GBDT策略中是要手动对缺失值进行处理的）</p>
+<h3 id="计算机系统优化"><a href="#计算机系统优化" class="headerlink" title="计算机系统优化"></a>计算机系统优化</h3><p>这部分略，可以阅读原论文</p>
+<h3 id="XGBoost算法总结"><a href="#XGBoost算法总结" class="headerlink" title="XGBoost算法总结"></a>XGBoost算法总结</h3><ol>
+<li><p>初始化</p>
+</li>
+<li><p>迭代计算每一步：</p>
+<p>①计算损失函数在当前模型的一阶梯度和二阶梯度：</p>
+<script type="math/tex; mode=display">
+g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><script type="math/tex; mode=display">
+G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad</script><p>② 通过加权分位数算法选出了一些可能的分裂点。 </p>
+<p>根据增益公式计算可能的特征和分裂点，选择最大化该公式的最优特征和最优分裂点，确定新树结构：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p>$\lambda$有正则效果，$\gamma$作为分裂阈值，也起了正则化效果</p>
+<p>③根据损失函数极小化确定每个子结点的回归输出</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+T^o(x;\Theta_{m+1})=-\frac{G_j}{H_j+\lambda}</script><p>​        ④新树乘以学习率，前向分步模型更新</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直到满足停止条件</p>
+<h3 id="相比GDBT的优点"><a href="#相比GDBT的优点" class="headerlink" title="相比GDBT的优点"></a>相比GDBT的优点</h3><ol>
+<li><p>由于XGBoost使用了损失函数的泰勒<strong>二阶展开</strong>，因此<strong>与损失函数更接近</strong>，对其进行拟合，收敛速度更快。</p>
+<p>而GBDT只进行了一阶展开。</p>
+</li>
+<li><p>加入了<strong>正则项</strong>，控制模型复杂度，避免过拟合。正则项$\gamma$一方面在分割的时候相当于做了预剪枝，正则项$\lambda$相当于对leaf score做了平滑作用，这俩都等效于正则化；另一方面在损失函数中起到了正则化</p>
+</li>
+<li><p>采用<strong>[近似的]最优特征与最优分割点选择方法（加权中位数方法+贪心算法 ）</strong>。</p>
+<p><strong>a.</strong>贪心即只考虑当前结点最优特征和最优划分。（贪心算法一般决策树分裂都用，否则找全局最优，决策树枚举完计算量是非常大的）</p>
+<p><strong>b.</strong>同时决策树结点在分裂时需要穷举每个可能的分裂点，当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数的方法寻找可能的分裂点。</p>
+<p><strong>①可以加速和减小内存消耗</strong></p>
+<p>②<strong>支持并行</strong>，在对每棵决策树进行结点分裂时，需要每个特征的增益，选择最大的那个特征作为分裂特征，各个特征的增益计算可以多线程进行</p>
+<p>③支持<strong>对缺失值的处理</strong>，对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。见上</p>
+<p>（在原始的GBDT策略中是手动对缺失值进行处理的）</p>
+</li>
+<li><p>在每一轮更新前向分步模型的时候引入了<strong>学习率</strong>，防止过拟合。学习率可以降低每颗学到的新树的影响。在实际操作的时候可以将学习率设置低一点，迭代次数设置更大。（GBDT也有学习率）</p>
+</li>
+<li><p>引进了<strong>特征子采样/列抽样 </strong>，像Random Forest那样，既能降低过拟合，还能减少计算。 </p>
+</li>
+</ol>
+<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><p>原论文： <a href="https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/</a> </p>
+<p>LightGBM是微软去年才发表并开源的新算法</p>
+<h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p><strong>实际上绝大多数树模型在划分结点的时候都是采用贪心算法，只计算当前结点的最优特征和最优划分，否则树模型的可能实在太多，枚举完的代价是巨大的</strong></p>
+</li>
+<li><p><strong>Bagging与Boosting</strong></p>
+<p>用XGBoost/GDBT在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree或RandomForest的时候需要把树的深度调到15或更高，why？</p>
+<p>①随机森林属于<strong>Bagging方法，主要降低方差</strong>， 因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。  （dropout就可以视为神经网络的一种bagging）</p>
+<p>②XGB/GBDT属于<strong>Boosting方法，主要降低偏差</strong>，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成； </p>
+<p>Bagging和Boosting都属于集成学习</p>
+</li>
+</ol>
 
       
     </div>
@@ -443,7 +538,7 @@ g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/11/19/Forest/" title="Boosting(XGBoost、lightGBM)和Random Forest">https://aisakaki.com/2019/11/19/Forest/</a>
+    <a href="https://aisakaki.com/2019/11/19/Forest/" title="Boosting(XGBoost、LightGBM)和Random Forest">https://aisakaki.com/2019/11/19/Forest/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -646,7 +741,7 @@ g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#XGBoost"><span class="nav-number">1.</span> <span class="nav-text">XGBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入正则化项来控制树的复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">引入正则化项来控制树的复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改拟合目标"><span class="nav-number">1.2.</span> <span class="nav-text">修改拟合目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LightGBM"><span class="nav-number">2.</span> <span class="nav-text">LightGBM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Random-Forest"><span class="nav-number">3.</span> <span class="nav-text">Random Forest</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#XGBoost"><span class="nav-number">1.</span> <span class="nav-text">XGBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入正则化项来控制树的复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">引入正则化项来控制树的复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改拟合目标"><span class="nav-number">1.2.</span> <span class="nav-text">修改拟合目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入学习率-缩减（Shrinkage）"><span class="nav-number">1.3.</span> <span class="nav-text">引入学习率/缩减（Shrinkage）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入加权分位数方法"><span class="nav-number">1.4.</span> <span class="nav-text">引入加权分位数方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许缺失值存在"><span class="nav-number">1.5.</span> <span class="nav-text">允许缺失值存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机系统优化"><span class="nav-number">1.6.</span> <span class="nav-text">计算机系统优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost算法总结"><span class="nav-number">1.7.</span> <span class="nav-text">XGBoost算法总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相比GDBT的优点"><span class="nav-number">1.8.</span> <span class="nav-text">相比GDBT的优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LightGBM"><span class="nav-number">2.</span> <span class="nav-text">LightGBM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Random-Forest"><span class="nav-number">3.</span> <span class="nav-text">Random Forest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

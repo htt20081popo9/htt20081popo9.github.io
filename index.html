@@ -645,7 +645,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/19/Forest/" itemprop="url">Boosting(XGBoost、lightGBM)和Random Forest</a></h1>
+                <a class="post-title-link" href="/2019/11/19/Forest/" itemprop="url">Boosting(XGBoost、LightGBM)和Random Forest</a></h1>
         
 
         <div class="post-meta">
@@ -743,10 +743,18 @@
       
         
           <p><em>施工中</em></p>
-<p><em>基础部分见上篇</em></p>
-<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。</p>
-<p>这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。</p>
-<p>XGBoost在GBDT上做了一定改进</p>
+<p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法；</em></p>
+<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>原论文： <a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">https://arxiv.org/abs/1603.02754</a> </p>
+<p>基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进</p>
+<p>注意理解上一篇GBDT中的【注意理解】部分，读本篇需要先熟练掌握CART回归树和GBDT算法。</p>
+<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p><strong>表记</strong>$T(x;\Theta_{m})=w_{q(x)}$，$x$为一个样本，$q(x)$表示<strong>该样本所在的叶子结点</strong>，$w_q$为叶子节点$q$的回归输出；于是$w_{q(x)}$即表示每个样本的回归输出，即决策树的输出。定义集合$I_j=\{i|q(x^{(i)})=j\}$表示划分到叶结点$j$的所有训练样本的集合即上一篇的表示法：$\{x|x∈R_{j}\}$。$T$为叶子节点个数（即划分个数）$m$为步/轮数，$N$为样本个数。</p>
+<p>定义每一步生成新决策树的损失函数的正则项：</p>
+<script type="math/tex; mode=display">
+\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||w||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$w$为<strong>每个样本的输出值</strong></p>
+<p>（也可以用$c$表示：$\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2$，$c$即每个划分的输出值，也就对应了每个样本的输出）</p>
+<p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)变为（样本总体损失函数）：</p>
+<script type="math/tex; mode=display">
+L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/11/19/Forest/#more" rel="contents">

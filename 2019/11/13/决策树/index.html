@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-20T09:26:07.790Z">
+<meta property="og:updated_time" content="2019-11-21T09:36:56.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="决策树">
 <meta name="twitter:description" content="Decision Tree机器学习最基本模型之一，DT 决策树可以看成路径的集合，路径的集合可以看成$if-then$规则的集合，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是互斥且完备的（每一个实例都被包含在DT里） 决策树也可以对应于一个条件概率分布">
@@ -506,23 +506,31 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p>通过对数据集$D_m$求$D_m$对每个特征$A_i$的基尼系数：<strong>即遍历$i,k$，求使得$Gini(D,A_i=k)$最小的最优特征和最优特征的切分点$(j,s)$组合</strong>（对应于<strong>遍历组合</strong>的标号$i,k$）。求出一个$D_m$的$(j,s)$就能将其<strong>划分</strong>为<strong>两个子数据集</strong>。再对两个子数据集<strong>重复迭代</strong>上述过程，若结点中的<strong>样本个数小于预订阈值/样本集的基尼指数低于预定阈值（样本基本属于同一类）/没有更多特征</strong>，该结点就是叶子结点。</p>
 <p>具体算法略</p>
 </li>
-<li><p><strong>回归：</strong></p>
+<li><p><strong>回归：【重要，是Boosting中许多模型的基础】</strong></p>
+<p><strong>CART回归树生成是先确定结构（划分），再确定回归值(CART分类树就只有前面那个步骤)，以此到Boosting（GDBT XGBoost)也是这个求法</strong></p>
 <p>在回归问题中，模型输出一个连续变量。</p>
 <p>$D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，数据集被划分为了$M$个单元$R_1,R_2,\cdots,R_M$，在每个单元上有一个固定的输出值为$c_m$</p>
-<p>在回归中用<strong>平方误差来替代分类中的基尼指数</strong>：使用该结点数据集的每个样本中的【<strong>每个真实输出$y_i$与模型输出$f(x_i)$的均值$c_m$</strong>】的<strong>平方误差</strong>$\sum_{x_i}(y_i-c_m)^2$来找最优特征和最优切分点$(j,s)$。<strong>平方误差越小，样本分类越准确</strong>。（这个是回归与分类不同的关键）</p>
+<p>在回归中用<strong>平方误差来替代分类中的基尼指数</strong>：使用该结点数据集的每个样本中的【<strong>每个真实输出$y_i$与模型输出$f(x_i)$的均值$c_m$</strong>】的<strong>平方误差</strong>$\sum_{x_i}(y_i-c_m)^2$来找最优特征和最优切分点$(j,s)$。<strong>平方误差越小，样本分类越准确</strong>。（这个是回归与分类不同的关键）【平方误差即是这里CART使用的损失函数，也可以用其它损失函数，比如Boosting里的损失函数就都不一样】</p>
 <p>与分类中一样的思路：</p>
-<p>选定第$j$个特征和其取值$s$为切分点，将父节点数据集$R$切分成了两个子节点（子数据集）：</p>
+<p><strong>①根据损失函数选定最优特征和切割</strong>第$j$个特征和其取值$s$为切分点，将父节点数据集$R$切分成了两个子节点（子数据集）：</p>
 <p>$R_1(j,s)=\{x|x^{(j)}≤s\}$，$R_2(j,s)=\{x|x^{(j)}＞s\}$</p>
 <p>以$R_1$为例，$\{x|x^{(j)}≤s\}$是指数据集中第$j$个特征的取值$≤s$的样本组成的新数据集，也就是一个划分，$R_2$同理。</p>
-<p>同时设$c_m=ave(y_i|x∈R_m)=\frac{1}{N_m}\sum_{x_i∈R_m(j,s)}y_i$，表示<strong>被特征与切分组合$(j,s)$切分后数据集上模型输出$y$的均值</strong></p>
-<p>于是我们就能求得每个子数据集的平方误差了（公式见上）</p>
-<p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优均值$\hat c_m$：</p>
+<p><strong>这里就确定了决策树的结构</strong>，于是：</p>
+<p>②<strong>根据损失函数选取最优回归输出值</strong></p>
+<p><strong>这里损失函数为平方误差，对其就0导容易推得最优回归输出$c$就是划分上的均值</strong></p>
+<p>设$c_m=ave(y_i|x∈R_m)=\frac{1}{N_m}\sum_{x_i∈R_m(j,s)}y_i$，表示被特征与切分组合$(j,s)$切分后数据集上模型输出$y$的均值，则这个$c_m$就是该节点的最优回归输出</p>
+<p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优输出（均值$\hat c_m$）：</p>
 <script type="math/tex; mode=display">
-\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p>①【<strong>切割</strong>】：<strong>求得$(j,s)$就告诉我们决策树怎么生成，选什么特征怎么切分（同分类），遍历选择$j,s$选最优划分。【这时候计算损失就是选择左\右划分（结点）的所有点到切割点的损失，选取使共损失最小的切割方法。】</strong></p>
-<p>②【<strong>决定均值/输出</strong>】：每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能求得对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），<strong>这个均值就是特征值$j$的回归输出</strong>。<strong>【这时候就是在各自每一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小。】</strong></p>
-<p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
 <p>这样生成的树叫<strong>最小二乘回归树</strong></p>
-</li>
+<p><strong>理解：</strong></p>
+<p>①【<strong>选特征与切割</strong>】：<strong>求得$(j,s)$就告诉我们决策树怎么生成，选什么特征怎么切分（同分类），遍历选择$j,s$选最优划分。即【确定了决策树的结构】【这时候计算损失就是根据左\右划分（结点）的[所有点各自的真实输出]与切割点（一个回归输出值）之间的损失之和，来选取使共损失最小的特征与切割。】</strong></p>
+<p>②【<strong>决定回归输出</strong>】：每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能<strong>根据损失函数求出该结点内的最优输出：在各自每一个划分（结点）内选择一个最优的输出（即计算结点内的各点真实输出到选择的输出回归值的损失之和），使得该划分每个样本的损失最小。</strong></p>
+<p>由于这里用的损失函数是平方误差，可以求得其最优值就是样本均值，对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），所以这个均值就是特征值$j$的回归输出。</p>
+<p><strong>【注意①和②在求最优切割和最优均值中求的损失都是用的[同一个损失函数计算]！看这个公式说得很明白，理解透这个公式】</strong></p>
+<p>对于使用一般损失函数的形式：</p>
+<script type="math/tex; mode=display">
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}L(y_i,c_1)+\min_{c_2}\sum_{x_i∈R_2(j,s)}L(y_i,c_2)]</script></li>
 </ol>
 <p>（连续属性值算法见后记-2）</p>
 <p>（注意，如果每个训练样本是一维的，就不需要选切分特征（切分变量）了，回归和分类都是。如$x∈[0.5,10.5]$，在实数轴上，特征维度为1）</p>
@@ -596,6 +604,18 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
 <p><strong>回归预测</strong>指<strong>输出</strong>（预测）的是一个连续变量的值，比如要求输出概率（又比如说要预测房价）</p>
 <p><strong>属性为连续值</strong>指的是<strong>输入</strong>的属性是连续的，即取值无限，如输入的$x是实数$，那就得用离散化方法，C4.5采用了二分，即把$x是实数\to \{x&lt;A_i\},\{x≥A_i\}$两个结点。（或者如输入的值是房价）</p>
 <p><strong>属性就是特征，属性的值即特征的取值</strong></p>
+</li>
+<li><p>CART回归树的例可以见Boosting的GDBT后记</p>
+</li>
+<li><p>寻找最优切分和特征一般都是贪心算法，只考虑当前结点下的最优特征和最优分割</p>
+</li>
+<li><p>决策树以及基于Boosting的算法的优点</p>
+<p>①天然对缺失值和噪音有很好的鲁棒性</p>
+<p>②天然可以很好的处理各种类型的特征</p>
+<p>③天然对离群值有很好的鲁棒性</p>
+<p>④（对Boosting DT）数据规模影响不大，因为我们对弱分类器的要求不高 </p>
+</li>
+<li><p>但也有缺点，就在于假设无噪音的情况下，性能不如SVM，LR等，但如果数据集有噪音的话，这个弱势就不能么明显了。而且，可以用Boosting嘛，一个DT不给力，多个DT一起干，效果就更强</p>
 </li>
 </ol>
 

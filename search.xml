@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Boosting(XGBoost、lightGBM)和Random Forest</title>
+    <title>Boosting(XGBoost、LightGBM)和Random Forest</title>
     <url>/2019/11/19/Forest/</url>
     <content><![CDATA[<p><em>施工中</em></p>
-<p><em>基础部分见上篇</em></p>
-<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>基于GBDT的思想：首先通过残差（负梯度）确定树的结构，然后通过最小化损失函数确定叶子结点的输出值。</p>
-<p>这么做的本质是结合了CART回归树的生成算法，注意理解上一篇GBDT中的【注意理解】部分。</p>
-<p>XGBoost在GBDT上做了一定改进</p>
-<a id="more"></a>    
-<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p>定义每一步损失函数的正则项：($m$为步/轮数)</p>
+<p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法；</em></p>
+<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>原论文： <a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">https://arxiv.org/abs/1603.02754</a> </p>
+<p>基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进</p>
+<p>注意理解上一篇GBDT中的【注意理解】部分，读本篇需要先熟练掌握CART回归树和GBDT算法。</p>
+<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p><strong>表记</strong>$T(x;\Theta_{m})=w_{q(x)}$，$x$为一个样本，$q(x)$表示<strong>该样本所在的叶子结点</strong>，$w_q$为叶子节点$q$的回归输出；于是$w_{q(x)}$即表示每个样本的回归输出，即决策树的输出。定义集合$I_j=\{i|q(x^{(i)})=j\}$表示划分到叶结点$j$的所有训练样本的集合即上一篇的表示法：$\{x|x∈R_{j}\}$。$T$为叶子节点个数（即划分个数）$m$为步/轮数，$N$为样本个数。</p>
+<p>定义每一步生成新决策树的损失函数的正则项：</p>
 <script type="math/tex; mode=display">
-\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$c$为<strong>叶子节点的输出值</strong></p>
+\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||w||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$w$为<strong>每个样本的输出值</strong></p>
+<p>（也可以用$c$表示：$\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2$，$c$即每个划分的输出值，也就对应了每个样本的输出）</p>
 <p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)变为（样本总体损失函数）：</p>
 <script type="math/tex; mode=display">
-L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
-<p>在GDBT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
-<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
+L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><a id="more"></a>    
+<h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
+<p>在GBDT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
+<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度，正因为使用损失函数的二阶泰勒展开，因此与损失函数更接近，比只使用了一阶展开的GBDT收敛速度更快</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
 <script type="math/tex; mode=display">
 g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>于是用和GBDT一样的方法，对无正则的原损失函数（单个样本）$L’(y_{i+1},f_{m+1}(x_i))$在$\hat f_m(x_i)$处进行泰勒二阶展开，这里简要推导：</p>
 <p>$L’(y_{i+1},f_{m+1}(x_i))=L’(y_{i+1},f_m(x_i)+T(x,\Theta_{m+1}))$ </p>
@@ -25,10 +27,103 @@ g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i
 <p>$=L’(y_{i+1},f_m(x_i))+g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
 <p>由于对本轮优化来说，$L’(y_{i+1},f_m(x_i))$是个常数，不会影响损失函数，于是：</p>
 <p>$L’(y_{i+1},f_{m+1}(x_i))≈g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
-<p>于是计算整个样本集的损失函数加上前面的正则的表达式构成目标损失函数：</p>
-<p>$Obj_m=\sum_{i=1}^m[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||c||^2$</p>
-<p>【转换标记】</p>
-<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
+<p>于是计算整个样本集的损失函数（前面的损失函数都是单个样本的）加上前面的正则构成目标损失函数：</p>
+<p>$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||w||^2$，转换表示，见开头的表记方法</p>
+<p>$=\sum_{i=1}^N[g_iw_{q(x_i)}+\frac{1}{2}h_iw^2_{q(x_i)}]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^Tw_j^2$ ，将对样本求和改为对划分求和，同一个叶子节点/划分$j$的输出值是相同的，即$w_{q(x_i)}=w_j\quad if\quad i∈I_j$，于是改写为：</p>
+<p>$Obj_{m+1}=\sum_{j=1}^T[(\sum_{i∈I_j} g_i)w_j+\frac{1}{2}(\sum_{i∈I_j}h_i+\lambda)w_j^2]+\gamma T$</p>
+<p>令$G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad$，则：</p>
+<script type="math/tex; mode=display">
+Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T</script><p><strong>①</strong>于是<strong>【根据此损失函数先确定$(j,s)$划分，确定决策树的结构】</strong></p>
+<p>但是注意到实际上在确定决策树结构（选择最优特征和分割点）的时候，决策树结构数量是无穷的，所以<strong>实际上并不能穷举所有可能的决策树结构。</strong>什么样的决策树结构是最优的呢？<strong>通常使用贪心策略来生成决策树的每个结点。</strong>——因为对某个结点采取的是二分策略，分别对应<strong>左子结点和右子结点</strong>，除了当前待处理的结点，其他结点对应的$Obj_{m+1}$值都不变，所以对于收益的计算只需要考虑当前结点的$Obj_{m+1}$值即可。</p>
+<p>（其它DT和基于DT的boosting通常也用贪心策略）</p>
+<ol>
+<li>从深度为0的树开始<strong>对每个叶子结点穷举所有的可用特征</strong>；</li>
+<li>针对每一个特征，把属于该结点的训练样本的该<strong>特征升序排列</strong>，通过线性扫描的方式来决定该特征的<strong>最佳分裂点</strong>，并采用最佳分裂点时的<strong>收益</strong>；</li>
+<li>选择<strong>收益最大的特征作为分裂特征</strong>，用该特征的最佳分裂点作为分裂位置，把该结点生成出左右两个新的叶子结点，并为每个新结点关联新的样本集；</li>
+<li>退回到第一步，继续<strong>递归</strong>操作直到满足特定条件。</li>
+</ol>
+<p>不过原作者通过没有直接这样暴力枚举，因为即使贪心策略只考虑当前结点，该结点内可能的分裂点也很多。于是原作者<strong>通过加权分位数的算法选出了一些可能的分裂点（见后文）</strong>。</p>
+<p>下面我们就要通过一个<strong>增益函数/打分函数</strong>来判断谁是最佳特征和分裂点了：</p>
+<p>分裂前针对该结点的最优目标函数(<strong>这个最优目标函数是假设结构已经固定的情况下在第②步中先求出来的</strong>）为： </p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(before)}=-\frac{1}{2}\frac{G^2}{H+\lambda}+\gamma=-\frac{1}{2}\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}+\gamma</script><p>分裂后的最优目标函数为：（$G分为左G_L和右G_R,H同理$）</p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(later)}=-\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}]+2\gamma</script><p>于是对于目标函数$Obj_m$，分裂后的收益为$Gain=Obj_{m+1}^{(before)}-Obj_{m+1}^{(later)}$：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p><strong>为了限制树的生长</strong>，我们可以加入阈值，当增益大于阈值时才让节点分裂，上式中的<strong>$\gamma$即阈值</strong>，它是正则项里叶子节点数$T$的系数，所以XGBoost在优化目标函数的同时<strong>相当于做了预剪枝</strong>。 同时可以看出该式子中<strong>$\lambda$起了对叶结点score做平滑的作用</strong>。（这俩参数定义见最前面的正则化公式）这两个参数在这里求分裂的时候也<strong>都起了正则化作用</strong></p>
+<p><strong>故可用此公式决定最优分裂特征和分裂点，贪心地选择收益最大的作为分裂点</strong></p>
+<p><strong>②【根据损失函数确定每个结点的最优回归输出】</strong></p>
+<p>由于决策树的结构已经固定了，那么就知道了$q(<em>),I_j$。（<strong>这里的①与GDBT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<em>*在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</em></em>）；</p>
+<p>又由于$g_i,h_i$是对当前已知模型(上一步/轮求出来的)$f_m(x_i)$的导数，那么$G_j,H_j$也是已知常数，于是让目标损失函数$Obj_{m+1}$对$w_j$<strong>求0导</strong>（我们原来是要对$T(x;\Theta_{m})$求导的，而$T(x;\Theta_{m})=w_{q(x)}$）可得</p>
+<script type="math/tex; mode=display">
+w^o=-\frac{G_j}{H_j+\lambda}</script><script type="math/tex; mode=display">
+最优损失函数:Obj_{m+1}=-\frac{1}{2}\sum_{j=1}^T\frac{G^2_j}{H_j+\lambda}+\gamma T</script><p>$w^o=-\frac{G_j}{H_j+\lambda}$即为叶子节点的最优输出，相当于GDBT的第④步</p>
+<h3 id="引入学习率-缩减（Shrinkage）"><a href="#引入学习率-缩减（Shrinkage）" class="headerlink" title="引入学习率/缩减（Shrinkage）"></a>引入学习率/缩减（Shrinkage）</h3><p>在更新前向分步模型的时候，在新树的输出引入学习率，以防止过拟合</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><h3 id="引入加权分位数方法"><a href="#引入加权分位数方法" class="headerlink" title="引入加权分位数方法"></a>引入加权分位数方法</h3><p>在决策树分裂的时候引入的减小计算量的方法。</p>
+<p>决策树的分裂基本都是基于贪心的，也就是只考虑当前结点的最优特征和划分而不考虑全局最优，但这样依然需要穷举该结点内每个可能的分裂点。当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数方法</p>
+<p>分位数切分就是将样本集多等分</p>
+<p>对原目标式：$Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T$</p>
+<p>可以将一阶导$G_j$和二阶导$H_j$看作输出$w_j$的权重</p>
+<p>思想：我们将特征样本排序，划分成不同区域，对样本取分位数点，每个分位数点落在区域内，但由于<strong>样本权重越高的区域，预测结果越是不确定的样本区域，切分的粒度就应该越密集。</strong></p>
+<h3 id="允许缺失值存在"><a href="#允许缺失值存在" class="headerlink" title="允许缺失值存在"></a>允许缺失值存在</h3><p>XGBoost模型允许缺失值的存在。对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。</p>
+<p>具体地，XGBoost把缺失值当做稀疏矩阵来对待，即本身的在节点<strong>[遍历寻找某特征的最优分裂点时不考虑缺失值的数值，只对非缺失值进行遍历]&lt;=允许缺失值存在的核心</strong>。所以缺失值对树生成不会有影响，缺失值数据会继续被其他特征进行最优划分，最终学习到分类（如果用下面的①可以最优但增加计算负担，用②也可以，实际上影响不大）。</p>
+<p>于是两种处理方法：</p>
+<p>①将缺失值分到左子树和右子树分别计算损失，选择较优的那个。</p>
+<p>②也可以直接设定缺失值默认分类方向。实际处理时，比如可以将缺失值设置成missing=-999等，大大提高运算速度。</p>
+<p>如果训练中没有数据缺失，预测时出现了数据缺失，那么默认被分类到右子树。 </p>
+<p>（在原始的GBDT策略中是要手动对缺失值进行处理的）</p>
+<h3 id="计算机系统优化"><a href="#计算机系统优化" class="headerlink" title="计算机系统优化"></a>计算机系统优化</h3><p>这部分略，可以阅读原论文</p>
+<h3 id="XGBoost算法总结"><a href="#XGBoost算法总结" class="headerlink" title="XGBoost算法总结"></a>XGBoost算法总结</h3><ol>
+<li><p>初始化</p>
+</li>
+<li><p>迭代计算每一步：</p>
+<p>①计算损失函数在当前模型的一阶梯度和二阶梯度：</p>
+<script type="math/tex; mode=display">
+g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><script type="math/tex; mode=display">
+G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad</script><p>② 通过加权分位数算法选出了一些可能的分裂点。 </p>
+<p>根据增益公式计算可能的特征和分裂点，选择最大化该公式的最优特征和最优分裂点，确定新树结构：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p>$\lambda$有正则效果，$\gamma$作为分裂阈值，也起了正则化效果</p>
+<p>③根据损失函数极小化确定每个子结点的回归输出</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+T^o(x;\Theta_{m+1})=-\frac{G_j}{H_j+\lambda}</script><p>​        ④新树乘以学习率，前向分步模型更新</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直到满足停止条件</p>
+<h3 id="相比GDBT的优点"><a href="#相比GDBT的优点" class="headerlink" title="相比GDBT的优点"></a>相比GDBT的优点</h3><ol>
+<li><p>由于XGBoost使用了损失函数的泰勒<strong>二阶展开</strong>，因此<strong>与损失函数更接近</strong>，对其进行拟合，收敛速度更快。</p>
+<p>而GBDT只进行了一阶展开。</p>
+</li>
+<li><p>加入了<strong>正则项</strong>，控制模型复杂度，避免过拟合。正则项$\gamma$一方面在分割的时候相当于做了预剪枝，正则项$\lambda$相当于对leaf score做了平滑作用，这俩都等效于正则化；另一方面在损失函数中起到了正则化</p>
+</li>
+<li><p>采用<strong>[近似的]最优特征与最优分割点选择方法（加权中位数方法+贪心算法 ）</strong>。</p>
+<p><strong>a.</strong>贪心即只考虑当前结点最优特征和最优划分。（贪心算法一般决策树分裂都用，否则找全局最优，决策树枚举完计算量是非常大的）</p>
+<p><strong>b.</strong>同时决策树结点在分裂时需要穷举每个可能的分裂点，当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数的方法寻找可能的分裂点。</p>
+<p><strong>①可以加速和减小内存消耗</strong></p>
+<p>②<strong>支持并行</strong>，在对每棵决策树进行结点分裂时，需要每个特征的增益，选择最大的那个特征作为分裂特征，各个特征的增益计算可以多线程进行</p>
+<p>③支持<strong>对缺失值的处理</strong>，对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。见上</p>
+<p>（在原始的GBDT策略中是手动对缺失值进行处理的）</p>
+</li>
+<li><p>在每一轮更新前向分步模型的时候引入了<strong>学习率</strong>，防止过拟合。学习率可以降低每颗学到的新树的影响。在实际操作的时候可以将学习率设置低一点，迭代次数设置更大。（GBDT也有学习率）</p>
+</li>
+<li><p>引进了<strong>特征子采样/列抽样 </strong>，像Random Forest那样，既能降低过拟合，还能减少计算。 </p>
+</li>
+</ol>
+<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><p>原论文： <a href="https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/</a> </p>
+<p>LightGBM是微软去年才发表并开源的新算法</p>
+<h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p><strong>实际上绝大多数树模型在划分结点的时候都是采用贪心算法，只计算当前结点的最优特征和最优划分，否则树模型的可能实在太多，枚举完的代价是巨大的</strong></p>
+</li>
+<li><p><strong>Bagging与Boosting</strong></p>
+<p>用XGBoost/GDBT在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree或RandomForest的时候需要把树的深度调到15或更高，why？</p>
+<p>①随机森林属于<strong>Bagging方法，主要降低方差</strong>， 因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。  （dropout就可以视为神经网络的一种bagging）</p>
+<p>②XGB/GBDT属于<strong>Boosting方法，主要降低偏差</strong>，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成； </p>
+<p>Bagging和Boosting都属于集成学习</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>人工智能</category>
@@ -134,7 +229,8 @@ G(x)=sign(\sum_m\alpha_mG_m(x))</script><hr>
 <p>前向分步算法每一步相当于AdaBoost中的每一轮（但具体细节会有差别）</p>
 <p>前向分步算法的求解本质是<strong>贪心方法</strong></p>
 <p>更多地可以通过提升树来理解，提升树就是直接用的前向分布算法。</p>
-<h2 id="BDT-提升树"><a href="#BDT-提升树" class="headerlink" title="BDT 提升树"></a>BDT 提升树</h2><p>提升树是以决策树为基函数的提升方法。表示为决策树的加法模型：</p>
+<h2 id="BDT-提升树"><a href="#BDT-提升树" class="headerlink" title="BDT 提升树"></a>BDT 提升树</h2><p>学习DBT需要对CART有深刻掌握</p>
+<p>提升树是以决策树为基函数的提升方法。表示为决策树的加法模型：</p>
 <script type="math/tex; mode=display">
 f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Theta_m$为决策树的参数，$M$为树的个数</p>
 <p>树的线性组合可以很好地拟合训练数据，即使输入与输出之间的关系很复杂也如此，于是提升树是一个很高功能的学习算法</p>
@@ -168,12 +264,14 @@ f_{M(x)}=\sum_{m=1}^MT(x;\Theta_m)</script><p>$T(x;\Theta_m)$表决策树，$\Th
 <p>$m$代表步（轮）数</p>
 <p><strong>①初始化：</strong></p>
 <script type="math/tex; mode=display">
-f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)</script><p><strong>②对该步（轮）每个样本计算[负梯度在当前模型的值=残差的估计]为：</strong></p>
+f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)</script><p><strong>②对该步（轮）每个样本计算[负梯度在当前模型的值=残差的估计]为：</strong>（②其实为③的一个步骤）</p>
 <script type="math/tex; mode=display">
 r_{mi}=-[\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m}(x)}</script><p>推导见下面【②中残差的推导】</p>
 <p><strong>③拟合上面计算出的每个样本的[残差]，得到下一步用的新决策树的[结构]：</strong></p>
 <p>用这个新决策树<strong>对残差</strong>学习得到<strong>叶结点区域</strong>（划分）$R_{mj}\quad,j=1,2,\cdots,J$</p>
-<p><strong>[此时只是确定了树的结构，但是还未确定叶子节点中的输出值，下一步④中通过最小化当前的损失函数，求得每个叶子节点中的输出值，和CART中的算法一样，不同的就在于下面确定输出值的时候是让输出而不是残差去拟合$y_i$ ]</strong> 。更多细节见下面的【注意理解】</p>
+<p><strong>这里其实就是</strong>极小化损失函数$L(y_{i+1},f_{m+1}(x_i))=L(r_{mi},T(x=特征点与切割点;\Theta_{m+1}))$（中间推导就是残差的推导那儿），以选取新决策树的最优特征和最优划分</p>
+<p><strong>[此时只是确定了树的结构，但是还未确定叶子节点中的最优输出值，下一步④中通过最小化损失函数:</strong></p>
+<p><strong>$L(y_i,f_{m}(x_i)+c)$，求得每个叶子节点中的输出值，和CART中的算法一样，不同的就在于下面求最优输出值的时候是让输出而不是残差去拟合$y_i$ ，也就是损失函数不一样]</strong> 。更多细节见下面的【注意理解】</p>
 <p><strong>④</strong>对<strong>每个划分</strong>用线性搜索叶结点区域的最优值（最速下降法），使得<strong>损失函数最小化</strong>：</p>
 <script type="math/tex; mode=display">
 c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="math/tex; mode=display">
@@ -182,11 +280,11 @@ c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="ma
 <script type="math/tex; mode=display">
 \hat f(x)=f_M(x)=\sum_{m=1}^M\sum_{j=1}^Jc_{mj}I(x∈R_{mj})</script><p>于是新的决策树就去拟合这个残差，其它不变。</p>
 <hr>
-<p><strong>【注意理解】：</strong>这里需要好好回想生成CART回归树的步骤。将CART回归树表达式中是损失函数扩展为任意，则：</p>
+<p><strong>【注意理解】：这里需要好好回想生成CART回归树的步骤</strong>。将CART回归树表达式中是损失函数扩展为任意，则：</p>
 <p>$\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}L(y_i,c_1)+\min_{c_2}\sum_{x_i∈R_2(j,s)}L(y_i,c_2)]$</p>
-<p>③中就相当于通过拟合残差（也就是该式子损失函数中的拟合$y_i$替换为拟合$r_i$）先求了CART回归树的外围参数最小值$j,s$，即<strong>特征选择</strong>和<strong>划分</strong>（回看CART回归生成，遍历选择$j,s$选最优划分）</p>
-<p>④中就是求在划分下，使得损失函数最小的$c$，而这个$c$就是对应划分的残差的回归输出（通过求该划分下的平均值求得，为CART中损失函数中的模型输出值），也就是上面所提到的叶结点区域的值。（回看CART回归生成，在一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小）</p>
-<p>由于这里拟合的是残差（除了第一步决策树是拟合的训练集），其他决策树回归输出的$c$都是拟合的残差的平均值（回归输出），于是要求<strong>对训练集的回归输出</strong>（此轮模型输出）还要加上从第一颗决策树输出与中间决策树拟合残差输出迭代而来的前$m$步模型$f_{m}(x_i)$（第$m$轮），所以某划分的模型实际回归输出为$f_{m}(x_i)+c$。（前向分步算法的基本求法。）<strong>所以我们在每轮（第一轮除外）拟合决策树求划分的时候，是拟合残差（③）；但是在求划分得到的叶结点区域的输出值的时候，我们是要去拟合[真实输出值]而不是残差，所以是用$f_{m}(x_i)+c$去拟合！得损失函数极值及极值的时候的$c$（④）</strong></p>
+<p>③中就相当于通过拟合残差（也就是该式子损失函数中的拟合$y_i$替换为拟合$r_i$）先求了CART回归树的外围参数最小值$j,s$，即<strong>特征选择</strong>和<strong>划分</strong>（回看CART回归生成，遍历选择$j,s$<strong>最小化损失函数选最优特征和划分</strong>）</p>
+<p>④中就是求在划分下，使得损失函数最小的$c$，而这个$c$就是对应划分的残差的回归输出（通过求该划分下的平均值求得，为CART中损失函数中的模型输出值），也就是上面所提到的叶结点区域的值。（回看CART回归生成，在一个划分（结点）内<strong>最小化损失函数选择一个最优的输出</strong>，使得该划分每个样本的损失最小）</p>
+<p>由于前面求得决策树拟合的是残差（除了第一步决策树是拟合的训练集）以得到最优划分结构；下面要去拟合<strong>训练集的真实输出</strong>还要让新决策树的输出加上从第一颗决策树输出与中间决策树拟合残差输出迭代而来的前$m$步模型输出$f_{m}(x_i)$（第$m$轮），所以某划分的模型实际回归输出为$f_{m}(x_i)+c$。（前向分步算法的基本求法。）<strong>所以我们在每轮（第一轮除外）拟合决策树求划分的时候，是拟合残差（③）；但是在求划分得到的叶结点区域的输出值的时候，我们是要去拟合[真实输出值$y_i$]而不是残差，所以是用$f_{m}(x_i)+c$去拟合！得损失函数极值及极值的时候的$c$（④）可以看出③和④损失函数目标不一样。</strong>（但是同一个损失函数）</p>
 <hr>
 <p><strong>【②中残差的推导】：</strong>损失函数为（这里是单个样本的损失函数，多个样本加个求和符号即可，求出的每个样本的残差结论不变）</p>
 <p>$L(y_{i+1},f_{m+1}(x_i))=L(y_{i+1},f_{m}(x_i)+T(x,\Theta_{m+1}))$，$y$为常数（样本真实输出）</p>
@@ -347,23 +445,31 @@ C_\alpha(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|\quad\quad H_t(T)=-\sum_k\frac{N_
 <p>通过对数据集$D_m$求$D_m$对每个特征$A_i$的基尼系数：<strong>即遍历$i,k$，求使得$Gini(D,A_i=k)$最小的最优特征和最优特征的切分点$(j,s)$组合</strong>（对应于<strong>遍历组合</strong>的标号$i,k$）。求出一个$D_m$的$(j,s)$就能将其<strong>划分</strong>为<strong>两个子数据集</strong>。再对两个子数据集<strong>重复迭代</strong>上述过程，若结点中的<strong>样本个数小于预订阈值/样本集的基尼指数低于预定阈值（样本基本属于同一类）/没有更多特征</strong>，该结点就是叶子结点。</p>
 <p>具体算法略</p>
 </li>
-<li><p><strong>回归：</strong></p>
+<li><p><strong>回归：【重要，是Boosting中许多模型的基础】</strong></p>
+<p><strong>CART回归树生成是先确定结构（划分），再确定回归值(CART分类树就只有前面那个步骤)，以此到Boosting（GDBT XGBoost)也是这个求法</strong></p>
 <p>在回归问题中，模型输出一个连续变量。</p>
 <p>$D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，数据集被划分为了$M$个单元$R_1,R_2,\cdots,R_M$，在每个单元上有一个固定的输出值为$c_m$</p>
-<p>在回归中用<strong>平方误差来替代分类中的基尼指数</strong>：使用该结点数据集的每个样本中的【<strong>每个真实输出$y_i$与模型输出$f(x_i)$的均值$c_m$</strong>】的<strong>平方误差</strong>$\sum_{x_i}(y_i-c_m)^2$来找最优特征和最优切分点$(j,s)$。<strong>平方误差越小，样本分类越准确</strong>。（这个是回归与分类不同的关键）</p>
+<p>在回归中用<strong>平方误差来替代分类中的基尼指数</strong>：使用该结点数据集的每个样本中的【<strong>每个真实输出$y_i$与模型输出$f(x_i)$的均值$c_m$</strong>】的<strong>平方误差</strong>$\sum_{x_i}(y_i-c_m)^2$来找最优特征和最优切分点$(j,s)$。<strong>平方误差越小，样本分类越准确</strong>。（这个是回归与分类不同的关键）【平方误差即是这里CART使用的损失函数，也可以用其它损失函数，比如Boosting里的损失函数就都不一样】</p>
 <p>与分类中一样的思路：</p>
-<p>选定第$j$个特征和其取值$s$为切分点，将父节点数据集$R$切分成了两个子节点（子数据集）：</p>
+<p><strong>①根据损失函数选定最优特征和切割</strong>第$j$个特征和其取值$s$为切分点，将父节点数据集$R$切分成了两个子节点（子数据集）：</p>
 <p>$R_1(j,s)=\{x|x^{(j)}≤s\}$，$R_2(j,s)=\{x|x^{(j)}＞s\}$</p>
 <p>以$R_1$为例，$\{x|x^{(j)}≤s\}$是指数据集中第$j$个特征的取值$≤s$的样本组成的新数据集，也就是一个划分，$R_2$同理。</p>
-<p>同时设$c_m=ave(y_i|x∈R_m)=\frac{1}{N_m}\sum_{x_i∈R_m(j,s)}y_i$，表示<strong>被特征与切分组合$(j,s)$切分后数据集上模型输出$y$的均值</strong></p>
-<p>于是我们就能求得每个子数据集的平方误差了（公式见上）</p>
-<p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优均值$\hat c_m$：</p>
+<p><strong>这里就确定了决策树的结构</strong>，于是：</p>
+<p>②<strong>根据损失函数选取最优回归输出值</strong></p>
+<p><strong>这里损失函数为平方误差，对其就0导容易推得最优回归输出$c$就是划分上的均值</strong></p>
+<p>设$c_m=ave(y_i|x∈R_m)=\frac{1}{N_m}\sum_{x_i∈R_m(j,s)}y_i$，表示被特征与切分组合$(j,s)$切分后数据集上模型输出$y$的均值，则这个$c_m$就是该节点的最优回归输出</p>
+<p>于是我们想要求得能够使得平方误差最小的<strong>特征与划分选取组合</strong>$(j,s)$以及其对应的最优输出（均值$\hat c_m$）：</p>
 <script type="math/tex; mode=display">
-\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p>①【<strong>切割</strong>】：<strong>求得$(j,s)$就告诉我们决策树怎么生成，选什么特征怎么切分（同分类），遍历选择$j,s$选最优划分。【这时候计算损失就是选择左\右划分（结点）的所有点到切割点的损失，选取使共损失最小的切割方法。】</strong></p>
-<p>②【<strong>决定均值/输出</strong>】：每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能求得对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），<strong>这个均值就是特征值$j$的回归输出</strong>。<strong>【这时候就是在各自每一个划分（结点）内选择一个最优的输出，使得该划分每个样本的损失最小。】</strong></p>
-<p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}(y_i-c_1)^2+\min_{c_2}\sum_{x_i∈R_2(j,s)}(y_i-c_2)^2]</script><p>于是再对两个被划分的子节点重复上面的步骤，直到满足停止条件</p>
 <p>这样生成的树叫<strong>最小二乘回归树</strong></p>
-</li>
+<p><strong>理解：</strong></p>
+<p>①【<strong>选特征与切割</strong>】：<strong>求得$(j,s)$就告诉我们决策树怎么生成，选什么特征怎么切分（同分类），遍历选择$j,s$选最优划分。即【确定了决策树的结构】【这时候计算损失就是根据左\右划分（结点）的[所有点各自的真实输出]与切割点（一个回归输出值）之间的损失之和，来选取使共损失最小的特征与切割。】</strong></p>
+<p>②【<strong>决定回归输出</strong>】：每确定一个<strong>最优</strong>结点划分（即确定一组$(j,s)$），就能<strong>根据损失函数求出该结点内的最优输出：在各自每一个划分（结点）内选择一个最优的输出（即计算结点内的各点真实输出到选择的输出回归值的损失之和），使得该划分每个样本的损失最小。</strong></p>
+<p>由于这里用的损失函数是平方误差，可以求得其最优值就是样本均值，对应<strong>特征$j$</strong>在划分数据集上的均值$\hat c_{1}$（特征值$≤s$的子结点）和$\hat c_2$（特征值$＞s$的子节点），所以这个均值就是特征值$j$的回归输出。</p>
+<p><strong>【注意①和②在求最优切割和最优均值中求的损失都是用的[同一个损失函数计算]！看这个公式说得很明白，理解透这个公式】</strong></p>
+<p>对于使用一般损失函数的形式：</p>
+<script type="math/tex; mode=display">
+\min_{j,s}[\min_{c_1}\sum_{x_i∈R_1(j,s)}L(y_i,c_1)+\min_{c_2}\sum_{x_i∈R_2(j,s)}L(y_i,c_2)]</script></li>
 </ol>
 <p>（连续属性值算法见后记-2）</p>
 <p>（注意，如果每个训练样本是一维的，就不需要选切分特征（切分变量）了，回归和分类都是。如$x∈[0.5,10.5]$，在实数轴上，特征维度为1）</p>
@@ -437,6 +543,18 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
 <p><strong>回归预测</strong>指<strong>输出</strong>（预测）的是一个连续变量的值，比如要求输出概率（又比如说要预测房价）</p>
 <p><strong>属性为连续值</strong>指的是<strong>输入</strong>的属性是连续的，即取值无限，如输入的$x是实数$，那就得用离散化方法，C4.5采用了二分，即把$x是实数\to \{x&lt;A_i\},\{x≥A_i\}$两个结点。（或者如输入的值是房价）</p>
 <p><strong>属性就是特征，属性的值即特征的取值</strong></p>
+</li>
+<li><p>CART回归树的例可以见Boosting的GDBT后记</p>
+</li>
+<li><p>寻找最优切分和特征一般都是贪心算法，只考虑当前结点下的最优特征和最优分割</p>
+</li>
+<li><p>决策树以及基于Boosting的算法的优点</p>
+<p>①天然对缺失值和噪音有很好的鲁棒性</p>
+<p>②天然可以很好的处理各种类型的特征</p>
+<p>③天然对离群值有很好的鲁棒性</p>
+<p>④（对Boosting DT）数据规模影响不大，因为我们对弱分类器的要求不高 </p>
+</li>
+<li><p>但也有缺点，就在于假设无噪音的情况下，性能不如SVM，LR等，但如果数据集有噪音的话，这个弱势就不能么明显了。而且，可以用Boosting嘛，一个DT不给力，多个DT一起干，效果就更强</p>
 </li>
 </ol>
 ]]></content>
