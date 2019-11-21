@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法； XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 注意理解上一篇GBDT中的【注意理解】部分，读">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-21T13:01:39.113Z">
+<meta property="og:updated_time" content="2019-11-21T13:42:50.775Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting(XGBoost、LightGBM)和Random Forest">
 <meta name="twitter:description" content="施工中 XGBoost和LightGBM都属于GBDT的变种，见上篇；Random Forest属于Bagging方法； XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 注意理解上一篇GBDT中的【注意理解】部分，读">
@@ -447,7 +447,7 @@ Obj_{m+1}^{(later)}=-\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lam
 Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p><strong>为了限制树的生长</strong>，我们可以加入阈值，当增益大于阈值时才让节点分裂，上式中的<strong>$\gamma$即阈值</strong>，它是正则项里叶子节点数$T$的系数，所以XGBoost在优化目标函数的同时<strong>相当于做了预剪枝</strong>。 同时可以看出该式子中<strong>$\lambda$起了对叶结点score做平滑的作用</strong>。（这俩参数定义见最前面的正则化公式）这两个参数在这里求分裂的时候也<strong>都起了正则化作用</strong></p>
 <p><strong>故可用此公式决定最优分裂特征和分裂点，贪心地选择收益最大的作为分裂点</strong></p>
 <p><strong>②【根据损失函数确定每个结点的最优回归输出】</strong></p>
-<p>由于决策树的结构已经固定了，那么就知道了$q(<em>),I_j$。（<strong>这里的①与GDBT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<em>*在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</em></em>）；</p>
+<p>由于决策树的结构已经固定了，那么就知道了$q(),I_j$。（<strong>这里的①与GDBT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<strong>在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</strong>）；</p>
 <p>又由于$g_i,h_i$是对当前已知模型(上一步/轮求出来的)$f_m(x_i)$的导数，那么$G_j,H_j$也是已知常数，于是让目标损失函数$Obj_{m+1}$对$w_j$<strong>求0导</strong>（我们原来是要对$T(x;\Theta_{m})$求导的，而$T(x;\Theta_{m})=w_{q(x)}$）可得</p>
 <script type="math/tex; mode=display">
 w^o=-\frac{G_j}{H_j+\lambda}</script><script type="math/tex; mode=display">
