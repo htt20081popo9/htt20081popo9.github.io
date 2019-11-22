@@ -18,7 +18,7 @@
 L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><a id="more"></a>    
 <h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
 <p>在GBDT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
-<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶开，求其一阶梯度和二阶梯度，正因为使用损失函数的二阶泰勒展开，因此与损失函数更接近，比只使用了一阶展开的GBDT收敛速度更快</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
+<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶展开，求其一阶梯度和二阶梯度，正因为使用损失函数的二阶泰勒展开，因此与损失函数更接近，比只使用了一阶展开的GBDT收敛速度更快</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
 <script type="math/tex; mode=display">
 g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>于是用和GBDT一样的方法，对无正则的原损失函数（单个样本）$L’(y_{i+1},f_{m+1}(x_i))$在$\hat f_m(x_i)$处进行泰勒二阶展开，这里简要推导：</p>
 <p>$L’(y_{i+1},f_{m+1}(x_i))=L’(y_{i+1},f_m(x_i)+T(x,\Theta_{m+1}))$ </p>
@@ -31,8 +31,8 @@ g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i
 <p>$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||w||^2$，转换表示，见开头的表记方法</p>
 <p>$=\sum_{i=1}^N[g_iw_{q(x_i)}+\frac{1}{2}h_iw^2_{q(x_i)}]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^Tw_j^2$ ，将对样本求和改为对划分求和，同一个叶子节点/划分$j$的输出值是相同的，即$w_{q(x_i)}=w_j\quad if\quad i∈I_j$，于是改写为：</p>
 <p>$Obj_{m+1}=\sum_{j=1}^T[(\sum_{i∈I_j} g_i)w_j+\frac{1}{2}(\sum_{i∈I_j}h_i+\lambda)w_j^2]+\gamma T$</p>
-<p>令$G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad$，则：</p>
 <script type="math/tex; mode=display">
+令G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad,则：</script><script type="math/tex; mode=display">
 Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T</script><p><strong>①</strong>于是<strong>【根据此损失函数先确定$(j,s)$划分，确定决策树的结构】</strong></p>
 <p>但是注意到实际上在确定决策树结构（选择最优特征和分割点）的时候，决策树结构数量是无穷的，所以<strong>实际上并不能穷举所有可能的决策树结构。</strong>什么样的决策树结构是最优的呢？<strong>通常使用贪心策略来生成决策树的每个结点。</strong>——因为对某个结点采取的是二分策略，分别对应<strong>左子结点和右子结点</strong>，除了当前待处理的结点，其他结点对应的$Obj_{m+1}$值都不变，所以对于收益的计算只需要考虑当前结点的$Obj_{m+1}$值即可。</p>
 <p>（其它DT和基于DT的boosting通常也用贪心策略）</p>
@@ -42,7 +42,7 @@ Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T</script><p
 <li>选择<strong>收益最大的特征作为分裂特征</strong>，用该特征的最佳分裂点作为分裂位置，把该结点生成出左右两个新的叶子结点，并为每个新结点关联新的样本集；</li>
 <li>退回到第一步，继续<strong>递归</strong>操作直到满足特定条件。</li>
 </ol>
-<p>不过原作者通过没有直接这样暴力枚举，因为即使贪心策略只考虑当前结点，该结点内可能的分裂点也很多。于是原作者<strong>通过加权分位数的算法选出了一些可能的分裂点（见后文）</strong>。</p>
+<p>不过原作者没有直接这样暴力枚举，因为即使贪心策略只考虑当前结点，该结点内可能的分裂点也很多。于是原作者<strong>通过加权分位数的算法选出了一些可能的分裂点（见后文）</strong>。</p>
 <p>下面我们就要通过一个<strong>增益函数/打分函数</strong>来判断谁是最佳特征和分裂点了：</p>
 <p>分裂前针对该结点的最优目标函数(<strong>这个最优目标函数是假设结构已经固定的情况下在第②步中先求出来的</strong>）为： </p>
 <script type="math/tex; mode=display">
@@ -53,19 +53,43 @@ Obj_{m+1}^{(later)}=-\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lam
 Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p><strong>为了限制树的生长</strong>，我们可以加入阈值，当增益大于阈值时才让节点分裂，上式中的<strong>$\gamma$即阈值</strong>，它是正则项里叶子节点数$T$的系数，所以XGBoost在优化目标函数的同时<strong>相当于做了预剪枝</strong>。 同时可以看出该式子中<strong>$\lambda$起了对叶结点score做平滑的作用</strong>。（这俩参数定义见最前面的正则化公式）这两个参数在这里求分裂的时候也<strong>都起了正则化作用</strong></p>
 <p><strong>故可用此公式决定最优分裂特征和分裂点，贪心地选择收益最大的作为分裂点</strong></p>
 <p><strong>②【根据损失函数确定每个结点的最优回归输出】</strong></p>
-<p>由于决策树的结构已经固定了，那么就知道了$q(),I_j$。（<strong>这里的①与GDBT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<strong>在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</strong>）；</p>
+<p>由于决策树的结构已经固定了，那么就知道了$q(),I_j$。（<strong>这里的①与GBDT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<strong>在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</strong>）；</p>
 <p>又由于$g_i,h_i$是对当前已知模型(上一步/轮求出来的)$f_m(x_i)$的导数，那么$G_j,H_j$也是已知常数，于是让目标损失函数$Obj_{m+1}$对$w_j$<strong>求0导</strong>（我们原来是要对$T(x;\Theta_{m})$求导的，而$T(x;\Theta_{m})=w_{q(x)}$）可得</p>
 <script type="math/tex; mode=display">
 w^o=-\frac{G_j}{H_j+\lambda}</script><script type="math/tex; mode=display">
 最优损失函数:Obj_{m+1}=-\frac{1}{2}\sum_{j=1}^T\frac{G^2_j}{H_j+\lambda}+\gamma T</script><p>$w^o=-\frac{G_j}{H_j+\lambda}$即为叶子节点的最优输出，相当于GDBT的第④步</p>
 <h3 id="引入学习率-缩减（Shrinkage）"><a href="#引入学习率-缩减（Shrinkage）" class="headerlink" title="引入学习率/缩减（Shrinkage）"></a>引入学习率/缩减（Shrinkage）</h3><p>在更新前向分步模型的时候，在新树的输出引入学习率，以防止过拟合</p>
 <script type="math/tex; mode=display">
-f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><h3 id="引入加权分位数方法"><a href="#引入加权分位数方法" class="headerlink" title="引入加权分位数方法"></a>引入加权分位数方法</h3><p>在决策树分裂的时候引入的减小计算量的方法。</p>
-<p>决策树的分裂基本都是基于贪心的，也就是只考虑当前结点的最优特征和划分而不考虑全局最优，但这样依然需要穷举该结点内每个可能的分裂点。当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数方法</p>
-<p>分位数切分就是将样本集多等分</p>
-<p>对原目标式：$Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T$</p>
-<p>可以将一阶导$G_j$和二阶导$H_j$看作输出$w_j$的权重</p>
-<p>思想：我们将特征样本排序，划分成不同区域，对样本取分位数点，每个分位数点落在区域内，但由于<strong>样本权重越高的区域，预测结果越是不确定的样本区域，切分的粒度就应该越密集。</strong></p>
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><h3 id="引入分布式加权分位数略图算法"><a href="#引入分布式加权分位数略图算法" class="headerlink" title="引入分布式加权分位数略图算法"></a>引入分布式加权分位数略图算法</h3><p>在决策树分裂的时候引入的减小计算量的方法。 weighted quantile sketch </p>
+<p>决策树的分裂基本都是基于贪心的，也就是只考虑当前结点的最优特征和划分而不考虑全局最优，但这样依然需要穷举该结点内每个可能的分裂点。当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——分布式加权分位数略图算法 </p>
+<p>先看<strong>加权分位数略图算法</strong></p>
+<p>对原目标式：$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\Omega(T(x;\Theta_m))$变形，在里面添加一个常数：</p>
+<p>$=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})+\frac{1}{2}\frac{g_i^2}{h_i}]+\Omega(T(x;\Theta_m))+constant$</p>
+<p>$=\sum_{i=1}^n\frac{1}{2}h_i[T(x,\Theta_{m+1})-(-\frac{g_i}{h_i})^2]+\Omega(T(x;\Theta_m))+constant$</p>
+<p>可以看出，最后的目标代价函数就是一个$h_i$的加权平均损失函数</p>
+<p>于是进一步我们想要如何以分位数的方式划分区域来取候选点。</p>
+<p><strong>思想：</strong>我们将特征样本排序，划分成不同区域，对样本取分位数点，每个分位数点落在区域内，但由于<strong>样本权重越高的区域，预测结果越是不确定的样本区域，切分的粒度就应该越密集。</strong></p>
+<p>那么具体怎么实现呢：</p>
+<p>对于数据集$D_k=\{(x_{1k},h_1),(x_{2k},h_2),\cdots,(x_{nk},h_n)\}$，$k$表示某特征，$h$即为损失函数在该样本在$k$特征对应的二阶梯度</p>
+<p>s在加权分位缩略图算法中，取值是按照Rank来取的：</p>
+<script type="math/tex; mode=display">
+r_k(z)=\frac{\sum_{(x,h)∈D_k,x<z}h}{\sum_{(x,h)∈D_k}h}</script><p>输入为某个特征的值$z$,计算的是该特征所有可取值中<strong>小于$z$的特征值的总权重占总的所有可取值的总权重和的比</strong>例，输出为一个<strong>比例值</strong>。 这个Rank计算出来就相当于<strong>将原特征值用$h$加了权映射到$(0,1)$上</strong></p>
+<p>于是按照此公式选取候选分割点$\{s_{k1},s_{k2},\cdots,s_{kl}\}$：</p>
+<script type="math/tex; mode=display">
+|r_k(s_{k,j})-r_k(s_{k,j+1})|<\epsilon\quad,s_{k1}=\min_ix_{ik},s_{kl}=\max_ix_{ik}</script><p>$\epsilon$ 是一个近似比例，或叫扫描步幅，就是说<strong>在加权后的特征取值区间上，按照步幅$\epsilon$取值</strong>，得到$\frac{1}{\epsilon}$个候选点</p>
+<p><strong>取值分两种</strong>：</p>
+<p>①<strong>global proposal</strong> ：也就是<strong>在最开始树还没分裂的时候就选好一组$\{s_{k1},s_{k2},\cdots,s_{kl}\}$，在总体样本里选择，每次树切分的时候都不变 。</strong></p>
+<p>②<strong>local proposal</strong>：它是在每次树<strong>分割成子树之后再选择出一组$\{s_{k1},s_{k2},\cdots,s_{kl}\}$</strong>，来自子树的样本集！</p>
+<p><strong>两种都要，共同组成分割候选点集合</strong>。对于子树中存在的global proposal选取的分割点，需要加入子树local proposal选取的分割点集合中，组成子树候选点</p>
+<p><strong>[总结]</strong>如何分割成子树：</p>
+<ol>
+<li><p>求global proposal和local proposal，得到一系列候选分裂点集合$\{s_{k1},s_{k2},\cdots,s_{kl}\}$（加权分位数略图算法）</p>
+</li>
+<li><p>候选点将样本集合划分为了很多区间，每个区间叫分桶。在每个分桶上对样本统计值$g$、$h$进行累加统计求$Gain$，最后在这些累计的统计量上寻找最佳分裂点。（这步其实就是使用增益公式遍历选最佳分裂点的步骤）</p>
+</li>
+</ol>
+<p>结合贪心，替代上面“修改拟合目标”中的1234暴力枚举法</p>
+<p>对于<strong>分布式加权分位数略图算法</strong>，多了两个操作合并merge和修剪prune，可以看这篇文章<a href="http://datavalley.github.io/2017/09/11/xgboost%E6%BA%90%E7%A0%81%E4%B9%8B%E5%88%86%E4%BD%8D%E7%82%B9" target="_blank" rel="noopener">xgboost之分位点算法</a></p>
 <h3 id="允许缺失值存在"><a href="#允许缺失值存在" class="headerlink" title="允许缺失值存在"></a>允许缺失值存在</h3><p>XGBoost模型允许缺失值的存在。对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。</p>
 <p>具体地，XGBoost把缺失值当做稀疏矩阵来对待，即本身的在节点<strong>[遍历寻找某特征的最优分裂点时不考虑缺失值的数值，只对非缺失值进行遍历]&lt;=允许缺失值存在的核心</strong>。所以缺失值对树生成不会有影响，缺失值数据会继续被其他特征进行最优划分，最终学习到分类（如果用下面的①可以最优但增加计算负担，用②也可以，实际上影响不大）。</p>
 <p>于是两种处理方法：</p>
@@ -92,7 +116,7 @@ Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+
 T^o(x;\Theta_{m+1})=-\frac{G_j}{H_j+\lambda}</script><p>​        ④新树乘以学习率，前向分步模型更新</p>
 <script type="math/tex; mode=display">
 f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直到满足停止条件</p>
-<h3 id="相比GDBT的优点"><a href="#相比GDBT的优点" class="headerlink" title="相比GDBT的优点"></a>相比GDBT的优点</h3><ol>
+<h3 id="相比GBDT的优点"><a href="#相比GBDT的优点" class="headerlink" title="相比GBDT的优点"></a>相比GBDT的优点</h3><ol>
 <li><p>由于XGBoost使用了损失函数的泰勒<strong>二阶展开</strong>，因此<strong>与损失函数更接近</strong>，对其进行拟合，收敛速度更快。</p>
 <p>而GBDT只进行了一阶展开。</p>
 </li>
@@ -112,16 +136,20 @@ f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直�
 </li>
 </ol>
 <h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><p>原论文： <a href="https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/</a> </p>
-<p>LightGBM是微软去年才发表并开源的新算法</p>
+<p>LightGBM是微软去年才发表并开源的新算法，也是一种<strong>基于GBDT</strong>的算法。其能达到速度比XGBoost快，但精度却一样。</p>
+<p><strong>其核心是在GBDT的每个CART分裂子树，选取最优分裂点的方法上进行了改进。</strong>原始GBDT中，即使使用了贪心，要对每个分裂点进行枚举，计算量也非常大。在XGBoost中，使用了加权分位数略图算法来解决这个问题。</p>
+<p>但对于GBDT，是没有权重的（没有像XGBoost采用二阶梯度），于是在LightGBM中为了基于GBDT改进，提出了<strong>Gradient-based One-Side Sampling (GOSS)</strong>和<strong>Exclusive Feature Bundling (EFB)</strong>算法来解决最优分割点选取问题</p>
 <h2 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h2><p>随机森林不属于Boosting方法，但属于集成学习</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p><strong>实际上绝大多数树模型在划分结点的时候都是采用贪心算法，只计算当前结点的最优特征和最优划分，否则树模型的可能实在太多，枚举完的代价是巨大的</strong></p>
 </li>
 <li><p><strong>Bagging与Boosting</strong></p>
-<p>用XGBoost/GDBT在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree或RandomForest的时候需要把树的深度调到15或更高，why？</p>
+<p>用XGBoost/GBDT在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree或RandomForest的时候需要把树的深度调到15或更高，why？</p>
 <p>①随机森林属于<strong>Bagging方法，主要降低方差</strong>， 因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。  （dropout就可以视为神经网络的一种bagging）</p>
 <p>②XGB/GBDT属于<strong>Boosting方法，主要降低偏差</strong>，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成； </p>
 <p>Bagging和Boosting都属于集成学习</p>
+</li>
+<li><p>分割=分裂=划分，这三个词都是描述决策树变成子树的过程，我是混着用的</p>
 </li>
 </ol>
 ]]></content>
