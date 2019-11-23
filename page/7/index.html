@@ -284,6 +284,224 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/30/Examples/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/Examples/" itemprop="url">Explaining and Harnessing Adversarial Examples</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T12:20:14+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/论文阅读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/Examples/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/Examples/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
+</blockquote>
+<h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
+<p>本文的观点：<strong>Linear behavior</strong> in <strong>high-dimensional spaces</strong> is sufﬁcient to cause adversarial examples</p>
+<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ol>
+<li><p>Box-constrained L-BFGS can reliably ﬁnd adversarial examples.</p>
+</li>
+<li><p>On some datasets, such as ImageNet (Deng et al., 2009), the adversarial examples were so close to the original examples that the differences were indistinguishable to the human eye.</p>
+</li>
+<li><p>The same adversarial example is often misclassiﬁed by avariety of classiﬁers with different architectures or trained on different subsets of the training data.</p>
+</li>
+<li><p>Shallow softmax regression models are also vulnerable to adversarial examples. </p>
+</li>
+<li><p>Training on adversarial examples can regularize the model —however , this was not practical at the time due to the need for expensive constrained optimization in the inner loop</p>
+</li>
+</ol>
+<p>这就引起我们怀疑即便当前最好的模型是否只是虚有其表，并没有真正学习到内在的语义信息。仅仅能够fit现有样本，无法泛化。</p>
+<h2 id="对抗样本的线性解释"><a href="#对抗样本的线性解释" class="headerlink" title="对抗样本的线性解释"></a>对抗样本的线性解释</h2><p>本文提出了对对抗样本产生原因的线性解释.设置扰动$\eta,\epsilon$为一个小到可以被分类器忽略的值</p>
+<p>$\hat{x} = x+\eta$ ，若$||\eta||_\infty&lt;\epsilon$，分类器将无法将$x$与$\hat{x}$分开</p>
+<p>则$w^T\hat{x}=w^T(x+\eta)=w^Tx+w^T\eta$</p>
+<p>若维度很高，则即使$\eta$很小，也会使得$w^T\eta$非常大，影响分类器的判断</p>
+<p>令$\eta=sign(w)$即可使得$w^T\eta$最大</p>
+<h2 id="非线性模型的线性扰动"><a href="#非线性模型的线性扰动" class="headerlink" title="非线性模型的线性扰动"></a>非线性模型的线性扰动</h2><p>对于现在的神经网络都有很强的线性性质以至于无法抵抗对抗攻击，如 LSTMs (Hochreiter &amp; Schmidhuber, 1997), ReLUs (Jarrett et al., 2009; Glorot et al., 2011),  maxout networks (Goodfellow et al., 2013c) 都设计得具有很强的线性性质，所以也方便优化。FGSM将损失函数近似线性化，从而获取$||\eta||_\infty&lt;\epsilon$的最优扰动。</p>
+<p><strong>Fast Gradient Sign Method(FGSM)</strong></p>
+<script type="math/tex; mode=display">
+\eta = \epsilon sign(\nabla_xJ(\theta,x,y))​</script><script type="math/tex; mode=display">
+\hat{x} = x+\epsilon sign(\nabla_xJ(\theta,x,y))</script><p>注意这里$y=y_{true}$</p>
+<p>通过实验证明，作者的假设产生对抗样本的原因是由于模型的线性特性是正确的。这种方法也可以作为一种快速生成对抗样本的方法（即FGSM）</p>
+<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>在Logistics Regression上应用FGSM方法 ，$label\in\lbrace1,-1\rbrace$</p>
+<p>$P(y=1|x)=\sigma(w^Tx+b),\sigma(z)=softmax(z)$   </p>
+<p>$\therefore J = E{x,y \tilde{} p_{data}}[(-\frac{1+y}{2})\ln P(y=1|x)-\frac{1-y}{2}\ln P(y=-1|x)]$</p>
+<p>设$p=P(y=1|x),f=w^Tx+b$</p>
+<p>$\therefore J=-\frac{1}{2}\ln p-\frac{y}{2}\ln p-\frac{1}{2}\ln (1-p)+\frac{y}{2}\ln (1-p)$</p>
+<p>$=-\frac{1}{2}\ln p（1-p)-\frac{y}{2}\ln \frac{p}{1-p} $</p>
+<p>$= \frac{1}{2}(f-yf) + \ln(1+e^{-f})$</p>
+<p>$=\begin{cases} \ln(1+e^{-f}),y=1\\ f+\ln(1+e^{-f})=\ln e^f+\ln(1+e^{-f})=\ln(1+e^f),y=-1\end{cases}$</p>
+<p>$= \ln(1+e^{-yf})$</p>
+<p>$=\zeta(-yf)=E{x,y \tilde{} p_{data}}\zeta(-y(w^Tx+b)),\zeta(z) = \ln(1+e^z)$  </p>
+<p>$\therefore \eta=\epsilon sign(\nabla_xJ(\theta,x,y))$</p>
+<p>$=\epsilon sign(\nabla_x\zeta(-y(w^Tx+b)))$</p>
+<p>$= \epsilon sign(\frac{\partial \ln(1+e^{-y(w^Tx+b)})}{\partial x})$</p>
+<p>$=\epsilon sign(\frac{1}{1+e^{-y(w^Tx+b)}} ×(-e^{-y(w^Tx+b)})×(yw^T))$</p>
+<p>$=\epsilon sign(\frac{e^{-yf}}{1+e^{-yf}}×(-y)w)$</p>
+<p>$=\epsilon sign(-w)=-\epsilon sign(w)$</p>
+<p>$\because w^Tsign(w)=||w||_1，\hat{x}=x+\eta,\eta=\epsilon-sign(w)$</p>
+<p>$\therefore \hat{J}=E{x,y \tilde{} p_{data}}\zeta(y(\epsilon||w||_1 -w^Tx-b))$</p>
+<p>可以看到类似于$L^1$正则，不过是减去$L^1$惩罚项。当置信度很高，$w^Tx+b$足够大的时候，$\epsilon||w||_1$几乎不起作用，但是当模型欠拟合的时候，则会更加欠拟合</p>
+<h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
+<script type="math/tex; mode=display">
+\hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
+<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
+<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/27/Animation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1485,191 +1703,6 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/" itemprop="url">训练集增补后两个非常诡异的错误</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T15:30:44+08:00">
-                2019-05-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-错误/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这错误原因说了等于没说，完全不知道问题出在哪，只能靠 <code>想 象 力</code></p>
-<ol>
-<li><p><code>Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........</code>错误</p>
-<p>在新增了一个类别进入训练集之后（5+1）出现了非常奇怪的CUDA报错</p>
-<p>这个错误原因一般是①网络输出的label和标签（训练集种类）数量应该相同</p>
-<p>②是否存在-1标签</p>
-<p>我的最后一层应该<code>nn.Linear(32768, 5)</code>改为<code>nn.Linear(32768, 6)</code></p>
-<p>很容易忽略很隐蔽的错误！而且这个错误定位并不准。找了我半天时间，</p>
-</li>
-<li><p><code>DataLoader worker (pid 20991) is killed by signal: Killed.</code></p>
-<p>检查内存，CPU %MEM一直在增加，跑了很多次都同样出错</p>
-<p><code>Out of memory</code>了</p>
-<p>查阅了很多资料，github上有些人也遇到这个问题，有说是因为后台线程设置太多，也以后说enumerate写法问题，还有个说是pytorch的问题</p>
-<blockquote>
-<p> a lot of those issues are because of third party libraries not being fork safe. One alternative resolution might be to use the spawn start method.</p>
-</blockquote>
-<p>最后将子线程设置为1解决</p>
-<p><code>N M B</code></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1720,7 +1753,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">127</span>
+                  <span class="site-state-item-count">128</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
