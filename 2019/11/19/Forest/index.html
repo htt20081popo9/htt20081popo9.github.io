@@ -88,9 +88,9 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/GOSS.png">
 <meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/EFB.png">
-<meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/0.webp">
-<meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/1.webp">
-<meta property="og:updated_time" content="2019-11-22T17:24:42.002Z">
+<meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/0.png">
+<meta property="og:image" content="https://aisakaki.com/2019/11/19/Forest/1.png">
+<meta property="og:updated_time" content="2019-11-23T15:47:30.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boosting(XGBoost、LightGBM)">
 <meta name="twitter:description" content="XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。 XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 引入正则化项来控制树的复杂度表记$T(x;\Th">
@@ -570,8 +570,8 @@ f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直�
 <p>附上原论文的算法，算法3为贪心寻找绑定，算法4为合并互斥特征：</p>
 <p><img src="//aisakaki.com/2019/11/19/Forest/EFB.png" alt="EFB" style="zoom:50%;"></p>
 <h3 id="Leaf-wise-Best-first-Tree-Growth"><a href="#Leaf-wise-Best-first-Tree-Growth" class="headerlink" title="Leaf-wise (Best-first) Tree Growth"></a>Leaf-wise (Best-first) Tree Growth</h3><p>采用Leaf-wise策略建树（下图）</p>
-<p><img src="//aisakaki.com/2019/11/19/Forest/0.webp" alt="0"></p>
-<p><img src="//aisakaki.com/2019/11/19/Forest/1.webp" alt="1"></p>
+<p><img src="//aisakaki.com/2019/11/19/Forest/0.png" alt="0"></p>
+<p><img src="//aisakaki.com/2019/11/19/Forest/1.png" alt="1"></p>
 <p>图片来源：<a href="https://www.jianshu.com/p/3daf08229d78" target="_blank" rel="noopener">LightGBM原理分析</a></p>
 <p>用Leaf-wise可以做到每次从<strong>当前所有叶子</strong>中，找到分裂增益最大的一个叶子，也就能选取最优增益的建树方法；而level-wise同对待同层所有叶子就可能增益很低。但容易过拟合。Leaf-wise每次分裂可以降低更多偏差，精度更高，但容易过拟合。但可以通过限制树高来防止过拟合。</p>
 <p>而且由于GOSS和EFB算法本身就有正则化的效果，所以可以使用Leaf-wise来提升精度</p>
