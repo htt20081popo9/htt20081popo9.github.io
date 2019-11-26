@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-25T11:38:47.966Z">
+<meta property="og:updated_time" content="2019-11-26T07:42:02.783Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算">
 <meta name="twitter:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
@@ -401,12 +401,51 @@
 <p><em>在线性代数和矩阵论都已经学过，这里只写一些常用的</em></p>
 <a id="more"></a>    
 <h2 id="基本计算"><a href="#基本计算" class="headerlink" title="基本计算"></a>基本计算</h2><ol>
-<li>$(AB)^T=B^TA^T$</li>
-<li>$(AB)^{-1}=B^{-1}A^{-1}$</li>
-<li>正交矩阵$A$：$AA^T=I$</li>
+<li><p>$(AB)^T=B^TA^T$</p>
+<p>$(AB)^{-1}=B^{-1}A^{-1}$</p>
+<p>$A^{-1}A=AA^{-1}=I$</p>
+<p>$(A^T)^{-1}=(A^{-1})^T$</p>
+</li>
+<li><p>对称矩阵$A$。协方差矩阵、核矩阵、Hessian矩阵都是对称矩阵</p>
+<p>有$A_{ij}=A_{ji}$</p>
+<p>$A=A^T$，$A^{-1}$也是对称矩阵</p>
+<p>一般情况下，矩阵的特征值是复数。但是对于对称矩阵，特征值$\lambda_i$为实数。</p>
+</li>
+<li><p>正交矩阵$A$：$AA^T=A^TA=I$</p>
+</li>
+<li><p>高斯消元（略）</p>
+</li>
+<li><p>矩阵的逆</p>
+<p>如何求逆（略）</p>
+<p>对于可逆矩阵$A$，有$AA^{-1}=A^{-1}A=I$</p>
+</li>
+<li><p>特征向量方程：$Ax=\lambda x,\quad x$为<strong>特征向量</strong>；使得该式成立的$\lambda$称为矩阵$A$的<strong>特征值</strong>，为常数</p>
+<p>该表达式的特征方程为$|\lambda I-A|=0$</p>
+<p>通过特征方程可解得特征向量和特征值</p>
+</li>
+<li><p>矩阵对角化</p>
+<p>$S^{-1}AS=Λ,\quadΛ$为一个对角矩阵，其对角线上的元素为$A$的所有特征值；$S$称为特征向量矩阵，$Λ$是特征值矩阵。一般就先用特征方程求得特征值$\lambda_1,\cdots,\lambda_n$和对应特征向量$x_1,\cdots,x_n$，由特征值得到$\Lambda$，再由特征向量施密特标准化得到特征向量矩阵</p>
+</li>
+<li><p>行列式</p>
+<p>行列式仅适用于方阵</p>
+<p>$|AB|=|A||B|$</p>
+<p>$|A^{-1}|=\frac{1}{|A|}$</p>
+<p>克莱姆法则解线性方程组（略）</p>
+<p>$|A_{M×M}|=\prod_{i=1}^M \lambda_i=A$的对角化矩阵$\Lambda$的对角线元素之积  </p>
+</li>
+<li><p><strong>秩</strong>等价<strong>空间维度</strong>等价<strong>独立变量</strong>等价<strong>无关变量</strong>等价<strong>特征值数量</strong></p>
+</li>
+<li><p>正定矩阵和半正定矩阵</p>
+<p>半正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx≥0$恒成立</p>
+<p>正定矩阵：$A∈\mathbb R^{n×n},x∈\mathbb R^n$，对任意$x$，$x^TAx＞0$恒成立</p>
+</li>
+<li><p>一些等式</p>
+<p>$(P^{-1}+B^TR^{-1}B)^{-1}B^TR^{-1}=PB^T(BPB^T+R)^{-1}$</p>
+<p>$(I+AB)^{-1}A=A(I+BA)^{-1}$</p>
+<p>Woodybury恒等式：$(A+BD^{-1}C)^{-1}=A^{-1}-A^{-1}B(D+CA^{-1}B)^{-1}CA^{-1}$</p>
+<p>都可以用左乘/右乘逆矩阵的逆推得</p>
+</li>
 </ol>
-<p>秩对应空间维度对应独立变量</p>
-<p>正定</p>
 <h2 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>将一个非零的$m×n$实矩阵$A,A∈\mathbb R^{m×n}$，表示为三个实矩阵乘积形式的运算：</p>
 <script type="math/tex; mode=display">
 A=U\Sigma V^T</script><p>其中$U$为$m$阶<strong>正交矩阵</strong>，$V$为$n$阶<strong>正交矩阵</strong>，$\Sigma$是由<strong>降序</strong>排列的<strong>非负</strong>的对角线元素组成的$m×n$矩形的<strong>对角矩阵</strong></p>
@@ -423,8 +462,8 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
 </li>
 <li><p>$A^TA=(U\Sigma V^T)^T(U\Sigma V^T)=V(\Sigma^T\Sigma)V^T$</p>
 <p>$AA^T=(U\Sigma V^T)(U\Sigma V^T)^T=U(\Sigma\Sigma^T)U^T$</p>
-<p>$V$的列向量是$A^TA$的特征向量，$U$的列向量是$AA^T$的特征向量，$\Sigma$的奇异值是$AA^T和A^TA$的特征值的平方根</p>
-<p>直接乘即可推导</p>
+<p>（推导）直接乘即可推导</p>
+<p>如果继续变形右乘可得：$[A^TA]V=V(\Sigma^T\Sigma),[AA^T]U=U(\Sigma\Sigma^T)$，此表达式即说明：$V$的列向量是$A^TA$的特征向量，$U$的列向量是$AA^T$的特征向量，$\Sigma$的奇异值是$AA^T和A^TA$的特征值的平方根。由这个性质可以推出奇异值分解的计算方法。</p>
 </li>
 <li><p>奇异值，左奇异向量，右奇异向量之间的关系</p>
 <p>通过定义式$A=U\Sigma V^T$直接推导：</p>
@@ -447,7 +486,9 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
 <li>$||A||_2=\sqrt{\lambda_i}\quad,\lambda_i为A^HA的最大特征值$</li>
 <li>$||A||_{∞}=\max_i \sum_{j=1}^n |a_{ij}|$</li>
 </ol>
-<h2 id="矩阵求导术"><a href="#矩阵求导术" class="headerlink" title="矩阵求导术"></a>矩阵求导术</h2>
+<h2 id="矩阵求导术"><a href="#矩阵求导术" class="headerlink" title="矩阵求导术"></a>矩阵求导术</h2><p>向量$\vec a$关于标量$x$的导数也是个向量，其<strong>分量</strong>为：$(\frac{\partial \vec a}{\partial x})_i=\frac{\partial a_i}{\partial x}$</p>
+<p>同理，向量$x$关于矩阵$a$的导数为：$(\frac{\partial x}{\partial a})_i=\frac{\partial x}{\partial a_i}$</p>
+
       
     </div>
     
@@ -498,6 +539,10 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/26/写给法科生的信/" rel="prev" title="我知道光在哪里">
+                我知道光在哪里 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -577,7 +622,7 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-count">131</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
