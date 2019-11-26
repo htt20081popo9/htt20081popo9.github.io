@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-26T07:42:02.783Z">
+<meta property="og:updated_time" content="2019-11-26T10:38:50.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算">
 <meta name="twitter:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
@@ -418,13 +418,17 @@
 <li><p>矩阵的逆</p>
 <p>如何求逆（略）</p>
 <p>对于可逆矩阵$A$，有$AA^{-1}=A^{-1}A=I$</p>
+<p><strong>正交矩阵的逆等于其转置矩阵</strong>：$A^{-1}=A^T$</p>
 </li>
-<li><p>特征向量方程：$Ax=\lambda x,\quad x$为<strong>特征向量</strong>；使得该式成立的$\lambda$称为矩阵$A$的<strong>特征值</strong>，为常数</p>
+<li><p><strong>特征向量方程</strong>：$Ax=\lambda x,\quad x$为<strong>特征向量</strong>；使得该式成立的$\lambda$称为矩阵$A$的<strong>特征值</strong>，为常数</p>
 <p>该表达式的特征方程为$|\lambda I-A|=0$</p>
 <p>通过特征方程可解得特征向量和特征值</p>
 </li>
-<li><p>矩阵对角化</p>
-<p>$S^{-1}AS=Λ,\quadΛ$为一个对角矩阵，其对角线上的元素为$A$的所有特征值；$S$称为特征向量矩阵，$Λ$是特征值矩阵。一般就先用特征方程求得特征值$\lambda_1,\cdots,\lambda_n$和对应特征向量$x_1,\cdots,x_n$，由特征值得到$\Lambda$，再由特征向量施密特标准化得到特征向量矩阵</p>
+<li><p><strong>矩阵对角化</strong></p>
+<p>$S^{-1}AS=Λ,\quadΛ$为一个对角矩阵，其对角线上的元素为$A$的所有特征值；$S$称为特征向量矩阵，$Λ$是特征值矩阵。一般就先用特征方程求得特征值$\lambda_1,\cdots,\lambda_n$和对应特征向量$x_1,\cdots,x_n$，由特征值得到$\Lambda$。</p>
+<p>此时的特征向量是非正交的。于是再由特征向量<strong>施密特正交化</strong>得到特征向量矩阵（$S$中<strong>每个特征向量都正交</strong>，于是此时$S^{-1}=S^T$，原因见5，也就是说$S^{-1}AS=S^TAS=\Lambda$，这时候叫$A$的<strong>正交对角化</strong>）</p>
+<p>可对角化条件：求得特征值和特征向量，$A$的每个特征值对应的齐次线性方程组的基础解系所含向量个数等于特征值的重数（注意每个重根虽然特征值相同，但是不同的特征值）</p>
+<p>矩阵不一定能对角化，但对称矩阵一定能对角化</p>
 </li>
 <li><p>行列式</p>
 <p>行列式仅适用于方阵</p>
@@ -460,10 +464,12 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
 </li>
 <li><p>几何意义：任意一个<strong>向量$x∈\mathbb R^n$，经过</strong>基于$A=U\Sigma V^T$的线性变换，<strong>等价于</strong>向量$x∈\mathbb R^n$经过坐标系的<strong>旋转或反射变换</strong>$V^T$，坐标轴的<strong>缩放变换</strong>$\Sigma$，以及坐标轴的<strong>旋转或反射变换</strong>$U$，得到向量$Ax∈\mathbb R^m$</p>
 </li>
-<li><p>$A^TA=(U\Sigma V^T)^T(U\Sigma V^T)=V(\Sigma^T\Sigma)V^T$</p>
+<li><p>设矩阵$A$的奇异值分解为$A=U\Sigma V^T$，则</p>
+<p>$A^TA=(U\Sigma V^T)^T(U\Sigma V^T)=V(\Sigma^T\Sigma)V^T$</p>
 <p>$AA^T=(U\Sigma V^T)(U\Sigma V^T)^T=U(\Sigma\Sigma^T)U^T$</p>
 <p>（推导）直接乘即可推导</p>
-<p>如果继续变形右乘可得：$[A^TA]V=V(\Sigma^T\Sigma),[AA^T]U=U(\Sigma\Sigma^T)$，此表达式即说明：$V$的列向量是$A^TA$的特征向量，$U$的列向量是$AA^T$的特征向量，$\Sigma$的奇异值是$AA^T和A^TA$的特征值的平方根。由这个性质可以推出奇异值分解的计算方法。</p>
+<p>由于$U,V$是正交矩阵，则右边的式子$V(\Sigma^T\Sigma)V^T$就是$A^TA$的正交对角分解</p>
+<p>由此表达式可以看出，<strong>矩阵$AA^T和A^TA$的[正交对角分解存在]且可以由[$A$的奇异值分解]的三个矩阵表示</strong>。$V$的列向量是$A^TA$的特征向量，$U$的列向量是$AA^T$的特征向量，$\Sigma$的奇异值是$AA^T和A^TA$的特征值的平方根。（见上面的基本计算-7-正交对角化）<strong>由这个性质可以推出奇异值分解的计算方法</strong>。</p>
 </li>
 <li><p>奇异值，左奇异向量，右奇异向量之间的关系</p>
 <p>通过定义式$A=U\Sigma V^T$直接推导：</p>
@@ -474,7 +480,16 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
 <li><p>奇异值唯一，$U,V$不唯一</p>
 </li>
 </ol>
-<h3 id="奇异值分解的计算"><a href="#奇异值分解的计算" class="headerlink" title="奇异值分解的计算"></a>奇异值分解的计算</h3><h3 id="矩阵近似"><a href="#矩阵近似" class="headerlink" title="矩阵近似"></a>矩阵近似</h3><h2 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h2><ol>
+<h3 id="奇异值分解的计算"><a href="#奇异值分解的计算" class="headerlink" title="奇异值分解的计算"></a>奇异值分解的计算</h3><p>由性质-3，我们发现了$A^TA$的奇异值可以由$A$的奇异值分解得到的三个矩阵$U,\Sigma,V$表示，存在对应关系：$V$的列向量是$A^TA$的特征向量；$\Sigma$的奇异值是$AA^T和A^TA$的特征值的平方根。于是我们想到借助求解$A^TA$，然后根据上述关系求得$U,\Sigma,V$。</p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>首先求$A^TA$的特征值和特征向量</li>
+<li>求$n$阶正交矩阵$V$</li>
+<li>求$m×n$阶对角矩阵$\Sigma$</li>
+<li>求$m$阶正交矩阵$U$</li>
+<li>得到奇异值分解</li>
+</ol>
+<h3 id="矩阵近似"><a href="#矩阵近似" class="headerlink" title="矩阵近似"></a>矩阵近似</h3><h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><h2 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h2><ol>
 <li><p>非负性</p>
 </li>
 <li><p>$||\alpha A||=|\alpha|·||A||$</p>
@@ -715,7 +730,7 @@ A=U_{m×m}\Sigma_{m×n}V^T_{n×n}</script><script type="math/tex; mode=display">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵近似"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵近似</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵近似"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li></ol></div>
             
 
           </div>
