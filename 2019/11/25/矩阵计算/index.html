@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
+<meta name="description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="矩阵计算">
+<meta property="og:title" content="矩阵计算与矩阵分解">
 <meta property="og:url" content="https://aisakaki.com/2019/11/25/矩阵计算/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
+<meta property="og:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-27T04:28:36.807Z">
+<meta property="og:updated_time" content="2019-11-27T11:18:23.606Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="矩阵计算">
-<meta name="twitter:description" content="施工中 在线性代数和矩阵论都已经学过，这里只写一些常用的">
+<meta name="twitter:title" content="矩阵计算与矩阵分解">
+<meta name="twitter:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>矩阵计算 | 宵晓咲</title>
+  <title>矩阵计算与矩阵分解 | 宵晓咲</title>
   
 
 
@@ -301,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">矩阵计算</h1>
+          <h1 class="post-title" itemprop="name headline">矩阵计算与矩阵分解</h1>
         
 
         <div class="post-meta">
@@ -397,7 +397,7 @@
       
 
       
-        <p><em>施工中</em></p>
+        <p><em>矩阵范数和矩阵求导术以后完成</em></p>
 <p><em>在线性代数和矩阵论都已经学过，这里只写一些常用的</em></p>
 <a id="more"></a>    
 <h2 id="基本计算"><a href="#基本计算" class="headerlink" title="基本计算"></a>基本计算</h2><ol>
@@ -460,7 +460,8 @@
 <p>都可以用左乘/右乘逆矩阵的逆推得</p>
 </li>
 </ol>
-<h2 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>将一个非零的$m×n$实矩阵$A,A∈\mathbb R^{m×n}$，表示为三个实矩阵乘积形式的运算：</p>
+<h2 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>singular value decomposition ，SVD</p>
+<p>将一个非零的$m×n$实矩阵$A,A∈\mathbb R^{m×n}$，表示为三个实矩阵乘积形式的运算：</p>
 <script type="math/tex; mode=display">
 A=U\Sigma V^T</script><p>其中$U$为$m$阶<strong>正交矩阵</strong>，$V$为$n$阶<strong>正交矩阵</strong>，$\Sigma$是由<strong>降序</strong>排列的<strong>非负</strong>的对角线元素组成的$m×n$矩形的<strong>对角矩阵</strong></p>
 <script type="math/tex; mode=display">
@@ -518,16 +519,54 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
 </li>
 </ol>
 <p>在实际运用中不直接求$W=A^TA$，而是通过求$A^TA$的特征值进行</p>
-<h3 id="矩阵近似"><a href="#矩阵近似" class="headerlink" title="矩阵近似"></a>矩阵近似</h3><ol>
-<li><p>佛罗贝尼乌斯范数：$A∈\mathbb R^{m×n},A=[A_{ij}]_{m×n}$，则定义矩阵$A$的佛罗贝尼乌斯范数为：</p>
+<h3 id="SVD与矩阵近似（证略）"><a href="#SVD与矩阵近似（证略）" class="headerlink" title="SVD与矩阵近似（证略）"></a>SVD与矩阵近似（证略）</h3><ol>
+<li><p><strong>佛罗贝尼乌斯范数（F范数）</strong>：$A∈\mathbb R^{m×n},A=[A_{ij}]_{m×n}$，则定义矩阵$A$的佛罗贝尼乌斯范数为：</p>
 <script type="math/tex; mode=display">
-||A||_F=(\sum_{i=1}^m\sum_{j=1}^n(a_{ij}^2))^{\frac{1}{2}}</script><p>引理：$A$的奇异值分解为$A=U\Sigma V^T,\quad \Sigma=diag(\sigma_1,\sigma_2,\cdots,\sigma_n)$，则：</p>
+||A||_F=(\sum_{i=1}^m\sum_{j=1}^n(a_{ij}^2))^{\frac{1}{2}}</script><p><strong>引理</strong>：$A$的奇异值分解为$A=U\Sigma V^T,\quad \Sigma=diag(\sigma_1,\sigma_2,\cdots,\sigma_n)$，则：</p>
 <script type="math/tex; mode=display">
-||A||_F=(\sigma_1^2+\sigma_2^2+\cdots+\sigma_n^2)^{\frac{1}{2}}</script></li>
-<li><p>奇异值分解是在平方损失（佛罗贝尼乌斯范数）意义下对矩阵的最优近似，即数据压缩</p>
+||A||_F=(\sigma_1^2+\sigma_2^2+\cdots+\sigma_n^2)^{\frac{1}{2}}</script><p><strong>F范数实际上就是衡量这个矩阵和对应的零矩阵的距离，就像二维平面上的一个点，和原点的距离就是它的f范数，那么下面的$A-X$其实就是衡量$A$到$X$的距离，也就是近似程度</strong></p>
+<p><strong>定理1：</strong>设矩阵$A∈\mathbb R^{m×n}$，矩阵的秩$rank(A)=r$，并设$\mathbb M$为$\mathbb R^{m×n}$中所有<strong>秩不超过$k$的矩阵</strong>的集合，$0＜k＜r$，则<strong>存在</strong>一个秩为$k$的矩阵$X∈\mathbb M$使得</p>
+<script type="math/tex; mode=display">
+||A-X||_F=\min_{S∈\mathbb M}||A-S||_F</script><p>称矩阵$X$为矩阵$A$的佛罗贝尼乌斯范数意义下的最优近似。这里秩不超过$k$的矩阵也就是要<strong>用一个低秩矩阵去近似高秩原矩阵</strong>。证明了存在，那什么样的矩阵才是最优解呢？答案：SVD。见下。</p>
+<p><strong>定理2：</strong>设矩阵$A∈\mathbb R^{m×n}$，矩阵的秩$rank(A)=r$，有奇异值分解$A=U\Sigma V^T$，并设$\mathbb M$为$\mathbb R^{m×n}$中所有秩不超过$k$的矩阵的集合，$0＜k＜r$，若秩为$k$的矩阵$X∈\mathbb M$满足</p>
+<script type="math/tex; mode=display">
+||A-X||_F=\min_{S∈\mathbb M}||A-S||_F</script><script type="math/tex; mode=display">
+则||A-X||_F=(\sigma_{k+1}^2+\sigma_{k+2}^2+\cdots+\sigma_{n}^2)^{\frac{1}{2}}</script><p>特别地，<strong>若</strong>$A’=U\Sigma’V^T$，其中</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{\sigma_1}&{}&{}&{}\\
+{}&{\sigma_2}&{}&{}\\
+{}&{}&{\ddots}&{}\\
+{}&{}&{}&{0}&{}&{}\\
+{}&{}&{}&{}&{\ddots}&{}\\
+{}&{}&{}&{}&{}&{0}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+{\Sigma_k}&{0}\\
+{0}&{0}
+\end{bmatrix}</script><script type="math/tex; mode=display">
+则||A-A'||_F=(\sigma_{k+1}^2+\sigma_{k+2}^2+\cdots+\sigma_{n}^2)^{\frac{1}{2}}=\min_{S∈\mathbb M}||A-S||_F</script><p>定理2表明了在秩不超过$k$的$m×n$矩阵的集合中，存在矩阵$A$的佛罗贝尼乌斯范数意义下的最优近似矩阵$X$。</p>
+<p>$A’=U\Sigma’V^T$是达到最优值的一个矩阵，也就是说=&gt;<strong>【通过SVD求得的这个矩阵就是最优近似矩阵】&lt;=这是这里的核心，也就说明了可以用SVD求得低秩矩阵去近似原矩阵。且奇异值分解是在平方损失（佛罗贝尼乌斯范数）意义下对矩阵的最优近似，即最优的数据压缩</strong></p>
 </li>
 </ol>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><h2 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h2><ol>
+<ol>
+<li><p><strong>利用外积展开式对矩阵$A$进行近似——截断奇异值分解</strong></p>
+<p>对于秩为$n$的原矩阵$A=\sigma_1u_1v_1^T+\sigma_2u_2v_2^T+\cdots+\sigma_nu_nv_n^T$</p>
+<p>于是其<strong>近似矩阵</strong>可以取为秩为$k$的矩阵$A=\sigma_1u_1v_1^T+\sigma_2u_2v_2^T+\cdots+\sigma_ku_kv_k^T$</p>
+<p><strong>这里其实就是取奇异值矩阵从大到小排列的奇异值的前$k$个，在第$k$个奇异值处截断，剩下的奇异值行全部删掉，见下面的截断奇异值分解的详细描述。</strong>这就是<strong>截断奇异值分解</strong>，是一种最优化的有损压缩。</p>
+<p><strong>截断奇异值分解：</strong></p>
+<p>截断奇异值分解得到的矩阵秩为$k$，通常<strong>远小于</strong>原始矩阵的秩$r$，所以是由<strong>低秩矩阵实现了对原始矩阵的压缩（近似）</strong>。具体地说就是：奇异值矩阵中的<strong>奇异值是按照从大到小排列，而且奇异值的减少特别的快</strong>，在很多情况下，前10%甚至1%的奇异值的和就占了全部的奇异值之和的99%以上的比例。也就是说，<strong>我们也可以用最大的$k$个的奇异值和对应的左右奇异向量来近似描述矩阵。</strong>也就是说：</p>
+<p>$A_{m×n}=U_{m×m}Σ_{m×n}V^T_{n×n}≈U_{m×k}Σ_{k×k}V^T_{k×n}$。其中$k$要比$n$小很多，也就是一个大的矩阵$A$可以用三个小的矩阵$U_{m×k},Σ_{k×k},V^T_{k×n}$来表示，对应于上面的$A’=U\Sigma’V^T$。其秩低于原矩阵的秩。 </p>
+<p>这种近似是在佛罗贝尼乌斯范数意义下的最优近似，其在1中已经给出了</p>
+</li>
+</ol>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p><strong>紧奇异值分解是在佛罗贝尼乌斯范数意义下的无损压缩</strong></p>
+<p><strong>截断奇异值分解是在佛罗贝尼乌斯范数意义下的有损压缩</strong></p>
+<p>由于这个重要的性质，SVD可以用于PCA降维，来做数据压缩和去噪。</p>
+<p>也可以用于推荐算法，将用户和喜好对应的矩阵做特征分解，进而得到隐含的用户需求来做推荐。</p>
+<p>同时也可以用于NLP中的算法，比如潜在语义索引（LSI）。 </p>
+<h2 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h2><ol>
 <li><p>非负性</p>
 </li>
 <li><p>$||\alpha A||=|\alpha|·||A||$</p>
@@ -561,7 +600,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://aisakaki.com/2019/11/25/矩阵计算/" title="矩阵计算">https://aisakaki.com/2019/11/25/矩阵计算/</a>
+    <a href="https://aisakaki.com/2019/11/25/矩阵计算/" title="矩阵计算与矩阵分解">https://aisakaki.com/2019/11/25/矩阵计算/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -768,7 +807,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵近似"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵近似</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD与矩阵近似（证略）"><span class="nav-number">2.4.</span> <span class="nav-text">SVD与矩阵近似（证略）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li></ol></div>
             
 
           </div>
