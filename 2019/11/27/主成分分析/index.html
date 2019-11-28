@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构” 把数据依信息最大（方差最大）顺序由">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-28T10:08:45.955Z">
+<meta property="og:updated_time" content="2019-11-28T10:13:10.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析">
 <meta name="twitter:description" content="Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构” 把数据依信息最大（方差最大）顺序由">
@@ -403,8 +403,9 @@
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维。</p>
 <p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
 <a id="more"></a>    
-<h1 id="总体主成分分析"><a href="#总体主成分分析" class="headerlink" title="总体主成分分析"></a>总体主成分分析</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>对于线性变换$y_i=\alpha_i^Tx=\alpha_{1i}x_1+\alpha_{2i}x_2+\cdots+\alpha_{mi}x_m$，其中$\alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
-<p>$x$是$m$维数据（也即特征是$m$维）</p>
+<h1 id="总体主成分分析"><a href="#总体主成分分析" class="headerlink" title="总体主成分分析"></a>总体主成分分析</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>$x$是$m$维随机变量（也即特征是$m$维），$x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu$</p>
+<p>根据上面的思想，我们要将其经过一个线性变换，$x\to y$：</p>
+<p>$y_i=\alpha_i^Tx=\alpha_{1i}x_1+\alpha_{2i}x_2+\cdots+\alpha_{mi}x_m$，其中$\alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
 <p>满足以下条件：</p>
 <ol>
 <li>系数向量$\alpha_i^T$是单位向量，即$\alpha_i^T\alpha_i=1,\quad i=1,2,\cdots,m$</li>
