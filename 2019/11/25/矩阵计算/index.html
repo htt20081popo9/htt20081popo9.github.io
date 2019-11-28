@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-27T11:18:23.606Z">
+<meta property="og:updated_time" content="2019-11-28T10:08:50.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算与矩阵分解">
 <meta name="twitter:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
@@ -580,6 +580,12 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
 </ol>
 <h2 id="矩阵求导术"><a href="#矩阵求导术" class="headerlink" title="矩阵求导术"></a>矩阵求导术</h2><p>向量$\vec a$关于标量$x$的导数也是个向量，其<strong>分量</strong>为：$(\frac{\partial \vec a}{\partial x})_i=\frac{\partial a_i}{\partial x}$</p>
 <p>同理，向量$x$关于矩阵$a$的导数为：$(\frac{\partial x}{\partial a})_i=\frac{\partial x}{\partial a_i}$</p>
+<h2 id="矩阵复合运算"><a href="#矩阵复合运算" class="headerlink" title="矩阵复合运算"></a>矩阵复合运算</h2><p>方差 期望 协方差 </p>
+<p>$y_i=\alpha_i^T x$</p>
+<p>$\mathbb E(y_i)=\mathbb E(\alpha_i^Tx)=\alpha_i^T \mathbb E(x)$</p>
+<p>$var(y_i)=var(\alpha_i^Tx)=\alpha_i^T var(x)\alpha_i$</p>
+<p>$cov(y_i,y_j)=cov(\alpha_i^Tx,\alpha_j^Tx)=\alpha_i^T var(x)\alpha_j$</p>
+<p>$cov(x,x)=var(x)$</p>
 
       
     </div>
@@ -807,7 +813,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD与矩阵近似（证略）"><span class="nav-number">2.4.</span> <span class="nav-text">SVD与矩阵近似（证略）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本计算"><span class="nav-number">1.</span> <span class="nav-text">基本计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">2.</span> <span class="nav-text">奇异值分解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇异值分解的计算"><span class="nav-number">2.3.</span> <span class="nav-text">奇异值分解的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD与矩阵近似（证略）"><span class="nav-number">2.4.</span> <span class="nav-text">SVD与矩阵近似（证略）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">2.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵范数"><span class="nav-number">3.</span> <span class="nav-text">矩阵范数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵求导术"><span class="nav-number">4.</span> <span class="nav-text">矩阵求导术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵复合运算"><span class="nav-number">5.</span> <span class="nav-text">矩阵复合运算</span></a></li></ol></div>
             
 
           </div>
