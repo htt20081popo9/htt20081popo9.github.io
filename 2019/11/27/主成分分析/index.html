@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构” 把数据依信息最大（方差最大）顺序由">
+<meta name="description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
 <meta property="og:type" content="article">
 <meta property="og:title" content="主成分分析">
 <meta property="og:url" content="https://aisakaki.com/2019/11/27/主成分分析/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构” 把数据依信息最大（方差最大）顺序由">
+<meta property="og:description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-28T10:13:10.722Z">
+<meta property="og:updated_time" content="2019-11-29T10:06:28.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析">
-<meta name="twitter:description" content="Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构” 把数据依信息最大（方差最大）顺序由">
+<meta name="twitter:description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
 
 
 
@@ -397,25 +397,59 @@
       
 
       
-        <p>Principal Component Analysis， PCA</p>
-<p>PCA的基本思想是①先对数据<strong>规范化</strong>，均值为0，方差为1。②再对数据进行<strong>正交变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。</p>
-<p>通过这样的变换，可以用新变量表示原有数据，可以理解为发现数据的“基本结构”</p>
-<p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维。</p>
+        <p><em>施工中</em></p>
+<p>Principal Component Analysis， PCA</p>
+<p>PCA的基本思想是①先对数据<strong>规范化</strong>，均值为0，方差为1。②再对数据进行<strong>正交变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。</p>
+<p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
+<p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
 <p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
 <a id="more"></a>    
 <h1 id="总体主成分分析"><a href="#总体主成分分析" class="headerlink" title="总体主成分分析"></a>总体主成分分析</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>$x$是$m$维随机变量（也即特征是$m$维），$x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu$</p>
 <p>根据上面的思想，我们要将其经过一个线性变换，$x\to y$：</p>
 <p>$y_i=\alpha_i^Tx=\alpha_{1i}x_1+\alpha_{2i}x_2+\cdots+\alpha_{mi}x_m$，其中$\alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
-<p>满足以下条件：</p>
+<p>这里<strong>每一个新得到的变量$y_i$都只是一个维度的变量，每一个$y_i$都对应一个系数为$\alpha_i$的对原变量$\vec x$的线性变换</strong>（除了这里外都略去了向量标记）</p>
+<p>满足以下条件（下称—定义条件）：</p>
 <ol>
-<li>系数向量$\alpha_i^T$是单位向量，即$\alpha_i^T\alpha_i=1,\quad i=1,2,\cdots,m$</li>
+<li><p>系数向量$\alpha_i^T$是单位向量，即$\alpha_i^T\alpha_i=1,\quad i=1,2,\cdots,m$</p>
+</li>
 <li><p>变量$y_i$与$y_j$互不相关，即$cov(y_i,y_j)=0\quad(i≠j)$</p>
 </li>
-<li><p>$y_i$是与$y_1,y_2,\cdots,y_{i-1}\quad(i=1,2,\cdots,m)$都不相关的$x$的所有线性变换中方差最大的</p>
+<li><p>$y_i$是①与前面求出来的新变量$y_1,y_2,\cdots,y_{i-1}\quad(i=1,2,\cdots,m)$都<strong>不相关</strong></p>
+<p>​        ②且是$x$的所有线性变换中<strong>方差最大</strong>的</p>
 </li>
 </ol>
 <p>这时分别称$y_1,y_2,\cdots,y_m$为$x$的第一主成分，第二主成分，$\cdots$，第$m$主成分</p>
-<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2>
+<p><strong>根据2,3实际上就可以得出PCA的求法，实际上就是个约束最优化问题，见下</strong></p>
+<p>（定义条件-2与定义条件3-①是等效的）</p>
+<h2 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h2><p><strong>定理一：总体主成分与协方差矩阵$\Sigma$的特征值$\lambda$和特征向量$\alpha$的关系</strong>，同时给出了一个求PCA的方法</p>
+<p>设$x$是$m$维随机变量，$\Sigma$是$x$的协方差矩阵，$\Sigma$的特征值分别是$\lambda_1≥\lambda_2≥\cdots≥\lambda_m≥0$。特征值对应的单位特征向量分别是$\alpha_1,\alpha_2,\cdots,\alpha_m$，则$x$的第$k$主成分是</p>
+<script type="math/tex; mode=display">
+y_k=\alpha_k^Tx=\alpha_{1k}x_1+\alpha_{2k}x_2+\cdots+\alpha_{mk}x_m,\quad k=1,2,\cdots,m</script><p>$x$的第$k$主成分的方差是</p>
+<script type="math/tex; mode=display">
+var(y_k)=\alpha_k^T\Sigma\alpha_k=\lambda_k,\quad k=1,2,\cdots,m</script><hr>
+<p>注意方差的重要性，我们要关注方差等价于什么。因为方差就是我们要最优化的，见定义-3-②</p>
+<p><strong>推导过程</strong>（简略）——<strong>方差最大化的约束最优化问题</strong>：</p>
+<p>（根据矩阵的方差运算方差可被推导为：$var(\alpha_1^Tx)=\alpha_1^T\Sigma\alpha_1$）</p>
+<p>①根据上节对PCA的定义，可以将求PCA（先求第一主成分$y_1$）转化为一个约束最优化问题：</p>
+<script type="math/tex; mode=display">
+\max_{\alpha_1} var(\alpha_1^Tx)=\max_{\alpha_1}\alpha_1^T\Sigma\alpha_1（定义条件-3-②）</script><script type="math/tex; mode=display">
+s.t.\quad \alpha_1^T\alpha_1=1（定义条件-1）</script><script type="math/tex; mode=display">
+对其使用拉格朗日乘子法，并对\alpha_1求导可得：\Sigma\alpha_1-\lambda\alpha_1=0</script><p>注意！发现这里求出来的是一个协方差矩阵$\Sigma$的特征向量方程的形式！可以看成$\lambda$是特征值，$\alpha_1$是特征值对应的特征向量</p>
+<p><strong>也就是说：这个特征向量方程的解，也就是这个约束最优化问题的解</strong></p>
+<p>假定$\lambda_1$是$\Sigma$的最大特征值，其对应向量为$\alpha_1$，于是：</p>
+<script type="math/tex; mode=display">
+在特征向量方程上变形：\Sigma\alpha_1-\lambda\alpha_1=0\to\alpha_1^T\Sigma\alpha_1=\alpha_1^T\lambda\alpha_1=\lambda\alpha_1^T\alpha_1=\lambda_1</script><p>所以$\alpha_1^Tx$构成了第一主成分$y_1$，其方差等于协方差矩阵的最大特征值：</p>
+<script type="math/tex; mode=display">
+var(\alpha_1^Tx)=\alpha_1^T\Sigma\alpha_1=\lambda_1</script><p>②下面继续求第二主成分，问题转化为下一个约束最优化问题</p>
+<p>（根据矩阵的协方差运算，$cov(y_1,y_2)=\alpha_1^T var(x)\alpha_2=\alpha_2^T var(x)\alpha_1$)</p>
+<p>由定义条件3-①可知，$y_2$要与$y_1$线性无关，也即协方差为0：那么写出求第二PCA的约束最优化问题：$cov(y_1,y_2)=0$</p>
+<script type="math/tex; mode=display">
+\max_{\alpha_2}\alpha_2^T\Sigma\alpha_2（定义条件-3-②）</script><script type="math/tex; mode=display">
+s.t.\quad cov(y_1,y_2)=\alpha_1^T \Sigma\alpha_2=\alpha_2^T \Sigma\alpha_1=0（定义条件-3-①）,</script><script type="math/tex; mode=display">
+\alpha_2^T\alpha_2=1（定义条件-1）</script><p>与①一样，用拉格朗日乘子法解这个最优化问题，也可以得到一个特征向量方程，同样结论：</p>
+<script type="math/tex; mode=display">
+\alpha_2^T\Sigma\alpha_2=\alpha_2^T\lambda\alpha_2=\lambda\alpha_2^T\alpha_2=\lambda_2</script><p>对于后面的第$k$主成分都同理，于是得出前面的定理</p>
+
       
     </div>
     
@@ -638,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">1.2.</span> <span class="nav-text">性质</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#THEN"><span class="nav-number">1.2.</span> <span class="nav-text">THEN</span></a></li></ol></li></ol></div>
             
 
           </div>
