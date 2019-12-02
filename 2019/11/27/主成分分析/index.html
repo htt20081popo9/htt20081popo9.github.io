@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
+<meta name="description" content="施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="主成分分析">
 <meta property="og:url" content="https://aisakaki.com/2019/11/27/主成分分析/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
+<meta property="og:description" content="施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-29T11:20:32.912Z">
+<meta property="og:updated_time" content="2019-12-02T13:30:51.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析">
-<meta name="twitter:description" content="施工中 Principal Component Analysis， PCA PCA的基本思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。 把数据依信息最大（方差最大）顺">
+<meta name="twitter:description" content="施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。">
 
 
 
@@ -399,7 +399,7 @@
       
         <p><em>施工中</em></p>
 <p>Principal Component Analysis， PCA</p>
-<p>PCA的基本思想是①先对数据<strong>规范化</strong>，均值为0，方差为1。②再对数据进行<strong>正交变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量。</p>
+<p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对数据进行<strong>正交变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
 <p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
 <p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
@@ -421,42 +421,60 @@
 <p>得到的新变量$y$即是主成分，这时分别称$y_1,y_2,\cdots,y_m$为$x$的第一主成分，第二主成分，$\cdots$，第$m$主成分</p>
 <p><strong>根据2,3实际上就可以得出PCA的求法，实际上就是个约束最优化问题，见下</strong></p>
 <p>（定义条件-2与定义条件3-①是等效的）</p>
-<h2 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h2><h3 id="定理一：总体主成分与协方差矩阵-Sigma-的特征值-lambda-和特征向量-alpha-的关系"><a href="#定理一：总体主成分与协方差矩阵-Sigma-的特征值-lambda-和特征向量-alpha-的关系" class="headerlink" title="定理一：总体主成分与协方差矩阵$\Sigma$的特征值$\lambda$和特征向量$\alpha$的关系"></a>定理一：总体主成分与协方差矩阵$\Sigma$的特征值$\lambda$和特征向量$\alpha$的关系</h3><p><strong>定理一：总体主成分与协方差矩阵$\Sigma$的特征值$\lambda$和特征向量$\alpha$的关系</strong>，同时给出了一个求PCA的方法</p>
-<p>设$x$是$m$维随机变量，$\Sigma$是$x$的协方差矩阵，$\Sigma$的特征值分别是$\lambda_1≥\lambda_2≥\cdots≥\lambda_m≥0$。特征值对应的单位特征向量分别是$\alpha_1,\alpha_2,\cdots,\alpha_m$，则$x$的第$k$主成分是</p>
+<h2 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h2><p><strong>【注意看清$\alpha,x$都设置的是列向量，并注意矩阵运算的形状】</strong></p>
+<h3 id="回顾矩阵计算"><a href="#回顾矩阵计算" class="headerlink" title="回顾矩阵计算"></a>回顾矩阵计算</h3><p>①对于向量$x$，<strong>协方差矩阵</strong>：$cov(x,x)=\frac{1}{m-1}(x-\mu)(x-\mu)^T$. <strong>注意这个写法，实际上是$x$中任意$x_i$与$x_j$两两求协方差构成的一个矩阵，矩阵运算，左行右列$x_{m×1}×x_{m×1}^T=x_{m×1}×x_{1×m}=X_{m×m}$</strong>，见下面</p>
+<p>若对$x$进行归一化和标准化使得方差=1，期望=0（即$\hat x=x-\mu,\hat x=x/\sigma$），则$cov(x,x)=\frac{1}{m-1}xx^T$</p>
+<p>下面在求协方差矩阵的时候略去$\frac{1}{m-1}$直接写$cov(x,x)=xx^T$，因为除不除对后面要求的特征向量没有影响</p>
+<p>对于$x=(x_1,x_2,\cdots,x_m)^T$,为$m$维<strong>相干变量</strong>，$cov(x,x)=\begin{bmatrix}{var(x_1)}&amp;{\cdots}&amp;{cov(x_1,x_m)}\\{\vdots}&amp;{\ddots}&amp;{\vdots}\\{cov(x_m,x_1)}&amp;{\cdots}&amp;{var(x_m)}\\    \end{bmatrix}$</p>
+<p>对于$y=(y_1,y_2,\cdots,y_m)^T$,为$m$维<strong>非相干变量</strong>，$cov(y,y)=\begin{bmatrix}{var(y_1)}&amp;{0}&amp;{0}\\{0}&amp;{\ddots}&amp;{0}\\{0}&amp;{0}&amp;{var(y_m)}\\    \end{bmatrix}$</p>
+<p>因为对于非相干的$y_i,y_j,有cov(y_i,y_j)=0$</p>
+<p>对于$y_i=\alpha_i^T x,\quad \alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
+<p>②$\mathbb E(y_i)=\mathbb E(\alpha_i^Tx)=\alpha_i^T \mathbb E(x)$  ，由于PCA先要规范化，即使得$\mathbb E(x)=0，var(x)=1,则\mathbb E(y_i)=0$</p>
+<p>③$var(y_i)=var(\alpha_i^Tx)=\alpha_i^T cov(x,x)\alpha_i$  </p>
+<p>（推导：$var(\alpha_i^Tx)=\mathbb E(\alpha_{i}^Tx-\mathbb E(\alpha_{i}^Tx))^2=\mathbb E(\alpha_{i}^Tx)^2=||x\alpha_{i}||_2^2=\alpha_i^Tx^Tx\alpha_i$（推导得到2-范数平方那步需注意，范数运算得到$\alpha_i^Tx^Tx\alpha_i$见矩阵计算-范数）【这儿也要改】</p>
+<p>而$voc(x,x)=x^Tx$，则$var(\alpha_i^Tx)=\alpha_i^T cov(x,x)\alpha_i$）</p>
+<p>④$cov(y_i,y_j)=cov(\alpha_i^Tx,\alpha_j^Tx)=\alpha_i^T cov(x,x)\alpha_j$</p>
+<p>（推导：$cov(\alpha_i^Tx,\alpha_j^Tx)=\mathbb E(\alpha_i^Tx\alpha_j^Tx)-\mathbb E(\alpha_i^Tx)E(\mathbb \alpha_j^Tx)=\mathbb E(\alpha_i^Tx\alpha_j^Tx)=\alpha_i^T cov(x,x)\alpha_j$）【what？】</p>
+<p>x和alpha转置关系全部搞错了，前面全改</p>
+<h3 id="定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><a href="#定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系" class="headerlink" title="定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系"></a>定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</h3><p><strong>定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</strong>，同时给出了一个求PCA的方法</p>
+<p>设$x$是$m$维随机变量，$\Sigma$是$x$的协方差矩阵，$\Sigma$的特征值分别是$\lambda_1≥\lambda_2≥\cdots≥\lambda_m≥0$。特征值对应的单位特征向量分别是$\alpha_1,\alpha_2,\cdots,\alpha_m$，则$x$的第$k$主成分表达式是：</p>
 <script type="math/tex; mode=display">
-y_k=\alpha_k^Tx=\alpha_{1k}x_1+\alpha_{2k}x_2+\cdots+\alpha_{mk}x_m,\quad k=1,2,\cdots,m</script><p>$x$的第$k$主成分的方差是</p>
-<script type="math/tex; mode=display">
-var(y_k)=\alpha_k^T\Sigma\alpha_k=\lambda_k,\quad k=1,2,\cdots,m</script><p><strong>这个定理的意义是，我们求解[最大方差]其实就是在求解[协方差矩阵的特征值$\lambda$的最大值]</strong></p>
-<p>注意方差的重要性，我们要关注方差等价于什么。因为方差就是我们要最优化的，见定义-3-②</p>
+y_k=\alpha_k^Tx=\alpha_{1k}x_1+\alpha_{2k}x_2+\cdots+\alpha_{mk}x_m,\quad k=1,2,\cdots,m</script><script type="math/tex; mode=display">
+其方差为（重要结论）：var(y_k)=\alpha_k^T\Sigma\alpha_k=\lambda_k,\quad k=1,2,\cdots,m</script><p><strong>这个定理的意义是，$y_k$的方差=协方差矩阵对应的特征值$\lambda_k$</strong>，而我们要求PCA要求的就是使得方差最大的$y$，问题就转化了</p>
 <hr>
 <p><strong>推导过程</strong>（简略）——<strong>方差最大化的约束最优化问题</strong>：</p>
 <p>这个定理（或者叫发现）就是我们在推导求解PCA的过程中得到的，根据定义，求解PCA实质上是个方差最大化的约束最优化问题。</p>
 <p>（根据矩阵的方差运算：$var(\alpha_1^Tx)=\alpha_1^T\Sigma\alpha_1$）</p>
 <p>①根据上节对PCA的定义，可以将求PCA（先求第一主成分$y_1$）转化为一个约束最优化问题：</p>
 <script type="math/tex; mode=display">
-\max_{\alpha_1} var(\alpha_1^Tx)=\max_{\alpha_1}\alpha_1^T\Sigma\alpha_1（定义条件-3-②）</script><script type="math/tex; mode=display">
+\max_{\alpha_1} var(\alpha_1^Tx)=\max_{\alpha_1}\alpha_1^T\Sigma\alpha_1（定义条件-3-②，回顾矩阵计算-③）</script><script type="math/tex; mode=display">
 s.t.\quad \alpha_1^T\alpha_1=1（定义条件-1）</script><script type="math/tex; mode=display">
 对其使用拉格朗日乘子法，并对\alpha_1求导可得：\Sigma\alpha_1-\lambda\alpha_1=0</script><p>注意！<strong>发现这里求出来的是一个协方差矩阵$\Sigma$的特征向量方程的形式！</strong>可以看成$\lambda$是特征值，$\alpha_1$是特征值对应的特征向量</p>
 <p><strong>也就是说：这个特征向量方程的解，也就是这个约束最优化问题的解</strong></p>
 <p>假定$\lambda_1$是$\Sigma$的最大特征值，其对应向量为$\alpha_1$，于是：</p>
 <script type="math/tex; mode=display">
-在特征向量方程上变形：最优解\to\Sigma\alpha_1-\lambda\alpha_1=0\to\alpha_1^T\Sigma\alpha_1=\alpha_1^T\lambda\alpha_1=\lambda\alpha_1^T\alpha_1=\lambda_1</script><p>所以$\alpha_1^Tx$构成了第一主成分$y_1$，其方差等于协方差矩阵的最大特征值：</p>
+在特征向量方程上变形：最优解\to\Sigma\alpha_1-\lambda\alpha_1=0\to\alpha_1^T\Sigma\alpha_1=\alpha_1^T\lambda\alpha_1=\lambda\alpha_1^T\alpha_1=\lambda_1</script><p>所以$\alpha_1^Tx$构成了第一主成分$y_1$，其方差等于$x$的协方差矩阵$\Sigma$的最大特征值：</p>
 <script type="math/tex; mode=display">
-var(\alpha_1^Tx)=\alpha_1^T\Sigma\alpha_1=\lambda_1</script><p>②下面继续求第二主成分，问题转化为下一个约束最优化问题</p>
+var(y_1)=var(\alpha_1^Tx)=\alpha_1^T\Sigma\alpha_1=\lambda_1</script><p>②下面继续求第二主成分，问题转化为下一个约束最优化问题</p>
 <p>（根据矩阵的协方差运算，$cov(y_1,y_2)=\alpha_1^T var(x)\alpha_2=\alpha_2^T var(x)\alpha_1$)</p>
 <p>由定义条件3-①可知，$y_2$要与$y_1$线性无关，也即协方差为0：那么写出求第二PCA的约束最优化问题：$cov(y_1,y_2)=0$</p>
 <script type="math/tex; mode=display">
-\max_{\alpha_2}\alpha_2^T\Sigma\alpha_2（定义条件-3-②）</script><script type="math/tex; mode=display">
-s.t.\quad cov(y_1,y_2)=\alpha_1^T \Sigma\alpha_2=\alpha_2^T \Sigma\alpha_1=0（定义条件-3-①）,</script><script type="math/tex; mode=display">
+\max_{\alpha_2} var(\alpha_2^Tx)=\max_{\alpha_2}\alpha_2^T\Sigma\alpha_2（定义条件-3-②，回顾矩阵计算-③）</script><script type="math/tex; mode=display">
+s.t.\quad cov(y_1,y_2)=\alpha_1^T \Sigma\alpha_2=\alpha_2^T \Sigma\alpha_1=0（定义条件-3-①，回顾矩阵计算-④）,</script><script type="math/tex; mode=display">
 \alpha_2^T\alpha_2=1（定义条件-1）</script><p>与①一样，用拉格朗日乘子法解这个最优化问题：</p>
 <script type="math/tex; mode=display">
 对其使用拉格朗日乘子法，并对\alpha_2求导可得：2\Sigma\alpha_2-2\lambda\alpha_2-\phi\alpha_1=0</script><p>左乘$\alpha_1^T$有：$2\alpha_1^T\Sigma\alpha_2-2\alpha_1^T\lambda\alpha_2-\phi\alpha_1^T\alpha_1=0$，又由于$\alpha_1^T \Sigma\alpha_2=0$，$\alpha_1^T \lambda\alpha_2$为前者的一个分量，也等于0，于是可以得到：</p>
 <script type="math/tex; mode=display">
 \Sigma\alpha_2-\lambda\alpha_2=0</script><p>这又是一个和①形式一样的特征向量方程，于是同样取第二大的特征值$\lambda_2$，对应特征向量$\alpha_2$</p>
 <script type="math/tex; mode=display">
-最优解\to\Sigma\alpha_2-\lambda\alpha_2=0\to\alpha_2^T\Sigma\alpha_2=\alpha_2^T\lambda\alpha_2=\lambda\alpha_2^T\alpha_2=\lambda_2</script><p>对于后面的第$k$主成分都同理，于是得出前面的定理</p>
+最优解\to\Sigma\alpha_2-\lambda\alpha_2=0\to\alpha_2^T\Sigma\alpha_2=\alpha_2^T\lambda\alpha_2=\lambda\alpha_2^T\alpha_2=\lambda_2</script><p>所以$\alpha_2^Tx$构成了第一主成分$y_2$，其方差等于$x$的协方差矩阵$\Sigma$的第二大特征值：</p>
+<script type="math/tex; mode=display">
+var(y_2)=var(\alpha_2^Tx)=\alpha_2^T\Sigma\alpha_2=\lambda_2</script><p>③<strong>对于后面的第$k$主成分都同理，有：</strong></p>
+<script type="math/tex; mode=display">
+var(y_k)=var(\alpha_k^Tx)=\alpha_k^T\Sigma\alpha_k=\lambda_k</script><p>于是得到上面的定理</p>
 <hr>
-<h3 id="推论：PCA充要条件"><a href="#推论：PCA充要条件" class="headerlink" title="推论：PCA充要条件"></a>推论：PCA充要条件</h3><p>推论：$m$维随机变量$y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$x$的第一主成分到第$m$主成分的充要条件是：</p>
+<h3 id="推论：PCA充要条件"><a href="#推论：PCA充要条件" class="headerlink" title="推论：PCA充要条件"></a>推论：PCA充要条件</h3><p>这里的推论就是将前面的定理<strong>换了个表示方法</strong></p>
+<p>推论：$m$维随机变量$y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$x$的第一主成分到第$m$主成分的充要条件是：</p>
 <ol>
 <li><p>$y=A^Tx$，$A$为正交矩阵 （这里的表示即是把每个新变量$y_i$合并成一个向量$y$，把前面线性变换各分量形式合并成一个矩阵）</p>
 <script type="math/tex; mode=display">
@@ -469,14 +487,17 @@ A=
 \end{bmatrix}</script></li>
 <li><p>$y$的协方差矩阵为对角矩阵</p>
 <script type="math/tex; mode=display">
-cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m),\quad \lambda_1≥\lambda_2≥\cdots≥\lambda_m</script><p>其中$\lambda_k$是$\Sigma$的第$k$个特征值，$\alpha_k$是对应的单位特征向量，$k=1,2,\cdots,m$</p>
-</li>
+cov(y,y)=diag(var(y_1),var(y_2),\cdots,var(y_m))=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)=\Lambda,\quad \lambda_1≥\lambda_2≥\cdots≥\lambda_m</script><p>（这里<strong>使用协方差是为了方便表示一个由所有$y$的方差所表示的对角矩阵，见上一节开头</strong>）</p>
+<p>$\lambda_k$是$x$的协方差矩阵$\Sigma$的第$k$个特征值，$\alpha_k$是对应的单位特征向量，$k=1,2,\cdots,m$</p>
+<p><strong>于是根据前面的定理可以得到</strong></p>
+<script type="math/tex; mode=display">
+A^T\Sigma A=\Lambda\quad,\Sigma=A\Lambda A^T</script></li>
 </ol>
 <h3 id="由定理一和推论得到性质总结"><a href="#由定理一和推论得到性质总结" class="headerlink" title="由定理一和推论得到性质总结"></a>由定理一和推论得到性质总结</h3><ol>
 <li><p>总体主成分$y$的协方差矩阵是对角矩阵</p>
 <script type="math/tex; mode=display">
 cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
-<li><p>（此性质极其重要）总体主成分$y$的方差之和等于随机变量$x$的方差之和，即</p>
+<li><p>（<strong>此性质即为前面得出的核心结论</strong>）总体主成分$y$的方差之和等于随机变量$x$的方差之和，即</p>
 <script type="math/tex; mode=display">
 \sum_{i=1}^m \lambda_i=\sum_{i=1}^m \sigma_{ii}</script><p>其中$\sigma_{ii}$是随机变量$x_i$的方差，即协方差矩阵$\Sigma$的对角元素</p>
 <script type="math/tex; mode=display">
@@ -485,7 +506,8 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
 </ol>
 <h3 id="定理二：选择方法——如何选择主成分是最优选择"><a href="#定理二：选择方法——如何选择主成分是最优选择" class="headerlink" title="定理二：选择方法——如何选择主成分是最优选择"></a>定理二：选择方法——如何选择主成分是最优选择</h3><p>注意<strong>这里容易误解</strong>：这个定理是证明了<strong>选取前$k$个（$y_1,y_2,\cdots,y_k$）</strong>主成分<strong>这种选择方法是最优选择（方差最大化）</strong>，其他选择还有比如：选择第1,4,5,6个主成分，选择第2,8,9,10个主成分，这些都不是最优选择</p>
 <h3 id="k-的取值：选择几个主成分"><a href="#k-的取值：选择几个主成分" class="headerlink" title="$k$的取值：选择几个主成分"></a>$k$的取值：选择几个主成分</h3><p><strong>这里才是分析应该选取的主成分变量的数量$k$</strong></p>
-<p>【】【】矩阵复合协方差，方差的运算</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>期望，方差，协方差运算可以看这里：<a href="http://www.360doc.com/content/13/1124/03/9482_331690142.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/13/1124/03/9482_331690142.shtml</a></p>
+<p>协方差矩阵可以参考：<a href="https://blog.csdn.net/xueluowutong/article/details/85334256" target="_blank" rel="noopener">https://blog.csdn.net/xueluowutong/article/details/85334256</a></p>
 
       
     </div>
@@ -620,7 +642,7 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">133</span>
+                  <span class="site-state-item-count">134</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -713,7 +735,7 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#THEN"><span class="nav-number">1.2.</span> <span class="nav-text">THEN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定理一：总体主成分与协方差矩阵-Sigma-的特征值-lambda-和特征向量-alpha-的关系"><span class="nav-number">1.2.1.</span> <span class="nav-text">定理一：总体主成分与协方差矩阵$\Sigma$的特征值$\lambda$和特征向量$\alpha$的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论：PCA充要条件"><span class="nav-number">1.2.2.</span> <span class="nav-text">推论：PCA充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">1.2.3.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——如何选择主成分是最优选择"><span class="nav-number">1.2.4.</span> <span class="nav-text">定理二：选择方法——如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分"><span class="nav-number">1.2.5.</span> <span class="nav-text">$k$的取值：选择几个主成分</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#THEN"><span class="nav-number">1.2.</span> <span class="nav-text">THEN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回顾矩阵计算"><span class="nav-number">1.2.1.</span> <span class="nav-text">回顾矩阵计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><span class="nav-number">1.2.2.</span> <span class="nav-text">定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论：PCA充要条件"><span class="nav-number">1.2.3.</span> <span class="nav-text">推论：PCA充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">1.2.4.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——如何选择主成分是最优选择"><span class="nav-number">1.2.5.</span> <span class="nav-text">定理二：选择方法——如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分"><span class="nav-number">1.2.6.</span> <span class="nav-text">$k$的取值：选择几个主成分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">1.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
             
 
           </div>
