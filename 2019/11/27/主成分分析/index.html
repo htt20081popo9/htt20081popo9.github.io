@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-03T04:19:10.230Z">
+<meta property="og:updated_time" content="2019-12-03T13:02:04.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析">
 <meta name="twitter:description" content="施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对数据进行正交变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构。">
@@ -404,7 +404,8 @@
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
 <p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
 <a id="more"></a>    
-<h1 id="总体主成分分析"><a href="#总体主成分分析" class="headerlink" title="总体主成分分析"></a>总体主成分分析</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>$x$是$m$维随机变量（也即特征是$m$维），$x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu$</p>
+<h1 id="总体主成分分析"><a href="#总体主成分分析" class="headerlink" title="总体主成分分析"></a>总体主成分分析</h1><h2 id="核心-定义"><a href="#核心-定义" class="headerlink" title="[核心]定义"></a>[核心]定义</h2><p><strong>定义是根据其核心思想来的，看上段</strong></p>
+<p>$x$是$m$维随机变量（也即特征是$m$维），$x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu$</p>
 <p>根据上面的思想，我们要将其经过一个线性变换，$x\to y$：</p>
 <p>$y_i=\alpha_i^Tx=\alpha_{1i}x_1+\alpha_{2i}x_2+\cdots+\alpha_{mi}x_m$，其中$\alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
 <p>这里<strong>每一个新得到的变量$y_i$都只是一个维度的变量，每一个$y_i$都对应一个系数为$\alpha_i$的对原变量$\vec x$的线性变换</strong>（除了这里外都略去了向量标记）</p>
@@ -421,10 +422,10 @@
 <p>得到的新变量$y$即是主成分，这时分别称$y_1,y_2,\cdots,y_m$为$x$的第一主成分，第二主成分，$\cdots$，第$m$主成分</p>
 <p><strong>根据2,3实际上就可以得出PCA的求法，实际上就是个约束最优化问题，见下</strong></p>
 <p>（定义条件-2与定义条件3-①是等效的）</p>
-<h2 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h2><p><strong>【注意看清$\alpha,x$都设置的是列向量，并注意矩阵运算的形状】</strong></p>
+<h2 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h2><p><strong>【注意定义$\alpha,x$都是列向量，并注意矩阵运算的形状】</strong></p>
 <p>$x=(x_1,x_2,\cdots,x_m)^T,\alpha_i^T=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi}),\quad i=1,2,\cdots,m$</p>
 <p>视$x$<strong>为随机变量，$\alpha$为系数</strong></p>
-<h3 id="矩阵计算"><a href="#矩阵计算" class="headerlink" title="矩阵计算"></a>矩阵计算</h3><p><strong>主要看计算结论①b)，③，④</strong>（推导我自己写得都很乱= =）</p>
+<h3 id="矩阵计算"><a href="#矩阵计算" class="headerlink" title="矩阵计算"></a>矩阵计算</h3><p><strong>主要看计算结论①b)，③，④</strong>（这里的协方差方差推导我自己写得都很乱= =）</p>
 <p>①对于向量$x$，<strong>协方差矩阵</strong>：$cov(x,x)=\frac{1}{m-1}(x-\mu)(x-\mu)^T$. （根据定义推导略，可以看后记-2）<strong>注意这个写法，实际上是$x$中任意$x_i$与$x_j$两两求协方差构成的一个矩阵，矩阵运算，左行右列$x_{m×1}×x_{m×1}^T=x_{m×1}×x_{1×m}=X_{m×m}$</strong>(但实际上$x_i$也是一个列向量，是一个数据点，这里先整体将该列向量看作一个随机变量)，见下面</p>
 <p>若对$x$进行归一化和标准化使得方差=1，期望=0（即$\hat x=x-\mu,\hat x=x/\sigma$），则$cov(x,x)=\frac{1}{m-1}xx^T$</p>
 <p>下面在求协方差矩阵的时候略去$\frac{1}{m-1}$直接写$cov(x,x)=xx^T$，因为除不除对后面要求的特征向量没有影响</p>
@@ -438,6 +439,9 @@
 <p>而$cov(x,x)=xx^T$，则$var(\alpha_i^Tx)=\alpha_i^T cov(x,x)\alpha_i$）</p>
 <p><strong>④</strong>$cov(y_i,y_j)=cov(\alpha_i^Tx,\alpha_j^Tx)=\alpha_i^T cov(x,x)\alpha_j$</p>
 <p>（推导同上理）</p>
+<h3 id="规范化"><a href="#规范化" class="headerlink" title="规范化"></a>规范化</h3><script type="math/tex; mode=display">
+x^o_i=\frac{x_i-\mathbb E(x_i)}{\sqrt{var(x_i)}},\quad i=1,2,\cdots,m</script><p>$x_i^o$就是$x_i$的规范化随机变量。于是$x^o$的$\mathbb E(x^o)=0,var(x^o)=\sigma=1$</p>
+<p>性质略</p>
 <h3 id="定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><a href="#定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系" class="headerlink" title="定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系"></a>定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</h3><p><strong>定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</strong>，同时给出了一个求PCA的方法</p>
 <p>设$x$是$m$维随机变量，$\Sigma$是$x$的协方差矩阵，$\Sigma$的特征值分别是$\lambda_1≥\lambda_2≥\cdots≥\lambda_m≥0$。特征值对应的单位特征向量分别是$\alpha_1,\alpha_2,\cdots,\alpha_m$，则$x$的第$k$主成分表达式是：</p>
 <script type="math/tex; mode=display">
@@ -504,14 +508,70 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
 \sum_{i=1}^m \lambda_i=\sum_{i=1}^m \sigma_{ii}</script><p>其中$\sigma_{ii}$是随机变量$x_i$的方差，即协方差矩阵$\Sigma$的对角元素</p>
 <script type="math/tex; mode=display">
 \sum_{i=1}^m var(x_i)=tr(\Sigma^T)=tr(A\Lambda A^T)=tr(A^T\Lambda A)=tr(\Lambda)=\sum_{i=1}^m\lambda_i=\sum_{i=1}^mvar(y_i)</script></li>
-<li></li>
+<li><p>第$k$个主成分$y_k$与变量$x_i$的相关系数$\rho(y_k,x_i)$称为因子负荷量，表示第$k$个主成分与变量$x_i$的相关关系</p>
+<script type="math/tex; mode=display">
+\rho(y_k,x_i)=\frac{\sqrt{\lambda_k}\alpha_{ik}}{\sqrt{\sigma_{ii}}},\quad k,i=1,2,\cdots,m</script><p>由此可以得到一些关系，$\sum_{i=1}^m\sigma_{ii}\rho^2(y_k,x_i)=\lambda_k\quad,\quad \sum_{k=1}^m\rho^2(y_k,x_i)=1$</p>
+<p>具体略</p>
+</li>
 </ol>
 <h3 id="定理二：选择方法——如何选择主成分是最优选择"><a href="#定理二：选择方法——如何选择主成分是最优选择" class="headerlink" title="定理二：选择方法——如何选择主成分是最优选择"></a>定理二：选择方法——如何选择主成分是最优选择</h3><p>注意<strong>这里容易误解</strong>：这个定理是证明了<strong>选取前$k$个（$y_1,y_2,\cdots,y_k$）</strong>主成分<strong>这种选择方法是最优选择（方差最大化）</strong>，其他选择还有比如：选择第1,4,5,6个主成分，选择第2,8,9,10个主成分，这些都不是最优选择</p>
-<h3 id="k-的取值：选择几个主成分"><a href="#k-的取值：选择几个主成分" class="headerlink" title="$k$的取值：选择几个主成分"></a>$k$的取值：选择几个主成分</h3><p><strong>这里才是分析应该选取的主成分变量的数量$k$</strong></p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<p><strong>定理二</strong>：对任意正整数$q,1≤q≤m$，考虑正交变换</p>
+<script type="math/tex; mode=display">
+y=B^Tx</script><p>其中$y$是$q$维变量，$B^T$是$q×m$矩阵，令$y$的协方差矩阵为</p>
+<script type="math/tex; mode=display">
+\Sigma_y=B^T\Sigma B</script><p>则$\Sigma_y$的迹$tr(\Sigma_y)$（这个迹就是对角线和也就是方差和）在$B=A_q$时<strong>取最大值</strong>，其中矩阵$A_q$由正交矩阵$A$的前$q$列组成</p>
+<p><strong>这个定理证明了选前$k$个主成分是最优选择</strong></p>
+<p>证略</p>
+<h3 id="k-的取值：选择几个主成分——由累计方差贡献率决定"><a href="#k-的取值：选择几个主成分——由累计方差贡献率决定" class="headerlink" title="$k$的取值：选择几个主成分——由累计方差贡献率决定"></a>$k$的取值：选择几个主成分——由累计方差贡献率决定</h3><p><strong>这里才是分析应该选取的主成分变量的数量$k$</strong></p>
+<p><strong>方差贡献率定义</strong>：第$k$主成分$y_k$的方差贡献率定义为$y_k$的方差与所有方差之和的比，记作$\eta_k$</p>
+<script type="math/tex; mode=display">
+\eta_k=\frac{\lambda_k}{\sum_{i=1}^m\lambda_i}</script><p><strong>$k$个主成分$y_1,y_2,\cdots,y_k$的累计方差贡献率</strong>定义为$k$个方差之和与所有方差之和的比</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^k\eta_i=\frac{\sum_{i=1}^k\lambda_i}{\sum_{i=1}^m\lambda_i}</script><p><strong>通常取$k$使得累计方差贡献率达到规定的百分比以上，累计方差贡献率反映了主成分保留信息的比例，由此来决定选择几个主成分($k$的值选取)</strong></p>
+<hr>
+<p>对<strong>某个</strong>原有变量$x_i$<strong>保留信息</strong>的比例为</p>
+<script type="math/tex; mode=display">
+v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac{\lambda_j\sigma_{ij}^2}{\sigma_{ii}}</script><p>其实就是计算$x_i$与所有新维度$y_1,y_2,\cdots,y_k$的相关系数之和，这就算出来$x_i$在变换后保留信息的比例</p>
+<h2 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h2><p>总体PCA是定义在样本总体上的，实际问题中是在观测数据上进行PCA，这就是样本主成分分析</p>
+<p>样本PCA和总体PCA性质完全相同，这里相当于把前面的推导内容具体化了</p>
+<p>对于真实观测样本，<strong>真实处理起来一个样本是多特征维度的</strong>，也就是说对随机变量$x=(x_1,x_2,\cdots,x_m)^T$进行$n$次独立观测得到观测样本集$(x_1,x_2,\cdots,x_n)$，其中每一个样本为$m$维，表示为$x_j=(x_{1j},x_{2j},\cdots,x_{mj})^T$，那么$x_{ij}$表示第$j$个观测样本的第$i$个变量（特征维度），那么观测数据的<strong>样本矩阵</strong>$X$记为:（其实前面总体PCA就这么表示过）</p>
+<script type="math/tex; mode=display">
+X_{m×n}=[x_1,x_2,\cdots,x_n]=
+\begin{bmatrix}
+{x_{11}}&{x_{12}}&{\cdots}&{x_{1n}}\\
+{x_{21}}&{x_{22}}&{\cdots}&{x_{2n}}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{x_{m1}}&{x_{m2}}&{\cdots}&{x_{mn}}\\
+\end{bmatrix}</script><p>样本$x_i$的<strong>均值</strong>为$\hat x_i=\frac{1}{n}\sum_{j=1}^nx_{ij}$</p>
+<p>样本<strong>协方差矩阵</strong>$S$（对应总体PCA的$\Sigma$）和矩阵里每个元素为</p>
+<script type="math/tex; mode=display">
+S=[s_{ij}]_{m×m},\quad s_{ij}=\frac{1}{n-1}\sum_{k=1}^n(x_{ik}-\hat x_i)(x_{jk}-\hat x_j),\quad i,j=1,2,\cdots,m</script><p>样本<strong>相关矩阵</strong>$R$（这是前面没用的新东西）为</p>
+<script type="math/tex; mode=display">
+R=[r_{ij}]_{m×m},\quad r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}s_{jj}}},\quad i,j=1,2,\cdots,m</script><p><strong>规范化后：</strong></p>
+<script type="math/tex; mode=display">
+R=\frac{1}{n-1}XX^T</script><p>定义$m$维向量$x=(x_1,x_2,\cdots,x_m)^T$到$y=(y_1,x_2,\cdots,y_m)^T$<strong>线性变换</strong>：</p>
+<script type="math/tex; mode=display">
+y=A^Tx</script><script type="math/tex; mode=display">
+A_{m×m}=[a_1,a_2,\cdots,a_m]=
+\begin{bmatrix}
+{a_{11}}&{a_{12}}&{\cdots}&{a_{1m}}\\
+{a_{21}}&{a_{22}}&{\cdots}&{a_{2m}}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{a_{m1}}&{a_{m2}}&{\cdots}&{a_{mm}}\\
+\end{bmatrix}</script><p>【注意<strong>理清关系和含义</strong>】。$[x_i]_{n×1}$为$n$维列向量，$X_{m×n}$是$m$个样本每个样本有$n$维特征，$A_{m×m}$完全是与样本数量有关，为系数。$x到y$的线性变换也可以写成$Y=A^TX$</p>
+<p>一个<strong>向量</strong>$\alpha_i$对应。一个<strong>向量</strong>$x_i$，$[y_1,x_2,\cdots,y_m]_{m×n}^T=[a_1,a_2,\cdots,a_m]_{m×m}^T·[x_1,x_2,\cdots,x_m]_{m×n}^T$</p>
+<p>$=\begin{bmatrix}{a_1}\\{a_2}\\\vdots\\a_m \end{bmatrix}·[x_1,x_2,\cdots,x_m]_{m×n}$ ，对于求得的线性变换$y$中的第一个$y_1=a_1x_1=a_1\begin{bmatrix}x_{11}\\x_{21}\\\vdots\\x_{m1}\\ \end{bmatrix} $，这里就是展开后的表示，其余的也是一样【【①矩阵乘下标又写乱了，日了狗了=  =明天重写啊啊啊啊啊啊啊啊aaaa②前面那个均值下标也乱了】】</p>
+<p>PCA变换是：<strong>原坐标系下的坐标</strong>$\to$<strong>新坐标系下的坐标</strong>，<strong>没有变每个数据本身的特征维度，其被视为整体一个数据点</strong>，均值也不是说每个特征维度的均值，特征维度$n$是没有影响整个求PCA的过程的。</p>
+<h2 id="核心-求PCA"><a href="#核心-求PCA" class="headerlink" title="[核心]求PCA"></a>[核心]求PCA</h2><p>有了定理1：知道了方差和协方差矩阵的特征值的<strong>等价关系</strong>，可以这样选满足条件的主成分</p>
+<p>有了定理2：知道协方差矩阵特征值对应的主成分<strong>怎么选</strong>最好</p>
+<p>有了k取值：知道协方差矩阵特征值对应的主成分<strong>选几个</strong>最好</p>
+<p>于是我们就可以写出求PCA的两种算法了</p>
+<h3 id="相关矩阵-R-的特征值分解算法"><a href="#相关矩阵-R-的特征值分解算法" class="headerlink" title="相关矩阵$R$的特征值分解算法"></a>相关矩阵$R$的特征值分解算法</h3><h3 id="数据矩阵-X-的奇异值分解算法"><a href="#数据矩阵-X-的奇异值分解算法" class="headerlink" title="数据矩阵$X$的奇异值分解算法"></a>数据矩阵$X$的奇异值分解算法</h3><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
 <li><p>期望，方差，协方差运算可以看这里：<a href="http://www.360doc.com/content/13/1124/03/9482_331690142.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/13/1124/03/9482_331690142.shtml</a></p>
 </li>
 <li><p>协方差矩阵可以参考：<a href="https://blog.csdn.net/xueluowutong/article/details/85334256" target="_blank" rel="noopener">https://blog.csdn.net/xueluowutong/article/details/85334256</a></p>
+</li>
+<li><p>方差$\sigma$。。。</p>
 </li>
 </ol>
 
@@ -741,7 +801,7 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#THEN"><span class="nav-number">1.2.</span> <span class="nav-text">THEN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算"><span class="nav-number">1.2.1.</span> <span class="nav-text">矩阵计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><span class="nav-number">1.2.2.</span> <span class="nav-text">定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论：PCA充要条件"><span class="nav-number">1.2.3.</span> <span class="nav-text">推论：PCA充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">1.2.4.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——如何选择主成分是最优选择"><span class="nav-number">1.2.5.</span> <span class="nav-text">定理二：选择方法——如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分"><span class="nav-number">1.2.6.</span> <span class="nav-text">$k$的取值：选择几个主成分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">1.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">1.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心-定义"><span class="nav-number">1.1.</span> <span class="nav-text">[核心]定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#THEN"><span class="nav-number">1.2.</span> <span class="nav-text">THEN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算"><span class="nav-number">1.2.1.</span> <span class="nav-text">矩阵计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规范化"><span class="nav-number">1.2.2.</span> <span class="nav-text">规范化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理一：总体主成分与-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><span class="nav-number">1.2.3.</span> <span class="nav-text">定理一：总体主成分与$x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论：PCA充要条件"><span class="nav-number">1.2.4.</span> <span class="nav-text">推论：PCA充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">1.2.5.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——如何选择主成分是最优选择"><span class="nav-number">1.2.6.</span> <span class="nav-text">定理二：选择方法——如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分——由累计方差贡献率决定"><span class="nav-number">1.2.7.</span> <span class="nav-text">$k$的取值：选择几个主成分——由累计方差贡献率决定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本主成分分析"><span class="nav-number">1.3.</span> <span class="nav-text">样本主成分分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心-求PCA"><span class="nav-number">1.4.</span> <span class="nav-text">[核心]求PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关矩阵-R-的特征值分解算法"><span class="nav-number">1.4.1.</span> <span class="nav-text">相关矩阵$R$的特征值分解算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据矩阵-X-的奇异值分解算法"><span class="nav-number">1.4.2.</span> <span class="nav-text">数据矩阵$X$的奇异值分解算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">1.5.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1265,6 +1325,21 @@ cov(y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</script></li>
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   
