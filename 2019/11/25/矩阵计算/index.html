@@ -86,10 +86,12 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-03T00:50:18.784Z">
+<meta property="og:image" content="https://aisakaki.com/2019/11/25/矩阵计算/0.png">
+<meta property="og:updated_time" content="2019-12-04T13:11:40.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算与矩阵分解">
 <meta name="twitter:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
+<meta name="twitter:image" content="https://aisakaki.com/2019/11/25/矩阵计算/0.png">
 
 
 
@@ -459,6 +461,53 @@
 <p>Woodybury恒等式：$(A+BD^{-1}C)^{-1}=A^{-1}-A^{-1}B(D+CA^{-1}B)^{-1}CA^{-1}$</p>
 <p>都可以用左乘/右乘逆矩阵的逆推得</p>
 </li>
+<li><p><strong>正交基变换</strong></p>
+<p>$X$为<strong>原矩阵下的向量（坐标）</strong>，$X=(\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n)$，有$n$个原基下的$\mathbb x$向量</p>
+<p>$A$为<strong>正交基矩阵</strong> $A=(a_1,a_2,\cdots,a_m)$，其中的<strong>每个向量就是一个新的基</strong>，新基是相互正交的</p>
+<p><strong>$\mathbb x_i和a_j$都是$m$维列向量，$\mathbb x_i$代表原基下的一个向量/坐标</strong>，那么</p>
+<script type="math/tex; mode=display">
+Y=A^TX</script><p>即为基变换，新基下的向量为$Y=(\mathbb y_1,\mathbb y_2,\cdots,\mathbb y_n)$</p>
+<p>$\mathbb y_i$也是$m$维列向量，代表经过基矩阵$A$变换后<strong>新基下的坐标</strong></p>
+<p>也可以半展开写成：（<strong>这里转置易错，见13</strong>）</p>
+<script type="math/tex; mode=display">
+(\mathbb y_1,\mathbb y_2,\cdots,\mathbb y_n)=(a_1,a_2,\cdots,a_m)^T(\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n)</script><script type="math/tex; mode=display">
+=\begin{bmatrix} a_1^T\\  a_2^T\\  \vdots\\  a_m^T\\\end{bmatrix}
+\begin{bmatrix}\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n\end{bmatrix}
+=\begin{bmatrix}   
+a_1^T\mathbb x_1&a_1^T\mathbb x_2&\cdots&a_1^T\mathbb x_n\\
+a_2^T\mathbb x_1&a_2^T\mathbb x_2&\cdots&a_2^T\mathbb x_n\\
+\vdots&\vdots&\ddots&\vdots\\
+a_m^T\mathbb x_1&a_m^T\mathbb x_2&\cdots&a_m^T\mathbb x_n\\
+
+\end{bmatrix}</script><p>在该基变换中，每一个旧基下的向量$\mathbb x_i$都左乘了基矩阵$A$ ，也就是：</p>
+<script type="math/tex; mode=display">
+\mathbb y=A^T\mathbb x</script><p>如果只有一个向量$x$做基变换，那便是：</p>
+<script type="math/tex; mode=display">
+\mathbb y=(a_1,a_2,\cdots,a_m)^T\mathbb x=\begin{bmatrix} a_1^T\\  a_2^T\\  \vdots\\  a_m^T\\\end{bmatrix}\mathbb x=
+\begin{bmatrix}   
+a_1^T\mathbb x\\
+a_2^T\mathbb x\\
+\vdots\\
+a_m^T\mathbb x\\
+
+\end{bmatrix}
+=(a_1^T\mathbb x,a_2^T\mathbb x,\cdots,a_m^T\mathbb x)^T</script><p>展开列向量$\mathbb y$中的每一个维度表示：即$y_i=a_i^T\mathbb x=a_1x_1+a_2x_2+\cdots+a_mx_m$</p>
+<p><strong>这样变换的原理：</strong></p>
+<p>可以看出变换得到的<strong>新基下的变量的每个维度</strong>都由<strong>基矩阵</strong>的一个列向量也就是<strong>一个基</strong>与<strong>原基下的变量内积得到</strong>，<strong>新向量的一个维度为基矩阵的一个基与原基变量的内积</strong>，就是上面这个式子</p>
+<p><strong>而内积的几何意义是</strong>：向量$A与B$的内积实质上就是$A$到$B$的投影长度乘以$B$的模，如果$B$为单位向量，那么$A与B$的内积就是$A$到$B$上的投影，也就是<strong>向量$\mathbb x$在新基组$(a_1,a_2,\cdots,a_m)$下的投影，也就得到了新基下的坐标/向量表示：$\mathbb y$。每一个维度($x_i$)都被投影到了对应的一个基($a_i$)上。</strong></p>
+<p>用图表示关系就是</p>
+<p><img src="//aisakaki.com/2019/11/25/矩阵计算/0.png" alt="0" style="zoom: 33%;"></p>
+<p><strong>举例，</strong>对于一般的二维笛卡尔直角坐标系中，其基为$a_1=(0,1)^T,a_2=(1,0)^T$，其正交基矩阵就是</p>
+<p>$A=\begin{bmatrix}a_1,a_2\end{bmatrix}=\begin{bmatrix}   0&amp;1\\1&amp;0   \\ \end{bmatrix}$，对于本来就在笛卡尔坐标系下的向量$\mathbb x$,自然$\mathbb x=A^T\mathbb x$，新基和原基没变，那向量表示（坐标）自然也没变</p>
+</li>
+<li><p>注意转置简写矩阵的时候易错</p>
+<p>（设定$a$为向量）</p>
+<p>$(a_1,a_2,\cdots,a_m)^T=\begin{bmatrix} a_1^T\\  a_2^T\\  \vdots\\  a_m^T\\\end{bmatrix}$</p>
+<p>外面那层转置只是转置了外层的列，每列内部还没有进行转置，所以要这样！</p>
+</li>
+<li><p>内积的几何意义</p>
+<p>向量$A与B$的内积实质上就是$A$到$B$的投影长度乘以$B$的模，如果$B$为单位向量，那么$A与B$的内积就是$A$到$B$上的投影</p>
+</li>
 </ol>
 <h2 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>singular value decomposition ，SVD</p>
 <p>将一个非零的$m×n$实矩阵$A,A∈\mathbb R^{m×n}$，表示为三个实矩阵乘积形式的运算：</p>
@@ -718,7 +767,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">134</span>
+                  <span class="site-state-item-count">135</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1340,7 +1389,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
     var bp = document.createElement('script');
     var curProtocol = window.location.protocol.split(':')[0];
     if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
     }
     else {
         bp.src = 'http://push.zhanzhang.baidu.com/push.js';

@@ -284,6 +284,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/29/条件随机场/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/29/条件随机场/" itemprop="url">条件随机场</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-29T19:05:15+08:00">
+                2019-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/29/条件随机场/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/29/条件随机场/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Conditional-Random-Field"><a href="#Conditional-Random-Field" class="headerlink" title="Conditional Random Field"></a>Conditional Random Field</h2><p>在我前面的文章中有一些概率图模型的基础知识：<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习中的结构化概率模型</a></p>
+<p>如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：<a href="https://aisakaki.com/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/">配分函数</a>，其中用到了蒙特卡罗方法，参看前文：<a href="https://aisakaki.com/2019/10/12/%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%96%B9%E6%B3%95/">蒙特卡罗方法</a></p>
+<p>将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的<strong>因子分解</strong>(factorization)</p>
+<p><strong>标注问题：</strong>在条件概率模型$P(Y|X)$中，$Y$是输出变量，表示输出的标记序列（或状态序列），$X$是输入变量，表示需要标注的观测序列。<strong>注意被标注的是标记序列/状态序列</strong>，不是观测序列。HMM和CRF都可以用于标注问题（只是其中一个应用）。</p>
+<p><strong>条件随机场(conditional random field,CRF)</strong>：给定随机变量$X$条件下，随机变量$Y$的马尔可夫随机场</p>
+<p><strong>线性链条件随机场(linear chain conditional random field,Linear-Chain CRF)</strong>：定义如下</p>
+<p>设$X=\{X_1,X_2,\cdots,X_n\},Y=\{Y_1,Y_2,\cdots,Y_n\}$均为线性链表示的随机变量序列，若在给定随机变量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性：</p>
+<script type="math/tex; mode=display">
+P(Y_i|X,Y_1,\cdots,Y_{i-1},Y_{i+1},\cdots,Y_n)=P(Y_i|X,Y_{i-1},Y_{i+1}),i=1,2,\cdots,n</script><p>则称$P(Y|X)$为线性链条件随机场。意思是$Y_i$只与$X$(观测序列)，$Y_{i-1},Y_{i+1}$有关</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/29/条件随机场/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/29/海/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1460,177 +1638,6 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/19/且听风吟/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/19/且听风吟/" itemprop="url">且听风吟</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-19T01:12:21+08:00">
-                2019-10-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/19/且听风吟/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/19/且听风吟/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>尝试着给主页换了很多副标题，但最后还是用了「且听风吟」这四个字。</p>
-<p>「且听风吟」来自村上春树的同名小说《且听风吟》</p>
-<p>原文是「 風の歌を聴け」，其实字面意思与原意有一些差别。</p>
-<p> 「 且 」字给原意加入了一层浪漫与释然的情感，</p>
-<p>但我觉得这是符合书意的。</p>
-<p>其实我不是很喜欢村上春树讲故事的风格，充满后现代主义风格和西式的文风，少了些日本传统文学的物哀之情。但《且听风吟》的故事性本身就不是很强，或者说故事本身并不重要。</p>
-<p>村上春树在他20岁的尽头写下了这本书</p>
-<blockquote>
-<p>好久没有感觉出夏日的气息了。海潮的清香，遥远的汽笛，女孩肌体的感触，洗发香波的气味，傍晚的和风，缥缈的憧憬，以及夏日的梦境……然而，这一切宛若移动过的复写纸，无不同原有位置有着少许然而却是无可挽回的差异。 </p>
-</blockquote>
-<p>21岁的村上经历了百无聊赖的夏天，遇到了三个女孩，和鼠在酒吧里一起喝着酒聊着各种各样的话题···</p>
-<p>但夏天结束了，就像一场梦境一样。他还会去那个阶梯看看，去聆听那个夏天的声音，闻一闻海潮的清香，去感受夏天的和风。可是无论如何，都不能回到那个夏天了。</p>
-<p>时光就是这样流逝着，如穿过指尖的沙一般，无论如何焦急地想要挽留，于己，无论是14岁那年，还是17岁那年，还是现在。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/10/19/且听风吟/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1681,7 +1688,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">134</span>
+                  <span class="site-state-item-count">135</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2283,7 +2290,7 @@ P_{观测}(o_t|i_t,i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(o_t|i_t),t=1,2,\cdots,T</sc
     var bp = document.createElement('script');
     var curProtocol = window.location.protocol.split(':')[0];
     if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
     }
     else {
         bp.src = 'http://push.zhanzhang.baidu.com/push.js';

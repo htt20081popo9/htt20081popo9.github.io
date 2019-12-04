@@ -626,6 +626,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/12/04/局部敏感哈希算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/04/局部敏感哈希算法/" itemprop="url">大数据相似度计算：局部敏感哈希算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:21:29+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/04/局部敏感哈希算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/04/局部敏感哈希算法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
+<p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
+<p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/04/局部敏感哈希算法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/12/02/Fences—整理桌面利器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1060,9 +1221,9 @@
 
       
         
-          <p><em>施工中</em></p>
+          <p><em>顽强施工中</em></p>
 <p>Principal Component Analysis， PCA</p>
-<p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对数据进行<strong>正交变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
+<p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对原基下的数据进行<strong>正交基变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
 <p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
 <p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
@@ -1440,171 +1601,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/25/绮凝盏-双笙xHanser/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/25/绮凝盏-双笙xHanser/" itemprop="url">绮凝盏(双笙xHanser)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T07:51:10+08:00">
-                2019-11-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Music/" itemprop="url" rel="index">
-                    <span itemprop="name">Music</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/11/25/绮凝盏-双笙xHanser/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/25/绮凝盏-双笙xHanser/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <div style="text-align: center"><i>你像银河的微光　绵绵的暗香</i></div>
-<div style="text-align: center"><i>锁在玻璃的橱窗　盛着幻想乡</i></div>
-<div style="text-align: center"><i>展牌落款的红章　结束了飘荡</i></div>
-<div style="text-align: center"><i>你曾见闻的时光　饮三杯再唱 </i></div>
-
-
-<h2 id=""><a href="#" class="headerlink" title=""></a><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1405420941&auto=0&height=66"></iframe></h2>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/11/25/绮凝盏-双笙xHanser/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1655,7 +1651,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">134</span>
+                  <span class="site-state-item-count">135</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2257,7 +2253,7 @@
     var bp = document.createElement('script');
     var curProtocol = window.location.protocol.split(':')[0];
     if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
     }
     else {
         bp.src = 'http://push.zhanzhang.baidu.com/push.js';
