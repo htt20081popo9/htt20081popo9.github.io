@@ -87,7 +87,7 @@
 <meta property="og:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/11/25/矩阵计算/0.png">
-<meta property="og:updated_time" content="2019-12-04T13:11:40.697Z">
+<meta property="og:updated_time" content="2019-12-04T13:26:57.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算与矩阵分解">
 <meta name="twitter:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
@@ -494,9 +494,10 @@ a_m^T\mathbb x\\
 =(a_1^T\mathbb x,a_2^T\mathbb x,\cdots,a_m^T\mathbb x)^T</script><p>展开列向量$\mathbb y$中的每一个维度表示：即$y_i=a_i^T\mathbb x=a_1x_1+a_2x_2+\cdots+a_mx_m$</p>
 <p><strong>这样变换的原理：</strong></p>
 <p>可以看出变换得到的<strong>新基下的变量的每个维度</strong>都由<strong>基矩阵</strong>的一个列向量也就是<strong>一个基</strong>与<strong>原基下的变量内积得到</strong>，<strong>新向量的一个维度为基矩阵的一个基与原基变量的内积</strong>，就是上面这个式子</p>
-<p><strong>而内积的几何意义是</strong>：向量$A与B$的内积实质上就是$A$到$B$的投影长度乘以$B$的模，如果$B$为单位向量，那么$A与B$的内积就是$A$到$B$上的投影，也就是<strong>向量$\mathbb x$在新基组$(a_1,a_2,\cdots,a_m)$下的投影，也就得到了新基下的坐标/向量表示：$\mathbb y$。每一个维度($x_i$)都被投影到了对应的一个基($a_i$)上。</strong></p>
+<p><strong>而内积的几何意义是</strong>：向量$A与B$的内积实质上就是$A$到$B$的投影长度乘以$B$的模，如果$B$为单位向量，那么$A与B$的内积就是$A$到$B$上的投影，也就是<strong>向量$\mathbb x$在新基组$(a_1,a_2,\cdots,a_m)$下的投影，也就得到了新基下的坐标/向量表示：$\mathbb y$。原基下的向量$\mathbb x$被投影到了每一个新基($a_i$)上，组成了新基下的向量表示（坐标）：$\mathbb y$。</strong></p>
 <p>用图表示关系就是</p>
 <p><img src="//aisakaki.com/2019/11/25/矩阵计算/0.png" alt="0" style="zoom: 33%;"></p>
+<p><strong>各个颜色的变换就是内积，就是一次原基下的向量表示到某一个新基的投影过程</strong></p>
 <p><strong>举例，</strong>对于一般的二维笛卡尔直角坐标系中，其基为$a_1=(0,1)^T,a_2=(1,0)^T$，其正交基矩阵就是</p>
 <p>$A=\begin{bmatrix}a_1,a_2\end{bmatrix}=\begin{bmatrix}   0&amp;1\\1&amp;0   \\ \end{bmatrix}$，对于本来就在笛卡尔坐标系下的向量$\mathbb x$,自然$\mathbb x=A^T\mathbb x$，新基和原基没变，那向量表示（坐标）自然也没变</p>
 </li>
