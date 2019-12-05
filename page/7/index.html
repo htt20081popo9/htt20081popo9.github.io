@@ -284,6 +284,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/21/神经风格迁移/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/21/神经风格迁移/" itemprop="url">神经风格迁移</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T17:55:30+08:00">
+                2019-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/21/神经风格迁移/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/21/神经风格迁移/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><script type="math/tex; mode=display">
+L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)</script><p>内容图像（C）,生成的图像（G ）,样式图像（S）</p>
+<p>合成图像为唯一需要学习（更新）的参数（视为模型参数），也是生成的结果，而不是VGG</p>
+<p>输入：C</p>
+<p>初始化：可以选择让G=C，也可以随机初始化一个G</p>
+<p>这个算法里面的参数(也就是是合成图片里面的每个像素点，我们可以将内容图片直接 copy 成合成图片，<strong>然后训练使得他的风格和我们的风格图片相似，同时也可以随机化一张图片作为合成图片（两种初始化）</strong>，然后训练他使得他与内容图片以及风格图片具有相似性。特征的提取</p>
+<h2 id="model"><a href="#model" class="headerlink" title="model"></a>model</h2><p>这里不训练模型，直接使用预训练的vgg来提取特征</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    vgg = models.vgg19(pretrained=<span class="keyword">True</span>).features</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> vgg.parameters():</span><br><span class="line">        param.requires_grad = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">return</span> vgg</span><br></pre></td></tr></table></figure>
+<h2 id="extract-loss"><a href="#extract-loss" class="headerlink" title="extract loss"></a>extract loss</h2><p>这里使用以前用过的register_forward_hook()函数来hook</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayerActivations</span><span class="params">()</span>:</span></span><br><span class="line">    features = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,model,layer_nums)</span>:</span></span><br><span class="line">        <span class="comment">#这里要hook多层，要保存多层钩子</span></span><br><span class="line">        self.hooks = []</span><br><span class="line">        <span class="keyword">for</span> layer_num <span class="keyword">in</span> layer_nums:</span><br><span class="line">            self.hooks.append(model[layer_num].register_forward_hook(self.hook_fn))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hook_fn</span><span class="params">(self,module,input,output)</span>:</span></span><br><span class="line">        self.features.append(output)</span><br><span class="line">    <span class="comment">#捕捉完输出后不能忘掉remove方法，否则所有输入都累加在一起会内存溢出 </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> hook <span class="keyword">in</span> self.hooks:</span><br><span class="line">            hook.remove()</span><br><span class="line"></span><br><span class="line"><span class="comment">#该函数用于将图片输入进模型，经过钩子获取指定多层的特征输出      </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    la = LayerActivations(model=model,layer_nums=layers)</span><br><span class="line">    <span class="comment">#清空缓存</span></span><br><span class="line">    la.features=[]</span><br><span class="line">    <span class="comment">#运行模型，开钩</span></span><br><span class="line">    out = model(img)       </span><br><span class="line">    <span class="comment">#已经获取到特征，这是我们关注的东西，然后注销钩子</span></span><br><span class="line">    la.remove()</span><br><span class="line">    <span class="comment">#注意这里返回的是列表，一次性钩了多层</span></span><br><span class="line">    <span class="keyword">return</span> la.features</span><br></pre></td></tr></table></figure>
+<h2 id="定义损失"><a href="#定义损失" class="headerlink" title="定义损失"></a>定义损失</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># content loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContentLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        out = self.mseloss(inputs,targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
+<p>衡量风格损失使用的是Gram Matrix，对于$k$个向量$\alpha_1,\alpha_2,\cdots,\alpha_k$</p>
+<script type="math/tex; mode=display">
+G=
+\begin{bmatrix}
+{(\alpha_1,\alpha_1)}&{(\alpha_1,\alpha_2)}&{\cdots}&{(\alpha_1,\alpha_k)}\\
+{(\alpha_2,\alpha_1)}&{(\alpha_2,\alpha_2)}&{\cdots}&{(\alpha_2,\alpha_k)}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{(\alpha_k,\alpha_1)}&{(\alpha_k,\alpha_2)}&{\cdots}&{(\alpha_k,\alpha_k)}\\
+\end{bmatrix}</script><p>把特征提取输出变换为$k$行$h*w$列的矩阵$X$，那么$X=&lt;\alpha_1,\alpha_2,\cdots,\alpha_k&gt;$，其中向量$x_i$代表了通道$i$上的样式特征，于是Gram矩阵实际上计算出了各个通道的两两相关性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># style loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GramMatrix</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        b,c,h,w = inputs.size()</span><br><span class="line">        <span class="comment">#hw维度扁平化</span></span><br><span class="line">        features = inputs.view(b,c,h*w)</span><br><span class="line">        <span class="comment">#bmm(A) =  AxA^T</span></span><br><span class="line">        gram_matrix = torch.bmm(features,features.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">        <span class="comment">#为防止值过大，做归一化</span></span><br><span class="line">        gram_matrix.div_(h*w)</span><br><span class="line">        <span class="keyword">return</span> gram_matrix</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StyleLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.gramfunc = GramMatrix()</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        gram_inputs = self.gramfunc(inputs)</span><br><span class="line">        gram_targets = self.gramfunc(targets)</span><br><span class="line">        out = self.mseloss(gram_inputs,gram_targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loss function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_fn</span><span class="params">(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span>:</span></span><br><span class="line">    loss = <span class="number">0</span> </span><br><span class="line">    <span class="comment">#提取风格图片的特征并计算,注意这里是提取input（合成）和风格/内容的，都要提取</span></span><br><span class="line">    style_features = extract_layers(style_layers,style_img,model)  </span><br><span class="line">    input_features = extract_layers(style_layers,input_param,model) </span><br><span class="line">    <span class="keyword">for</span> style_layer_index <span class="keyword">in</span> range(len(style_layers)):</span><br><span class="line">        style_loss = StyleLoss(style_weight)</span><br><span class="line">        style_loss_this = style_loss(input_features[style_layer_index],style_features[style_layer_index])      </span><br><span class="line">        </span><br><span class="line">    <span class="comment">#提取内容图片的特征并计算   </span></span><br><span class="line">    content_features = extract_layers(content_layers,content_img,model)</span><br><span class="line">    input_features = extract_layers(content_layers,input_param,model)     </span><br><span class="line">    <span class="keyword">for</span> content_layer_index <span class="keyword">in</span> range(len(content_layers)):</span><br><span class="line">        content_loss = ContentLoss(content_weight)</span><br><span class="line">        content_loss_this = content_loss(input_features[content_layer_index],content_features[content_layer_index])    </span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this+content_loss_this</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> times % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'style loss:&#123;:.4f&#125; , content loss:&#123;:.4f&#125;'</span>.format(style_loss_this,content_loss_this))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
+<h2 id="TRAIN"><a href="#TRAIN" class="headerlink" title="TRAIN"></a>TRAIN</h2><p>使用LBGFS作为优化函数，LBFGS使用的时候就需要用到闭包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(Epoch,input_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_weight,style_weight,content_img,style_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_layers=[<span class="number">21</span>],style_layers=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">11</span>,<span class="number">20</span>,<span class="number">25</span>])</span>:</span></span><br><span class="line">    <span class="comment">#默认vgg模型</span></span><br><span class="line">    model = get_model().cuda()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化合成图片，将input_img作为初始的合成图片并参数化</span></span><br><span class="line">    input_param = nn.Parameter(input_img.data)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化优化器</span></span><br><span class="line">    optimizer = torch.optim.LBFGS([input_param])</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(Epoch):</span><br><span class="line">        print(<span class="string">'epoch:&#123;&#125;'</span>.format(epoch))</span><br><span class="line">        <span class="comment">#开始训练</span></span><br><span class="line">        <span class="keyword">global</span> times</span><br><span class="line">        times=<span class="number">0</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">()</span>:</span></span><br><span class="line">            optimizer.zero_grad() <span class="comment">#勿忘</span></span><br><span class="line">            <span class="keyword">global</span> times</span><br><span class="line">            times+=<span class="number">1</span></span><br><span class="line">            loss = loss_fn(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span><br><span class="line">            loss.backward() </span><br><span class="line">            <span class="keyword">return</span> loss</span><br><span class="line">        optimizer.step(closure) </span><br><span class="line">    <span class="keyword">return</span> input_param.data </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showImg</span><span class="params">(res)</span>:</span></span><br><span class="line">    img = res[<span class="number">0</span>]</span><br><span class="line">    img = img.cpu()</span><br><span class="line">    img = transforms.ToPILImage()(img) </span><br><span class="line">    plt.imshow(img)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/19/toMalwareDetection/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1591,224 +1780,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/07/30/Examples/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/30/Examples/" itemprop="url">Explaining and Harnessing Adversarial Examples</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T12:20:14+08:00">
-                2019-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/论文阅读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文阅读笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/07/30/Examples/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/Examples/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
-</blockquote>
-<h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
-<p>本文的观点：<strong>Linear behavior</strong> in <strong>high-dimensional spaces</strong> is sufﬁcient to cause adversarial examples</p>
-<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ol>
-<li><p>Box-constrained L-BFGS can reliably ﬁnd adversarial examples.</p>
-</li>
-<li><p>On some datasets, such as ImageNet (Deng et al., 2009), the adversarial examples were so close to the original examples that the differences were indistinguishable to the human eye.</p>
-</li>
-<li><p>The same adversarial example is often misclassiﬁed by avariety of classiﬁers with different architectures or trained on different subsets of the training data.</p>
-</li>
-<li><p>Shallow softmax regression models are also vulnerable to adversarial examples. </p>
-</li>
-<li><p>Training on adversarial examples can regularize the model —however , this was not practical at the time due to the need for expensive constrained optimization in the inner loop</p>
-</li>
-</ol>
-<p>这就引起我们怀疑即便当前最好的模型是否只是虚有其表，并没有真正学习到内在的语义信息。仅仅能够fit现有样本，无法泛化。</p>
-<h2 id="对抗样本的线性解释"><a href="#对抗样本的线性解释" class="headerlink" title="对抗样本的线性解释"></a>对抗样本的线性解释</h2><p>本文提出了对对抗样本产生原因的线性解释.设置扰动$\eta,\epsilon$为一个小到可以被分类器忽略的值</p>
-<p>$\hat{x} = x+\eta$ ，若$||\eta||_\infty&lt;\epsilon$，分类器将无法将$x$与$\hat{x}$分开</p>
-<p>则$w^T\hat{x}=w^T(x+\eta)=w^Tx+w^T\eta$</p>
-<p>若维度很高，则即使$\eta$很小，也会使得$w^T\eta$非常大，影响分类器的判断</p>
-<p>令$\eta=sign(w)$即可使得$w^T\eta$最大</p>
-<h2 id="非线性模型的线性扰动"><a href="#非线性模型的线性扰动" class="headerlink" title="非线性模型的线性扰动"></a>非线性模型的线性扰动</h2><p>对于现在的神经网络都有很强的线性性质以至于无法抵抗对抗攻击，如 LSTMs (Hochreiter &amp; Schmidhuber, 1997), ReLUs (Jarrett et al., 2009; Glorot et al., 2011),  maxout networks (Goodfellow et al., 2013c) 都设计得具有很强的线性性质，所以也方便优化。FGSM将损失函数近似线性化，从而获取$||\eta||_\infty&lt;\epsilon$的最优扰动。</p>
-<p><strong>Fast Gradient Sign Method(FGSM)</strong></p>
-<script type="math/tex; mode=display">
-\eta = \epsilon sign(\nabla_xJ(\theta,x,y))​</script><script type="math/tex; mode=display">
-\hat{x} = x+\epsilon sign(\nabla_xJ(\theta,x,y))</script><p>注意这里$y=y_{true}$</p>
-<p>通过实验证明，作者的假设产生对抗样本的原因是由于模型的线性特性是正确的。这种方法也可以作为一种快速生成对抗样本的方法（即FGSM）</p>
-<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>在Logistics Regression上应用FGSM方法 ，$label\in\lbrace1,-1\rbrace$</p>
-<p>$P(y=1|x)=\sigma(w^Tx+b),\sigma(z)=softmax(z)$   </p>
-<p>$\therefore J = E{x,y \tilde{} p_{data}}[(-\frac{1+y}{2})\ln P(y=1|x)-\frac{1-y}{2}\ln P(y=-1|x)]$</p>
-<p>设$p=P(y=1|x),f=w^Tx+b$</p>
-<p>$\therefore J=-\frac{1}{2}\ln p-\frac{y}{2}\ln p-\frac{1}{2}\ln (1-p)+\frac{y}{2}\ln (1-p)$</p>
-<p>$=-\frac{1}{2}\ln p（1-p)-\frac{y}{2}\ln \frac{p}{1-p} $</p>
-<p>$= \frac{1}{2}(f-yf) + \ln(1+e^{-f})$</p>
-<p>$=\begin{cases} \ln(1+e^{-f}),y=1\\ f+\ln(1+e^{-f})=\ln e^f+\ln(1+e^{-f})=\ln(1+e^f),y=-1\end{cases}$</p>
-<p>$= \ln(1+e^{-yf})$</p>
-<p>$=\zeta(-yf)=E{x,y \tilde{} p_{data}}\zeta(-y(w^Tx+b)),\zeta(z) = \ln(1+e^z)$  </p>
-<p>$\therefore \eta=\epsilon sign(\nabla_xJ(\theta,x,y))$</p>
-<p>$=\epsilon sign(\nabla_x\zeta(-y(w^Tx+b)))$</p>
-<p>$= \epsilon sign(\frac{\partial \ln(1+e^{-y(w^Tx+b)})}{\partial x})$</p>
-<p>$=\epsilon sign(\frac{1}{1+e^{-y(w^Tx+b)}} ×(-e^{-y(w^Tx+b)})×(yw^T))$</p>
-<p>$=\epsilon sign(\frac{e^{-yf}}{1+e^{-yf}}×(-y)w)$</p>
-<p>$=\epsilon sign(-w)=-\epsilon sign(w)$</p>
-<p>$\because w^Tsign(w)=||w||_1，\hat{x}=x+\eta,\eta=\epsilon-sign(w)$</p>
-<p>$\therefore \hat{J}=E{x,y \tilde{} p_{data}}\zeta(y(\epsilon||w||_1 -w^Tx-b))$</p>
-<p>可以看到类似于$L^1$正则，不过是减去$L^1$惩罚项。当置信度很高，$w^Tx+b$足够大的时候，$\epsilon||w||_1$几乎不起作用，但是当模型欠拟合的时候，则会更加欠拟合</p>
-<h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
-<script type="math/tex; mode=display">
-\hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
-<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
-<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1859,7 +1830,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-count">136</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

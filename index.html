@@ -568,7 +568,8 @@
 
       
         
-          <p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
+          <p><em>施工中</em></p>
+<p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
 <p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
 <p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
           <!--noindex-->
@@ -735,6 +736,179 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/12/02/Fences—整理桌面利器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/12/01/主成分分析（二）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/01/主成分分析（二）/" itemprop="url">主成分分析（二）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T20:38:26+08:00">
+                2019-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/01/主成分分析（二）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/01/主成分分析（二）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>施工中</em></p>
+<h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><p><strong>总体PCA和样本PCA的关系：</strong></p>
+<p>总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种<strong>概念</strong>设定，不具有实际可操作性。</p>
+<p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。<strong>样本PCA和总体PCA性质完全相同，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/01/主成分分析（二）/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -961,7 +1135,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/27/主成分分析/" itemprop="url">主成分分析</a></h1>
+                <a class="post-title-link" href="/2019/11/27/主成分分析/" itemprop="url">主成分分析（一）</a></h1>
         
 
         <div class="post-meta">
@@ -1058,8 +1232,7 @@
 
       
         
-          <p><em>顽强施工中</em></p>
-<p>Principal Component Analysis， PCA</p>
+          <p>Principal Component Analysis， PCA</p>
 <p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对原基下的数据进行<strong>正交基变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
 <p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
@@ -1438,171 +1611,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/25/绮凝盏-双笙xHanser/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/25/绮凝盏-双笙xHanser/" itemprop="url">绮凝盏(双笙xHanser)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T07:51:10+08:00">
-                2019-11-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Music/" itemprop="url" rel="index">
-                    <span itemprop="name">Music</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/11/25/绮凝盏-双笙xHanser/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/25/绮凝盏-双笙xHanser/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <div style="text-align: center"><i>你像银河的微光　绵绵的暗香</i></div>
-<div style="text-align: center"><i>锁在玻璃的橱窗　盛着幻想乡</i></div>
-<div style="text-align: center"><i>展牌落款的红章　结束了飘荡</i></div>
-<div style="text-align: center"><i>你曾见闻的时光　饮三杯再唱 </i></div>
-
-
-<h2 id=""><a href="#" class="headerlink" title=""></a><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1405420941&auto=0&height=66"></iframe></h2>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/11/25/绮凝盏-双笙xHanser/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1653,7 +1661,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-count">136</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
