@@ -201,7 +201,7 @@ A_{m×m}=(\alpha_1,\alpha_2,\cdots,\alpha_m),\quad \alpha_i=(\alpha_{1i},\alpha_
 <h3 id="规范化"><a href="#规范化" class="headerlink" title="规范化"></a>规范化</h3><script type="math/tex; mode=display">
 x^o_i=\frac{x_i-\mathbb E(x_i)}{\sqrt{var(x_i)}},\quad i=1,2,\cdots,m</script><p>$x_i^o$就是$\mathbb x_i$的规范化随机变量。（性质略）</p>
 <p>对各个维度规范化后$\mathbb x^o=(x_1^o,x_2^o,\cdots,x_m^o)^T$。于是$\mathbb x^o$的$\mathbb E(\mathbb x^o)=0$$,var(\mathbb x^o)=\sigma=1$</p>
-<h3 id="定理一：总体主成分-mathbb-y-与-mathbb-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系"><a href="#定理一：总体主成分-mathbb-y-与-mathbb-x-的协方差矩阵-Sigma-（及其特征值-lambda-和特征向量-alpha-）的关系" class="headerlink" title="定理一：总体主成分$\mathbb y$与$\mathbb x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系"></a>定理一：总体主成分$\mathbb y$与$\mathbb x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</h3><p><strong>定理一：总体主成分与$\mathbb x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</strong></p>
+<h3 id="根据定义推导主成分应满足的条件"><a href="#根据定义推导主成分应满足的条件" class="headerlink" title="根据定义推导主成分应满足的条件"></a>根据定义推导主成分应满足的条件</h3><p><strong>定理一：总体主成分$\mathbb y$与$\mathbb x$的协方差矩阵$\Sigma$（及其特征值$\lambda$和特征向量$\alpha$）的关系</strong></p>
 <p>设$\mathbb x$是$m$维随机变量，$\Sigma$是$\mathbb x$的协方差矩阵($\Sigma=cov(x,x)$)，$\Sigma$的特征值分别是$\lambda_1≥\lambda_2≥\cdots≥\lambda_m≥0$。特征值对应的单位特征向量分别是$\alpha_1,\alpha_2,\cdots,\alpha_m$，则$\mathbb x$的第$k$主成分表达式是：</p>
 <script type="math/tex; mode=display">
 y_k=\alpha_k^T\mathbb x=\alpha_{1k}x_1+\alpha_{2k}x_2+\cdots+\alpha_{mk}x_m,\quad k=1,2,\cdots,m</script><p><strong>[结论]则其方差为：</strong></p>
@@ -210,8 +210,8 @@ var(y_k)=\alpha_k^T\Sigma\alpha_k=\lambda_k,\quad k=1,2,\cdots,m</script><p><str
 <p>①<strong>主成分$y_k$的方差=$\mathbb x$的协方差矩阵对应的特征值$\lambda_k$</strong></p>
 <p>②主成分$y_k$的<strong>正交变换$\alpha_k$（基）对应协方差矩阵的特征向量  </strong> </p>
 <p>（注意回到定义-理解去理解一下主成分）</p>
-<p>知道了主成分$\mathbb y$的方差和原向量$\mathbb x$的协方差矩阵$\Sigma$的特征值$\lambda_i$和特征向量$\alpha_i$的<strong>等价关系</strong>，即在什么条件下是原问题的最优解（主成分），这样我们就能求解出主成分了。</p>
-<p>如果我们还要降维，这就引出了定理二</p>
+<p>知道了主成分$\mathbb y$的方差和原向量$\mathbb x$的协方差矩阵$\Sigma$的特征值$\lambda_i$和特征向量$\alpha_i$的<strong>等价关系</strong>，即在什么条件下是原问题的最优解（主成分），这样我们就能求解出主成分了。<strong>下面的推论给出了充分必要条件。</strong></p>
+<p>如果我们想要降维，这就引出了定理二</p>
 <hr>
 <p><strong>推导过程</strong>（简略）——<strong>方差最大化的约束最优化问题</strong>：</p>
 <p>这个定理（或者叫发现）就是我们在推导求解PCA的过程中得到的，根据定义，求解PCA实质上是个方差最大化的约束最优化问题。</p>
@@ -243,7 +243,7 @@ var(y_2)=var(\alpha_2^T\mathbb x)=\alpha_2^T\Sigma\alpha_2=\lambda_2</script><p>
 <script type="math/tex; mode=display">
 var(y_k)=var(\alpha_k^T\mathbb x)=\alpha_k^T\Sigma\alpha_k=\lambda_k</script><p>于是得到上面的定理</p>
 <hr>
-<h3 id="推论：PCA充要条件"><a href="#推论：PCA充要条件" class="headerlink" title="推论：PCA充要条件"></a>推论：PCA充要条件</h3><p>推论：$m$维随机变量$\mathbb y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$\mathbb x$的第一主成分到第$m$主成分的充要条件是：（由定理一推导过程可得）</p>
+<h3 id="推论：主成分的充要条件"><a href="#推论：主成分的充要条件" class="headerlink" title="推论：主成分的充要条件"></a>推论：主成分的充要条件</h3><p><strong>推论：</strong>$m$维随机变量$\mathbb y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$\mathbb x$的第一主成分到第$m$主成分的充要条件是：（由定理一推导过程可得）</p>
 <ol>
 <li><p>$\mathbb y=A^T\mathbb x$，$A$为<strong>正交矩阵</strong></p>
 <script type="math/tex; mode=display">
