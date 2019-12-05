@@ -87,7 +87,7 @@
 <meta property="og:description" content="顽强施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对原基下的数据进行正交基变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/11/27/主成分分析/0.png">
-<meta property="og:updated_time" content="2019-12-04T13:27:12.864Z">
+<meta property="og:updated_time" content="2019-12-05T01:22:20.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析">
 <meta name="twitter:description" content="顽强施工中 Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对原基下的数据进行正交基变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数">
@@ -447,7 +447,8 @@ a_m^T\mathbb x\\
 <p><strong>举例，</strong>对于一般的二维笛卡尔直角坐标系中，其基为$a_1=(0,1)^T,a_2=(1,0)^T$，其正交基矩阵就是</p>
 <p>$A=\begin{bmatrix}a_1,a_2\end{bmatrix}=\begin{bmatrix}   0&amp;1\\1&amp;0   \\ \end{bmatrix}$，对于本来就在笛卡尔坐标系下的向量$\mathbb x$,自然$\mathbb x=A^T\mathbb x$，新基和原基没变，那向量表示（坐标）自然也没变</p>
 <h2 id="核心-定义"><a href="#核心-定义" class="headerlink" title="[核心]定义"></a>[核心]定义</h2><p><strong>定义是根据其核心思想来的，看上段</strong></p>
-<p>$\mathbb x$是$m$维随机变量（也即特征是$m$维），$\mathbb x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu=\mathbb E(x)=(\mu_1,\mu_2,\cdots,\mu_m)^T$</p>
+<p>一个<strong>数据样本</strong>$\mathbb x$由一个<strong>向量</strong>也即一个<strong>坐标</strong>表示</p>
+<p>$\mathbb x$是$m$维随机变量（即特征是$m$维），$\mathbb x=(x_1,x_2,\cdots,x_m)^T$，其均值为$\mu=\mathbb E(x)=(\mu_1,\mu_2,\cdots,\mu_m)^T$</p>
 <p><strong>$\mathbb  x$代表了一个（原基变量下的）随机变量（向量），也就是一个数据点，一个数据样本；其均值向量就是所有$\mathbb x$的$m$个维度每个维度的期望组成的均值样本。</strong>下面我们要经过正交基变换<strong>（左乘基变换矩阵$A$）</strong>得到的$\mathbb y$也代表了一个（新基变量下的）随机变量，一个数据点。</p>
 <p>具体地我们用$X=(\mathbb x_1,\mathbb x_2,\mathbb x_3,\cdots)$表示原基下的所有数据点</p>
 <p>根据上面的思想，我们要将一个随机变量$\mathbb x_j$其经过一个<strong>线性变换（基变换）</strong>$A$，$\mathbb x_i\to \mathbb y_j$：</p>
@@ -459,14 +460,17 @@ A_{m×m}=(\alpha_1,\alpha_2,\cdots,\alpha_m),\quad \alpha_i=(\alpha_{1i},\alpha_
 <ol>
 <li><p>系数向量$\alpha_i^T$是单位向量，即$\alpha_i^T\alpha_i=1,\quad i=1,2,\cdots,m$</p>
 </li>
-<li><p>变量$y_i$与$y_j$互不相关，即$cov(\mathbb y_i,\mathbb y_j)=0\quad(i≠j)$</p>
+<li><p>新向量的各个维度$y_i$与$y_j$互不相关，即$cov(y_i,y_j)=0\quad(i≠j)$</p>
 </li>
-<li><p>$\mathbb y_i$是①与前面求出来的新变量$\mathbb y_1,\mathbb y_2,\cdots,\mathbb y_{i-1}\quad(i=1,2,\cdots,m)$都<strong>不相关</strong></p>
-<p>​        ②且是$\mathbb x$的所有线性变换中<strong>方差最大</strong>的</p>
+<li><p>$y_i$是①与前面求出来的新向量的各个维度$y_1,y_2,\cdots,y_{i-1}\quad(i=1,2,\cdots,m)$都<strong>不相关</strong>（也就是要确保是正交基变换）</p>
+<p>​        ②且是$\mathbb x$的所有线性变换（基变换）中<strong>方差最大</strong>的</p>
 </li>
 </ol>
-<p>得到的新变量$\mathbb y$即是主成分，这时分别称$\mathbb y_1,\mathbb y_2,\cdots,\mathbb y_m$为$\mathbb x$的第一主成分，第二主成分，$\cdots$，第$m$主成分</p>
-<p><strong>根据2,3实际上就可以得出PCA的求法，实际上就是个约束最优化问题，见下</strong></p>
+<p>得到的新向量的各个维度$y_i$即是$\mathbb x$的主成分，这时分别称$y_1,y_2,\cdots,y_m$为$\mathbb x$的第一主成分，第二主成分，$\cdots$，第$m$主成分</p>
+<p>为了避免混淆写一句：</p>
+<p><strong>一个数据样本$\mathbb x$经$A$基变换后求得一个$\mathbb y$，$\mathbb y$中的每个维是主成分，一个数据样本有$m$维，所以有$m$个主成分</strong></p>
+<p><strong>一组数据样本$X=(\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n)$经$A$基变换后求得一组$Y=(\mathbb y_1,\mathbb y_2,\cdots,\mathbb y_n)$，每个样本都被变换到新基下，每个样本都有$m$个主成分，也即$\mathbb x$在新基下各个维度的投影</strong></p>
+<p><strong>根据定义中的2,3实际上就可以得出PCA的求法，实际上就是个约束最优化问题，见下</strong></p>
 <p>（定义条件-2与定义条件3-①是等效的）</p>
 <h2 id="THEN-【O】"><a href="#THEN-【O】" class="headerlink" title="THEN 【O】"></a>THEN 【O】</h2><p><strong>注意定义$\alpha,\mathbb x$都是列向量，分别代表一个数据的系数和该数据</strong>，具体展开向量到具体每个维度表为：</p>
 <p>$\mathbb x=(x_1,x_2,\cdots,x_m)^T,\alpha_i=(\alpha_{1i},\alpha_{2i}\cdots,\alpha_{mi})^T,\quad i=1,2,\cdots,m$</p>
