@@ -1,49 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>大数据相似度计算：局部敏感哈希算法</title>
-    <url>/2019/12/04/%E5%B1%80%E9%83%A8%E6%95%8F%E6%84%9F%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p><em>施工中</em></p>
-<p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
-<p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
-<p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
-<a id="more"></a>    
-<h1 id="杰卡德相似系数"><a href="#杰卡德相似系数" class="headerlink" title="杰卡德相似系数"></a>杰卡德相似系数</h1><p>Jaccard相似系数用于求集合相似度</p>
-<script type="math/tex; mode=display">
-Jaccard(A,B)=\frac{|A∩B|}{|A∪B|}</script><p>杰卡德距离：在占比中所取的是两个集合中不同元素。</p>
-<script type="math/tex; mode=display">
-Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><p>局部敏感哈希算法，LSH</p>
-]]></content>
-      <categories>
-        <category>算法与数据结构</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Fences—整理桌面利器</title>
-    <url>/2019/12/02/Fences%E2%80%94%E6%95%B4%E7%90%86%E6%A1%8C%E9%9D%A2%E5%88%A9%E5%99%A8/</url>
-    <content><![CDATA[<p>由于我喜欢什么东西都扔桌面上，所以得经常定期清理一次桌面，但桌面清理干净了找很多东西又很不方便</p>
-<p>于是就经常对着凌乱的桌面感到绝望…</p>
-<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/3.png" alt="3" style="zoom:50%;"></p>
-<a id="more"></a>    
-<p>于是在今天我找到了这么一个<strong>神奇</strong>的软件，<strong>Fences</strong>，实在<code>T Q L</code></p>
-<p>surface是我学习用的笔记本，这是经过Fences整理后的surface桌面，太清爽了！</p>
-<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/0.png" alt="0"></p>
-<p>下面和上面的小栏是我设置的链接到各处的快捷入口，可以像抽屉一样，鼠标放上去就会被拉出来，支持多种显示方式，可以完全像Explorer一样的操作</p>
-<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/1.png" alt="1" style="zoom: 33%;"></p>
-<p>而且归纳区域的透明度也可以调整，还有非常多的细节功能</p>
-<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/2.png" alt="2" style="zoom:50%;"></p>
-<p>台式机再加上背景的wallpaper engine，感觉整个桌面赏心悦目又有实用性</p>
-<p>妈妈再也不用担心我桌面凌乱辣！</p>
-<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/4.jpg" alt="4"></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-  </entry>
-  <entry>
     <title>主成分分析（二）</title>
-    <url>/2019/12/01/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <url>/2019/12/05/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<p><em>施工中</em></p>
+<p><em>紧接上一篇：主成分分析（一）</em></p>
 <h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><p><strong>总体PCA和样本PCA的关系：</strong></p>
 <p>总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种<strong>概念</strong>设定，不具有实际可操作性。</p>
 <p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。<strong>样本PCA和总体PCA性质完全相同，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
@@ -83,6 +44,46 @@ A_{m×m}^T=[a_1,a_2,\cdots,a_m]^T=
       <categories>
         <category>人工智能</category>
         <category>机器学习与统计学习</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>大数据相似度计算：局部敏感哈希算法</title>
+    <url>/2019/12/04/%E5%B1%80%E9%83%A8%E6%95%8F%E6%84%9F%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p><em>施工中</em></p>
+<p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
+<p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
+<p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
+<a id="more"></a>    
+<h1 id="杰卡德相似系数"><a href="#杰卡德相似系数" class="headerlink" title="杰卡德相似系数"></a>杰卡德相似系数</h1><p>Jaccard相似系数用于求集合相似度</p>
+<script type="math/tex; mode=display">
+Jaccard(A,B)=\frac{|A∩B|}{|A∪B|}</script><p>杰卡德距离：在占比中所取的是两个集合中不同元素。</p>
+<script type="math/tex; mode=display">
+Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><p>局部敏感哈希算法，LSH</p>
+]]></content>
+      <categories>
+        <category>算法与数据结构</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Fences—整理桌面利器</title>
+    <url>/2019/12/02/Fences%E2%80%94%E6%95%B4%E7%90%86%E6%A1%8C%E9%9D%A2%E5%88%A9%E5%99%A8/</url>
+    <content><![CDATA[<p>由于我喜欢什么东西都扔桌面上，所以得经常定期清理一次桌面，但桌面清理干净了找很多东西又很不方便</p>
+<p>于是就经常对着凌乱的桌面感到绝望…</p>
+<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/3.png" alt="3" style="zoom:50%;"></p>
+<a id="more"></a>    
+<p>于是在今天我找到了这么一个<strong>神奇</strong>的软件，<strong>Fences</strong>，实在<code>T Q L</code></p>
+<p>surface是我学习用的笔记本，这是经过Fences整理后的surface桌面，太清爽了！</p>
+<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/0.png" alt="0"></p>
+<p>下面和上面的小栏是我设置的链接到各处的快捷入口，可以像抽屉一样，鼠标放上去就会被拉出来，支持多种显示方式，可以完全像Explorer一样的操作</p>
+<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/1.png" alt="1" style="zoom: 33%;"></p>
+<p>而且归纳区域的透明度也可以调整，还有非常多的细节功能</p>
+<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/2.png" alt="2" style="zoom:50%;"></p>
+<p>台式机再加上背景的wallpaper engine，感觉整个桌面赏心悦目又有实用性</p>
+<p>妈妈再也不用担心我桌面凌乱辣！</p>
+<p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/4.jpg" alt="4"></p>
+]]></content>
+      <categories>
+        <category>工具</category>
       </categories>
   </entry>
   <entry>
