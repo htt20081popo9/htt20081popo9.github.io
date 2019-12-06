@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 紧接上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系： 总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种概念设定，不具有实际可操作性。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分">
+<meta name="description" content="施工中 主要部分在上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="主成分分析（二）">
 <meta property="og:url" content="https://aisakaki.com/2019/12/05/主成分分析（二）/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 紧接上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系： 总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种概念设定，不具有实际可操作性。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分">
+<meta property="og:description" content="施工中 主要部分在上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-05T13:00:06.300Z">
+<meta property="og:updated_time" content="2019-12-06T10:16:50.694Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析（二）">
-<meta name="twitter:description" content="施工中 紧接上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系： 总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种概念设定，不具有实际可操作性。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分">
+<meta name="twitter:description" content="施工中 主要部分在上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\">
 
 
 
@@ -398,12 +398,12 @@
 
       
         <p><em>施工中</em></p>
-<p><em>紧接上一篇：主成分分析（一）</em></p>
-<h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><p><strong>总体PCA和样本PCA的关系：</strong></p>
-<p>总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种<strong>概念</strong>设定，不具有实际可操作性。</p>
-<p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。<strong>样本PCA和总体PCA性质完全相同，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
+<p><em>主要部分在上一篇：主成分分析（一）</em></p>
+<h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><h2 id="总体PCA和样本PCA的关系"><a href="#总体PCA和样本PCA的关系" class="headerlink" title="总体PCA和样本PCA的关系"></a>总体PCA和样本PCA的关系</h2><p>总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。</p>
+<p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。可以看出，对于给定样本观测集求出的均值就是一个对总体分布参数的一个估计。</p>
+<p><strong>样本PCA和总体PCA性质完全相同，上一节的东西完全适用，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
 <a id="more"></a>    
-<p>对于真实观测样本，对随机变量$\mathbb x=(x_1,x_2,\cdots,x_m)^T$进行$n$次独立观测得到观测样本集$(\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n)$，其中每一个样本为$m$维，表示为$\mathbb x_j=(x_{1j},x_{2j},\cdots,x_{mj})^T$，那么<strong>$x_{ij}$表示第$j$个观测样本的第$i$个变量（特征维度）</strong>，那么观测数据的<strong>样本矩阵</strong>$X$记为:</p>
+<h2 id="样本主成分分析-1"><a href="#样本主成分分析-1" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h2><p>对于真实观测样本，对随机变量$\mathbb x=(x_1,x_2,\cdots,x_m)^T$进行$n$次独立观测得到观测样本集$(\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n)$，其中每一个样本为$m$维，表示为$\mathbb x_j=(x_{1j},x_{2j},\cdots,x_{mj})^T$，那么<strong>$x_{ij}$表示第$j$个观测样本的第$i$个变量（特征维度）</strong>，那么观测数据的<strong>样本矩阵</strong>$X$记为:</p>
 <script type="math/tex; mode=display">
 X_{m×n}=[\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n]=
 \begin{bmatrix}
@@ -411,16 +411,13 @@ X_{m×n}=[\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n]=
 {x_{21}}&{x_{22}}&{\cdots}&{x_{2n}}\\
 {\vdots}&{\vdots}&{\ddots}&{\vdots}\\
 {x_{m1}}&{x_{m2}}&{\cdots}&{x_{mn}}\\
-\end{bmatrix}</script><p><strong>[某个维度$i$在样本集上的均值]</strong>为：$\hat x=\frac{1}{n}\sum_{j=1}^nx_{ij}$  （注意勿误解，具体来说就是一个属性值在样本集上的均值）</p>
-<p>那么<strong>[均值向量]</strong>（替代总体PCA的$\mu$）为：$\hat {\mathbb x}=\frac{1}{n}\sum_{j=1}^n\mathbb x_{j}$ </p>
-<p>对于样本PCA，要求在样本集$X_{m×n}$上的协方差矩阵，那么【】</p>
-<p>样本<strong>协方差矩阵</strong>$S$（替代总体PCA的$\Sigma$）和矩阵里每个元素为：</p>
+\end{bmatrix}</script><p>注意以下描述<strong>【中$x_{ij}$是第$i$维，第$j$个样本&lt;=ATT!】</strong></p>
+<p><strong>[某个维度$i$在样本集上的均值]</strong>为：$\hat x=\frac{1}{n}\sum_{j=1}^nx_{ij}$  （具体来说就是一个属性值在样本集上的均值）</p>
+<p>那么<strong>[均值向量]</strong>（<strong>替代总体PCA的$\mu$</strong>）为：$\hat {\mathbb x}=\frac{1}{n}\sum_{j=1}^n\mathbb x_{j}$ </p>
+<p>对于样本PCA，要求在样本集$X_{m×n}$上的协方差矩阵。对于前面总体PCA，相当于$X=[\mathbb x]$，有$cov(x,x)=\frac{1}{n-1}xx^T$</p>
+<p>样本<strong>协方差矩阵</strong>$S$（<strong>替代总体PCA的$\Sigma$</strong>）和矩阵里每个元素为：（推导略，见主成分分析（一）-矩阵计算-协方差矩阵；<strong>【$s_{ij}$表随机变量第$i$维与第$j$维的协方差在样本集上的期望】</strong>）</p>
 <script type="math/tex; mode=display">
-S=[s_{ij}]_{m×m},\quad s_{ij}=\frac{1}{n-1}\sum_{k=1}^n(x_{ik}-\hat x_i)(x_{jk}-\hat x_j),\quad i,j=1,2,\cdots,m</script><p>样本<strong>相关矩阵</strong>$R$（这是前面没用的新东西）为</p>
-<script type="math/tex; mode=display">
-R=[r_{ij}]_{m×m},\quad r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}s_{jj}}},\quad i,j=1,2,\cdots,m</script><p><strong>规范化后：</strong></p>
-<script type="math/tex; mode=display">
-R=\frac{1}{n-1}XX^T</script><p>定义第$j$个线性变换，$m$维向量$x=(x_1,x_2,\cdots,x_m)^T$到$y=(y_1,x_2,\cdots,y_m)^T$<strong>线性变换</strong>：</p>
+S=[s_{ij}]_{m×m},\quad s_{ij}=\frac{1}{n-1}\sum_{k=1}^n(x_{ik}-\hat x_i)(x_{jk}-\hat x_j),\quad i,j=1,2,\cdots,m</script><p>定义第$j$个线性变换，$m$维向量$x=(x_1,x_2,\cdots,x_m)^T$到$y=(y_1,x_2,\cdots,y_m)^T$<strong>线性变换</strong>：</p>
 <script type="math/tex; mode=display">
 \mathbb y_j=A^T \mathbb x_j</script><script type="math/tex; mode=display">
 A_{m×m}^T=[a_1,a_2,\cdots,a_m]^T=
@@ -429,12 +426,42 @@ A_{m×m}^T=[a_1,a_2,\cdots,a_m]^T=
 {a_{21}}&{a_{22}}&{\cdots}&{a_{2m}}\\
 {\vdots}&{\vdots}&{\ddots}&{\vdots}\\
 {a_{m1}}&{a_{m2}}&{\cdots}&{a_{mm}}\\
-\end{bmatrix}^T</script><h2 id="求样本PCA"><a href="#求样本PCA" class="headerlink" title="求样本PCA"></a>求样本PCA</h2><p>由上一节的性质——</p>
-<p>有了定理1及其推论：知道了[主成分（约束最优化问题最优解）]和[原向量的协方差矩阵的特征值与特征向量]的<strong>等价关系</strong></p>
+\end{bmatrix}^T</script><p>与总体PCA一样可以推得：</p>
+<p>$var(y_i)=a_i^TSa_i$，$cov(y_i,y_k)=a_i^TSa_k$</p>
+<p><strong>规范化</strong>：$x_{ij}^o=\frac{x_{ij}-\hat x_i}{\sqrt{s_{ii}}},\quad i=1,2,\cdots,m;j=1,2,\cdots,m$</p>
+<p>其中均值$\hat x_i=\frac{1}{n}\sum_{j=1}^nx_{ij},\quad i=1,2,\cdots,m$，方差$s_{ii}=\frac{1}{n-1}\sum_{j=1}^n(x_{ij}-\hat x_i)^2$，这个$s_{ii}$就是协方差矩阵$S$的对角线上的元素，显然自协方差=方差</p>
+<p><strong>样本相关矩阵</strong>$R$（这是前面没用的新东西）为</p>
+<script type="math/tex; mode=display">
+R=[r_{ij}]_{m×m},\quad r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}s_{jj}}},\quad i,j=1,2,\cdots,m</script><p><strong>规范化$x_{ij}$后，规范化协方差矩阵$S$就是其相关矩阵$R$：</strong> O</p>
+<script type="math/tex; mode=display">
+S^o=R=\frac{1}{n-1}XX^T</script><h2 id="求样本PCA"><a href="#求样本PCA" class="headerlink" title="求样本PCA"></a>求样本PCA</h2><p>由上一节的性质——</p>
+<p>有了定理1及其推论：知道了[主成分（约束最优化问题最优解）]和[原向量的协方差矩阵的特征值与特征向量]的<strong>等价关系</strong>。也就获得了PCA的充要条件：只要满足$A$为<strong>正交矩阵</strong>，$\mathbb y$的协方差矩阵为<strong>对角矩阵</strong>且</p>
+<script type="math/tex; mode=display">
+cov(\mathbb y,\mathbb y)=diag(var(y_1),var(y_2),\cdots,var(y_m))=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)=\Lambda,\quad \lambda_1≥\lambda_2≥\cdots≥\lambda_m</script><p>则$\mathbb x$的协方差矩阵$\Sigma$的对角矩阵的特征值构成主成分$\mathbb y$，协方差矩阵的特征向量构成基矩阵$A$</p>
 <p>有了定理2：知道了如果我们要降维，怎么选能使主成分整体方差和最大</p>
 <p>有了k取值：知道了选几个最好，能使得主成分整体方差和最大</p>
-<p>这是<strong>基于定义，一步一步论证来的</strong>，于是我们就可以写出求PCA的两种算法了</p>
-<h3 id="相关矩阵-R-的特征值分解算法"><a href="#相关矩阵-R-的特征值分解算法" class="headerlink" title="相关矩阵$R$的特征值分解算法"></a>相关矩阵$R$的特征值分解算法</h3><h3 id="数据矩阵-X-的奇异值分解算法"><a href="#数据矩阵-X-的奇异值分解算法" class="headerlink" title="数据矩阵$X$的奇异值分解算法"></a>数据矩阵$X$的奇异值分解算法</h3>
+<p>然后根据上面的式子我们拓展到了样本PCA</p>
+<p>注意理解：每个样本有各自的主成分，我们根据样本集得到了一个协方差矩阵，这个协方差矩阵的考虑了所有样本使方差最大化，然后各个【】</p>
+<p>于是我们就可以写出求PCA的两种算法了</p>
+<h3 id="相关矩阵-R-的特征值分解算法"><a href="#相关矩阵-R-的特征值分解算法" class="headerlink" title="相关矩阵$R$的特征值分解算法"></a>相关矩阵$R$的特征值分解算法</h3><p>通过数据的协方差矩阵或相关矩阵的特征值分解进行</p>
+<ol>
+<li><p>规范化</p>
+</li>
+<li><p>计算协方差矩阵（相关矩阵）</p>
+<p>$R=[r_{ij}]_{m×m}=\frac{1}{n-1}XX^T$</p>
+</li>
+<li><p>求其特征值和对应的单位特征向量</p>
+<p>解$R$的特征方程$|R-\lambda I|=0$</p>
+</li>
+<li><p>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前$k$行组成矩阵$A$</p>
+<p>$k$的选取由方差贡献率决定</p>
+</li>
+<li><p>$Y=A^TX$</p>
+<p>得到各样本向量的主成分</p>
+</li>
+</ol>
+<h3 id="数据矩阵-X-的奇异值分解算法"><a href="#数据矩阵-X-的奇异值分解算法" class="headerlink" title="数据矩阵$X$的奇异值分解算法"></a>数据矩阵$X$的奇异值分解算法</h3><p>奇异值分解为什么满足前面的充分必要条件</p>
+
       
     </div>
     
@@ -659,7 +686,7 @@ A_{m×m}^T=[a_1,a_2,\cdots,a_m]^T=
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#样本主成分分析"><span class="nav-number">1.</span> <span class="nav-text">样本主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#求样本PCA"><span class="nav-number">1.1.</span> <span class="nav-text">求样本PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关矩阵-R-的特征值分解算法"><span class="nav-number">1.1.1.</span> <span class="nav-text">相关矩阵$R$的特征值分解算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据矩阵-X-的奇异值分解算法"><span class="nav-number">1.1.2.</span> <span class="nav-text">数据矩阵$X$的奇异值分解算法</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#样本主成分分析"><span class="nav-number">1.</span> <span class="nav-text">样本主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体PCA和样本PCA的关系"><span class="nav-number">1.1.</span> <span class="nav-text">总体PCA和样本PCA的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本主成分分析-1"><span class="nav-number">1.2.</span> <span class="nav-text">样本主成分分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求样本PCA"><span class="nav-number">1.3.</span> <span class="nav-text">求样本PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关矩阵-R-的特征值分解算法"><span class="nav-number">1.3.1.</span> <span class="nav-text">相关矩阵$R$的特征值分解算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据矩阵-X-的奇异值分解算法"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据矩阵$X$的奇异值分解算法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

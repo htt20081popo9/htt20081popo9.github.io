@@ -580,10 +580,10 @@
       
         
           <p><em>施工中</em></p>
-<p><em>紧接上一篇：主成分分析（一）</em></p>
-<h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><p><strong>总体PCA和样本PCA的关系：</strong></p>
-<p>总体PCA是定义在样本总体上的，只考虑一个总体的向量$\mathbb x$，其均值$\mu$是总体样本上的均值，只是一种<strong>概念</strong>设定，不具有实际可操作性。</p>
-<p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。<strong>样本PCA和总体PCA性质完全相同，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
+<p><em>主要部分在上一篇：主成分分析（一）</em></p>
+<h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><h2 id="总体PCA和样本PCA的关系"><a href="#总体PCA和样本PCA的关系" class="headerlink" title="总体PCA和样本PCA的关系"></a>总体PCA和样本PCA的关系</h2><p>总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。</p>
+<p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。可以看出，对于给定样本观测集求出的均值就是一个对总体分布参数的一个估计。</p>
+<p><strong>样本PCA和总体PCA性质完全相同，上一节的东西完全适用，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/12/05/主成分分析（二）/#more" rel="contents">
