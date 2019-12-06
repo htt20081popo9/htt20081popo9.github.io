@@ -87,7 +87,7 @@
 <meta property="og:description" content="Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对原基下的数据进行正交基变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/11/27/主成分分析/0.png">
-<meta property="og:updated_time" content="2019-12-06T08:36:09.105Z">
+<meta property="og:updated_time" content="2019-12-06T14:09:38.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析（一）">
 <meta name="twitter:description" content="Principal Component Analysis， PCA PCA的核心思想是①先对数据规范化，均值为0，方差为1。②再对原基下的数据进行正交基变换，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示信息最大的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是新维度下的数据越分散越好。 这样的变换过程可以理解为转换观察数据的角度，揭示出数据内在的结构">
@@ -498,7 +498,7 @@ s_{ij}=\frac{1}{n-1}\sum_k^n x_{ij}x_{jk},\quad i,j=1,2,\cdots,m</script><p><str
 <p><strong>若对$\mathbb x$进行规范化</strong>（见后）使得$\mathbb E(\mathbb x)=0$$,var(\mathbb x)=1$，则</p>
 <script type="math/tex; mode=display">
 cov(\mathbb x,\mathbb x)=\mathbb x\mathbb x^T</script><p>这里只是求了一个向量$\mathbb x$的协方差矩阵；对于下面的样本PCA，要求在样本集$X_{m×n}$上的协方差矩阵（见样本PCA）</p>
-<p>为什么需要求$cov(\mathbb x,\mathbb x)$，因为后面③④在求$var(y_i)$和$cov(y_i,y_j)$的时候都导出了$cov(\mathbb x,\mathbb x)$表示的表达式，而且在定理一中得出了$\mathbb x$的协方差矩阵和主成分之间的一个重要关系</p>
+<p><strong>为什么需要求$cov(\mathbb x,\mathbb x)$，</strong>因为后面在求$var(y_i)$和$cov(y_i,y_j)$的时候都导出了$cov(\mathbb x,\mathbb x)$表示的表达式，而且在定理一中得出了$\mathbb x$的协方差矩阵和主成分之间的一个重要关系。（对角化的）协方差矩阵即包含了方差最大的优化目标，又包含了两两维度协方差为0 的目标</p>
 <p>a)对于$\mathbb x=(x_1,x_2,\cdots,x_m)^T$,为$m$维变量<strong>非正交</strong>，$cov(\mathbb x,\mathbb x)=\begin{bmatrix}{var(x_1)}&amp;{\cdots}&amp;{cov(x_1,x_m)}\\{\vdots}&amp;{\ddots}&amp;{\vdots}\\{cov(x_m,x_1)}&amp;{\cdots}&amp;{var(x_m)}\\    \end{bmatrix}$</p>
 <p><strong>b)</strong>对于$\mathbb y=(y_1,y_2,\cdots,y_m)^T$,为$m$维变量<strong>正交</strong>，$cov(\mathbb y,\mathbb y)=\begin{bmatrix}{var(y_1)}&amp;{0}&amp;{0}\\{0}&amp;{\ddots}&amp;{0}\\{0}&amp;{0}&amp;{var(y_m)}\\    \end{bmatrix}$</p>
 <p>因为对于正交的$y_i,y_j,有cov(y_i,y_j)=0$</p>
@@ -561,9 +561,9 @@ var(y_2)=var(\alpha_2^T\mathbb x)=\alpha_2^T\Sigma\alpha_2=\lambda_2</script><p>
 <script type="math/tex; mode=display">
 var(y_k)=var(\alpha_k^T\mathbb x)=\alpha_k^T\Sigma\alpha_k=\lambda_k</script><p>于是得到上面的定理</p>
 <hr>
-<h3 id="推论：主成分的充要条件"><a href="#推论：主成分的充要条件" class="headerlink" title="推论：主成分的充要条件"></a>推论：主成分的充要条件</h3><p><strong>推论：</strong>$m$维随机变量$\mathbb y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$\mathbb x$的第一主成分到第$m$主成分的充要条件是：（由定理一推导过程可得）</p>
+<h3 id="核心结论-推论：主成分的充要条件"><a href="#核心结论-推论：主成分的充要条件" class="headerlink" title="[核心结论]推论：主成分的充要条件"></a>[核心结论]推论：主成分的充要条件</h3><p><strong>推论：</strong>$m$维随机变量$\mathbb y=(y_1,y_2,\cdots,y_m)^T$的分量依次是$\mathbb x$的第一主成分到第$m$主成分的充要条件是：（由定理一推导过程可得）</p>
 <ol>
-<li><p>$\mathbb y=A^T\mathbb x$，$A$为<strong>正交矩阵</strong></p>
+<li><p><strong>条件一：</strong>$\mathbb y=A^T\mathbb x$，$A$为<strong>正交矩阵</strong></p>
 <script type="math/tex; mode=display">
 A=(\alpha_1,\alpha_2,\cdots,\alpha_m)=
 \begin{bmatrix}
@@ -572,17 +572,17 @@ A=(\alpha_1,\alpha_2,\cdots,\alpha_m)=
 {\vdots}&{\vdots}&{\ddots}&{\vdots}\\
 {\alpha_{m1}}&{\alpha_{m2}}&{\cdots}&{\alpha_{mn}}\\
 \end{bmatrix}</script></li>
-<li><p>$\mathbb y$的协方差矩阵$cov(\mathbb y,\mathbb y)=\frac{1}{n-1}\mathbb y \mathbb y^T$为<strong>对角矩阵</strong>：</p>
+<li><p><strong>条件二：</strong>$\mathbb y$的协方差矩阵$cov(\mathbb y,\mathbb y)=\frac{1}{n-1}\mathbb y \mathbb y^T$为<strong>对角矩阵</strong>：</p>
 <script type="math/tex; mode=display">
-cov(\mathbb y,\mathbb y)=diag(var(y_1),var(y_2),\cdots,var(y_m))=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)=\Lambda,\quad \lambda_1≥\lambda_2≥\cdots≥\lambda_m</script><p>（这里<strong>使用$\mathbb y$的协方差是为了方便表示一个由所有$y_i$的方差所表示的对角矩阵，见矩阵计算-协方差矩阵-b)</strong>）</p>
-<p>$\lambda_k$是$\mathbb x$的协方差矩阵$\Sigma$的第$k$个特征值，$\alpha_k$是对应的单位特征向量，$k=1,2,\cdots,m$</p>
-<hr>
-<p>据前面的定理一可以得到：（定理一的右半部分$\alpha_k^T\Sigma\alpha_k=\lambda_k$换成矩阵表示）</p>
+cov(\mathbb y,\mathbb y)=diag(var(y_1),var(y_2),\cdots,var(y_m))=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)=\Lambda,\quad \lambda_1≥\lambda_2≥\cdots≥\lambda_m</script><p>$\lambda_k$是$\mathbb x$的协方差矩阵$\Sigma$的第$k$个特征值，$\alpha_k$是对应的单位特征向量，$k=1,2,\cdots,m$</p>
+<p>（这里使用$\mathbb y$的协方差是为了方便表示一个由所有$y_i$的方差所表示的对角矩阵，见矩阵计算-协方差矩阵-b)）</p>
+<p><strong>这里据前面的定理一可以得到</strong>：（定理一的右半部分$\alpha_k^T\Sigma\alpha_k=\lambda_k$换成矩阵表示）</p>
 <script type="math/tex; mode=display">
-A^T\Sigma A=\Lambda\quad,\Sigma=A\Lambda A^T</script><p><strong>【核心总结】也就是说：在满足上面条件1,2的情况下：$\mathbb x$的协方差矩阵$\Sigma$的对角矩阵的特征值构成主成分$\mathbb y$，协方差矩阵的特征向量构成基矩阵$A$</strong></p>
+A^T\Sigma A=\Lambda\quad,\Sigma=A\Lambda A^T</script><hr>
+<p><strong>【核心总结】也就是说：通过协方差矩阵的【正交】【对角】分解（满足1,2条件）即可获得主成分（最优解）。具体关系是：$\mathbb x$的协方差矩阵$\Sigma$的对角矩阵的特征值构成主成分$\mathbb y$的方差，协方差矩阵的特征向量构成基矩阵$A$。</strong></p>
 </li>
 </ol>
-<p>根据这个推论（充要条件），可以得到PCA的两种求解方法，见后面</p>
+<p>根据这个推论（充要条件），<strong>问题就被转化为求矩阵正交对角化了。那数学上就可以用矩阵分解来解决</strong>，矩阵分解的办法就很多了。得到PCA的两种求解方法，见后面</p>
 <h3 id="由定理一和推论得到性质总结"><a href="#由定理一和推论得到性质总结" class="headerlink" title="由定理一和推论得到性质总结"></a>由定理一和推论得到性质总结</h3><ol>
 <li><p>总体主成分$\mathbb y$的协方差矩阵是对角矩阵</p>
 <script type="math/tex; mode=display">
@@ -619,12 +619,10 @@ cov(\mathbb y,\mathbb y)=\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_m)</scr
 <script type="math/tex; mode=display">
 v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac{\lambda_j\sigma_{ij}^2}{\sigma_{ii}}</script><p>其实就是计算$x_i$与所有新维度$y_1,y_2,\cdots,y_k$的相关系数之和，这就算出来$x_i$在变换后保留信息的比例</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
-<li><p>期望，方差，协方差运算可以看这里：<a href="http://www.360doc.com/content/13/1124/03/9482_331690142.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/13/1124/03/9482_331690142.shtml</a></p>
-</li>
-<li><p>协方差矩阵可以参考：<a href="https://blog.csdn.net/xueluowutong/article/details/85334256" target="_blank" rel="noopener">https://blog.csdn.net/xueluowutong/article/details/85334256</a></p>
-</li>
-<li><p>方差$\sigma$。。。</p>
-</li>
+<li>期望，方差，协方差运算可以看这里：<a href="http://www.360doc.com/content/13/1124/03/9482_331690142.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/13/1124/03/9482_331690142.shtml</a></li>
+<li>协方差矩阵可以参考：<a href="https://blog.csdn.net/xueluowutong/article/details/85334256" target="_blank" rel="noopener">https://blog.csdn.net/xueluowutong/article/details/85334256</a></li>
+<li>PCA通俗讲解：<a href="https://zhuanlan.zhihu.com/p/21580949" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21580949</a></li>
+<li>方差$\sigma$。。。</li>
 </ol>
 
       
@@ -762,7 +760,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">137</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -855,7 +853,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正交基变换"><span class="nav-number">1.</span> <span class="nav-text">正交基变换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">2.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算——协方差矩阵"><span class="nav-number">2.2.1.</span> <span class="nav-text">矩阵计算——协方差矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算——重要结论"><span class="nav-number">2.2.2.</span> <span class="nav-text">矩阵计算——重要结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规范化"><span class="nav-number">2.2.3.</span> <span class="nav-text">规范化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据定义推导主成分应满足的条件"><span class="nav-number">2.2.4.</span> <span class="nav-text">根据定义推导主成分应满足的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推论：主成分的充要条件"><span class="nav-number">2.2.5.</span> <span class="nav-text">推论：主成分的充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">2.2.6.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——选取-k＜m-个主成分下如何选择主成分是最优选择"><span class="nav-number">2.2.7.</span> <span class="nav-text">定理二：选择方法——选取$k＜m$个主成分下如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分——由累计方差贡献率决定"><span class="nav-number">2.2.8.</span> <span class="nav-text">$k$的取值：选择几个主成分——由累计方差贡献率决定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">2.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正交基变换"><span class="nav-number">1.</span> <span class="nav-text">正交基变换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总体主成分分析"><span class="nav-number">2.</span> <span class="nav-text">总体主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">2.2.</span> <span class="nav-text">性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算——协方差矩阵"><span class="nav-number">2.2.1.</span> <span class="nav-text">矩阵计算——协方差矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵计算——重要结论"><span class="nav-number">2.2.2.</span> <span class="nav-text">矩阵计算——重要结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规范化"><span class="nav-number">2.2.3.</span> <span class="nav-text">规范化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据定义推导主成分应满足的条件"><span class="nav-number">2.2.4.</span> <span class="nav-text">根据定义推导主成分应满足的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心结论-推论：主成分的充要条件"><span class="nav-number">2.2.5.</span> <span class="nav-text">[核心结论]推论：主成分的充要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由定理一和推论得到性质总结"><span class="nav-number">2.2.6.</span> <span class="nav-text">由定理一和推论得到性质总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定理二：选择方法——选取-k＜m-个主成分下如何选择主成分是最优选择"><span class="nav-number">2.2.7.</span> <span class="nav-text">定理二：选择方法——选取$k＜m$个主成分下如何选择主成分是最优选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-的取值：选择几个主成分——由累计方差贡献率决定"><span class="nav-number">2.2.8.</span> <span class="nav-text">$k$的取值：选择几个主成分——由累计方差贡献率决定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">2.3.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -87,7 +87,7 @@
 <meta property="og:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/11/25/矩阵计算/0.png">
-<meta property="og:updated_time" content="2019-12-05T03:45:28.453Z">
+<meta property="og:updated_time" content="2019-12-06T14:33:45.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="矩阵计算与矩阵分解">
 <meta name="twitter:description" content="矩阵范数和矩阵求导术以后完成 在线性代数和矩阵论都已经学过，这里只写一些常用的">
@@ -434,11 +434,12 @@
 <p>$S$称为$A$的特征向量矩阵，其每一列都由$A$的特征向量构成。（证略）</p>
 <p>（矩阵对角化不唯一）</p>
 <p><strong>另一种表示</strong>：通过左右乘可表示为$A=S\Lambda S^{-1}$</p>
-<p><strong>正交对角化：</strong>只要满足①$S$为<strong>正交矩阵</strong>且②$S^{-1}AS=Λ$，那么$S^{-1}AS=Λ$就叫$A$的<strong>正交</strong>对角化。此时$S^{-1}=S^T$，见性质-5。</p>
+<p><strong>正交对角化：</strong>只要满足①$S$为<strong>正交矩阵</strong>且②$S^{-1}AS=Λ$，那么$S^{-1}AS=Λ$就叫$A$的<strong>正交</strong>对角化。此时$S^{-1}=S^T$，见性质-5。（矩阵对角化的方式<strong>不止此一种</strong>，比如下面的SVD也是正交对角化一种方法）</p>
 <p>于是$S^{-1}AS=S^TAS=Λ$，或表示为$A=S\Lambda S^{-1}=S\Lambda S^T$。</p>
-<p><strong>求解正交对角化</strong>：</p>
+<p><strong>[矩阵的特征值分解]求解正交对角化</strong>：</p>
 <p>①一般就先用<strong>特征方程</strong>求得<strong>特征值</strong>$\lambda_1,\lambda_2,\cdots,\lambda_n$和对应<strong>特征向量</strong>$x_1,x_2,\cdots,x_n$，由特征值作为对角线元素得到$\Lambda$，即$\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_n)$。此时求得的特征向量还未正交标准化。</p>
 <p>②于是再对特征向量进行<strong>施密特正交化</strong>和<strong>单位化</strong>得到正交且标准的特征向量。$S$即由特征向量组成（特征向量的每一列即为$S$矩阵的每一列/每个向量），$S$中个每特征向量都正交。</p>
+<p>③$A=S\Lambda S^{-1}$，此即一种正交对角化，也叫$A$的特征值分解</p>
 <p><strong>可对角化条件</strong>：求得特征值和特征向量，$A$的每个特征值对应的齐次线性方程组的基础解系所含向量个数等于特征值的重数（注意每个重根虽然特征值相同，但是不同的特征值）；矩阵不一定能对角化，但对称矩阵一定能对角化。</p>
 <p>实对称矩阵A的属于不同特征值的特征向量一定是正交的。（<strong>所以对于实对称矩阵的不同特征值对应的特征向量就不用再求施密特正交化了，只需要单位化</strong>）</p>
 </li>
@@ -771,7 +772,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">137</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
