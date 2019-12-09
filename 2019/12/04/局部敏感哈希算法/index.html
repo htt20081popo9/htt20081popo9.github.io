@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-05T12:49:49.926Z">
+<meta property="og:updated_time" content="2019-12-09T03:52:51.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据相似度计算：局部敏感哈希算法">
 <meta name="twitter:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
@@ -395,7 +395,9 @@
 <script type="math/tex; mode=display">
 Jaccard(A,B)=\frac{|A∩B|}{|A∪B|}</script><p>杰卡德距离：在占比中所取的是两个集合中不同元素。</p>
 <script type="math/tex; mode=display">
-Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><p>局部敏感哈希算法，LSH</p>
+Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="mini-hash"><a href="#mini-hash" class="headerlink" title="mini-hash"></a>mini-hash</h1><p>hash就是让不同长度的文本转化为相同长度的一串字符串，即使只是差一位，生成的字符串也会天差地别</p>
+<p>然而我们要计算相似度就需要相似的文本生成相似的hash字符串，这就是mini-hash</p>
+<h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><p>局部敏感哈希算法，LSH</p>
 
       
     </div>
@@ -532,7 +534,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Local
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">138</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -554,7 +556,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Local
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -625,7 +627,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="Local
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">2.</span> <span class="nav-text">Locality Sensitive Hashing</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mini-hash"><span class="nav-number">2.</span> <span class="nav-text">mini-hash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">3.</span> <span class="nav-text">Locality Sensitive Hashing</span></a></li></ol></div>
             
 
           </div>

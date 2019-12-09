@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="主要部分在上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\math">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-06T15:28:39.652Z">
+<meta property="og:updated_time" content="2019-12-09T05:57:50.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="主成分分析（二）">
 <meta name="twitter:description" content="主要部分在上一篇：主成分分析（一） 样本主成分分析总体PCA和样本PCA的关系总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。 实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\math">
@@ -458,12 +458,14 @@ S^o=R=\frac{1}{n-1}XX^T</script><h2 id="求样本PCA"><a href="#求样本PCA" cl
 </li>
 </ol>
 <h3 id="数据矩阵-X-的-奇异值分解-算法"><a href="#数据矩阵-X-的-奇异值分解-算法" class="headerlink" title="数据矩阵$X$的[奇异值分解]算法"></a>数据矩阵$X$的[奇异值分解]算法</h3><p>奇异值分解$A=U\Sigma V^T$，且①对角矩阵$\Sigma$②正交矩阵$U,V$</p>
-<p>那么就满足是主成分的充分必要条件，<strong>于是$X$的求主成分等于求数据矩阵$X$的奇异值分解</strong>【】【】</p>
+<p>那么就满足是主成分的充分必要条件，<strong>于是$X$的求主成分可以用数据矩阵$X$的奇异值分解来求</strong></p>
 <p>于是我们<strong>运用奇异值分解算法</strong>（见前文<a href="https://aisakaki.com/2019/11/25/%E7%9F%A9%E9%98%B5%E8%AE%A1%E7%AE%97/">矩阵计算与矩阵分解</a>）</p>
-<p>注意由于奇异值分解算法求解过程中有$W=X^TX$的特征值分解，和我们的协方差矩阵$S=XX^T$是反过来的，于是要构造一下形式</p>
+<p><strong>注意</strong>由于奇异值分解算法求解过程中是求$W=X^TX$的特征值和单位特征向量（不直接求），和我们的协方差矩阵$S=\frac{1}{n-1}XX^T$是<strong>反过来的，且少了一个系数，于是要构造一下形式</strong>：</p>
+<p>令$X’=\frac{1}{\sqrt{n-1}}X^T$</p>
+<p>因为这样一来，$X’^TX’=(\frac{1}{\sqrt{n-1}}X^T)^T(\frac{1}{\sqrt{n-1}}X^T)=\frac{1}{n-1}XX^T$，<strong>也就是说$X’^TX’$等于$X$的协方差矩阵；而$X’^TX’$是求$X’$的奇异值分解的第一步。而我们要求PCA是要对协方差矩阵求特征值和特征向量，【那么问题归结于对$X’$做SVD】</strong></p>
 <ol>
 <li><p>构造新的$n×m$矩阵</p>
-<p>$X’=\frac{1}{\sqrt{n-1}}X^T$</p>
+<p>$X’=\frac{1}{\sqrt{n-1}}X^T$    </p>
 <p>$X’$每一列的均值为0</p>
 <p>那么$S_X=X’^TX’$为$X$的协方差矩阵</p>
 </li>
@@ -612,7 +614,7 @@ S^o=R=\frac{1}{n-1}XX^T</script><h2 id="求样本PCA"><a href="#求样本PCA" cl
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">138</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -634,7 +636,7 @@ S^o=R=\frac{1}{n-1}XX^T</script><h2 id="求样本PCA"><a href="#求样本PCA" cl
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
