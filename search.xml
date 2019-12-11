@@ -3,7 +3,8 @@
   <entry>
     <title>概率潜在语义分析</title>
     <url>/2019/12/11/%E6%A6%82%E7%8E%87%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p>probabilistic latent semantic analysis ,PLSA</p>
+    <content><![CDATA[<p><em>施工中</em></p>
+<p>probabilistic latent semantic analysis ,PLSA</p>
 <p>概率潜在语义分析是一种<strong>基于概率生成模型的对文本集合进行话题分析</strong>的无监督学习方法</p>
 <p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题</p>
 <a id="more"></a>    
