@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 latent semantic analysis ,LSA 潜在语义分析是一种构建话题向量空间的方法。">
+<meta name="description" content="latent semantic analysis ,LSA 潜在语义分析是一种基于矩阵分解的构建话题向量空间的方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="潜在语义分析">
 <meta property="og:url" content="https://aisakaki.com/2019/12/10/潜在语义分析/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 latent semantic analysis ,LSA 潜在语义分析是一种构建话题向量空间的方法。">
+<meta property="og:description" content="latent semantic analysis ,LSA 潜在语义分析是一种基于矩阵分解的构建话题向量空间的方法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-11T00:30:08.023Z">
+<meta property="og:updated_time" content="2019-12-11T02:09:49.144Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在语义分析">
-<meta name="twitter:description" content="施工中 latent semantic analysis ,LSA 潜在语义分析是一种构建话题向量空间的方法。">
+<meta name="twitter:description" content="latent semantic analysis ,LSA 潜在语义分析是一种基于矩阵分解的构建话题向量空间的方法">
 
 
 
@@ -397,9 +397,8 @@
       
 
       
-        <p><em>施工中</em></p>
-<p>latent semantic analysis ,LSA</p>
-<p>潜在语义分析是一种构建话题向量空间的方法。</p>
+        <p>latent semantic analysis ,LSA</p>
+<p>潜在语义分析是一种<strong>基于矩阵分解的构建话题向量空间</strong>的方法</p>
 <a id="more"></a>    
 <h1 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h1><p>$D$是文本集，$d$是一个文本，$W$是单词集，$w$是一个单词，$D=\{d_1,d_2,\cdots,d_n\},W=\{w_1,w_2，\cdots，w_m\}$</p>
 <p>$w$，word，单词；$d$，document，文本；$t$，topic，话题</p>
@@ -436,7 +435,7 @@
 <h2 id="话题向量空间"><a href="#话题向量空间" class="headerlink" title="话题向量空间"></a>话题向量空间</h2><ol>
 <li><p>话题向量空间</p>
 <p>topic vector space</p>
-<p><strong>一个文本$d$由若干话题$t$表示，一个话题由若干与该话题语义相关的单词$w$表示</strong>，具体表示即<strong>单词话题矩阵</strong></p>
+<p><strong>一个向量表示一个话题$t$，每一个维度对应一个单词$w$</strong>；具体表示即<strong>单词话题矩阵</strong></p>
 <p>于是<strong>多义词可以表示不同的话题</strong>，文本由话题表示，那么就解决了一词多义问题和多词一义问题</p>
 <p>如果两个文本话题相似，那么文本的语义也应该相似</p>
 </li>
@@ -451,9 +450,44 @@ t_{21}&t_{22}&\cdots&t_{2k}&\\
 t_{m1}&t_{m2}&\cdots&t_{mk}\\
 \end{bmatrix}_{m×k}</script><p><strong>[行代表一个单词，列代表一个话题]</strong>，该矩阵并<strong>没有直接表示文本</strong></p>
 <p>$t_{il}$：单词$w_i$在话题$t_l$的权值</p>
-<p>$T$的一个列向量代表一个话题，$T$也可以写作$T=\{t_1,t_2,\cdots,t_k\}$</p>
+<p>$T$的一个列向量代表一个话题$t$，一共有$k$个话题，$T$也可以写作$T=[t_1,t_2,\cdots,t_k]$</p>
+</li>
+<li><p>话题文本矩阵(topic-document matrix)</p>
+<script type="math/tex; mode=display">
+Y=\begin{bmatrix} 
+y_{11}&y_{12}&\cdots&y_{1n}&\\ 
+y_{21}&y_{22}&\cdots&y_{2n}&\\
+\vdots&\vdots&\ddots&\vdots\\
+y_{k1}&y_{k2}&\cdots&y_{kn}\\
+\end{bmatrix}_{k×n}</script><p><strong>[行代表一个话题，列代表一个文本]</strong></p>
+<p>$y_{lj}$：文本$d_j$在话题$t_l$的权值</p>
+<p>$Y$的一个列向量$y_j$代表一个文本$y$，一共有$n$个文本，$Y$也可以写作$Y=[y_1,y_2,\cdots,y_n]$</p>
 </li>
 </ol>
+<h2 id="潜在语义分析：从单词向量空间到话题向量空间的线性变换"><a href="#潜在语义分析：从单词向量空间到话题向量空间的线性变换" class="headerlink" title="潜在语义分析：从单词向量空间到话题向量空间的线性变换"></a>潜在语义分析：从单词向量空间到话题向量空间的线性变换</h2><p>于是可以看出，我们通过<strong>[话题向量空间：单词-话题-文本]</strong>的表示方法来近似表示<strong>[单词向量空间：单词-文本]</strong> 直接表示方法：</p>
+<script type="math/tex; mode=display">
+X中的一个文本向量：x_j≈y_{1j}t_1+y_{2j}t_2+\cdots+y_{kj}t_k=Ty_j,\quad j=1,2,\cdots,n</script><script type="math/tex; mode=display">
+X≈TY</script><p><strong>将[单词-文本矩阵]表示为[单词-话题矩阵]×[话题-文本矩阵]，此即潜在语义分析</strong></p>
+<p><strong>具体操作就是对$X$进行矩阵分解</strong></p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="基于矩阵的奇异值分解算法"><a href="#基于矩阵的奇异值分解算法" class="headerlink" title="基于矩阵的奇异值分解算法"></a>基于矩阵的奇异值分解算法</h2><p>SVD详见<a href="https://aisakaki.com/2019/11/25/%E7%9F%A9%E9%98%B5%E8%AE%A1%E7%AE%97/">矩阵计算与矩阵分解</a>-奇异值分解</p>
+<p>将单词文本矩阵$X$进行截断奇异值分解，得到$X≈U_k\Sigma_kV_k^T=U_k(\Sigma_kV_k^T)$</p>
+<p>比照话题向量空间形式：$X=TY$</p>
+<p>那么可以看作，单词话题矩阵为：$T=U_k$，话题文本矩阵为：$Y=\Sigma_kV_k^T$</p>
+<p>LSA完毕</p>
+<h2 id="基于非负矩阵分解算法"><a href="#基于非负矩阵分解算法" class="headerlink" title="基于非负矩阵分解算法"></a>基于非负矩阵分解算法</h2><p>non-negative matrix factorization，NMF</p>
+<p>将矩阵分解问题$X=WH$（$X$称为基矩阵，$H$称为系数矩阵）转化为</p>
+<script type="math/tex; mode=display">
+\min_{W,H}||X-WH||^2</script><script type="math/tex; mode=display">
+s.t.\quad W,H≥0</script><p>或</p>
+<script type="math/tex; mode=display">
+\min_{W,H}D(X||WH)</script><script type="math/tex; mode=display">
+s.t.\quad W,H≥0</script><p>对其求解会遇到两个问题：①多变量$W,H$，那么目标函数只是对其中一个变量的凸函数，只能找到局部最优 ②如果使用梯度下降，收敛速度缓慢</p>
+<p>提出了新的解决办法——<strong>乘法更新规则：基于梯度下降算法，[交替]更新$W,H$</strong> （证略）</p>
+<p>对于上面的目标函数，定义用于梯度下降的目标损失函数：</p>
+<script type="math/tex; mode=display">
+J(W,H)=\frac{1}{2}||X-WH||^2=\frac{1}{2}\sum[X_{ij}-(WH)_{ij}]^2</script><p>然后对$X,H$分别求偏导计算梯度，选择步长，归一化（见下），交替更新梯度</p>
+<p>每一次更新迭代对$W$的列向量归一化，使基向量为单位向量</p>
+<p>具体算法略</p>
 
       
     </div>
@@ -505,6 +539,10 @@ t_{m1}&t_{m2}&\cdots&t_{mk}\\
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/11/概率潜在语义分析/" rel="prev" title="概率潜在语义分析">
+                概率潜在语义分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -586,7 +624,7 @@ t_{m1}&t_{m2}&\cdots&t_{mk}\\
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">140</span>
+                  <span class="site-state-item-count">141</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -679,7 +717,7 @@ t_{m1}&t_{m2}&\cdots&t_{mk}\\
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basic"><span class="nav-number">1.</span> <span class="nav-text">Basic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单词向量空间"><span class="nav-number">1.1.</span> <span class="nav-text">单词向量空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#话题向量空间"><span class="nav-number">1.2.</span> <span class="nav-text">话题向量空间</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Basic"><span class="nav-number">1.</span> <span class="nav-text">Basic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单词向量空间"><span class="nav-number">1.1.</span> <span class="nav-text">单词向量空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#话题向量空间"><span class="nav-number">1.2.</span> <span class="nav-text">话题向量空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#潜在语义分析：从单词向量空间到话题向量空间的线性变换"><span class="nav-number">1.3.</span> <span class="nav-text">潜在语义分析：从单词向量空间到话题向量空间的线性变换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于矩阵的奇异值分解算法"><span class="nav-number">2.1.</span> <span class="nav-text">基于矩阵的奇异值分解算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于非负矩阵分解算法"><span class="nav-number">2.2.</span> <span class="nav-text">基于非负矩阵分解算法</span></a></li></ol></li></ol></div>
             
 
           </div>
