@@ -8,7 +8,24 @@
 <p>概率潜在语义分析是一种<strong>基于概率生成模型的对文本集合进行话题分析</strong>的无监督学习方法</p>
 <p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题</p>
 <a id="more"></a>    
-<h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2>]]></content>
+<h2 id="PLSA模型"><a href="#PLSA模型" class="headerlink" title="PLSA模型"></a>PLSA模型</h2><p>文本集合$D$，单词集合$W$，话题集合$Z$</p>
+<p>$d∈D$表示文档，$w∈W$表示词语，$z∈Z$表示隐含的主题。</p>
+<p><strong>$z$就是隐变量</strong></p>
+<p>于是<strong>文本-单词共现数据$T$的生成概率</strong>为所有单词-文本对$(w,d)$的生成概率的乘积：【】</p>
+<script type="math/tex; mode=display">
+P(T)=\prod_{(w,d)}P(w,d)^{n(w,d)}</script><p>其中$n(w,d)$表示$(w,d)$同时出现的次数（<strong>注意理解此式的写法</strong>）</p>
+<p><strong>对于$P(w,d)$，可以描述为生成模型或共现模型</strong>：</p>
+<h3 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h3><p>解释为<strong>文本概率分布由话题概率分布生成，话题概率分布由单词概率分布生成</strong>，刻画了<strong>文本-单词共现数据的生成过程</strong>：$d\to z\to w$</p>
+<p>在这种模型下，记$P(d)$表示生成文本$d$的概率，$P(z|d)$表示文本$d$生成话题$z$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
+<p>$P(w,d)=P(d)P(w|d)$</p>
+<p>$=P(d)\sum_zP(w,z|d)$</p>
+<p>$=P(d)\sum_zP(z|d)P(w|z)$</p>
+<p>（假定条件独立：$P(w,z|d)=P(w|z)P(z|d)$）</p>
+<h2 id="共现模型"><a href="#共现模型" class="headerlink" title="共现模型"></a>共现模型</h2><p>解释为首<strong>先有话题的概率分布，然后在话题分布的条件下有文本的概率分布和单词的概率分布</strong>，刻画了文本-单词<strong>共现数据拥有的模式</strong>：$z\to d;z\to w$</p>
+<p>在这种模型下，记$P(z)$表示话题$z$的概率，$P(d|z)$表示话题$z$下生成文本$d$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
+<p>$P(w,d)=\sum_{z∈Z}P(z)P(w|z)P(d|z)$</p>
+<p>(假定条件独立：$P(w,d|z)=P(w|z)P(d|z)$)</p>
+]]></content>
       <categories>
         <category>人工智能</category>
         <category>机器学习与统计学习</category>
@@ -18,7 +35,7 @@
     <title>潜在语义分析</title>
     <url>/2019/12/10/%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p>latent semantic analysis ,LSA</p>
-<p>潜在语义分析是一种<strong>基于矩阵分解的构建话题向量空间</strong>的方法</p>
+<p>潜在语义分析是一种<strong>基于矩阵分解的构建话题向量空间</strong>的方法，话题就是潜在的语义</p>
 <a id="more"></a>    
 <h1 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h1><p>$D$是文本集，$d$是一个文本，$W$是单词集，$w$是一个单词，$D=\{d_1,d_2,\cdots,d_n\},W=\{w_1,w_2，\cdots，w_m\}$</p>
 <p>$w$，word，单词；$d$，document，文本；$t$，topic，话题</p>
