@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题">
+<meta name="description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="概率潜在语义分析">
 <meta property="og:url" content="https://aisakaki.com/2019/12/11/概率潜在语义分析/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题">
+<meta property="og:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T01:26:36.513Z">
+<meta property="og:updated_time" content="2019-12-12T03:16:07.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率潜在语义分析">
-<meta name="twitter:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题">
+<meta name="twitter:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 
 
 
@@ -399,7 +399,7 @@
       
         <p>probabilistic latent semantic analysis ,PLSA</p>
 <p>概率潜在语义分析是一种<strong>基于概率生成模型的对文本集合进行话题分析</strong>的无监督学习方法</p>
-<p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来解决问题</p>
+<p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的</p>
 <a id="more"></a>    
 <h2 id="PLSA模型"><a href="#PLSA模型" class="headerlink" title="PLSA模型"></a>PLSA模型</h2><p>文本集合$D$，单词集合$W$，话题集合$Z$</p>
 <p>$d∈D$表示文档，$w∈W$表示词语，$z∈Z$表示隐含的主题。</p>
@@ -435,8 +435,11 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
 <script type="math/tex; mode=display">
 L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\log [\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)]</script><p>（这里代入后由于$P(d_j)$可以直接求出来为常数，所以省略掉了）</p>
 <p>由于概率模型中含有隐变量（话题：$z$），我们无法直接求解MLE，所以必须使用EM算法，将$L(\theta)$带入公式计算</p>
+<p>注意关系：$w\to z\to d$</p>
 <p>E步：计算$Q$函数</p>
-<p>M步：极大化$Q$函数（使用拉格朗日法引入乘子，并分离变量为子式，对不同子式变量求0导，运用同时求和技巧。变量即为$P(w_i|z_k),P(z_k|d_j)$）</p>
+<p>注意后验概率用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$</p>
+<p>即$P(z_k|w_i,d_j)=\frac{P(z_k,w_i,d_j)}{P(w_i,d_j)}=\frac{P(w_i|z_k)P(z_k|d_j)}{\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)}$</p>
+<p>M步：极大化$Q$函数（使用拉格朗日法引入乘子，并分离变量为子式，运用同时求和回代消乘子技巧，再对不同子式变量求0导。变量即为$P(w_i|z_k),P(z_k|d_j)$）</p>
 <p>具体推导略</p>
 
       
