@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T03:16:07.678Z">
+<meta property="og:updated_time" content="2019-12-12T03:21:39.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率潜在语义分析">
 <meta name="twitter:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
@@ -437,8 +437,8 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
 <p>由于概率模型中含有隐变量（话题：$z$），我们无法直接求解MLE，所以必须使用EM算法，将$L(\theta)$带入公式计算</p>
 <p>注意关系：$w\to z\to d$</p>
 <p>E步：计算$Q$函数</p>
-<p>注意后验概率用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$</p>
-<p>即$P(z_k|w_i,d_j)=\frac{P(z_k,w_i,d_j)}{P(w_i,d_j)}=\frac{P(w_i|z_k)P(z_k|d_j)}{\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)}$</p>
+<p>注意后验概率用贝叶斯公式将其转变为先验概率（待求导变量）：</p>
+<p>$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，则$P(z_k|w_i,d_j)=\frac{P(z_k,w_i,d_j)}{P(w_i,d_j)}=\frac{P(w_i|z_k)P(z_k|d_j)}{\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)}$</p>
 <p>M步：极大化$Q$函数（使用拉格朗日法引入乘子，并分离变量为子式，运用同时求和回代消乘子技巧，再对不同子式变量求0导。变量即为$P(w_i|z_k),P(z_k|d_j)$）</p>
 <p>具体推导略</p>
 
