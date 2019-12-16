@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-10T10:59:26.065Z">
+<meta property="og:updated_time" content="2019-12-16T09:22:56.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据相似度计算：局部敏感哈希算法">
 <meta name="twitter:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
@@ -415,6 +415,17 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="回�
 <p><strong>参数：Hash函数，分段数，每个分段的大小；</strong></p>
 <p>总结下来就是：Min-Hash降维，LSH减少查找范围。</p>
 <p>【这样做更快的原因：】</p>
+<p>【】</p>
+<h1 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h1><ol>
+<li><p><code>sklearn.neighbors</code>中实现了LSHForest(局部敏感随机投影森林)【】</p>
+</li>
+<li><p>也可以直接用lshash包：</p>
+<p>对于py2，使用 <code>lshash</code>包；对于py3，使用<code>lshash3</code>包</p>
+<p>但注意py3是默认没有<code>future</code>库的，需要自己安装</p>
+<p>其官方文档:<a href="https://pypi.org/project/lshash3/" target="_blank" rel="noopener">https://pypi.org/project/lshash3/</a></p>
+<p><strong>用汉明距离代替杰卡德距离计算</strong></p>
+</li>
+</ol>
 
       
     </div>
@@ -644,7 +655,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="回�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾hash分桶"><span class="nav-number">2.</span> <span class="nav-text">回顾hash分桶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#min-hash"><span class="nav-number">3.</span> <span class="nav-text">min-hash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">4.</span> <span class="nav-text">Locality Sensitive Hashing</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾hash分桶"><span class="nav-number">2.</span> <span class="nav-text">回顾hash分桶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#min-hash"><span class="nav-number">3.</span> <span class="nav-text">min-hash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">4.</span> <span class="nav-text">Locality Sensitive Hashing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tools"><span class="nav-number">5.</span> <span class="nav-text">Tools</span></a></li></ol></div>
             
 
           </div>

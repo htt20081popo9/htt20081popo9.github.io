@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T03:21:39.708Z">
+<meta property="og:updated_time" content="2019-12-16T08:06:15.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率潜在语义分析">
 <meta name="twitter:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
@@ -408,13 +408,13 @@
 <script type="math/tex; mode=display">
 P(T)=\prod_{(w,d)}P(w,d)^{n(w,d)}</script><p>其中$n(w,d)$表示$(w,d)$同时出现的次数（注意理解此式的写法，这个乘积，所谓的共现数据$T$的生成概率，<strong>实际意义上就是一篇文章</strong>）</p>
 <p><strong>对于$P(w,d)$，可以描述为生成模型或共现模型</strong>：</p>
-<h3 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h3><p>解释为<strong>文本概率分布由话题概率分布生成，话题概率分布由单词概率分布生成</strong>，刻画了<strong>文本-单词共现数据的生成过程</strong>：$d\to z\to w$</p>
+<h3 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h3><p>解释为首<strong>【先有文本的概率分布$P(d)$】，每个文本有自己的话题概率分布，每个话题有自己的单词概率分布</strong>，也就是说<strong>一个文本的内容由其相关话题决定，一个话题的内容由其相关单词决定</strong>，刻画了<strong>文本-单词共现数据的生成过程</strong>：【$d\to z\to w$】</p>
 <p>在这种模型下，记$P(d)$表示生成文本$d$的概率，$P(z|d)$表示文本$d$生成话题$z$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
 <p>$P(w,d)=P(w|d)P(d)$</p>
 <p>$=P(d)\sum_zP(w,z|d)$  (逆边缘化$z$)</p>
 <p>$=P(d)\sum_zP(w|z)P(z|d)$</p>
 <p>（假定条件独立：$P(w,z|d)=P(w|z)P(z|d)$）</p>
-<h3 id="共现模型"><a href="#共现模型" class="headerlink" title="共现模型"></a>共现模型</h3><p>解释为首<strong>先有话题的概率分布，然后在话题分布的条件下有文本的概率分布和单词的概率分布</strong>，刻画了文本-单词<strong>共现数据拥有的模式</strong>：$z\to d;z\to w$</p>
+<h3 id="共现模型"><a href="#共现模型" class="headerlink" title="共现模型"></a>共现模型</h3><p>解释为首<strong>【先有话题的概率分布$P(z)$】，然后在话题分布的条件下有文本的概率分布和单词的概率分布，文本和单词同时出现</strong>，刻画了文本-单词<strong>共现数据拥有的模式</strong>：【$z\to d;z\to w;d,w$共现】</p>
 <p>在这种模型下，记$P(z)$表示话题$z$的概率，$P(d|z)$表示话题$z$下生成文本$d$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
 <p>$P(w,d)=\sum_{z∈Z}P(z)P(w|z)P(d|z)$</p>
 <p>(假定条件独立：$P(w,d|z)=P(w|z)P(d|z)$)</p>
@@ -435,7 +435,7 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
 <script type="math/tex; mode=display">
 L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\log [\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)]</script><p>（这里代入后由于$P(d_j)$可以直接求出来为常数，所以省略掉了）</p>
 <p>由于概率模型中含有隐变量（话题：$z$），我们无法直接求解MLE，所以必须使用EM算法，将$L(\theta)$带入公式计算</p>
-<p>注意关系：$w\to z\to d$</p>
+<p>注意生成模型中的关系：$d\to z\to w$ （别和共现模型的搞反啦）</p>
 <p>E步：计算$Q$函数</p>
 <p>注意后验概率用贝叶斯公式将其转变为先验概率（待求导变量）：</p>
 <p>$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，则$P(z_k|w_i,d_j)=\frac{P(z_k,w_i,d_j)}{P(w_i,d_j)}=\frac{P(w_i|z_k)P(z_k|d_j)}{\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)}$</p>

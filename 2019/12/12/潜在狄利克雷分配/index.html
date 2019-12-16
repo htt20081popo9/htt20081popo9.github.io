@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Latent Dirichlet Allocation，LDA">
+<meta name="description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="潜在狄利克雷分配">
 <meta property="og:url" content="https://aisakaki.com/2019/12/12/潜在狄利克雷分配/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA">
+<meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T01:32:41.144Z">
+<meta property="og:updated_time" content="2019-12-16T13:27:46.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在狄利克雷分配">
-<meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA">
+<meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
 
 
 
@@ -399,7 +399,95 @@
       
         <p><em>施工中</em></p>
 <p>Latent Dirichlet Allocation，LDA</p>
+<p>LDA是PLSA生成模型的扩展，是文本集合的生成概率模型</p>
 <a id="more"></a>    
+<h1 id="Latent-Dirichlet-Allocation"><a href="#Latent-Dirichlet-Allocation" class="headerlink" title="Latent Dirichlet Allocation"></a>Latent Dirichlet Allocation</h1><h2 id="PLSA的缺陷与LDA的改进"><a href="#PLSA的缺陷与LDA的改进" class="headerlink" title="PLSA的缺陷与LDA的改进"></a>PLSA的缺陷与LDA的改进</h2><p><strong>LDA与PLSA生成模型都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布，即$d\to z \to w$</strong></p>
+<p>然而PLSA存在的缺陷：<strong>PLSA不使用先验分布</strong>，或者说假设先验分布为均匀分布。具体地，回忆PLSA生成模型公式：$P(w,d)=P(d)\sum_zP(w|z)P(z|d)$，这里面的两个概率分布$P(w|z)$和$P(z|d)$是没有先验分布的，或者说假设先验分布为均匀分布。</p>
+<p>①（改进）<strong>LDA则使用了狄利克雷分布作为先验分布，也就是概率分布的参数的分布是狄利克雷分布</strong></p>
+<p>即$P(w|z)$和$P(z|d)$两个分布的参数，满足两个各自的狄利克雷分布，由该分布给出</p>
+<p><strong>这样可以防止学习过程中产生的过拟合</strong></p>
+<p>②（不同）在文本生成过程中，PLSA基于MLE，而<strong>LDA是基于贝叶斯学习</strong></p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数引入先验分布，以防止学习中产生过拟合【】</p>
+<p>但是这样很难计算（根据贝叶斯原则，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$要考虑$P(\theta_2|\theta_1)$，无时无刻都在变化【】）</p>
+<p>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率【三者】</p>
+<h2 id="共轭分布"><a href="#共轭分布" class="headerlink" title="共轭分布"></a>共轭分布</h2><ol>
+<li><p>共轭分布不是一个具体的分布，而是<strong>定义概念</strong>：如果后验分布与先验分布属于同一种分布（形式相同），则先验分布与后验分布称为共轭分布，先验分布即为共轭先验</p>
+</li>
+<li><p><strong>为什么要有共轭分布？</strong>因为我们希望这个先验分布和数据似然得到的后验分布能够在后面还可以作为先验分布，也就是说我们希望先验分布和这个后验分布的形式是一样的。</p>
+</li>
+<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果分布$P(w|z)$和$P(z|d)$（<strong>即后验分布</strong>）与它们参数的分布（<strong>即先验分布</strong>）形式相同（也就是先验分布和后验分布为共轭分布），<strong>那么我们就【便于从先验分布计算后验分布】</strong></p>
+</li>
+<li><p>下面的就有几个重要分布和对应共轭分布：</p>
+<p>高斯分布是高斯分布的共轭先验，<strong>Beta分布是二项分布的共轭先验，狄利克雷分布是多项分布的共轭先验。结合3，因此，我们才在LDA中使用狄利克雷函数作为先验分布</strong>：</p>
+<script type="math/tex; mode=display">
+X∽Mult(n,\theta)，设先验：p(\theta|\alpha)=Dir(\theta|\alpha)，则后验：p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>（推导：见后记-5）</strong></p>
+</li>
+</ol>
+<h2 id="几个重要分布"><a href="#几个重要分布" class="headerlink" title="几个重要分布"></a>几个重要分布</h2><ol>
+<li><p><strong>二项分布</strong>：$X∽B(n,p)$</p>
+<script type="math/tex; mode=display">
+P(X=m)=B(m|n,p)=C_n^mp^m(1-p)^{n-m}</script><p>$m$为事件出现的次数，$n$为随机独立事件的试验总次数，事件只有两种可能状态，$p$为事件出现的概率，$1-p$为事件不发生的概率。二项分布即随机独立试验$n$次，事件发生$m$次的概率，<strong>参数为$n,p$</strong></p>
+</li>
+<li><p><strong>Beta分布</strong>：$X∽Be(s,t)$</p>
+<p>$X$为连续随机变量，取值为$[0,1]$，其概率密度函数为</p>
+<script type="math/tex; mode=display">
+p(x)=
+\begin{cases}
+
+\frac{1}{B(s,t)}x^{s-1}(1-x)^{t-1},0≤x≤1\\ 
+
+0,otherwise 
+
+\end{cases}</script><p>其中【<strong>$s＞0,t＞0$是参数</strong>】，$B(s,t)$是<strong>beta函数，见后记2</strong></p>
+</li>
+<li><p><strong>多项分布</strong>：$X∽Mult(n,p)$</p>
+<p>若多元离散随机变量$X=(X_1,X_2,\cdots,X_k)$的概率质量函数为</p>
+<script type="math/tex; mode=display">
+P(X_1=n_1,X_2=n_2,\cdots,X_k=n_k)=\frac{n!}{n_1!n_2!\cdots n_k!}p_1^{n_1}p_2^{n_2}\cdots p_k^{n_k}=\frac{n!}{\prod_{i=1}^kn_i!}\prod_{i=1}^k p_i^{n_i}</script><p>其中$p=(p_1,p_2,\cdots,p_k),p_i≥0,i=1,2,\cdots,k,\sum_{i=1}^kp_i=1,\sum_{i=1}^kn_i=n$，则称随机变量$X$服从<strong>参数为$(n,p)$</strong>的多项分布</p>
+<p>举例：抛$n$次筛子，第1面朝上出现了$n_1$次，第二面朝上出现了$n_2$次，$\cdots$，第$k$面朝上出现了$n_k$次的概率即为一个多项分布</p>
+</li>
+<li><p><strong>狄利克雷分布：$\theta∽Dir(\alpha)$</strong></p>
+<p>若多元连续随机变量$\theta=(\theta_1,\theta_2,\cdots,\theta_k)$的概率密度函数为：</p>
+<script type="math/tex; mode=display">
+p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alpha_i)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>其中$\sum_{i=1}^k\theta_i=1,\theta_i≥0,\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k),\alpha_i＞0,i=1,2,\cdots,k$，则称随机变量$\theta$服从【<strong>参数为$\alpha$</strong>】的狄利克雷分布</p>
+<p>（$\Gamma(x)$是<strong>Gamma函数，见后记-3</strong>）</p>
+<p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
+<script type="math/tex; mode=display">
+p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
+</li>
+<li><p><strong>关系与总结</strong></p>
+<p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong></p>
+<p><strong>二项分布是多项分布的一种特殊情况，Beta分布是狄利克雷分布的一种特殊情况</strong></p>
+</li>
+</ol>
+<h2 id="LDA模型定义"><a href="#LDA模型定义" class="headerlink" title="LDA模型定义"></a>LDA模型定义</h2><h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><h2 id="基于蒙特卡罗方法：吉布斯抽样"><a href="#基于蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于蒙特卡罗方法：吉布斯抽样"></a>基于蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
+<li><p>概率质量(mass)函数：各个分类的概率，用于离散随机变量</p>
+<p>概率密度(density)函数：数据落在某一段连续的区间的概率</p>
+</li>
+<li><p><strong>Beta函数</strong></p>
+<script type="math/tex; mode=display">
+B(s,t)=\frac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}</script><script type="math/tex; mode=display">
+定义为：B(s,t)=\int_0^1x^{s-1}(1-x)^{t-1}dx</script><p>   当$s,t$是自然数的时，</p>
+<script type="math/tex; mode=display">
+B(s,t)=\frac{(s-1)!(t-1)!}{(s+t-1)!}</script></li>
+<li><p><strong>Gamma函数</strong></p>
+<script type="math/tex; mode=display">
+\Gamma(s)=\int_0^∞x^{s-1}e^{-x}dx,\quad s>0</script><script type="math/tex; mode=display">
+性质：\Gamma(s+1)=s\Gamma(s)</script><script type="math/tex; mode=display">
+当s是自然数的时候有：\Gamma(s+1)=s!</script><p>关于Gamma函数以前在微积分中不少遇到，可以看这篇文章</p>
+<p><a href="https://cosx.org/2013/01/lda-math-gamma-function" target="_blank" rel="noopener">https://cosx.org/2013/01/lda-math-gamma-function</a></p>
+</li>
+<li><p><strong>多元beta函数</strong>（拓展的beta函数）</p>
+<script type="math/tex; mode=display">
+B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</script></li>
+<li><p><strong>狄利克雷分布是多项分布的共轭先验的推导</strong></p>
+<p><strong>假设</strong>多项分布$X∽Mult(n,\theta)$的参数$\theta$服从狄利克雷分布：$\theta∽Dir(\alpha)$</p>
+<p><strong>那么先验分布</strong>$p(\theta|\alpha)=Dir(\theta|\alpha)$显然满足狄利克雷分布（假设条件）</p>
+<p>然后推导后验概率，用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）</p>
+<p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong></p>
+<p><strong>狄利克雷后验分布的参数等于狄利克雷先验分布参数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$加上多项分布的观测计数$n=(n_1,n_2,\cdots,n_k)$，好像试验之前就已经观察到计数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$，因此也把$\alpha$叫做先验伪计数</strong></p>
+</li>
+</ol>
 
       
     </div>
@@ -505,8 +593,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -606,6 +703,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Latent-Dirichlet-Allocation"><span class="nav-number">1.</span> <span class="nav-text">Latent Dirichlet Allocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA的缺陷与LDA的改进"><span class="nav-number">1.1.</span> <span class="nav-text">PLSA的缺陷与LDA的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">1.2.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共轭分布"><span class="nav-number">1.3.</span> <span class="nav-text">共轭分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个重要分布"><span class="nav-number">1.4.</span> <span class="nav-text">几个重要分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA模型定义"><span class="nav-number">1.5.</span> <span class="nav-text">LDA模型定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA生成过程"><span class="nav-number">1.6.</span> <span class="nav-text">LDA生成过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LDA求解"><span class="nav-number">2.</span> <span class="nav-text">LDA求解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于蒙特卡罗方法：吉布斯抽样"><span class="nav-number">2.1.</span> <span class="nav-text">基于蒙特卡罗方法：吉布斯抽样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于变分EM算法"><span class="nav-number">2.2.</span> <span class="nav-text">基于变分EM算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
