@@ -100,15 +100,40 @@ p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alph
 <p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
 <script type="math/tex; mode=display">
 p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
-<p>关于狄利克雷分布的参数【2】</p>
+<p>关于狄利克雷分布的参数的意义【2】</p>
 </li>
 <li><p><strong>关系与总结</strong></p>
 <p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong>【3】</p>
-<p><strong>二项分布是多项分布的一种特殊情况</strong></p>
-<p><strong>Beta分布是狄利克雷分布的一种特殊情况，Beta分布是狄利克雷分布在二维时的特殊形式</strong></p>
+<p><strong>二项分布是多项分布的一种特殊情况</strong>：二项分布（二维）$\to$ 多项分布（多维）</p>
+<p><strong>Beta分布是狄利克雷分布的一种特殊情况</strong>：Beta分布（二维）$\to$狄利克雷分布（多维）</p>
 </li>
 </ol>
-<h2 id="LDA模型定义"><a href="#LDA模型定义" class="headerlink" title="LDA模型定义"></a>LDA模型定义</h2><h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><h2 id="基于蒙特卡罗方法：吉布斯抽样"><a href="#基于蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于蒙特卡罗方法：吉布斯抽样"></a>基于蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
+<h2 id="LDA模型定义"><a href="#LDA模型定义" class="headerlink" title="LDA模型定义"></a>LDA模型定义</h2><p>单词集合：$W=\{w_1,\cdots,w_v,\cdots,w_V\}$，共[$V$个单词]</p>
+<p>文本集合：$D=\{\mathbb w_1,\cdots,\mathbb w_m,\cdots,\mathbb w_M\}$  （注意一个文本换成用向量$\mathbb w$表示，以前用的是$d$表示），共[$M$个文本]</p>
+<p>每个文本是一个单词序列：$\mathbb w_m=(w_{m1},\cdots,w_{mn},\cdots,w_{mN_m})$    ，$N_m$是$\mathbb w_m$中单词的个数</p>
+<p>话题集合：$Z=\{z_1,\cdots,z_k,\cdots,z_K\}$，共[$K$个话题]</p>
+<hr>
+<p>基于PLSA的两个分布：文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$，且<strong>这两个分布是独立的</strong></p>
+<ol>
+<li><p>①[$z\to w$]：每一个话题$z_k$由一个单词的条件概率分布$P(w|z_k)$决定，$w∈W$。</p>
+<p>②[$w∽Mult(\phi_k)$]：分布$P(w|z_k)$是<strong>多项分布</strong>，其参数为$\phi_k$（随机变量$w$服从多项分布）</p>
+<p><strong>话题参数向量</strong>：$\phi_k=(\phi_{k1},\phi_{k2},\cdots,\phi_{kV})$，其中$\phi_{kv}$表示话题$z_k$生成单词$w_v$的概率，共$V$个（单词总数）</p>
+<p><strong>话题参数矩阵</strong>：$\Phi=\{\phi_k\}_{k=1}^K$，所有的话题参数向量构成话题参数矩阵，为$K×V$形状</p>
+<p>③[$\phi_k∽Dir(\beta)$]：$\phi_k$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\beta$</p>
+<p>超参数是一个$V$维向量：$\beta=(\beta_1,\beta_2,\cdots,\beta_V)$</p>
+</li>
+<li><p>①[$\mathbb w_m \to z$]：每一个文本$\mathbb w_m$由一个话题的条件概率分布$P(z|\mathbb w_m)$决定，$z∈Z$</p>
+<p>②[$z∽Mult(\theta_m)$]：分布$P(z|\mathbb w_m)$是<strong>多项分布</strong>，其参数为$\theta_m$（随机变量$z$服从多项分布）</p>
+<p><strong>文本参数向量</strong>：$\theta_m=(\theta_{m1},\theta_{m2},\cdots,\theta_{mK})$，其中$\theta_{mk}$表示文本$\mathbb w_m$生成话题$z_k$的概率，共$K$个（话题总数）</p>
+<p><strong>文本参数矩阵</strong>：$\Theta=\{\theta_m\}_{m=1}^M$，所有文本参数向量构成文本参数矩阵，为$M×K$形状</p>
+<p>③[$\theta_m∽Dir(\alpha)$]：$\theta_m$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\alpha$</p>
+<p>超参数是一个$K$维向量：$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_K)$</p>
+</li>
+<li><p>[$\mathbb w_m \to z \to w$]：<strong>综合1,2</strong>，每一个文本$\mathbb w_m$中的每一个单词$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
+</li>
+</ol>
+<p>概率图模型略</p>
+<h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
 <li><p>概率质量(mass)函数：各个分类的概率，用于离散随机变量</p>
 <p>概率密度(density)函数：数据落在某一段连续的区间的概率</p>
 </li>
@@ -134,7 +159,7 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
 <p>然后推导后验概率，用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，</p>
 <p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$，$\alpha$为参数$，D$为在参数$\theta$下多项分布计算出的似然数据：</p>
 <p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【4】</p>
-<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）</p>
+<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【5】</p>
 <p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong></p>
 </li>
 </ol>
