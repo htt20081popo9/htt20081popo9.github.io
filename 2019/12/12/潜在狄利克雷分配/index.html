@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
+<meta name="description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="潜在狄利克雷分配">
 <meta property="og:url" content="https://aisakaki.com/2019/12/12/潜在狄利克雷分配/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
+<meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-18T03:13:56.084Z">
+<meta property="og:updated_time" content="2019-12-18T13:17:20.906Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在狄利克雷分配">
-<meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，是文本集合的生成概率模型">
+<meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型">
 
 
 
@@ -399,31 +399,34 @@
       
         <p><em>施工中</em></p>
 <p>Latent Dirichlet Allocation，LDA</p>
-<p>LDA是PLSA生成模型的扩展，是文本集合的生成概率模型</p>
+<p>LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型</p>
 <a id="more"></a>    
 <h1 id="Latent-Dirichlet-Allocation"><a href="#Latent-Dirichlet-Allocation" class="headerlink" title="Latent Dirichlet Allocation"></a>Latent Dirichlet Allocation</h1><h2 id="PLSA的缺陷与LDA的改进"><a href="#PLSA的缺陷与LDA的改进" class="headerlink" title="PLSA的缺陷与LDA的改进"></a>PLSA的缺陷与LDA的改进</h2><p><strong>LDA与PLSA生成模型都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布，即$d\to z \to w$</strong></p>
 <p>然而PLSA存在的缺陷：<strong>PLSA不使用先验分布</strong>，或者说假设先验分布为均匀分布。具体地，回忆PLSA生成模型公式：$P(w,d)=P(d)\sum_zP(w|z)P(z|d)$，这里面的两个概率分布$P(w|z)$和$P(z|d)$（即这两个分布的参数）是没有先验分布的，或者说假设先验分布为均匀分布。</p>
 <p>①（改进）<strong>LDA则使用了狄利克雷分布作为先验分布，也就是概率分布的参数的分布是狄利克雷分布</strong></p>
 <p>即$P(w|z)$和$P(z|d)$两个分布的参数，满足两个各自的狄利克雷分布，由该分布给出</p>
-<p><strong>这样可以防止学习过程中产生的过拟合</strong></p>
-<p>②（不同）在文本生成过程中，PLSA基于MLE，而<strong>LDA是基于贝叶斯学习</strong></p>
-<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数引入先验分布，以防止学习中产生过拟合【1】</p>
-<p>但是这样很难计算（根据贝叶斯原则，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）</p>
-<p>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</p>
+<p>这样一来，<strong>两个多项分布的参数就不是确定的了，而是服从狄利克雷分布</strong>，而在PLSA中是确定的</p>
+<p><strong>这样可以防止学习过程中产生的过拟合</strong>【】</p>
+<p>②（不同）在文本生成过程中，PLSA基于极大似然估计（回看PLSA一节使用EM求解），而<strong>LDA是基于贝叶斯学习</strong></p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合【1】</p>
+<p><strong>但是这样很难计算</strong>（根据贝叶斯原则，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是</strong>我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</p>
+<p><strong>于是我们的文本生成流程</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
+<p>这个过程见“共轭分布-4-流程关系”用数学表示</p>
 <h2 id="共轭分布"><a href="#共轭分布" class="headerlink" title="共轭分布"></a>共轭分布</h2><ol>
 <li><p><strong>什么是共轭分布？</strong>共轭分布是一种分布的关系：如果后验分布与先验分布属于同一种分布（形式相同），则先验分布与后验分布称为共轭分布，先验分布即为共轭先验</p>
 </li>
 <li><p><strong>为什么要有共轭分布？</strong>因为我们希望这个先验分布和数据似然得到的后验分布能够在后面还可以作为先验分布，也就是说我们希望先验分布和这个后验分布的形式是一样的。</p>
 <p>换句话说，<strong>共轭分布能够保证先验分布被赋予的物理意义，在吸收了新的似然知识之后，传递到后验分布时，保持一致</strong></p>
 </li>
-<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们就【便于从先验分布计算后验分布】</strong></p>
+<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们在参数估计的时候就【便于从先验分布计算后验分布】</strong></p>
 </li>
-<li><p>下面的就有几个重要分布和对应共轭分布：</p>
+<li><p><strong>下面的就有几个重要分布和对应共轭分布</strong>：</p>
 <p>高斯分布是高斯分布的共轭先验，<strong>Beta分布是二项分布的共轭先验，狄利克雷分布是多项分布的共轭先验。结合3，因此，我们才在LDA中使用狄利克雷函数作为先验分布</strong>：</p>
 <script type="math/tex; mode=display">
 X∽Mult(n,\theta)，设\theta的先验：p(\theta|\alpha)=Dir(\theta|\alpha)</script><script type="math/tex; mode=display">
 于是由多项分布计算得到新的数据集（似然）D</script><script type="math/tex; mode=display">
-则后验：p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>这么个流程关系</strong>：$Dir(\theta|\alpha)\to\theta\to Mult(n,\theta) \to D \to Dir(\theta|\alpha+n)\to loop[Dir(\theta|\alpha)]$</p>
+则后验：p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>【流程关系】</strong>：$Dir(\theta|\alpha)\to\theta\to Mult(n,\theta) \to D \to Dir(\theta|\alpha+n)\to loop[Dir(\theta|\alpha)]$</p>
+<p><strong>这里面的$D$就是一次循环（生成了一个潜在的主题然后）生成了[一个]新的单词出来</strong>，就这么不断循环生成下一个单词形成一个文本</p>
 <p>狄利克雷后验分布的参数等于狄利克雷先验分布参数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$加上多项分布的观测计数$n=(n_1,n_2,\cdots,n_k)$，好像试验之前就已经观察到计数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$，因此也把$\alpha$叫做先验伪计数</p>
 <p><strong>（推导：见后记-5）</strong></p>
 </li>
@@ -463,10 +466,10 @@ p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alph
 <p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
 <script type="math/tex; mode=display">
 p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
-<p>关于狄利克雷分布的参数的意义【2】</p>
+<p>关于狄利克雷分布的参数的意义【3】</p>
 </li>
 <li><p><strong>关系与总结</strong></p>
-<p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong>【3】</p>
+<p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong></p>
 <p><strong>二项分布是多项分布的一种特殊情况</strong>：二项分布（二维）$\to$ 多项分布（多维）</p>
 <p><strong>Beta分布是狄利克雷分布的一种特殊情况</strong>：Beta分布（二维）$\to$狄利克雷分布（多维）</p>
 </li>
@@ -481,37 +484,45 @@ p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script>
 <li><p><strong>话题-单词</strong></p>
 <p>①[$z\to w$]：每一个话题$z_k$由一个单词的条件概率分布$P(w|z_k)$决定，$w∈W$。</p>
 <p>②[$w∽Mult(\phi_k)$]：分布$P(w|z_k)$是<strong>多项分布</strong>，其参数为$\phi_k$（随机变量$w$服从多项分布）</p>
-<p><strong>话题参数向量</strong>：$\phi_k=(\phi_{k1},\phi_{k2},\cdots,\phi_{kV})$，其中$\phi_{kv}$表示话题$z_k$生成单词$w_v$的概率，共$V$个（单词总数）</p>
+<p><strong>话题参数向量</strong>：$\phi_k=(\phi_{k1},\phi_{k2},\cdots,\phi_{kV})$，其中$\phi_{kv}$表示话题$z_k$生成单词$w_v$的概率，即多项分布标准表示中每项（这里就是每个单词）的概率$p$，共$V$个（单词总数）</p>
 <p><strong>话题参数矩阵</strong>：$\Phi=\{\phi_k\}_{k=1}^K$，所有的话题参数向量构成话题参数矩阵，为$K×V$形状</p>
 <p>③[$\phi_k∽Dir(\beta)$]：$\phi_k$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\beta$</p>
-<p>超参数是一个$V$维向量：$\beta=(\beta_1,\beta_2,\cdots,\beta_V)$</p>
+<p>超参数是一个$V$维（单词个数）向量：$\beta=(\beta_1,\beta_2,\cdots,\beta_V)$</p>
 </li>
 <li><p><strong>文本-话题</strong></p>
 <p>①[$\mathbb w_m \to z$]：每一个文本$\mathbb w_m$由一个话题的条件概率分布$P(z|\mathbb w_m)$决定，$z∈Z$</p>
 <p>②[$z∽Mult(\theta_m)$]：分布$P(z|\mathbb w_m)$是<strong>多项分布</strong>，其参数为$\theta_m$（随机变量$z$服从多项分布）</p>
-<p><strong>文本参数向量</strong>：$\theta_m=(\theta_{m1},\theta_{m2},\cdots,\theta_{mK})$，其中$\theta_{mk}$表示文本$\mathbb w_m$生成话题$z_k$的概率，共$K$个（话题总数）</p>
+<p><strong>文本参数向量</strong>：$\theta_m=(\theta_{m1},\theta_{m2},\cdots,\theta_{mK})$，其中$\theta_{mk}$表示文本$\mathbb w_m$生成话题$z_k$的概率，即多项分布标准表示中每项（这里就是每个话题）的概率$p$，共$K$个（话题总数）</p>
 <p><strong>文本参数矩阵</strong>：$\Theta=\{\theta_m\}_{m=1}^M$，所有文本参数向量构成文本参数矩阵，为$M×K$形状</p>
 <p>③[$\theta_m∽Dir(\alpha)$]：$\theta_m$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\alpha$</p>
-<p>超参数是一个$K$维向量：$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_K)$</p>
+<p>超参数是一个$K$维（话题个数）向量：$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_K)$</p>
 </li>
 <li><p><strong>综合1,2</strong></p>
-<p>[$\mathbb w_m \to z \to w$]：每一个文本$\mathbb w_m$中的每一个单词$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
+<p>[$\mathbb w_m \to z \to w$]：每一个文本$\mathbb w_m$中的<strong>每一个单词</strong>$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
 </li>
 </ol>
-<p>概率图模型略</p>
-<h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
+<p>LDA假设文本中的话题对一个随机参数是独立同分布的，也就是说LDA中的文本是无限可交换的。所以在参数给定的条件下，文本中的话题顺序可以忽略。（PLSA也一样）</p>
+<h2 id="概率计算：LDA生成过程"><a href="#概率计算：LDA生成过程" class="headerlink" title="概率计算：LDA生成过程"></a>概率计算：LDA生成过程</h2><p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
 <p>$\mathbb S_1$：$\beta \to\phi_k$</p>
-<p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为话题的单词分布$p(w|z_k)$</p>
+<p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为<strong>话题的单词分布</strong>$p(w|z_k)=Mult(\phi_k)$</p>
 <p>$\mathbb S_2$：$\alpha\to \theta_m $</p>
-<p>对于文本$\mathbb w_m(m=1,2,\cdots,M)$生成多项分布参数$\theta_m∽Dir(\alpha)$，作为文本的话题分布$p(z|\mathbb w_m)$</p>
+<p>对于文本$\mathbb w_m(m=1,2,\cdots,M)$生成多项分布参数$\theta_m∽Dir(\alpha)$，作为<strong>文本的话题分布</strong>$p(z|\mathbb w_m)=Mult(\theta_m)$</p>
 <p>$\mathbb S_3$：$\theta_m\to z_{mn},\quad \phi_{z_{mn}}\to w_{mn}$</p>
 <p>对于文本$\mathbb w_m$的单词$w_{mn}(m=1,2,\cdots,M,n=1,2,\cdots,N_m)$</p>
 <p>①生成话题$z_{mn}∽Mult(\theta_m)$，作为单词对应的话题</p>
 <p>②生成单词$w_{mn}∽Mult(\phi_{z_{mn}})$</p>
-<p>参数选择：假定话题$K$给定，但实际上通常通过实验选定。</p>
+<p><strong>【这就生成了一个单词】</strong></p>
+<p><strong>注意理解：一次循环生成一个主题，这个主题生成一个单词；然后再生成下一个主题，这个主题生成下一个单词；这样反复多次就生成了一个文本</strong></p>
+<p>概率图模型略</p>
+<hr>
+<p><strong>整体概率分布（所有文本）：</strong></p>
+<script type="math/tex; mode=display">
+p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)=\prod_{k=1}^Kp(\phi_k|\beta)\prod_{m=1}^Mp(\theta_m|\alpha)\prod_{n=1}^{N_m}p(z_{mn}|\theta_m)p(w_{mn}|z_{mn},\phi)</script><p><strong>第$m$个文本的联合概率分布：</strong></p>
+<script type="math/tex; mode=display">
+p(\mathbb w_m,\mathbb z_m,\theta_m,\phi|\alpha,\beta)=\prod_{k=1}^Kp(\phi_k|\beta)p(\theta_m|\alpha)\prod_{n=1}^{N_m}p(z_{mn}|\theta_m)p(w_{mn}|z_{mn},\phi)</script><p>其中$\mathbb w$是观测变量，$\mathbb z,\theta,\phi$是隐变量 ，$\alpha,\beta,K,N_m,M$是超参数</p>
+<h2 id="超参数（事先给定）"><a href="#超参数（事先给定）" class="headerlink" title="超参数（事先给定）"></a>超参数（事先给定）</h2><p>假定话题$K$给定，但实际上通常通过实验选定。</p>
 <p>狄利克雷分布的超参数$\alpha,\beta$通常也是事先给定的。在没有其他先验知识下，可以假定$\alpha和\beta$的所有分量均为1，这时文本的话题分布$\theta_m$是对称的，话题的单词分布$\phi_k$也是对称的。</p>
-<h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><p>目标：求文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的参数：$\theta和\phi$</p>
-<h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
 <li><p>概率质量(mass)函数：各个分类的概率，用于离散随机变量</p>
 <p>概率密度(density)函数：数据落在某一段连续的区间的概率</p>
 </li>
@@ -536,8 +547,8 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
 <p><strong>那么先验分布</strong>$p(\theta|\alpha)=Dir(\theta|\alpha)$显然满足狄利克雷分布（假设条件）</p>
 <p>然后推导后验概率，用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，</p>
 <p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$，$\alpha$为参数$，D$为在参数$\theta$下多项分布计算出的似然数据：</p>
-<p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【4】</p>
-<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【5】</p>
+<p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【5】</p>
+<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【6】</p>
 <p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong></p>
 </li>
 </ol>
@@ -677,7 +688,7 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">144</span>
+                  <span class="site-state-item-count">145</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -770,7 +781,7 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Latent-Dirichlet-Allocation"><span class="nav-number">1.</span> <span class="nav-text">Latent Dirichlet Allocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA的缺陷与LDA的改进"><span class="nav-number">1.1.</span> <span class="nav-text">PLSA的缺陷与LDA的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">1.2.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共轭分布"><span class="nav-number">1.3.</span> <span class="nav-text">共轭分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个重要分布"><span class="nav-number">1.4.</span> <span class="nav-text">几个重要分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA模型定义"><span class="nav-number">1.5.</span> <span class="nav-text">LDA模型定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA生成过程"><span class="nav-number">1.6.</span> <span class="nav-text">LDA生成过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LDA求解"><span class="nav-number">2.</span> <span class="nav-text">LDA求解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样"><span class="nav-number">2.1.</span> <span class="nav-text">基于马尔科夫蒙特卡罗方法：吉布斯抽样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于变分EM算法"><span class="nav-number">2.2.</span> <span class="nav-text">基于变分EM算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Latent-Dirichlet-Allocation"><span class="nav-number">1.</span> <span class="nav-text">Latent Dirichlet Allocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA的缺陷与LDA的改进"><span class="nav-number">1.1.</span> <span class="nav-text">PLSA的缺陷与LDA的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">1.2.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共轭分布"><span class="nav-number">1.3.</span> <span class="nav-text">共轭分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个重要分布"><span class="nav-number">1.4.</span> <span class="nav-text">几个重要分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA模型定义"><span class="nav-number">1.5.</span> <span class="nav-text">LDA模型定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算：LDA生成过程"><span class="nav-number">1.6.</span> <span class="nav-text">概率计算：LDA生成过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超参数（事先给定）"><span class="nav-number">1.7.</span> <span class="nav-text">超参数（事先给定）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">2.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>

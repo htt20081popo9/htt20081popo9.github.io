@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-16T08:06:15.046Z">
+<meta property="og:updated_time" content="2019-12-18T11:15:09.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率潜在语义分析">
 <meta name="twitter:description" content="probabilistic latent semantic analysis ,PLSA 概率潜在语义分析是一种基于概率生成模型的对文本集合进行话题分析的无监督学习方法 在前面文章EM算法中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的">
@@ -401,21 +401,22 @@
 <p>概率潜在语义分析是一种<strong>基于概率生成模型的对文本集合进行话题分析</strong>的无监督学习方法</p>
 <p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的</p>
 <a id="more"></a>    
-<h2 id="PLSA模型"><a href="#PLSA模型" class="headerlink" title="PLSA模型"></a>PLSA模型</h2><p>文本集合$D$，单词集合$W$，话题集合$Z$</p>
+<h2 id="PLSA模型"><a href="#PLSA模型" class="headerlink" title="PLSA模型"></a>PLSA模型</h2><p>文本集合$D$，单词集合$W$，话题集合$Z$，有$M$个单词，$N$个文本，$K$个话题</p>
 <p>$d∈D$表示文档，$w∈W$表示词语，$z∈Z$表示隐含的主题。</p>
 <p><strong>$z$就是隐变量</strong></p>
 <p>于是<strong>文本-单词共现数据$T$的生成概率</strong>为<strong>所有单词-文本对$(w,d)$的生成概率的乘积</strong>：</p>
 <script type="math/tex; mode=display">
 P(T)=\prod_{(w,d)}P(w,d)^{n(w,d)}</script><p>其中$n(w,d)$表示$(w,d)$同时出现的次数（注意理解此式的写法，这个乘积，所谓的共现数据$T$的生成概率，<strong>实际意义上就是一篇文章</strong>）</p>
-<p><strong>对于$P(w,d)$，可以描述为生成模型或共现模型</strong>：</p>
+<p><strong>对于单词文本对$P(w,d)$，可以描述为生成模型或共现模型</strong>：</p>
+<p>（注意理解，有$M$个单词，所以就有$M$个单词文本对）</p>
 <h3 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h3><p>解释为首<strong>【先有文本的概率分布$P(d)$】，每个文本有自己的话题概率分布，每个话题有自己的单词概率分布</strong>，也就是说<strong>一个文本的内容由其相关话题决定，一个话题的内容由其相关单词决定</strong>，刻画了<strong>文本-单词共现数据的生成过程</strong>：【$d\to z\to w$】</p>
-<p>在这种模型下，记$P(d)$表示生成文本$d$的概率，$P(z|d)$表示文本$d$生成话题$z$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
+<p>在这种模型下，记$P(d)$表示生成文本$d$的概率，$P(z|d)$表示文本$d$生成话题$z$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有<strong>【每个】单词-文本对共现概率</strong>：</p>
 <p>$P(w,d)=P(w|d)P(d)$</p>
 <p>$=P(d)\sum_zP(w,z|d)$  (逆边缘化$z$)</p>
 <p>$=P(d)\sum_zP(w|z)P(z|d)$</p>
 <p>（假定条件独立：$P(w,z|d)=P(w|z)P(z|d)$）</p>
 <h3 id="共现模型"><a href="#共现模型" class="headerlink" title="共现模型"></a>共现模型</h3><p>解释为首<strong>【先有话题的概率分布$P(z)$】，然后在话题分布的条件下有文本的概率分布和单词的概率分布，文本和单词同时出现</strong>，刻画了文本-单词<strong>共现数据拥有的模式</strong>：【$z\to d;z\to w;d,w$共现】</p>
-<p>在这种模型下，记$P(z)$表示话题$z$的概率，$P(d|z)$表示话题$z$下生成文本$d$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有：</p>
+<p>在这种模型下，记$P(z)$表示话题$z$的概率，$P(d|z)$表示话题$z$下生成文本$d$的概率，$P(w|z)$表示话题$z$生成单词$w$的概率，则有<strong>【每个】单词-文本对共现概率</strong>：</p>
 <p>$P(w,d)=\sum_{z∈Z}P(z)P(w|z)P(d|z)$</p>
 <p>(假定条件独立：$P(w,d|z)=P(w|z)P(d|z)$)</p>
 <p><strong>根据公式可以推得生成模型和共现模型是等价的</strong></p>
@@ -424,23 +425,44 @@ P(T)=\prod_{(w,d)}P(w,d)^{n(w,d)}</script><p>其中$n(w,d)$表示$(w,d)$同时�
 </li>
 <li><p>模型中的概率分布$P(w|d)$可以由参数空间中的单纯形表示。$M$维参数空间中，单词单纯形表示所有可能的文本分布，在其中的话题单纯形表示在$K$个话题定义下的所有可能的文本分布。话题单纯形是单词单纯形的子集，表示潜在语义空间</p>
 </li>
-<li><p>PLSA也可以对应于LSA的奇异值分解矩阵形式，对于共现模型表示为矩阵乘积形式：</p>
+<li><p><strong>PLSA也可以对应于LSA的奇异值分解矩阵形式</strong>，对于共现模型表示为矩阵乘积形式：</p>
 <p>$X’=U’\Sigma’V’^T,X’=[P(w,d)]_{M×N},U’=[P(w|z)]_{M×K},\Sigma’=[P(z)]_{K×K},V’=[P(d|z)]_{N×K}$</p>
 </li>
 </ol>
-<h2 id="求解算法——EM（见前面EM章节）"><a href="#求解算法——EM（见前面EM章节）" class="headerlink" title="求解算法——EM（见前面EM章节）"></a>求解算法——EM（见前面EM章节）</h2><p>EM算法在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中写的很详细，在HMM算法的求解过程中也应用过推导出了HMM的参数时估计算法，见前文</p>
+<p>【注】</p>
+<ol>
+<li><p><strong>概率分布$P(d|z),P(w|z),P(z|d)$都是多项分布，理解一下这个分布在PLSA的含义。</strong></p>
+<p>以主题-单词多项分布$P(w|z)$举例，这个分布就表示对于给定的主题$z$，不同的单词有不同的概率，比如:</p>
+<p>$P(只狼|GOTY)=0.3,P(死亡搁浅|GOTY)=0.3,P(大乱斗|GOTY)=0.3,P(控制|GOTY)=0.1$</p>
+<p>表示GOTY主题下所有可能出现的单词各自的概率</p>
+<p>文本-主题同理</p>
+</li>
+<li><p><strong>概率计算：在已知参数的情况下生成文本的概率</strong></p>
+<p>一个单词文本对$P(w_i,d_j)$代表文本中的<strong>一个</strong>单词为$w_i$的概率。我们要求得到一个文本的概率分布，也就是生成一个单词序列的概率，那么就是<strong>所有单词文本对概率的积组成的分布</strong></p>
+<p>至于如何求得每个单词的单词文本对$P(w_i,d_j)$概率，那才是生成模型和共现模型有不同的方案</p>
+</li>
+<li><p><strong>学习算法：在已知文本的情况下求参数（话题-文本分布和话题-单词分布）</strong></p>
+<p>这就是下面的参数求解算法</p>
+</li>
+</ol>
+<h2 id="PLSA学习算法——EM算法"><a href="#PLSA学习算法——EM算法" class="headerlink" title="PLSA学习算法——EM算法"></a>PLSA学习算法——EM算法</h2><p>学习算法就是求解话题-文本分布和话题-单词分布的参数</p>
+<p>一个单词文本对$P(w_i,d_j)$代表文本中的一个单词为$w_i$的概率。我们要在已知数据下求最可能的概率分布参数（也就是模型参数），就是要求已有文本概率的极大似然，也就是使得所有已有单词文本对概率的积的最大值下的模型参数（就朴素的MLE求参数估计原理啦）</p>
+<p>EM算法在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中写的很详细，在HMM算法的求解过程中也应用过推导出了HMM的参数时估计算法，见前文</p>
 <p>我们对<strong>目标函数(文本-单词共现数据$T$的生成概率)</strong>求极大似然：</p>
 <script type="math/tex; mode=display">
 L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\log P(w_i,d_j)</script><p>对于生成模型，代入$P(w_i,d_j)$则为：</p>
 <script type="math/tex; mode=display">
 L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\log [\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)]</script><p>（这里代入后由于$P(d_j)$可以直接求出来为常数，所以省略掉了）</p>
-<p>由于概率模型中含有隐变量（话题：$z$），我们无法直接求解MLE，所以必须使用EM算法，将$L(\theta)$带入公式计算</p>
+<p><strong>由于概率模型中含有隐变量（话题：$z$），我们无法直接求解MLE，所以必须使用EM算法</strong>，将$L(\theta)$带入公式计算</p>
 <p>注意生成模型中的关系：$d\to z\to w$ （别和共现模型的搞反啦）</p>
 <p>E步：计算$Q$函数</p>
 <p>注意后验概率用贝叶斯公式将其转变为先验概率（待求导变量）：</p>
 <p>$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，则$P(z_k|w_i,d_j)=\frac{P(z_k,w_i,d_j)}{P(w_i,d_j)}=\frac{P(w_i|z_k)P(z_k|d_j)}{\sum_{k=1}^KP(w_i|z_k)P(z_k|d_j)}$</p>
 <p>M步：极大化$Q$函数（使用拉格朗日法引入乘子，并分离变量为子式，运用同时求和回代消乘子技巧，再对不同子式变量求0导。变量即为$P(w_i|z_k),P(z_k|d_j)$）</p>
 <p>具体推导略</p>
+<p><strong>算法：</strong>①<strong>设置参数$P(w_i|z_k),P(z_k|d_j)$的初始值，作为EM算法开始迭代的初始分布</strong></p>
+<p><strong>②迭代计算$E步:P(z_k|w_i,d_j),M步:P(w_i|z_k),P(z_k|d_j)$</strong></p>
+<p>求得模型参数</p>
 
       
     </div>
@@ -577,7 +599,7 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">144</span>
+                  <span class="site-state-item-count">145</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +692,7 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA模型"><span class="nav-number">1.</span> <span class="nav-text">PLSA模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型"><span class="nav-number">1.1.</span> <span class="nav-text">生成模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共现模型"><span class="nav-number">1.2.</span> <span class="nav-text">共现模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">1.3.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解算法——EM（见前面EM章节）"><span class="nav-number">2.</span> <span class="nav-text">求解算法——EM（见前面EM章节）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA模型"><span class="nav-number">1.</span> <span class="nav-text">PLSA模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成模型"><span class="nav-number">1.1.</span> <span class="nav-text">生成模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共现模型"><span class="nav-number">1.2.</span> <span class="nav-text">共现模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-number">1.3.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA学习算法——EM算法"><span class="nav-number">2.</span> <span class="nav-text">PLSA学习算法——EM算法</span></a></li></ol></div>
             
 
           </div>
