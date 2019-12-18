@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-18T13:17:20.906Z">
+<meta property="og:updated_time" content="2019-12-18T13:34:37.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在狄利克雷分配">
 <meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型">
@@ -405,10 +405,13 @@
 <p>然而PLSA存在的缺陷：<strong>PLSA不使用先验分布</strong>，或者说假设先验分布为均匀分布。具体地，回忆PLSA生成模型公式：$P(w,d)=P(d)\sum_zP(w|z)P(z|d)$，这里面的两个概率分布$P(w|z)$和$P(z|d)$（即这两个分布的参数）是没有先验分布的，或者说假设先验分布为均匀分布。</p>
 <p>①（改进）<strong>LDA则使用了狄利克雷分布作为先验分布，也就是概率分布的参数的分布是狄利克雷分布</strong></p>
 <p>即$P(w|z)$和$P(z|d)$两个分布的参数，满足两个各自的狄利克雷分布，由该分布给出</p>
-<p>这样一来，<strong>两个多项分布的参数就不是确定的了，而是服从狄利克雷分布</strong>，而在PLSA中是确定的</p>
-<p><strong>这样可以防止学习过程中产生的过拟合</strong>【】</p>
+<p>这样一来，<strong>两个多项分布的参数就不是确定的了，而是这个参数服从狄利克雷分布</strong>，而在PLSA中参数是确定的</p>
+<p>这样可以防止学习过程中产生的过拟合</p>
 <p>②（不同）在文本生成过程中，PLSA基于极大似然估计（回看PLSA一节使用EM求解），而<strong>LDA是基于贝叶斯学习</strong></p>
-<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合【1】</p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合</p>
+<p><strong>为什么这样能防止过拟合？</strong>这就是贝叶斯学派和频率学派的争论。<strong>频率学派认为</strong>概率是确定存在客观的，也就是PLSA的做法：$P(w|z)$和$P(z|d)$的参数是确定的，我们用已有数据训练模型去拟合这个参数即可。然而<strong>贝叶斯学派认为</strong>，在引入了新的数据之后，概率也会因为先验的改变而改变，他们认为概率是“主观”的，也就是说$P(w|z)$和$P(z|d)$的参数是不确定的，于是就从PLSA引入了LDA。</p>
+<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布而不是真实的分布！这时候贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个先验的指导，然后我们在进行多次迭代预测数据，将新的预测与参数的分布作为先验得到新的概率，这样可以有效防止模型学脱了（过拟合）【1】</p>
+<p>显然当样本量大的时候，PLSA的效果和LDA会差不多，因为训练集的频率与真实概率分布越来越接近了，也就是通过增大训练数据量来防止了模型的过拟合</p>
 <p><strong>但是这样很难计算</strong>（根据贝叶斯原则，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是</strong>我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</p>
 <p><strong>于是我们的文本生成流程</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
 <p>这个过程见“共轭分布-4-流程关系”用数学表示</p>
