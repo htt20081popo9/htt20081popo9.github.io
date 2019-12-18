@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>[七周目]龙与虎</title>
+    <url>/2019/12/18/%E4%B8%83%E5%91%A8%E7%9B%AE-%E9%BE%99%E4%B8%8E%E8%99%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>龙与虎第七周目中，发几篇记录，这次是从暑假开始看的，中途断了一阵子。</p>
+<p>这是我最喜欢的动画，我心中最青春校园动画的巅峰，青春的主题：恋爱，家庭，班级，友谊，在这部细腻且温暖的动画里体现的淋漓尽致。</p>
+<p>这是一部每个角色我都喜欢的动画，每个人的内心都那么细腻，每个人都有最闪耀的地方。</p>
+<p>但也正因此，需要观众仔细去捕捉每个人微妙的情感与变化，所以很多台词和情感要多周目之后才能理解。</p>
+<p>每一次看龙与虎，都会更心疼每一个角色，更喜欢每一个角色，更深刻地理解每一个角色的情感。</p>
+<p>前几集不小心给删了，下一篇直接从暑假篇开始…</p>
+]]></content>
+      <categories>
+        <category>Anime</category>
+      </categories>
+  </entry>
+  <entry>
     <title>人间烂漫</title>
     <url>/2019/12/17/%E4%BA%BA%E9%97%B4%E7%83%82%E6%BC%AB/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center"><i>数花灯 折泥偶 行行走走</i></div>
@@ -115,25 +129,40 @@ p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script>
 <hr>
 <p>基于PLSA的两个分布：文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$，且<strong>这两个分布是独立的</strong></p>
 <ol>
-<li><p>①[$z\to w$]：每一个话题$z_k$由一个单词的条件概率分布$P(w|z_k)$决定，$w∈W$。</p>
+<li><p><strong>话题-单词</strong></p>
+<p>①[$z\to w$]：每一个话题$z_k$由一个单词的条件概率分布$P(w|z_k)$决定，$w∈W$。</p>
 <p>②[$w∽Mult(\phi_k)$]：分布$P(w|z_k)$是<strong>多项分布</strong>，其参数为$\phi_k$（随机变量$w$服从多项分布）</p>
 <p><strong>话题参数向量</strong>：$\phi_k=(\phi_{k1},\phi_{k2},\cdots,\phi_{kV})$，其中$\phi_{kv}$表示话题$z_k$生成单词$w_v$的概率，共$V$个（单词总数）</p>
 <p><strong>话题参数矩阵</strong>：$\Phi=\{\phi_k\}_{k=1}^K$，所有的话题参数向量构成话题参数矩阵，为$K×V$形状</p>
 <p>③[$\phi_k∽Dir(\beta)$]：$\phi_k$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\beta$</p>
 <p>超参数是一个$V$维向量：$\beta=(\beta_1,\beta_2,\cdots,\beta_V)$</p>
 </li>
-<li><p>①[$\mathbb w_m \to z$]：每一个文本$\mathbb w_m$由一个话题的条件概率分布$P(z|\mathbb w_m)$决定，$z∈Z$</p>
+<li><p><strong>文本-话题</strong></p>
+<p>①[$\mathbb w_m \to z$]：每一个文本$\mathbb w_m$由一个话题的条件概率分布$P(z|\mathbb w_m)$决定，$z∈Z$</p>
 <p>②[$z∽Mult(\theta_m)$]：分布$P(z|\mathbb w_m)$是<strong>多项分布</strong>，其参数为$\theta_m$（随机变量$z$服从多项分布）</p>
 <p><strong>文本参数向量</strong>：$\theta_m=(\theta_{m1},\theta_{m2},\cdots,\theta_{mK})$，其中$\theta_{mk}$表示文本$\mathbb w_m$生成话题$z_k$的概率，共$K$个（话题总数）</p>
 <p><strong>文本参数矩阵</strong>：$\Theta=\{\theta_m\}_{m=1}^M$，所有文本参数向量构成文本参数矩阵，为$M×K$形状</p>
 <p>③[$\theta_m∽Dir(\alpha)$]：$\theta_m$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\alpha$</p>
 <p>超参数是一个$K$维向量：$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_K)$</p>
 </li>
-<li><p>[$\mathbb w_m \to z \to w$]：<strong>综合1,2</strong>，每一个文本$\mathbb w_m$中的每一个单词$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
+<li><p><strong>综合1,2</strong></p>
+<p>[$\mathbb w_m \to z \to w$]：每一个文本$\mathbb w_m$中的每一个单词$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
 </li>
 </ol>
 <p>概率图模型略</p>
-<h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
+<h2 id="LDA生成过程"><a href="#LDA生成过程" class="headerlink" title="LDA生成过程"></a>LDA生成过程</h2><p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
+<p>$\mathbb S_1$：$\beta \to\phi_k$</p>
+<p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为话题的单词分布$p(w|z_k)$</p>
+<p>$\mathbb S_2$：$\alpha\to \theta_m $</p>
+<p>对于文本$\mathbb w_m(m=1,2,\cdots,M)$生成多项分布参数$\theta_m∽Dir(\alpha)$，作为文本的话题分布$p(z|\mathbb w_m)$</p>
+<p>$\mathbb S_3$：$\theta_m\to z_{mn},\quad \phi_{z_{mn}}\to w_{mn}$</p>
+<p>对于文本$\mathbb w_m$的单词$w_{mn}(m=1,2,\cdots,M,n=1,2,\cdots,N_m)$</p>
+<p>①生成话题$z_{mn}∽Mult(\theta_m)$，作为单词对应的话题</p>
+<p>②生成单词$w_{mn}∽Mult(\phi_{z_{mn}})$</p>
+<p>参数选择：假定话题$K$给定，但实际上通常通过实验选定。</p>
+<p>狄利克雷分布的超参数$\alpha,\beta$通常也是事先给定的。在没有其他先验知识下，可以假定$\alpha和\beta$的所有分量均为1，这时文本的话题分布$\theta_m$是对称的，话题的单词分布$\phi_k$也是对称的。</p>
+<h1 id="LDA求解"><a href="#LDA求解" class="headerlink" title="LDA求解"></a>LDA求解</h1><p>目标：求文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的参数：$\theta和\phi$</p>
+<h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
 <li><p>概率质量(mass)函数：各个分类的概率，用于离散随机变量</p>
 <p>概率密度(density)函数：数据落在某一段连续的区间的概率</p>
 </li>
@@ -172,7 +201,7 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
   <entry>
     <title>概率潜在语义分析</title>
     <url>/2019/12/11/%E6%A6%82%E7%8E%87%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p>probabilistic latent semantic analysis ,PLSA</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>probabilistic latent semantic analysis ,PLSA</p>
 <p>概率潜在语义分析是一种<strong>基于概率生成模型的对文本集合进行话题分析</strong>的无监督学习方法</p>
 <p>在前面文章<a href="https://aisakaki.com/2019/10/23/EM%E7%AE%97%E6%B3%95/">EM算法</a>中举的例子就是PLSA问题，实际上PLSA就是运用EM算法来求解的</p>
 <a id="more"></a>    
@@ -225,7 +254,7 @@ L(\theta)=\log P(D,Z;\theta)=\sum_{i=1,\cdots,M}\sum_{j=1,\cdots,N}n(w_i,d_j)\lo
   <entry>
     <title>潜在语义分析</title>
     <url>/2019/12/10/%E6%BD%9C%E5%9C%A8%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p>latent semantic analysis ,LSA</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>latent semantic analysis ,LSA</p>
 <p>潜在语义分析是一种<strong>基于矩阵分解的构建话题向量空间</strong>的方法，话题就是潜在的语义</p>
 <a id="more"></a>    
 <h1 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h1><p>$D$是文本集，$d$是一个文本，$W$是单词集，$w$是一个单词，$D=\{d_1,d_2,\cdots,d_n\},W=\{w_1,w_2，\cdots，w_m\}$</p>
@@ -325,7 +354,7 @@ J(W,H)=\frac{1}{2}||X-WH||^2=\frac{1}{2}\sum[X_{ij}-(WH)_{ij}]^2</script><p>然�
   <entry>
     <title>to the moon</title>
     <url>/2019/12/09/moon/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/12/09/moon/0.jpg" alt="0"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/12/09/moon/0.jpg" alt="0"></p>
 <p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1645112&auto=0&height=66"></iframe></p>
 <blockquote>
 <p>那么你认为这些星星是什么呢?<br>我从未告诉任何人，但我一直认为它们是灯塔。成千上万的灯塔……闪耀着屹立在世界尽头。<br>哇，那上面一定充满活力，热闹喧哗。<br>不是这样的，它们看得到彼此，想交流聊天。可他们无能为力<br>他们天各一方，无法听清对方的呼唤<br>它们能做的……唯有努力地绽放光芒。让那光芒照耀着其他灯塔，也照耀着我。<br>为什么是你?<br>因为总有一天……我也会成为他们的朋友。</p>
@@ -348,7 +377,7 @@ J(W,H)=\frac{1}{2}||X-WH||^2=\frac{1}{2}\sum[X_{ij}-(WH)_{ij}]^2</script><p>然�
   <entry>
     <title>风主题关卡设计</title>
     <url>/2019/12/08/%E9%A3%8E%E4%B8%BB%E9%A2%98%E5%85%B3%E5%8D%A1%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<p><em>这是我们组做的独立游戏第二关我的设计，就是有点太复杂了可能….</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>这是我们组做的独立游戏第二关我的设计，就是有点太复杂了可能….</em></p>
 <p>主题——风</p>
 <h2 id="关卡设计"><a href="#关卡设计" class="headerlink" title="关卡设计"></a>关卡设计</h2><p><img src="//aisakaki.com/2019/12/08/风主题关卡设计/关卡图.png" alt="关卡图"></p>
 <a id="more"></a>    
@@ -391,7 +420,7 @@ J(W,H)=\frac{1}{2}||X-WH||^2=\frac{1}{2}\sum[X_{ij}-(WH)_{ij}]^2</script><p>然�
   <entry>
     <title>一个游戏文学策划的自我修养</title>
     <url>/2019/12/06/%E4%B8%80%E4%B8%AA%E6%B8%B8%E6%88%8F%E6%96%87%E5%AD%A6%E7%AD%96%E5%88%92%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/</url>
-    <content><![CDATA[<p><em>上周日腾讯游戏设计 第 N节课 框架笔记</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>上周日腾讯游戏设计 第 N节课 框架笔记</em></p>
 <p><em>上这节课的时候我有40个小时没睡觉了，人是ふわふわ的，所以笔记也是ふわふわ的</em></p>
  <a id="more"></a>
 <p><em>本节课不解决任何执行层面的实际问题</em></p>
@@ -498,7 +527,7 @@ J(W,H)=\frac{1}{2}||X-WH||^2=\frac{1}{2}\sum[X_{ij}-(WH)_{ij}]^2</script><p>然�
   <entry>
     <title>主成分分析（二）</title>
     <url>/2019/12/05/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<p><em>主要部分在上一篇：<a href="https://aisakaki.com/2019/11/27/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/">主成分分析（一）</a></em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>主要部分在上一篇：<a href="https://aisakaki.com/2019/11/27/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/">主成分分析（一）</a></em></p>
 <h1 id="样本主成分分析"><a href="#样本主成分分析" class="headerlink" title="样本主成分分析"></a>样本主成分分析</h1><h2 id="总体PCA和样本PCA的关系"><a href="#总体PCA和样本PCA的关系" class="headerlink" title="总体PCA和样本PCA的关系"></a>总体PCA和样本PCA的关系</h2><p>总体PCA是定义在分布总体上的，只虑向量（随机变量）$\mathbb x$，$\mathbb x$满足某分布函数，其均值$\mu$是$\mathbb x$分布函数上的均值，可以直接得到。但在实际问题中一般不会直接给出分布函数。</p>
 <p>实际问题中是在观测数据上进行PCA，也就是说知道$n$样本$\mathbb x_1,\mathbb x_2,\cdots,\mathbb x_n$，这就是样本主成分分析。可以看出，对于给定样本观测集求出的均值就是一个对总体分布参数的一个估计。</p>
 <p><strong>样本PCA和总体PCA性质完全相同，上一节的东西完全适用，不过我们可以直接在样本集上求平均和协方差了。</strong></p>
@@ -588,7 +617,7 @@ S^o=R=\frac{1}{n-1}XX^T</script><h2 id="求样本PCA"><a href="#求样本PCA" cl
   <entry>
     <title>大数据相似度计算：局部敏感哈希算法</title>
     <url>/2019/12/04/%E5%B1%80%E9%83%A8%E6%95%8F%E6%84%9F%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p><em>施工中</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>施工中</em></p>
 <p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
 <p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
 <p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
@@ -636,7 +665,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="回�
   <entry>
     <title>Fences—整理桌面利器</title>
     <url>/2019/12/02/Fences%E2%80%94%E6%95%B4%E7%90%86%E6%A1%8C%E9%9D%A2%E5%88%A9%E5%99%A8/</url>
-    <content><![CDATA[<p>由于我喜欢什么东西都扔桌面上，所以得经常定期清理一次桌面，但桌面清理干净了找很多东西又很不方便</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>由于我喜欢什么东西都扔桌面上，所以得经常定期清理一次桌面，但桌面清理干净了找很多东西又很不方便</p>
 <p>于是就经常对着凌乱的桌面感到绝望…</p>
 <p><img src="//aisakaki.com/2019/12/02/Fences—整理桌面利器/3.png" alt="3" style="zoom:50%;"></p>
 <a id="more"></a>    
@@ -658,7 +687,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="回�
   <entry>
     <title>初雪</title>
     <url>/2019/11/29/%E5%88%9D%E9%9B%AA/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/11/29/初雪/0.jpg" alt="0" style="zoom: 50%;"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/11/29/初雪/0.jpg" alt="0" style="zoom: 50%;"></p>
 <p>晚上被老师留了下来，没法去桌游社玩期待好久的新桌游，但走的时候恰好遇到了初雪。<br>今晚的初雪好美，路灯在飞雪的映衬下像圣诞树上的星星。<br>作为在南方长大的人，是基本不可能看到雪的，所以每次看到雪还是会有些激动。</p>
 <p>还记得第一次看到雪是一个人去东京的时候，坐在去往东京，乘客寥寥的电车上，窗外没有一丝雪的踪迹。车内的暖气让我打了个小盹，一抬头就发现雪花飞速从车窗划过，车外已是银装素裹，都边的矮别墅都顶着厚厚的积雪。从地铁口探出头就发现自己已经被雪所覆盖的世界层层包裹。我在那个地方迷路了，踏在湿滑的地面上四处跌跌撞撞地找路。后来才知道那个地方叫浅草。<br>都过去这么久了。<br>明天会更冷吧。</p>
 ]]></content>
@@ -672,7 +701,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><h1 id="回�
   <entry>
     <title>主成分分析（一）</title>
     <url>/2019/11/27/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p>Principal Component Analysis， PCA</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Principal Component Analysis， PCA</p>
 <p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对原基下的数据进行<strong>正交基变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
 <p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
 <p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
@@ -906,7 +935,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
   <entry>
     <title>我知道光在哪里</title>
     <url>/2019/11/26/%E5%86%99%E7%BB%99%E6%B3%95%E7%A7%91%E7%94%9F%E7%9A%84%E4%BF%A1/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>在一个黑白混杂的世界里，你是选择描摹黑暗，还是在内心不够强大的时候，先去感知光明？如果我们对于这个世界的态度取决于那些最恶的人做了哪些最恶的事，而不是那些最善良的人做了哪些善良的事，我们与黑暗，就是一体的。</p>
 <p>我，知道光在哪里。</p>
 </blockquote>
@@ -945,7 +974,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
   <entry>
     <title>矩阵计算与矩阵分解</title>
     <url>/2019/11/25/%E7%9F%A9%E9%98%B5%E8%AE%A1%E7%AE%97/</url>
-    <content><![CDATA[<p><em>矩阵范数和矩阵求导术以后完成</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>矩阵范数和矩阵求导术以后完成</em></p>
 <p><em>在线性代数和矩阵论都已经学过，这里只写一些常用的</em></p>
 <a id="more"></a>    
 <h2 id="基本计算"><a href="#基本计算" class="headerlink" title="基本计算"></a>基本计算</h2><ol>
@@ -1195,7 +1224,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
   <entry>
     <title>绮凝盏(双笙xHanser)</title>
     <url>/2019/11/25/%E7%BB%AE%E5%87%9D%E7%9B%8F-%E5%8F%8C%E7%AC%99xHanser/</url>
-    <content><![CDATA[<div style="text-align: center"><i>你像银河的微光　绵绵的暗香</i></div>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center"><i>你像银河的微光　绵绵的暗香</i></div>
 <div style="text-align: center"><i>锁在玻璃的橱窗　盛着幻想乡</i></div>
 <div style="text-align: center"><i>展牌落款的红章　结束了飘荡</i></div>
 <div style="text-align: center"><i>你曾见闻的时光　饮三杯再唱 </i></div>
@@ -1215,7 +1244,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
   <entry>
     <title>第一关关卡设计</title>
     <url>/2019/11/23/%E7%AC%AC%E4%B8%80%E5%85%B3%E5%85%B3%E5%8D%A1%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<p><em>本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜</em></p>
 <h2 id="第一关设计目的"><a href="#第一关设计目的" class="headerlink" title="第一关设计目的"></a>第一关设计目的</h2><p>给玩家引入<strong>新机制——电力</strong>，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。</p>
 <a id="more"></a>    
 <h2 id="第一关可用道具"><a href="#第一关可用道具" class="headerlink" title="第一关可用道具"></a>第一关可用道具</h2><p><strong>梯子[1]</strong>：玩家使用该道具后在朝向位置生成一个梯子，该梯子与楼梯中其他上下梯子功能想通过但可以作为道具回收</p>
@@ -1292,7 +1321,7 @@ A^TA=V(\Sigma^T\Sigma)V^T</script><p>于是存在对应关系：<strong>$V$的�
   <entry>
     <title>Boosting(XGBoost、LightGBM)</title>
     <url>/2019/11/19/Forest/</url>
-    <content><![CDATA[<p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。</em></p>
 <h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>原论文： <a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">https://arxiv.org/abs/1603.02754</a> </p>
 <p>基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进</p>
 <h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p><strong>表记</strong>$T(x;\Theta_{m})=w_{q(x)}$，$x$为一个样本，$q(x)$表示<strong>该样本所在的叶子结点</strong>，$w_q$为叶子节点$q$的回归输出；于是$w_{q(x)}$即表示每个样本的回归输出，即决策树的输出。定义集合$I_j=\{i|q(x^{(i)})=j\}$表示划分到叶结点$j$的所有训练样本的集合即上一篇的表示法：$\{x|x∈R_{j}\}$。$T$为叶子节点个数（即划分个数）$m$为步/轮数，$N$为样本个数。</p>
@@ -1490,7 +1519,7 @@ f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直�
   <entry>
     <title>11月游戏简评</title>
     <url>/2019/11/18/11%E6%9C%88%E6%B8%B8%E6%88%8F%E7%AE%80%E6%8A%A5/</url>
-    <content><![CDATA[<p>历来的年末都是各大厂商血拼的时候，今年也不例外。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>历来的年末都是各大厂商血拼的时候，今年也不例外。</p>
 <p>在死亡搁浅搁浅之后，还以为今年的GOTY会陷入无人可领的地步，没想到横空杀出了个大黑马，星球大战：绝地真的是把我惊艳到了，或者说震惊到了。</p>
 <h2 id="星球大战：香"><a href="#星球大战：香" class="headerlink" title="星球大战：香"></a>星球大战：香</h2><h3 id="星球大战：绝地武士陨落"><a href="#星球大战：绝地武士陨落" class="headerlink" title="星球大战：绝地武士陨落"></a>星球大战：绝地武士陨落</h3><p>集各家游戏之所长，继承泰坦陨落的灵魂，以星战之衣钵，重生工作室又一次给玩家们交了一张几近满分的答卷（不是满分是因为发行商名字没取对，改名某某某就满分了）。我在这个游戏里看到了塞尔达，黑魂只狼，神海等等各家游戏的优点，又结合了自家出色的手感（可重生以前打击感做得好都是FPS的枪感好，并没有什么ACT的打击感开发经验，这是怎么做到一出手就如此优秀的？incredible. 仁王好好学学别人！！）</p>
 <p>当然也有不少缺点。可以看出来这个游戏还是有很多地方欠打磨，比如各种神奇的穿模和bug…而且第一章画面辣眼睛（但第二章这EA的画面不是又回来了嘛！P.S.然后掉帧也回来了），多敌人战斗的时候有时候视角很奇怪等等</p>
@@ -1547,7 +1576,7 @@ f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直�
   <entry>
     <title>Boosting(AdaBoost、DBT、GBDT)</title>
     <url>/2019/11/17/%E6%8F%90%E5%8D%87%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
 <h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，于是<strong>每个弱分类器各有所长</strong>，<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
 <p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，降低分类效果好的样本的权值，以学习一个新的弱分类器来分开它们（<strong>在整个训练集上学习</strong>），它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
 <p><strong>根据这个思想，Boost方法要考虑两个问题：</strong></p>
@@ -1693,7 +1722,7 @@ c_{mj}=\arg\min_c\sum_{x_i∈R_{mj}}L(y_i,f_{m}(x_i)+c)</script><script type="ma
   <entry>
     <title>决策树</title>
     <url>/2019/11/13/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
-    <content><![CDATA[<h2 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h2><p>机器学习最基本模型之一，DT</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h2><p>机器学习最基本模型之一，DT</p>
 <p>决策树可以看成路径的集合，路径的集合<strong>可以看成$if-then$规则的集合</strong>，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是<strong>互斥且完备</strong>的（每一个实例都被包含在DT里）</p>
 <p>决策树也可以对应于一个<strong>条件概率分布</strong></p>
 <a id="more"></a>    
@@ -1923,7 +1952,7 @@ g(t)=\frac{C(t)-C(T_t)}{|T_t|-1}</script><p>于是<strong>从下往上</strong>�
   <entry>
     <title>非线性支持向量机与序列最小最优化算法</title>
     <url>/2019/11/12/%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</url>
-    <content><![CDATA[<p>（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章）</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章）</p>
 <p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
 <a id="more"></a>    
 <h2 id="核技巧"><a href="#核技巧" class="headerlink" title="核技巧"></a>核技巧</h2><p>kernel trick</p>
@@ -2009,7 +2038,7 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
   <entry>
     <title>Unity2D基础</title>
     <url>/2019/11/10/Unity2D%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<p><em>施工中</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>施工中</em></p>
 <p>如行走，跌倒等动画是绘图之后创建unity2d动画素材，导入后进行裁剪和选取动画导入的</p>
 <p>给实体分组归类是好习惯，在Hierarchy建立一个新的empty game object：<code>create object</code>，然后将组件拖入即可</p>
 <a id="more"></a>
@@ -2043,7 +2072,7 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
   <entry>
     <title>夢に僕らで帆を張って　来るべき日のために夜を越え</title>
     <url>/2019/11/10/%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%902/</url>
-    <content><![CDATA[<div align="MIDDLE">
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div align="MIDDLE">
 <iframe src="//player.bilibili.com/player.html?aid=73527359&cid=125772545&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="564"> 
 </iframe>
 </div>
@@ -2064,7 +2093,7 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
   <entry>
     <title>线性（可分）支持向量机</title>
     <url>/2019/11/07/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="Support-Vector-Machines"><a href="#Support-Vector-Machines" class="headerlink" title="Support Vector Machines"></a>Support Vector Machines</h2><p>支持向量机，SVM</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Support-Vector-Machines"><a href="#Support-Vector-Machines" class="headerlink" title="Support Vector Machines"></a>Support Vector Machines</h2><p>支持向量机，SVM</p>
 <p>SVM应用于二分类问题。</p>
 <p>输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。</p>
 <p>线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。</p>
@@ -2249,7 +2278,7 @@ s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type=
   <entry>
     <title>逻辑斯谛回归模型</title>
     <url>/2019/11/06/%E9%80%BB%E8%BE%91%E6%96%AF%E8%B0%9B%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
 <p>二项逻辑斯谛回归模型</p>
 <script type="math/tex; mode=display">
 P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
@@ -2298,7 +2327,7 @@ P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}e^{w_kx}}</script><p>$x∈\mathbb R^{n+1},w_
   <entry>
     <title>拉格朗日乘子与对偶性</title>
     <url>/2019/11/05/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E5%AF%B9%E5%81%B6%E6%80%A7/</url>
-    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题</p>
 <script type="math/tex; mode=display">
 \min_{x∈\mathbb R^n}f(x)</script><script type="math/tex; mode=display">
 s.t.\quad c_i(x)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
@@ -2386,7 +2415,7 @@ h_j(x^o)=0,j=1,2,\cdots,l\quad⑤</script><p>可以看出有几大类条件：�
   <entry>
     <title>最大熵模型（二）</title>
     <url>/2019/11/04/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="最大熵模型求解"><a href="#最大熵模型求解" class="headerlink" title="最大熵模型求解"></a>最大熵模型求解</h2><h3 id="mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性"><a href="#mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性" class="headerlink" title="$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性"></a>$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性</h3><p>使用拉格朗日乘子法：</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="最大熵模型求解"><a href="#最大熵模型求解" class="headerlink" title="最大熵模型求解"></a>最大熵模型求解</h2><h3 id="mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性"><a href="#mathbb-S1-o-拉格朗日乘子法与拉格朗日对偶性" class="headerlink" title="$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性"></a>$\mathbb S1^o$拉格朗日乘子法与拉格朗日对偶性</h3><p>使用拉格朗日乘子法：</p>
 <p>$L(P,w)=-H(P)+w_0(1-\sum_yP(y|x))+\sum_{i=1}^nw_i(\mathbb E_{\hat P}(f_i)-\mathbb E_{P}(f_i))$</p>
 <p>$=\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)+w_0(1-\sum_yP(y|x))$</p>
 <p>$+\sum_{i=1}^nw_i(\sum_{x,y}\hat P(x,y)f_i(x,y)-\sum_{x,y} \hat P(x)P(y|x)f_i(x,y))$</p>
@@ -2475,7 +2504,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
   <entry>
     <title>天气之子</title>
     <url>/2019/11/03/%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/11/03/天气之子/0.jpg" alt="0"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/11/03/天气之子/0.jpg" alt="0"></p>
 <div style="text-align: center"><strong>Weathering With You</strong></div>
 <div><br></div>
 <div style="text-align: center">何もない僕たちに　なぜ夢を見させたか</div>
@@ -2508,7 +2537,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
   <entry>
     <title>Utopia</title>
     <url>/2019/11/02/Utopia/</url>
-    <content><![CDATA[<p>那是我第一次爬到教学楼的楼顶。<br>平时挂在门上的锁不见了<br>顶层储物间的门外即是天台。<br>我坐在天台边<br>双手向后撑在地面上<br>仰着身子朝向碧青色的澄澈天空。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>那是我第一次爬到教学楼的楼顶。<br>平时挂在门上的锁不见了<br>顶层储物间的门外即是天台。<br>我坐在天台边<br>双手向后撑在地面上<br>仰着身子朝向碧青色的澄澈天空。</p>
 <a id="more"></a>
 <p><div><br></div><br>轻轻嗅到的是夏日的清香<br>视野所及是微风拂过的草原<br>伸一伸手可以够得着天上粉色的云彩。<br>我喜欢这里<br>于是我每每下午放学后就来到这里。<br>有时会有青鸟飞过<br>停留在我的身边<br>叽叽喳喳；<br>有时会有松鼠露出头<br>和我一样坐在天台边<br>感受夏风的温凉。</p>
 <p><div><br></div><br>我种下了星辰花<br>她们渐渐地开满了整个天台<br>他们成为了我的伙伴。<br>有时会有阵雨掠过<br>但他每次很快就离开。<br>我张开内心的柔软，追忆过去<br>描绘着门里面发生的故事<br>倾诉理想和未来。<br>那是这个世界唯一的乌托邦。</p>
@@ -2521,7 +2550,7 @@ L(w)=\sum_{x,y}\hat P(x,y)\sum_{i=1}^nw_if_i(x)-\sum_{x}\hat P(x)\log Z_w(x)</sc
   <entry>
     <title>最大熵模型（一）</title>
     <url>/2019/11/01/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="Maximum-Entropy-Theory-Intro"><a href="#Maximum-Entropy-Theory-Intro" class="headerlink" title="Maximum Entropy Theory Intro"></a>Maximum Entropy Theory Intro</h2><p>最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用<strong>约束条件</strong>来确定概率模型的集合，所以最大熵原理也可以表述为<strong>在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型</strong>。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Maximum-Entropy-Theory-Intro"><a href="#Maximum-Entropy-Theory-Intro" class="headerlink" title="Maximum Entropy Theory Intro"></a>Maximum Entropy Theory Intro</h2><p>最大熵原理：学习概率模型时，所有可能的概率模型（分布）中，熵最大的模型是最好的模型。通常用<strong>约束条件</strong>来确定概率模型的集合，所以最大熵原理也可以表述为<strong>在给定已知信息下，满足约束条件的模型集合中，选取熵最大的模型</strong>。</p>
 <p>也就是说，在目前已观测到的所有信息下，最合理的对未知信息的预测就是对所有未知信息最不确定的推断（每种未知情况等可能）。$H(P)$表示$P$的不确定性，<strong>最不确定的情况=熵最大的情况=每种未知情况都等可能发生</strong>，这就给出了最好模型选择的准则</p>
 <script type="math/tex; mode=display">
 H(P)=-\sum_xP(x)\log P(x),其中0≤H(P)≤\log|X|</script><p>表示随机变量$X$的概率分布$P(X)$的熵，$|X|$表示$X$的取值个数。当且仅当$X$的分布是均匀分布时右边等号成立，这时候<strong>条件熵最大</strong>。即：在已知信息下，$P(X)$的熵最大</p>
@@ -2595,7 +2624,7 @@ H(P)=-\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)</script><p>则模型集合$\mathbb C$
   <entry>
     <title>Game Month!</title>
     <url>/2019/10/31/month/</url>
-    <content><![CDATA[<div style="text-align: center">纪念一下</div>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center">纪念一下</div>
 
 <hr>
 <div style="text-align: center"> <strong>[10月25日]the outer world</strong></div>
@@ -2622,7 +2651,7 @@ H(P)=-\sum_{x,y}\hat P(x)P(y|x)\log P(y|x)</script><p>则模型集合$\mathbb C$
   <entry>
     <title>改进的迭代尺度法</title>
     <url>/2019/10/31/Scaling/</url>
-    <content><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>IIS和EM一样，也是一种<strong>构造下界计算近似MLE</strong>的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>IIS和EM一样，也是一种<strong>构造下界计算近似MLE</strong>的优化算法。事实上IIS算法就是对GIS（Generalized Iterative Scaling，通用迭代法，本质也是一种EM算法）算法进行改进而来的。</p>
 <p>IIS利用$\log$函数的性质，以及指数函数的凸性，对目标函数进行了两次缩放，来求解下界函数。 对于MEM和CRF，使用IIS比GIS收敛快很多。</p>
 <p>在EM算法中，每次迭代获取到新的边界$B(\theta,\theta^i)$后，需要求$\theta^{i+1}=\arg\max_\theta B(\theta,\theta^i)$，简化$B$成$Q$函数后，即是要求$\frac{\partial Q}{\partial \theta}=0$，然后$\theta^i\to\theta^{i+1}$。在这种方法下，如果$\theta$维度很高又不独立的话（即模型参数很多，含有多个变量）的话，就不能对各参数分别求0偏导，需要全局优化。于是IIS另辟蹊径，采用了一次只优化$\theta$中的一个变量$\delta_i$，而固定其他变量$\delta_j$的方法。</p>
 <p>IIS可以用在CRF，MEM等模型中（HMM属于一种特殊的CRF，也可以用，但效果没EM好）</p>
@@ -2696,7 +2725,7 @@ f^o(x,y)=\sum_if(x,y)</script><p>（b）更新$w_i$的值：$w_i \leftarrow  w_i
   <entry>
     <title>条件随机场</title>
     <url>/2019/10/29/%E6%9D%A1%E4%BB%B6%E9%9A%8F%E6%9C%BA%E5%9C%BA/</url>
-    <content><![CDATA[<h2 id="Conditional-Random-Field"><a href="#Conditional-Random-Field" class="headerlink" title="Conditional Random Field"></a>Conditional Random Field</h2><p>在我前面的文章中有一些概率图模型的基础知识：<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习中的结构化概率模型</a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Conditional-Random-Field"><a href="#Conditional-Random-Field" class="headerlink" title="Conditional Random Field"></a>Conditional Random Field</h2><p>在我前面的文章中有一些概率图模型的基础知识：<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习中的结构化概率模型</a></p>
 <p>如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：<a href="https://aisakaki.com/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/">配分函数</a>，其中用到了蒙特卡罗方法，参看前文：<a href="https://aisakaki.com/2019/10/12/%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%96%B9%E6%B3%95/">蒙特卡罗方法</a></p>
 <p>将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的<strong>因子分解</strong>(factorization)</p>
 <p><strong>标注问题：</strong>在条件概率模型$P(Y|X)$中，$Y$是输出变量，表示输出的标记序列（或状态序列），$X$是输入变量，表示需要标注的观测序列。<strong>注意被标注的是标记序列/状态序列</strong>，不是观测序列。HMM和CRF都可以用于标注问题（只是其中一个应用）。</p>
@@ -2813,7 +2842,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
   <entry>
     <title>海</title>
     <url>/2019/10/29/%E6%B5%B7/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/10/29/海/0.jpg" alt="0"><br><a id="more"></a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/10/29/海/0.jpg" alt="0"><br><a id="more"></a></p>
 <p><div style="text-align: center"><i>未来へ</i></div></p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=535056564&auto=0&height=66"></iframe>
 
@@ -2825,7 +2854,7 @@ P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}<
   <entry>
     <title>隐马尔可夫模型（二）</title>
     <url>/2019/10/27/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="学习算法—预测模型参数-lambda-A-B-pi"><a href="#学习算法—预测模型参数-lambda-A-B-pi" class="headerlink" title="学习算法—预测模型参数$\lambda=(A,B,\pi)$"></a>学习算法—预测模型参数$\lambda=(A,B,\pi)$</h2><p>若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="学习算法—预测模型参数-lambda-A-B-pi"><a href="#学习算法—预测模型参数-lambda-A-B-pi" class="headerlink" title="学习算法—预测模型参数$\lambda=(A,B,\pi)$"></a>学习算法—预测模型参数$\lambda=(A,B,\pi)$</h2><p>若知$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$求$(A,B,\pi)$，用监督学习方法</p>
 <p>若知$\{O_1,O_2,\cdots,O_S\}$求$(A,B,\pi)$，用非监督学习方法Baum-Welch算法</p>
 <a id="more"></a>
 <h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><p>通过转移状态与观测出现的频率来估算参数</p>
@@ -2934,7 +2963,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
   <entry>
     <title>项目管理基础</title>
     <url>/2019/10/27/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<p><em>week3 项目管理基础 粗略大纲笔记</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>week3 项目管理基础 粗略大纲笔记</em></p>
 <a id="more"></a>
 <p>游戏开发模型</p>
 <ol>
@@ -2975,7 +3004,7 @@ b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}
   <entry>
     <title>隐马尔可夫模型（一）</title>
     <url>/2019/10/25/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Hidden-Markov-Model"><a href="#Hidden-Markov-Model" class="headerlink" title="Hidden Markov Model"></a>Hidden Markov Model</h2><p>隐马尔可夫模型，HMM，属于生成模型</p>
 <p>HMM存在两个随机过程，且两个过程是相互联系的，具体来说就是<strong>第一个随机过程为状态序列随机过程</strong>，这和一般的<strong>马尔可夫链</strong>一致（具有马尔可夫性，当前状态只与前一个状态有关，与其它状态、观测无论未来还是过去都无关），<strong>第二个随机过程为观测序列的随机过程</strong>，它的当前值（观测值）由每一时刻的状态序列随机过程下的当前状态生成，且观测序列当前值只与状态序列随机过程的当前状态有关，与随机过程中其它观测和状态无论未来还是过去无关。即：</p>
 <script type="math/tex; mode=display">
 P_{状态}(i_t|i_{t-1},o_{t-1},\cdots,i_1,o_1)=P(i_t|i_{t-1}),t=1,2,\cdots,T</script><script type="math/tex; mode=display">
@@ -3059,7 +3088,7 @@ P(O,I|\lambda)=P(O|I,\lambda)P(I|\lambda)=((\pi_{i_1} b_{i_1}(o_1)) (a_{i_1i_2}b
   <entry>
     <title>上帝算法：EM</title>
     <url>/2019/10/23/EM%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="现实中的例子"><a href="#现实中的例子" class="headerlink" title="现实中的例子"></a>现实中的例子</h2><p>对于NLP中的PLSA模型，$d∈D$表示文档，$w∈V$表示词语，$z$表示隐含的主题。</p>
 <p>由于隐变量的存在，</p>
 <p>则$P(d_i,w_j)=P(d_i)P(w_j|d_i)=P(d_i)\sum_{k=1,\cdots,K}P(w_j|z_k)P(z_k|d_i)$</p>
 <p>这里$z$就是不知道的变量=潜变量=隐变量</p>
@@ -3148,7 +3177,7 @@ P(B_i|A)=\frac{P(A,B_j)}{P(B_j)}=\frac{P(A|B_i)P(B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j
   <entry>
     <title>Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks</title>
     <url>/2019/10/21/NETWORKS/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>《Unsupervised Representation Learning With Deep Convolutional Generative Adversarial Networks》<br>Alec Radford&amp;Luke Metz ,Soumith Chintala<br>ICLR 2016</p>
 </blockquote>
 <h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ul>
@@ -3233,7 +3262,7 @@ P(B_i|A)=\frac{P(A,B_j)}{P(B_j)}=\frac{P(A|B_i)P(B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j
   <entry>
     <title>游戏中的心理学</title>
     <url>/2019/10/20/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E5%BF%83%E7%90%86%E5%AD%A6/</url>
-    <content><![CDATA[<p><em>week2-游戏中的心理学 课堂总结</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>week2-游戏中的心理学 课堂总结</em></p>
 <h2 id="乐趣原理"><a href="#乐趣原理" class="headerlink" title="乐趣原理"></a>乐趣原理</h2><p>人为什么需要玩游戏？为什么在漫长的进化过程中，只有人类有对游戏的需要？</p>
 <p>游戏的本质：人类对现实或超现实世界里 <strong>某种模式</strong> （对事物的规律的抽象提炼）的仿真和模仿</p>
 <p>掌握和学习模式其实是人类进化的需求。人类的大脑有一种其他生物不具备的能力和喜好，就是从现实环境中不断<strong>识别和仿真模式</strong></p>
@@ -3286,7 +3315,7 @@ P(B_i|A)=\frac{P(A,B_j)}{P(B_j)}=\frac{P(A|B_i)P(B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j
   <entry>
     <title>且听风吟</title>
     <url>/2019/10/19/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F/</url>
-    <content><![CDATA[<p>尝试着给主页换了很多副标题，但最后还是用了「且听风吟」这四个字。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>尝试着给主页换了很多副标题，但最后还是用了「且听风吟」这四个字。</p>
 <p>「且听风吟」来自村上春树的同名小说《且听风吟》</p>
 <p>原文是「 風の歌を聴け」，其实字面意思与原意有一些差别。</p>
 <p> 「 且 」字给原意加入了一层浪漫与释然的情感，</p>
@@ -3329,7 +3358,7 @@ P(B_i|A)=\frac{P(A,B_j)}{P(B_j)}=\frac{P(A|B_i)P(B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j
   <entry>
     <title>配分函数</title>
     <url>/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>本文为 Deep Learning Ch.18 学习后总结的笔记</em></p>
 <h2 id="配分函数"><a href="#配分函数" class="headerlink" title="配分函数"></a>配分函数</h2><p>配分函数是统计物理学中常使用的概念，在前面<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/">深度学习的结构化概率模型</a>中出现了配分函数：$p(x)=\frac{1}{Z}\hat{p}(\vec x)$</p>
 <p>$x$为模型中的所有参数组成的向量，记为：</p>
 <script type="math/tex; mode=display">
@@ -3425,7 +3454,7 @@ Z_1=\frac{Z_0}{K}\sum^K_{k=1}\frac{\hat{p}_1(x^{(k)})}{\hat{p}_0(x^{(k)})}</scri
   <entry>
     <title>绽放之后</title>
     <url>/2019/10/17/%E7%BB%BD%E6%94%BE%E4%B9%8B%E5%90%8E/</url>
-    <content><![CDATA[<div style="text-align: center"><i>如花火般短暂，如花火般绚烂</i></div>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center"><i>如花火般短暂，如花火般绚烂</i></div>
 <a id="more"></a>
 
 <div align="MIDDLE">
@@ -3445,7 +3474,7 @@ Z_1=\frac{Z_0}{K}\sum^K_{k=1}\frac{\hat{p}_1(x^{(k)})}{\hat{p}_0(x^{(k)})}</scri
   <entry>
     <title>失眠飞行</title>
     <url>/2019/10/14/%E5%A4%B1%E7%9C%A0%E9%A3%9E%E8%A1%8C/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/10/14/失眠飞行/0.jpg" alt="0"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/10/14/失眠飞行/0.jpg" alt="0"></p>
 <p><div style="text-align: center"><i>我想和你 一起闯进森林潜入海底</i></div></p>
 <p><div style="text-align: center"><i>我想和你 一起看日出到日落天气</i></div></p>
 <p><div style="text-align: center"><i>我想和你穿过格林威治和时间飞行</i></div></p>
@@ -3464,7 +3493,7 @@ Z_1=\frac{Z_0}{K}\sum^K_{k=1}\frac{\hat{p}_1(x^{(k)})}{\hat{p}_0(x^{(k)})}</scri
   <entry>
     <title>寒露</title>
     <url>/2019/10/13/%E5%AF%92%E9%9C%B2/</url>
-    <content><![CDATA[<p>眼眸里流动着窗外的街景，打了一个寒战之后才意识到，深秋的冰冷正从自己倚靠在车窗上的头侧侵袭而来。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>眼眸里流动着窗外的街景，打了一个寒战之后才意识到，深秋的冰冷正从自己倚靠在车窗上的头侧侵袭而来。</p>
 <p>四面八方依稀传来的的轮胎与湿漉漉的地面的拍打声不绝于耳，淅淅沥沥的雨点与溅起的水花构成车外寂寥的白噪，在白茫茫的天际下，这座庞大的城市显得格外的孤独。</p>
 ]]></content>
       <categories>
@@ -3477,7 +3506,7 @@ Z_1=\frac{Z_0}{K}\sum^K_{k=1}\frac{\hat{p}_1(x^{(k)})}{\hat{p}_0(x^{(k)})}</scri
   <entry>
     <title>腾讯游戏策划培训课堂笔记-week1</title>
     <url>/2019/10/13/%E8%85%BE%E8%AE%AF%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E5%9F%B9%E8%AE%AD%E8%AF%BE%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0-week1/</url>
-    <content><![CDATA[<p><em>很幸运能通过面试进入腾讯的策划课程，时间是每周日下午</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>很幸运能通过面试进入腾讯的策划课程，时间是每周日下午</em></p>
 <p><strong>week 1 揭开游戏设计师的神秘面纱—开课典礼</strong></p>
 <p>下周开始组队研发一款mini-game</p>
 <h2 id="策划"><a href="#策划" class="headerlink" title="策划"></a>策划</h2><p>策划：制定游戏规则，怎么玩</p>
@@ -3682,7 +3711,7 @@ Z_1=\frac{Z_0}{K}\sum^K_{k=1}\frac{\hat{p}_1(x^{(k)})}{\hat{p}_0(x^{(k)})}</scri
   <entry>
     <title>蒙特卡罗方法</title>
     <url>/2019/10/12/%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="采样与蒙特卡罗方法"><a href="#采样与蒙特卡罗方法" class="headerlink" title="采样与蒙特卡罗方法"></a>采样与蒙特卡罗方法</h2><p>为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="采样与蒙特卡罗方法"><a href="#采样与蒙特卡罗方法" class="headerlink" title="采样与蒙特卡罗方法"></a>采样与蒙特卡罗方法</h2><p>为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样</p>
 <p>蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法<strong>把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望</strong>（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p(x)$的乘积，即$f(x)$在$p(x)$分布上的均值）</p>
 <script type="math/tex; mode=display">
 s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取$n$个样本$(x_1,\cdots,x_n)～p(x)$（同期望证明略，使用大数定理可证得）来近似之，则</p>
@@ -3761,7 +3790,7 @@ p(X)=Q(X,Y)=p(Y)Q(Y,X)</script><p><img src="//aisakaki.com/2019/10/12/蒙特卡�
   <entry>
     <title>深度学习中的结构化概率模型</title>
     <url>/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>本文为 Deep Learning Ch.16 学习后整理的笔记</em></p>
 <h2 id="结构化概率模型"><a href="#结构化概率模型" class="headerlink" title="结构化概率模型"></a>结构化概率模型</h2><p>概率图模型（PGM）描述概率有助于减少表示概率分布，学习和推断的成本。间接表示间接关系而不是直接表示</p>
 <h2 id="有向图模型-信念网络-贝叶斯网络"><a href="#有向图模型-信念网络-贝叶斯网络" class="headerlink" title="有向图模型=信念网络=贝叶斯网络"></a>有向图模型=信念网络=贝叶斯网络</h2><p>方向仅表示依赖关系而不表明如何依赖</p>
 <p>通过有向无环图和一系列<strong>局部条件概率分布</strong>定义</p>
@@ -3833,7 +3862,7 @@ F(x)=-\log \sum_h e^{-E(x,h)}</script> <a id="more"></a>
   <entry>
     <title>Autoencoder</title>
     <url>/2019/10/09/Autoencoder/</url>
-    <content><![CDATA[<h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
 <p>目标函数为重构误差（reconstruction error)，目标是使得解码器的输出与编码器的输入同分布</p>
 <p><strong>隐藏层单元数&lt;输入层单元数</strong>即可用于降维，如果编码的激活函数为线性函数就成为了<strong>PCA</strong></p>
 <p>但现在一般<strong>隐藏层单元数&gt;=输入层单元数</strong>比较多，这样可以挖掘更多高维特征，但容易造成神经网络的输出为输入的直接“复制”，为了解决这个问题，引入了<strong>正则</strong>和<strong>随机性</strong>等等，且可以组合使用</p>
@@ -3880,7 +3909,7 @@ J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩�
   <entry>
     <title>行って、振り向かないで</title>
     <url>/2019/10/03/%E4%B8%8D%E8%A6%81%E5%9B%9E%E5%A4%B4%EF%BC%8C%E4%B8%80%E7%9B%B4%E5%90%91%E5%89%8D/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/10/03/不要回头，一直向前/0.png" alt="Snipaste_2019-10-04_08-27-03"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/10/03/不要回头，一直向前/0.png" alt="Snipaste_2019-10-04_08-27-03"></p>
 <p><div style="text-align: center"><i>“不要回头，一直向前 ”</i></div></p>
 <p><div style="text-align: right"><i>——《千与千寻的神隐》</i></div></p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=578090&auto=0&height=66"></iframe>
@@ -3892,7 +3921,7 @@ J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩�
   <entry>
     <title>另一种提取中间层输出的办法与风格迁移的改进</title>
     <url>/2019/09/30/%E5%8F%A6%E4%B8%80%E7%A7%8D%E6%8F%90%E5%8F%96%E4%B8%AD%E9%97%B4%E5%B1%82%E8%BE%93%E5%87%BA%E7%9A%84%E5%8A%9E%E6%B3%95%E4%B8%8E%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB%E7%9A%84%E6%94%B9%E8%BF%9B/</url>
-    <content><![CDATA[<h2 id="提取中间层输出"><a href="#提取中间层输出" class="headerlink" title="提取中间层输出"></a>提取中间层输出</h2><p>除了在我前面的文章<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/">pytorch获取中间层参数、输出与可视化</a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="提取中间层输出"><a href="#提取中间层输出" class="headerlink" title="提取中间层输出"></a>提取中间层输出</h2><p>除了在我前面的文章<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/">pytorch获取中间层参数、输出与可视化</a></p>
 <p>提到的使用hook函数获取中间层输出以外，还可以用更直接的办法，不使用hook函数</p>
 <p><strong>方法一：将model中的每层拆解出来依次在监控下让数据流过</strong><br>可以借助<code>isinstance(layer, nn.Conv2d)</code>判断层类型</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    layer_index = <span class="number">0</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> layer <span class="keyword">in</span> model:</span><br><span class="line">        <span class="keyword">if</span> layer_index == <span class="number">0</span>:</span><br><span class="line">            out = layer(img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            out = layer(out)</span><br><span class="line">        <span class="keyword">if</span> layer_index <span class="keyword">in</span> layers:</span><br><span class="line">            res.append(out)</span><br><span class="line">        layer_index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
@@ -3924,7 +3953,7 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
   <entry>
     <title>拟牛顿法</title>
     <url>/2019/09/26/%E6%8B%9F%E7%89%9B%E9%A1%BF%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>牛顿法中最困难的部分在于计算$H$和$H^{-1}$</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>牛顿法中最困难的部分在于计算$H$和$H^{-1}$</p>
 <p>拟牛顿法的思想就是不用二阶偏导数而构造出可以<strong>近似</strong>$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数。但是不可能随便一个矩阵都能近似$H$，所以我们要给近似矩阵开一个条件，也就是下面的拟牛顿条件</p>
 <h2 id="拟牛顿条件"><a href="#拟牛顿条件" class="headerlink" title="拟牛顿条件"></a>拟牛顿条件</h2><p>由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了</p>
 <script type="math/tex; mode=display">
@@ -3966,7 +3995,7 @@ y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=d
   <entry>
     <title>牛顿法求解非线性优化</title>
     <url>/2019/09/26/%E7%89%9B%E9%A1%BF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
 <h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
 <script type="math/tex; mode=display">
 \phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
@@ -4036,7 +4065,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
   <entry>
     <title>骚动时节的少女们啊</title>
     <url>/2019/09/25/%E9%AA%9A%E5%8A%A8%E6%97%B6%E8%8A%82%E7%9A%84%E5%B0%91%E5%A5%B3%E4%BB%AC%E5%95%8A/</url>
-    <content><![CDATA[<p>应该是老马失蹄的最惨的一次</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>应该是老马失蹄的最惨的一次</p>
 <p>没想到后半段开始一路血崩…</p>
 <p>这就是部青春期性教育重要性的宣传片.. 前八集非常不错，冈妈将细腻与敏感的初春体现的淋漓尽致</p>
 <p>但是第八集之后，至少我是理解不能…… </p>
@@ -4054,7 +4083,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
   <entry>
     <title>IOS开发小记</title>
     <url>/2019/09/25/XCODE%E5%BC%80%E5%8F%91%E5%B0%8F%E8%AE%B0/</url>
-    <content><![CDATA[<p>最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后…</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后…</p>
 <p>不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧</p>
 <p>因为当时没用pods管理第三方库…以下踩坑记录</p>
 <ol>
@@ -4140,7 +4169,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
   <entry>
     <title>神经风格迁移</title>
     <url>/2019/09/21/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB/</url>
-    <content><![CDATA[<h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><script type="math/tex; mode=display">
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><script type="math/tex; mode=display">
 L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)</script><p>内容图像（C）,生成的图像（G ）,样式图像（S）</p>
 <p>合成图像为唯一需要学习（更新）的参数（视为模型参数），也是生成的结果，而不是VGG</p>
 <p>输入：C</p>
@@ -4178,7 +4207,7 @@ G=
   <entry>
     <title>Adversary Resistant Deep Neural Networks with an Application to Malware Detection</title>
     <url>/2019/09/19/toMalwareDetection/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>《Adversary Resistant Deep Neural Networks with an Application to Malware Detection》<br>    Qinglong Wang ,Wenbo Guo,Kaixuan Zhang,AlexanderG.OrorbiaII, Xinyu Xing,Xue Liu,C.LeeGiles<br>    KDD 2017（CCF-A）</p>
 </blockquote>
 <h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
@@ -4261,7 +4290,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>云雀</title>
     <url>/2019/09/18/%E4%BA%91%E9%9B%80/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/09/18/云雀/64633930_p0.png" alt="64633930_p0"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/09/18/云雀/64633930_p0.png" alt="64633930_p0"></p>
 <div style="text-align: center"><i>懐かしくあどけない　悲しみを捨ててゆこう</i></div>
 <div style="text-align: center"><i>ひとすじ空へ舞い上がる　翼に心をのせて</i></div>
 <div style="text-align: center"><i>ねえ　本当はいつだって　一人は寂しいからね</i></div>
@@ -4283,7 +4312,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>some papers about GAN and AEs in model security</title>
     <url>/2019/09/18/security/</url>
-    <content><![CDATA[<p><div style="text-align: center"><i>mainly collected from security conferences and journals，aiming at machine learning model security</i></div><br><a id="more"></a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><div style="text-align: center"><i>mainly collected from security conferences and journals，aiming at machine learning model security</i></div><br><a id="more"></a></p>
 <div class="table-container">
 <table>
 <thead>
@@ -4579,7 +4608,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>个人NAS计划</title>
     <url>/2019/08/28/%E4%B8%AA%E4%BA%BANAS%E8%AE%A1%E5%88%92/</url>
-    <content><![CDATA[<p>眼看着google drive容量即将撑爆..而且9月13号到期<img src="//aisakaki.com/2019/08/28/个人NAS计划/1.png" alt="1"><br>然后一看续费扩容计划…<br> <a id="more"></a><br><img src="//aisakaki.com/2019/08/28/个人NAS计划/2.png" alt="2"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>眼看着google drive容量即将撑爆..而且9月13号到期<img src="//aisakaki.com/2019/08/28/个人NAS计划/1.png" alt="1"><br>然后一看续费扩容计划…<br> <a id="more"></a><br><img src="//aisakaki.com/2019/08/28/个人NAS计划/2.png" alt="2"></p>
 <p>99.99$/1T emmm，家境贫寒，告辞</p>
 <p>于是目光投向微软<img src="//aisakaki.com/2019/08/28/个人NAS计划/3.png" alt="3"></p>
 <p>。。。。。<br><img src="//aisakaki.com/2019/08/28/个人NAS计划/7.png" alt="7"><br>。<br>。<br>。<br>。<br>。<br>。<br>。<br>。</p>
@@ -4676,7 +4705,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>高达升级</title>
     <url>/2019/08/16/%E9%AB%98%E8%BE%BE%E5%8D%87%E7%BA%A7/</url>
-    <content><![CDATA[<p>这个月又对我的台式机PC电脑的几个零件进行了升级，主要是更换了CPU，添加了固态硬盘，而且把原来CPU的单风扇120水冷换成了双风扇夹汉堡。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这个月又对我的台式机PC电脑的几个零件进行了升级，主要是更换了CPU，添加了固态硬盘，而且把原来CPU的单风扇120水冷换成了双风扇夹汉堡。</p>
 <p>9900k这货实在是个大火炉，发热量太大了。后来我才发现我忘了设置SYS_FAN的温度检测区域，导致CPU或GPU都热爆了风扇却不全速转起来。</p>
 <p>以下为升级后现在的配置：</p>
 <div class="table-container">
@@ -4801,7 +4830,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>再见，夏天</title>
     <url>/2019/08/11/summer/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/08/11/summer/F845CF3DE17D87ACAEB421026508A8A1.jpg" alt="F845CF3DE17D87ACAEB421026508A8A1"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/08/11/summer/F845CF3DE17D87ACAEB421026508A8A1.jpg" alt="F845CF3DE17D87ACAEB421026508A8A1"></p>
 <div style="text-align: center">朝着大海的列车，在书香，旋律与橘子芬香中，驶向夏天的终点 </div>
 ]]></content>
       <categories>
@@ -4814,7 +4843,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>夏休</title>
     <url>/2019/08/05/JSY/</url>
-    <content><![CDATA[<p>这个暑假应该是人生最短的一次暑假了</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这个暑假应该是人生最短的一次暑假了</p>
 <p>傍晚回到了中学时期住过的小区去看看，保卫大叔竟然一眼认出了我，还和我聊了些以前的事情</p>
 <p>我很惊讶那些小事他都记得，</p>
 <p>而且明明5年都没有回去过了。</p>
@@ -4830,7 +4859,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>Explaining and Harnessing Adversarial Examples</title>
     <url>/2019/07/30/Examples/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
 </blockquote>
 <h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
@@ -4896,7 +4925,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>Pray for Kyoto Animation</title>
     <url>/2019/07/27/Animation/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/07/27/Animation/QQ图片20190726230738.jpg" alt="QQ图片20190726230738"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/07/27/Animation/QQ图片20190726230738.jpg" alt="QQ图片20190726230738"></p>
 <div style="text-align: center">你们一直伴随着我的青春时光，生命却止步于此。 </div>
 
 <div style="text-align: center">R.I.P. 为动画世界奉献了青春的你们。 </div>
@@ -4914,7 +4943,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   <entry>
     <title>mini-batch 在网络里的并行计算</title>
     <url>/2019/07/26/mini-batch/</url>
-    <content><![CDATA[<p>使用小批量可以</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>使用小批量可以</p>
 <p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
 <p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
 <p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
@@ -4971,7 +5000,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>RNN做批</title>
     <url>/2019/07/25/RNN%E5%81%9A%E6%89%B9/</url>
-    <content><![CDATA[<p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
 <p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
 <p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
 <p>以下画图理解，注意紫色是实体结构</p>
@@ -4992,7 +5021,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>我永远喜欢间桐樱</title>
     <url>/2019/07/15/%E6%88%91%E6%B0%B8%E8%BF%9C%E5%96%9C%E6%AC%A2%E9%97%B4%E6%A1%90%E6%A8%B1-jpg/</url>
-    <content><![CDATA[<p><img src="//aisakaki.com/2019/07/15/我永远喜欢间桐樱-jpg/53357546_p0.png" alt="53357546_p0"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="//aisakaki.com/2019/07/15/我永远喜欢间桐樱-jpg/53357546_p0.png" alt="53357546_p0"></p>
 ]]></content>
       <categories>
         <category>Anime</category>
@@ -5004,7 +5033,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>pytorch获取中间层参数、输出与可视化</title>
     <url>/2019/07/10/pytorch%E8%8E%B7%E5%8F%96%E4%B8%AD%E9%97%B4%E5%B1%82%E5%8F%82%E6%95%B0%E3%80%81%E8%BE%93%E5%87%BA%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="获取模型中间层的权重和其他参数"><a href="#获取模型中间层的权重和其他参数" class="headerlink" title="获取模型中间层的权重和其他参数"></a>获取模型中间层的权重和其他参数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#先设定如下网络</span></span><br><span class="line"><span class="comment">#定义网络结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">	    self.c1 = nn.Sequential(</span><br><span class="line">	    nn.Conv2d(<span class="number">3</span>,<span class="number">16</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	    nn.ReLU()</span><br><span class="line">	        ) </span><br><span class="line">	    self.c2 = nn.Sequential(</span><br><span class="line">	        nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	        nn.ReLU(),</span><br><span class="line">	    )</span><br><span class="line">	    self.fc = nn.Linear(<span class="number">2097152</span>,<span class="number">2</span>)</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">	    x = self.c1(x)</span><br><span class="line">	    x = self.c2(x)</span><br><span class="line">	    x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">	    x = self.fc(x) </span><br><span class="line">	    <span class="keyword">return</span> x    </span><br><span class="line">model = net()</span><br><span class="line">model = model.cuda()</span><br><span class="line"><span class="comment">#载入先前训练好并保存的模型权重</span></span><br><span class="line">model.load_state_dict(torch.load(<span class="string">'model_wts.pkl'</span>))</span><br><span class="line"><span class="comment">#此时网络的结构为</span></span><br><span class="line">model</span><br><span class="line">&gt;&gt;</span><br><span class="line">net(</span><br><span class="line">  (c1): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (c2): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">16</span>, <span class="number">32</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (fc): Linear(in_features=<span class="number">2097152</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line">)</span><br><span class="line">	</span><br><span class="line"><span class="comment">#获取某一层</span></span><br><span class="line">model.c1</span><br><span class="line">&gt;&gt;</span><br><span class="line">Sequential(</span><br><span class="line">  (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">  (<span class="number">1</span>): ReLU()</span><br><span class="line">)</span><br><span class="line">model.fc</span><br><span class="line">&gt;&gt;</span><br><span class="line">Linear(in_features=<span class="number">1048576</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment">#获取Sequential里的子层</span></span><br><span class="line">model.c1[<span class="number">0</span>]</span><br><span class="line">&gt;&gt;</span><br><span class="line">Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="comment">#获得某层的权重</span></span><br><span class="line">model.c1[<span class="number">0</span>].weight</span><br><span class="line">&gt;&gt;</span><br><span class="line">Parameter containing:</span><br><span class="line">tensor([[[[ <span class="number">2.7182e-03</span>, <span class="number">-8.7767e-03</span>,  <span class="number">3.2988e-02</span>, <span class="number">-1.0006e-01</span>, <span class="number">-1.1177e-01</span>],</span><br><span class="line">          [<span class="number">-2.9155e-02</span>, <span class="number">-6.2152e-02</span>,  <span class="number">4.1465e-02</span>, <span class="number">-4.5812e-02</span>,  <span class="number">6.7885e-02</span>],</span><br><span class="line">          [<span class="number">-1.0680e-01</span>, <span class="number">-1.0023e-01</span>, <span class="number">-1.7158e-02</span>, <span class="number">-1.3828e-02</span>,  <span class="number">5.7319e-02</span>],</span><br><span class="line">          [ <span class="number">5.1668e-02</span>, <span class="number">-4.2982e-02</span>,  <span class="number">2.7770e-02</span>, <span class="number">-1.1801e-01</span>,  <span class="number">7.9863e-02</span>],</span><br><span class="line">          [ <span class="number">1.1050e-01</span>,  <span class="number">2.4979e-02</span>,  <span class="number">5.1047e-03</span>, <span class="number">-4.6120e-02</span>, <span class="number">-9.9121e-02</span>]],</span><br><span class="line">··························<span class="comment">#省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#参数</span></span><br><span class="line">model.c1[<span class="number">0</span>].parameters()为该层的参数，包含梯度等等</span><br><span class="line">parameters()输出的参数在训练的时候需要传入优化器，比如在训练网络的时候，model的所有参数</span><br><span class="line">都要传入优化器，则是 optimizer = torch.optim.Adam(model.parameters(),lr=LR)</span><br><span class="line">又如下面一条迁移学习，只要训练最后一层，就只将最后一层的参数传入了优化器</span><br><span class="line"></span><br><span class="line"><span class="comment">#层的迭代器</span></span><br><span class="line"><span class="keyword">for</span> layer <span class="keyword">in</span> model.SequentialName.children():</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"><span class="comment">#应用方法可以见下面迁移学习部分</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="获取模型中间层的权重和其他参数"><a href="#获取模型中间层的权重和其他参数" class="headerlink" title="获取模型中间层的权重和其他参数"></a>获取模型中间层的权重和其他参数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#先设定如下网络</span></span><br><span class="line"><span class="comment">#定义网络结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">	    self.c1 = nn.Sequential(</span><br><span class="line">	    nn.Conv2d(<span class="number">3</span>,<span class="number">16</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	    nn.ReLU()</span><br><span class="line">	        ) </span><br><span class="line">	    self.c2 = nn.Sequential(</span><br><span class="line">	        nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	        nn.ReLU(),</span><br><span class="line">	    )</span><br><span class="line">	    self.fc = nn.Linear(<span class="number">2097152</span>,<span class="number">2</span>)</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">	    x = self.c1(x)</span><br><span class="line">	    x = self.c2(x)</span><br><span class="line">	    x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">	    x = self.fc(x) </span><br><span class="line">	    <span class="keyword">return</span> x    </span><br><span class="line">model = net()</span><br><span class="line">model = model.cuda()</span><br><span class="line"><span class="comment">#载入先前训练好并保存的模型权重</span></span><br><span class="line">model.load_state_dict(torch.load(<span class="string">'model_wts.pkl'</span>))</span><br><span class="line"><span class="comment">#此时网络的结构为</span></span><br><span class="line">model</span><br><span class="line">&gt;&gt;</span><br><span class="line">net(</span><br><span class="line">  (c1): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (c2): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">16</span>, <span class="number">32</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (fc): Linear(in_features=<span class="number">2097152</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line">)</span><br><span class="line">	</span><br><span class="line"><span class="comment">#获取某一层</span></span><br><span class="line">model.c1</span><br><span class="line">&gt;&gt;</span><br><span class="line">Sequential(</span><br><span class="line">  (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">  (<span class="number">1</span>): ReLU()</span><br><span class="line">)</span><br><span class="line">model.fc</span><br><span class="line">&gt;&gt;</span><br><span class="line">Linear(in_features=<span class="number">1048576</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment">#获取Sequential里的子层</span></span><br><span class="line">model.c1[<span class="number">0</span>]</span><br><span class="line">&gt;&gt;</span><br><span class="line">Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="comment">#获得某层的权重</span></span><br><span class="line">model.c1[<span class="number">0</span>].weight</span><br><span class="line">&gt;&gt;</span><br><span class="line">Parameter containing:</span><br><span class="line">tensor([[[[ <span class="number">2.7182e-03</span>, <span class="number">-8.7767e-03</span>,  <span class="number">3.2988e-02</span>, <span class="number">-1.0006e-01</span>, <span class="number">-1.1177e-01</span>],</span><br><span class="line">          [<span class="number">-2.9155e-02</span>, <span class="number">-6.2152e-02</span>,  <span class="number">4.1465e-02</span>, <span class="number">-4.5812e-02</span>,  <span class="number">6.7885e-02</span>],</span><br><span class="line">          [<span class="number">-1.0680e-01</span>, <span class="number">-1.0023e-01</span>, <span class="number">-1.7158e-02</span>, <span class="number">-1.3828e-02</span>,  <span class="number">5.7319e-02</span>],</span><br><span class="line">          [ <span class="number">5.1668e-02</span>, <span class="number">-4.2982e-02</span>,  <span class="number">2.7770e-02</span>, <span class="number">-1.1801e-01</span>,  <span class="number">7.9863e-02</span>],</span><br><span class="line">          [ <span class="number">1.1050e-01</span>,  <span class="number">2.4979e-02</span>,  <span class="number">5.1047e-03</span>, <span class="number">-4.6120e-02</span>, <span class="number">-9.9121e-02</span>]],</span><br><span class="line">··························<span class="comment">#省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#参数</span></span><br><span class="line">model.c1[<span class="number">0</span>].parameters()为该层的参数，包含梯度等等</span><br><span class="line">parameters()输出的参数在训练的时候需要传入优化器，比如在训练网络的时候，model的所有参数</span><br><span class="line">都要传入优化器，则是 optimizer = torch.optim.Adam(model.parameters(),lr=LR)</span><br><span class="line">又如下面一条迁移学习，只要训练最后一层，就只将最后一层的参数传入了优化器</span><br><span class="line"></span><br><span class="line"><span class="comment">#层的迭代器</span></span><br><span class="line"><span class="keyword">for</span> layer <span class="keyword">in</span> model.SequentialName.children():</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"><span class="comment">#应用方法可以见下面迁移学习部分</span></span><br></pre></td></tr></table></figure>
  <a id="more"></a>
 <h2 id="所以如果要进行迁移学习"><a href="#所以如果要进行迁移学习" class="headerlink" title="所以如果要进行迁移学习"></a>所以如果要进行<strong>迁移学习</strong></h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#以VGG举例</span></span><br><span class="line">VGG的结构为</span><br><span class="line">VGG&#123;</span><br><span class="line">(features):Sequential(....略....)</span><br><span class="line">(classifier):Sequntial(....略.........(6)Linear(4096-&gt;1000))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里采用预训练的，[创建vgg网络实例]</span></span><br><span class="line">vgg = models.vgg16(pretrained=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment">#[设置冻结层](只改变classifier里的最后一个线性层，特征提取层不变）</span></span><br><span class="line"><span class="comment">#冻结住特征提取层(vgg取名叫features)的参数</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> vgg.features.parameters():</span><br><span class="line">	param.requires_grad=<span class="keyword">False</span></span><br><span class="line"><span class="comment">#[微调模型]（只改变最后一层fc层，将1000类分类变为我想要的2类分类）</span></span><br><span class="line"><span class="comment">#注意如果用vgg.classifier[6].out_features = 2的话以后会遇到问题，输出还是1000种类</span></span><br><span class="line">   vgg.classifier[<span class="number">6</span>] = nn.Linear(<span class="number">4096</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment">#优化器设置 （由于我们直接用预训练的权重，所以只需要训练分类器的参数，所以只将最后一个分类器层的classifier.parameters传入优化器）</span></span><br><span class="line">optimizer = optim.SGD(vgg.classifier.parameters(),lr=<span class="number">0.0001</span>,momentum=<span class="number">0.5</span>)</span><br><span class="line"><span class="comment">#还可以继续对模型进行一些修改，比如修改最后一层中的dropout</span></span><br><span class="line"><span class="comment">#这里使用了迭代器</span></span><br><span class="line"><span class="keyword">for</span> layer <span class="keyword">in</span> vgg.classifier.children():</span><br><span class="line">	<span class="keyword">if</span> (type(layer) == nn.Dropout):</span><br><span class="line">		layer.p=<span class="number">0.2</span></span><br></pre></td></tr></table></figure>
 <h2 id="使用pytorch-hook进行中间层输出与可视化"><a href="#使用pytorch-hook进行中间层输出与可视化" class="headerlink" title="使用pytorch hook进行中间层输出与可视化"></a>使用pytorch hook进行中间层输出与可视化</h2><p>（这里hook上面第一节中创建的网络）</p>
@@ -5024,7 +5053,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>Generative Adversarial Nets</title>
     <url>/2019/06/01/GenerativeAdversarialNets/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>《Generative Adversarial Nets》</p>
 <p>Ian J.Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair†, Aaron Courville, Yoshua Bengio</p>
 <p>ICLR 2014</p>
@@ -5042,7 +5071,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>n-gram实践</title>
     <url>/2019/05/29/n-gram%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<p>对于加固的应用，可以用通过在沙箱穷举各种可能操作返回的API操作序列来建立模型，处理API序列可以用N-gram来分析语义。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>对于加固的应用，可以用通过在沙箱穷举各种可能操作返回的API操作序列来建立模型，处理API序列可以用N-gram来分析语义。</p>
 <p>发现网上好像很少有用中文说明具体使用，所以记录一下。</p>
 <p>n-gram处理之后，实际上是把句子<strong>划分为</strong>不同的gram！</p>
 <p>以2元词 2-gram（bigram为例）</p>
@@ -5082,7 +5111,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>训练集增补后两个非常诡异的错误</title>
     <url>/2019/05/08/Pytorch-cuda-runtime-error-59-device-side-assert-triggered-at-pytorch-aten-src-THC-generic-THCT-%E9%94%99%E8%AF%AF/</url>
-    <content><![CDATA[<p>这错误原因说了等于没说，完全不知道问题出在哪，只能靠 <code>想 象 力</code></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这错误原因说了等于没说，完全不知道问题出在哪，只能靠 <code>想 象 力</code></p>
 <ol>
 <li><p><code>Pytorch: cuda runtime error (59) : device-side assert triggered at /pytorch/aten/src/THC/generic/THCT........</code>错误</p>
 <p>在新增了一个类别进入训练集之后（5+1）出现了非常奇怪的CUDA报错</p>
@@ -5115,7 +5144,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>fixed不生效</title>
     <url>/2019/04/19/fixed%E4%B8%8D%E7%94%9F%E6%95%88/</url>
-    <content><![CDATA[<p>&#160; &#160; &#160; &#160;在ios上，<code>background-attachment: fixed;</code>标签失效，导致背景图无法自适应屏幕。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>&#160; &#160; &#160; &#160;在ios上，<code>background-attachment: fixed;</code>标签失效，导致背景图无法自适应屏幕。</p>
 <p>&#160; &#160; &#160; &#160;解决办法：</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">' '</span>;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(/images/4.jpg) center <span class="number">0</span> no-repeat;</span><br><span class="line">  <span class="attribute">background-size</span>: cover;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
@@ -5130,7 +5159,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>塞尔达传说：荒野之息</title>
     <url>/2019/04/15/%E5%A1%9E%E5%B0%94%E8%BE%BE%E4%BC%A0%E8%AF%B4%EF%BC%9A%E8%8D%92%E9%87%8E%E4%B9%8B%E6%81%AF/</url>
-    <content><![CDATA[<h2 id="传奇的诞生"><a href="#传奇的诞生" class="headerlink" title="传奇的诞生"></a>传奇的诞生</h2><p>&#160; &#160; &#160; &#160;这款游戏一出生，就轰动了整个游戏界。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="传奇的诞生"><a href="#传奇的诞生" class="headerlink" title="传奇的诞生"></a>传奇的诞生</h2><p>&#160; &#160; &#160; &#160;这款游戏一出生，就轰动了整个游戏界。</p>
 <p>&#160; &#160; &#160; &#160;几乎所有重要游戏媒体都给出满分评价，在mc（metacritic，综合所有游戏媒体给出综合平均分）上获取高达98分的平均分。在人类游戏史上排名第二（并列），毫无悬念地摘获了2017年由TGA（The Game Awards，游戏界的奥斯卡）颁发的GOTY（Game Of The Year，年度最佳游戏），同时斩获TGA最佳游戏设计、TGA最佳动作冒险游戏，GS年度最佳游戏，EDGE年度最佳游戏，GDC最佳游戏音效奖、最佳游戏设计奖和年度游戏奖，SXSW最佳游戏性奖、最佳游戏设计奖和年度最佳游戏。</p>
 <p><img src="//aisakaki.com/2019/04/15/塞尔达传说：荒野之息/1.jpg" alt="1"><br> <a id="more"></a></p>
 <p>&#160; &#160; &#160; &#160;媒体，玩家，游戏界一致好评的背后，是游戏设计理念的极致，是任天堂的无数心血——<br><img src="//aisakaki.com/2019/04/15/塞尔达传说：荒野之息/2.jpg" alt="2"></p>
@@ -5154,7 +5183,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>古都</title>
     <url>/2019/04/12/%E5%8F%A4%E9%83%BD/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>“对美的幻影，总没有厌倦的时候吧。幻影是不能践踏的，践踏了只能自食其果。”</p>
 <p align="right">——《古都》 川端康成 </p>
 
@@ -5175,7 +5204,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>Word2Vec</title>
     <url>/2019/04/10/%E8%AF%8D%E5%90%91%E9%87%8F/</url>
-    <content><![CDATA[<h2 id="什么是词向量"><a href="#什么是词向量" class="headerlink" title="什么是词向量"></a>什么是词向量</h2><p>一种词的表示方法。通常NLP中使用one-hot或词向量表示</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="什么是词向量"><a href="#什么是词向量" class="headerlink" title="什么是词向量"></a>什么是词向量</h2><p>一种词的表示方法。通常NLP中使用one-hot或词向量表示</p>
 <p>one-hot即为一维一词，占用空间大，且无法体现词之间的关联性</p>
 <p>于是使用词向量可以包含更多信息，且使得向量在空间的表示更稠密。</p>
 <h2 id="如何生成词向量"><a href="#如何生成词向量" class="headerlink" title="如何生成词向量"></a>如何生成词向量</h2><h3 id="基于统计"><a href="#基于统计" class="headerlink" title="基于统计"></a>基于统计</h3><p>略。</p>
@@ -5220,7 +5249,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>百年孤独</title>
     <url>/2019/04/09/%E7%99%BE%E5%B9%B4%E5%AD%A4%E7%8B%AC/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>“多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。”</p>
 <p>“同一血脉的两个孤独者之间的接近与友谊无涉，却有助于他们承受将两人分离又联合的神秘孤独。”</p>
 <p>“奥雷里亚诺平生从未像此刻一般清醒，他忘却了家中的死者，忘却了死者的痛苦，用费尔南达留下的十字木条再次钉死门窗，远离世间一切干扰，因为他知道梅尔基亚德斯的羊皮卷上记载着自己的命运。他发现史前的植物、湿气蒸腾的水洼、发光的昆虫已将房间内一切人类踪迹消除净尽，但羊皮卷仍安然无恙。他顾不得拿到光亮处，就站在原地，仿佛那是用卡斯蒂利亚语写就，仿佛他正站在正午明亮的光线下阅读，开始毫不费力地大声破译。那是他家族的历史，连最琐碎的细节也无一遗漏，百年前由梅尔基亚德斯预先写出。他以自己的母语梵文书写，偶数行套用奥古斯都大帝的私人密码，奇数行择取斯巴达的军用密码。而最后一道防线，奥雷里亚诺在迷上阿玛兰妲·乌尔苏拉时就已隐隐猜到，那便是梅尔基亚德斯并未按照世人的惯常时间来叙述，而是将一个世纪的日常琐碎集中在一起，令所有事件在同一瞬间发生。奥雷里亚诺为这一发现激动不已，逐字逐句高声朗读教皇谕令般的诗行，当年阿尔卡蒂奥曾从梅尔基亚德斯口中听闻，却不知道那是关于自己死亡的预告。他读到羊皮卷中预言世上最美的女人的诞生，她的灵魂与肉身正一起向天飞升；他读到那对遗腹孪生子的来历，他们放弃破译羊皮卷不仅因为缺乏才能和毅力，更是因为时机尚未成熟。读到这里，奥雷里亚诺急于知道自己的身世，跳过几页。此时微风初起，风中充盈着过往的群声嘁喳，旧日天竺葵的昵喃窸窣，无法排遣的怀念来临之前的失望叹息。他对此毫无察觉，因为他发现了关于自己身世的初步线索。他读到一位好色的祖父一时迷了心窍穿越幻象丛生的荒野，寻找一个不会令他幸福的美女。奥雷里亚诺认出了他，沿着亲缘的隐秘小径追寻下去，找到了自己被赋予生命的一刻，那是在一间昏暗的浴室里，蝎子和黄蝴蝶的环绕间，一个工匠在一个因反叛家庭而委身于他的少女身上满足了欲望。他读得如此入神，仍未发觉风势又起，飓风刮落了门窗，掀掉了东面长廊的屋顶，拔出了房屋的地基。到这时，他才发现阿玛兰妲·乌尔苏拉不是他的姐妹，而是他的姨妈，而当年弗朗西斯·德雷克袭击里奥阿查不过是为了促成他们俩在繁复错综的血脉迷宫中彼此寻找，直到孕育出那个注定要终结整个家族的神话般的生物。当马孔多在《圣经》所载那种龙卷风的怒号中化作可怕的瓦砾与尘埃旋涡时，奥雷里亚诺为避免在熟知的事情上浪费时间又跳过十一页，开始破译他正度过的这一刻，译出的内容恰是他当下的经历，预言他正在破解羊皮卷的最后一页，宛如他正在会言语的镜中照影。他再次跳读去寻索自己死亡的日期和情形，但没等看到最后一行便已明白自己不会再走出这房间，因为可以预料这座镜子之城——或蜃景之城——将在奥雷里亚诺·巴比伦全部译出羊皮卷之时被飓风抹去，从世人记忆中根除，羊皮卷上所载一切自永远至永远不会再重复，因为注定经受百年孤独的家族不会有第二次机会在大地上出现。”</p>
@@ -5237,7 +5266,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>Pytorch中自定义Dataset和Dataloader总结</title>
     <url>/2019/04/05/Pytorch%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89Dataset%E5%92%8CDataloader/</url>
-    <content><![CDATA[<h2 id="Dataset自定义数据集与DataLoader-数据集加载器"><a href="#Dataset自定义数据集与DataLoader-数据集加载器" class="headerlink" title="Dataset自定义数据集与DataLoader 数据集加载器"></a>Dataset自定义数据集与DataLoader 数据集加载器</h2><p><strong>Dataset定义了数据集的存在，其中包含了每个数据的路径和标签</strong>,<em>dataset类型不是拿来保存的！它只是相当于一个数据集索引器！并没有加载数据或封装数据！</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Dataset自定义数据集与DataLoader-数据集加载器"><a href="#Dataset自定义数据集与DataLoader-数据集加载器" class="headerlink" title="Dataset自定义数据集与DataLoader 数据集加载器"></a>Dataset自定义数据集与DataLoader 数据集加载器</h2><p><strong>Dataset定义了数据集的存在，其中包含了每个数据的路径和标签</strong>,<em>dataset类型不是拿来保存的！它只是相当于一个数据集索引器！并没有加载数据或封装数据！</em></p>
 <p><strong>Dataloader则定义了指定数据集的加载方法</strong></p>
 <p><strong>在对Dataloader进行迭代的时候，Dataset指向的数据集才正式被加载</strong></p>
 <h2 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h2><p>Dataset 定义并加载自己的数据集<br><strong>继承自Dataset</strong>并<strong>必须重写三个函数</strong>：<br><code>__init__(self, )</code>：将任何需要的初始化,比如读取全部数据路径等，不限制参数个数<br><code>__getitem__(self,index)</code>：根据每次调用时的index返回对应元素和标签<br><code>__len__(self)</code>：负责返回数据集中的元素个数</p>
@@ -5268,7 +5297,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>重新打理BLOG</title>
     <url>/2019/03/27/%E9%87%8D%E6%96%B0%E6%89%93%E7%90%86BLOG/</url>
-    <content><![CDATA[<p>前段时间因为繁忙，没时间打理个人网站</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>前段时间因为繁忙，没时间打理个人网站</p>
 <p>现在打算开始整理一下，逐步也把评论系统，目录之类的插件给搞定</p>
 <p>把绝大部分日记都迁出去了，以后这里主要是..啥都有</p>
 ]]></content>
@@ -5279,7 +5308,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>HEXO遇到的坑</title>
     <url>/2019/03/27/HEXO%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
-    <content><![CDATA[<ol>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
 <li><p>source文件夹下面新建一个叫CNAME的文件填上网址</p>
 <p>才能由自定义域名访问自己的github.io</p>
 </li>
@@ -5310,7 +5339,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>python相关笔记</title>
     <url>/2019/03/27/python%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><em>迄今为止在python上遇到的坑，超长预警</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>迄今为止在python上遇到的坑，超长预警</em></p>
 <a id="more"></a>
 <ol>
 <li><p><code>with open</code>的使用</p>
@@ -5504,7 +5533,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   <entry>
     <title>python数据分析相关笔记</title>
     <url>/2019/03/27/python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><em>迄今为止在python数据分析相关库上遇到的坑，超长预警</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>迄今为止在python数据分析相关库上遇到的坑，超长预警</em></p>
 <a id="more"></a>
 <ol>
 <li><code>source .bashrc</code></li>
@@ -5714,7 +5743,7 @@ drop掉1后就变成
   <entry>
     <title>WE NEED R!G!B!</title>
     <url>/2019/02/27/R-G-B/</url>
-    <content><![CDATA[<p>北极狼和北极熊水冷性能虽然很强，但是他们有个缺点就是没有RGB————</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>北极狼和北极熊水冷性能虽然很强，但是他们有个缺点就是没有RGB————</p>
 <p>这怎么行呢。</p>
 <p>RGB化改造迫在眉睫</p>
 <p>于是我买了HALOS圣环，自己定做了显卡侧灯板</p>
@@ -5743,7 +5772,7 @@ drop掉1后就变成
   <entry>
     <title>图像预处理：transforms和PIL小结</title>
     <url>/2019/01/28/%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9Atransforms%E5%92%8CPIL%E5%B0%8F%E7%BB%93/</url>
-    <content><![CDATA[<p><em>色图真好玩.jpg</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>色图真好玩.jpg</em></p>
 <h2 id="transforms"><a href="#transforms" class="headerlink" title="transforms"></a>transforms</h2><p>Ⅰ. <code>transforms.ToTensor()</code></p>
 <p>①将(H,W,C)输入的numpy array或img转换成(C,H,W)格式</p>
 <p>通道的具体顺序与cv2读的还是PIL.Image读的图片有关系<br>cv2:<code>(B,G,R)</code><br>PIL.Image:<code>(R, G, B)</code></p>
@@ -5827,7 +5856,7 @@ drop掉1后就变成
   <entry>
     <title>炼丹小结</title>
     <url>/2019/01/20/%E7%82%BC%E4%B8%B9%E5%B0%8F%E7%BB%93/</url>
-    <content><![CDATA[<ol>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
 <li><p>40层网络的参数比4层网络多10倍 因为每层都有参数<br>所以batch size也要相应的减小！不然太大了</p>
 </li>
 <li><p>train loss 一直处于一个摇摆（震荡）状态可能是学习率设置过大导致的</p>
@@ -5900,14 +5929,14 @@ drop掉1后就变成
   <entry>
     <title>imageTest</title>
     <url>/2019/01/16/imageTest/</url>
-    <content><![CDATA[<p>图片测试</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>图片测试</p>
 <p> <a id="more"></a> <img src="//aisakaki.com/2019/01/16/imageTest/5474960.png" alt="5474960"></p>
 ]]></content>
   </entry>
   <entry>
     <title>2080Ti上一体式水冷</title>
     <url>/2019/01/16/2080Ti%E4%B8%8A%E4%B8%80%E4%BD%93%E5%BC%8F%E6%B0%B4%E5%86%B7/</url>
-    <content><![CDATA[<p>前段时间买了非公的2080Ti，感觉自带的散热不太行，玩游戏温度飙升到84度直接撞温度墙。于是我搞了个 ocool的北极狼一体式水冷（花了我1300大洋，这水冷都够我买一张1060了orz）</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>前段时间买了非公的2080Ti，感觉自带的散热不太行，玩游戏温度飙升到84度直接撞温度墙。于是我搞了个 ocool的北极狼一体式水冷（花了我1300大洋，这水冷都够我买一张1060了orz）</p>
 <p>自己动手，丰衣足食~</p>
  <a id="more"></a>
 <p>这是原装风冷的样子<img src="//aisakaki.com/2019/01/16/2080Ti上一体式水冷/1969.jpg" alt="正面"></p>
@@ -5940,7 +5969,7 @@ drop掉1后就变成
   <entry>
     <title>深度学习实践结构性经验总结</title>
     <url>/2019/01/14/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%E7%BB%93%E6%9E%84%E6%80%A7%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
 <li>定义网络结构</li>
 <li>定义数据变换</li>
 <li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
@@ -6002,7 +6031,7 @@ drop掉1后就变成
   <entry>
     <title>向目标函数加入正则的具体实现</title>
     <url>/2018/12/01/%E5%90%91%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0%E5%8A%A0%E5%85%A5%E6%AD%A3%E5%88%99%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<ol>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
 <li><p>在数据经过模型之后</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">l1, l2 = torch.tensor(<span class="number">0</span>), torch.tensor(<span class="number">0</span>)</span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = model(input)</span><br><span class="line"><span class="keyword">for</span> params <span class="keyword">in</span> model.parameters():</span><br><span class="line">    l1 += torch.norm(param,<span class="number">1</span>)  <span class="comment">#torch.norm(param,1)为求param的l1范数</span></span><br><span class="line">    l2 += torch.norm(param,<span class="number">2</span>)  <span class="comment">#torch.norm(param,2)为求param的l2范数</span></span><br><span class="line">loss_origin = loss(output,label)</span><br><span class="line">loss = loss_origin + l1 + l2</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
 <p>ATT：<strong>不能</strong>使用在模型中输出！</p>
@@ -6025,7 +6054,7 @@ drop掉1后就变成
   <entry>
     <title>维度及Pytorch中常用的维度变换与torch.max()</title>
     <url>/2018/11/12/Pytorch%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8Etorch-max/</url>
-    <content><![CDATA[<h2 id="Tensor-view-扁平化"><a href="#Tensor-view-扁平化" class="headerlink" title="Tensor.view() 扁平化"></a>Tensor.view() 扁平化</h2><p>简单说就是一个把tensor 进行reshape的操作。<br>常常配合 <code>a.size(0)</code>来取得某一位的维度数</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Tensor-view-扁平化"><a href="#Tensor-view-扁平化" class="headerlink" title="Tensor.view() 扁平化"></a>Tensor.view() 扁平化</h2><p>简单说就是一个把tensor 进行reshape的操作。<br>常常配合 <code>a.size(0)</code>来取得某一位的维度数</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a=torch.randn(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line">b = a.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">print(b.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">1</span>, <span class="number">420</span>])</span><br></pre></td></tr></table></figure>
 <p><strong>其中参数-1表示剩下的值的个数一起构成一个维度</strong>。如上例中，第一个参数1将第一个维度的大小设定成1，后一个-1就是说第二个维度的大小=元素总数目/第一个维度的大小，此例中为<code>3*4*5*7/1=420</code>. （由于第一个维度被展为1了，那后面所有元素全部摊开展平了）</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#第1,2个维度不变（保持原来的维度），第三个位置写-1表示剩下的维度全部扁平化为一个维度</span></span><br><span class="line">d = a.view(a.size(<span class="number">0</span>),a.size(<span class="number">1</span>),<span class="number">-1</span>)</span><br><span class="line">print(d.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">3</span>, <span class="number">4</span>, <span class="number">35</span>])</span><br><span class="line"></span><br><span class="line"> e=a.view(<span class="number">4</span>,<span class="number">-1</span>,<span class="number">5</span>)</span><br><span class="line"> print(e.size())</span><br><span class="line"> &gt;&gt;torch.Size([<span class="number">4</span>, <span class="number">21</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
@@ -6056,7 +6085,7 @@ drop掉1后就变成
   <entry>
     <title>对BP算法的理解</title>
     <url>/2018/11/08/%E5%AF%B9%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<p>损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$</p>
 <p>要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导）</p>
 <p>那么使用链式法则，我们可以画出计算图</p>
 <p>①先标记出所有中间结点</p>
@@ -6079,7 +6108,7 @@ drop掉1后就变成
   <entry>
     <title>notes_1108</title>
     <url>/2018/11/08/notes-1108/</url>
-    <content><![CDATA[<ol>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
 <li><p>NN的输出是一个向量，包含对各个种类的输出值，最后一个层有多少个神经元，输出向量就有多少维，所以在求的时候是矩阵求梯度下降，Loss Function作用于一个矩阵</p>
 </li>
 <li><p>NN为什么用非线性激活函数</p>
@@ -6111,7 +6140,7 @@ drop掉1后就变成
   <entry>
     <title>使用markdown编辑数学公式</title>
     <url>/2018/11/07/%E4%BD%BF%E7%94%A8markdown%E7%BC%96%E8%BE%91%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
 <p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
 <h3 id="创建公式编辑栏的方式"><a href="#创建公式编辑栏的方式" class="headerlink" title="创建公式编辑栏的方式"></a>创建公式编辑栏的方式</h3><ul>
 <li>内联公式：两个$之间​</li>
@@ -6274,7 +6303,7 @@ drop掉1后就变成
   <entry>
     <title>更换HEXO框架</title>
     <url>/2018/11/06/%E6%9B%B4%E6%8D%A2HEXO%E6%A1%86%E6%9E%B6/</url>
-    <content><![CDATA[<p>这两天将更换了个人网站的框架</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这两天将更换了个人网站的框架</p>
 <p>更改框架是个蛮麻烦的过程</p>
 <p>其中以前的文章很多格式都乱掉了</p>
 <p>而且图片全部没有了…….</p>
@@ -6290,7 +6319,7 @@ drop掉1后就变成
   <entry>
     <title>Pytorch常用模块以及nn.Module</title>
     <url>/2018/10/18/Pytorch%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9D%97%E4%BB%A5%E5%8F%8Ann-Module/</url>
-    <content><![CDATA[<h2 id="pytroch常用包"><a href="#pytroch常用包" class="headerlink" title="pytroch常用包"></a>pytroch常用包</h2><p>PyTorch框架中有一个很常用的包：<code>torchvision</code><br>torchvision主要由3个子包构成：<code>torchvision.datasets</code>、<code>torchvision.models</code>、<code>torchvision.transforms</code><br><code>torchvision</code>和<code>torchtext</code>基于<code>torch.utils.data.Dataset</code>和<code>torch.utils.data.DataLoder</code>类构建<br><code>nn</code>来源于<code>torch.nn</code><br><code>optim</code>来源于<code>torch.optim</code> 超参数算法都在里面<br><code>lr_scheduler</code>来源于<code>torch.optim.lr_scheduler</code> 自适应学习率算法在里面<br><code>ImageFolder</code>在<code>torchvision.datasets</code>中<br><code>torchvision.models</code>中提供一些现有的流行算法</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="pytroch常用包"><a href="#pytroch常用包" class="headerlink" title="pytroch常用包"></a>pytroch常用包</h2><p>PyTorch框架中有一个很常用的包：<code>torchvision</code><br>torchvision主要由3个子包构成：<code>torchvision.datasets</code>、<code>torchvision.models</code>、<code>torchvision.transforms</code><br><code>torchvision</code>和<code>torchtext</code>基于<code>torch.utils.data.Dataset</code>和<code>torch.utils.data.DataLoder</code>类构建<br><code>nn</code>来源于<code>torch.nn</code><br><code>optim</code>来源于<code>torch.optim</code> 超参数算法都在里面<br><code>lr_scheduler</code>来源于<code>torch.optim.lr_scheduler</code> 自适应学习率算法在里面<br><code>ImageFolder</code>在<code>torchvision.datasets</code>中<br><code>torchvision.models</code>中提供一些现有的流行算法</p>
 <p><code>torch.nn.functional</code> 各中层函数的实现，与层类型对应，如：卷积函数、池化函数、归一化函数等等</p>
 <h2 id="torch-nn与nn-Module"><a href="#torch-nn与nn-Module" class="headerlink" title="torch.nn与nn.Module"></a>torch.nn与nn.Module</h2><p>torch.nn是专门为神经网络设计的模块化接口。nn构建于autograd之上，可以用来定义和运行神经网络。</p>
 <p>torch.nn的核心数据结构是<code>Module</code>，它是一个抽象概念，既可以表示神经网络中的某个层（layer），也可以表示一个包含很多层的神经网络。无需纠结variable和tensor了，0.4版本已经将两个类彻底合并了。</p>
@@ -6323,7 +6352,7 @@ drop掉1后就变成
   <entry>
     <title>CNN的卷积过程理解</title>
     <url>/2018/10/15/CNN%E7%9A%84%E5%8D%B7%E7%A7%AF%E8%BF%87%E7%A8%8B%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="CNN的卷积层"><a href="#CNN的卷积层" class="headerlink" title="CNN的卷积层"></a>CNN的卷积层</h2><p>这就涉及到CNNs要做的工作了。每一个卷积核中的数值，都是<strong>算法自己学习来的</strong>，不需要我们费心去设置。<br>【CNN的特征提取部分和FC部分一样，也是需要训练的。训练学得Fliter的具体值，然后学得图像特征<br>相当于Fliter是W，图片是X，最终提取得到的特征是Y 输入进FC里（全连接层）<br>训练过程中，W不断学习得到最佳Fliter<br>（Filter其实就是权值！每个像素的权值！二维的<br>所以在最开始的FIlter时候其实就是权值初始化的问题,后面算法自己会学到）<br>】<br>我们需要做的是设置超参数（学习超参数）</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="CNN的卷积层"><a href="#CNN的卷积层" class="headerlink" title="CNN的卷积层"></a>CNN的卷积层</h2><p>这就涉及到CNNs要做的工作了。每一个卷积核中的数值，都是<strong>算法自己学习来的</strong>，不需要我们费心去设置。<br>【CNN的特征提取部分和FC部分一样，也是需要训练的。训练学得Fliter的具体值，然后学得图像特征<br>相当于Fliter是W，图片是X，最终提取得到的特征是Y 输入进FC里（全连接层）<br>训练过程中，W不断学习得到最佳Fliter<br>（Filter其实就是权值！每个像素的权值！二维的<br>所以在最开始的FIlter时候其实就是权值初始化的问题,后面算法自己会学到）<br>】<br>我们需要做的是设置超参数（学习超参数）</p>
 <p><strong>所谓的卷积层conv就是一堆卷积核，卷积层的参数就是卷积核的参数</strong></p>
 <p>CONV-&gt;ACTIVATE-&gt;POOL-&gt; XXXXXXXX -&gt;FC</p>
 <h2 id="多通道卷积——理解卷积层的工作原理"><a href="#多通道卷积——理解卷积层的工作原理" class="headerlink" title="多通道卷积——理解卷积层的工作原理"></a>多通道卷积——理解卷积层的工作原理</h2><p>非常重要<br><strong>输出的层数必为卷积核的层数，以卷积核的视角来做卷积，一个卷积核生成一个卷积层！</strong></p>
@@ -6341,7 +6370,7 @@ drop掉1后就变成
   <entry>
     <title>中秋</title>
     <url>/2018/09/25/%E4%B8%AD%E7%A7%8B/</url>
-    <content><![CDATA[<p>中秋到了，月儿圆了。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>中秋到了，月儿圆了。</p>
  <a id="more"></a>
 <p>遥想起两年前的中秋节，那时候正还看着动画，正好那天是喜欢的七海死的那集。那段时间开始入了另一个大坑，认识了很多人。</p>
 <p>去年的这个时候，因为学业繁忙，甚至都没有时间去赏赏月，吃吃月饼。今年也是把去年的月饼给补上了。</p>
@@ -6358,7 +6387,7 @@ drop掉1后就变成
   <entry>
     <title>notes_0915</title>
     <url>/2018/09/15/notes-0915/</url>
-    <content><![CDATA[<ol>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
 <li><p>尽量少使用显式循环<br>用向量化（并行运算） 即将元素作为向量进行计算<br>numpy.dot(x,y)<br>numpy.exp(v)<br>等等 numpy有很多向量化函数<br>即为点乘<br>平时计算的时候也可以直接用向量化计算，速度快很多</p>
 </li>
 <li><p>神经网络——堆叠的线性分类器<br>一个网元就是一个线性分类器</p>
@@ -6471,7 +6500,7 @@ drop掉1后就变成
   <entry>
     <title>DigitalOcean成功迁移Vultr</title>
     <url>/2018/09/13/DigitalOcean%E6%88%90%E5%8A%9F%E8%BF%81%E7%A7%BBVultr/</url>
-    <content><![CDATA[<p>新日本东京服务器，平均延迟122ms，联通延迟更低，甚至可以加速器用233</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>新日本东京服务器，平均延迟122ms，联通延迟更低，甚至可以加速器用233</p>
 <p>但是pixiv默认ban Vultr IP，这就很蛋疼了…..</p>
 ]]></content>
       <categories>
@@ -6481,7 +6510,7 @@ drop掉1后就变成
   <entry>
     <title>优化器optimizer和超参数更新</title>
     <url>/2018/09/10/%E4%BC%98%E5%8C%96%E5%99%A8optimizer%E5%92%8C%E8%B6%85%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<h2 id="optimizer"><a href="#optimizer" class="headerlink" title="optimizer"></a>optimizer</h2><p><code>optimizer.param_group</code><br>记录了模型迭代的优化器参数信息<br><code>optimizer.step</code>后可从<code>optimizer.param_groups[0][‘params’]</code>查看参数变化<br><code>optimizer.param_groups[0]</code>是一个字典<br>包含<code>dict_keys([&#39;params&#39;, &#39;lr&#39;, &#39;betas&#39;, &#39;eps&#39;, &#39;weight_decay&#39;, &#39;amsgrad&#39;])</code><br>所以可以自己看想要的信息，也可以直接修改！</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="optimizer"><a href="#optimizer" class="headerlink" title="optimizer"></a>optimizer</h2><p><code>optimizer.param_group</code><br>记录了模型迭代的优化器参数信息<br><code>optimizer.step</code>后可从<code>optimizer.param_groups[0][‘params’]</code>查看参数变化<br><code>optimizer.param_groups[0]</code>是一个字典<br>包含<code>dict_keys([&#39;params&#39;, &#39;lr&#39;, &#39;betas&#39;, &#39;eps&#39;, &#39;weight_decay&#39;, &#39;amsgrad&#39;])</code><br>所以可以自己看想要的信息，也可以直接修改！</p>
 <p>模型权重参数是存在于<code>model.parameters()</code>中的，这个也是要传入optimizer的变量</p>
 <h2 id="超参数更新"><a href="#超参数更新" class="headerlink" title="超参数更新"></a>超参数更新</h2><p>（<code>optimizer</code>和<code>scheduler</code>都是自己事先定义的变量，前者为优化器，后者为自适应学习率优化器<br><code>optimzer = torch.optim.Adam(……)</code><br><code>scheduler = torch.optim.lr_scheduler.StrpLR(……)</code>)</p>
 <p><code>optimizer.step()</code>：通常用在<strong>每个mini-batch之中</strong>，用了之后<strong>模型才会更新</strong><br><code>scheduler.step()</code>：通常用在<strong>epoch里面</strong>，用了之后才会<strong>对学习率lr进行调整</strong><br><code>optimizer.zero_grad()</code> 用在<strong>每个mini-batch之中</strong>，梯度参数清0，以避免参数把上一次optimizer调用时创建的梯度累加在一起（根据pytorch中的backward()函数的计算，当网络参量进行反馈时，梯度是被积累的而不是被替换掉；但是在每一个batch时毫无疑问并不需要将两个batch的梯度混合起来累积，因此这里就需要每个batch设置一遍zero_grad 了。）</p>
@@ -6494,7 +6523,7 @@ drop掉1后就变成
   <entry>
     <title>永无止境的庙会里</title>
     <url>/2018/09/09/%E6%B0%B8%E6%97%A0%E6%AD%A2%E5%A2%83%E7%9A%84%E5%BA%99%E4%BC%9A%E9%87%8C/</url>
-    <content><![CDATA[<p>永无止境的庙会，我能远离它吗？</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>永无止境的庙会，我能远离它吗？</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -6503,7 +6532,7 @@ drop掉1后就变成
   <entry>
     <title>No title</title>
     <url>/2018/08/25/523/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>Your time is limited, so don’t waste it living someone else’s life. Don’t be trapped by dogma — which is living with the results of other people’s thinking. Don’t let the noise of others’ opinions drown out your own inner voice. And most important, have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.</p>
 <p>By Steve Jobs</p>
 </blockquote>
@@ -6515,7 +6544,7 @@ drop掉1后就变成
   <entry>
     <title>旅途之后</title>
     <url>/2018/08/15/%E6%97%85%E9%80%94%E4%B9%8B%E5%90%8E/</url>
-    <content><![CDATA[<p>从最后一节暑期课，到现在，快一个月了。我的旅途结束了。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>从最后一节暑期课，到现在，快一个月了。我的旅途结束了。</p>
 <p>走了很多地方，看见了不同的人与景，进入了不同的生活。</p>
 <p>旅行也许是改变现在的尝试。回到了家。迷茫与困惑的感觉随之而归。一段旅行的结束，是思考的最好时机。</p>
  <a id="more"></a>
@@ -6535,7 +6564,7 @@ drop掉1后就变成
   <entry>
     <title>致过去与未来交界的现在</title>
     <url>/2018/07/01/%E8%87%B4%E8%BF%87%E5%8E%BB%E4%B8%8E%E6%9C%AA%E6%9D%A5%E4%BA%A4%E7%95%8C%E7%9A%84%E7%8E%B0%E5%9C%A8/</url>
-    <content><![CDATA[<p>蓝渐白的天幕落下</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>蓝渐白的天幕落下</p>
  <a id="more"></a>
 <p>闪烁着一颗星星<br>天空纯粹无暇<br>矮矮的楼房立于两边<br>在天幕下，只显得两道黑影</p>
 <p>仰望无暇的星空<br>静静伫立<br>沐浴在着清澈湛蓝的夜空下</p>
@@ -6550,7 +6579,7 @@ drop掉1后就变成
   <entry>
     <title>鱼玄机</title>
     <url>/2018/06/25/%E9%B1%BC%E7%8E%84%E6%9C%BA/</url>
-    <content><![CDATA[<p>我憨的这首鱼玄机唱的太好听了 av8444592</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>我憨的这首鱼玄机唱的太好听了 av8444592</p>
 ]]></content>
       <categories>
         <category>Music</category>
@@ -6559,7 +6588,7 @@ drop掉1后就变成
   <entry>
     <title>十字路口</title>
     <url>/2018/06/23/%E5%8D%81%E5%AD%97%E8%B7%AF%E5%8F%A3/</url>
-    <content><![CDATA[<p>下一站，</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>下一站，</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -6568,7 +6597,7 @@ drop掉1后就变成
   <entry>
     <title>AS安装实录</title>
     <url>/2018/06/01/AS%E5%AE%89%E8%A3%85%E5%AE%9E%E5%BD%95/</url>
-    <content><![CDATA[<p>你墙国还是你墙国</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>你墙国还是你墙国</p>
 <p>XCode10分钟搞定的事情AS能折腾一年</p>
 <p>1/安装SDK问题。<br>离线安装SDK，并修改SDK路径</p>
  <a id="more"></a>
@@ -6587,7 +6616,7 @@ drop掉1后就变成
   <entry>
     <title>分治策略</title>
     <url>/2018/05/27/%E5%88%86%E6%B2%BB%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<p>对分治策略的分析见文章[递归分析]<a href="http://aisakaki.com/?p=406">http://aisakaki.com/?p=406</a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>对分治策略的分析见文章[递归分析]<a href="http://aisakaki.com/?p=406">http://aisakaki.com/?p=406</a></p>
 <p>1、分解（分）</p>
 <p>2、解决（治）</p>
 <p>3、合并</p>
@@ -6667,7 +6696,7 @@ drop掉1后就变成
   <entry>
     <title>C#</title>
     <url>/2018/05/25/c/</url>
-    <content><![CDATA[<p>闲暇时间做游戏，在学习Unity</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>闲暇时间做游戏，在学习Unity</p>
 <p>由于U3D需要用C#，所以迅速对比java c了解一下C#的语法特性方便记忆。</p>
 <p>——————————————————————————</p>
 <p>1、析构函数</p>
@@ -6701,7 +6730,7 @@ drop掉1后就变成
   <entry>
     <title>递归分析</title>
     <url>/2018/05/23/%E9%80%92%E5%BD%92%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p>1、第一种，代入法（数学归纳）</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1、第一种，代入法（数学归纳）</p>
 <p>这里需要用到数学归纳法</p>
 <p>对于递归式</p>
 <p>T(n) = 4T(n/2) + n</p>
@@ -6800,7 +6829,7 @@ drop掉1后就变成
   <entry>
     <title>JAVA的两个问题</title>
     <url>/2018/05/15/JAVA%E7%9A%84%E4%B8%A4%E4%B8%AA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>今天在写工厂的时候，对于这样一个语句，遇到了两个问题</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>今天在写工厂的时候，对于这样一个语句，遇到了两个问题</p>
 <p>mom obj = new son();</p>
 <p>以下为源代码</p>
 <p><img src="http://aisakaki.com/wp-content/uploads/2018/05/0FEEB447832EE00327DC103C3A4A6B57-278x300.png" alt="0FEEB447832EE00327DC103C3A4A6B57"></p>
@@ -6855,7 +6884,7 @@ drop掉1后就变成
   <entry>
     <title>图书馆</title>
     <url>/2018/05/12/%E5%9B%BE%E4%B9%A6%E9%A6%86/</url>
-    <content><![CDATA[<p>一个知道自己有多渺小的地方…</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一个知道自己有多渺小的地方…</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -6864,7 +6893,7 @@ drop掉1后就变成
   <entry>
     <title>多级中文域名解析系统-3</title>
     <url>/2018/04/05/%E5%A4%9A%E7%BA%A7%E4%B8%AD%E6%96%87%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%B3%BB%E7%BB%9F-3%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="ROOT-DNS"><a href="#ROOT-DNS" class="headerlink" title="ROOT_DNS"></a>ROOT_DNS</h2><p><em>根服务器的逻辑代码</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="ROOT-DNS"><a href="#ROOT-DNS" class="headerlink" title="ROOT_DNS"></a>ROOT_DNS</h2><p><em>根服务器的逻辑代码</em></p>
  <a id="more"></a>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRroot.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="DNS1"><a href="#DNS1" class="headerlink" title="DNS1"></a>DNS1</h2><p><em>第一级域名解析服务器主逻辑，以下四个中间级服务器逻辑都差不多</em></p>
@@ -6885,7 +6914,7 @@ drop掉1后就变成
   <entry>
     <title>多级中文域名解析系统-2</title>
     <url>/2018/04/05/%E5%A4%9A%E7%BA%A7%E4%B8%AD%E6%96%87%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%B3%BB%E7%BB%9F-2%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="LOCAL-DNS"><a href="#LOCAL-DNS" class="headerlink" title="LOCAL_DNS"></a>LOCAL_DNS</h2><p><em>local DNS作为本地网络中的逻辑核心非常重要</em></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="LOCAL-DNS"><a href="#LOCAL-DNS" class="headerlink" title="LOCAL_DNS"></a>LOCAL_DNS</h2><p><em>local DNS作为本地网络中的逻辑核心非常重要</em></p>
  <a id="more"></a>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"localServer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CACHEFILE <span class="meta-string">"localCache.txt"</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isEnd</span><span class="params">(struct DNS_Header *header)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (header-&gt;authorNum!=<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//①设置监听</span></span><br><span class="line">	<span class="keyword">int</span> serverSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//发送缓冲区和接收缓冲区</span></span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//初始化缓冲区</span></span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">//声明两个套接字sockaddr_in结构体，分别用于客户端和服务器 </span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span>  </span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">clientAddr</span>;</span>  </span><br><span class="line">	<span class="keyword">int</span> addr_len = <span class="keyword">sizeof</span>(clientAddr);  </span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> client;  </span><br><span class="line">	<span class="comment">//初始化服务器端的套接字</span></span><br><span class="line">	bzero(&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));  </span><br><span class="line">	server_addr.sin_family = AF_INET;  </span><br><span class="line">	server_addr.sin_port = htons(SERVER_PORT); </span><br><span class="line">	server_addr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);  </span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//绑定套接字</span></span><br><span class="line">	bind(serverSocket, (struct sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));</span><br><span class="line">	<span class="comment">//设置监听状态</span></span><br><span class="line">	listen(serverSocket, <span class="number">5</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//②循环监听</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"监听端口 ： %d\n"</span>,SERVER_PORT);</span><br><span class="line">		<span class="comment">//调用accept，进入阻塞状态，返回一个client套接字描述符</span></span><br><span class="line">		client = accept(serverSocket, (struct sockaddr*)&amp;clientAddr, (<span class="keyword">socklen_t</span>*)&amp;addr_len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接成功\n"</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">c</span>;</span></span><br><span class="line">		<span class="keyword">socklen_t</span> cLen = <span class="keyword">sizeof</span>(c);</span><br><span class="line">		getpeername(client, (struct sockaddr*) &amp;c, &amp;cLen); </span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"请求端信息： %s : %d\n"</span>,inet_ntoa(c.sin_addr),ntohs(c.sin_port));	</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对于TCP，先接收一个两字节的包长度</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> recv_length;</span><br><span class="line">		recv(client,&amp;recv_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		recv_length = ntohs(recv_length);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//接收客户端发来的数据，recv返回值为接收字节数</span></span><br><span class="line">		<span class="keyword">int</span> dataNum = recv(client,recvbuf,recv_length,<span class="number">0</span>);</span><br><span class="line">					</span><br><span class="line">		<span class="comment">//③提取recvbuf，构建DNS包</span></span><br><span class="line">		<span class="comment">//构造DNS包头部，从缓冲区读取一个DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">client_query_header</span>;</span></span><br><span class="line">		client_query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(client_query_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n请求端信息：\n"</span>);</span><br><span class="line">		print_header(client_query_header);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//构造准备发送的DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">query_header</span>;</span></span><br><span class="line">		query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		<span class="built_in">memcpy</span>(query_header,client_query_header,<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		query_header-&gt;queryNum = <span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//④解析并处理请求</span></span><br><span class="line">		<span class="comment">//有多少个请求，就进行几次循环，每个循环完成一次系统运作</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;client_query_header-&gt;queryNum;i++)   </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析一个请求部分</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">client_query_section</span>;</span></span><br><span class="line">			client_query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">			decode_query_section(client_query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n正在处理第 %d 个请求\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//判断本地缓存中是否存在</span></span><br><span class="line">			<span class="keyword">int</span> findInCache = firstFindRR(client_query_section,CACHEFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> (findInCache==<span class="number">1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"在本地缓存中找到记录，直接回复请求\n"</span>);</span><br><span class="line">				<span class="keyword">goto</span> findit;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//本地缓存不存在</span></span><br><span class="line">			<span class="keyword">char</span> UDPsendbuf[<span class="number">512</span>];</span><br><span class="line">			<span class="keyword">char</span> UDPrecvbuf[<span class="number">512</span>]; </span><br><span class="line">			<span class="keyword">int</span> UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//直接将从客户端接受收的包写入缓冲区</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n发送给根服务器的请求：\n"</span>);</span><br><span class="line">			encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_header(query_header);</span><br><span class="line">			encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//定义用于接收的结构。由于根服务器必然不可能返回最终结果，所以不需要构造answer</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_RR</span> *<span class="title">recv_answer</span>,*<span class="title">recv_authority</span>,*<span class="title">recv_additional</span>;</span></span><br><span class="line">			recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">			recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//与根服务器建立UDP连接</span></span><br><span class="line">			<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">			addr.sin_family =AF_INET;</span><br><span class="line">			addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">			addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);	</span><br><span class="line">			</span><br><span class="line">			bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//发送  </span></span><br><span class="line">			sendto(sockfd,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//接收回复</span></span><br><span class="line">			<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">			recvfrom(sockfd,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);   </span><br><span class="line">			</span><br><span class="line">			<span class="comment">//断开</span></span><br><span class="line">			close(sockfd); </span><br><span class="line">			</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n收到根服务器的回复：\n"</span>);</span><br><span class="line">			<span class="comment">//从接收缓冲区解析并构造包结构然后打印</span></span><br><span class="line">			decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_header(recv_header);</span><br><span class="line">			 </span><br><span class="line">			decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_authority);</span><br><span class="line">			decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_additional);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//重置缓冲区</span></span><br><span class="line">			UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//用于计数本次循环是第几级服务器发来的</span></span><br><span class="line">			<span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>(isEnd(recv_header)==<span class="number">0</span>)  </span><br><span class="line">			&#123;</span><br><span class="line">				count++;</span><br><span class="line">				<span class="comment">//向下一个服务器建立UDP连接</span></span><br><span class="line">				<span class="keyword">int</span> sockfm=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">				<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">				addr.sin_family =AF_INET;</span><br><span class="line">				addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">				addr.sin_addr.s_addr=inet_addr(recv_additional-&gt;rdata);		</span><br><span class="line">				<span class="comment">//recv_additional-&gt;rdata即保存着下一个服务器的IP</span></span><br><span class="line">				</span><br><span class="line">				bind(sockfm,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//重置缓冲区和结构</span></span><br><span class="line">				UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">				UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">				<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">free</span>(recv_header);     recv_header = <span class="literal">NULL</span>;           </span><br><span class="line">				<span class="built_in">free</span>(recv_authority);  recv_authority = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">free</span>(recv_additional); recv_additional = <span class="literal">NULL</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//直接将从客户端接受收的请求写入发送缓冲区</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n发送给 %d级 服务器的请求：\n"</span>,count);</span><br><span class="line">				encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_header(query_header);</span><br><span class="line">				encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_query_section(client_query_section);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//发送</span></span><br><span class="line">				sendto(sockfm,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//接收回复</span></span><br><span class="line">				len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">				recvfrom(sockfm,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//断开连接</span></span><br><span class="line">				close(sockfm); </span><br><span class="line">				</span><br><span class="line">				<span class="comment">//开始处理</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n收到 %d级 服务器发来的回复：\n"</span>,count);	</span><br><span class="line">				</span><br><span class="line">				recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">				recv_answer = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				</span><br><span class="line">				decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">				print_header(recv_header);</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;   </span><br><span class="line">					decode_resource_record(recv_answer,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_answer);</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;  </span><br><span class="line">					decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_authority);</span><br><span class="line">				&#125;</span><br><span class="line">				 </span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;      </span><br><span class="line">					decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_additional);</span><br><span class="line">				&#125;			</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//UDP请求的循环结束，此时构造得到的结构体已经得到该次请求目标结果，且已经在循环中打印  </span></span><br><span class="line">			<span class="comment">//将从最终结果服务器返回来的结构写入发送缓冲区，本次循环结束</span></span><br><span class="line">			encode_header(recv_header,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_answer,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				<span class="comment">//将结果写入cache</span></span><br><span class="line">				addRRToCache(recv_answer,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_authority,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_authority,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_additional,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_additional,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		findit:;</span><br><span class="line">			<span class="comment">//⑤发送缓冲</span></span><br><span class="line">			<span class="comment">//发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标</span></span><br><span class="line">			<span class="keyword">unsigned</span> <span class="keyword">short</span> send_length = htons(sendBufferPointer);</span><br><span class="line">			send(client,&amp;send_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">			send(client, sendbuf, sendBufferPointer, <span class="number">0</span>);   </span><br><span class="line">			<span class="comment">//一个请求的解析与回答发送结束,清空发送缓冲区与指针，准备进行下一次发送</span></span><br><span class="line">			sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对一个客户端的所有请求解析结束</span></span><br><span class="line">		close(client);</span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接关闭\n"</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"===================================\n\n"</span>);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><p><em>Client为本机主逻辑</em></p>
@@ -6902,7 +6931,7 @@ drop掉1后就变成
   <entry>
     <title>多级中文域名解析系统-1（c语言）</title>
     <url>/2018/04/05/%E4%B8%AD%E6%96%87DNS%E5%AE%9E%E7%8E%B0%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
 <li><p>支持中文域名解析，支持缓存与多请求</p>
 </li>
 <li><p>遵循RFC1180标准，可被wireshark抓包检测到</p>
@@ -7013,7 +7042,7 @@ drop掉1后就变成
   <entry>
     <title>2018</title>
     <url>/2018/01/01/2018/</url>
-    <content><![CDATA[<p>呼，又一年过去了。 愿望实现了吗？努力了吗？坚持希望了吗？有未来吗？</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>呼，又一年过去了。 愿望实现了吗？努力了吗？坚持希望了吗？有未来吗？</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7022,7 +7051,7 @@ drop掉1后就变成
   <entry>
     <title>递归算法设计</title>
     <url>/2017/10/19/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<p>一、递归算法设计</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一、递归算法设计</p>
 <p>设计一个递归算法，先要搞清楚最基本的模型</p>
 <p>先考虑最小模型（最基本模型）应该如何操作</p>
 <p>写出基本模型和递推式之后，再确定参数传递</p>
@@ -7047,7 +7076,7 @@ drop掉1后就变成
   <entry>
     <title>验收</title>
     <url>/2017/05/15/%E9%AA%8C%E6%94%B6/</url>
-    <content><![CDATA[<p>问老师验收中</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>问老师验收中</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7056,7 +7085,7 @@ drop掉1后就变成
   <entry>
     <title>Know more ,know less</title>
     <url>/2017/04/20/know-more-know-less/</url>
-    <content><![CDATA[<p>知道越多，知道越少</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>知道越多，知道越少</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7065,7 +7094,7 @@ drop掉1后就变成
   <entry>
     <title>がんばれ！</title>
     <url>/2016/11/09/%E3%81%8C%E3%82%93%E3%81%B0%E3%82%8C%EF%BC%81/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       <categories>
         <category>日记</category>
       </categories>
@@ -7073,7 +7102,7 @@ drop掉1后就变成
   <entry>
     <title>CO-原码、反码、补码</title>
     <url>/2016/10/18/CO-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81/</url>
-    <content><![CDATA[<p>转载自<a href="http://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html</a></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>转载自<a href="http://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html</a></p>
 <h1 id="原码-反码-补码-详解"><a href="#原码-反码-补码-详解" class="headerlink" title="原码, 反码, 补码 详解"></a><a href="http://www.cnblogs.com/zhangziqiu/archive/2011/03/30/ComputerCode.html" target="_blank" rel="noopener">原码, 反码, 补码 详解</a></h1><p>本篇文章讲解了计算机的原码, 反码和补码. 并且进行了深入探求了为何要使用反码和补码, 以及更进一步的论证了为何可以用反码, 补码的加法计算原码的减法. 论证部分如有不对的地方请各位牛人帮忙指正! 希望本文对大家学习计算机基础有所帮助!  </p>
 <h2 id="一-机器数和真值"><a href="#一-机器数和真值" class="headerlink" title="一. 机器数和真值"></a>一. 机器数和真值</h2><p>在学习原码, 反码和补码之前, 需要先了解机器数和真值的概念.</p>
  <a id="more"></a>
@@ -7210,7 +7239,7 @@ drop掉1后就变成
   <entry>
     <title>javascript扼要</title>
     <url>/2016/10/07/javascript%E6%89%BC%E8%A6%81/</url>
-    <content><![CDATA[<p>  ~_~</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>  ~_~</p>
 <p>继续开坑</p>
 <p>html负责数据的显示，css负责样式的显示，javascript负责<strong>完成页面的交互</strong></p>
 <p>javascript有很多<strong>框架</strong>（类似于OC中的Fundation Cocoa框架集等），最早的是prototype.js现在很少用</p>
@@ -7328,7 +7357,7 @@ drop掉1后就变成
   <entry>
     <title>CSS扼要-2</title>
     <url>/2016/10/03/CSS%E6%89%BC%E8%A6%81-2/</url>
-    <content><![CDATA[<p>六、超链接样式</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>六、超链接样式</p>
 <p>CSS:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">a:link&#123;      &lt;!–此为默认情况–&gt;</span><br><span class="line"></span><br><span class="line">text-decoration:none;   &lt;!–去掉下划线–&gt;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>②访问后样式 a:visited</strong>{      &lt;!–链接被访问（点击）过之后–&gt;</p>
 <p>}</p>
@@ -7381,7 +7410,7 @@ drop掉1后就变成
   <entry>
     <title>bandwagon迁移digitalocean 大成功</title>
     <url>/2016/10/01/bandwagon%E8%BF%81%E7%A7%BBdigitalocean%20%E5%A4%A7%E6%88%90%E5%8A%9F/</url>
-    <content><![CDATA[<p>centos6.5无可用php5.5源真是折腾死我了 ……………</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>centos6.5无可用php5.5源真是折腾死我了 ……………</p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -7390,7 +7419,7 @@ drop掉1后就变成
   <entry>
     <title>CSS扼要-1</title>
     <url>/2016/09/29/CSS%E6%89%BC%E8%A6%81-1/</url>
-    <content><![CDATA[<p>一、<br>HTML仅用于页面内容的显示<br>而CSS是修饰<br>可查阅CSS手册查看大量的CSS样式</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一、<br>HTML仅用于页面内容的显示<br>而CSS是修饰<br>可查阅CSS手册查看大量的CSS样式</p>
 <p>CSS难点在于在什么情况应该用什么手段解决问题</p>
 <p>参考书籍 <em>Zen Garden</em></p>
 <p>引入样式表<code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;xxx.css&quot;&gt;</code></p>
@@ -7450,7 +7479,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>HTML扼要</title>
     <url>/2016/09/29/html/</url>
-    <content><![CDATA[<p>一、每个块的标题 全用h 搜索引擎会搜索h<br>ul无序 （li） 诸如导航 文章列表等<br>dl 数据列表块 （dt标题 dd元素）</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一、每个块的标题 全用h 搜索引擎会搜索h<br>ul无序 （li） 诸如导航 文章列表等<br>dl 数据列表块 （dt标题 dd元素）</p>
 <p>ul dl非常重要</p>
 <p>表格<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">&lt;tr&gt;  /*第一行*/</span><br><span class="line"></span><br><span class="line">&lt;td&gt;&lt;/td&gt;td&gt;&lt;/td&gt;td&gt;&lt;/td&gt;  /*第一行里每一列*/</span><br><span class="line"></span><br><span class="line">&lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">&lt;tr&gt; /*第二行*/</span><br><span class="line"></span><br><span class="line">&lt;td&gt;&lt;/td&gt;td&gt;&lt;/td&gt;td&gt;&lt;/td&gt; /*第二行里每一列*/</span><br><span class="line"></span><br><span class="line">&lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></p>
  <a id="more"></a>
@@ -7479,7 +7508,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>提前进入国庆状态..</title>
     <url>/2016/09/29/%E6%8F%90%E5%89%8D%E8%BF%9B%E5%85%A5%E5%9B%BD%E5%BA%86%E7%8A%B6%E6%80%81../</url>
-    <content><![CDATA[<p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"></p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7488,7 +7517,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>172</title>
     <url>/2016/09/21/172/</url>
-    <content><![CDATA[<p>——你是日向同学吧… </p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>——你是日向同学吧… </p>
 <p>——你是说以前的我吗 </p>
 <p>——…果然…你不记得了啊……已经…想不起来了吗…</p>
 <p> ——做不到.我以前的记忆已经完全被消除了 </p>
@@ -7507,7 +7536,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>今年成都的夏天真热</title>
     <url>/2016/08/29/%E4%BB%8A%E5%B9%B4%E6%88%90%E9%83%BD%E7%9A%84%E5%A4%8F%E5%A4%A9%E7%9C%9F%E7%83%AD/</url>
-    <content><![CDATA[<p>终于降温了~</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>终于降温了~</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7516,7 +7545,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>iOS-1</title>
     <url>/2016/08/12/ios-1/</url>
-    <content><![CDATA[<p>1、获取UIApplication代理： AppDelegate* appDelegate = [UIApplication shareApplication].delegate 应用程序代理是整个iOS应用的通讯中心，其他应用程序组件都可以通过该对象进行数据交换，同时ios应用代理还负责处理用用程序执行中的事件循环 应用程序代理需要满足两个规则：继承UIResponder基类和遵守UIApplicationDelegate协议（UIResponder是iOS应用提供的一个基类，所有需要向用户提供响应的对象都需要继承UIResponder基类）   </p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1、获取UIApplication代理： AppDelegate* appDelegate = [UIApplication shareApplication].delegate 应用程序代理是整个iOS应用的通讯中心，其他应用程序组件都可以通过该对象进行数据交换，同时ios应用代理还负责处理用用程序执行中的事件循环 应用程序代理需要满足两个规则：继承UIResponder基类和遵守UIApplicationDelegate协议（UIResponder是iOS应用提供的一个基类，所有需要向用户提供响应的对象都需要继承UIResponder基类）   </p>
  <a id="more"></a>
 <p>2、MVC模式 百度百科：</p>
 <p><a href="https://www.baidu.com/s?wd=MVC&amp;tn=44039180_cpr&amp;fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHP-Pv7bPW6LnHF9rynv0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHDsrjb1P101" target="_blank" rel="noopener">MVC</a>全名是Model View Controller，是模型(model)－视图(view)－<a href="https://www.baidu.com/s?wd=%E6%8E%A7%E5%88%B6%E5%99%A8&amp;tn=44039180_cpr&amp;fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHP-Pv7bPW6LnHF9rynv0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHDsrjb1P101" target="_blank" rel="noopener">控制器</a>(controller)的缩写，一种软件设计典范，用于组织代码用一种业务逻辑和数据显示分离的方法，这个方法的假设前提是如果业务逻辑被聚集到一个部件里面，而且界面和用户围绕数据的交互能被改进和个性化定制而不需要重新编写业务逻辑<a href="https://www.baidu.com/s?wd=MVC&amp;tn=44039180_cpr&amp;fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHP-Pv7bPW6LnHF9rynv0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHDsrjb1P101" target="_blank" rel="noopener">MVC</a>被独特的发展起来用于映射传统的输入、处理和输出功能在一个逻辑的图形化用户界面的结构中。</p>
@@ -7533,7 +7562,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>OC-4</title>
     <url>/2016/08/12/oc-4/</url>
-    <content><![CDATA[<p>OC学习过程中的笔记</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>OC学习过程中的笔记</p>
 <p>1、 NSString *str = @”Hello OC~~~”;</p>
 <p>  NSLog(@”%@”,str);</p>
 <p>只要输出一个字符串，则必须在””前加@。（只输出一个格式控制符也叫一个字符串 两个双引号出现就是一个字符串）</p>
@@ -7629,7 +7658,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>OC-3 delegate</title>
     <url>/2016/08/08/OC-3%20delegate/</url>
-    <content><![CDATA[<p>委托是协议的沿用，委托简单的理解就是某人委托某人去做某事，这个和java中的接口回调机制比较相似。委托在IOS开发中比较常用，比如我们不知道一个列表中的数据有多少，我们可以用委托的方式，将数据委托给其他类，让其他类去填充数据。委托的常用功能主要是传值和事件监听。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>委托是协议的沿用，委托简单的理解就是某人委托某人去做某事，这个和java中的接口回调机制比较相似。委托在IOS开发中比较常用，比如我们不知道一个列表中的数据有多少，我们可以用委托的方式，将数据委托给其他类，让其他类去填充数据。委托的常用功能主要是传值和事件监听。</p>
 <p>我们下面使用委托来实现2个类的委托，即老师委托学生去买本《OC开发》。</p>
 <p>用来实现委托的协议(BuyBookDelegate.h)</p>
 <p>@protocol BuyBookDelegate<br>//定义一个委托协议，协议中只有一个方法，用来买书<br>-(void)buyBook:(NSString*)name;<br>@end</p>
@@ -7655,7 +7684,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>OC-2 invalid operands to binary expression ('NSString *' and 'NSString *')q</title>
     <url>/2016/07/31/oc-2-invalid-operands-to-binary-expression-nsstring-and-nsstring-q/</url>
-    <content><![CDATA[<p>Q： I have the following code:</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Q： I have the following code:</p>
 <pre><code>NSString  *String=TextField1.text + TextField2.text 
 </code></pre><p>its giving the error: <code>-invalid operands to binary expression (&#39;NSString *&#39; and &#39;NSString *&#39;)</code>   An:</p>
  <a id="more"></a>
@@ -7674,7 +7703,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>OC 1</title>
     <url>/2016/07/30/oc-1/</url>
-    <content><![CDATA[<p><strong>**1、oc的默认访问权限：变量是protected，函数是public</strong></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><strong>**1、oc的默认访问权限：变量是protected，函数是public</strong></p>
 <p>@property给默认访问权限的成员变量提供了一套getter和setter给外界</p>
 <p>封装</p>
 <p>2、</p>
@@ -7727,7 +7756,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>终于考完了 进入苦逼的小学期</title>
     <url>/2016/07/05/%E7%BB%88%E4%BA%8E%E8%80%83%E5%AE%8C%E4%BA%86%20%E8%BF%9B%E5%85%A5%E8%8B%A6%E9%80%BC%E7%9A%84%E5%B0%8F%E5%AD%A6%E6%9C%9F/</url>
-    <content><![CDATA[<p>先来局屁股</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>先来局屁股</p>
 ]]></content>
       <categories>
         <category>日记</category>
@@ -7736,7 +7765,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>...</title>
     <url>/2016/05/18/113/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       <categories>
         <category>日记</category>
       </categories>
@@ -7744,7 +7773,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>不要让你的生命留下太多遗憾</title>
     <url>/2016/05/09/%E4%B8%8D%E8%A6%81%E8%AE%A9%E4%BD%A0%E7%9A%84%E7%94%9F%E5%91%BD%E7%95%99%E4%B8%8B%E5%A4%AA%E5%A4%9A%E9%81%97%E6%86%BE/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       <categories>
         <category>日记</category>
       </categories>
@@ -7752,7 +7781,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>TestMovie</title>
     <url>/2016/05/09/TestMovie/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       <categories>
         <category>博客</category>
       </categories>
@@ -7760,7 +7789,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>链表，栈，队列、树四种结构的构建方式的简单理解</title>
     <url>/2016/05/07/%E9%93%BE%E8%A1%A8%EF%BC%8C%E6%A0%88%EF%BC%8C%E9%98%9F%E5%88%97%E3%80%81%E6%A0%91%E5%9B%9B%E7%A7%8D%E7%BB%93%E6%9E%84%E7%9A%84%E6%9E%84%E5%BB%BA%E6%96%B9%E5%BC%8F%E7%9A%84%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<p>开个坑，有空填，方便自己考前速看一下</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>开个坑，有空填，方便自己考前速看一下</p>
 <hr>
 <p>两种储存结构 链式和顺式</p>
 <p>比较一下链表的链式储存结构、栈和队列的顺式储存结构（不代表他们只有链式/顺式，只是着重强调）</p>
@@ -7828,7 +7857,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>VMware虚拟机ping不通主机</title>
     <url>/2016/05/03/VMware%E8%99%9A%E6%8B%9F%E6%9C%BAping%E4%B8%8D%E9%80%9A%E4%B8%BB%E6%9C%BA/</url>
-    <content><![CDATA[<p>待解决  </p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>待解决  </p>
 <hr>
 <p>5月4日更新 </p>
 <p>问题解决了 <img src="http://aisakaki.com/wp-content/uploads/2016/05/image-2-300x298.jpeg" alt="image"> 使用桥接模式需要dhclient自动获取IP地址………..</p>
@@ -7840,7 +7869,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>Test image</title>
     <url>/2016/05/01/test-image/</url>
-    <content><![CDATA[<p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"> 一脸懵逼</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"> 一脸懵逼</p>
 ]]></content>
       <categories>
         <category>博客</category>
@@ -7849,7 +7878,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>Sever.</title>
     <url>/2016/04/30/sever/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       <categories>
         <category>博客</category>
       </categories>
@@ -7857,7 +7886,7 @@ div &gt;</code>h2{} 子对象选择符 (eg:<code>&lt;div&gt;…….&lt;h2&gt;…
   <entry>
     <title>hello world</title>
     <url>/2016/04/30/hello-world-2/</url>
-    <content><![CDATA[<p>from aisaka</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>from aisaka</p>
 ]]></content>
       <categories>
         <category>博客</category>
