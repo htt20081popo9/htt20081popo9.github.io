@@ -6,7 +6,7 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>施工中</em></p>
 <p><strong>学习算法：求解LDA模型参数</strong></p>
 <p><strong>目标</strong>：<strong>已知</strong>话题数$K$和狄利克雷分布超参数$\alpha,\beta$，<strong>求</strong>文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的<strong>参数</strong>：$\theta$和$\phi$（也就是求出这两个多项分布）  ，也就是模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的参数，其中$\mathbb w$是观测变量，$\mathbb z,\theta,\phi$是隐变量 ，$\alpha,\beta,K,N_m,M$是超参数</p>
-<p><strong>困难：</strong>由模型概率公式可知，存在三个隐变量$\mathbb z,\theta,\phi$，导致直接对其求MLE是非常困难的，潜变量的存在导致我们在求MLE的时候需要计算积分$\int_zp(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\theta p (\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\phi p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$，由于单词，主题数量很多，这将变得非常困难【】</p>
+<p><strong>困难：</strong>由模型概率公式可知，存在三个隐变量$\mathbb z,\theta,\phi$，导致直接对其求MLE是非常困难的，隐变量的存在导致我们在求MLE的时候需要消去隐变量，计算积分$\int_zp(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\theta p (\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\phi p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$，由于单词，主题数量很多，这将变得非常困难【】</p>
 <a id="more"></a>    
 <h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><p>蒙特卡罗方法就是为此而生的，它<strong>通过随机抽样来近似计算模型的后验概率</strong></p>
 <h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><p>变分推理通过<strong>解析</strong>的方法计算模型的后验概率的近似值</p>
@@ -66,7 +66,7 @@
     <url>/2019/12/12/%E6%BD%9C%E5%9C%A8%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E9%85%8D/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>施工中</em></p>
 <p>Latent Dirichlet Allocation，LDA</p>
-<p>LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，是文本集合的生成概率模型</p>
+<p>LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型</p>
 <a id="more"></a>    
 <h1 id="Latent-Dirichlet-Allocation"><a href="#Latent-Dirichlet-Allocation" class="headerlink" title="Latent Dirichlet Allocation"></a>Latent Dirichlet Allocation</h1><h2 id="PLSA的缺陷与LDA的改进"><a href="#PLSA的缺陷与LDA的改进" class="headerlink" title="PLSA的缺陷与LDA的改进"></a>PLSA的缺陷与LDA的改进</h2><p><strong>LDA与PLSA生成模型都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布，即$d\to z \to w$</strong></p>
 <p>然而PLSA存在的缺陷：<strong>PLSA不使用先验分布</strong>，或者说假设先验分布为均匀分布。具体地，回忆PLSA生成模型公式：$P(w,d)=P(d)\sum_zP(w|z)P(z|d)$，这里面的两个概率分布$P(w|z)$和$P(z|d)$（即这两个分布的参数）是没有先验分布的，或者说假设先验分布为均匀分布。</p>
@@ -75,22 +75,25 @@
 <p>这样一来，<strong>两个多项分布的参数就不是确定的了，而是这个参数服从狄利克雷分布</strong>，而在PLSA中参数是确定的</p>
 <p>这样可以防止学习过程中产生的过拟合</p>
 <p>②（不同）在文本生成过程中，PLSA基于极大似然估计（回看PLSA一节使用EM求解），而<strong>LDA是基于贝叶斯学习</strong></p>
-<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合</p>
-<p><strong>为什么这样能防止过拟合？</strong>这就是贝叶斯学派和频率学派的争论。<strong>频率学派认为</strong>概率是确定存在客观的，也就是PLSA的做法：$P(w|z)$和$P(z|d)$的参数是确定的，我们用已有数据训练模型去拟合这个参数即可。然而<strong>贝叶斯学派认为</strong>，在引入了新的数据之后，概率也会因为先验的改变而改变，他们认为概率是“主观”的，也就是说$P(w|z)$和$P(z|d)$的参数是不确定的，于是就从PLSA引入了LDA。</p>
-<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布而不是真实的分布！这时候贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个先验的指导，然后我们在进行多次迭代预测数据，将新的预测与参数的分布作为先验得到新的概率，这样可以有效防止模型学脱了（过拟合）【1】</p>
-<p>显然当样本量大的时候，PLSA的效果和LDA会差不多，因为训练集的频率与真实概率分布越来越接近了，也就是通过增大训练数据量来防止了模型的过拟合</p>
-<p><strong>但是这样很难计算</strong>（根据贝叶斯原则，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是</strong>我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</p>
-<p><strong>于是我们的文本生成流程</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上（先回看PLSA），根据贝叶斯原则，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合</p>
+<p><strong>为什么这样能防止过拟合？</strong>这就是贝叶斯学派和频率学派的争论。<strong>频率学派认为</strong>概率是确定存在<strong>客观</strong>的，也就是PLSA的做法：$P(w|z)$和$P(z|d)$的参数是确定的，我们用已有数据训练模型去拟合这个参数即可。然而<strong>贝叶斯学派认为</strong>，在引入了新的数据之后，概率也会因为先验的改变而改变，他们认为概率是<strong>“主观”</strong>的，也就是说概率分布$P(w|z)$和$P(z|d)$的参数是不确定的，于是就从PLSA引入了LDA。</p>
+<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布与真实的分布差得很远（大数定律失效）！这时候基于贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个<strong>先验的知识</strong>，然后我们再反复迭代参数，由参数产生的<strong>新似然数据</strong>得到一个<strong>新的先验</strong>，再继续迭代，这样可以有效防止模型学脱了（过拟合）</p>
+<p><strong>显然当样本数据量大的时候，PLSA的效果和LDA会差不多</strong>。因为训练集的频率与真实概率分布越来越接近了（大数定律生效），也就是通过增大训练数据量来防止了模型的过拟合</p>
+<p><strong>于是我们的文本生成流程（概率计算）</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
 <p>这个过程见“共轭分布-4-流程关系”用数学表示</p>
+<p>上面只是模型的定义和概率计算（数据文本生成）</p>
+<p><strong>那么模型如何学习呢（参数估计）？首先有个误解</strong>，既然模型的参数都直接是已知超参数分布给出的了，那为啥还要求参数？因为<strong>我们要学习（参数估计）的是在这个反复试验过程中（也就是上面文本生成反复迭代生成单词）通用的模型参数的表达式。</strong>在迭代过程中，模型参数<strong>不是最初始</strong>的先验分布（狄利克雷）了，因为在迭代过程中，上一个先验分布决定的多项分布模型产生了<strong>新的似然数据</strong>，成为了后验，导致<strong>下一此迭代时候的模型参数的先验分布变了！</strong></p>
+<p>所以<strong>我们想要方便地从多项分布的先验分布计算后验分布</strong>。<strong>但是这很难计算</strong>（根据上面引入贝叶斯先验的思想，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</strong></p>
+<p>LDA的模型学习由于潜变量过多，直接用MLE是非常困难的，所以会有吉布斯抽样算法和变分EM算法，见下一篇“LDA的学习算法”</p>
 <h2 id="共轭分布"><a href="#共轭分布" class="headerlink" title="共轭分布"></a>共轭分布</h2><ol>
 <li><p><strong>什么是共轭分布？</strong>共轭分布是一种分布的关系：如果后验分布与先验分布属于同一种分布（形式相同），则先验分布与后验分布称为共轭分布，先验分布即为共轭先验</p>
 </li>
 <li><p><strong>为什么要有共轭分布？</strong>因为我们希望这个先验分布和数据似然得到的后验分布能够在后面还可以作为先验分布，也就是说我们希望先验分布和这个后验分布的形式是一样的。</p>
 <p>换句话说，<strong>共轭分布能够保证先验分布被赋予的物理意义，在吸收了新的似然知识之后，传递到后验分布时，保持一致</strong></p>
 </li>
-<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们在参数估计的时候就【便于从先验分布计算后验分布】</strong></p>
+<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们在参数估计的时候就【便于从先验分布计算后验分布】</strong>（在下一篇：“LDA的学习算法”中会大量用到）</p>
 </li>
-<li><p><strong>下面的就有几个重要分布和对应共轭分布</strong>：</p>
+<li><p><strong>下面的就有几个重要分布和对应共轭分布的重要性质</strong>：</p>
 <p>高斯分布是高斯分布的共轭先验，<strong>Beta分布是二项分布的共轭先验，狄利克雷分布是多项分布的共轭先验。结合3，因此，我们才在LDA中使用狄利克雷函数作为先验分布</strong>：</p>
 <script type="math/tex; mode=display">
 X∽Mult(n,\theta)，设\theta的先验：p(\theta|\alpha)=Dir(\theta|\alpha)</script><script type="math/tex; mode=display">
@@ -136,7 +139,7 @@ p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alph
 <p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
 <script type="math/tex; mode=display">
 p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
-<p>关于狄利克雷分布的参数的意义【3】</p>
+<p>关于狄利克雷分布的参数的意义【1】</p>
 </li>
 <li><p><strong>关系与总结</strong></p>
 <p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong></p>
@@ -171,7 +174,8 @@ p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script>
 <p>[$\mathbb w_m \to z \to w$]：每一个文本$\mathbb w_m$中的<strong>每一个单词</strong>$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
 </li>
 </ol>
-<p>LDA假设文本中的话题对一个随机参数是独立同分布的，也就是说LDA中的文本是无限可交换的。所以在参数给定的条件下，文本中的话题顺序可以忽略。（PLSA也一样）</p>
+<p>【注】LDA假设文本中的话题对一个随机参数是独立同分布的，也就是说LDA中的文本是<strong>无限可交换</strong>的。所以在参数给定的条件下，文本中的话题顺序可以忽略。（PLSA也一样）</p>
+<p>（单词顺序也可以忽略，所以<strong>PLSA和LDA的“生成”并不是生成一个顺序的文本，且更多的在于学习模型潜在的参数</strong>）</p>
 <h2 id="概率计算：LDA生成过程"><a href="#概率计算：LDA生成过程" class="headerlink" title="概率计算：LDA生成过程"></a>概率计算：LDA生成过程</h2><p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
 <p>$\mathbb S_1$：$\beta \to\phi_k$</p>
 <p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为<strong>话题的单词分布</strong>$p(w|z_k)=Mult(\phi_k)$</p>
@@ -217,9 +221,11 @@ B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</
 <p><strong>那么先验分布</strong>$p(\theta|\alpha)=Dir(\theta|\alpha)$显然满足狄利克雷分布（假设条件）</p>
 <p>然后推导后验概率，用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，</p>
 <p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$，$\alpha$为参数$，D$为在参数$\theta$下多项分布计算出的似然数据：</p>
-<p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【5】</p>
-<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【6】</p>
+<p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【2】</p>
+<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【3】</p>
 <p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong></p>
+</li>
+<li><p>LDA不止可以用于文本，也可以用于图片等，即<strong>把图片当做文本，像素当做文本里的一个词</strong></p>
 </li>
 </ol>
 ]]></content>

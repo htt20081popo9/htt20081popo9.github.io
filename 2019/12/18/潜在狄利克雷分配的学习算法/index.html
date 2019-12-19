@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 学习算法：求解LDA模型参数 目标：已知话题数$K$和狄利克雷分布超参数$\alpha,\beta$，求文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的参数：$\theta$和$\phi$（也就是求出这两个多项分布）  ，也就是模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的参数，其中$\mat">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-18T13:17:33.798Z">
+<meta property="og:updated_time" content="2019-12-19T01:57:07.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在狄利克雷分配的学习算法">
 <meta name="twitter:description" content="施工中 学习算法：求解LDA模型参数 目标：已知话题数$K$和狄利克雷分布超参数$\alpha,\beta$，求文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的参数：$\theta$和$\phi$（也就是求出这两个多项分布）  ，也就是模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的参数，其中$\mat">
@@ -400,7 +400,7 @@
         <p><em>施工中</em></p>
 <p><strong>学习算法：求解LDA模型参数</strong></p>
 <p><strong>目标</strong>：<strong>已知</strong>话题数$K$和狄利克雷分布超参数$\alpha,\beta$，<strong>求</strong>文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$的<strong>参数</strong>：$\theta$和$\phi$（也就是求出这两个多项分布）  ，也就是模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的参数，其中$\mathbb w$是观测变量，$\mathbb z,\theta,\phi$是隐变量 ，$\alpha,\beta,K,N_m,M$是超参数</p>
-<p><strong>困难：</strong>由模型概率公式可知，存在三个隐变量$\mathbb z,\theta,\phi$，导致直接对其求MLE是非常困难的，潜变量的存在导致我们在求MLE的时候需要计算积分$\int_zp(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\theta p (\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\phi p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$，由于单词，主题数量很多，这将变得非常困难【】</p>
+<p><strong>困难：</strong>由模型概率公式可知，存在三个隐变量$\mathbb z,\theta,\phi$，导致直接对其求MLE是非常困难的，隐变量的存在导致我们在求MLE的时候需要消去隐变量，计算积分$\int_zp(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\theta p (\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta),\int_\phi p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$，由于单词，主题数量很多，这将变得非常困难【】</p>
 <a id="more"></a>    
 <h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><p>蒙特卡罗方法就是为此而生的，它<strong>通过随机抽样来近似计算模型的后验概率</strong></p>
 <h2 id="基于变分EM算法"><a href="#基于变分EM算法" class="headerlink" title="基于变分EM算法"></a>基于变分EM算法</h2><p>变分推理通过<strong>解析</strong>的方法计算模型的后验概率的近似值</p>
