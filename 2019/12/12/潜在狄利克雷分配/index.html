@@ -45,6 +45,33 @@
 
 
 
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -86,7 +113,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-19T01:57:09.802Z">
+<meta property="og:updated_time" content="2019-12-19T05:56:04.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="潜在狄利克雷分配">
 <meta name="twitter:description" content="施工中 Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型">
@@ -410,13 +437,13 @@
 <p>②（不同）在文本生成过程中，PLSA基于极大似然估计（回看PLSA一节使用EM求解），而<strong>LDA是基于贝叶斯学习</strong></p>
 <h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上（先回看PLSA），根据贝叶斯原则，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合</p>
 <p><strong>为什么这样能防止过拟合？</strong>这就是贝叶斯学派和频率学派的争论。<strong>频率学派认为</strong>概率是确定存在<strong>客观</strong>的，也就是PLSA的做法：$P(w|z)$和$P(z|d)$的参数是确定的，我们用已有数据训练模型去拟合这个参数即可。然而<strong>贝叶斯学派认为</strong>，在引入了新的数据之后，概率也会因为先验的改变而改变，他们认为概率是<strong>“主观”</strong>的，也就是说概率分布$P(w|z)$和$P(z|d)$的参数是不确定的，于是就从PLSA引入了LDA。</p>
-<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布与真实的分布差得很远（大数定律失效）！这时候基于贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个<strong>先验的知识</strong>，然后我们再反复迭代参数，由参数产生的<strong>新似然数据</strong>得到一个<strong>新的先验</strong>，再继续迭代，这样可以有效防止模型学脱了（过拟合）</p>
+<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布与真实的分布差得很远（大数定律失效）！这时候基于贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个<strong>先验的知识</strong>（这个初始先验分布的选择见下面），然后我们再反复迭代参数，由参数产生的<strong>新似然数据</strong>得到一个<strong>新的先验</strong>，再继续迭代，这样可以有效防止模型学脱了（过拟合）</p>
 <p><strong>显然当样本数据量大的时候，PLSA的效果和LDA会差不多</strong>。因为训练集的频率与真实概率分布越来越接近了（大数定律生效），也就是通过增大训练数据量来防止了模型的过拟合</p>
 <p><strong>于是我们的文本生成流程（概率计算）</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
 <p>这个过程见“共轭分布-4-流程关系”用数学表示</p>
-<p>上面只是模型的定义和概率计算（数据文本生成）</p>
+<p>上面只是模型的定义和概率计算（数据文本生成），如果我们想要从已有一堆文章中知道话题、单词分布，那么就是对模型进行参数估计，也即是模型学习过程</p>
 <p><strong>那么模型如何学习呢（参数估计）？首先有个误解</strong>，既然模型的参数都直接是已知超参数分布给出的了，那为啥还要求参数？因为<strong>我们要学习（参数估计）的是在这个反复试验过程中（也就是上面文本生成反复迭代生成单词）通用的模型参数的表达式。</strong>在迭代过程中，模型参数<strong>不是最初始</strong>的先验分布（狄利克雷）了，因为在迭代过程中，上一个先验分布决定的多项分布模型产生了<strong>新的似然数据</strong>，成为了后验，导致<strong>下一此迭代时候的模型参数的先验分布变了！</strong></p>
-<p>所以<strong>我们想要方便地从多项分布的先验分布计算后验分布</strong>。<strong>但是这很难计算</strong>（根据上面引入贝叶斯先验的思想，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（见下）</strong></p>
+<p>所以<strong>我们想要方便地从多项分布的先验分布计算后验分布</strong>。<strong>但是这很难计算</strong>（根据上面引入贝叶斯先验的思想，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（具体见下）</strong></p>
 <p>LDA的模型学习由于潜变量过多，直接用MLE是非常困难的，所以会有吉布斯抽样算法和变分EM算法，见下一篇“LDA的学习算法”</p>
 <h2 id="共轭分布"><a href="#共轭分布" class="headerlink" title="共轭分布"></a>共轭分布</h2><ol>
 <li><p><strong>什么是共轭分布？</strong>共轭分布是一种分布的关系：如果后验分布与先验分布属于同一种分布（形式相同），则先验分布与后验分布称为共轭分布，先验分布即为共轭先验</p>
