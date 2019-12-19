@@ -1064,7 +1064,7 @@ pre .javascript .function {
   z-index: 1050;
   padding: 0 6px;
   width: 24px;
-  background: #222;
+  background: #b1bbf0;
   font-size: 12px;
   opacity: 1;
   color: #fff;
@@ -1113,7 +1113,7 @@ pre .javascript .function {
   display: inline-block;
   padding: 0 40px;
   color: #fff;
-  background: #49b1f5;
+  background: #b1bbf0;
   border-bottom: none;
 }
 .brand:hover {
@@ -1136,7 +1136,7 @@ pre .javascript .function {
 .site-subtitle {
   margin-top: 10px;
   font-size: 13px;
-  color: #49b1f5;
+  color: #b1bbf0;
 }
 .use-motion .brand {
   opacity: 0;
@@ -1672,7 +1672,7 @@ pre .javascript .function {
   bottom: 0;
   width: 0;
   z-index: 1040;
-  background: #49b1f5;
+  background: #b1bbf0;
   -webkit-transform: translateZ(0);
 }
 .sidebar a {
@@ -1712,7 +1712,7 @@ pre .javascript .function {
   width: 14px;
   height: 14px;
   padding: 5px;
-  background: #222;
+  background: #b1bbf0;
   line-height: 0;
   z-index: 1050;
   cursor: pointer;
@@ -1830,7 +1830,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff4f5e;
+  background: #5c29ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2682,7 +2682,7 @@ embed {
   }
   .main-inner {
     background: #fff;
-    opacity: 0.9;
+    opacity: 0.85;
     padding: 50px;
   }
   #footer > div > div {
@@ -2692,7 +2692,7 @@ embed {
     padding: 1px 5px;
     background: transparent;
     border: none;
-    color: #49b1f5;
+    color: #b1bbf0;
     border-radius: 10px;
   }
 }
@@ -2714,18 +2714,18 @@ embed {
     padding: 20px;
   }
   #footer > div > div {
-    color: #eee;
+    color: #49b1f5;
   }
 }
 .btn {
-  color: #49b1f5;
+  color: #b1bbf0;
   background: #fff;
-  border: 2px solid #49b1f5;
+  border: 2px solid #b1bbf0;
 }
 .btn:hover {
-  border-color: #49b1f5;
+  border-color: #b1bbf0;
   color: #fff;
-  background: #49b1f5;
+  background: #b1bbf0;
 }
 ::selection {
   background: #00c4b6;
@@ -2735,6 +2735,9 @@ embed {
   background: #00c4b6;
   color: #f7f7f7;
 }
+.posts-expand .post-title-link:hover {
+  color: #b1bbf0;
+}
 .posts-expand .post-title-link::before {
   content: "";
   position: absolute;
@@ -2742,7 +2745,7 @@ embed {
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #49b1f5;
+  background-color: #b1bbf0;
   visibility: hidden;
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
