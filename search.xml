@@ -65,7 +65,6 @@
 <p>redis每次重启会自动载入该linux用户上次载入的rdb文件，可以直接删掉该rdb</p>
 ]]></content>
       <categories>
-        <category>程序语言</category>
         <category>数据库</category>
       </categories>
   </entry>
