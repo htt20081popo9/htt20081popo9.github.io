@@ -185,8 +185,8 @@ th {
 }
 body {
   position: relative;
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-  font-size: 14px;
+  font-family: 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 15px;
   line-height: 2;
   color: #555;
   background: #fff;
@@ -203,7 +203,7 @@ body {
 }
 @media (min-width: 1600px) {
   body {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 h1,
@@ -216,7 +216,7 @@ h6 {
   padding: 0;
   font-weight: bold;
   line-height: 1.5;
-  font-family: 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Serif SC', 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 h2,
 h3,
@@ -1129,9 +1129,9 @@ pre .javascript .function {
   display: inline-block;
   vertical-align: top;
   line-height: 36px;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: normal;
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 .site-subtitle {
   margin-top: 10px;
@@ -1219,7 +1219,7 @@ pre .javascript .function {
   opacity: 0;
 }
 .post-body {
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 @media (max-width: 767px) {
   .post-body {
@@ -1237,7 +1237,7 @@ pre .javascript .function {
 .post-body .figure .caption {
   margin: -20px auto 15px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   color: #999;
   font-weight: bold;
   line-height: 1;
@@ -1373,6 +1373,7 @@ pre .javascript .function {
 .posts-collapse .collection-title h1,
 .posts-collapse .collection-title h2 {
   margin-left: 20px;
+  color: #b1bbf0;
 }
 .posts-collapse .collection-title small {
   color: #bbb;
@@ -1387,7 +1388,7 @@ pre .javascript .function {
   margin-top: -4px;
   width: 8px;
   height: 8px;
-  background: #bbb;
+  background: #b1bbf0;
   border-radius: 50%;
 }
 .posts-collapse .post {
@@ -1409,7 +1410,7 @@ pre .javascript .function {
   width: 6px;
   height: 6px;
   margin-left: -4px;
-  background: #bbb;
+  background: #b1bbf0;
   border-radius: 50%;
   border: 1px solid #fff;
   transition-duration: 0.2s;
@@ -1418,10 +1419,10 @@ pre .javascript .function {
   transition-property: background;
 }
 .posts-collapse .post-header:hover {
-  border-bottom-color: #666;
+  border-bottom-color: #b1bbf0;
 }
 .posts-collapse .post-header:hover::before {
-  background: #222;
+  background: #49b1f5;
 }
 .posts-collapse .post-meta {
   position: absolute;
@@ -1497,7 +1498,7 @@ pre .javascript .function {
 .posts-expand .post-meta {
   margin: 3px 0 60px 0;
   color: #999;
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Noto Serif SC', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 12px;
   text-align: center;
 }
@@ -1830,7 +1831,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #5c29ff;
+  background: #f4ff1c;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1877,11 +1878,11 @@ pre .javascript .function {
   margin-left: 10px;
 }
 .sidebar-nav .sidebar-nav-active {
-  color: #87daff;
-  border-bottom-color: #87daff;
+  color: #fff;
+  border-bottom-color: #fff;
 }
 .sidebar-nav .sidebar-nav-active:hover {
-  color: #87daff;
+  color: #49b1f5;
 }
 .sidebar-panel {
   display: none;
@@ -1914,12 +1915,12 @@ pre .javascript .function {
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
   transition-property: all;
-  color: #999;
-  border-bottom-color: #555;
+  color: #fff;
+  border-bottom-color: #fff;
 }
 .post-toc ol a:hover {
-  color: #ccc;
-  border-bottom-color: #ccc;
+  color: #49b1f5;
+  border-bottom-color: #49b1f5;
 }
 .post-toc .nav-item {
   overflow: hidden;
@@ -2388,7 +2389,7 @@ pre .javascript .function {
   width: 10px;
   height: 10px;
   opacity: 0.5;
-  background: #555;
+  background: #b1bbf0;
   border: 1px solid #fff;
   border-radius: 50%;
 }
@@ -2716,6 +2717,16 @@ embed {
   #footer > div > div {
     color: #49b1f5;
   }
+}
+.post-body p a {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #0593d3;
+}
+.post-body p a:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1px solid #fc6423;
 }
 .btn {
   color: #b1bbf0;
