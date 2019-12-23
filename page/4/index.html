@@ -1989,17 +1989,17 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
 
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
-    var guest = 'nick';
+    var guest = 'nick,mail';
     guest = guest.split(',').filter(item=>{
       return GUEST.indexOf(item)>-1;
     });
     new Valine({
         el: '#comments' ,
         verify: false,
-        notify: false,
+        notify: true,
         appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
         appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
-        placeholder: '(..•˘_˘•..)',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
         avatar:'mm',
         guest_info:guest,
         pageSize:'10' || 10,

@@ -900,17 +900,17 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
 
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
-    var guest = 'nick';
+    var guest = 'nick,mail';
     guest = guest.split(',').filter(item=>{
       return GUEST.indexOf(item)>-1;
     });
     new Valine({
         el: '#comments' ,
         verify: false,
-        notify: false,
+        notify: true,
         appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
         appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
-        placeholder: '(..•˘_˘•..)',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
         avatar:'mm',
         guest_info:guest,
         pageSize:'10' || 10,
