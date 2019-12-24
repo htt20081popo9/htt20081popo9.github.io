@@ -409,8 +409,15 @@
             
           
 
+
           
           
+             <span id="/2019/10/18/配分函数/" class="leancloud_visitors" data-flag-title="配分函数">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -578,8 +585,15 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
           
 
+
           
           
+             <span id="/2019/10/17/绽放之后/" class="leancloud_visitors" data-flag-title="绽放之后">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -737,8 +751,15 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
           
 
+
           
           
+             <span id="/2019/10/14/失眠飞行/" class="leancloud_visitors" data-flag-title="失眠飞行">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -898,8 +919,15 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
           
 
+
           
           
+             <span id="/2019/10/13/寒露/" class="leancloud_visitors" data-flag-title="寒露">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -1054,8 +1082,15 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
           
 
+
           
           
+             <span id="/2019/10/13/腾讯游戏策划培训课课堂笔记-week1/" class="leancloud_visitors" data-flag-title="腾讯游戏策划培训课堂笔记-week1">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -1231,8 +1266,15 @@ or,Z=\sum_{\vec x}\hat{p}(x;\theta)</script><p>对其求对数似然梯度：</p
             
           
 
+
           
           
+             <span id="/2019/10/12/蒙特卡罗方法/" class="leancloud_visitors" data-flag-title="蒙特卡罗方法">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -1420,8 +1462,15 @@ s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取
             
           
 
+
           
           
+             <span id="/2019/10/11/深度学习中的结构化概率模型/" class="leancloud_visitors" data-flag-title="深度学习中的结构化概率模型">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -1618,8 +1667,15 @@ F(x)=-\log \sum_h e^{-E(x,h)}</script>
             
           
 
+
           
           
+             <span id="/2019/10/09/Autoencoder/" class="leancloud_visitors" data-flag-title="Autoencoder">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -2357,6 +2413,113 @@ J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩�
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

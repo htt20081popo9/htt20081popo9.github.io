@@ -120,7 +120,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/12/23/EveDroid/1.png">
 <meta property="og:image" content="https://aisakaki.com/2019/12/23/EveDroid/0.png">
-<meta property="og:updated_time" content="2019-12-24T03:23:48.196Z">
+<meta property="og:updated_time" content="2019-12-24T04:42:23.374Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EveDroid：Event-Aware Android Malware Detection Against Model Degrading for IoT Devices">
 <meta name="twitter:description" content="EveDroid: Event-Aware Android Malware Detection Against Model Degrading for IoT Devices 2019  IEEE Internet of Things Journal">
@@ -399,8 +399,15 @@
             
           
 
+
           
           
+             <span id="/2019/12/23/EveDroid/" class="leancloud_visitors" data-flag-title="EveDroid：Event-Aware Android Malware Detection Against Model Degrading for IoT Devices">
+
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
 
           
 
@@ -470,7 +477,9 @@ E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由�
 <h2 id="训练神经网络"><a href="#训练神经网络" class="headerlink" title="训练神经网络"></a>训练神经网络</h2><p><img src="//aisakaki.com/2019/12/23/EveDroid/0.png" alt="0" style="zoom: 80%;"></p>
 <p>NN由几层组成：输入层，事件层，连接层，隐藏层和softmax层。<strong>输入是每个事件的功能集群</strong>，然后使用多个事件层进行处理。在处理事件层之后，我们可以获得包含有关应用程序在不同事件中的行为方式的信息的功能。每个事件的事件层的所有输出将被连接到一个向量中，然后我们通过将不同的事件合并到隐藏层中来建立更高级别的语义。</p>
 <p>具体的参数略，看原文</p>
-<p>P.S. 我感觉这个算法用attention也许会有很好的效果？但不知道为什么作者没用，以后可以试一下</p>
+<p>P.S.1我感觉这个算法用attention也许会有很好的效果？但不知道为什么作者没用，以后可以试一下</p>
+<p>PS.2 调用图非常大，需要考虑内存开销</p>
+<p>PS.3 EveDroid为静态分析方法，对于一些在动态加载的代码，那就不行哒，不过可以通过反射等机制来解决这个问题；而且也可以使用动态沙箱跑出的API序列来解决这个问题（直接动态分析）</p>
 
       
     </div>
@@ -1220,6 +1229,113 @@ E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由�
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
