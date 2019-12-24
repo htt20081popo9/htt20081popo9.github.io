@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="EveDroid: Event-Aware Android Malware Detection Against Model Degrading for IoT Devices 2019  IEEE Internet of Things Journal">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-23T16:00:38.645Z">
+<meta property="og:updated_time" content="2019-12-24T00:27:00.802Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EveDroid：Event-Aware Android Malware Detection Against Model Degrading for IoT Devices">
 <meta name="twitter:description" content="EveDroid: Event-Aware Android Malware Detection Against Model Degrading for IoT Devices 2019  IEEE Internet of Things Journal">
@@ -441,6 +441,7 @@
 <h2 id="建立事件组"><a href="#建立事件组" class="headerlink" title="建立事件组"></a>建立事件组</h2><ol>
 <li><p>遍历事件子图</p>
 <p>目标是<strong>获取不同事件的API调用</strong>，以便我们可以知道应用程序在这些事件中做什么。</p>
+<p>使用Google官方的API；参数为空用none代替</p>
 <p>首先要找到这个应用程序的所有入口点（生命周期回调、GUI事件和系统事件处理程序）。应用程序可以从这些入口点中的任何一个触发，因此调用图的任何路径都可以在实际情况下执行。</p>
 <p>设计记录避免重复遍历</p>
 </li>
