@@ -43,29 +43,43 @@
 </li>
 </ol>
 <h1 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h1><p>DroidMiner：通过字节码分析API</p>
-<p>MaMaDroid：基于马尔科夫链构建一个API调用序列的行为模型</p>
-<p>HinDroid：将Android应用程序、相关api及其丰富的关系表示为一个结构化的异构信息网络，然后使用基于元路径的方法来描述应用程序和api的语义相关性。</p>
+<p><strong>MaMaDroid</strong>：基于马尔科夫链构建一个API调用序列的行为模型（<em>待阅读</em>）</p>
+<p><strong>HinDroid</strong>：将Android应用程序、相关api及其丰富的关系表示为一个结构化的异构信息网络，然后使用基于元路径的方法来描述应用程序和api的语义相关性。</p>
 <p>全都直接使用API，不好，无语义，无通用性</p>
 <p><strong>本文采用NLP技术来泛化API调用，并将API函数绑定到事件，使系统对模型降级更加健壮。</strong></p>
-<h1 id="System-Design"><a href="#System-Design" class="headerlink" title="System Design"></a>System Design</h1><h2 id="提取调用图"><a href="#提取调用图" class="headerlink" title="提取调用图"></a>提取调用图</h2><p>通过FlowDroid对Android应用程序和Java程序的数据流进行分析，提取样本的调用图</p>
+<h1 id="System-Design"><a href="#System-Design" class="headerlink" title="System Design"></a>System Design</h1><p><img src="//aisakaki.com/2019/12/23/EveDroid/1.png" alt="1"></p>
+<h2 id="提取调用图"><a href="#提取调用图" class="headerlink" title="提取调用图"></a>提取调用图</h2><p>通过FlowDroid对Android应用程序和Java程序的数据流进行分析，提取样本的调用图</p>
 <h2 id="建立事件组"><a href="#建立事件组" class="headerlink" title="建立事件组"></a>建立事件组</h2><ol>
-<li><p>遍历事件子图</p>
+<li><p><strong>遍历事件子图</strong></p>
 <p>目标是<strong>获取不同事件的API调用</strong>，以便我们可以知道应用程序在这些事件中做什么。</p>
-<p>使用Google官方的API；参数为空用none代替</p>
-<p>首先要找到这个应用程序的所有入口点（生命周期回调、GUI事件和系统事件处理程序）。应用程序可以从这些入口点中的任何一个触发，因此调用图的任何路径都可以在实际情况下执行。</p>
-<p>设计记录避免重复遍历</p>
+<p><strong>【重要】一个事件$e_i$就是树上的一条到叶子结点的路径（包含子路径）</strong></p>
+<p>（使用Google官方的API；参数为空用none代替）</p>
+<p>首先要找到这个应用程序的<strong>所有入口点</strong>（生命周期回调、GUI事件和系统事件处理程序）。应用程序可以从这些<strong>入口点中的任何一个触发</strong>，因此调用图的任何路径都可以在实际情况下执行。</p>
+<p>（设计缓存需要重复遍历的路径，节省内存）</p>
 </li>
-<li><p>API调用编码</p>
+<li><p><strong>API调用编码</strong></p>
+<p><strong>编码所有的单个API</strong></p>
 <p>在获取事件中的API调用之后，首先我们需要<strong>根据每个API调用的组成将其编码为一个向量</strong>。</p>
 <p>我们将每个API调用划分为一系列单词，包括包名、返回类型、方法名和参数列表，因为这些单词包含API功能的信息。</p>
 <p>使用doc2vec将文字序列转换成矢量（doc2vec是基于段落向量分布式存储模型（PV-DM）的思想，它将一个词序列映射成一个固定长度的特征空间向量，在特征空间中具有相似意义的句子彼此靠近。）</p>
 <p>比如对于一个API CALL <code>java.io.FileReader:int read(char[])</code>就可以将其变成序列<code>java,io,FileReader,int,read,char[]</code></p>
 <p>通过将每个API调用<strong>通过其全部组合转换为一个向量，而不是简单地将其抽象为一个包或一个族</strong>，我们可以比MaMaDroid保留更多关于其功能的语义，从而使我们的系统更适合恶意软件的演化和API的更改。</p>
 </li>
-<li><p>API调用簇</p>
+<li><p><strong>API调用聚类</strong></p>
+<p>对编码后的API向量进行k-means聚类，假定$k$簇，每个API被映射到一个<strong>类（簇)</strong>中。</p>
+<p>使用$k$个类，每个类的调用频率组成一个向量，$p_{i,j}$表示第$j$类在事件$e_i$中出现的<strong>频率</strong>，则定义<strong>事件簇(Function Clusters)</strong>：</p>
+<script type="math/tex; mode=display">
+e_i=[p_{i,1},p_{i,2},\cdots,p_{i,j},\cdots,p_{i,k}]</script><p><strong>【重要】这个事件簇，就相当于将调用图上的一条路径通过API类的概率组成的向量表示了</strong></p>
+<p><strong>事件组(Event Group)</strong>就可以由所有事件簇表示：</p>
+<script type="math/tex; mode=display">
+E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由一个事件组表示</strong></p>
+<p><strong>总结：先将各个API分到大类，再根据调用图用大类构建事件簇向量，再由所有事件簇向量（就表征了整个调用树）构成事件组向量，事件组即表示APK：$APIs\to p_{i,j}\to e_i\to E_g$</strong></p>
 </li>
 </ol>
-<h2 id="训练神经网络"><a href="#训练神经网络" class="headerlink" title="训练神经网络"></a>训练神经网络</h2>]]></content>
+<h2 id="训练神经网络"><a href="#训练神经网络" class="headerlink" title="训练神经网络"></a>训练神经网络</h2><p><img src="//aisakaki.com/2019/12/23/EveDroid/0.png" alt="0" style="zoom: 80%;"></p>
+<p>NN由几层组成：输入层，事件层，连接层，隐藏层和softmax层。<strong>输入是每个事件的功能集群</strong>，然后使用多个事件层进行处理。在处理事件层之后，我们可以获得包含有关应用程序在不同事件中的行为方式的信息的功能。每个事件的事件层的所有输出将被连接到一个向量中，然后我们通过将不同的事件合并到隐藏层中来建立更高级别的语义。</p>
+<p>P.S. 我感觉这个算法用attention也许会有很好的效果？但不知道为什么作者没用，以后可以试一下</p>
+]]></content>
       <categories>
         <category>论文阅读笔记</category>
       </categories>
