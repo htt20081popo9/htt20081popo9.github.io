@@ -35,13 +35,11 @@
 <a id="more"></a>
 <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><p>良性和恶性程序都可能调用同一API使得基于API的模型效果大打折扣</p>
 <ol>
-<li><p>本文提出一种新的应用程序表示方法：<strong>事件组（event group）</strong>，它捕捉<strong>不同事件中使用的API调用类型</strong>，然后将这些事件<strong>组合</strong>起来引入<strong>更高层次的语义</strong>。</p>
-</li>
-<li><p>EveDroid将不同事件中的每一组API调用根据它们的组成转换为它们所属的类别。我们将<strong>API调用的每一组类别称为函数集群</strong>(function cluster)。通过这样做，当一个新的API在系统更新中发布并被应用程序使用时，我们仍然可以通过将这个API调用分区到某个类别来捕获它。</p>
-</li>
-<li><p>我们还设计了一个特殊的神经网络（NN）来提取事件函数簇之间的关系。通过标签，我们将样本<strong>事件组中的每个函数簇</strong>输入到神经网络中，并将不同网络的输出串联在一起，由一个隐藏层进一步处理。最后，采用softmax分类器进行预测。<strong>利用训练好的神经网络，我们可以为任何未知样本建立事件组，并将其输入到训练好的网络中，以确定样本是否是恶意的。</strong></p>
-</li>
+<li>本文提出一种新的应用程序表示方法：<strong>事件组（event group）</strong>，它捕捉<strong>不同事件中使用的API调用类型</strong>，然后将这些事件<strong>组合</strong>起来引入<strong>更高层次的语义</strong>。</li>
+<li>EveDroid将不同事件中的每一组API调用根据它们的组成转换为它们所属的类别。我们将<strong>API调用的每一组类别称为函数集群</strong>(function cluster)。通过这样做，当一个新的API在系统更新中发布并被应用程序使用时，我们仍然可以通过将这个API调用分区到某个类别来捕获它。</li>
+<li>我们还设计了一个特殊的神经网络（NN）来提取事件函数簇之间的关系。通过标签，我们将样本<strong>事件组中的每个函数簇</strong>输入到神经网络中，并将不同网络的输出串联在一起，由一个隐藏层进一步处理。最后，采用softmax分类器进行预测。<strong>利用训练好的神经网络，我们可以为任何未知样本建立事件组，并将其输入到训练好的网络中，以确定样本是否是恶意的。</strong></li>
 </ol>
+<p>本文是基于静态技术-调用图的</p>
 <h1 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h1><p>DroidMiner：通过字节码分析API</p>
 <p><strong>MaMaDroid</strong>：基于马尔科夫链构建一个API调用序列的行为模型（<em>待阅读</em>）</p>
 <p><strong>HinDroid</strong>：将Android应用程序、相关api及其丰富的关系表示为一个结构化的异构信息网络，然后使用基于元路径的方法来描述应用程序和api的语义相关性。</p>
@@ -78,6 +76,7 @@ E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由�
 </ol>
 <h2 id="训练神经网络"><a href="#训练神经网络" class="headerlink" title="训练神经网络"></a>训练神经网络</h2><p><img src="//aisakaki.com/2019/12/23/EveDroid/0.png" alt="0" style="zoom: 80%;"></p>
 <p>NN由几层组成：输入层，事件层，连接层，隐藏层和softmax层。<strong>输入是每个事件的功能集群</strong>，然后使用多个事件层进行处理。在处理事件层之后，我们可以获得包含有关应用程序在不同事件中的行为方式的信息的功能。每个事件的事件层的所有输出将被连接到一个向量中，然后我们通过将不同的事件合并到隐藏层中来建立更高级别的语义。</p>
+<p>具体的参数略，看原文</p>
 <p>P.S. 我感觉这个算法用attention也许会有很好的效果？但不知道为什么作者没用，以后可以试一下</p>
 ]]></content>
       <categories>
