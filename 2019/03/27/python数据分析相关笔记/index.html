@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="迄今为止在python数据分析相关库上遇到的坑，超长预警">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-23T02:17:59.465Z">
+<meta property="og:updated_time" content="2019-12-26T08:19:21.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python数据分析相关笔记">
 <meta name="twitter:description" content="迄今为止在python数据分析相关库上遇到的坑，超长预警">
@@ -621,6 +621,8 @@ drop掉1后就变成
 <li><p>tensor,numpy array的创建与扩展</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建</span></span><br><span class="line">np.zeros([<span class="number">3</span>,<span class="number">10</span>]) <span class="comment">#创建一个3x10的array</span></span><br><span class="line">torch.zeros(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#创建一个3x10的tensor</span></span><br><span class="line">list([<span class="number">0</span>])*<span class="number">10</span>  <span class="comment">#[10,10,10,10,10,10,10,10,10,10]</span></span><br><span class="line">list([[<span class="number">0</span>]*<span class="number">10</span>]*<span class="number">3</span>) <span class="comment">#创建一个3x10的list</span></span><br><span class="line"></span><br><span class="line">np.random.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的array</span></span><br><span class="line">torch.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的tensor</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">#合并/拓展</span></span><br><span class="line">a.extend([<span class="number">4</span>,<span class="number">5</span>]) <span class="comment">#[1,2,3,4,5]</span></span><br><span class="line"><span class="comment">#注意用法</span></span><br><span class="line">extend后保存的值就为a，和append用法类似</span><br><span class="line"></span><br><span class="line">removes = np.append(array1,array2,axis=<span class="number">0</span>) <span class="comment">#axis为合并的维度</span></span><br><span class="line">tensor 使用torch.stack进行合并</span><br></pre></td></tr></table></figure>
 </li>
+</ol>
+<ol>
 <li><p>list 删除元素</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list.remove(x)</span><br><span class="line">print(list)</span><br></pre></td></tr></table></figure>
 <p>该方法没有返回值<br>只会删掉匹配到的第一个<br>还有2个方法懒得记了</p>
@@ -635,6 +637,10 @@ drop掉1后就变成
 <li><p>tensor/array值归一化<br>  <code>tensor.div_()</code><br>  <code>narray.div_()</code></p>
 </li>
 <li><p>windows路径\\变成/即可</p>
+</li>
+<li><p>改变numpy array中的数据类型</p>
+<p><code>array = array.astype(obj_type)</code></p>
+<p><code>obj_type</code>就可以为比如<code>float</code></p>
 </li>
 </ol>
 
