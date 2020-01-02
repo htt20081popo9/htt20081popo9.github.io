@@ -316,6 +316,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/12/蒙特卡罗方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/12/蒙特卡罗方法/" itemprop="url">蒙特卡罗方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T11:43:29+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/12/蒙特卡罗方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/12/蒙特卡罗方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/10/12/蒙特卡罗方法/" class="leancloud_visitors" data-flag-title="蒙特卡罗方法">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="采样与蒙特卡罗方法"><a href="#采样与蒙特卡罗方法" class="headerlink" title="采样与蒙特卡罗方法"></a>采样与蒙特卡罗方法</h2><p>为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样</p>
+<p>蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法<strong>把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望</strong>（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p(x)$的乘积，即$f(x)$在$p(x)$分布上的均值）</p>
+<script type="math/tex; mode=display">
+s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取$n$个样本$(x_1,\cdots,x_n)～p(x)$（同期望证明略，使用大数定理可证得）来近似之，则</p>
+<script type="math/tex; mode=display">
+\int_a^bh(x)dx=E_p(f(x))≈\frac{1}{n}\sum_{i=1}^nf(x_i)</script><p>蒙特卡罗方法是一种随机模拟技术</p>
+<h2 id="马尔科夫链蒙特卡罗方法（MCMC）"><a href="#马尔科夫链蒙特卡罗方法（MCMC）" class="headerlink" title="马尔科夫链蒙特卡罗方法（MCMC）"></a>马尔科夫链蒙特卡罗方法（MCMC）</h2><p>Markov Chain Monte Carlo</p>
+<p>马尔科夫链是<em>随机过程</em>中的重要角色，不多赘述</p>
+<p>马尔科夫过程<strong>各态遍历性</strong>需要满足：①非周期  ②不可约</p>
+<p>非周期即存在某个取值从它出发转移回自身所需要的转移次数总是整数$d(&gt;1)$的倍数，使得能够“连续”转移，这保证了马尔科夫过程的连续性，否则必须走特定步长（即周期）才能转移，使得马尔科夫过程不连续</p>
+<p>不可约即为任意两个取值之间总是能以非零的概率相互转移</p>
+<p>若马尔科夫过程是各态遍历的，无论初始值为何，随机变量的最终取值分布会收敛于一个唯一的平稳分布$\pi^*$</p>
+<script type="math/tex; mode=display">
+\lim_{t\to ∞ }\pi^{(0)}P^t=\pi^*</script><p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
+<p>可以从这个角度证明：</p>
+<script type="math/tex; mode=display">
+\pi_t=P^t\pi_0=(Pdiag(\lambda)P^{-1})^t\pi_0=Pdiag(\lambda)^tP^{-1}\pi_0</script><p>可见这个过程将导致$P$中不为1的特征值全部衰减到0，因此该过程就收敛到平稳分布</p>
+<script type="math/tex; mode=display">
+\pi^*=\pi P</script><p>得到一个特征向量方程，收敛之后的$\pi^*$是特征值为1所对应的特征向量</p>
+<p>于是就可以<strong>利用马尔科夫链来进行蒙特卡罗估计</strong>，这类算法被称为<strong>马尔科夫链蒙特卡罗方法（MCMC）</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/12/蒙特卡罗方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/10/11/深度学习中的结构化概率模型/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1671,256 +1867,11 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/25/XCODE开发小记/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/25/XCODE开发小记/" itemprop="url">IOS开发小记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T17:23:04+08:00">
-                2019-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/" itemprop="url" rel="index">
-                    <span itemprop="name">开发</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/IOS开发/" itemprop="url" rel="index">
-                    <span itemprop="name">IOS开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/25/XCODE开发小记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/XCODE开发小记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/25/XCODE开发小记/" class="leancloud_visitors" data-flag-title="IOS开发小记">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后…</p>
-<p>不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧</p>
-<p>因为当时没用pods管理第三方库…以下踩坑记录</p>
-<ol>
-<li><p>使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文件进行开发，编译会失败。新增的workspace文件会引用原有的应用主工程，还会引用新增的Pods工程</p>
-</li>
-<li><p>如果   PODS生成的静态链接库没有被主工程target链接，要自己手动建立链接</p>
-</li>
-<li><p>在头文件搜索路径里 xxx/xxx/<em> re… 别忘了加\</em>并设置迭代搜索</p>
-</li>
-<li><p>build后修改代码，需要build clean再重新build，不然会报上次一样的错</p>
-</li>
-<li><p>要检查头文件路径是否正确<xxx xxx="">，或者直接写”.h”，则xcode会直接在头文件搜索路径里搜索</xxx></p>
-</li>
-<li><p>mac自带的ruby权限较小，开发不要用这个。我们要自己安装rvm并创建ruby环境，随后我们的cocoapods是在这个环境使用的</p>
-</li>
-<li><p>respondsToSelector 用来判断某一个方法时候实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#如果destroy这个方法实现了，就执行之</span><br><span class="line">if ([subViewController respondsToSelector:@selector(destroy)])</span><br><span class="line">&#123;</span><br><span class="line">	[subViewController destroy];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>UINavigationController 导航控制器</p>
-<p>开发的时候一般都是多控制器，由一个父控制器管理多个子控制器</p>
-<p>一般都是在Appdelegate中生成（可以将Nav写在一个VC中，然后在Appdelegate中实例化这个VC）</p>
-<p>使用方法：</p>
-<ul>
-<li><p>初始化UINavigationController实例</p>
-</li>
-<li><p>在AppDelegate中设置一个根控制器，即设置<code>self.window.rootViewController=UINavigationController</code>（在AppDelegate中设置,self指的appdelegate）</p>
-</li>
-<li><p>通过push方法添加需要的子控制器</p>
-<p>在初始化UINavagationController的时候调用构造方法<code>initWithRootViewController:</code>就会自动push自己设定的根控制器，但其它view就要创建后手动push</p>
-</li>
-</ul>
-<p>当前view所属控制器<code>self.navigationController</code></p>
-<p>控制器跳转：<code>[self.navigationController pushViewController:xxxViewController animated:YES]</code></p>
-<p>压入(push)控制器：<code>-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
-<p>移除(pop)栈顶控制器:<code>-(UIViewController *)popViewControllerAnimated:(BOOL)animated;</code>即可返回上一层控制器</p>
-<p>回到(popTo)指定子控制器:<code>-(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
-<p>回到根(popToRoot)控制器（栈底）:<code>-(NSArray *)popToRootViewControllerAnimated:(BOOL)Animated;</code></p>
-<p>一次压入多个控制器<code>setViewController</code></p>
-<p>栈顶控制器<code>nav.topViewController</code></p>
-<p>当前可见视图控制器<code>nav.visibleViewController</code></p>
-</li>
-<li><p>ViewController相关</p>
-<p>根据名字获取VC：<code>_homeViewController = self.viewControllers[TABBAR_HOME_INDEX];</code></p>
-</li>
-<li><p>账户登入状态等信息可以用单例模式来管理</p>
-</li>
-<li><p>AppDelegate负责管理程序周期，是程序入口</p>
-<p>如<code>-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code></p>
-<p>这里就是程序launch完后做的事情，这时候就可以初始化Root VC了</p>
-</li>
-<li><p>协议 接口 委托</p>
-<p>委托：A委托B去做某事，B如果没有这个方法，B从C继承，C有这个方法，就会执行C中的该方法（与java一样的向上转型）</p>
-<ul>
-<li>A是B的委托对象</li>
-<li>B引用一个A</li>
-<li>A将实现B的委托方法</li>
-<li>B通过委托方法通知</li>
-</ul>
-<p>接口：接口就相当于一个头文件，告诉外部可以用，联想生物细胞的构造</p>
-<p>在h文件里写@interfacae，在m文件里实现该interface，就相当于建立了一个类，只有interface暴露的东西才能被外部使用，这种设计是为了更好的安全性</p>
-<p>java类和oc类的核心区别在于，java类的共有私用是由类里面自己实现的，可以设置共私有变量和方法，而OC中每个类都是由一个接口interface和实现该interface的类来完成，只有interface中的东西暴露给了外部</p>
-<pre><code> 协议：协议可以类比java中的interface
-</code></pre></li>
-<li><p><code>Universal Link</code>, 中文是通用链接. 可以通过<code>http(s)</code>来唤醒<code>App</code></p>
-</li>
-<li><p>prepareForSegue:sender: </p>
-<p>为了区分视图的跳转，可以用上一个、下一个来表示，也可以用源视图、目标视图来表示。 即： sourceViewController 和destinationViewController。  目标视图控制器是指：即将显示（加载）的视图， 而源视图控制器是指：即将被取代的视图控制器。</p>
-</li>
-<li><p>跳转总结</p>
-<p><a href="https://www.jianshu.com/p/ceaf978f9dfe" target="_blank" rel="noopener">https://www.jianshu.com/p/ceaf978f9dfe</a></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1968,7 +1919,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">152</span>
+                  <span class="site-state-item-count">153</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
