@@ -111,17 +111,20 @@
 
 
 
-<meta name="description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
+<meta name="description" content="以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大数据相似度计算：局部敏感哈希算法">
 <meta property="og:url" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
+<meta property="og:description" content="以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-31T10:27:41.221Z">
+<meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/1.png">
+<meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/2.png">
+<meta property="og:updated_time" content="2020-01-03T03:18:11.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据相似度计算：局部敏感哈希算法">
-<meta name="twitter:description" content="施工中 以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
+<meta name="twitter:description" content="以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
+<meta name="twitter:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/1.png">
 
 
 
@@ -371,8 +374,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
                   </a>
                 </span>
 
@@ -425,8 +439,7 @@
       
 
       
-        <p><em>施工中</em></p>
-<p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
+        <p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
 <p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
 <p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
 <a id="more"></a>    
@@ -465,10 +478,19 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
 <p>于是有了局部敏感哈希算法，LSH</p>
 <p><strong>LSH是一种基于min-hash的加速索引算法，建立一种新的索引</strong></p>
 <p>为了降低比较次数，LSH具体地算法是：</p>
-<p>①将<strong>min-hash</strong>得到的<strong>hash签名（下称：向量），划分为若个段</strong></p>
-<p>②每个段分别<strong>用hash函数构建各自段的hash表</strong>，相似的向量就会映射到相似的哈希值，使用解决哈希冲突的哈希分桶算法储存冲突的key（向量），那么一个向量就被映射到一个桶，一个桶内的向量就可以认为是近乎相似的。也就是说，这个操作得出了<strong>向量在各个分段的相似性</strong>。</p>
-<p>③每个段的每一个桶内即为候选相似样本，如果两个向量中相同的段越多，那么这两个向量相似度就越高</p>
-<p><strong>参数：Hash函数，分段数，每个分段的大小；</strong></p>
+<p>①将每个原向量（一个数据点）通过<strong>min-hash</strong>得到的<strong>hash签名（下称：向量），划分为$b$段，每段有$r$行</strong></p>
+<p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/1.png" alt="1" style="zoom: 33%;"></p>
+<p>如图矩阵$M$,每一列代表一个向量，每一行就是一个向量的维度，$r$个维度（行）组成一个段</p>
+<p>②<strong>对每个段</strong>分别使用<strong>hash函数，不同样本的该段截取的部分段向量如果相似</strong>就会被映射到一个桶中。</p>
+<p>相当于以段为单位先“比较”了一次相似度，两个向量的同一个段相似，那么这两个向量就有可能相似</p>
+<p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/2.png" alt="2" style="zoom:33%;"></p>
+<p>③每个段的每一个桶内即为候选相似样本，如果两个向量各段在同一个桶内的数量越多，那么这两个向量相似度就越高</p>
+<p>为什么呢？我们假设AB 两个样本相似度为$a$，那么将AB分成$b$段，每段$r$行。那么AB<strong>在某段里，每一行的相似概率</strong>就为$a^r$， 那么AB<strong>在该段每一行都不相似的概率</strong>就为$1-a^r$，这就是它false negative的概率。【】【】</p>
+<p>所以当我们设定一个阈值，相似度大于阈值的时候，如果列的相似度非常的大，他们在同一个桶的概率也非常大</p>
+<p>理解名字：“局部敏感哈希”，这个局部就是指的这个分段，我们将向量切分成很多段，每个段分别计算相似性，而不是每个维度一一计算【】</p>
+<p><strong>参数：Hash函数，分段数，桶大小；</strong></p>
+<p>分段数越多，越准确（当分段数=minhash后向量长度，那就退化成直接比较了）</p>
+<p>桶应该设置大一点，避免hash碰撞</p>
 <p>总结下来就是：Min-Hash降维，LSH减少查找范围。</p>
 <h1 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h1><ol>
 <li><p><code>sklearn.neighbors</code>中实现了LSHForest(局部敏感随机投影森林)【】</p>
@@ -485,6 +507,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
 <p>这是falconn py的说明文档<a href="https://falconn-lib.org/pdoc/falconn/" target="_blank" rel="noopener">https://falconn-lib.org/pdoc/falconn/</a></p>
 </li>
 </ol>
+<p>注：图片来源斯坦福LSH课件</p>
 
       
     </div>
@@ -621,7 +644,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">153</span>
+                  <span class="site-state-item-count">154</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -632,7 +655,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
