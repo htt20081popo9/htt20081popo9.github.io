@@ -120,7 +120,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/1.png">
 <meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/2.png">
-<meta property="og:updated_time" content="2020-01-07T09:28:02.832Z">
+<meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/3.png">
+<meta property="og:updated_time" content="2020-01-08T12:32:56.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据相似度计算：局部敏感哈希算法">
 <meta name="twitter:description" content="以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
@@ -473,27 +474,36 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
 <p>以此类推，<strong>打散了$n$次，就设置了$n$个不同的哈希函数来计算打散的行号，每个原向量就得到了$n$次min-hash结果，就得到了一个$n$维的新向量</strong></p>
 <hr>
 <p>一次随机打散行，其实就是一次对行号的散列，其实就是对行号计算一次哈希值。我们<strong>要打散多少次，实际上就是有多少个作用于行号的不同的哈希函数，也就是经过min-hash处理后向量的长度</strong>。</p>
-<h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><p>min-hash只是<strong>降低了每一个向量的维度，并没有减少比较次数</strong>，当向量数量很大的时候，依然非常耗时间</p>
+<h1 id="Locality-Sensitive-Hashing"><a href="#Locality-Sensitive-Hashing" class="headerlink" title="Locality Sensitive Hashing"></a>Locality Sensitive Hashing</h1><h2 id="为什么要用LSH"><a href="#为什么要用LSH" class="headerlink" title="为什么要用LSH"></a>为什么要用LSH</h2><p>min-hash只是<strong>降低了每一个向量的维度，并没有减少比较次数</strong>，当向量数量很大的时候，依然非常耗时间</p>
 <p>假设原向量（文本）有$m$个，则时间复杂度没变$O(m^2)\to O(m^2)$</p>
 <p>于是有了局部敏感哈希算法，LSH</p>
-<p><strong>LSH是一种基于min-hash的加速索引算法，建立一种新的索引</strong></p>
-<p>为了降低比较次数，LSH具体地算法是：</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>LSH是一种基于min-hash的加速索引算法，建立一种新的索引</strong></p>
+<p><strong>其基于思想：如果将两个向量以相同方法划分若干段，如果这两个向量相似，那么他们被划分出的对应若干段中存在某段完全相同（=段中每维完全相同=hash值相同=被分到同一个hash分桶）的概率也很高；同理不相似的向量，其哈希值只有很小的概率是相同的。那么我们就可以只比较可能相似的样本，不太可能相似的样本就不比较，这样就减小了比较次数</strong></p>
+<p>LSH具体地算法是：</p>
 <p>①将每个原向量（一个数据点）通过<strong>min-hash</strong>得到的<strong>hash签名（下称：向量），划分为$b$段，每段有$r$行</strong></p>
 <p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/1.png" alt="1" style="zoom: 33%;"></p>
 <p>如图矩阵$M$,每一列代表一个向量，每一行就是一个向量的维度，$r$个维度（行）组成一个段</p>
-<p>②<strong>对每行的每个段进行hash映射，不同样本（竖）的该段截取的部分段向量（横）如果相似</strong>就会被映射到一个桶中。</p>
+<p>②<strong>对每行的每个段进行hash映射，不同样本（竖）的该段截取的部分段向量（横）如果相同</strong>就会被映射到一个桶中。</p>
 <p>（每一行可以使用相同的hash函数，但是每一行各段都是被映射到不同的数组的，数组里的每一个元素就是桶）</p>
-<p>相当于以段为单位先“比较”了一次相似度，两个向量的同一个段相似，那么这两个向量就有可能相似</p>
 <p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/2.png" alt="2" style="zoom:33%;"></p>
-<p>③每个段的每一个桶内即为<strong>候选相似样本</strong>，我们就可以只对候选相似样本进行比较。显然候选相似样本就是不同样本中<strong>至少有一个段相似</strong>的样本</p>
-<p>很显然从道理上讲这是理所应当的。从概率计算来讲，我们假设AB 两个样本相似度为$a$，那么将A、B分成$b$段，每段$r$行。那么A、B<strong>在某段里，每一行的相似概率</strong>就为$a^r$， 那么A、B<strong>在该段每一行都不相似的概率</strong>就为$1-a^r$，A、B<strong>所有段都不同的概率</strong>为$(1-a^r)^b$，A、B<strong>至少有一个段相似的概率</strong>为$1-(1-a^r)^b$，最后这个就是两个样本可能相似的概率（成为候选点，然后进行细致比较）</p>
-<p>我们只需要计算一个band .我们就可以大概的预测出我们样本的相似性了【】</p>
-<p>$1-(1-a^r)^b$化成图像是S形的，根据具体情况可以调节参数以调优，见<a href="https://zhuanlan.zhihu.com/p/46164294" target="_blank" rel="noopener">LSH</a></p>
-<p><strong>理解名字：</strong>“局部敏感哈希”，这个局部就是指的这个分段，我们将向量切分成很多段，每个段分别计算相似性，只要两个样本存在某段的哈希相似（落入同一桶内），那么这两个样本就是可能相似的样本对，需要细致计算这两个样本的相似度；如果两个样本没有段哈希相似（没有落入一个桶），就就不需要再细致计算这两个样本的相似度。</p>
-<p><strong>参数：Hash函数，分段数，桶大小，阈值；</strong></p>
-<p>分段数越多，越准确（当分段数=minhash后向量长度，那就退化成直接比较了）</p>
-<p>桶应该设置大一点，避免hash碰撞</p>
-<p>总结下来就是：Min-Hash降维，LSH减少查找范围。</p>
+<p>③我们应用一个<strong>假设</strong>：我们称每个段的每一个桶内，即不同样本中<strong>至少有一个段相同（=hash值相同=被分到同一个hash分桶）</strong>的样本为<strong>候选相似样本</strong>。通过下面的证明可得，我们<strong>只对候选相似样本进行比较，便可以以极大概率找到所有可能相似样本。</strong></p>
+<hr>
+<p><strong>假设的证明：</strong>我们假设AB 两个样本相似度为$a$，那么将A、B分成$b$段，每段$r$行。那么A、B<strong>在某段里，每一行的相似概率</strong>就为$a^r$， 那么A、B<strong>在该段每一行都不相似的概率</strong>就为$1-a^r$，A、B<strong>所有段都不同的概率</strong>为$(1-a^r)^b$，A、B<strong>至少有一个段相似的概率</strong>为$1-(1-a^r)^b$，最后这个式子就是两个样本可能相似的概率</p>
+<p>$a∽1-(1-a^r)^b$画成图像是S形的，它表征了<strong>相似度$a$作为自变量与A、B至少有一个段相同的概率的关系</strong>，如下：</p>
+<p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/3.png" alt="3"></p>
+<p>（此图中$s$即相似度$a$，最陡的地方为$a=(1/b)^{1/r}$；$t$为相似判定阈值，设定大于该阈值则认为两个样本相似）</p>
+<p>从$a∽1-(1-a^r)^b$图中可以看到，当两个样本的相似度$a$超过一定阈值的时候，$1-(1-a^r)^b$也就是A、B至少有一段相同的概率骤升，A,B任何一段都不相同的概率骤降，所以我们就排除出了不太可能相似的样本，而获得了可能相似的样本。<strong>也就是说，只要我们将至少存在一段相同的样本选做候选点，就可以以极大概率捕获相似样本。</strong></p>
+<p><strong>于是</strong>我们就可以只比较可能相似的样本，也就是有段落在同一个桶内的样本了</p>
+<p><strong>理解名字：“局部敏感哈希”，这个局部就是指的这个分段。如果两个向量局部相同，根据上面证明，那么两个向量可能相似的概率就远远大于不可能相似的概率。</strong></p>
+<p>总结：Min-Hash降维，LSH减少查找范围；如何减少查找范围？通过找存在相同band的样本来找可能相似的样本。</p>
+<p>（注意桶应该设置大一点，避免hash碰撞）</p>
+<h2 id="参数调节"><a href="#参数调节" class="headerlink" title="参数调节"></a>参数调节</h2><p><strong>参数：分段数$b$，相似判定阈值$t$；</strong></p>
+<p>可以看出，分段数越多，返回的相似候选点越多，漏报率越低（当分段数=minhash后向量长度，那就退化成直接比较了）</p>
+<p>我们可以通过调节这个$a∽1-(1-a^r)^b$曲线来满足我们的实际需求</p>
+<p><strong>如果我们想要尽量少漏掉相似样本：</strong>那么就应该调节分段数$b$和相似判定阈值$t$，尽量让我们的相似度判断阈值尽量在S曲线的右上角，这样一来候选点相似的概率大于该相似度阈值的概率就尽量大了</p>
+<p><strong>如果我们想要查询速度快：</strong>我们就应该调节分段数$b$和相似判定阈值$t$，尽量让S曲线中间的爬升坡度更陡峭，这样一来相似度没那么高的向量就很难成为候选点</p>
+<p><strong>于是就可以根据我们实际任务的需求，调节曲线的形状和阈值的位置</strong></p>
+<p>这里的参数调节分析可以见<a href="https://zhuanlan.zhihu.com/p/46164294" target="_blank" rel="noopener">LSH</a>举例子，写得很好</p>
 <h1 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h1><ol>
 <li><p><code>sklearn.neighbors</code>中实现了LSHForest(局部敏感随机投影森林)</p>
 </li>
@@ -739,7 +749,7 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾hash分桶"><span class="nav-number">2.</span> <span class="nav-text">回顾hash分桶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#min-hash"><span class="nav-number">3.</span> <span class="nav-text">min-hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原始min-hash"><span class="nav-number">3.0.1.</span> <span class="nav-text">原始min-hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可操作min-hash"><span class="nav-number">3.0.2.</span> <span class="nav-text">可操作min-hash</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">4.</span> <span class="nav-text">Locality Sensitive Hashing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tools"><span class="nav-number">5.</span> <span class="nav-text">Tools</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#杰卡德相似系数"><span class="nav-number">1.</span> <span class="nav-text">杰卡德相似系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾hash分桶"><span class="nav-number">2.</span> <span class="nav-text">回顾hash分桶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#min-hash"><span class="nav-number">3.</span> <span class="nav-text">min-hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原始min-hash"><span class="nav-number">3.0.1.</span> <span class="nav-text">原始min-hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可操作min-hash"><span class="nav-number">3.0.2.</span> <span class="nav-text">可操作min-hash</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Locality-Sensitive-Hashing"><span class="nav-number">4.</span> <span class="nav-text">Locality Sensitive Hashing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用LSH"><span class="nav-number">4.1.</span> <span class="nav-text">为什么要用LSH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">4.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数调节"><span class="nav-number">4.3.</span> <span class="nav-text">参数调节</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tools"><span class="nav-number">5.</span> <span class="nav-text">Tools</span></a></li></div>
             
 
           </div>
