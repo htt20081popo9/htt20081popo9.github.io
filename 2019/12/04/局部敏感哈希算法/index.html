@@ -120,7 +120,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/1.png">
 <meta property="og:image" content="https://aisakaki.com/2019/12/04/局部敏感哈希算法/2.png">
-<meta property="og:updated_time" content="2020-01-03T03:18:11.947Z">
+<meta property="og:updated_time" content="2020-01-07T09:28:02.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据相似度计算：局部敏感哈希算法">
 <meta name="twitter:description" content="以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受 但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………2379年（#捂脸） 所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算">
@@ -481,19 +481,21 @@ Jaccard\quad distance(A,B)=\frac{|A∪B|-|A∩B|}{|A∪B|}</script><p><strong>�
 <p>①将每个原向量（一个数据点）通过<strong>min-hash</strong>得到的<strong>hash签名（下称：向量），划分为$b$段，每段有$r$行</strong></p>
 <p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/1.png" alt="1" style="zoom: 33%;"></p>
 <p>如图矩阵$M$,每一列代表一个向量，每一行就是一个向量的维度，$r$个维度（行）组成一个段</p>
-<p>②<strong>对每个段</strong>分别使用<strong>hash函数，不同样本的该段截取的部分段向量如果相似</strong>就会被映射到一个桶中。</p>
+<p>②<strong>对每行的每个段进行hash映射，不同样本（竖）的该段截取的部分段向量（横）如果相似</strong>就会被映射到一个桶中。</p>
+<p>（每一行可以使用相同的hash函数，但是每一行各段都是被映射到不同的数组的，数组里的每一个元素就是桶）</p>
 <p>相当于以段为单位先“比较”了一次相似度，两个向量的同一个段相似，那么这两个向量就有可能相似</p>
 <p><img src="//aisakaki.com/2019/12/04/局部敏感哈希算法/2.png" alt="2" style="zoom:33%;"></p>
-<p>③每个段的每一个桶内即为候选相似样本，如果两个向量各段在同一个桶内的数量越多，那么这两个向量相似度就越高</p>
-<p>为什么呢？我们假设AB 两个样本相似度为$a$，那么将AB分成$b$段，每段$r$行。那么AB<strong>在某段里，每一行的相似概率</strong>就为$a^r$， 那么AB<strong>在该段每一行都不相似的概率</strong>就为$1-a^r$，这就是它false negative的概率。【】【】</p>
-<p>所以当我们设定一个阈值，相似度大于阈值的时候，如果列的相似度非常的大，他们在同一个桶的概率也非常大</p>
-<p>理解名字：“局部敏感哈希”，这个局部就是指的这个分段，我们将向量切分成很多段，每个段分别计算相似性，而不是每个维度一一计算【】</p>
-<p><strong>参数：Hash函数，分段数，桶大小；</strong></p>
+<p>③每个段的每一个桶内即为<strong>候选相似样本</strong>，我们就可以只对候选相似样本进行比较。显然候选相似样本就是不同样本中<strong>至少有一个段相似</strong>的样本</p>
+<p>很显然从道理上讲这是理所应当的。从概率计算来讲，我们假设AB 两个样本相似度为$a$，那么将A、B分成$b$段，每段$r$行。那么A、B<strong>在某段里，每一行的相似概率</strong>就为$a^r$， 那么A、B<strong>在该段每一行都不相似的概率</strong>就为$1-a^r$，A、B<strong>所有段都不同的概率</strong>为$(1-a^r)^b$，A、B<strong>至少有一个段相似的概率</strong>为$1-(1-a^r)^b$，最后这个就是两个样本可能相似的概率（成为候选点，然后进行细致比较）</p>
+<p>我们只需要计算一个band .我们就可以大概的预测出我们样本的相似性了【】</p>
+<p>$1-(1-a^r)^b$化成图像是S形的，根据具体情况可以调节参数以调优，见<a href="https://zhuanlan.zhihu.com/p/46164294" target="_blank" rel="noopener">LSH</a></p>
+<p><strong>理解名字：</strong>“局部敏感哈希”，这个局部就是指的这个分段，我们将向量切分成很多段，每个段分别计算相似性，只要两个样本存在某段的哈希相似（落入同一桶内），那么这两个样本就是可能相似的样本对，需要细致计算这两个样本的相似度；如果两个样本没有段哈希相似（没有落入一个桶），就就不需要再细致计算这两个样本的相似度。</p>
+<p><strong>参数：Hash函数，分段数，桶大小，阈值；</strong></p>
 <p>分段数越多，越准确（当分段数=minhash后向量长度，那就退化成直接比较了）</p>
 <p>桶应该设置大一点，避免hash碰撞</p>
 <p>总结下来就是：Min-Hash降维，LSH减少查找范围。</p>
 <h1 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h1><ol>
-<li><p><code>sklearn.neighbors</code>中实现了LSHForest(局部敏感随机投影森林)【】</p>
+<li><p><code>sklearn.neighbors</code>中实现了LSHForest(局部敏感随机投影森林)</p>
 </li>
 <li><p>也可以直接用lshash包：</p>
 <p>对于py2，使用 <code>lshash</code>包；对于py3，使用<code>lshash3</code>包</p>
