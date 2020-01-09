@@ -370,8 +370,7 @@ E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由�
   <entry>
     <title>潜在狄利克雷分配</title>
     <url>/2019/12/12/%E6%BD%9C%E5%9C%A8%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E9%85%8D/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>施工中</em></p>
-<p>Latent Dirichlet Allocation，LDA</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Latent Dirichlet Allocation，LDA</p>
 <p>LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型</p>
 <a id="more"></a>    
 <h1 id="Latent-Dirichlet-Allocation"><a href="#Latent-Dirichlet-Allocation" class="headerlink" title="Latent Dirichlet Allocation"></a>Latent Dirichlet Allocation</h1><h2 id="PLSA的缺陷与LDA的改进"><a href="#PLSA的缺陷与LDA的改进" class="headerlink" title="PLSA的缺陷与LDA的改进"></a>PLSA的缺陷与LDA的改进</h2><p><strong>LDA与PLSA生成模型都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布，即$d\to z \to w$</strong></p>
@@ -398,6 +397,7 @@ E_g=[e_1,e_2,\cdots,e_i,\cdots,e_m]</script><p><strong>一个应用程序就由�
 <p>换句话说，<strong>共轭分布能够保证先验分布被赋予的物理意义，在吸收了新的似然知识之后，传递到后验分布时，保持一致</strong></p>
 </li>
 <li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们在参数估计的时候就【便于从先验分布计算后验分布】</strong>（在下一篇：“LDA的学习算法”中会大量用到）</p>
+<p>共轭分布是在学习过程中用来参数计算推导的</p>
 </li>
 <li><p><strong>下面的就有几个重要分布和对应共轭分布的重要性质</strong>：</p>
 <p>高斯分布是高斯分布的共轭先验，<strong>Beta分布是二项分布的共轭先验，狄利克雷分布是多项分布的共轭先验。结合3，因此，我们才在LDA中使用狄利克雷函数作为先验分布</strong>：</p>
@@ -412,6 +412,13 @@ X∽Mult(n,\theta)，设\theta的先验：p(\theta|\alpha)=Dir(\theta|\alpha)</s
 <li><p>注意表述</p>
 <p>对上面关系中的$Dir(\theta|\alpha),Mult(n,\theta),Dir(\theta|\alpha+n)$</p>
 <p>$Dir(\theta|\alpha)$是$Mult(n,\theta)$的<strong>先验分布</strong>，$Dir(\theta|\alpha+n)$是$Mult(n,\theta)$的<strong>后验分布</strong>，$Dir(\theta|\alpha)$与$Dir(\theta|\alpha+n)$为<strong>共轭分布</strong>，$Dir(\theta|\alpha)$是$Mult(n,\theta)$的<strong>共轭先验</strong></p>
+</li>
+<li><p><strong>如何理解概率分布的先验分布的意义</strong></p>
+<p>狄利克雷分布和Beta分布因为其特性（共轭分布）常常可以作为概率分布的先验分布</p>
+<p>通过<strong>不断添加新的先验来改变概率分布的先验分布，进而影响到概率分布</strong>，可以<strong>满足贝叶斯学派的观点</strong>，引入到原来的PLSA中</p>
+<p>具体可以看<a href="https://www.zhihu.com/question/30269898/answer/123261564" target="_blank" rel="noopener">知乎：如何通俗理解 beta 分布？</a>这篇文章以beta分布为例举了非常实际的例子。</p>
+<p>beta分布是二维的，该例子中只有一个后验分布的参数，即打中概率受到先验beta分布影响；狄利克雷分布就是多维情况下的beta分布，在LDA中后验分布$P(w|z)$和$P(z|d)$存在大量参数所以是多维情况。当参数维度为多维的时候，概率分布图像可以用二维单纯形表示，可以自行想象。再和上面例子一样的原理，通过不断添加新的先验改变作为先验分布的狄利克雷分布的参数，再进而获得概率分布。</p>
+<p>对于狄利克雷分布，这有个例子举得很好：<a href="https://www.zhihu.com/question/31398469/answer/482901171" target="_blank" rel="noopener">知乎：如何简单易懂地解释狄利克雷过程（Dirichlet Process）？</a></p>
 </li>
 </ol>
 <h2 id="几个重要分布"><a href="#几个重要分布" class="headerlink" title="几个重要分布"></a>几个重要分布</h2><ol>
@@ -445,12 +452,12 @@ p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alph
 <p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
 <script type="math/tex; mode=display">
 p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
-<p>关于狄利克雷分布的参数的意义【1】</p>
+<p>关于狄利克雷分布的参数的意义：<strong>各个$\alpha_i$为各个参数为$\theta_i$的后验分布的强度参数</strong></p>
 </li>
 <li><p><strong>关系与总结</strong></p>
 <p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong></p>
 <p><strong>二项分布是多项分布的一种特殊情况</strong>：二项分布（二维）$\to$ 多项分布（多维）</p>
-<p><strong>Beta分布是狄利克雷分布的一种特殊情况</strong>：Beta分布（二维）$\to$狄利克雷分布（多维）</p>
+<p><strong>Beta分布是狄利克雷分布的一种特殊情况</strong>：Beta分布（二维）$\to$狄利克雷分布（<strong>多维</strong>）</p>
 </li>
 </ol>
 <h2 id="LDA模型定义"><a href="#LDA模型定义" class="headerlink" title="LDA模型定义"></a>LDA模型定义</h2><p>单词集合：$W=\{w_1,\cdots,w_v,\cdots,w_V\}$，共[$V$个单词]</p>
@@ -482,7 +489,8 @@ p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script>
 </ol>
 <p>【注】LDA假设文本中的话题对一个随机参数是独立同分布的，也就是说LDA中的文本是<strong>无限可交换</strong>的。所以在参数给定的条件下，文本中的话题顺序可以忽略。（PLSA也一样）</p>
 <p>（单词顺序也可以忽略，所以<strong>PLSA和LDA的“生成”并不是生成一个顺序的文本，且更多的在于学习模型潜在的参数</strong>）</p>
-<h2 id="概率计算：LDA生成过程"><a href="#概率计算：LDA生成过程" class="headerlink" title="概率计算：LDA生成过程"></a>概率计算：LDA生成过程</h2><p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
+<h2 id="概率计算：LDA生成过程"><a href="#概率计算：LDA生成过程" class="headerlink" title="概率计算：LDA生成过程"></a>概率计算：LDA生成过程</h2><p><strong>概率计算过程中，先验分布的超参数与多项分布的参数都是已知的，不变的</strong></p>
+<p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
 <p>$\mathbb S_1$：$\beta \to\phi_k$</p>
 <p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为<strong>话题的单词分布</strong>$p(w|z_k)=Mult(\phi_k)$</p>
 <p>$\mathbb S_2$：$\alpha\to \theta_m $</p>
@@ -523,13 +531,21 @@ B(s,t)=\frac{(s-1)!(t-1)!}{(s+t-1)!}</script></li>
 <script type="math/tex; mode=display">
 B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</script></li>
 <li><p><strong>狄利克雷分布是多项分布的共轭先验的推导</strong></p>
-<p><strong>假设</strong>多项分布$X∽Mult(n,\theta)$的参数$\theta$服从狄利克雷分布：$\theta∽Dir(\alpha)$</p>
-<p><strong>那么先验分布</strong>$p(\theta|\alpha)=Dir(\theta|\alpha)$显然满足狄利克雷分布（假设条件）</p>
-<p>然后推导后验概率，用贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，</p>
-<p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$，$\alpha$为参数$，D$为在参数$\theta$下多项分布计算出的似然数据：</p>
-<p>又有多项分布可得其似然函数：$p(D|\theta)=\prod_{i=1}^k\theta_i^{n_i}$【2】</p>
-<p>代入后验式子中，发现后验概率分布也是一个狄利克雷分布：$p(\theta|D,\alpha)=Dir(\theta|\alpha+n)$（具体过程略）【3】</p>
-<p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong></p>
+<p>设$\mathbb W=\{w_1,w_2,\cdots,w_k\}$是由$k$个元素组成的集合，随机变量$X$满足多项分布$X∽Mult(n,\theta)$</p>
+<p>其中$n=(n_1,n_2,\cdots,n_k)和\theta=(\theta_1,\theta_2,\cdots,\theta_k)$是参数。参数$n$为从$\mathbb W$中重复独立随机抽取样本的次数，$n_i$为样本$w_i$出现的次数$(i=1,2,\cdots,k)$，参数$\theta_i$为$w_i$出现的概率（该过程就是普通的多项分布实验，也是文档生成过程）</p>
+<p><strong>引入先验：</strong>设其参数$\theta$服从狄利克雷分布：$\theta∽Dir(\alpha)$，即该多项分布参数的先验分布为$p(\theta|\alpha)=Dir(\theta|\alpha)$</p>
+<p><strong>我们的目标：</strong>在<strong>已知先验分布参数$\alpha$和先验数据$D$的情况下</strong>，<strong>推导后验概率：$p(\theta|D,\alpha)$</strong></p>
+<p>（在学习过程中，这个先验分布参数$\alpha$和先验数据$D$是在不断实验中迭代变化的，$D$为在参数$\theta$下多项分布计算出的似然数据，由此调整超参数，它们一直改变，影响着下一个新的参数和数据，也就是说共轭结论是在学习过程中用来参数推导的；在概率计算过程中，超参数与参数全都是已知固定的，没有参数变化过程[=]）</p>
+<p>由贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，那么我们要求的后验概率即可展开为：</p>
+<p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$</p>
+<p>①由多项分布可得其似然函数：$p(D|\theta)=\theta_1^{n_1}\theta_2^{n_2}\cdots\theta_k^{n_k}=\prod_{i=1}^k\theta_i^{n_i}$</p>
+<p>②由狄利克雷分布的公式：$p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}$</p>
+<p>③由全概率公式：$p(D|\alpha)=\int_\theta p(D|\theta)p(\theta|\alpha)d\theta$</p>
+<p>将上述①②③代入后验式子中化简：</p>
+<p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{\int_\theta p(D|\theta)p(\theta|\alpha)d\theta}=\frac{\prod_{i=1}^k\theta_i^{n_i}\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}}{\int_\theta\prod_{i=1}^k\theta_i^{n_i}\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta}=\frac{1}{B(\alpha+n)}\prod_{i=1}^k\theta_i^{\alpha_i+n_i-1}=Dir(\theta|\alpha+n)$</p>
+<p>最后计算得到后验概率分布也是一个狄利克雷分布<strong>（结论）</strong>：</p>
+<script type="math/tex; mode=display">
+p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong>且狄利克雷后验分布的参数等于狄利克雷先验分布参数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$加上多项分布的观测计数$n=(n_1,n_2,\cdots,n_k)$，好像试验之前就已经观察到计数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$，因此也把$\alpha$叫做先验伪计数</p>
 </li>
 <li><p>LDA不止可以用于文本，也可以用于图片等，即<strong>把图片当做文本，像素当做文本里的一个词</strong></p>
 </li>
