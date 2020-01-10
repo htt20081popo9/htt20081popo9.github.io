@@ -111,19 +111,19 @@
 
 
 
-<meta name="description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2vec的，论文作者将word2vec方法扩展到了句、段，甚至文档，将其嵌入到向量空间。本文句子实际就可代替文档。 doc2vec">
+<meta name="description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  evedroid算法用到了doc2vec来表征api的特征空间向量，看了一下doc2vec其实就是word2vec的DLC版。 doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="doc2vec">
 <meta property="og:url" content="https://aisakaki.com/2020/01/10/doc2vec/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2vec的，论文作者将word2vec方法扩展到了句、段，甚至文档，将其嵌入到向量空间。本文句子实际就可代替文档。 doc2vec">
+<meta property="og:description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  evedroid算法用到了doc2vec来表征api的特征空间向量，看了一下doc2vec其实就是word2vec的DLC版。 doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2020/01/10/doc2vec/0.png">
 <meta property="og:image" content="https://aisakaki.com/2020/01/10/doc2vec/1.png">
-<meta property="og:updated_time" content="2020-01-10T07:26:55.035Z">
+<meta property="og:updated_time" content="2020-01-10T10:40:33.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="doc2vec">
-<meta name="twitter:description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2vec的，论文作者将word2vec方法扩展到了句、段，甚至文档，将其嵌入到向量空间。本文句子实际就可代替文档。 doc2vec">
+<meta name="twitter:description" content="原论文：http://proceedings.mlr.press/v32/le14.pdf – Le &amp;amp; Mikolov, ICML 2014  evedroid算法用到了doc2vec来表征api的特征空间向量，看了一下doc2vec其实就是word2vec的DLC版。 doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2">
 <meta name="twitter:image" content="https://aisakaki.com/2020/01/10/doc2vec/0.png">
 
 
@@ -442,10 +442,11 @@
         <blockquote>
 <p>原论文：<a href="http://proceedings.mlr.press/v32/le14.pdf" target="_blank" rel="noopener">http://proceedings.mlr.press/v32/le14.pdf</a> – Le &amp; Mikolov, ICML 2014</p>
 </blockquote>
+<p>evedroid算法用到了doc2vec来表征api的特征空间向量，看了一下doc2vec其实就是word2vec的DLC版。</p>
 <p>doc2vec是将一篇文档转化为一个向量，word2vec是将一个单词转化为一个向量，doc2vec是基于word2vec的，论文作者将word2vec方法扩展到了句、段，甚至文档，将其嵌入到向量空间。本文句子实际就可代替文档。</p>
 <p>doc2vec支持不定长输入</p>
 <a id="more"></a>    
-<p>一种想法是直接将整句话词向量求和做平均（词袋），但这样的问题在于忽略了句子的结构和前后顺序，丧失了很多信息。</p>
+<p>最基础的一种想法是直接将整句话词向量求和做平均，但这样的问题在于忽略了句子的结构和前后顺序，丧失了很多信息。</p>
 <h2 id="PV-DM"><a href="#PV-DM" class="headerlink" title="PV-DM"></a>PV-DM</h2><p>doc2vec中的PV-DM（Distributed Memory Model of paragraph vectors）对应word2vec中的CBoW</p>
 <p>PV-DM在CBoW的基础上，输入不仅是一句话滑动窗口内的所有词，还有一个<strong>在一句话中共享</strong>的句子向量(Paragraph vector)</p>
 <p><img src="//aisakaki.com/2020/01/10/doc2vec/0.png" alt="0" style="zoom:67%;"></p>
