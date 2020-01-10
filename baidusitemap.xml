@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://aisakaki.com/2020/01/10/doc2vec/</loc>
+    <lastmod>2020-01-10</lastmod>
+  </url>  <url>
+    <loc>https://aisakaki.com/2019/04/10/%E8%AF%8D%E5%90%91%E9%87%8F/</loc>
+    <lastmod>2020-01-10</lastmod>
+  </url>  <url>
     <loc>https://aisakaki.com/2019/12/12/%E6%BD%9C%E5%9C%A8%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E9%85%8D/</loc>
-    <lastmod>2020-01-09</lastmod>
+    <lastmod>2020-01-10</lastmod>
   </url>  <url>
     <loc>https://aisakaki.com/2019/12/04/%E5%B1%80%E9%83%A8%E6%95%8F%E6%84%9F%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2020-01-08</lastmod>
@@ -206,9 +212,6 @@
     <lastmod>2019-10-23</lastmod>
   </url>  <url>
     <loc>https://aisakaki.com/2019/01/28/%E5%9B%BE%E5%83%8F%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9Atransforms%E5%92%8CPIL%E5%B0%8F%E7%BB%93/</loc>
-    <lastmod>2019-10-23</lastmod>
-  </url>  <url>
-    <loc>https://aisakaki.com/2019/04/10/%E8%AF%8D%E5%90%91%E9%87%8F/</loc>
     <lastmod>2019-10-23</lastmod>
   </url>  <url>
     <loc>https://aisakaki.com/2019/05/29/n-gram%E5%AE%9E%E8%B7%B5/</loc>

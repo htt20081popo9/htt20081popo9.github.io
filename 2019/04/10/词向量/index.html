@@ -121,7 +121,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisakaki.com/2019/04/10/词向量/0.png">
 <meta property="og:image" content="https://aisakaki.com/2019/04/10/词向量/word2vec.png">
-<meta property="og:updated_time" content="2019-10-23T01:50:29.115Z">
+<meta property="og:updated_time" content="2020-01-10T07:08:06.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Word2Vec">
 <meta name="twitter:description" content="什么是词向量一种词的表示方法。通常NLP中使用one-hot或词向量表示 one-hot即为一维一词，占用空间大，且无法体现词之间的关联性 于是使用词向量可以包含更多信息，且使得向量在空间的表示更稠密。 如何生成词向量基于统计略。 语言模型生成词向量 NNLM（neural network language model）  目标函数 $L=\frac{1}{T}\Sigma^T_{t=1}f(w_">
@@ -463,16 +463,26 @@
 <li><p>CBoW</p>
 <p>输入为<strong>上下文（窗口）的one-hot</strong><br>比如我们要预测 <em>i love eating coffee</em>里的<em>eating</em><br>则one hot编码： <em>i</em> :0001  <em>love</em>:0010  <em>eating</em>:0100  <em>coffee</em>:1000<br>我们要输入eating的前后文（选择窗口），那么输入网络的就是 0001,0010,1000（对应三个块）</p>
 <p><img src="//aisakaki.com/2019/04/10/词向量/word2vec.png" alt="word2vec"></p>
-<p>中间那块儿projection layer得到的向量就是词向量，训练矩阵，我们保存了$W$矩阵（训练得到的权重）之后，以后再输入上下文one-hot就能得到对应的词向量了。</p>
-<p><strong>由输入层到映射层，降低维度的过程($k \to N$)，就是将one-hot转变为词向量的过程，也就是 word embedding（词嵌入）</strong><br><strong>之所以词向量能够保留上下文信息，就是因为在训练输入的时候，输入了其上下文信息</strong></p>
-</li>
-<li><p>skip gram</p>
-<p>  输入为一个词的one-hot，输出为多个词的one-hot（上下文），然后BP训练即可，相当于CBoW结构反过来，学的依然是$W$权重</p>
+<p><strong>模型结构：</strong></p>
+<p>假设一共有$V$个单词，在one-hot表示下每个单词$V$维</p>
+<p>$W_{V×N}：$输入权值矩阵（所有输入共享一个矩阵），$W_{N×V}’：$输出权值矩阵，最后一层为softmax激活函数</p>
+<p>中间那块儿隐藏层就是词向量，为$N$维向量，通常$N&lt;&lt;V$(<strong>Word2vec模型中的隐藏层没有激活函数</strong>，只是对各输入向量<strong>乘以输入权值矩阵$W$之后</strong>进行<strong>线性求和</strong>)。</p>
+<p>  由输入层到映射层，降低维度的过程($k \to N$)，就是将one-hot转变为词向量的过程，也就是 word embedding（词嵌入）。之所以词向量能够保留上下文信息，就是因为在训练输入的时候，输入了其上下文信息。</p>
+<p>  <strong>输入权值矩阵$W$是所有单词的word embedding，也叫做查找表（look up table），其将one-hot转化为对应的词向量，实际上该矩阵每一列就是对应one-hot序号的词向量。</strong></p>
+<p>  <strong>如何使用：</strong>我们保存了训练结束的$W$矩阵之后，在使用训练好的模型的时候，输入上下文one-hot就能得到对应的词向量了。</p>
+<p>  <strong>如何训练/训练目标：</strong>让输入词映射到隐藏层（词向量）后乘以输出权值矩阵$W’$，能够<strong>以最大概率准确输出输入词</strong>（也就是说输入经过这个word2vec模型并反向输出之后能<strong>还原回来</strong>，也就相当于信息无损压缩/嵌入后又能正确还原）具体地，就是要<strong>最大化在给定输入词和前后文本情况下输出正确关键词的概率</strong>，比如<em>i love eating coffee</em>中，要最大化输出<em>eating</em>的概率，就是要最大化$P(eating|i,love,coffee)$</p>
+<p>  <strong>具体如何训练</strong>：对乘以$W’$获取的输出，概率最大的index所指示的单词为预测出的中间词，与原输入词的one-hot做比较，根据误差更新权重矩阵。</p>
+<p>  <strong>举例：</strong>比如输入为的关键词one-hot为<code>[0,0,0,1]</code>（略去上下文），经过$W’$并映射到隐藏层（词向量）又经过$W’$后，输出为<code>[0.2,0.3,0.1,0.4]</code>，那么损失函数就是计算<code>[0.2,0.3,0.1,0.4]</code>到<code>[0,0,0,1]</code>的损失，尽量减小这个损失。</p>
 </li>
 </ul>
 </li>
 </ul>
+<pre><code>- skip gram
 
+  输入为一个词的one-hot，输出为多个词的one-hot（上下文），然后BP训练即可，相当于CBoW结构反过来，学的依然是$W$权重
+
+  **训练目标：**比如输入*eating*，求上下文，那么就是最大化$P(i|eating),P(i|love)，P(i|coffee)$
+</code></pre>
       
     </div>
     
@@ -616,7 +626,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">154</span>
+                  <span class="site-state-item-count">155</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

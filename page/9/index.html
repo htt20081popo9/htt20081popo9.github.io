@@ -316,6 +316,236 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/26/牛顿法求解非线性优化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/牛顿法求解非线性优化/" itemprop="url">牛顿法求解非线性优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T10:02:25+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/牛顿法求解非线性优化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/牛顿法求解非线性优化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/09/26/牛顿法求解非线性优化/" class="leancloud_visitors" data-flag-title="牛顿法求解非线性优化">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
+<h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
+<script type="math/tex; mode=display">
+\phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
+<script type="math/tex; mode=display">
+\phi'(x)=0</script><p>省略掉高阶项，则</p>
+<script type="math/tex; mode=display">
+f'(x_k)+f''(x_k)(x-x_k)=0</script><p>$\therefore$</p>
+<script type="math/tex; mode=display">
+x = x_k-\frac{f'(x_k)}{f''(x_k)},k=0,1,2,···</script><p>于是我们就可以从初始$x_0$值开始用此式进行迭代来逼近极小值点，其逼近就是<strong>在每次迭代的时候直接跳到近似函数的最小点</strong></p>
+<p>那么对于高维度的情形，原泰勒公式就可以表示为</p>
+<script type="math/tex; mode=display">
+\phi(X) = \nabla f(X_k)·(X-X_k)+\frac{1}{2}(X-X_k)^T·\nabla^2f(X_k)·(X-X_k)</script><p>这里的$\nabla^2 f(X_k)$即为Hessian矩阵，其实就是二阶梯度</p>
+<script type="math/tex; mode=display">
+\nabla^2 f(X_k)=
+\begin{bmatrix}
+{\frac{\partial^2 f}{\partial x_1^2}}&{\frac{\partial^2 f}{\partial x_1\partial x_2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_1\partial x_n}}\\
+{\frac{\partial^2 f}{\partial x_2\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_2\partial x_n}}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{\frac{\partial^2 f}{\partial x_n\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_n\partial x_n}}\\
+\end{bmatrix}</script><p>$\nabla f(X_k)$就是一阶梯度，不展开了</p>
+<p>因为Hessian矩阵是实对称矩阵，我们可以将其分解为一组实特征值和一组特征向量的正交基。在特定方向$d$的二阶导数可以写成$d^THd$。</p>
+<p>当$d$是$H$的一个特征向量的时候，这个方向的二阶导数就是对应的特征值。对于其他方向$d$，方向二阶导数是所有特征值的加权平均，权重在0和1之间，且与$d$夹角越小的特征值权重越大。最大特征值确定最大二阶导数，最小特征值确定最小二阶导数。</p>
+<p>记$g_k=\nabla f(X_k)$,$H_k=\nabla^2 f(X_k)$，</p>
+<script type="math/tex; mode=display">
+\nabla \phi(X)=0</script><p>则</p>
+<script type="math/tex; mode=display">
+g_k+H_k(X-X_k)=0</script><p>$H_k$必为非奇异矩阵（满秩矩阵）</p>
+<p>$\therefore$</p>
+<script type="math/tex; mode=display">
+X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式，$d_k=-H_k^{-1}·g_k$称为<strong>牛顿方向</strong></p>
+<p>牛顿法求出的方向是一个逼近，因为其省略了泰勒的高阶展开项（但如果是二次函数，那就不是逼近了，这时候Hessian矩阵退化为常数矩阵，只需要一次运算即可到达最优点）</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
+<li><p>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</p>
+</li>
+<li><p>会造成<strong>局部收敛</strong></p>
+</li>
+<li><p>Hessian矩阵的计算量是其它一阶优化方法的平方倍，所以对硬件计算负担要求极高</p>
+</li>
+<li><p>由于步长是定的，所以牛顿方向$-H_k^{-1}·g_k$并不能保证稳定下降，其并不是梯度下降算法</p>
+</li>
+<li><p>函数必须二阶可导，Hessian矩阵必须为正定矩阵</p>
+</li>
+</ol>
+<p>   <em>深度学习通常都有很多局部极值，鞍点，且计算量巨大，所以很少在深度学习中使用牛顿法</em></p>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><ol>
+<li><p>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong>，称作<strong>阻尼牛顿法</strong>，这个思想和动量算法思想一样</p>
+<p>仍然用$d_k$在方向上进行迭代，但是每次迭代的时候需要进行一次线搜索，寻求最优步长因子$\lambda_k $</p>
+<p>$d_k\to\lambda_k d_k$</p>
+<p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
+</li>
+<li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
+<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+<p>补充PCG思想：结合梯度下降与牛顿法，在一个方向上用牛顿法，一次性迭代完，理论上N个方向N次即可收敛</p>
+</li>
+<li><p>拟牛顿法</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/25/骚动时节的少女们啊/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1649,284 +1879,6 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/08/16/高达升级/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/16/高达升级/" itemprop="url">高达升级</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-16T10:40:51+08:00">
-                2019-08-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/硬件/" itemprop="url" rel="index">
-                    <span itemprop="name">硬件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/16/高达升级/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/16/高达升级/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/08/16/高达升级/" class="leancloud_visitors" data-flag-title="高达升级">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个月又对我的台式机PC电脑的几个零件进行了升级，主要是更换了CPU，添加了固态硬盘，而且把原来CPU的单风扇120水冷换成了双风扇夹汉堡。</p>
-<p>9900k这货实在是个大火炉，发热量太大了。后来我才发现我忘了设置SYS_FAN的温度检测区域，导致CPU或GPU都热爆了风扇却不全速转起来。</p>
-<p>以下为升级后现在的配置：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>硬件</th>
-<th></th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CPU</td>
-<td>Inter i9 9900K</td>
-<td>主频3.6GHz，睿频5GHz</td>
-</tr>
-<tr>
-<td>CPU散热</td>
-<td>恩杰 海妖 X62</td>
-<td>280冷排，双AER2 风扇</td>
-</tr>
-<tr>
-<td>内存</td>
-<td>海盗船LPX 32G</td>
-<td>16G*2  3000GHz</td>
-</tr>
-<tr>
-<td>主板</td>
-<td>华擎 Z390 Gaming Phantom</td>
-<td>ITX主板</td>
-</tr>
-<tr>
-<td>显卡</td>
-<td>Inno RTX 2080Ti</td>
-<td>-</td>
-</tr>
-<tr>
-<td>显卡散热</td>
-<td>Alphacool 北极狼水冷</td>
-<td>240冷排，四be quiet风扇</td>
-</tr>
-<tr>
-<td>硬盘</td>
-<td>NVME 固态硬盘：三星970evo Plus</td>
-<td>1T</td>
-</tr>
-<tr>
-<td></td>
-<td>NVME 固态硬盘：海康威视C2000Pro</td>
-<td>2T</td>
-</tr>
-<tr>
-<td></td>
-<td>SATAIII 固态硬盘：西部数码 蓝盘</td>
-<td>2T</td>
-</tr>
-<tr>
-<td></td>
-<td>SATAIII 固态硬盘：英睿达 BX300</td>
-<td>0.5T    (MLC颗粒)</td>
-</tr>
-<tr>
-<td></td>
-<td>机械硬盘：希捷酷鱼</td>
-<td>1T</td>
-</tr>
-<tr>
-<td></td>
-<td>机械硬盘：西部数码</td>
-<td>1T</td>
-</tr>
-<tr>
-<td>电源</td>
-<td>振华 冰山金蝶GX650</td>
-<td>650W</td>
-</tr>
-<tr>
-<td>机箱</td>
-<td>NZXT MANTA 白色</td>
-<td>-</td>
-</tr>
-<tr>
-<td>其他风扇</td>
-<td>乔思伯 日食 Plus</td>
-<td>后置位一个</td>
-</tr>
-<tr>
-<td>显示器</td>
-<td>DELL U2718QM</td>
-<td>4K 27英寸</td>
-</tr>
-<tr>
-<td>鼠标</td>
-<td>罗技 G903</td>
-<td>-</td>
-</tr>
-<tr>
-<td>键盘</td>
-<td>IKBC W200</td>
-<td>红轴，霜冻之蓝键帽</td>
-</tr>
-<tr>
-<td>机箱手办</td>
-<td>美柑</td>
-<td>老婆</td>
-</tr>
-<tr>
-<td>耳机</td>
-<td>1000XM2</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>以后考虑上sunmilo T03那款机箱，那个就得改用itx板子（必须双m2位），电源改sfx（+1000），CPU风扇用风冷。现在暂时先不折腾了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1979,7 +1931,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">154</span>
+                  <span class="site-state-item-count">155</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
