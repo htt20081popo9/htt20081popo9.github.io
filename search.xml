@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Docker原理多阶段构建COPY</title>
+    <title>Docker原理&多阶段构建&COPY</title>
     <url>/2020/08/11/%5Bobject%20Object%5D/%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BA%91/Docker%E5%8E%9F%E7%90%86%E5%A4%9A%E9%98%B6%E6%AE%B5%E6%9E%84%E5%BB%BACOPY/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><center>大致原理</center>
 
@@ -45,11 +45,6 @@
       <categories>
         <category>网络与云</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Docker原理</title>
-    <url>/2020/08/11/%5Bobject%20Object%5D/Docker%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
   </entry>
   <entry>
     <title>洛神云</title>

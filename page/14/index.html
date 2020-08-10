@@ -316,213 +316,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/10/09/[object Object]/人工智能/Autoencoder/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/09/[object Object]/人工智能/Autoencoder/" itemprop="url">Autoencoder</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T19:52:07+08:00">
-                2019-10-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/10/09/[object Object]/人工智能/Autoencoder/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/[object Object]/人工智能/Autoencoder/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/10/09/[object Object]/人工智能/Autoencoder/" class="leancloud_visitors" data-flag-title="Autoencoder">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
-<p>目标函数为重构误差（reconstruction error)，目标是使得解码器的输出与编码器的输入同分布</p>
-<p><strong>隐藏层单元数&lt;输入层单元数</strong>即可用于降维，如果编码的激活函数为线性函数就成为了<strong>PCA</strong></p>
-<p>但现在一般<strong>隐藏层单元数&gt;=输入层单元数</strong>比较多，这样可以挖掘更多高维特征，但容易造成神经网络的输出为输入的直接“复制”，为了解决这个问题，引入了<strong>正则</strong>和<strong>随机性</strong>等等，且可以组合使用</p>
-<h2 id="Regularized-Autoencoder"><a href="#Regularized-Autoencoder" class="headerlink" title="Regularized Autoencoder"></a>Regularized Autoencoder</h2><p>正则项自编码器</p>
-<p>神经网络的输入直接“复制”输出的一个具体表现就在于一些神经元权重过大，使得神经网路直接变成直连通路</p>
-<p>于是可以直接向损失函数正则项</p>
-<script type="math/tex; mode=display">
-L(x,g(f(x)))+\Omega(h)</script><p><strong>实现方法</strong>：使用传统的加入正则项实现方法</p>
-<h2 id="Sparse-Autoencoder"><a href="#Sparse-Autoencoder" class="headerlink" title="Sparse Autoencoder"></a>Sparse Autoencoder</h2><p>稀疏自编码器</p>
-<p>使得参数变得稀疏，避免过多神经元被激活</p>
-<p>引入稀疏度公式</p>
-<script type="math/tex; mode=display">
-\hat{\rho}_j = \frac{1}{N} \Sigma_{i=1}^N h_j(x^{(i)})</script><p>此公式计算了第$j$个神经元在训练集$\{x^{i}\}$上激活度的平均值，那么就可以取一个足够小的$\rho$，保证$\hat{\rho}_j=\rho,j=1,2,3,\cdots$</p>
-<p>对于$\hat{\rho}_j&gt;&gt;\rho$，对其使用KL散度进行惩罚，KL散度可以用于衡量两个分布的相似度（在前面这篇论文的阅读笔记：<a href="https://aisakaki.com/2019/07/30/Examples/" target="_blank" rel="noopener">Explaining and Harnessing Adversarial Examples</a>中使用到了这个数学工具。</p>
-<p>向损失函数中加入KL散度</p>
-<script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\Sigma_{j=1}^mKL(\hat{\rho}_j||\rho)</script><script type="math/tex; mode=display">
-KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac{1-\rho}{1-\hat{\rho}_j}</script><p><strong>实现方法</strong>：可以设置一个三维矩阵，第一维为$||\{x^{(i)}\}||$，第二和第三维对应神经网络每一个神经元。然后在数据流经一次模型后抽取出每一层神经元的参数，作平均。抽取方法可以用我以前写的<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/" target="_blank" rel="noopener">pytorch获取中间层参数、输出与可视化/</a>一文中提到的中间层参数可视化方法</p>
-<h2 id="Denoising-Autoencoder"><a href="#Denoising-Autoencoder" class="headerlink" title="Denoising Autoencoder"></a>Denoising Autoencoder</h2><p>降噪自编码器（DAE）</p>
-<p>向输出加入噪声$\hat{x}$，并设置损失函数尽量减少输出的噪声，目标使得模型学习<strong>重构分布</strong>$p_{decoder}(x|\hat{x})$，增强模型健壮性</p>
-<p>最小化</p>
-<script type="math/tex; mode=display">
-L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声的输入经过模型后还原得到的输出尽量一样</strong></p>
-<p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
-<blockquote>
-<p>补充：得分匹配是最大似然的代替。它提供了概率分布的一致性估计，使得模型在各个数据点$x$上获得与数据分布相同的得分，在这种情况下，得分是一个特定的梯度场：</p>
-</blockquote>
-<script type="math/tex; mode=display">
-\nabla_x\log p(x)</script><p>DAE的训练目标可以使得AE学到能估计数据分布得分的向量场$(g(f(x))-x)$</p>
-<h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
-<p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
-<script type="math/tex; mode=display">
-J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
-<p>可以看出收缩惩罚目标是使得学习到的参数在所有方向上不变，而是在整体上进行参数的缩放，其使得函数梯度很小，所以能够很好的学习到流形结构，（而使得$J_x$很大的方向$x$，会快速改变$h$，则很可能是近似流形切平面的方向）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/10/03/[object Object]/日记/不要回头，一直向前/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1877,6 +1670,172 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/" itemprop="url">Redis集群</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T00:21:59+08:00">
+                2019-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/" class="leancloud_visitors" data-flag-title="Redis集群">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>集群，虽然没用过，但了解一下…</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/23/[object Object]/数据库与中间件/Redis集群简介/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1929,7 +1888,7 @@ X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-count">221</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
