@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="以前的，整理到网站上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention">
+<meta property="og:url" content="https://aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="以前的，整理到网站上">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/0.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/1.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/3.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/4.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/5.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/6.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/7.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/8.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/9.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/10.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/11.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/12.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/13.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/14.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/15.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/16.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/19.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/17.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/Users/htt20/Desktop/NLP-Transformer.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/18.png">
+<meta property="og:updated_time" content="2020-05-29T15:06:15.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Attention">
+<meta name="twitter:description" content="以前的，整理到网站上">
+<meta name="twitter:image" content="https://aisaka.cloud/2020/05/29/[object%20Object]/人工智能/Attention/0.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/">
+
+
+
+
+
+  <title>Attention | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Attention</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-29T22:23:08+08:00">
+                2020-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/29/[object Object]/人工智能/Attention/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/29/[object Object]/人工智能/Attention/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2020/05/29/[object Object]/人工智能/Attention/" class="leancloud_visitors" data-flag-title="Attention">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center>以前的，整理到网站上</center>
+
+<a id="more"></a>    
+<h2 id="Attention机制"><a href="#Attention机制" class="headerlink" title="Attention机制"></a>Attention机制</h2><p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/0.jpg" alt="img"></p>
+<p><strong>如上图</strong>，将Source中的构成元素（输入序列）想象成是由一系列的$<key,value>$数据对构成，此时给定Target中的某个元素$Query$，<strong>①通过计算$Query$和<u>每个</u>$Key$的相似性（相关性），得到<u>每个</u>$Key$对应<u>$Value$的权重系数</u>，②然后将得到的各个权重系数与对应的各个$Value$相乘进行加权求和，即得到了最终的$Attention$数值</strong>。所以<strong>本质上Attention机制是对Source中元素的$Value$值进行加权求和</strong>，即可以将其本质思想改写为如下公式：</key,value></p>
+<script type="math/tex; mode=display">
+Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</script><p>$Similaity(Query,Key_i)$也叫Attention Score。在词嵌入空间，两个向量的<strong>相似度可以由内积求得</strong>，也就是说<strong>$query·key$再经过softmax归一化后即为attention权重</strong>。</p>
+<p><strong>理解思想：</strong>以上步骤可以理解为从大量信息中有选择地筛选出少量重要信息并聚焦到这些重要信息上，忽略大多不重要的信息。聚焦的过程体现在权重系数的计算上（$softmax(query·key)$），权重越大越聚焦于其对应的$value$值上，即权重代表了信息的重要性，而$value$是其对应的信息。</p>
+<p>也可以理解为是一种<strong>软寻址</strong>过程（这种寻址会从各个地址根据一定权重取出数据）：$key$是数据地址，$value$是对应地址储存的数据内容，$query$是待查地址，任务目标是查询$key=query$地址所储存的数据。于是先用$query$与每个$key$求相似度，得到每个地址的重要性，然后再对每个地址的$value$进行加权求和，得到最终的$value$值</p>
+<p>P.S.1<strong>在基于Attention的Seq2Seq任务中，$Key=Value$，即输入的都是句子中每个单词对应的语义编码</strong>，具体实践反应在$Key$和$Value$是共享同一个线性层（参数矩阵）</p>
+<p>P.S.2 Attention Score即$query与key$的相似度，其计算方式有多种，最常用的点积：即$q·k$，还有其它方式，略</p>
+<p>P.S.3 <strong>求得各输入的$key$与$value$的相似度（Attention Score）之后还要经过一层softmax</strong>，做归一化，转化为概率才是<strong>注意力权重</strong></p>
+<h2 id="应用Attention于Seq2Seq结构"><a href="#应用Attention于Seq2Seq结构" class="headerlink" title="应用Attention于Seq2Seq结构"></a>应用Attention于Seq2Seq结构</h2><p><strong>无attention的Seq2Seq模型：</strong></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/1.jpg" alt="img"></p>
+<script type="math/tex; mode=display">
+\mathbb y_1=f(C)</script><script type="math/tex; mode=display">
+\mathbb y_2=f(C,\mathbb y_1)</script><script type="math/tex; mode=display">
+\mathbb y_3=f(C,\mathbb y_1,\mathbb y_2)</script><p><strong>→→→有attention的Seq2Seq模型（$Source≠Target$，non-intra attention）←←←：</strong></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/3.jpg" alt="img"></p>
+<script type="math/tex; mode=display">
+\mathbb y_1=f(C_1)</script><script type="math/tex; mode=display">
+\mathbb y_2=f(C_2,\mathbb y_1)</script><script type="math/tex; mode=display">
+\mathbb y_3=f(C_3,\mathbb y_1,\mathbb y_2)</script><p>在有attention的seq2seq模型中，$C$变成了不同的$C_1,C_2,C_3$就是说：<strong>不同输出时刻（输出序列的不同单词）的注意力（对Encoder所编码的语义分配的概率信息）不同</strong>。换句话说<strong>在生成每个单词$\mathbb y_i$的时候，原先都是相同固定的中间语义表示$C$会被替换成根据当前生成单词而不断变化的$C_i$。</strong>理解Attention模型的关键就是这里。</p>
+<p><strong>如何理解Attention？</strong>一般在NLP里会把Attention模型看作是<strong>[输出Target句子中<u>某个</u>单词]和[输入Source句子<u>每个</u>单词]的对齐（对应概率关系）模型</strong></p>
+<p><strong>对于采用RNN的Decoder来说，$query$是Decoder RNN目前时刻的hidden state $h_t$，$Key$和$ Value$是Encoder RNN各个时刻的hidden state $H_1,H_2,H_3,H_4$。</strong> （这个例子使用soft-attention+2RNN seq2seq结构）</p>
+<p>（接上段话）于是就有：在时刻$i$，如果要生成$y_i$单词，我们是可以知道Target在生成$Y_i$之前的时刻$i-1$时，隐层节点$i-1$时刻的输出值$H_{i-1}$的，而我们的目的是要计算生成$Y_i$时输入句子中的单词$x_1,x_2,x_3$对$Y_i$来说的注意力分配概率分布，那么可以<strong>用Target输出句子$i-1$时刻的隐层节点状态$H_{i-1}$去一一和输入句子Source中每个单词对应的RNN隐层节点状态$h_j$进行对比，即通过函数$F(h_j,H_i-1)$来获得目标单词$y_i$和每个输入单词对应的对齐可能性</strong>，这个$F$函数在不同论文里可能会采取不同的方法。</p>
+<h2 id="Non-Intra-Attention"><a href="#Non-Intra-Attention" class="headerlink" title="Non-Intra Attention"></a>Non-Intra Attention</h2><p>①<strong>源与目标不同</strong>，$Source≠Target$</p>
+<p>②<strong>$query$来源于输出Decoder部分，$key$来源于输入Encoder部分</strong>。如上面例子里用的soft-attention+2RNN seq2seq结构，非self-attention都是decoder里输出的每个Target：$y$作为$query$，encoder的语义编码（隐藏层输出）作为$key$，然后这两做内积求attention</p>
+<p>下面三种attention都以Encoder为RNN举例</p>
+<h3 id="Soft-attention"><a href="#Soft-attention" class="headerlink" title="Soft attention"></a>Soft attention</h3><p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/4.png" alt="这里写图片描述"></p>
+<p>该图中橘黄色方块就是Decoder部分的当前输出$s_t$，$\alpha_i$就是注意力权重，$query=s_t$，$Key=h_1,h_2,\cdots,h_N$，最基本的attention机制，原理很容易理解</p>
+<p>上面举的soft-attention+2RNN seq2seq结构例子用的就是用的soft attention</p>
+<p><strong>这个“软”指的是每个输入的向量（单词）都会分配一个注意力权重</strong></p>
+<p>实践例子：<a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html" target="_blank" rel="noopener">官网DEMO</a>    这个例子用GRU Decoder + soft-attention做seq2seq机器翻译</p>
+<h3 id="Hard-attention"><a href="#Hard-attention" class="headerlink" title="Hard attention"></a>Hard attention</h3><p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/5.png" alt="这里写图片描述"></p>
+<p>权重很硬，只在输入句子中找到特定单词，其注意力权重才为1，其它单词的注意力权重都是0</p>
+<p>这个“硬”指的就是只有某特定向量权重为1，其它权重全为0，只注意那一个向量；用在图像领域</p>
+<h3 id="local-attention-（半软半硬attention）"><a href="#local-attention-（半软半硬attention）" class="headerlink" title="local attention （半软半硬attention）"></a>local attention （半软半硬attention）</h3><p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/6.png" alt="这里写图片描述"></p>
+<p>只考虑部分窗口内的encoder隐藏输出，其余部分为0，在窗口内和soft attention（global attention）一样</p>
+<p>半软：窗口内的是soft attention</p>
+<p>半硬：对于指定窗口外的所有输入全部设置注意力权重为0</p>
+<p>相比soft(global) attention可以减少计算量</p>
+<h2 id="Intra-Attention：Self-Attention"><a href="#Intra-Attention：Self-Attention" class="headerlink" title="Intra Attention：Self-Attention"></a>Intra Attention：Self-Attention</h2><p>intra attention与上面几种attention都不同，是<strong>一种特殊的attention</strong>：</p>
+<p>①【<strong>源与目标相同</strong>，$Source=Target$】，也就是说一个<strong>Self-Attention结构本身就是一个Source输入与Target输出相同的Seq2Seq</strong>，如下图</p>
+<p>也就是说【<strong>self-attention的$query$和$key$都来源于输入句子</strong>】，是一种<strong>原文自己内部的注意力机制</strong></p>
+<p>②其$Q,K,V$不通过RNN等神经网络产生，而是训练三个嵌入层参数矩阵</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/7.png" alt="这里写图片描述"></p>
+<p>这种结构可以完全替代Seq2Seq中Encoder和Decoder中的RNN，变成后面的Seq2Seq with self-attention结构</p>
+<p>也是Transformer结构的基础</p>
+<h3 id="与RNN和CNN相比"><a href="#与RNN和CNN相比" class="headerlink" title="与RNN和CNN相比"></a>与RNN和CNN相比</h3><ol>
+<li><p>Seq2Seq模型中运用RNN或CNN的问题：</p>
+<p>RNN难以平行化；CNN虽可以平行化，但是dependent范围比较短，必须通过叠多层来扩大视野域</p>
+<p>RNN有长距离依赖问题，当前时间必然受最相邻时间步输入的影响，而以前时间步需要经过若干时间步步骤的信息累积，距离越远，有效捕捉得到的历史信息越少，甚至可能出现梯度消失；</p>
+</li>
+<li><p>于是提出Self-Attention来<strong>完全代替</strong>RNN：</p>
+<p><strong>一切RNN能做的，都可以用self-attention替代</strong></p>
+<p>（<strong>也同理</strong>，使用预训练word2vec之后，Transformer模型之前也可以nn.embedding嵌入层生成词向量，一起训练嵌入层参数以<strong>特化</strong>词向量）</p>
+</li>
+<li><p>self-attention的好处：</p>
+<p><strong>并行、可以很好捕捉长距离依赖问题</strong>（用注意力解决）,它也 摒弃了 CNN 的局部假设，想要寻找长距离的关联依赖。</p>
+</li>
+<li><p><strong>为什么Self-Attention可以替代RNN</strong></p>
+<p><strong>无论是RNN还是CNN还是DNN，还是self-attention，本质都是特征提取器</strong></p>
+<p>RNN在每个时刻存在一个隐藏状态，其中包含了当前和以前时刻输入的信息==&gt;其实就是特征提取，同CNN；</p>
+<p><strong>Self-Attention是直接同时输出所有”隐藏状态”，其中包含通过每一个输出从整句话中获取到的注意力信息</strong>=&gt;也是特征提取</p>
+<p>于是它们就都可以对隐藏层的输出输入进一个前馈神经网络，执行任务，或用提取得到的特征干其它事情</p>
+</li>
+</ol>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p><strong>$q,k,v$的含义以及为什么要这么运算</strong>：见上面的“<strong>Attention的本质</strong>“</p>
+<ol>
+<li><p>由每个输入获取$q、k、v$三个向量</p>
+<p><strong>输入$x_i$是已经embedding的词向量</strong></p>
+<p>$a_i=Wx_i$<strong>每一个输入$x_i$乘以三个不同的权值矩阵$W^q,W^k,W^v$（即线性变换），得到每个输入对应的</strong>$q_i、k_i、v_i$。query，key，value(information)。</p>
+<p>此操作即<strong>对输入进行三个不同的embedding</strong>：$x_i$<strong>经过三个不同的线性层</strong>变成$q,k,v$，其实就<strong>相当于</strong>再经过了三个不同的词嵌入（embedding，权值矩阵$W^q,W^k,W^v$即不同的词嵌入矩阵）。结合上面的attention本质可以理解为什么要这样。</p>
+<p><strong>这个权值矩阵的形状即为： 词表长度 x 目标向量q/k/v维度</strong>，得到一维向量$q,k,v$</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/8.png" alt="image-20200228205121484"></p>
+</li>
+<li><p>然后拿<strong>每一个</strong>$q$去与每一个输入对应的$k$做点积，得到每一个输入对应一个的$\alpha$</p>
+<p><strong>这个$\alpha$就是attention权重</strong>，其实质上就是<strong>q和k的相似度</strong>（点积求相似度）</p>
+<p><strong>这里先用第一个$q_1$</strong></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/9.png" alt="image-20200228205627470"></p>
+<p>$q·k$之后除以$\sqrt d$，为了防止太大</p>
+</li>
+<li><p>然后将self attention得到的$\alpha$经过softmax得到$\hat \alpha$</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/10.png" alt="image-20200228210057957"></p>
+</li>
+<li><p>然后再将softmax输出的$\hat \alpha$乘各自的$v$向量，并全部求和，得到第一个$q_1$的self-attention输出$b_1$，<strong>也就是第一个输入的self-attention输出结果</strong></p>
+<p>下图softmax层没画出来</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/11.png" alt="image-20200228210221791"></p>
+</li>
+<li><p>同理，以上1234都是求第一个输入对应的$q_1$的self-attention输出结果$b_1$，求第二个输入对应的输出就用$q_2$重复上述流程</p>
+<p>如下列举第二个$q_2$，softmax层没画出来</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/12.png" alt="image-20200228211904865"></p>
+</li>
+</ol>
+<p><strong>可以看到，产生的每个输出，都用到了整个句子所有输入的信息。</strong>每个位置所乘的$W^q、W^k、W^v$就是模型要学习的东西。不同单词乘以这个权值参数生成不同的$q,k,v$，体现了”<strong>输入序列中不同单词的关注度不一样，具有注意力</strong>”   </p>
+<p><strong>$q,k,v$的意义：$q$代表着这一整句话的embedding，$k=v$代表着每个单词的embedding</strong></p>
+<p>此时输出的每一个位置的$b$就已经包含了从整句话（输入）中提取得到的注意力信息（特征信息）了</p>
+<p>如果再多经过几层，那么提取得到的语义信息将会更抽象</p>
+<h3 id="矩阵表达："><a href="#矩阵表达：" class="headerlink" title="矩阵表达："></a>矩阵表达：</h3><p>注意矩阵乘法的左行右列</p>
+<ol>
+<li><p>将上面图中每个位置对应的$q,k,v$组合起来成为矩阵以并行计算：</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/13.png" alt="image-20200228212453547"></p>
+<p>于是根据上面的流程继续推：</p>
+<p>只看$q_1$的1,2步过程（softmax之前，生成$q_1$与<strong>每一个位置</strong>上的$k_i$的<strong>每一个位置</strong>上的内积向量$\alpha_i$），可以如此组合</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/14.png" alt="image-20200228212629935"></p>
+<p>若看<strong>所有输入位置</strong>的$q$：</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/15.png" alt="image-20200228213211597"></p>
+<p>如此便生成了$\alpha$构成的<strong>Attention矩阵$A$，</strong>再经过softmax生成$\hat A$。</p>
+</li>
+<li><p>再看第4步乘$b$求和，矩阵表达</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/16.png" alt="image-20200228214136216"></p>
+<p>$O$即最终输出的<strong>序列</strong></p>
+<p>$Q、K、V$的维度都是$h_{hidden}×l_{src}$</p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li><p>实际的矩阵乘法表示</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/19.png" alt="image-20200228214322939"></p>
+<p>全是矩阵乘法，可以方便用GPU加速</p>
+</li>
+<li><p><strong>$q,k,v$这个过程的意义的补充</strong></p>
+<p>主要部分都在Attention机制一节里，这里更具体化一下</p>
+<p>通过$q$和$k$进行点积，并通过softmax得到每个词的一个attention权重（归一化，转化为概率），<strong>在句子内部做了一个attention，所以称作Self Attention</strong>。<strong>Self Attention可以刻画句子内部各成分之间的联系</strong>，比如说“看”跟“书”之间就建立了联系。这样，每个词的向量表示（$\hat \alpha$）就包含了句子里其他词的关联信息。</p>
+</li>
+</ol>
+<h3 id="Multi-head-Self-attention"><a href="#Multi-head-Self-attention" class="headerlink" title="Multi-head Self-attention"></a>Multi-head Self-attention</h3><p>多个self-attention，对于一句话（一个输入序列）生成多个$Q、K、V$</p>
+<p>得到多个$O$</p>
+<p>这时候将多个$O$整合（可以求平均(多个head的期望），etc）</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/17.png" alt="image-20200228214704364"></p>
+<p><strong>Multi-head Self-attention的意义</strong>：每个head（即一个完整的attention）的关注点不一样（即每个attention生成的$Q、K、V$不一样），于是多个attention组合起来就可以<strong>从“多个角度”去匹配输入句子中不同的模式</strong></p>
+<p><strong>注意区别，单个attention与multi-head attention：</strong></p>
+<p><strong>一个attention能够学习到输入序列的一种模式</strong>：即<strong>每个时刻的输出对输入（整句话）的“注意点”都不同</strong>，输入序列到<strong>每个输出时刻识别出一种模式，最终多个输出构成一个序列</strong></p>
+<p><strong>多个attention就能够学习到输入序列的多种模式</strong>：<strong>每个输出时刻识别出多种模式，最终多个时刻的多个输出构成多个序列</strong></p>
+<h3 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h3><p>在self-attention中<strong>没有编码输入单词的相对位置信息</strong>如句子$i_1,i_2,i_3,i_4$中，$i_1$与$i_2$相邻，$i_1$与$i_4$相隔很远，这种信息就没有编码进去。</p>
+<p>具体实现有两种方式，一种是Facebook版本：《<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1705.03122" target="_blank" rel="noopener">Convolutional Sequence to Sequence Learning</a>》，另一种Google版本：Postional Encoding，两种效果没有差别。</p>
+<hr>
+<p>将<strong>输入[经过一个嵌入层]再[加上]一个位置向量$e^i$</strong>再乘以权值矩阵</p>
+<p>这个<strong>位置向量是每个位置独有一个</strong>的，<strong>不是</strong>从数据中学习到的</p>
+<p><strong>位置向量$e^i$生成：</strong>由编码位置信息的one-hot向量$p_i$乘上词嵌入矩阵$W^P$得到的。这个<strong>$W^P$是人为设定的，就是原论文中sin，cos公式所表达的矩阵：</strong></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/Users\htt20\Desktop\NLP-Transformer.png" alt="NLP-Transformer"></p>
+<p>当然这个$W^p$也可以直接随机初始化让模型来学习</p>
+<p>为什么要用这个公式的一种理解是：<a href="https://www.zhihu.com/question/347678607/answer/835053468" target="_blank" rel="noopener">如何理解Transformer论文中的positional encoding，和三角函数有什么关系？ - 徐啸的回答 - 知乎</a> （mark）</p>
+<h3 id="【O】Seq2seq-with-Self-Attention"><a href="#【O】Seq2seq-with-Self-Attention" class="headerlink" title="【O】Seq2seq with Self-Attention"></a>【O】Seq2seq with Self-Attention</h3><p>将Seq2Seq模型中Encoder和Decoder全用self-attention代替</p>
+<p>注意力允许解码器网络针对解码器自身输出的每一步“聚焦”编码器输出的不同部分。</p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/18.png" alt="image-20200301182413221"></p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>Pytorch.nn中已经实现Multi-head Attention</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.MultiheadAttention(embed_dim, num_heads, dropout=<span class="number">0.0</span>, bias=<span class="keyword">True</span>, add_bias_kv=<span class="keyword">False</span>, add_zero_attn=<span class="keyword">False</span>, kdim=<span class="keyword">None</span>, vdim=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p>attention的实现实际上就是从原理上来实现，本质就是在线性层（参数就是个矩阵）基础上多了一些（一堆）变换，训练attention就是训练该线性变换层的参数矩阵</p>
+<p>而self-attention由于有三个参数矩阵，输入经过了三个不同的线性层，要训练的就是这三个线性层的参数矩阵</p>
+<p>具体实现见源代码</p>
+<hr>
+<p><strong>Attention机制+Encoder Decoder结构</strong>不仅在NLP（在NLP已成标配），在很多领域都有大量应用，如图像描述等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/" title="Attention">https://aisaka.cloud/2020/05/29/[object Object]/人工智能/Attention/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/29/[object Object]/程序语言/JAVA容器/" rel="next" title="JAVA容器">
+                <i class="fa fa-chevron-left"></i> JAVA容器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/29/[object Object]/人工智能/损失函数，MLE，MAP，ERM的关系/" rel="prev" title="损失函数，MLE，MAP，ERM的关系">
+                损失函数，MLE，MAP，ERM的关系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention机制"><span class="nav-number">1.</span> <span class="nav-text">Attention机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用Attention于Seq2Seq结构"><span class="nav-number">2.</span> <span class="nav-text">应用Attention于Seq2Seq结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Non-Intra-Attention"><span class="nav-number">3.</span> <span class="nav-text">Non-Intra Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Soft-attention"><span class="nav-number">3.1.</span> <span class="nav-text">Soft attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hard-attention"><span class="nav-number">3.2.</span> <span class="nav-text">Hard attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#local-attention-（半软半硬attention）"><span class="nav-number">3.3.</span> <span class="nav-text">local attention （半软半硬attention）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intra-Attention：Self-Attention"><span class="nav-number">4.</span> <span class="nav-text">Intra Attention：Self-Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与RNN和CNN相比"><span class="nav-number">4.1.</span> <span class="nav-text">与RNN和CNN相比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构"><span class="nav-number">4.2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵表达："><span class="nav-number">4.3.</span> <span class="nav-text">矩阵表达：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-head-Self-attention"><span class="nav-number">4.5.</span> <span class="nav-text">Multi-head Self-attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Positional-Encoding"><span class="nav-number">4.6.</span> <span class="nav-text">Positional Encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【O】Seq2seq-with-Self-Attention"><span class="nav-number">4.7.</span> <span class="nav-text">【O】Seq2seq with Self-Attention</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">5.</span> <span class="nav-text">实践</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

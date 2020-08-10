@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="潜在狄利克雷分配">
+<meta property="og:url" content="https://aisaka.cloud/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-15T09:56:49.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="潜在狄利克雷分配">
+<meta name="twitter:description" content="Latent Dirichlet Allocation，LDA LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/">
+
+
+
+
+
+  <title>潜在狄利克雷分配 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">潜在狄利克雷分配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-12T09:23:56+08:00">
+                2019-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/" class="leancloud_visitors" data-flag-title="潜在狄利克雷分配">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Latent Dirichlet Allocation，LDA</p>
+<p>LDA是PLSA生成模型的扩展，可以看作引入贝叶斯的PLSA，也是文本集合的生成概率模型</p>
+<a id="more"></a>    
+<h1 id="Latent-Dirichlet-Allocation"><a href="#Latent-Dirichlet-Allocation" class="headerlink" title="Latent Dirichlet Allocation"></a>Latent Dirichlet Allocation</h1><h2 id="PLSA的缺陷与LDA的改进"><a href="#PLSA的缺陷与LDA的改进" class="headerlink" title="PLSA的缺陷与LDA的改进"></a>PLSA的缺陷与LDA的改进</h2><p><strong>LDA与PLSA生成模型都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布，即$d\to z \to w$</strong></p>
+<p>然而PLSA存在的缺陷：<strong>PLSA不使用先验分布</strong>，或者说假设先验分布为均匀分布。具体地，回忆PLSA生成模型公式：$P(w,d)=P(d)\sum_zP(w|z)P(z|d)$，这里面的两个概率分布$P(w|z)$和$P(z|d)$（即这两个分布的参数）是没有先验分布的，或者说假设先验分布为均匀分布。</p>
+<p>①（改进）<strong>LDA则使用了狄利克雷分布作为先验分布，也就是概率分布的参数的分布是狄利克雷分布</strong></p>
+<p>即$P(w|z)$和$P(z|d)$两个分布的参数，满足两个各自的狄利克雷分布，由该分布给出</p>
+<p>这样一来，<strong>两个多项分布的参数就不是确定的了，而是这个参数服从狄利克雷分布</strong>，而在PLSA中参数是确定的</p>
+<p>这样可以防止学习过程中产生的过拟合</p>
+<p>②（不同）在文本生成过程中，PLSA基于极大似然估计（回看PLSA一节使用EM求解），而<strong>LDA是基于贝叶斯学习</strong></p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>在PLSA生成模型之上（先回看PLSA），根据贝叶斯原则，我们对$P(w|z)$和$P(z|d)$两个分布（多项分布）的参数<strong>引入先验分布</strong>，以防止学习中产生过拟合</p>
+<p><strong>为什么这样能防止过拟合？</strong>这就是贝叶斯学派和频率学派的争论。<strong>频率学派认为</strong>概率是确定存在<strong>客观</strong>的，也就是PLSA的做法：$P(w|z)$和$P(z|d)$的参数是确定的，我们用已有数据训练模型去拟合这个参数即可。然而<strong>贝叶斯学派认为</strong>，在引入了新的数据之后，概率也会因为先验的改变而改变，他们认为概率是<strong>“主观”</strong>的，也就是说概率分布$P(w|z)$和$P(z|d)$的参数是不确定的，于是就从PLSA引入了LDA。</p>
+<p>回到问题，当数据量小的时候，PLSA的频率学派做法会导致频率与概率差得很远，导致我们的模型学到的是训练数据的分布与真实的分布差得很远（大数定律失效）！这时候基于贝叶斯学派的LDA的先验就有用了，加入参数的先验分布进去就等于有了一个<strong>先验的知识</strong>（这个初始先验分布的选择见下面），然后我们再反复迭代参数，由参数产生的<strong>新似然数据</strong>得到一个<strong>新的先验</strong>，再继续迭代，这样可以有效防止模型学脱了（过拟合）</p>
+<p><strong>显然当样本数据量大的时候，PLSA的效果和LDA会差不多</strong>。因为训练集的频率与真实概率分布越来越接近了（大数定律生效），也就是通过增大训练数据量来防止了模型的过拟合</p>
+<p><strong>于是我们的文本生成流程（概率计算）</strong>就是<strong>①</strong>通过先验分布生成多项分布的参数，<strong>②</strong>然后使用文本-主题多项分布<strong>生成一个主题，③</strong>再用主题-单词多项分布<strong>生成一个单词</strong>。<strong>④</strong>这时候数据集就改变了，吸收了似然成为了新的先验，通过上面所说的共轭先验的性质可以求得新的多项分布的参数（后验）然后再作为先验，<strong>⑤循环生成下一个单词（①~④步）</strong>成为文本</p>
+<p>这个过程见“共轭分布-4-流程关系”用数学表示</p>
+<p>上面只是模型的定义和概率计算（数据文本生成），如果我们想要从已有一堆文章中知道话题、单词分布，那么就是对模型进行参数估计，也即是模型学习过程</p>
+<p><strong>那么模型如何学习呢（参数估计）？首先有个误解</strong>，既然模型的参数都直接是已知超参数分布给出的了，那为啥还要求参数？因为<strong>我们要学习（参数估计）的是在这个反复试验过程中（也就是上面文本生成反复迭代生成单词）通用的模型参数的表达式。</strong>在迭代过程中，模型参数<strong>不是最初始</strong>的先验分布（狄利克雷）了，因为在迭代过程中，上一个先验分布决定的多项分布模型产生了<strong>新的似然数据</strong>，成为了后验，导致<strong>下一此迭代时候的模型参数的先验分布变了！</strong></p>
+<p>所以<strong>我们想要方便地从多项分布的先验分布计算后验分布</strong>。<strong>但是这很难计算</strong>（根据上面引入贝叶斯先验的思想，难以计算后验概率，比如第一次试验由先验分布生成的参数是$\theta_1$，那么现实数据已经改变，第二次分布生成的新参数$\theta_2$时，需要吸收在上一个先验下生成的似然数据变成了求后验，要考虑$P(\theta_2|\theta_1,D)$，分布无时无刻都可能在变化）。<strong>于是我们通过选择引入具有满足是多项分布共轭先验性质的先验分布：狄利克雷分布，这样我们就可以很方便通过先验概率计算后验概率（具体见下）</strong></p>
+<p>LDA的模型学习由于潜变量过多，直接用MLE是非常困难的，所以会有吉布斯抽样算法和变分EM算法，见下一篇“LDA的学习算法”</p>
+<h2 id="共轭分布"><a href="#共轭分布" class="headerlink" title="共轭分布"></a>共轭分布</h2><ol>
+<li><p><strong>什么是共轭分布？</strong>共轭分布是一种分布的关系：如果后验分布与先验分布属于同一种分布（形式相同），则先验分布与后验分布称为共轭分布，先验分布即为共轭先验</p>
+</li>
+<li><p><strong>为什么要有共轭分布？</strong>因为我们希望这个先验分布和数据似然得到的后验分布能够在后面还可以作为先验分布，也就是说我们希望先验分布和这个后验分布的形式是一样的。</p>
+<p>换句话说，<strong>共轭分布能够保证先验分布被赋予的物理意义，在吸收了新的似然知识之后，传递到后验分布时，保持一致</strong></p>
+</li>
+<li><p><strong>共轭分布对LDA的意义？</strong>从“PLSA的缺陷与LDA的改进”一节可知，我们引入先验概率分布。如果多项分布$P(w|z)$和$P(z|d)$的<strong>参数的分布的先验分布与后验分布形式相同（也就是为共轭分布）</strong>，<strong>那么我们在参数估计的时候就【便于从先验分布计算后验分布】</strong>（在下一篇：“LDA的学习算法”中会大量用到）</p>
+<p>共轭分布是在学习过程中用来参数计算推导的</p>
+</li>
+<li><p><strong>下面的就有几个重要分布和对应共轭分布的重要性质</strong>：</p>
+<p>高斯分布是高斯分布的共轭先验，<strong>Beta分布是二项分布的共轭先验，狄利克雷分布是多项分布的共轭先验。结合3，因此，我们才在LDA中使用狄利克雷函数作为先验分布</strong>：</p>
+<script type="math/tex; mode=display">
+X∽Mult(n,\theta)，设\theta的先验：p(\theta|\alpha)=Dir(\theta|\alpha)</script><script type="math/tex; mode=display">
+于是由多项分布计算得到新的数据集（似然）D</script><script type="math/tex; mode=display">
+则后验：p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>【流程关系】</strong>：$Dir(\theta|\alpha)\to\theta\to Mult(n,\theta) \to D \to Dir(\theta|\alpha+n)\to loop[Dir(\theta|\alpha)]$</p>
+<p><strong>这里面的$D$就是一次循环（生成了一个潜在的主题然后）生成了[一个]新的单词出来</strong>，就这么不断循环生成下一个单词形成一个文本</p>
+<p>狄利克雷后验分布的参数等于狄利克雷先验分布参数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$加上多项分布的观测计数$n=(n_1,n_2,\cdots,n_k)$，好像试验之前就已经观察到计数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$，因此也把$\alpha$叫做先验伪计数</p>
+<p><strong>（推导：见后记-5）</strong></p>
+</li>
+<li><p>注意表述</p>
+<p>对上面关系中的$Dir(\theta|\alpha),Mult(n,\theta),Dir(\theta|\alpha+n)$</p>
+<p>$Dir(\theta|\alpha)$是$Mult(n,\theta)$的<strong>先验分布</strong>，$Dir(\theta|\alpha+n)$是$Mult(n,\theta)$的<strong>后验分布</strong>，$Dir(\theta|\alpha)$与$Dir(\theta|\alpha+n)$为<strong>共轭分布</strong>，$Dir(\theta|\alpha)$是$Mult(n,\theta)$的<strong>共轭先验</strong></p>
+</li>
+<li><p><strong>如何理解概率分布的先验分布的意义</strong></p>
+<p>狄利克雷分布和Beta分布因为其特性（共轭分布）常常可以作为概率分布的先验分布</p>
+<p>通过<strong>不断添加新的先验来改变概率分布的先验分布，进而影响到概率分布</strong>，可以<strong>满足贝叶斯学派的观点</strong>，引入到原来的PLSA中</p>
+<p>具体可以看<a href="https://www.zhihu.com/question/30269898/answer/123261564" target="_blank" rel="noopener">知乎：如何通俗理解 beta 分布？</a>这篇文章以beta分布为例举了非常实际的例子。</p>
+<p>beta分布是二维的，该例子中只有一个后验分布的参数，即打中概率受到先验beta分布影响；狄利克雷分布就是多维情况下的beta分布，在LDA中后验分布$P(w|z)$和$P(z|d)$存在大量参数所以是多维情况。当参数维度为多维的时候，概率分布图像可以用二维单纯形表示，可以自行想象。再和上面例子一样的原理，通过不断添加新的先验改变作为先验分布的狄利克雷分布的参数，再进而获得概率分布。</p>
+<p>对于狄利克雷分布，这有个例子举得很好：<a href="https://www.zhihu.com/question/31398469/answer/482901171" target="_blank" rel="noopener">知乎：如何简单易懂地解释狄利克雷过程（Dirichlet Process）？</a></p>
+</li>
+</ol>
+<h2 id="几个重要分布"><a href="#几个重要分布" class="headerlink" title="几个重要分布"></a>几个重要分布</h2><ol>
+<li><p><strong>二项分布</strong>：$X∽B(n,p)$</p>
+<script type="math/tex; mode=display">
+P(X=m)=B(m|n,p)=C_n^mp^m(1-p)^{n-m}</script><p>$m$为事件出现的次数，$n$为随机独立事件的试验总次数，事件只有两种可能状态，$p$为事件出现的概率，$1-p$为事件不发生的概率。二项分布即随机独立试验$n$次，事件发生$m$次的概率，<strong>参数为$n,p$</strong></p>
+</li>
+<li><p><strong>Beta分布</strong>：$X∽Be(s,t)$</p>
+<p>$X$为连续随机变量，取值为$[0,1]$，其概率密度函数为</p>
+<script type="math/tex; mode=display">
+p(x)=
+\begin{cases}
+
+\frac{1}{B(s,t)}x^{s-1}(1-x)^{t-1},0≤x≤1\\ 
+
+0,otherwise 
+
+\end{cases}</script><p>其中【<strong>$s＞0,t＞0$是参数</strong>】，$B(s,t)$是<strong>beta函数，见后记2</strong></p>
+</li>
+<li><p><strong>多项分布</strong>：$X∽Mult(n,p)$</p>
+<p>若多元离散随机变量$X=(X_1,X_2,\cdots,X_k)$的概率质量函数为</p>
+<script type="math/tex; mode=display">
+P(X_1=n_1,X_2=n_2,\cdots,X_k=n_k)=\frac{n!}{n_1!n_2!\cdots n_k!}p_1^{n_1}p_2^{n_2}\cdots p_k^{n_k}=\frac{n!}{\prod_{i=1}^kn_i!}\prod_{i=1}^k p_i^{n_i}</script><p>其中$p=(p_1,p_2,\cdots,p_k),p_i≥0,i=1,2,\cdots,k,\sum_{i=1}^kp_i=1,\sum_{i=1}^kn_i=n$，则称随机变量$X$服从<strong>参数为$(n,p)$</strong>的多项分布</p>
+<p>举例：抛$n$次筛子，第1面朝上出现了$n_1$次，第二面朝上出现了$n_2$次，$\cdots$，第$k$面朝上出现了$n_k$次的概率即为一个多项分布</p>
+</li>
+<li><p><strong>狄利克雷分布：$\theta∽Dir(\alpha)$</strong></p>
+<p>若多元连续随机变量$\theta=(\theta_1,\theta_2,\cdots,\theta_k)$的概率密度函数为：</p>
+<script type="math/tex; mode=display">
+p(\theta|\alpha)=\frac{\Gamma(\sum_{i=1}^k \alpha_i)}{\prod_{i=1}^k \Gamma(\alpha_i)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>其中$\sum_{i=1}^k\theta_i=1,\theta_i≥0,\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k),\alpha_i＞0,i=1,2,\cdots,k$，则称随机变量$\theta$服从【<strong>参数为$\alpha$</strong>】的狄利克雷分布</p>
+<p>（$\Gamma(x)$是<strong>Gamma函数，见后记-3</strong>）</p>
+<p>狄利克雷分布的密度函数可以用多元beta函数$B(\alpha)$简记表示：</p>
+<script type="math/tex; mode=display">
+p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}</script><p>这里$B(\alpha)$视为规范化因子。由密度函数性质，对$\theta$积分为1，于是可得：$B(\alpha)=\int\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta$</p>
+<p>关于狄利克雷分布的参数的意义：<strong>各个$\alpha_i$为各个参数为$\theta_i$的后验分布的强度参数</strong></p>
+</li>
+<li><p><strong>关系与总结</strong></p>
+<p><strong>LDA与PLSA都假设话题$z$是单词$w$的多项分布，文本$d$是话题$z$的多项分布</strong></p>
+<p><strong>二项分布是多项分布的一种特殊情况</strong>：二项分布（二维）$\to$ 多项分布（多维）</p>
+<p><strong>Beta分布是狄利克雷分布的一种特殊情况</strong>：Beta分布（二维）$\to$狄利克雷分布（<strong>多维</strong>）</p>
+</li>
+</ol>
+<h2 id="LDA模型定义"><a href="#LDA模型定义" class="headerlink" title="LDA模型定义"></a>LDA模型定义</h2><p>单词集合：$W=\{w_1,\cdots,w_v,\cdots,w_V\}$，共[$V$个单词]</p>
+<p>文本集合：$D=\{\mathbb w_1,\cdots,\mathbb w_m,\cdots,\mathbb w_M\}$  （注意一个文本换成用向量$\mathbb w$表示，以前用的是$d$表示），共[$M$个文本]</p>
+<p>每个文本是一个单词序列：$\mathbb w_m=(w_{m1},\cdots,w_{mn},\cdots,w_{mN_m})$    ，$N_m$是$\mathbb w_m$中单词的个数</p>
+<p>话题集合：$Z=\{z_1,\cdots,z_k,\cdots,z_K\}$，共[$K$个话题]</p>
+<hr>
+<p>基于PLSA的两个分布：文档-话题分布$P(z|\mathbb w_m)$和话题-单词分布$P(w|z_k)$，且<strong>这两个分布是独立的</strong></p>
+<ol>
+<li><p><strong>话题-单词</strong></p>
+<p>①[$z\to w$]：每一个话题$z_k$由一个单词的条件概率分布$P(w|z_k)$决定，$w∈W$。</p>
+<p>②[$w∽Mult(\phi_k)$]：分布$P(w|z_k)$是<strong>多项分布</strong>，其参数为$\phi_k$（随机变量$w$服从多项分布）</p>
+<p><strong>话题参数向量</strong>：$\phi_k=(\phi_{k1},\phi_{k2},\cdots,\phi_{kV})$，其中$\phi_{kv}$表示话题$z_k$生成单词$w_v$的概率，即多项分布标准表示中每项（这里就是每个单词）的概率$p$，共$V$个（单词总数）</p>
+<p><strong>话题参数矩阵</strong>：$\Phi=\{\phi_k\}_{k=1}^K$，所有的话题参数向量构成话题参数矩阵，为$K×V$形状</p>
+<p>③[$\phi_k∽Dir(\beta)$]：$\phi_k$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\beta$</p>
+<p>超参数是一个$V$维（单词个数）向量：$\beta=(\beta_1,\beta_2,\cdots,\beta_V)$</p>
+</li>
+<li><p><strong>文本-话题</strong></p>
+<p>①[$\mathbb w_m \to z$]：每一个文本$\mathbb w_m$由一个话题的条件概率分布$P(z|\mathbb w_m)$决定，$z∈Z$</p>
+<p>②[$z∽Mult(\theta_m)$]：分布$P(z|\mathbb w_m)$是<strong>多项分布</strong>，其参数为$\theta_m$（随机变量$z$服从多项分布）</p>
+<p><strong>文本参数向量</strong>：$\theta_m=(\theta_{m1},\theta_{m2},\cdots,\theta_{mK})$，其中$\theta_{mk}$表示文本$\mathbb w_m$生成话题$z_k$的概率，即多项分布标准表示中每项（这里就是每个话题）的概率$p$，共$K$个（话题总数）</p>
+<p><strong>文本参数矩阵</strong>：$\Theta=\{\theta_m\}_{m=1}^M$，所有文本参数向量构成文本参数矩阵，为$M×K$形状</p>
+<p>③[$\theta_m∽Dir(\alpha)$]：$\theta_m$服从<strong>狄利克雷分布</strong>（先验分布），其超参数为$\alpha$</p>
+<p>超参数是一个$K$维（话题个数）向量：$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_K)$</p>
+</li>
+<li><p><strong>综合1,2</strong></p>
+<p>[$\mathbb w_m \to z \to w$]：每一个文本$\mathbb w_m$中的<strong>每一个单词</strong>$w_{mn}$由该文本的话题分布$P(z|\mathbb w_m)$以及所有话题的单词分布$P(w|z_k)$决定。</p>
+</li>
+</ol>
+<p>【注】LDA假设文本中的话题对一个随机参数是独立同分布的，也就是说LDA中的文本是<strong>无限可交换</strong>的。所以在参数给定的条件下，文本中的话题顺序可以忽略。（PLSA也一样）</p>
+<p>（单词顺序也可以忽略，所以<strong>PLSA和LDA的“生成”并不是生成一个顺序的文本，且更多的在于学习模型潜在的参数</strong>）</p>
+<h2 id="概率计算：LDA生成过程"><a href="#概率计算：LDA生成过程" class="headerlink" title="概率计算：LDA生成过程"></a>概率计算：LDA生成过程</h2><script type="math/tex; mode=display">
+[\mathbb w_m],([\alpha] \to \theta)\to [z],([\beta]\to\phi)\to [w]</script><p><strong>注：概率计算过程中，先验分布的超参数与多项分布的参数都是已知的，不变的</strong></p>
+<p>根据定义和PLSA生成模型中一样的原理就可以写出LDA生成过程</p>
+<p>$\mathbb S_1$：$\beta \to\phi_k$</p>
+<p>对于话题$z_k(k=1,2,\cdots,K)$生成多项分布参数$\phi_k∽Dir(\beta)$，作为<strong>话题的单词分布</strong>$p(w|z_k)=Mult(\phi_k)$</p>
+<p>$\mathbb S_2$：$\alpha\to \theta_m $</p>
+<p>对于文本$\mathbb w_m(m=1,2,\cdots,M)$生成多项分布参数$\theta_m∽Dir(\alpha)$，作为<strong>文本的话题分布</strong>$p(z|\mathbb w_m)=Mult(\theta_m)$</p>
+<p>$\mathbb S_3$：$\theta_m\to z_{mn},\quad \phi_{z_{mn}}\to w_{mn}$</p>
+<p>对于文本$\mathbb w_m$的单词$w_{mn}(m=1,2,\cdots,M,n=1,2,\cdots,N_m)$</p>
+<p>①生成话题$z_{mn}∽Mult(\theta_m)$，作为单词对应的话题</p>
+<p>②生成单词$w_{mn}∽Mult(\phi_{z_{mn}})$</p>
+<p><strong>【这就生成了一个单词】</strong></p>
+<p><strong>注意理解：一次循环生成一个主题，这个主题生成一个单词；然后再生成下一个主题，这个主题生成下一个单词；这样反复多次就生成了一个文本</strong></p>
+<p>概率图模型略</p>
+<hr>
+<p><strong>整体概率分布（所有文本）：</strong></p>
+<script type="math/tex; mode=display">
+p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)=\prod_{k=1}^Kp(\phi_k|\beta)\prod_{m=1}^Mp(\theta_m|\alpha)\prod_{n=1}^{N_m}p(z_{mn}|\theta_m)p(w_{mn}|z_{mn},\phi)</script><p><strong>第$m$个文本的联合概率分布：</strong></p>
+<script type="math/tex; mode=display">
+p(\mathbb w_m,\mathbb z_m,\theta_m,\phi|\alpha,\beta)=\prod_{k=1}^Kp(\phi_k|\beta)p(\theta_m|\alpha)\prod_{n=1}^{N_m}p(z_{mn}|\theta_m)p(w_{mn}|z_{mn},\phi)</script><p>其中$\mathbb w$是观测变量，$\mathbb z,\theta,\phi$是隐变量 ，$\alpha,\beta,K,N_m,M$是超参数</p>
+<p>（后半部分是所有单词的概率相乘为文本概率，前两个为先验概率，先获取得到后验分布参数$\phi_k和\theta_m$）</p>
+<p>搞清每个单词，每篇文档是如何生成的，就通过<strong>对概率生成公式（上面的联合概率分布公式），在中间路径的变量上进行积分，以获取全路径的概率，来计算边缘分布</strong>求得$p(\mathbb w_m|\theta_m,\phi)$，$p(\mathbb w_m|\alpha,\beta)$，$p(\mathbb w|\alpha,\beta)$ </p>
+<p>如：$p(\mathbb w_m|\alpha,\beta)=\int_\phi p(\mathbb w_m,\phi|\alpha,\beta)=\int_\phi\int_\theta p(\mathbb w_m,\theta,\phi|\alpha,\beta)=\int_\phi\int_\theta\int_z p(\mathbb w_m,\mathbb z,\theta,\phi|\alpha,\beta)$</p>
+<p>$=\prod_{k=1}^K\int p(\phi_k|\beta)[\int p(\theta_m|\alpha)\prod_{n=1}^{N_m}[\Sigma_{l=1}^K p(z_{mn}=l|\theta_m)p(w_{mn}|\theta_l)]d\theta_m]d\phi_k$</p>
+<p>确定$\alpha,\beta$后，消去概率生成路径上的隐变量</p>
+<h1 id="学习算法"><a href="#学习算法" class="headerlink" title="学习算法"></a>学习算法</h1><p><strong>求解LDA模型参数</strong></p>
+<p><strong>目标</strong>：<strong>已知</strong>文本集合$D=\{\mathbb w_1,\cdots,\mathbb w_m,\cdots,\mathbb w_M\}$，其中$\mathbb w_m$是第$m$个文本$\mathbb w_m=(w_{m1},\cdots,w_{mn},\cdots,w_{mN_m})$，以$\mathbb w $表示文本集合的单词序列，<strong>设定</strong>话题数$K$和狄利克雷分布<strong>初始超参数</strong>$\alpha,\beta$，<strong>求</strong>①文档-话题分布$P(z|\mathbb w_m)$的参数$\theta$和②话题-单词分布$P(w|z_k)$的参数$\phi$（$[\mathbb w_m],[\alpha] \to \theta\to [z],[\beta]\to\phi\to [w]$）  </p>
+<p>也就是求模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的参数，其中$\mathbb w$是观测变量，$\mathbb z,\theta,\phi$是隐变量 ，$\alpha,\beta,K,N_m,M$是超参数（除$N_m$，$M$外的参数都是高维的，此表述为参数向量形式）</p>
+<p><strong>困难：</strong>由模型概率公式可知，<strong>生成公式中的中间路径存在三个隐变量$\mathbb z,\theta,\phi$，</strong>导致<strong>直接对其求MLE是非常困难</strong>的，隐变量的存在导致我们在求MLE的时候<strong>需要消去三个隐变量</strong>，计算积分（$\mathbb w=\prod \mathbb w_m$）：</p>
+<p>$p(\mathbb w_m|\alpha,\beta)=\int_\phi\int_\theta\int_z p(\mathbb w_m,\mathbb z,\theta,\phi|\alpha,\beta) $</p>
+<p>$=\prod_{k=1}^K\int p(\phi_k|\beta)[\int p(\theta_m|\alpha)\prod_{n=1}^{N_m}[\Sigma_{l=1}^K p(z_{mn}=l|\theta_m)p(w_{mn}|\theta_l)]d\theta_m]d\phi_k$</p>
+<p>这样做MLE求解最优化非常困难</p>
+<h2 id="超参数（初值事先给定）"><a href="#超参数（初值事先给定）" class="headerlink" title="超参数（初值事先给定）"></a>超参数（初值事先给定）</h2><p>假定话题$K$给定，但实际上通常通过<strong>实验选定</strong>，没有一个固定的最优解。（话题超参数$K$在学习算法中不变）</p>
+<p>狄利克雷分布的超参数$\alpha,\beta$的初始值通常也是<strong>事先给定</strong>的。在没有其他先验知识下，可以假定$\alpha和\beta$的所有分量<strong>均为1</strong>，这时文本的话题分布$\theta_m$是对称的，话题的单词分布$\phi_k$也是对称的。</p>
+<p>超参数$\alpha,\beta$（维度也很高，<strong>与多项分布数量一样</strong>）相当于各个后验多项分布的<strong>权重</strong></p>
+<p>超参数$\alpha,\beta$是先验分布的<strong>初始参数</strong>，在学习过程中<strong>后验分布所服从的先验分布参数会改变</strong>：</p>
+<p>$Dir(\theta|\alpha)\to\theta\to Mult(n,\theta) \to D \to Dir(\theta|\alpha+n)\to loop[Dir(\theta|\alpha)]$</p>
+<p>(上一篇推得)</p>
+<h2 id="基于马尔科夫蒙特卡罗方法：吉布斯抽样"><a href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样" class="headerlink" title="基于马尔科夫蒙特卡罗方法：吉布斯抽样"></a>基于马尔科夫蒙特卡罗方法：吉布斯抽样</h2><p>蒙特卡罗方法就是为此而生的，它<strong>通过随机抽样来近似计算模型参数$\theta,\phi$</strong></p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>已知$\mathbb w,\alpha,\beta$，那么对$p(\mathbb z|\mathbb w,\alpha,\beta)$进行抽样，就可以获得该分布的样本集合。根据每个样本的概率生成路径：$[\mathbb w_m],([\alpha] \to \theta)\to [z],([\beta]\to\phi)\to [w]$，只要我们<strong>抽样获取了主题$z$</strong>，那么就可以根据$\mathbb w_m\to z$的样本数量$n_{mk}$来估计参数$\theta$，根据$z \to w$的样本数量$n_{kv}$估计参数$\phi$，这样一来就获得了模型$p(\mathbb w,\mathbb z,\theta,\phi|\alpha,\beta)$的所有待学习参数。</p>
+<p>那么如何抽样获取话题$z$才是合理的，能够用它来估算真实的话题概率分布的参数呢？就要使用吉布斯抽样，①给定一个初始化状态（文本的单词序列$\mathbb w$中的每一个单词$w$对应一个随机的隐藏主题），②然后不断进行多轮抽样，状态转移（使用已推导出的 公式$p(z_i|\mathbb z_{¬i},\mathbb w,\alpha,\beta)$，③直到进入燃烧期，在燃烧期的一轮抽样中获得抽样主题$z$和路径上的计数$n_{mk}$，$n_{kv}$</p>
+<p>具体略</p>
+<h2 id="变分推理：变分EM算法"><a href="#变分推理：变分EM算法" class="headerlink" title="变分推理：变分EM算法"></a>变分推理：变分EM算法</h2><p>变分推理通过<strong>解析</strong>的方法计算模型的后验概率的近似值</p>
+<p>通过证据下界最大化实现KL散度的最小化</p>
+<p>求解证据下界最大化问题：$L(q,\theta)=E_q[\log p(x,z|\theta)]-E_q[\log q(z)]$</p>
+<p>具体略</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ol>
+<li><p>概率质量(mass)函数：各个分类的概率，用于离散随机变量</p>
+<p>概率密度(density)函数：数据落在某一段连续的区间的概率</p>
+</li>
+<li><p><strong>Beta函数</strong></p>
+<script type="math/tex; mode=display">
+B(s,t)=\frac{\Gamma(s)\Gamma(t)}{\Gamma(s+t)}</script><script type="math/tex; mode=display">
+定义为：B(s,t)=\int_0^1x^{s-1}(1-x)^{t-1}dx</script><p>   当$s,t$是自然数的时，</p>
+<script type="math/tex; mode=display">
+B(s,t)=\frac{(s-1)!(t-1)!}{(s+t-1)!}</script></li>
+<li><p><strong>Gamma函数</strong></p>
+<script type="math/tex; mode=display">
+\Gamma(s)=\int_0^∞x^{s-1}e^{-x}dx,\quad s>0</script><script type="math/tex; mode=display">
+性质：\Gamma(s+1)=s\Gamma(s)</script><script type="math/tex; mode=display">
+当s是自然数的时候有：\Gamma(s+1)=s!</script><p>关于Gamma函数以前在微积分中不少遇到，可以看这篇文章</p>
+<p><a href="https://cosx.org/2013/01/lda-math-gamma-function" target="_blank" rel="noopener">https://cosx.org/2013/01/lda-math-gamma-function</a></p>
+</li>
+<li><p><strong>多元beta函数</strong>（拓展的beta函数）</p>
+<script type="math/tex; mode=display">
+B(\alpha)=\frac{\prod_{i=1}^k \Gamma(\alpha_i)}{\Gamma(\sum_{i=1}^k \alpha_i)}</script></li>
+<li><p><strong>狄利克雷分布是多项分布的共轭先验的推导</strong></p>
+<p>设$\mathbb W=\{w_1,w_2,\cdots,w_k\}$是由$k$个元素组成的集合，随机变量$X$满足多项分布$X∽Mult(n,\theta)$</p>
+<p>其中$n=(n_1,n_2,\cdots,n_k)和\theta=(\theta_1,\theta_2,\cdots,\theta_k)$是参数。参数$n$为从$\mathbb W$中重复独立随机抽取样本的次数，$n_i$为样本$w_i$出现的次数$(i=1,2,\cdots,k)$，参数$\theta_i$为$w_i$出现的概率（该过程就是普通的多项分布实验，也是文档生成过程）</p>
+<p><strong>引入先验：</strong>设其参数$\theta$服从狄利克雷分布：$\theta∽Dir(\alpha)$，即该多项分布参数的先验分布为$p(\theta|\alpha)=Dir(\theta|\alpha)$</p>
+<p><strong>我们的目标：</strong>在<strong>已知先验分布参数$\alpha$和先验数据$D$的情况下</strong>，<strong>推导后验概率：$p(\theta|D,\alpha)$</strong></p>
+<p>（在学习过程中，这个先验分布参数$\alpha$和先验数据$D$是在不断实验中迭代变化的，$D$为在参数$\theta$下多项分布计算出的似然数据，由此调整超参数，它们一直改变，影响着下一个新的参数和数据，也就是说共轭结论是在学习过程中用来参数推导的；在概率计算过程中，超参数与参数全都是已知固定的，没有参数变化过程[=]）</p>
+<p>由贝叶斯公式$P(B_i|A)=\frac{P(A,B_i)}{P(A)}=\frac{P(B_i)P(A|B_i)}{\sum_{j=1}^nP(B_j)P(A|B_j)}$，那么我们要求的后验概率即可展开为：</p>
+<p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{p(D|\alpha)}$</p>
+<p>①由多项分布可得其似然函数：$p(D|\theta)=\theta_1^{n_1}\theta_2^{n_2}\cdots\theta_k^{n_k}=\prod_{i=1}^k\theta_i^{n_i}$</p>
+<p>②由狄利克雷分布的公式：$p(\theta|\alpha)=\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}$</p>
+<p>③由全概率公式：$p(D|\alpha)=\int_\theta p(D|\theta)p(\theta|\alpha)d\theta$</p>
+<p>将上述①②③代入后验式子中化简：</p>
+<p>$p(\theta|D,\alpha)=\frac{p(D|\theta)p(\theta|\alpha)}{\int_\theta p(D|\theta)p(\theta|\alpha)d\theta}=\frac{\prod_{i=1}^k\theta_i^{n_i}\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}}{\int_\theta\prod_{i=1}^k\theta_i^{n_i}\frac{1}{B(\alpha)}\prod_{i=1}^k \theta_i^{\alpha_i-1}d\theta}=\frac{1}{B(\alpha+n)}\prod_{i=1}^k\theta_i^{\alpha_i+n_i-1}=Dir(\theta|\alpha+n)$</p>
+<p>最后计算得到后验概率分布也是一个狄利克雷分布<strong>（结论）</strong>：</p>
+<script type="math/tex; mode=display">
+p(\theta|D,\alpha)=Dir(\theta|\alpha+n)</script><p><strong>于是多项分布的参数$\theta$的先验分布和后验分布都是狄利克雷分布（参数不同），所以狄利克雷分布是多项分布的共轭先验。</strong>且狄利克雷后验分布的参数等于狄利克雷先验分布参数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$加上多项分布的观测计数$n=(n_1,n_2,\cdots,n_k)$，好像试验之前就已经观察到计数$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_k)$，因此也把$\alpha$叫做先验伪计数</p>
+</li>
+<li><p>LDA不止可以用于文本，也可以用于图片等，即<strong>把图片当做文本，像素当做文本里的一个词</strong></p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/" title="潜在狄利克雷分配">https://aisaka.cloud/2019/12/12/[object Object]/人工智能/潜在狄利克雷分配/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/11/[object Object]/人工智能/概率潜在语义分析/" rel="next" title="概率潜在语义分析">
+                <i class="fa fa-chevron-left"></i> 概率潜在语义分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/17/[object Object]/Music/人间烂漫/" rel="prev" title="人间烂漫">
+                人间烂漫 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Latent-Dirichlet-Allocation"><span class="nav-number">1.</span> <span class="nav-text">Latent Dirichlet Allocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLSA的缺陷与LDA的改进"><span class="nav-number">1.1.</span> <span class="nav-text">PLSA的缺陷与LDA的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">1.2.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共轭分布"><span class="nav-number">1.3.</span> <span class="nav-text">共轭分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个重要分布"><span class="nav-number">1.4.</span> <span class="nav-text">几个重要分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA模型定义"><span class="nav-number">1.5.</span> <span class="nav-text">LDA模型定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算：LDA生成过程"><span class="nav-number">1.6.</span> <span class="nav-text">概率计算：LDA生成过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#学习算法"><span class="nav-number">2.</span> <span class="nav-text">学习算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#超参数（初值事先给定）"><span class="nav-number">2.1.</span> <span class="nav-text">超参数（初值事先给定）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于马尔科夫蒙特卡罗方法：吉布斯抽样"><span class="nav-number">2.2.</span> <span class="nav-text">基于马尔科夫蒙特卡罗方法：吉布斯抽样</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想"><span class="nav-number">2.2.1.</span> <span class="nav-text">思想</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变分推理：变分EM算法"><span class="nav-number">2.3.</span> <span class="nav-text">变分推理：变分EM算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

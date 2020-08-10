@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="DNS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="LOCAL_DNSlocal DNS作为本地网络中的逻辑核心非常重要">
+<meta name="keywords" content="DNS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多级中文域名解析系统-2">
+<meta property="og:url" content="https://aisaka.cloud/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="LOCAL_DNSlocal DNS作为本地网络中的逻辑核心非常重要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-28T14:00:49.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多级中文域名解析系统-2">
+<meta name="twitter:description" content="LOCAL_DNSlocal DNS作为本地网络中的逻辑核心非常重要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/">
+
+
+
+
+
+  <title>多级中文域名解析系统-2 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">多级中文域名解析系统-2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-05T12:53:04+08:00">
+                2018-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络与云/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与云</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/" class="leancloud_visitors" data-flag-title="多级中文域名解析系统-2">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="LOCAL-DNS"><a href="#LOCAL-DNS" class="headerlink" title="LOCAL_DNS"></a>LOCAL_DNS</h2><p><em>local DNS作为本地网络中的逻辑核心非常重要</em></p>
+ <a id="more"></a>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"localServer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CACHEFILE <span class="meta-string">"localCache.txt"</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isEnd</span><span class="params">(struct DNS_Header *header)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (header-&gt;authorNum!=<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//①设置监听</span></span><br><span class="line">	<span class="keyword">int</span> serverSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//发送缓冲区和接收缓冲区</span></span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//初始化缓冲区</span></span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">//声明两个套接字sockaddr_in结构体，分别用于客户端和服务器 </span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span>  </span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">clientAddr</span>;</span>  </span><br><span class="line">	<span class="keyword">int</span> addr_len = <span class="keyword">sizeof</span>(clientAddr);  </span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> client;  </span><br><span class="line">	<span class="comment">//初始化服务器端的套接字</span></span><br><span class="line">	bzero(&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));  </span><br><span class="line">	server_addr.sin_family = AF_INET;  </span><br><span class="line">	server_addr.sin_port = htons(SERVER_PORT); </span><br><span class="line">	server_addr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);  </span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//绑定套接字</span></span><br><span class="line">	bind(serverSocket, (struct sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));</span><br><span class="line">	<span class="comment">//设置监听状态</span></span><br><span class="line">	listen(serverSocket, <span class="number">5</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//②循环监听</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"监听端口 ： %d\n"</span>,SERVER_PORT);</span><br><span class="line">		<span class="comment">//调用accept，进入阻塞状态，返回一个client套接字描述符</span></span><br><span class="line">		client = accept(serverSocket, (struct sockaddr*)&amp;clientAddr, (<span class="keyword">socklen_t</span>*)&amp;addr_len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接成功\n"</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">c</span>;</span></span><br><span class="line">		<span class="keyword">socklen_t</span> cLen = <span class="keyword">sizeof</span>(c);</span><br><span class="line">		getpeername(client, (struct sockaddr*) &amp;c, &amp;cLen); </span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"请求端信息： %s : %d\n"</span>,inet_ntoa(c.sin_addr),ntohs(c.sin_port));	</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对于TCP，先接收一个两字节的包长度</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> recv_length;</span><br><span class="line">		recv(client,&amp;recv_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		recv_length = ntohs(recv_length);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//接收客户端发来的数据，recv返回值为接收字节数</span></span><br><span class="line">		<span class="keyword">int</span> dataNum = recv(client,recvbuf,recv_length,<span class="number">0</span>);</span><br><span class="line">					</span><br><span class="line">		<span class="comment">//③提取recvbuf，构建DNS包</span></span><br><span class="line">		<span class="comment">//构造DNS包头部，从缓冲区读取一个DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">client_query_header</span>;</span></span><br><span class="line">		client_query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(client_query_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n请求端信息：\n"</span>);</span><br><span class="line">		print_header(client_query_header);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//构造准备发送的DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">query_header</span>;</span></span><br><span class="line">		query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		<span class="built_in">memcpy</span>(query_header,client_query_header,<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		query_header-&gt;queryNum = <span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//④解析并处理请求</span></span><br><span class="line">		<span class="comment">//有多少个请求，就进行几次循环，每个循环完成一次系统运作</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;client_query_header-&gt;queryNum;i++)   </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析一个请求部分</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">client_query_section</span>;</span></span><br><span class="line">			client_query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">			decode_query_section(client_query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n正在处理第 %d 个请求\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//判断本地缓存中是否存在</span></span><br><span class="line">			<span class="keyword">int</span> findInCache = firstFindRR(client_query_section,CACHEFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> (findInCache==<span class="number">1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"在本地缓存中找到记录，直接回复请求\n"</span>);</span><br><span class="line">				<span class="keyword">goto</span> findit;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//本地缓存不存在</span></span><br><span class="line">			<span class="keyword">char</span> UDPsendbuf[<span class="number">512</span>];</span><br><span class="line">			<span class="keyword">char</span> UDPrecvbuf[<span class="number">512</span>]; </span><br><span class="line">			<span class="keyword">int</span> UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//直接将从客户端接受收的包写入缓冲区</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n发送给根服务器的请求：\n"</span>);</span><br><span class="line">			encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_header(query_header);</span><br><span class="line">			encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//定义用于接收的结构。由于根服务器必然不可能返回最终结果，所以不需要构造answer</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_RR</span> *<span class="title">recv_answer</span>,*<span class="title">recv_authority</span>,*<span class="title">recv_additional</span>;</span></span><br><span class="line">			recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">			recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//与根服务器建立UDP连接</span></span><br><span class="line">			<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">			addr.sin_family =AF_INET;</span><br><span class="line">			addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">			addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);	</span><br><span class="line">			</span><br><span class="line">			bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//发送  </span></span><br><span class="line">			sendto(sockfd,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//接收回复</span></span><br><span class="line">			<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">			recvfrom(sockfd,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);   </span><br><span class="line">			</span><br><span class="line">			<span class="comment">//断开</span></span><br><span class="line">			close(sockfd); </span><br><span class="line">			</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n收到根服务器的回复：\n"</span>);</span><br><span class="line">			<span class="comment">//从接收缓冲区解析并构造包结构然后打印</span></span><br><span class="line">			decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_header(recv_header);</span><br><span class="line">			 </span><br><span class="line">			decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_authority);</span><br><span class="line">			decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_additional);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//重置缓冲区</span></span><br><span class="line">			UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//用于计数本次循环是第几级服务器发来的</span></span><br><span class="line">			<span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>(isEnd(recv_header)==<span class="number">0</span>)  </span><br><span class="line">			&#123;</span><br><span class="line">				count++;</span><br><span class="line">				<span class="comment">//向下一个服务器建立UDP连接</span></span><br><span class="line">				<span class="keyword">int</span> sockfm=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">				<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">				addr.sin_family =AF_INET;</span><br><span class="line">				addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">				addr.sin_addr.s_addr=inet_addr(recv_additional-&gt;rdata);		</span><br><span class="line">				<span class="comment">//recv_additional-&gt;rdata即保存着下一个服务器的IP</span></span><br><span class="line">				</span><br><span class="line">				bind(sockfm,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//重置缓冲区和结构</span></span><br><span class="line">				UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">				UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">				<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">free</span>(recv_header);     recv_header = <span class="literal">NULL</span>;           </span><br><span class="line">				<span class="built_in">free</span>(recv_authority);  recv_authority = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">free</span>(recv_additional); recv_additional = <span class="literal">NULL</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//直接将从客户端接受收的请求写入发送缓冲区</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n发送给 %d级 服务器的请求：\n"</span>,count);</span><br><span class="line">				encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_header(query_header);</span><br><span class="line">				encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_query_section(client_query_section);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//发送</span></span><br><span class="line">				sendto(sockfm,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//接收回复</span></span><br><span class="line">				len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">				recvfrom(sockfm,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//断开连接</span></span><br><span class="line">				close(sockfm); </span><br><span class="line">				</span><br><span class="line">				<span class="comment">//开始处理</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n收到 %d级 服务器发来的回复：\n"</span>,count);	</span><br><span class="line">				</span><br><span class="line">				recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">				recv_answer = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				</span><br><span class="line">				decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">				print_header(recv_header);</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;   </span><br><span class="line">					decode_resource_record(recv_answer,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_answer);</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;  </span><br><span class="line">					decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_authority);</span><br><span class="line">				&#125;</span><br><span class="line">				 </span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;      </span><br><span class="line">					decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_additional);</span><br><span class="line">				&#125;			</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//UDP请求的循环结束，此时构造得到的结构体已经得到该次请求目标结果，且已经在循环中打印  </span></span><br><span class="line">			<span class="comment">//将从最终结果服务器返回来的结构写入发送缓冲区，本次循环结束</span></span><br><span class="line">			encode_header(recv_header,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_answer,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				<span class="comment">//将结果写入cache</span></span><br><span class="line">				addRRToCache(recv_answer,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_authority,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_authority,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_additional,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_additional,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		findit:;</span><br><span class="line">			<span class="comment">//⑤发送缓冲</span></span><br><span class="line">			<span class="comment">//发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标</span></span><br><span class="line">			<span class="keyword">unsigned</span> <span class="keyword">short</span> send_length = htons(sendBufferPointer);</span><br><span class="line">			send(client,&amp;send_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">			send(client, sendbuf, sendBufferPointer, <span class="number">0</span>);   </span><br><span class="line">			<span class="comment">//一个请求的解析与回答发送结束,清空发送缓冲区与指针，准备进行下一次发送</span></span><br><span class="line">			sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对一个客户端的所有请求解析结束</span></span><br><span class="line">		close(client);</span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接关闭\n"</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"===================================\n\n"</span>);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><p><em>Client为本机主逻辑</em></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="comment">//底层操作</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"><span class="comment">//本地服务器</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"localServer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	<span class="comment">//容错</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=(argc<span class="number">-1</span>)/<span class="number">2</span>;i++)</span><br><span class="line">		<span class="keyword">if</span> (strTypeToCode(argv[<span class="number">2</span>*i])==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"类型错误！\n"</span>);</span><br><span class="line">				<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">			&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//①连接本地服务器 初始化TCP连接</span></span><br><span class="line">	<span class="keyword">int</span> clientSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//发送缓冲和接收缓冲</span></span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];    </span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="comment">//定义缓冲区指示下标</span></span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//清空缓冲区</span></span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serverAddr</span>;</span></span><br><span class="line">	serverAddr.sin_family = AF_INET;</span><br><span class="line">	serverAddr.sin_port = htons(SERVER_PORT);</span><br><span class="line">	serverAddr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);</span><br><span class="line">	<span class="comment">//连接服务器</span></span><br><span class="line">	<span class="keyword">if</span>(connect(clientSocket, (struct sockaddr *)&amp;serverAddr, <span class="keyword">sizeof</span>(serverAddr))==<span class="number">-1</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接失败\n"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"发送信息：\n"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//②根据输入内容，准备DNS包，并写入发送缓冲区</span></span><br><span class="line">	<span class="comment">//定义DNS头部</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">query_header</span>;</span></span><br><span class="line">	query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">	<span class="comment">//调用函数，填写欲发送的DNS包的头部结构体</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> tag = create_tag(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);    </span><br><span class="line">	<span class="comment">//argc-1除2即为域名请求的个数，因为每个域名参数后带一个类型</span></span><br><span class="line">	create_query_header(query_header,<span class="number">999</span>,tag,argc/<span class="number">2</span>,<span class="number">0x0000</span>,<span class="number">0x0000</span>,<span class="number">0x0000</span>);</span><br><span class="line">	<span class="comment">//将头部写入缓冲区</span></span><br><span class="line">	encode_header(query_header,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">	<span class="comment">//打印生成的头部</span></span><br><span class="line">	print_header(query_header);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//根据运行参数生成一个或多个请求部分并写入缓冲区                         </span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=(argc<span class="number">-1</span>)/<span class="number">2</span>;i++) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//填写DNS请求结构，argv[2*i]字符串对应的类型</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> qtype = strTypeToCode(argv[<span class="number">2</span>*i]);    </span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> qclass = <span class="number">0x0001</span>;  </span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		create_query_section(query_section,argv[<span class="number">2</span>*i<span class="number">-1</span>],qtype,qclass);</span><br><span class="line">		encode_query_section(query_section,sendbuf,&amp;sendBufferPointer);	</span><br><span class="line">		print_query_section(query_section);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//③向本地服务器发包</span></span><br><span class="line">	<span class="comment">//发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> length = htons(sendBufferPointer);</span><br><span class="line">	<span class="comment">//对于TCP连接，必须先发送一个DNS包总长度，否则wireshark不会识别！</span></span><br><span class="line">	send(clientSocket,&amp;length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">	send(clientSocket, sendbuf, sendBufferPointer, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//④根据请求数量收包,有多少个请求就会收到多少个DNS包</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;query_header-&gt;queryNum;k++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> recv_length;</span><br><span class="line">		recv(clientSocket,&amp;recv_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		recv_length = ntohs(recv_length);</span><br><span class="line">		<span class="keyword">int</span> dataNum = recv(clientSocket, recvbuf, recv_length, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="comment">//⑤处理接收到缓冲区的DNS包,从中抽取出需要返还给用户的数据</span></span><br><span class="line">		<span class="comment">//构造DNS包头部，从缓冲区读取并填充DNS头部	</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"[回复： %d]\n"</span>,k+<span class="number">1</span>);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_RR</span> *<span class="title">recv_answer</span>,*<span class="title">recv_add</span>;</span></span><br><span class="line">		<span class="comment">//标准回复只可能在answer和addition有值，所以只需要考虑读这两个部分</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;recv_header-&gt;answerNum;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析打印一个回应部分</span></span><br><span class="line">			recv_answer = <span class="literal">NULL</span>;</span><br><span class="line">			recv_answer = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			decode_resource_record(recv_answer,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			print_resource_record(recv_answer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;recv_header-&gt;addNum;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析打印一个addition部分</span></span><br><span class="line">			recv_add = <span class="literal">NULL</span>;</span><br><span class="line">			recv_add = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">			decode_resource_record(recv_add,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			print_resource_record(recv_add);</span><br><span class="line">		&#125;</span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);	</span><br><span class="line">	&#125;</span><br><span class="line">	close(clientSocket);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/" title="多级中文域名解析系统-2">https://aisaka.cloud/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-2（c语言）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DNS/" rel="tag"># DNS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/05/[object Object]/网络与云/中文DNS实现（c语言）/" rel="next" title="多级中文域名解析系统-1（c语言）">
+                <i class="fa fa-chevron-left"></i> 多级中文域名解析系统-1（c语言）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/05/[object Object]/网络与云/多级中文域名解析系统-3（c语言）/" rel="prev" title="多级中文域名解析系统-3">
+                多级中文域名解析系统-3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LOCAL-DNS"><span class="nav-number">1.</span> <span class="nav-text">LOCAL_DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client"><span class="nav-number">2.</span> <span class="nav-text">Client</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

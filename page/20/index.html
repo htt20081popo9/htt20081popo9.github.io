@@ -114,7 +114,7 @@
 <meta name="description" content="心情、思考、时光">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/page/20/index.html">
+<meta property="og:url" content="https://aisaka.cloud/page/20/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="心情、思考、时光">
 <meta property="og:locale" content="zh-Hans">
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/page/20/">
+  <link rel="canonical" href="https://aisaka.cloud/page/20/">
 
 
 
@@ -316,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/28/[object Object]/人工智能/图像预处理：transforms和PIL小结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -335,7 +335,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/" itemprop="url">链表，栈，队列、树四种结构的构建方式的简单理解</a></h1>
+                <a class="post-title-link" href="/2019/01/28/[object Object]/人工智能/图像预处理：transforms和PIL小结/" itemprop="url">图像预处理：transforms和PIL小结</a></h1>
         
 
         <div class="post-meta">
@@ -350,8 +350,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-07T11:56:59+08:00">
-                2016-05-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T11:14:11+08:00">
+                2019-01-28
               </time>
             
 
@@ -373,8 +373,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
                   </a>
                 </span>
 
@@ -391,8 +402,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/" itemprop="commentCount"></span>
+                <a href="/2019/01/28/[object Object]/人工智能/图像预处理：transforms和PIL小结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/28/[object Object]/人工智能/图像预处理：transforms和PIL小结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -401,7 +412,7 @@
 
           
           
-             <span id="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/" class="leancloud_visitors" data-flag-title="链表，栈，队列、树四种结构的构建方式的简单理解">
+             <span id="/2019/01/28/[object Object]/人工智能/图像预处理：transforms和PIL小结/" class="leancloud_visitors" data-flag-title="图像预处理：transforms和PIL小结">
 
 
              </span>
@@ -428,23 +439,246 @@
 
       
         
-          <p>开个坑，有空填，方便自己考前速看一下</p>
-<hr>
-<p>两种储存结构 链式和顺式</p>
-<p>比较一下链表的链式储存结构、栈和队列的顺式储存结构（不代表他们只有链式/顺式，只是着重强调）</p>
-<p>假设所有的储存数据都是int型</p>
+          
+            <p><em>色图真好玩.jpg</em></p>
+<h2 id="transforms"><a href="#transforms" class="headerlink" title="transforms"></a>transforms</h2><p>Ⅰ. <code>transforms.ToTensor()</code></p>
+<p>①将(H,W,C)输入的numpy array或img转换成(C,H,W)格式</p>
+<p>通道的具体顺序与cv2读的还是PIL.Image读的图片有关系<br>cv2:<code>(B,G,R)</code><br>PIL.Image:<code>(R, G, B)</code></p>
+<p>②<strong>归一化</strong>，归一到$(0,1)$区间</p>
+<p>Ⅱ. <code>transforms.Normalize()</code></p>
+<p>标准化。</p>
+<p>即使输入的每个值分布到$(-1，1)$中</p>
+<p>公式为$Normalize = \frac{(x-mean)}{std}$(std为标准差，mean为均值)</p>
+<p>标准差公式$std = \sigma = \sqrt{\frac{1}{N} \Sigma^N_{i=1}(x_i-μ)^2 }$</p>
+<p><strong>注意实际是img里的每个像素（每个值）都要经过此公式运算</strong></p>
+<p>通过标准化后可以让数据<strong>服从标准正态分布</strong></p>
+<p>一般来说参数为 <code>transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></p>
+<p>这里的三个维度是因为输入的$x$为三维的，如果$x$是灰度图，那就是一维</p>
+<p>$(0.5,0.5,0.5)$即为<strong>三个维度（分别对应RGB三个通道）</strong>的均值和标准差。这里默认为该值，如果你能够计算出你的数据集的均值和标准差，那么用计算出来的值更好。（如imagenet数据集提供方就给出了该数据集的均值和标准差）</p>
+<p>以上两个函数通常是连着用的</p>
+<p>Ⅲ.<code>transforms.Lambda</code></p>
+<p>用法:<code>transforms.Lambda(lambda img:func(img,))</code></p>
+<p>这里的<code>func</code><strong>可以是自己定义的函数，也可以直接调用表达式</strong>比如<code>transforms.Lambda(lambda img:img)</code>(什么都没处理，返回了自己本身)</p>
+<p>在transforms库中存在很多官方给的预处理工具，但是如果需要自己定义，比如截取图像指定区域，则需要自己用Lambda函数封装一个处理函数</p>
+<p>eg:自己定义一个截取图片的crop函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__crop</span><span class="params">(img, pos, size)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param img: 输入的图像</span></span><br><span class="line"><span class="string">    :param pos: 图像截取的位置,类型为元组，包含(x, y)</span></span><br><span class="line"><span class="string">    :param size: 图像截取的大小</span></span><br><span class="line"><span class="string">    :return: 返回截取后的图像</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    ow, oh = img.size</span><br><span class="line">    x1, y1 = pos</span><br><span class="line">    tw = th = size</span><br><span class="line">    <span class="comment"># 有足够的大小截取</span></span><br><span class="line">    <span class="comment"># img.crop坐标表示 (left, upper, right, lower)</span></span><br><span class="line">    <span class="keyword">if</span> (ow &gt; tw <span class="keyword">or</span> oh &gt; th):</span><br><span class="line">        <span class="keyword">return</span> img.crop((x1, y1, x1+tw, y1+th))</span><br><span class="line">    <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后使用transforms.Lambda封装其为transforms策略</span></span><br><span class="line"><span class="comment"># 然后定义新的transforms为</span></span><br><span class="line">normalize = transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">data_transforms = transforms.Compose([</span><br><span class="line">    <span class="comment">#注意这里的用法</span></span><br><span class="line">    transforms.Lambda(<span class="keyword">lambda</span> img: __crop(img, (<span class="number">5</span>,<span class="number">5</span>), <span class="number">224</span>)),</span><br><span class="line">    transforms.RandomHorizontalFlip(),  <span class="comment"># 随机水平翻转给定的PIL.Image,翻转概率为0.5</span></span><br><span class="line">    transforms.ToTensor(),  <span class="comment"># 转成Tensor格式，大小范围为[0,1]</span></span><br><span class="line">    normalize</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>Ⅳ. <strong>逆过程</strong></p>
+<p><code>transforms.Normalize()</code>的逆过程即<strong>原公式求反函数</strong></p>
+<p>原公式$Normalize = \frac{(x-(-mean))}{std}$的反函数即为</p>
+<p>$x = Normalize*std+mean$</p>
+<p>注意是$x$中的<strong>每个元素</strong>都要经过此逆运算，可以使用numpy array的矩阵批量乘法</p>
+<p>如果$std$和$mean$三个维度（RGB情况）是不一样的，那就要分别在三个维度上单独做逆运算</p>
+<p><code>transforms.ToTensor()</code>的逆过程为<code>transforms.ToPILImage()</code>(这个类里面就包含各种处理了包括逆归一化)</p>
+<p>这里也可以直接用<code>plt.imshow(tensor)</code>来显示图像</p>
+<p>这里tensor要*255，因为.ToTensor也有归一化的功能</p>
+<p>注：另外<strong>transforms组件可以单独拿出来用</strong>，不一定要compose组合</p>
+<p><strong>但有个问题需要注意！用法是</strong></p>
+<p><code>transforms.ToPILImage()(tensor)</code></p>
+<p><strong>因为transforms里的组件都是对象！不是方法，得建立对象之后再调用对象的方法!</strong></p>
+<h2 id="PIL"><a href="#PIL" class="headerlink" title="PIL"></a>PIL</h2><p>Ⅰ. 打开图片</p>
 <ul>
-<li>顺序栈的结构构建</li>
+<li><p>使用PIL.Image.open只会调用本地图片浏览器打开图片<br>所以要用<code>matplotlib.pyplot.imshow()</code>来打开PIL导入的图片</p>
+<p>(一般<code>import matplotlib.pyplot as plt</code>)</p>
+<p><strong>注意先要将PIL.Image导入的图片转化为narray格式 (np.array)（导入进来的时候是PIL.Image.Image对象）</strong></p>
+</li>
+<li><p>注意<code>open</code>: 打开并识别所提供的图像文件。不过，使用这函数的时候，<strong>真正的图像数据在你进行数据处理之前并没有被读取出来</strong>。可使用 <code>load</code>函数进行强制加载。 mode 参数可以省略，但它只能是 “r” 值。</p>
+</li>
+<li><p>如果想要迭代打开多张图片每张都显示，则必须</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.imshow(img)</span><br><span class="line"><span class="comment">#多一句show</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>两个参数：初始容量、每次增加的容量</p>
-<p>struct stack</p>
-<p>{</p>
-<p>int <em>base,</em>top;</p>
-<p>int length;</p>
-<p>};</p>
+<ul>
+<li><p>也可以使用<code>PIL.Image.open</code>加载图片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(iMagePath)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意读取单个图片进入神经网络训练的时候</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imga = torch.unsqueeze(imga, <span class="number">0</span>)</span><br><span class="line">imga = imga.cuda()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Ⅱ. plt.imshow()不能同时显示多张图片<br>如果想要显示多张，<strong>可以在每个plt.imshow()后面加一个plt.show()</strong></p>
+<p>Ⅲ. 图片处理部分</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   <span class="comment">#resize并不会改变长宽比例！ 重要问题1</span></span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>),   <span class="comment">#resize后要crop！</span></span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#然后可以用这个来处理单个PIL图片</span></span><br><span class="line">img = transform(img)</span><br><span class="line"><span class="comment">#这样即应用了变换</span></span><br><span class="line"><span class="comment">#也可以用以下这个来处理数据集</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br></pre></td></tr></table></figure>
+<p>   Ⅳ. 应用图片数据预处理 transforms模块</p>
+<p>   生成的transforms直接作用在PIL上</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># 比如这段定义了变换之后</span></span><br><span class="line">  transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   </span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>), </span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#如果是用loader来加载的话就是</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br><span class="line"><span class="comment">#如果是直接应用到一个图片上的话就是</span></span><br><span class="line">img = Image.open(picPath)</span><br><span class="line">imga = transform(img)</span><br></pre></td></tr></table></figure>
+<p>   Ⅴ. resize与toTensor的先后顺序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)),</span><br><span class="line">     ])</span><br><span class="line"><span class="comment"># 这里面的变换是有顺序的！</span></span><br><span class="line"><span class="comment"># transforms.Resize()是图片变换，是作用在PIL.Images上的！所以一定要在ToTensor之前！</span></span><br></pre></td></tr></table></figure>
+<p>   <strong>图片变换》ToTensor》归一化</strong><br>   <code>transforms.Resize()</code> works on <code>PIL.Images</code>, so just swap the order of your transformations and your code should run.<br>   否则会报错TypeError: img should be PIL Image. Got <class 'torch.tensor'=""></class></p>
+<p>Ⅵ. resize和crop的区别<br>resize并不会改变长宽比例！是等比缩放的<br>crop是在图中挖出一部分（裁剪） 这个才会改变比例！<br><strong>resize后要crop！</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">transforms.Resize(<span class="number">256</span>)</span><br><span class="line">transforms.CenterCrop(<span class="number">256</span>)</span><br></pre></td></tr></table></figure>
+<p>crop 有很多种方式 待学习<br>crop和resize的作用范围都是PIL而不是tensor</p>
+<h2 id="ImageFolder"><a href="#ImageFolder" class="headerlink" title="ImageFolder"></a>ImageFolder</h2><p>图片数据集定义<br>   <code>trainset = torchvision.datasets.ImageFolder(root=train_dir)</code><br>   train_dir中要有子文件夹！ 按照子文件夹读取标签！</p>
+<p>   <strong>imageFolder打标签的问题：</strong>和文件夹的顺序有关<br>   【按照各子文件夹的顺序打上0.1.2….  且是刷新后的顺序！ 所以最好是直接0,1,2,3给子文件夹命名，自己清楚里面代表的是啥就是了！】<br>   所以如果说两个文件夹内的子文件夹都是一样的话，相同分类打的标签就是一样的</p>
+<p>   <strong>ImageFolder两个重要属性</strong>： ①class_to_idx ②classes</p>
+<h2 id="关于输入网络的图片尺寸"><a href="#关于输入网络的图片尺寸" class="headerlink" title="关于输入网络的图片尺寸"></a>关于输入网络的图片尺寸</h2><p>输入图片尺寸必须一样是因为在出特征提取层，进入全连接层的时候，全连接层是固定的，所以如果只是要提取出特征的话，并不要求输入图片尺寸一样！</p>
+<p>有个很好玩的FCN（全卷积网络）就是这样</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/" itemprop="url">Redis做缓存的一些问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-23T00:14:39+08:00">
+                2019-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/" class="leancloud_visitors" data-flag-title="Redis做缓存的一些问题">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>缓存雪崩、缓存穿透、缓存预热、缓存更新、缓存降级</p>
+<p>Redis做缓存是因为Redis访问快，如果客户端在Redis中找得到目标数据，那就不去mysql找了，分担了mysql压力，实现高并发要求</p>
+<p>一般缓存都是用户发起一次请求之后，再将该数据加载到缓存（并为该缓存expire一个有效期）</p>
+<p>但是缓存实现高并发会出现一堆问题</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/05/07/链表，栈，队列、树四种结构的构建方式的简单理解/#more" rel="contents">
+            <a class="btn" href="/2019/01/23/[object Object]/数据库与中间件/Redis做缓存的一些问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -495,7 +729,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/03/VMware虚拟机ping不通主机/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/20/[object Object]/人工智能/炼丹小结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -514,7 +748,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/05/03/VMware虚拟机ping不通主机/" itemprop="url">VMware虚拟机ping不通主机</a></h1>
+                <a class="post-title-link" href="/2019/01/20/[object Object]/人工智能/炼丹小结/" itemprop="url">炼丹小结</a></h1>
         
 
         <div class="post-meta">
@@ -529,8 +763,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-03T22:36:20+08:00">
-                2016-05-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-20T18:22:59+08:00">
+                2019-01-20
               </time>
             
 
@@ -552,8 +786,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
                   </a>
                 </span>
 
@@ -570,8 +815,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/05/03/VMware虚拟机ping不通主机/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/03/VMware虚拟机ping不通主机/" itemprop="commentCount"></span>
+                <a href="/2019/01/20/[object Object]/人工智能/炼丹小结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/20/[object Object]/人工智能/炼丹小结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -580,7 +825,7 @@
 
           
           
-             <span id="/2016/05/03/VMware虚拟机ping不通主机/" class="leancloud_visitors" data-flag-title="VMware虚拟机ping不通主机">
+             <span id="/2019/01/20/[object Object]/人工智能/炼丹小结/" class="leancloud_visitors" data-flag-title="炼丹小结">
 
 
              </span>
@@ -608,10 +853,67 @@
       
         
           
-            <p>待解决  </p>
-<hr>
-<p>5月4日更新 </p>
-<p>问题解决了 <img src="http://aisakaki.com/wp-content/uploads/2016/05/image-2-300x298.jpeg" alt="image"> 使用桥接模式需要dhclient自动获取IP地址………..</p>
+            <ol>
+<li><p>40层网络的参数比4层网络多10倍 因为每层都有参数<br>所以batch size也要相应的减小！不然太大了</p>
+</li>
+<li><p>train loss 一直处于一个摇摆（震荡）状态可能是学习率设置过大导致的</p>
+</li>
+<li><p>如何选择神经网络的自适应优化算法：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SGD：随机梯度下降</span><br><span class="line">SGD+Momentum: 基于动量的SGD（在SGD基础上做过优化）</span><br><span class="line">SGD+Nesterov+Momentum：基于动量，两步更新的SGD（在SGD+Momentum基础上做过优化）</span><br><span class="line">Adagrad：自适应地为各个参数分配不同学习速率</span><br><span class="line">Adadelta： 针对Adagrad问题，优化过的算法（在Adagrad基础上做过优化）</span><br><span class="line">RMSprop：对于循环神经网络（RNNs）是最好的优化器（在Adadelta基础上做过优化）</span><br><span class="line">Adam：对每个权值都计算自适应的学习速率（在RMSprop基础上做过优化）</span><br></pre></td></tr></table></figure>
+<p> 如果数据输入量很小，那就选一种自适应学习速率的方法（如Adam）。这样你就不用对学习速率进行调优，因为你的数据本来就小，NN学习耗时也小。这种情况你更应该关心网络分类的准确率；<br> 对于稀疏数据集，应该使用某种自适应学习率的方法（如Adam），且另一好处为不需要人为调整学习率，使用默认参数就可能获得最优值；<br> <strong>如果想使训练深层网络模型快速收敛或所构建的神经网络较为复杂，则应该使用自适应学习速率的方法</strong>（如Adam），通常它们收敛起来比较快，实际效果更优；</p>
+<p> Adam在不同超参数下的鲁棒性较好，<strong>不过有时可能需要调整下η值。Adam算法中的超参数β1和β2以及learning-rate也会显著影响模型，有时需要调试</strong>；</p>
+<p> RMSprop, Adadelta, 和 Adam 非常相似，在相同的情况下表现都很好，但偏置校验让Adam的效果稍微比RMSprop好一点；</p>
+<p> <strong>如果不知道为你的神经网络选择哪种优化算法，就直接选Adam</strong></p>
+<p> [Insofar, Adam might be the best overall choice.]</p>
+<p> 上面的结论都未必正确，重在自己的实践</p>
+<p> （本段总结自 <a href="https://www.jianshu.com/p/e8c2d0371c8a" target="_blank" rel="noopener">神经网络优化算法的选择</a>）</p>
+</li>
+<li><p>超参数搜索</p>
+<p>python有超参数自动搜索模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sklearn.model_selection</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/nwpuxuezha/p/6618205.html" target="_blank" rel="noopener">Python超参数自动搜索模块GridSearchCV上手</a><br><a href="https://www.jianshu.com/p/5378ef009cae" target="_blank" rel="noopener">ML模型超参数调节：网格搜索、随机搜索与贝叶斯优化</a></p>
+</li>
+<li><p>基于要解决的问题类别,神经网络的最后一层通常是确定的.</p>
+<ul>
+<li><strong>回归</strong>问题: 最后使用一个有输出的线性层,输出的值是连续的.</li>
+<li><strong>二分类</strong>问题:最后使用sigmoid激活函数, 因为它的输出值不是接近1就是接近0</li>
+<li>对于<strong>多分类</strong>问题,网络最后使用softmax层. 它从前一先行层获取输入,并输出给定数量样例上的概率. (所有概率相加的总和必然为1)<br>(当然如果二分类问题想要输出概率也可以用softmax)</li>
+</ul>
+</li>
+<li><p><strong>BN（Batch Normalization）是个好文明</strong></p>
+</li>
+<li><p>损失函数选择<br>对于回归问题,通常使用MSE(均方误差)<br>对于分类问题,通常使用交叉熵<br>(MSE对于每一个输出的结果都非常看重，而交叉熵只对正确分类的结果看重。)<br>其他的</p>
+<p>| 损失函数           | 通常用法 |<br>| —- | —- |<br>| L1 loss            | 通常作为正则化器使用 |<br>| MSE loss           | 均方误差损失,用于回归问题的损失函数 |<br>| Cross-entropy loss | 交叉熵损失,用于二分类和多分类问题  |<br>| NLL Loss           | 用于分类问题,允许用户使用特定的权重处理不平衡数据集 |<br>| NLL Loss2d         | 用于像素级分类,通常和图像分割问题有关|<br><strong>注意</strong>：<br>①<strong>若使用了nn.CrossEntropyLoss() 函数，则最后一层就不应该使用softmax函数！</strong><br>这个函数包含了<strong>log_softmax</strong>，其操作为“使用对数似然损失函数和log_softmax激活函数进行DNN分类输出”  CrossEntropyLoss()=log_softmax() + NLLLoss()<br><strong>但是，使用log_softmax运算是在output输出进入损失函数的时候。如果要获取输出概率，那就得在得到outputs后，在网络外面单独求一个<code>F.softmax(outputs.data,dim=1)</code></strong>(但若使用log_softmax() + NLLLoss()， log_softmax函数是在网络里的（获得网络输出之前），所以不需要在网络外面单独求softmax)<br>②损失函数 CrossEntropyLoss() 与 NLLLoss() 类似<br>③<strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong>  </p>
+</li>
+<li><p>log_softmax和softmax的选择<br><strong>损失函数NLLLoss()</strong> 的 输入 是一个对数概率向量和一个目标标签. 它不会为我们计算对数概率，<strong>适合最后一层是log_softmax()的网络.</strong><br>用了log_softmax得到的结果是对softmax求次对数（并非采用直接求 ，而是一种较快的方式）</p>
+</li>
+<li><p>一般用loader加载的时候，num_workers使用少于机器内核数量的woker是一个通用的实践</p>
+</li>
+<li><p>权值增速比 0.01比较好</p>
+</li>
+<li><p><strong>网络结构中的参数计算</strong><br> O=输出图像的尺寸 output<br> I=输入图像的尺寸 input<br> K=卷积层的核尺寸 kernal<br> N=核数量 number of kernal<br> S=移动步长 strike<br> P =填充数 padding<br> ①想要con2d卷积出来的图片尺寸没有变化, </p>
+<script type="math/tex; mode=display">P=\frac{K-1}{2}</script><p> 每层连接的参数计算：<a href="https://blog.csdn.net/guo1988kui/article/details/78480282" target="_blank" rel="noopener">详细解释CNN卷积神经网络各层的参数和链接个数的计算</a><br> ②输出图像的大小计算<br> 输出图像尺寸的计算公式如下：</p>
+<script type="math/tex; mode=display">O=\frac{I-K+2P}{S}+1</script></li>
+<li><p>Softmax 是神经网络中另一种输出层函数，计算输出层的值。主要用于神经网络最后一层，作为输出层进行多分类，是Logistic二分类的推广。也可以单独使用。</p>
+</li>
+<li><p>batch size的选择<br> <a href="https://www.jiqizhixin.com/articles/2018-07-12-4" target="_blank" rel="noopener">训练神经网络时如何确定batch size</a></p>
+</li>
+<li><p>学习率变更策略<br> <a href="https://www.jianshu.com/p/1f943de39582" target="_blank" rel="noopener">如何选择最适合你的学习率变更策略</a></p>
+</li>
+<li><p>神经网络权值初始化</p>
+<p> 神经网络初始权值不能全部设置一样，否则学不到<br> <a href="https://blog.csdn.net/u012328159/article/details/80025785" target="_blank" rel="noopener">深度学习中神经网络的几种权重初始化方法</a></p>
+</li>
+<li><p>常见学习率选择策略</p>
+<p>| 策略              | 解释 |<br>| —- | —-|<br>| StepLR            | 步长规则，学习率倍数变化(步长内变gamma倍)  |<br>| MultiStepLR       | 步长不规则，学习率倍数变化 |<br>| ExponentialLR     | 步长为1，学习率乘数变化 |<br>| ReduceLROnPlateau | 常用。当特定的度量指标，如训练损失、验证损失或准确率不再变化时，学习率就会改变。通用实践是降为原来的1/2~1/10 |</p>
+</li>
+<li><p>池化/卷积 与 ReLU的顺序<br> 在最大池化之后或者在应用卷积<strong>之后使用非线性层</strong>是通用的最佳实践</p>
+</li>
+<li><p>FC, dropput都是可以有多层，不是只能用一层</p>
+</li>
+<li><p>深度学习的11个常见陷阱应对方法总结</p>
+<p> <a href="https://36kr.com/p/5091825" target="_blank" rel="noopener">神经网络 11 大常见陷阱及应对方法</a></p>
+</li>
+</ol>
 
           
         
@@ -660,7 +962,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/05/01/test-image/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/16/[object Object]/博客/imageTest/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -679,7 +981,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/05/01/test-image/" itemprop="url">Test image</a></h1>
+                <a class="post-title-link" href="/2019/01/16/[object Object]/博客/imageTest/" itemprop="url">imageTest</a></h1>
         
 
         <div class="post-meta">
@@ -694,8 +996,153 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-01T15:21:43+08:00">
-                2016-05-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-16T09:55:42+08:00">
+                2019-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/16/[object Object]/博客/imageTest/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/16/[object Object]/博客/imageTest/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/01/16/[object Object]/博客/imageTest/" class="leancloud_visitors" data-flag-title="imageTest">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>图片测试</p>
+<p></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/16/[object Object]/博客/imageTest/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/" itemprop="url">2080Ti上一体式水冷</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-16T09:32:57+08:00">
+                2019-01-16
               </time>
             
 
@@ -717,8 +1164,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
+                  <a href="/categories/硬件/" itemprop="url" rel="index">
+                    <span itemprop="name">硬件</span>
                   </a>
                 </span>
 
@@ -735,8 +1182,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/05/01/test-image/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/05/01/test-image/" itemprop="commentCount"></span>
+                <a href="/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -745,7 +1192,185 @@
 
           
           
-             <span id="/2016/05/01/test-image/" class="leancloud_visitors" data-flag-title="Test image">
+             <span id="/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/" class="leancloud_visitors" data-flag-title="2080Ti上一体式水冷">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>前段时间买了非公的2080Ti，感觉自带的散热不太行，玩游戏温度飙升到84度直接撞温度墙。于是我搞了个 ocool的北极狼一体式水冷（花了我1300大洋，这水冷都够我买一张1060了orz）</p>
+<p>自己动手，丰衣足食~</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/16/[object Object]/硬件/2080Ti上一体式水冷/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" itemprop="url">深度学习实践结构性经验总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T16:34:33+08:00">
+                2019-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" class="leancloud_visitors" data-flag-title="深度学习实践结构性经验总结">
 
 
              </span>
@@ -773,7 +1398,56 @@
       
         
           
-            <p><img src="http://aisakaki.com/wp-content/uploads/2016/05/image-1.jpeg" alt="image"> 一脸懵逼</p>
+            <h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
+<li>定义网络结构</li>
+<li>定义数据变换</li>
+<li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
+<li><p>读取训练集与测试集（自定义数据集，多种读入方式等..）<br><strong>开始训练</strong>：</p>
+<ul>
+<li><p><strong>训练一个Epoch</strong><br>自适应学习率更新<br><strong>循环：训练一个batch——从dataloader读取一个mini batch</strong></p>
+<ul>
+<li>转换为cuda变量</li>
+<li>梯度清0<br><strong>FORWARD</strong></li>
+<li>将数据输入模型得到结果</li>
+<li>根据结果得到预测标签</li>
+<li>计算train loss<br><strong>BACKWARD</strong></li>
+<li>反向计算梯度</li>
+<li>优化器更新<br><strong>统计本batch</strong></li>
+</ul>
+</li>
+<li><strong>统计本epoch</strong></li>
+</ul>
+</li>
+</ul>
+<p>【注】<br>①如果是<strong>测试</strong>，则取消[自适应学习率更新]和[BACKWARD]的步骤即可<br><strong>训练和测试可以结合起来</strong> train=datalodaer(trainset…),test=dataloader(testset…)<br>则在开始训练一个epoch的时候，加一个循环 <code>for phase in [train,test]</code>即可，后面的在测试不需要的步骤作判断<code>if phase is train: do</code>就行<br>②可以设置一个全局的最优准确率，然后记录下来最佳准确率，并储存当时的<strong>最优模型</strong>权重<br>③注意<strong>设置模型模式</strong>，<code>model.train(True)</code>设置为训练模式<code>model.eval(True)</code>设置为测试模式</p>
+<h2 id="定义网络结构"><a href="#定义网络结构" class="headerlink" title="定义网络结构"></a>定义网络结构</h2><p>在定义网络结构的时候,如下形式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义的网络结构类必须继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 注意传入参数self到结构函数</span></span><br><span class="line">    <span class="comment"># init中的参数为初始化网络的参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__</span><br><span class="line">        <span class="comment"># 定义网络</span></span><br><span class="line">        <span class="comment"># 单个定义</span></span><br><span class="line">        self.s1 = nn.Conv2d(......)</span><br><span class="line">        <span class="comment"># 或集合定义</span></span><br><span class="line">        self.s1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(......),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 全连接层(对于卷积神经网络用于分类）</span></span><br><span class="line">        self.fc = nn.Linear()</span><br><span class="line">    <span class="comment"># 注意传入参数self和x（输入矩阵）！</span></span><br><span class="line">    <span class="comment"># forward中的参数为训练的时候要传入的参数 比如求output = model(x)时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        <span class="comment"># 经过特征提取层后，要扁平化才能进入fc层！</span></span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> F.softmax(x)</span><br></pre></td></tr></table></figure></p>
+<p>注意，一个误区：定义网络是定义网络的结构！输入一般输入一个batch，对该batch的处理为网络的内容</p>
+<p>nn包含了所有的层结构定义组件, F包含了所有的函数, nn中的每个组件都需要添加到nn.Module容器中才能使用. def参数中的self即指向nn.Module(指向本类,而本类继承自nn.Module), 通过定义self.diyiceng = nn.Conv2d(xxx) 即将组件添加到了nn.Module容器中 </p>
+<h2 id="nn-Sequential-组合一系列组件定义"><a href="#nn-Sequential-组合一系列组件定义" class="headerlink" title="nn.Sequential 组合一系列组件定义"></a><strong>nn.Sequential</strong> 组合一系列组件定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#eg</span></span><br><span class="line">self.conv2 = nn.Sequential( </span><br><span class="line">	nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">	nn.ReLU(),  </span><br><span class="line">	nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">)  </span><br><span class="line"><span class="comment">#这里就将三个组件组合成一个组件了</span></span><br><span class="line"><span class="comment">#注意里面直接写组件组成即可 不是变量定义</span></span><br></pre></td></tr></table></figure>
+<h2 id="建立深度学习模型一般实践"><a href="#建立深度学习模型一般实践" class="headerlink" title="建立深度学习模型一般实践"></a>建立深度学习模型一般实践</h2><p><strong>数据预处理与特征工程</strong></p>
+<ul>
+<li>向量化</li>
+<li>值归一化</li>
+<li>处理缺省值</li>
+<li>特征工程<br><strong>过拟合</strong></li>
+<li>获取更多数据、数据增强等</li>
+<li>缩小网络规模</li>
+<li>应用权重正则化</li>
+<li>应用dropout<br><strong>欠拟合</strong></li>
+<li>获取更多数据</li>
+<li>增加权重</li>
+</ul>
+<p><strong>一般流程</strong></p>
+<ul>
+<li>问题定义与数据集创建</li>
+<li>选择模型评估标准</li>
+<li>评估协议（测试集 验证集）</li>
+<li>准备数据</li>
+<li>模型基线（创建一个非常简单的模型来打破基线分数 如二分类为0.5)</li>
+<li>训练大达到过拟合</li>
+<li>应用正则化</li>
+<li>学习率选择策略</li>
+</ul>
 
           
         
@@ -822,7 +1496,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/04/30/sever/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/02/[object Object]/数据库与中间件/Redis/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -841,7 +1515,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/04/30/sever/" itemprop="url">Sever.</a></h1>
+                <a class="post-title-link" href="/2019/01/02/[object Object]/数据库与中间件/Redis/" itemprop="url">Redis</a></h1>
         
 
         <div class="post-meta">
@@ -856,8 +1530,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-30T23:10:05+08:00">
-                2016-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T17:12:14+08:00">
+                2019-01-02
               </time>
             
 
@@ -879,8 +1553,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
                   </a>
                 </span>
 
@@ -897,8 +1571,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/04/30/sever/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/04/30/sever/" itemprop="commentCount"></span>
+                <a href="/2019/01/02/[object Object]/数据库与中间件/Redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/02/[object Object]/数据库与中间件/Redis/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -907,7 +1581,7 @@
 
           
           
-             <span id="/2016/04/30/sever/" class="leancloud_visitors" data-flag-title="Sever.">
+             <span id="/2019/01/02/[object Object]/数据库与中间件/Redis/" class="leancloud_visitors" data-flag-title="Redis">
 
 
              </span>
@@ -934,9 +1608,14 @@
 
       
         
-          
-            
-          
+          <p>非关系型数据库，有字符串独立字典（有序无序）六种储存关系</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/02/[object Object]/数据库与中间件/Redis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -983,7 +1662,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2016/04/30/hello-world-2/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1002,7 +1681,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/04/30/hello-world-2/" itemprop="url">hello world</a></h1>
+                <a class="post-title-link" href="/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/" itemprop="url">向目标函数加入正则的具体实现</a></h1>
         
 
         <div class="post-meta">
@@ -1017,8 +1696,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-30T18:11:27+08:00">
-                2016-04-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-01T11:04:42+08:00">
+                2018-12-01
               </time>
             
 
@@ -1040,8 +1719,19 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
                   </a>
                 </span>
 
@@ -1058,8 +1748,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/04/30/hello-world-2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/04/30/hello-world-2/" itemprop="commentCount"></span>
+                <a href="/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1068,7 +1758,7 @@
 
           
           
-             <span id="/2016/04/30/hello-world-2/" class="leancloud_visitors" data-flag-title="hello world">
+             <span id="/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/" class="leancloud_visitors" data-flag-title="向目标函数加入正则的具体实现">
 
 
              </span>
@@ -1096,7 +1786,17 @@
       
         
           
-            <p>from aisaka</p>
+            <ol>
+<li><p>在数据经过模型之后</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">l1, l2 = torch.tensor(<span class="number">0</span>), torch.tensor(<span class="number">0</span>)</span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = model(input)</span><br><span class="line"><span class="keyword">for</span> params <span class="keyword">in</span> model.parameters():</span><br><span class="line">    l1 += torch.norm(param,<span class="number">1</span>)  <span class="comment">#torch.norm(param,1)为求param的l1范数</span></span><br><span class="line">    l2 += torch.norm(param,<span class="number">2</span>)  <span class="comment">#torch.norm(param,2)为求param的l2范数</span></span><br><span class="line">loss_origin = loss(output,label)</span><br><span class="line">loss = loss_origin + l1 + l2</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+<p>ATT：<strong>不能</strong>使用在模型中输出！</p>
+<p>使用以下这种方法是输出的中间层的输出，而不是参数！</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#错误示范</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        self.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">16</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input)</span>:</span></span><br><span class="line">        linear1_out = self.linear1(input)</span><br><span class="line">        linear2_out = self.linear2(linear1_out)</span><br><span class="line">        <span class="keyword">return</span> linear1_out,linear2_out</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用pytorch自带的权重衰减</p>
+<p><code>torch.optim</code>自带的参数<code>weight_decay</code>可以设置权值衰减率，即可以实现L2正则化</p>
+</li>
+</ol>
 
           
         
@@ -1136,7 +1836,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span>
+    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1184,7 +1884,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">157</span>
+                  <span class="site-state-item-count">222</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1195,7 +1895,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1231,7 +1931,7 @@
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://real-neo.me/" title="question" target="_blank">question</a>
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
@@ -1252,6 +1952,14 @@
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
                   </li>
                 
               </ul>

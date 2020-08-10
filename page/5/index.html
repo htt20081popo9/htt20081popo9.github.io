@@ -114,7 +114,7 @@
 <meta name="description" content="心情、思考、时光">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/page/5/index.html">
+<meta property="og:url" content="https://aisaka.cloud/page/5/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="心情、思考、时光">
 <meta property="og:locale" content="zh-Hans">
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/page/5/">
+  <link rel="canonical" href="https://aisaka.cloud/page/5/">
 
 
 
@@ -316,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/17/提升方法/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/04/17/[object Object]/程序语言/泛型/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -335,7 +335,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/17/提升方法/" itemprop="url">Boosting(AdaBoost、DBT、GBDT)</a></h1>
+                <a class="post-title-link" href="/2020/04/17/[object Object]/程序语言/泛型/" itemprop="url">泛型</a></h1>
         
 
         <div class="post-meta">
@@ -350,8 +350,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-17T17:11:27+08:00">
-                2019-11-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-17T17:54:17+08:00">
+                2020-04-17
               </time>
             
 
@@ -373,8 +373,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
+                  <a href="/categories/程序语言/" itemprop="url" rel="index">
+                    <span itemprop="name">程序语言</span>
                   </a>
                 </span>
 
@@ -384,8 +384,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -402,8 +402,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/17/提升方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/17/提升方法/" itemprop="commentCount"></span>
+                <a href="/2020/04/17/[object Object]/程序语言/泛型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/17/[object Object]/程序语言/泛型/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -412,7 +412,7 @@
 
           
           
-             <span id="/2019/11/17/提升方法/" class="leancloud_visitors" data-flag-title="Boosting(AdaBoost、DBT、GBDT)">
+             <span id="/2020/04/17/[object Object]/程序语言/泛型/" class="leancloud_visitors" data-flag-title="泛型">
 
 
              </span>
@@ -439,15 +439,10 @@
 
       
         
-          <p><em>Boost算法在我的黑白判项目，动态项目都有用到，而且在实际中也非常常用，是一种非常有效的算法</em></p>
-<h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p><strong>思想：</strong>对于一个训练集，弱分类器可以比较容易地学习到比较粗糙的分类问题，而一个复杂的分类问题很难学习。于是我们想到<strong>将复杂的分类问题分而治之</strong>，由<strong>每个</strong>弱分类器负责学习一个相对比较简单的分类问题，于是<strong>每个弱分类器各有所长</strong>，<strong>将多个弱分类器组合</strong>成一个强分类器，就可以解决复杂分类问题。</p>
-<p><strong>具体地，</strong>我们<strong>在训练集上迭代学习多个弱分类器</strong>，<strong>每一次迭代学习出一个弱分类器</strong>，这个弱分类器对<strong>部分样本</strong>有较好的分类作用，而对有些样本分类效果很差。于是我们加大分类效果差的样本的权值，降低分类效果好的样本的权值，以学习一个新的弱分类器来分开它们（<strong>在整个训练集上学习</strong>），它能够较好的分出这些效果较差的样本中的<strong>一部分</strong>样本。于是为了分开那一部分类效果差的样本，继续迭代$\cdots\cdots$最后以每一个分类器的分类效果为依据，设计弱分类器之间的组合，最终得到强分类器</p>
-<p><strong>根据这个思想，Boost方法要考虑两个问题：</strong></p>
-<p>①每一轮<strong>训练数据的权值</strong>（广义的权值，即每个样本重要性）如何改变</p>
-<p>②<strong>如何将弱分类器组合</strong>成一个强分类器</p>
+          <div style="text-align: center"><i>JAVA泛型</i></div>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/17/提升方法/#more" rel="contents">
+            <a class="btn" href="/2020/04/17/[object Object]/程序语言/泛型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -498,7 +493,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/13/决策树/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/04/02/[object Object]/算法与数据结构/递归再探/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -517,7 +512,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/13/决策树/" itemprop="url">决策树</a></h1>
+                <a class="post-title-link" href="/2020/04/02/[object Object]/算法与数据结构/递归再探/" itemprop="url">递归设计再探</a></h1>
         
 
         <div class="post-meta">
@@ -532,8 +527,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-13T15:08:22+08:00">
-                2019-11-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-02T10:38:33+08:00">
+                2020-04-02
               </time>
             
 
@@ -555,19 +550,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
                   </a>
                 </span>
 
@@ -584,8 +568,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/13/决策树/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/13/决策树/" itemprop="commentCount"></span>
+                <a href="/2020/04/02/[object Object]/算法与数据结构/递归再探/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/02/[object Object]/算法与数据结构/递归再探/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -594,7 +578,7 @@
 
           
           
-             <span id="/2019/11/13/决策树/" class="leancloud_visitors" data-flag-title="决策树">
+             <span id="/2020/04/02/[object Object]/算法与数据结构/递归再探/" class="leancloud_visitors" data-flag-title="递归设计再探">
 
 
              </span>
@@ -621,12 +605,10 @@
 
       
         
-          <h2 id="Decision-Tree"><a href="#Decision-Tree" class="headerlink" title="Decision Tree"></a>Decision Tree</h2><p>机器学习最基本模型之一，DT</p>
-<p>决策树可以看成路径的集合，路径的集合<strong>可以看成$if-then$规则的集合</strong>，内部结点表示特征或属性，叶结点表示一个类别（结论）。决策树的$if-then$规则集合是<strong>互斥且完备</strong>的（每一个实例都被包含在DT里）</p>
-<p>决策树也可以对应于一个<strong>条件概率分布</strong></p>
+          <p>再探</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/13/决策树/#more" rel="contents">
+            <a class="btn" href="/2020/04/02/[object Object]/算法与数据结构/递归再探/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -677,7 +659,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/12/非线性支持向量机/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -696,7 +678,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/12/非线性支持向量机/" itemprop="url">非线性支持向量机与序列最小最优化算法</a></h1>
+                <a class="post-title-link" href="/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/" itemprop="url">C-回顾一些细节问题</a></h1>
         
 
         <div class="post-meta">
@@ -711,8 +693,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-12T14:18:03+08:00">
-                2019-11-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-18T17:41:06+08:00">
+                2020-03-18
               </time>
             
 
@@ -734,8 +716,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
+                  <a href="/categories/程序语言/" itemprop="url" rel="index">
+                    <span itemprop="name">程序语言</span>
                   </a>
                 </span>
 
@@ -745,8 +727,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/程序语言/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
                   </a>
                 </span>
 
@@ -763,8 +745,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/12/非线性支持向量机/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/12/非线性支持向量机/" itemprop="commentCount"></span>
+                <a href="/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -773,7 +755,7 @@
 
           
           
-             <span id="/2019/11/12/非线性支持向量机/" class="leancloud_visitors" data-flag-title="非线性支持向量机与序列最小最优化算法">
+             <span id="/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/" class="leancloud_visitors" data-flag-title="C-回顾一些细节问题">
 
 
              </span>
@@ -800,11 +782,10 @@
 
       
         
-          <p>（只突出与线性SVM不同的地方，具体的推导大部分过程相似见前面的讲线性SVM的文章）</p>
-<p>线性（可分）SVM的分类平面是线性的，这就无法对如椭圆形特征空间进行分类，于是我们想到<strong>将原来特征空间$\mathbb X$（欧式空间$\mathbb R^n$或离散集合）上的非线性问题（超曲面模型），映射到新的高维特征空间$\mathbb H$（希尔伯特空间）成为线性可分（超平面模型）问题</strong>，这样我们就可以对新的线性可分的特征空间使用线性支持向量机的学习算法来解决非线性支持向量机的学习问题。<strong>（核技巧思想一）</strong></p>
+          <p>挺久没写C了，回顾一些易错的细节</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/12/非线性支持向量机/#more" rel="contents">
+            <a class="btn" href="/2020/03/18/[object Object]/程序语言/C-回顾一些细节问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -855,7 +836,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/10/Unity2D基础/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -874,7 +855,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/10/Unity2D基础/" itemprop="url">Unity2D基础</a></h1>
+                <a class="post-title-link" href="/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/" itemprop="url">JAVA链表基本操作</a></h1>
         
 
         <div class="post-meta">
@@ -889,8 +870,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-10T11:42:45+08:00">
-                2019-11-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-14T22:22:25+08:00">
+                2020-03-14
               </time>
             
 
@@ -912,19 +893,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/" itemprop="url" rel="index">
-                    <span itemprop="name">开发</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/Unity/" itemprop="url" rel="index">
-                    <span itemprop="name">Unity</span>
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
                   </a>
                 </span>
 
@@ -941,8 +911,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/10/Unity2D基础/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/10/Unity2D基础/" itemprop="commentCount"></span>
+                <a href="/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -951,7 +921,7 @@
 
           
           
-             <span id="/2019/11/10/Unity2D基础/" class="leancloud_visitors" data-flag-title="Unity2D基础">
+             <span id="/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/" class="leancloud_visitors" data-flag-title="JAVA链表基本操作">
 
 
              </span>
@@ -978,12 +948,10 @@
 
       
         
-          <p><em>施工中</em></p>
-<p>如行走，跌倒等动画是绘图之后创建unity2d动画素材，导入后进行裁剪和选取动画导入的</p>
-<p>给实体分组归类是好习惯，在Hierarchy建立一个新的empty game object：<code>create object</code>，然后将组件拖入即可</p>
+          <p>和C版对应</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/10/Unity2D基础/#more" rel="contents">
+            <a class="btn" href="/2020/03/14/[object Object]/算法与数据结构/JAVA链表基本操作/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1034,7 +1002,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/10/天气之子2/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/03/14/[object Object]/算法与数据结构/链表基本操作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1053,7 +1021,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/10/天气之子2/" itemprop="url">夢に僕らで帆を張って　来るべき日のために夜を越え</a></h1>
+                <a class="post-title-link" href="/2020/03/14/[object Object]/算法与数据结构/链表基本操作/" itemprop="url">链表基本操作</a></h1>
         
 
         <div class="post-meta">
@@ -1068,8 +1036,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-10T00:59:52+08:00">
-                2019-11-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-14T20:22:06+08:00">
+                2020-03-14
               </time>
             
 
@@ -1091,8 +1059,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Anime/" itemprop="url" rel="index">
-                    <span itemprop="name">Anime</span>
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
                   </a>
                 </span>
 
@@ -1109,8 +1077,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/10/天气之子2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/10/天气之子2/" itemprop="commentCount"></span>
+                <a href="/2020/03/14/[object Object]/算法与数据结构/链表基本操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/14/[object Object]/算法与数据结构/链表基本操作/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1119,7 +1087,7 @@
 
           
           
-             <span id="/2019/11/10/天气之子2/" class="leancloud_visitors" data-flag-title="夢に僕らで帆を張って　来るべき日のために夜を越え">
+             <span id="/2020/03/14/[object Object]/算法与数据结构/链表基本操作/" class="leancloud_visitors" data-flag-title="链表基本操作">
 
 
              </span>
@@ -1146,198 +1114,10 @@
 
       
         
-          
-            <div align="MIDDLE">
-<iframe src="//player.bilibili.com/player.html?aid=73527359&cid=125772545&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="564"> 
-</iframe>
-</div>
-
-<div style="text-align: center">当大地渐渐失去了重力，在千年一遇的今天</div>
-<div style="text-align: center">乘着花火的声音，我们离开这颗星球吧</div>
-<div style="text-align: center">在他睁开眼的那一瞬间，向着那无法返回的地方</div>
-<div style="text-align: center">齐声喊着「1、2...」跳出大地，向着其他行星前进</div>
-<div style="text-align: center">........</div>
-<div style="text-align: center"><strong>出发吧！</strong></div>
-<div style="text-align: center"><strong>出发吧！</strong></div>
-<div style="text-align: center"><strong>出发吧！</strong></div>
-<div style="text-align: center"><strong>为了那个梦我们扬帆起航、为了理应到来的那天跨越无尽黑夜</strong></div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/07/支持向量机（一）/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/07/支持向量机（一）/" itemprop="url">线性（可分）支持向量机</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-07T08:38:10+08:00">
-                2019-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/11/07/支持向量机（一）/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/07/支持向量机（一）/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/11/07/支持向量机（一）/" class="leancloud_visitors" data-flag-title="线性（可分）支持向量机">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Support-Vector-Machines"><a href="#Support-Vector-Machines" class="headerlink" title="Support Vector Machines"></a>Support Vector Machines</h2><p>支持向量机，SVM</p>
-<p>SVM应用于二分类问题。</p>
-<p>输入空间和特征空间为两个不同的空间。输入空间为欧式空间或离散集合，特征空间为欧式空间或希尔伯特空间。</p>
-<p>线性可分SVM和线性SVM在两个空间的元素一一对应，非线性SVM是非线性映射。</p>
+          <p>建输增删查改反</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/07/支持向量机（一）/#more" rel="contents">
+            <a class="btn" href="/2020/03/14/[object Object]/算法与数据结构/链表基本操作/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1388,7 +1168,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/06/逻辑斯谛回归模型/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/03/12/[object Object]/程序语言/JUC组件实践总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1407,7 +1187,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/06/逻辑斯谛回归模型/" itemprop="url">逻辑斯谛回归模型</a></h1>
+                <a class="post-title-link" href="/2020/03/12/[object Object]/程序语言/JUC组件实践总结/" itemprop="url">JUC组件实践总结</a></h1>
         
 
         <div class="post-meta">
@@ -1422,8 +1202,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-06T09:10:12+08:00">
-                2019-11-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-12T22:45:05+08:00">
+                2020-03-12
               </time>
             
 
@@ -1445,8 +1225,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
+                  <a href="/categories/程序语言/" itemprop="url" rel="index">
+                    <span itemprop="name">程序语言</span>
                   </a>
                 </span>
 
@@ -1456,8 +1236,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
                   </a>
                 </span>
 
@@ -1474,8 +1254,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/06/逻辑斯谛回归模型/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/06/逻辑斯谛回归模型/" itemprop="commentCount"></span>
+                <a href="/2020/03/12/[object Object]/程序语言/JUC组件实践总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/12/[object Object]/程序语言/JUC组件实践总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1484,7 +1264,7 @@
 
           
           
-             <span id="/2019/11/06/逻辑斯谛回归模型/" class="leancloud_visitors" data-flag-title="逻辑斯谛回归模型">
+             <span id="/2020/03/12/[object Object]/程序语言/JUC组件实践总结/" class="leancloud_visitors" data-flag-title="JUC组件实践总结">
 
 
              </span>
@@ -1511,14 +1291,10 @@
 
       
         
-          <h2 id="Binomial-Logistic-Regression-Model"><a href="#Binomial-Logistic-Regression-Model" class="headerlink" title="Binomial Logistic Regression Model"></a>Binomial Logistic Regression Model</h2><p>LR是最基本的模型之一。</p>
-<p>二项逻辑斯谛回归模型</p>
-<script type="math/tex; mode=display">
-P(Y=1|x)=\frac{e^{wx+b}}{1+e^{wx+b}}</script><script type="math/tex; mode=display">
-P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1\}$为输出，$w∈\mathbb R^n$和$b∈R$是参数，$w$为权值，$b$为偏置，$wx$是$w·x$的简写，为内积</p>
+          <p>JUC组件总结</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/06/逻辑斯谛回归模型/#more" rel="contents">
+            <a class="btn" href="/2020/03/12/[object Object]/程序语言/JUC组件实践总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1569,7 +1345,7 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/11/05/拉格朗日对偶性/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/03/10/[object Object]/日记/季节/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1588,7 +1364,7 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/05/拉格朗日对偶性/" itemprop="url">拉格朗日乘子与对偶性</a></h1>
+                <a class="post-title-link" href="/2020/03/10/[object Object]/日记/季节/" itemprop="url">季节</a></h1>
         
 
         <div class="post-meta">
@@ -1603,8 +1379,8 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-05T17:27:53+08:00">
-                2019-11-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-10T19:25:38+08:00">
+                2020-03-10
               </time>
             
 
@@ -1626,19 +1402,8 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
                   </a>
                 </span>
 
@@ -1655,8 +1420,8 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/05/拉格朗日对偶性/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/05/拉格朗日对偶性/" itemprop="commentCount"></span>
+                <a href="/2020/03/10/[object Object]/日记/季节/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/10/[object Object]/日记/季节/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1665,7 +1430,7 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
 
           
           
-             <span id="/2019/11/05/拉格朗日对偶性/" class="leancloud_visitors" data-flag-title="拉格朗日乘子与对偶性">
+             <span id="/2020/03/10/[object Object]/日记/季节/" class="leancloud_visitors" data-flag-title="季节">
 
 
              </span>
@@ -1692,14 +1457,176 @@ P(Y=0|x)=\frac{1}{1+e^{wx+b}}</script><p>$x∈\mathbb R^n$为输入，$Y∈\{0,1
 
       
         
-          <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb R^n$上的连续可微函数。考虑约束最优化问题</p>
-<script type="math/tex; mode=display">
-\min_{x∈\mathbb R^n}f(x)</script><script type="math/tex; mode=display">
-s.t.\quad c_i(x)≤0,i=1,2,\cdots,k</script><script type="math/tex; mode=display">
-s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原始最优化问题或原始问题</p>
+          <div style="text-align: center"><i>-</i></div>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/05/拉格朗日对偶性/#more" rel="contents">
+            <a class="btn" href="/2020/03/10/[object Object]/日记/季节/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/02/23/[object Object]/硬件/我的硬件设备/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/23/[object Object]/硬件/我的硬件设备/" itemprop="url">我的硬件设备</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-23T23:21:26+08:00">
+                2020-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/硬件/" itemprop="url" rel="index">
+                    <span itemprop="name">硬件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/23/[object Object]/硬件/我的硬件设备/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/23/[object Object]/硬件/我的硬件设备/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2020/02/23/[object Object]/硬件/我的硬件设备/" class="leancloud_visitors" data-flag-title="我的硬件设备">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <div style="text-align: center"><i>这里记录我所使用的硬件，持续更新</i></div>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/23/[object Object]/硬件/我的硬件设备/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1741,7 +1668,7 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1789,7 +1716,7 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">157</span>
+                  <span class="site-state-item-count">222</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1800,7 +1727,7 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1836,7 +1763,7 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://real-neo.me/" title="question" target="_blank">question</a>
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
@@ -1857,6 +1784,14 @@ s.t.\quad h_j(x)=0,j=1,2,\cdots,l</script><p>称此约束最优化问题为原�
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
                   </li>
                 
               </ul>

@@ -114,7 +114,7 @@
 <meta name="description" content="心情、思考、时光">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/page/9/index.html">
+<meta property="og:url" content="https://aisaka.cloud/page/9/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="心情、思考、时光">
 <meta property="og:locale" content="zh-Hans">
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/page/9/">
+  <link rel="canonical" href="https://aisaka.cloud/page/9/">
 
 
 
@@ -316,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -335,7 +335,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/" itemprop="url">另一种提取中间层输出的办法与风格迁移的改进</a></h1>
+                <a class="post-title-link" href="/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/" itemprop="url">大数据相似度计算：局部敏感哈希算法</a></h1>
         
 
         <div class="post-meta">
@@ -350,8 +350,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-30T12:38:19+08:00">
-                2019-09-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:21:29+08:00">
+                2019-12-04
               </time>
             
 
@@ -384,8 +384,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
+                  <a href="/categories/人工智能/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
                   </a>
                 </span>
 
@@ -402,8 +402,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/" itemprop="commentCount"></span>
+                <a href="/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -412,7 +412,7 @@
 
           
           
-             <span id="/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/" class="leancloud_visitors" data-flag-title="另一种提取中间层输出的办法与风格迁移的改进">
+             <span id="/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/" class="leancloud_visitors" data-flag-title="大数据相似度计算：局部敏感哈希算法">
 
 
              </span>
@@ -439,21 +439,12 @@
 
       
         
-          <h2 id="提取中间层输出"><a href="#提取中间层输出" class="headerlink" title="提取中间层输出"></a>提取中间层输出</h2><p>除了在我前面的文章<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/">pytorch获取中间层参数、输出与可视化</a></p>
-<p>提到的使用hook函数获取中间层输出以外，还可以用更直接的办法，不使用hook函数</p>
-<p><strong>方法一：将model中的每层拆解出来依次在监控下让数据流过</strong><br>可以借助<code>isinstance(layer, nn.Conv2d)</code>判断层类型</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    layer_index = <span class="number">0</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> layer <span class="keyword">in</span> model:</span><br><span class="line">        <span class="keyword">if</span> layer_index == <span class="number">0</span>:</span><br><span class="line">            out = layer(img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            out = layer(out)</span><br><span class="line">        <span class="keyword">if</span> layer_index <span class="keyword">in</span> layers:</span><br><span class="line">            res.append(out)</span><br><span class="line">        layer_index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<p><strong>方法二：直接在定义模型的时候输出中间层数据</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        self.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">16</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input)</span>:</span></span><br><span class="line">        linear1_out = self.linear1(input)</span><br><span class="line">        linear2_out = self.linear2(linear1_out)</span><br><span class="line">        <span class="keyword">return</span> linear1_out,linear2_out</span><br></pre></td></tr></table></figure>
-<h2 id="对于噪点的改进-降噪"><a href="#对于噪点的改进-降噪" class="headerlink" title="对于噪点的改进-降噪"></a>对于噪点的改进-降噪</h2><p>修改方程，向方程中加入总变差损失(total variation denoising)</p>
-<script type="math/tex; mode=display">
-L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)+\gamma L_{noise}(C,G)</script><script type="math/tex; mode=display">
-L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TotalVariationLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        <span class="comment">#矩阵计算，一步到位</span></span><br><span class="line">        loss = <span class="number">0.5</span>*((inputs[:, :, <span class="number">1</span>:, :]-inputs[:, :, :<span class="number">-1</span>, :]).abs().mean()+(inputs[:, :, :, <span class="number">1</span>:]-inputs[:, :, :, :<span class="number">-1</span>]).abs().mean())</span><br><span class="line">        <span class="keyword">return</span> loss * self.weight</span><br></pre></td></tr></table></figure>
-<p> 在<code>loss function</code>中对应作修改</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#总变差损失计算</span></span><br><span class="line">    noise_loss = TotalVariationLoss(noise_weight)</span><br><span class="line">    noise_loss_this = noise_loss(input_param)</span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this + content_loss_this + noise_loss_this</span><br></pre></td></tr></table></figure>
+          <p>以前做过几万数据求杰卡德相似度，计算要很久，多等等也能接受</p>
+<p>但这次项目中有1000万样本…….每次比较计算杰卡德距离需要0.0015秒，算下来1000万样本需要计算………………………<strong>2379年</strong>（#捂脸）</p>
+<p>所以找到了局部敏感哈希算法，可以有效加速大数据相似度比较计算</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/09/30/另一种提取中间层输出的办法与风格迁移的改进/#more" rel="contents">
+            <a class="btn" href="/2019/12/04/[object Object]/人工智能/局部敏感哈希算法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -504,7 +495,7 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/26/拟牛顿法/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/12/02/[object Object]/工具/Fences—整理桌面利器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -523,7 +514,7 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/26/拟牛顿法/" itemprop="url">拟牛顿法</a></h1>
+                <a class="post-title-link" href="/2019/12/02/[object Object]/工具/Fences—整理桌面利器/" itemprop="url">Fences—整理桌面利器</a></h1>
         
 
         <div class="post-meta">
@@ -538,8 +529,8 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T16:04:01+08:00">
-                2019-09-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T22:13:45+08:00">
+                2019-12-02
               </time>
             
 
@@ -561,19 +552,8 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
                   </a>
                 </span>
 
@@ -590,8 +570,8 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/09/26/拟牛顿法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/拟牛顿法/" itemprop="commentCount"></span>
+                <a href="/2019/12/02/[object Object]/工具/Fences—整理桌面利器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/12/02/[object Object]/工具/Fences—整理桌面利器/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -600,7 +580,7 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
 
           
           
-             <span id="/2019/09/26/拟牛顿法/" class="leancloud_visitors" data-flag-title="拟牛顿法">
+             <span id="/2019/12/02/[object Object]/工具/Fences—整理桌面利器/" class="leancloud_visitors" data-flag-title="Fences—整理桌面利器">
 
 
              </span>
@@ -627,42 +607,16 @@ L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figu
 
       
         
-          
-            <h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>牛顿法中最困难的部分在于计算$H$和$H^{-1}$</p>
-<p>拟牛顿法的思想就是不用二阶偏导数而构造出可以<strong>近似</strong>$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数。但是不可能随便一个矩阵都能近似$H$，所以我们要给近似矩阵开一个条件，也就是下面的拟牛顿条件</p>
-<h2 id="拟牛顿条件"><a href="#拟牛顿条件" class="headerlink" title="拟牛顿条件"></a>拟牛顿条件</h2><p>由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了</p>
-<script type="math/tex; mode=display">
-\nabla f(x)=g_{k+1}+H_{k+1}(x-x_{k+1})</script><p>设$x=x_k$</p>
-<p>记$s_k=x_{k+1}-x_k,y_k=g_{k+1}-g_k$</p>
-<p>$\therefore y_k=H_{k+1}\cdot s_k$</p>
-<p>或$s_k=H^{-1}_{k+1}\cdot y_k$</p>
-<p>此即为拟牛顿条件</p>
-<p>选择合适的$B_{k+1}$做$H_{k+1}$的近似，合适的$D_{K+1}$做$H^{-1}_{k+1}$的近似，使他们满足拟牛顿条件即可</p>
-<p>相当于给拟合$H，H^{-1}$做了一个约束，使得在$f(x_k)与f(x_{k+1})$拟合矩阵与真实矩阵的一阶导相等</p>
-<p>以下不同的算法实际上就是<strong>设计拟合矩阵</strong>的算法</p>
-<h2 id="DFP算法"><a href="#DFP算法" class="headerlink" title="DFP算法"></a>DFP算法</h2><p>DFP算法通过迭代的方法对$D_{K+1}$做$H^{-1}_{k+1}$的近似</p>
-<p>主要设置$D_k$待定形式为</p>
-<script type="math/tex; mode=display">
-\Delta D_k=\alpha uu^T+\beta vv^T</script><p>推导过程类似BFGS算法，略，见下</p>
-<script type="math/tex; mode=display">
-D_{k+1}=D_{k}+\frac{s_ks_k^T}{s_k^Ty_k}-\frac{D_ky_ky_k^TD_k}{y_k^TD_ky_k},k=0,1,2,\cdots</script><p>一般$D_0=I$</p>
-<h2 id="BFGS算法"><a href="#BFGS算法" class="headerlink" title="BFGS算法"></a>BFGS算法</h2><p>BFGS算法通过迭代的方法对$B_{K+1}$做$H_{k+1}$的近似，直接逼近Hessian矩阵</p>
-<p>采用迭代法</p>
-<script type="math/tex; mode=display">
-B_{k+1}=B_k+\Delta B_k,k=0,1,2,\cdots</script><p>一般$B_0=I$</p>
-<p>设置$B_k$的待定形式</p>
-<script type="math/tex; mode=display">
-\Delta B_k=\alpha uu^T+\beta vv^T</script><p>$uu^T$和$vv^T$正好构成对称矩阵</p>
-<p>代入$y_k=H_{k+1}\cdot s_k$中（$B_{k+1}$逼近$H_{k+1}$）得</p>
-<script type="math/tex; mode=display">
-y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=display">
-=B_ks_k+\alpha u^Ts_k\cdot u+\beta v^ts_k\cdot v</script><p>$u^Ts_k$和$v^Ts_k$都是常数，不妨令$\alpha u^Ts_k=1,\beta v^ts_k=-1,u=y_k,v=B_ks_k$,</p>
-<script type="math/tex; mode=display">
-\therefore \alpha=\frac{1}{y_k^Ts_k},\beta=-\frac{1}{s_k^TB_ks_k}</script><script type="math/tex; mode=display">
-\therefore \Delta B_k=\frac{y_ky_k^T}{y_k^Ts_k}-\frac{B_ks_ks_k^TB_k}{s_k^TB_ks_k}</script><p>但由于必须储存$D$，使得储存开销很大，不适用大数据大型模型</p>
-<h2 id="LBFGS算法"><a href="#LBFGS算法" class="headerlink" title="LBFGS算法"></a>LBFGS算法</h2><p>通过避免储存完整的Hessian逆运算近似$D$,降低BFGS的储存代价</p>
-
-          
+          <p>由于我喜欢什么东西都扔桌面上，所以得经常定期清理一次桌面，但桌面清理干净了找很多东西又很不方便</p>
+<p>于是就经常对着凌乱的桌面感到绝望…</p>
+<p><img src="//aisaka.cloud/2019/12/02/[object Object]/工具/Fences—整理桌面利器/3.png" alt="3" style="zoom:50%;"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/02/[object Object]/工具/Fences—整理桌面利器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -709,7 +663,7 @@ y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=d
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/26/牛顿法求解非线性优化/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/29/[object Object]/日记/初雪/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -728,7 +682,7 @@ y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=d
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/26/牛顿法求解非线性优化/" itemprop="url">牛顿法求解非线性优化</a></h1>
+                <a class="post-title-link" href="/2019/11/29/[object Object]/日记/初雪/" itemprop="url">初雪</a></h1>
         
 
         <div class="post-meta">
@@ -743,1077 +697,8 @@ y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=d
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T10:02:25+08:00">
-                2019-09-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习与统计学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/26/牛顿法求解非线性优化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/牛顿法求解非线性优化/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/26/牛顿法求解非线性优化/" class="leancloud_visitors" data-flag-title="牛顿法求解非线性优化">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
-<h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
-<script type="math/tex; mode=display">
-\phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
-<script type="math/tex; mode=display">
-\phi'(x)=0</script><p>省略掉高阶项，则</p>
-<script type="math/tex; mode=display">
-f'(x_k)+f''(x_k)(x-x_k)=0</script><p>$\therefore$</p>
-<script type="math/tex; mode=display">
-x = x_k-\frac{f'(x_k)}{f''(x_k)},k=0,1,2,···</script><p>于是我们就可以从初始$x_0$值开始用此式进行迭代来逼近极小值点，其逼近就是<strong>在每次迭代的时候直接跳到近似函数的最小点</strong></p>
-<p>那么对于高维度的情形，原泰勒公式就可以表示为</p>
-<script type="math/tex; mode=display">
-\phi(X) = \nabla f(X_k)·(X-X_k)+\frac{1}{2}(X-X_k)^T·\nabla^2f(X_k)·(X-X_k)</script><p>这里的$\nabla^2 f(X_k)$即为Hessian矩阵，其实就是二阶梯度</p>
-<script type="math/tex; mode=display">
-\nabla^2 f(X_k)=
-\begin{bmatrix}
-{\frac{\partial^2 f}{\partial x_1^2}}&{\frac{\partial^2 f}{\partial x_1\partial x_2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_1\partial x_n}}\\
-{\frac{\partial^2 f}{\partial x_2\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_2\partial x_n}}\\
-{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
-{\frac{\partial^2 f}{\partial x_n\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_n\partial x_n}}\\
-\end{bmatrix}</script><p>$\nabla f(X_k)$就是一阶梯度，不展开了</p>
-<p>因为Hessian矩阵是实对称矩阵，我们可以将其分解为一组实特征值和一组特征向量的正交基。在特定方向$d$的二阶导数可以写成$d^THd$。</p>
-<p>当$d$是$H$的一个特征向量的时候，这个方向的二阶导数就是对应的特征值。对于其他方向$d$，方向二阶导数是所有特征值的加权平均，权重在0和1之间，且与$d$夹角越小的特征值权重越大。最大特征值确定最大二阶导数，最小特征值确定最小二阶导数。</p>
-<p>记$g_k=\nabla f(X_k)$,$H_k=\nabla^2 f(X_k)$，</p>
-<script type="math/tex; mode=display">
-\nabla \phi(X)=0</script><p>则</p>
-<script type="math/tex; mode=display">
-g_k+H_k(X-X_k)=0</script><p>$H_k$必为非奇异矩阵（满秩矩阵）</p>
-<p>$\therefore$</p>
-<script type="math/tex; mode=display">
-X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式，$d_k=-H_k^{-1}·g_k$称为<strong>牛顿方向</strong></p>
-<p>牛顿法求出的方向是一个逼近，因为其省略了泰勒的高阶展开项（但如果是二次函数，那就不是逼近了，这时候Hessian矩阵退化为常数矩阵，只需要一次运算即可到达最优点）</p>
-<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
-<li><p>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</p>
-</li>
-<li><p>会造成<strong>局部收敛</strong></p>
-</li>
-<li><p>Hessian矩阵的计算量是其它一阶优化方法的平方倍，所以对硬件计算负担要求极高</p>
-</li>
-<li><p>由于步长是定的，所以牛顿方向$-H_k^{-1}·g_k$并不能保证稳定下降，其并不是梯度下降算法</p>
-</li>
-<li><p>函数必须二阶可导，Hessian矩阵必须为正定矩阵</p>
-</li>
-</ol>
-<p>   <em>深度学习通常都有很多局部极值，鞍点，且计算量巨大，所以很少在深度学习中使用牛顿法</em></p>
-<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><ol>
-<li><p>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong>，称作<strong>阻尼牛顿法</strong>，这个思想和动量算法思想一样</p>
-<p>仍然用$d_k$在方向上进行迭代，但是每次迭代的时候需要进行一次线搜索，寻求最优步长因子$\lambda_k $</p>
-<p>$d_k\to\lambda_k d_k$</p>
-<p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
-</li>
-<li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
-<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
-<p>补充PCG思想：结合梯度下降与牛顿法，在一个方向上用牛顿法，一次性迭代完，理论上N个方向N次即可收敛</p>
-</li>
-<li><p>拟牛顿法</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/25/骚动时节的少女们啊/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/25/骚动时节的少女们啊/" itemprop="url">骚动时节的少女们啊</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T18:30:48+08:00">
-                2019-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Anime/" itemprop="url" rel="index">
-                    <span itemprop="name">Anime</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/25/骚动时节的少女们啊/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/骚动时节的少女们啊/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/25/骚动时节的少女们啊/" class="leancloud_visitors" data-flag-title="骚动时节的少女们啊">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>应该是老马失蹄的最惨的一次</p>
-<p>没想到后半段开始一路血崩…</p>
-<p>这就是部青春期性教育重要性的宣传片.. 前八集非常不错，冈妈将细腻与敏感的初春体现的淋漓尽致</p>
-<p>但是第八集之后，至少我是理解不能…… </p>
-<p>冈妈把关于性和爱的模糊不清的这种情感无限夸大 ，然后非常魔幻地表达出来，造成一种非常尴尬的效果，把非常抽象的东西用现实的手段生硬地表现出来造成了极强的违和感</p>
-<p>还有白毛和矮子这俩能不能删了orz</p>
-<p>前8集9分 ，后几集2分 ，加权一下，6.7分</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/25/XCODE开发小记/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/25/XCODE开发小记/" itemprop="url">IOS开发小记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T17:23:04+08:00">
-                2019-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/" itemprop="url" rel="index">
-                    <span itemprop="name">开发</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发/IOS开发/" itemprop="url" rel="index">
-                    <span itemprop="name">IOS开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/25/XCODE开发小记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/XCODE开发小记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/25/XCODE开发小记/" class="leancloud_visitors" data-flag-title="IOS开发小记">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后…</p>
-<p>不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧</p>
-<p>因为当时没用pods管理第三方库…以下踩坑记录</p>
-<ol>
-<li><p>使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文件进行开发，编译会失败。新增的workspace文件会引用原有的应用主工程，还会引用新增的Pods工程</p>
-</li>
-<li><p>如果   PODS生成的静态链接库没有被主工程target链接，要自己手动建立链接</p>
-</li>
-<li><p>在头文件搜索路径里 xxx/xxx/<em> re… 别忘了加\</em>并设置迭代搜索</p>
-</li>
-<li><p>build后修改代码，需要build clean再重新build，不然会报上次一样的错</p>
-</li>
-<li><p>要检查头文件路径是否正确<xxx xxx="">，或者直接写”.h”，则xcode会直接在头文件搜索路径里搜索</xxx></p>
-</li>
-<li><p>mac自带的ruby权限较小，开发不要用这个。我们要自己安装rvm并创建ruby环境，随后我们的cocoapods是在这个环境使用的</p>
-</li>
-<li><p>respondsToSelector 用来判断某一个方法时候实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#如果destroy这个方法实现了，就执行之</span><br><span class="line">if ([subViewController respondsToSelector:@selector(destroy)])</span><br><span class="line">&#123;</span><br><span class="line">	[subViewController destroy];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>UINavigationController 导航控制器</p>
-<p>开发的时候一般都是多控制器，由一个父控制器管理多个子控制器</p>
-<p>一般都是在Appdelegate中生成（可以将Nav写在一个VC中，然后在Appdelegate中实例化这个VC）</p>
-<p>使用方法：</p>
-<ul>
-<li><p>初始化UINavigationController实例</p>
-</li>
-<li><p>在AppDelegate中设置一个根控制器，即设置<code>self.window.rootViewController=UINavigationController</code>（在AppDelegate中设置,self指的appdelegate）</p>
-</li>
-<li><p>通过push方法添加需要的子控制器</p>
-<p>在初始化UINavagationController的时候调用构造方法<code>initWithRootViewController:</code>就会自动push自己设定的根控制器，但其它view就要创建后手动push</p>
-</li>
-</ul>
-<p>当前view所属控制器<code>self.navigationController</code></p>
-<p>控制器跳转：<code>[self.navigationController pushViewController:xxxViewController animated:YES]</code></p>
-<p>压入(push)控制器：<code>-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
-<p>移除(pop)栈顶控制器:<code>-(UIViewController *)popViewControllerAnimated:(BOOL)animated;</code>即可返回上一层控制器</p>
-<p>回到(popTo)指定子控制器:<code>-(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
-<p>回到根(popToRoot)控制器（栈底）:<code>-(NSArray *)popToRootViewControllerAnimated:(BOOL)Animated;</code></p>
-<p>一次压入多个控制器<code>setViewController</code></p>
-<p>栈顶控制器<code>nav.topViewController</code></p>
-<p>当前可见视图控制器<code>nav.visibleViewController</code></p>
-</li>
-<li><p>ViewController相关</p>
-<p>根据名字获取VC：<code>_homeViewController = self.viewControllers[TABBAR_HOME_INDEX];</code></p>
-</li>
-<li><p>账户登入状态等信息可以用单例模式来管理</p>
-</li>
-<li><p>AppDelegate负责管理程序周期，是程序入口</p>
-<p>如<code>-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code></p>
-<p>这里就是程序launch完后做的事情，这时候就可以初始化Root VC了</p>
-</li>
-<li><p>协议 接口 委托</p>
-<p>委托：A委托B去做某事，B如果没有这个方法，B从C继承，C有这个方法，就会执行C中的该方法（与java一样的向上转型）</p>
-<ul>
-<li>A是B的委托对象</li>
-<li>B引用一个A</li>
-<li>A将实现B的委托方法</li>
-<li>B通过委托方法通知</li>
-</ul>
-<p>接口：接口就相当于一个头文件，告诉外部可以用，联想生物细胞的构造</p>
-<p>在h文件里写@interfacae，在m文件里实现该interface，就相当于建立了一个类，只有interface暴露的东西才能被外部使用，这种设计是为了更好的安全性</p>
-<p>java类和oc类的核心区别在于，java类的共有私用是由类里面自己实现的，可以设置共私有变量和方法，而OC中每个类都是由一个接口interface和实现该interface的类来完成，只有interface中的东西暴露给了外部</p>
-<pre><code> 协议：协议可以类比java中的interface
-</code></pre></li>
-<li><p><code>Universal Link</code>, 中文是通用链接. 可以通过<code>http(s)</code>来唤醒<code>App</code></p>
-</li>
-<li><p>prepareForSegue:sender: </p>
-<p>为了区分视图的跳转，可以用上一个、下一个来表示，也可以用源视图、目标视图来表示。 即： sourceViewController 和destinationViewController。  目标视图控制器是指：即将显示（加载）的视图， 而源视图控制器是指：即将被取代的视图控制器。</p>
-</li>
-<li><p>跳转总结</p>
-<p><a href="https://www.jianshu.com/p/ceaf978f9dfe" target="_blank" rel="noopener">https://www.jianshu.com/p/ceaf978f9dfe</a></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/21/神经风格迁移/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/21/神经风格迁移/" itemprop="url">神经风格迁移</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T17:55:30+08:00">
-                2019-09-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/21/神经风格迁移/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/21/神经风格迁移/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/21/神经风格迁移/" class="leancloud_visitors" data-flag-title="神经风格迁移">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="风格迁移"><a href="#风格迁移" class="headerlink" title="风格迁移"></a>风格迁移</h2><script type="math/tex; mode=display">
-L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)</script><p>内容图像（C）,生成的图像（G ）,样式图像（S）</p>
-<p>合成图像为唯一需要学习（更新）的参数（视为模型参数），也是生成的结果，而不是VGG</p>
-<p>输入：C</p>
-<p>初始化：可以选择让G=C，也可以随机初始化一个G</p>
-<p>这个算法里面的参数(也就是是合成图片里面的每个像素点，我们可以将内容图片直接 copy 成合成图片，<strong>然后训练使得他的风格和我们的风格图片相似，同时也可以随机化一张图片作为合成图片（两种初始化）</strong>，然后训练他使得他与内容图片以及风格图片具有相似性。特征的提取</p>
-<h2 id="model"><a href="#model" class="headerlink" title="model"></a>model</h2><p>这里不训练模型，直接使用预训练的vgg来提取特征</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    vgg = models.vgg19(pretrained=<span class="keyword">True</span>).features</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> vgg.parameters():</span><br><span class="line">        param.requires_grad = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">return</span> vgg</span><br></pre></td></tr></table></figure>
-<h2 id="extract-loss"><a href="#extract-loss" class="headerlink" title="extract loss"></a>extract loss</h2><p>这里使用以前用过的register_forward_hook()函数来hook</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayerActivations</span><span class="params">()</span>:</span></span><br><span class="line">    features = []</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,model,layer_nums)</span>:</span></span><br><span class="line">        <span class="comment">#这里要hook多层，要保存多层钩子</span></span><br><span class="line">        self.hooks = []</span><br><span class="line">        <span class="keyword">for</span> layer_num <span class="keyword">in</span> layer_nums:</span><br><span class="line">            self.hooks.append(model[layer_num].register_forward_hook(self.hook_fn))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hook_fn</span><span class="params">(self,module,input,output)</span>:</span></span><br><span class="line">        self.features.append(output)</span><br><span class="line">    <span class="comment">#捕捉完输出后不能忘掉remove方法，否则所有输入都累加在一起会内存溢出 </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> hook <span class="keyword">in</span> self.hooks:</span><br><span class="line">            hook.remove()</span><br><span class="line"></span><br><span class="line"><span class="comment">#该函数用于将图片输入进模型，经过钩子获取指定多层的特征输出      </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    la = LayerActivations(model=model,layer_nums=layers)</span><br><span class="line">    <span class="comment">#清空缓存</span></span><br><span class="line">    la.features=[]</span><br><span class="line">    <span class="comment">#运行模型，开钩</span></span><br><span class="line">    out = model(img)       </span><br><span class="line">    <span class="comment">#已经获取到特征，这是我们关注的东西，然后注销钩子</span></span><br><span class="line">    la.remove()</span><br><span class="line">    <span class="comment">#注意这里返回的是列表，一次性钩了多层</span></span><br><span class="line">    <span class="keyword">return</span> la.features</span><br></pre></td></tr></table></figure>
-<h2 id="定义损失"><a href="#定义损失" class="headerlink" title="定义损失"></a>定义损失</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># content loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContentLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        out = self.mseloss(inputs,targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
-<p>衡量风格损失使用的是Gram Matrix，对于$k$个向量$\alpha_1,\alpha_2,\cdots,\alpha_k$</p>
-<script type="math/tex; mode=display">
-G=
-\begin{bmatrix}
-{(\alpha_1,\alpha_1)}&{(\alpha_1,\alpha_2)}&{\cdots}&{(\alpha_1,\alpha_k)}\\
-{(\alpha_2,\alpha_1)}&{(\alpha_2,\alpha_2)}&{\cdots}&{(\alpha_2,\alpha_k)}\\
-{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
-{(\alpha_k,\alpha_1)}&{(\alpha_k,\alpha_2)}&{\cdots}&{(\alpha_k,\alpha_k)}\\
-\end{bmatrix}</script><p>把特征提取输出变换为$k$行$h*w$列的矩阵$X$，那么$X=&lt;\alpha_1,\alpha_2,\cdots,\alpha_k&gt;$，其中向量$x_i$代表了通道$i$上的样式特征，于是Gram矩阵实际上计算出了各个通道的两两相关性</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># style loss</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GramMatrix</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        b,c,h,w = inputs.size()</span><br><span class="line">        <span class="comment">#hw维度扁平化</span></span><br><span class="line">        features = inputs.view(b,c,h*w)</span><br><span class="line">        <span class="comment">#bmm(A) =  AxA^T</span></span><br><span class="line">        gram_matrix = torch.bmm(features,features.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">        <span class="comment">#为防止值过大，做归一化</span></span><br><span class="line">        gram_matrix.div_(h*w)</span><br><span class="line">        <span class="keyword">return</span> gram_matrix</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StyleLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.gramfunc = GramMatrix()</span><br><span class="line">        self.mseloss = nn.MSELoss()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs,targets)</span>:</span></span><br><span class="line">        gram_inputs = self.gramfunc(inputs)</span><br><span class="line">        gram_targets = self.gramfunc(targets)</span><br><span class="line">        out = self.mseloss(gram_inputs,gram_targets)</span><br><span class="line">        <span class="keyword">return</span> out * self.weight</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># loss function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_fn</span><span class="params">(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span>:</span></span><br><span class="line">    loss = <span class="number">0</span> </span><br><span class="line">    <span class="comment">#提取风格图片的特征并计算,注意这里是提取input（合成）和风格/内容的，都要提取</span></span><br><span class="line">    style_features = extract_layers(style_layers,style_img,model)  </span><br><span class="line">    input_features = extract_layers(style_layers,input_param,model) </span><br><span class="line">    <span class="keyword">for</span> style_layer_index <span class="keyword">in</span> range(len(style_layers)):</span><br><span class="line">        style_loss = StyleLoss(style_weight)</span><br><span class="line">        style_loss_this = style_loss(input_features[style_layer_index],style_features[style_layer_index])      </span><br><span class="line">        </span><br><span class="line">    <span class="comment">#提取内容图片的特征并计算   </span></span><br><span class="line">    content_features = extract_layers(content_layers,content_img,model)</span><br><span class="line">    input_features = extract_layers(content_layers,input_param,model)     </span><br><span class="line">    <span class="keyword">for</span> content_layer_index <span class="keyword">in</span> range(len(content_layers)):</span><br><span class="line">        content_loss = ContentLoss(content_weight)</span><br><span class="line">        content_loss_this = content_loss(input_features[content_layer_index],content_features[content_layer_index])    </span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this+content_loss_this</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> times % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'style loss:&#123;:.4f&#125; , content loss:&#123;:.4f&#125;'</span>.format(style_loss_this,content_loss_this))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
-<h2 id="TRAIN"><a href="#TRAIN" class="headerlink" title="TRAIN"></a>TRAIN</h2><p>使用LBGFS作为优化函数，LBFGS使用的时候就需要用到闭包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(Epoch,input_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_weight,style_weight,content_img,style_img,</span></span></span><br><span class="line"><span class="function"><span class="params">          content_layers=[<span class="number">21</span>],style_layers=[<span class="number">1</span>,<span class="number">6</span>,<span class="number">11</span>,<span class="number">20</span>,<span class="number">25</span>])</span>:</span></span><br><span class="line">    <span class="comment">#默认vgg模型</span></span><br><span class="line">    model = get_model().cuda()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化合成图片，将input_img作为初始的合成图片并参数化</span></span><br><span class="line">    input_param = nn.Parameter(input_img.data)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">#初始化优化器</span></span><br><span class="line">    optimizer = torch.optim.LBFGS([input_param])</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(Epoch):</span><br><span class="line">        print(<span class="string">'epoch:&#123;&#125;'</span>.format(epoch))</span><br><span class="line">        <span class="comment">#开始训练</span></span><br><span class="line">        <span class="keyword">global</span> times</span><br><span class="line">        times=<span class="number">0</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">()</span>:</span></span><br><span class="line">            optimizer.zero_grad() <span class="comment">#勿忘</span></span><br><span class="line">            <span class="keyword">global</span> times</span><br><span class="line">            times+=<span class="number">1</span></span><br><span class="line">            loss = loss_fn(content_layers,style_layers,content_weight,style_weight,content_img,style_img,model,input_param,times)</span><br><span class="line">            loss.backward() </span><br><span class="line">            <span class="keyword">return</span> loss</span><br><span class="line">        optimizer.step(closure) </span><br><span class="line">    <span class="keyword">return</span> input_param.data </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showImg</span><span class="params">(res)</span>:</span></span><br><span class="line">    img = res[<span class="number">0</span>]</span><br><span class="line">    img = img.cpu()</span><br><span class="line">    img = transforms.ToPILImage()(img) </span><br><span class="line">    plt.imshow(img)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/19/toMalwareDetection/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/19/toMalwareDetection/" itemprop="url">Adversary Resistant Deep Neural Networks with an Application to Malware Detection</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T18:41:46+08:00">
-                2019-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文阅读笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/09/19/toMalwareDetection/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/19/toMalwareDetection/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/09/19/toMalwareDetection/" class="leancloud_visitors" data-flag-title="Adversary Resistant Deep Neural Networks with an Application to Malware Detection">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>《Adversary Resistant Deep Neural Networks with an Application to Malware Detection》<br>    Qinglong Wang ,Wenbo Guo,Kaixuan Zhang,AlexanderG.OrorbiaII, Xinyu Xing,Xue Liu,C.LeeGiles<br>    KDD 2017（CCF-A）</p>
-</blockquote>
-<h2 id="Introduce"><a href="#Introduce" class="headerlink" title="Introduce"></a>Introduce</h2><ul>
-<li><p>deep neural networks(DNNs) could help turn the tide in the war against malware infection</p>
-</li>
-<li><p>However, DNNs are vulnerable to adversarial samples</p>
-</li>
-<li>Past research in developing defense mechanisms relies on strong assumptions,which typically do not hold in many real-world scenarios. Also,these proposed techniques can only be empirically validated and do not provide any theoretical guarantees. This is particularly disconcerting when they are applied to security-critical applications such as malware detection. </li>
-</ul>
-<h2 id="Why-It-Works？"><a href="#Why-It-Works？" class="headerlink" title="Why It Works？"></a>Why It Works？</h2><ul>
-<li>随机性的引入使得attackers不容易发现DNN的”blind spots”（也就是AEs）</li>
-<li>这个adversary-resistant DNNs 只需要一点微小的工作，且可以维持分类的表现</li>
-<li>从理论上来说，本文的方法可以保证对AE的抵抗性</li>
-</ul>
-<p>该方法也可以应用在图像等其他DNN模型适用效果较好的领域</p>
-<h2 id="Related-Works"><a href="#Related-Works" class="headerlink" title="Related Works"></a>Related Works</h2><ul>
-<li><p><strong>Data Augmentation</strong></p>
-<p>Explaining and harnessing adversarial examples. arXiv preprint arXiv:1412.6572 (2014).</p>
-<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014). </p>
-<p>Unifying Adversarial Training Algorithms with Flexible Deep Data Gradient Regularization. arXiv:1601.07213 [cs] (2016).</p>
-<p>增强数据，主要是通过将潜在AEs与普通样本进行训练（<strong>对抗训练</strong>）以增加对AEs的鲁棒性，对抗训练已被证明很有用</p>
-<p>作者指出的问题：blind spots空间太大，不可能去覆盖一个infinite space，且attackers也可以对对抗训练模型本身进行攻击（<em>how</em>），考虑到无限空间，每一次遇到AEs就必须再次训练对抗训练模型，如此反复迭代</p>
-</li>
-<li><p><strong>Enhancing Model Complexity</strong></p>
-<p>增加模型复杂度</p>
-<p>Towards deep neural network architectures robust to adversarial examples. arXiv:1412.5068 [cs] (2014).</p>
-<p>Distillation as a defense to adversarial perturbations against deep neural networks. arXiv preprint arXiv:1511.04508 (2015).  （防御蒸馏机制，将第一个深度神经网络输出的软标签输入到第二个网络中进行训练，降低模型对微小扰动的敏感度。第一个模型的软标签熵编码了类之间的相对差异）</p>
-<p>作者指出的问题：攻击者可以使用两个近似性能的DNN来拟合整个机制（该论文作者承认了此机制很容易被拟合）</p>
-<p>同时该机制实际上是一个<strong>梯度掩码</strong>模型，并无法抵抗JSMA的攻击</p>
-</li>
-</ul>
-<h2 id="Random-Feature-Nullification"><a href="#Random-Feature-Nullification" class="headerlink" title="Random Feature Nullification"></a>Random Feature Nullification</h2><p>  we introduce random feature nullification to both the training and testing phases of DNN models, making the architectures non-deterministic. </p>
-<p>  引入随机性，对行为特征进行随机失活，看起来像是一种特殊的dropout正则</p>
-<p>  但区别在于dropout仅仅在训练的时候对神经元随即失活，而本文的方法是在train和test的时候都执行</p>
-<p><img src="//aisakaki.com/2019/09/19/toMalwareDetection/1.png" alt="1"></p>
-<p>作者在input与hidden之间加了一层<strong>Nullification层</strong></p>
-<p>超参数：$μ_p,\sigma^2_p $</p>
-<h2 id="Model-Description"><a href="#Model-Description" class="headerlink" title="Model Description"></a>Model Description</h2><p>$X\in R^{N*M}$ ($N$ 个样本，$M$维特征)</p>
-<p>$\hat{I}_p\in R^{N*M}$ (mask matrix)</p>
-<p>Nullification来源于$X$与$\hat{I}_p$按位乘</p>
-<p>经验证在Random Nullification中会损失有用的分类特征信息，于是为了解决这个问题，本文为每个样本引入了<strong>Nullification Rate</strong>：$p^i$，且不仅哪个神经元失活是随机的，失活神经元的数量也是随机的</p>
-<p>单个输入$x_i$对应一个$I_{p^i}$，后者是一个二进制向量，0的数量取决于$p^i$，且随机分布。作者使用了高斯分布和均匀分布。</p>
-<p>$⌈M·p^i⌉$ :$I_{p^i}$中随机分布的0的个数，$p^i$是从高斯分布$N(μ_p,\sigma^2_p)$中的一次采样样本</p>
-<p>于是DNN的目标函数定义为</p>
-<script type="math/tex; mode=display">
-\min_\theta \Sigma^N_{i=1} L(f(x_i,I_{p^i};\theta),y_i)</script><p>随机特征失活过程（random feature nullification process）表示为$q(x_i,I_{p^i})=x^i⊙I_{p^i}$</p>
-<p>(⊙为Hadamard product，一种特殊的矩阵乘法，同阶矩阵，$c_{ij}=a_{ij}*b_{ij}$)</p>
-<p>于是$f(x_i,I_{p^i};\theta)=f(q(x_i,I_{p^i});\theta)$</p>
-<p>在训练中使用SGD求解目标函数，但这里不同之处在于$I_{p^i}$在<strong>一个</strong>样本的前向传播和反向传播过程中是固定的，这使得容易计算$L(f(x_i,I_{p^i};\theta),y_i)$的导数</p>
-<p>在测试中由于参数固定，使用高斯分布$N(μ_p,\sigma^2_p)$的期望作为辅助的随机变量$p^i$</p>
-<h2 id="Analysis-Model-Resistance-to-Adversaries"><a href="#Analysis-Model-Resistance-to-Adversaries" class="headerlink" title="Analysis: Model Resistance to Adversaries"></a>Analysis: Model Resistance to Adversaries</h2><p><strong>攻击防御：</strong></p>
-<p>对抗攻击需要求解如下导数($\hat{x}$是任一测试样本)</p>
-<script type="math/tex; mode=display">
-J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}</script><script type="math/tex; mode=display">
-=J_L(q)·\frac{\partial q(\hat{x},I_p)}{\partial \hat{x}}</script><p>where $J_L(q)=\partial L(f(x_i,I_{p^i};\theta),\hat{y})/\partial q(\hat{x},I_p)$，$I_p$是在测试中使用的mask matrix</p>
-<p>只要此式子求解，攻击者便可以生成AE发动攻击$\hat{x} \to\hat{x}+ \phi sign(J_L(\hat{x}))$</p>
-<p>但此时由于乘随机变量$I_p$的存在，使得攻击者无法轻易算出$J_L(q)$</p>
-<p>这里作者说明了如果$I_p$是加随机变量的话$J_L(q)$将可以被轻易求解</p>
-<p><strong>模拟攻击：</strong></p>
-<p>因此，攻击者要想攻击此模型的最佳办法就算去拟合$I_p$.</p>
-<p>作者假设 $I^*_p$ 为 $I_p$ 的最佳拟合，DNNs为黑盒，最佳的扰动为 $\delta\hat{x}$ </p>
-<p>则最佳合成攻击样本为 $\hat{x}+\delta\hat{x}⊙I^*_p$ </p>
-<p>假设攻击者用此来攻击下面图2中的系统</p>
-<p><img src="//aisakaki.com/2019/09/19/toMalwareDetection/2.png" alt="2"></p>
-<p>如图可以看到，<strong>攻击必须经过feature nullification layer才能抵达实际的DNN</strong>，由如下式子表示</p>
-<script type="math/tex; mode=display">
-(\hat{x}+\delta\hat{x}⊙I^*_p)⊙I_p=(\hat{x}⊙I_p)+\delta\hat{x}⊙I^*_p⊙I_p</script><p>式子中 $\hat{x}⊙I_p$ 即为一个真实的nullified样本，$\delta\hat{x}⊙I^*_p⊙I_p$ 就是发动攻击的添加的扰动</p>
-<p>这里可以看到，尽管 $\delta\hat{x}$ 是非常有效的扰动，但 $I^*_p⊙I_p$ 的存在使得该扰动大幅减弱</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2019/09/18/云雀/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/18/云雀/" itemprop="url">云雀</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-18T12:33:18+08:00">
-                2019-09-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-29T20:21:57+08:00">
+                2019-11-29
               </time>
             
 
@@ -1853,8 +738,8 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/09/18/云雀/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/18/云雀/" itemprop="commentCount"></span>
+                <a href="/2019/11/29/[object Object]/日记/初雪/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/29/[object Object]/日记/初雪/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1863,7 +748,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
           
           
-             <span id="/2019/09/18/云雀/" class="leancloud_visitors" data-flag-title="云雀">
+             <span id="/2019/11/29/[object Object]/日记/初雪/" class="leancloud_visitors" data-flag-title="初雪">
 
 
              </span>
@@ -1891,22 +776,879 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
       
         
           
-            <p><img src="//aisakaki.com/2019/09/18/云雀/64633930_p0.png" alt="64633930_p0"></p>
-<div style="text-align: center"><i>懐かしくあどけない　悲しみを捨ててゆこう</i></div>
-<div style="text-align: center"><i>ひとすじ空へ舞い上がる　翼に心をのせて</i></div>
-<div style="text-align: center"><i>ねえ　本当はいつだって　一人は寂しいからね</i></div>
-<div style="text-align: center"><i>大事なものは　ひとつじゃないの</i></div>
-<div style="text-align: center"><i>呼び合っているような　雲雀の声だけ遠く</i></div>
-<div style="text-align: center"><i>雲の向こうへ　草原に優しい影を残して</i></div>
-<div style="text-align: center"><br> <br>  </div>
-<div style="text-align: center"><i>将让人留恋的天真与悲伤都舍弃掉吧</i></div>
-<div style="text-align: center"><i>任凭羽翼在碧空中划出舞蹈般的痕迹</i></div>
-<div style="text-align: center"><i>其实无论何时 孤独一人终会感到寂寞</i></div>
-<div style="text-align: center"><i>珍贵的宝物并非是唯一的</i></div>
-<div style="text-align: center"><i>如同呼唤彼此的云雀般 只有遥远的啼鸣</i></div>
-<div style="text-align: center"><i>在云之彼方的草原上 留下优雅的掠影</i></div>
+            <p><img src="//aisaka.cloud/2019/11/29/[object Object]/日记/初雪/0.jpg" alt="0" style="zoom: 50%;"></p>
+<p>晚上被老师留了下来，没法去桌游社玩期待好久的新桌游，但走的时候恰好遇到了初雪。<br>今晚的初雪好美，路灯在飞雪的映衬下像圣诞树上的星星。<br>作为在南方长大的人，是基本不可能看到雪的，所以每次看到雪还是会有些激动。</p>
+<p>还记得第一次看到雪是一个人去东京的时候，坐在去往东京，乘客寥寥的电车上，窗外没有一丝雪的踪迹。车内的暖气让我打了个小盹，一抬头就发现雪花飞速从车窗划过，车外已是银装素裹，都边的矮别墅都顶着厚厚的积雪。从地铁口探出头就发现自己已经被雪所覆盖的世界层层包裹。我在那个地方迷路了，踏在湿滑的地面上四处跌跌撞撞地找路。后来才知道那个地方叫浅草。<br>都过去这么久了。<br>明天会更冷吧。</p>
 
           
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/27/[object Object]/人工智能/主成分分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/27/[object Object]/人工智能/主成分分析/" itemprop="url">主成分分析（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-27T19:20:43+08:00">
+                2019-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/27/[object Object]/人工智能/主成分分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/27/[object Object]/人工智能/主成分分析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/27/[object Object]/人工智能/主成分分析/" class="leancloud_visitors" data-flag-title="主成分分析（一）">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Principal Component Analysis， PCA</p>
+<p><strong>PCA的核心思想</strong>是①先对数据<strong>规范化，均值为0，方差为1</strong>。②再对原基下的数据进行<strong>正交基变换</strong>，将由线性相关变量表示的数据变成由线性无关变量表示的数据。变换过程遵循表示<strong>信息最大</strong>的原则，即选择使得变换后数据方差最大的变量（主成分）作为新变量，也就是<strong>新维度下的数据越分散越好</strong>。</p>
+<p>这样的变换过程可以理解为<strong>转换观察数据的角度，揭示出数据内在的结构</strong>。</p>
+<p>把数据依信息最大（方差最大）<strong>顺序</strong>由少量主成分表示即是对数据降维，其就是想用较少的没有相关性的变量来获取尽可能多的原始数据信息。</p>
+<p>在数据总体上进行的主成分分析称为总体主成分分析，在有限样本上进行的主成分分析称为样本主成分分析。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/27/[object Object]/人工智能/主成分分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/26/[object Object]/读书/写给法科生的信/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/26/[object Object]/读书/写给法科生的信/" itemprop="url">我知道光在哪里</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-26T15:50:21+08:00">
+                2019-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书/" itemprop="url" rel="index">
+                    <span itemprop="name">读书</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/26/[object Object]/读书/写给法科生的信/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/26/[object Object]/读书/写给法科生的信/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/26/[object Object]/读书/写给法科生的信/" class="leancloud_visitors" data-flag-title="我知道光在哪里">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>在一个黑白混杂的世界里，你是选择描摹黑暗，还是在内心不够强大的时候，先去感知光明？如果我们对于这个世界的态度取决于那些最恶的人做了哪些最恶的事，而不是那些最善良的人做了哪些善良的事，我们与黑暗，就是一体的。</p>
+<p>我，知道光在哪里。</p>
+</blockquote>
+<p>《写给法科生的信》是中政法大学的陈少文教授写给学生的回信，虽然说是写给法科生，但是阅读之后发现实际上也适用其它科学生，也解答了我想过的一些的问题。上面是书的第一章，以下摘录一些书中原句。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/26/[object Object]/读书/写给法科生的信/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/25/[object Object]/人工智能/矩阵计算/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/25/[object Object]/人工智能/矩阵计算/" itemprop="url">矩阵计算与矩阵分解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T09:19:02+08:00">
+                2019-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/25/[object Object]/人工智能/矩阵计算/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/25/[object Object]/人工智能/矩阵计算/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/25/[object Object]/人工智能/矩阵计算/" class="leancloud_visitors" data-flag-title="矩阵计算与矩阵分解">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>矩阵范数和矩阵求导术以后完成</em></p>
+<p><em>在线性代数和矩阵论都已经学过，这里只写一些常用的</em></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/25/[object Object]/人工智能/矩阵计算/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/" itemprop="url">绮凝盏(双笙xHanser)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T07:51:10+08:00">
+                2019-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Music/" itemprop="url" rel="index">
+                    <span itemprop="name">Music</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/" class="leancloud_visitors" data-flag-title="绮凝盏(双笙xHanser)">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <div style="text-align: center"><i>你像银河的微光　绵绵的暗香</i></div>
+<div style="text-align: center"><i>锁在玻璃的橱窗　盛着幻想乡</i></div>
+<div style="text-align: center"><i>展牌落款的红章　结束了飘荡</i></div>
+<div style="text-align: center"><i>你曾见闻的时光　饮三杯再唱 </i></div>
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=1405420941&auto=0&height=66"></iframe></h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" itemprop="url">第一关关卡设计</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-23T15:16:18+08:00">
+                2019-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/游戏设计/" itemprop="url" rel="index">
+                    <span itemprop="name">游戏设计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" class="leancloud_visitors" data-flag-title="第一关关卡设计">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><em>本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜</em></p>
+<h2 id="第一关设计目的"><a href="#第一关设计目的" class="headerlink" title="第一关设计目的"></a>第一关设计目的</h2><p>给玩家引入<strong>新机制——电力</strong>，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1944,7 +1686,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1992,7 +1734,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">157</span>
+                  <span class="site-state-item-count">222</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2003,7 +1745,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2039,7 +1781,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://real-neo.me/" title="question" target="_blank">question</a>
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
@@ -2060,6 +1802,14 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
                   </li>
                 
               </ul>

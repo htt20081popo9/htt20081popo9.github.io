@@ -114,7 +114,7 @@
 <meta name="description" content="心情、思考、时光">
 <meta property="og:type" content="website">
 <meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisakaki.com/page/14/index.html">
+<meta property="og:url" content="https://aisaka.cloud/page/14/index.html">
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="心情、思考、时光">
 <meta property="og:locale" content="zh-Hans">
@@ -150,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="https://aisakaki.com/page/14/">
+  <link rel="canonical" href="https://aisaka.cloud/page/14/">
 
 
 
@@ -316,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/08/对反向传播的理解/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/10/09/[object Object]/人工智能/Autoencoder/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -335,7 +335,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/08/对反向传播的理解/" itemprop="url">对BP算法的理解</a></h1>
+                <a class="post-title-link" href="/2019/10/09/[object Object]/人工智能/Autoencoder/" itemprop="url">Autoencoder</a></h1>
         
 
         <div class="post-meta">
@@ -350,8 +350,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T12:55:38+08:00">
-                2018-11-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T19:52:07+08:00">
+                2019-10-09
               </time>
             
 
@@ -402,8 +402,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/08/对反向传播的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/对反向传播的理解/" itemprop="commentCount"></span>
+                <a href="/2019/10/09/[object Object]/人工智能/Autoencoder/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/09/[object Object]/人工智能/Autoencoder/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -412,7 +412,7 @@
 
           
           
-             <span id="/2018/11/08/对反向传播的理解/" class="leancloud_visitors" data-flag-title="对BP算法的理解">
+             <span id="/2019/10/09/[object Object]/人工智能/Autoencoder/" class="leancloud_visitors" data-flag-title="Autoencoder">
 
 
              </span>
@@ -440,17 +440,41 @@
       
         
           
-            <p>损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$</p>
-<p>要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导）</p>
-<p>那么使用链式法则，我们可以画出计算图</p>
-<p>①先标记出所有中间结点</p>
-<p>②对每一个结点，写出<strong>上一层直连结点</strong>（最顶层就是$J$）对该节点求得的偏导式（偏的是本结点中间变量），其他变量都视为常数</p>
-<p>③根据计算图，使用链式法则（两个结点之间，偏导式同路径相乘，所有路径相加）</p>
-<p>主要理解清，某一个中间结点对另一个邻层中间结点求导，<strong>是对中间变量求导</strong>，只看局部，<strong>其它的变量都视为常数</strong>，都先只计算<strong>邻接层求导</strong>，再分别计算完每个偏导式之后，再运用链式法则根据全路径计算<strong>跨层求导</strong></p>
-<p>这样一来会有很多的重复计算（重复路径）。</p>
-<p>为了解决这个问题，BP的做法是<strong>自顶向下，逐层反向求导，累计计算</strong></p>
-<p>也就是说从<strong>最高层$J$开始</strong>，<strong>按层计算</strong>出该层的偏导式值，然后再把这个值（<strong>是个含变量的表达式，但是对于这个中间层来说是个常数</strong>）发给这个结点下属路径下的每个结点（让他们乘上这个上层来的偏导式），然后再计算下一层的偏导式，如此<strong>迭代到输入层</strong></p>
-<p>注意都是先推导式子，最后再代入值计算，比如输入以及真实label都是最后推导完式子后计算的时候的一个常数值</p>
+            <h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p>AE可以看为一个单隐藏层的NN</p>
+<p>目标函数为重构误差（reconstruction error)，目标是使得解码器的输出与编码器的输入同分布</p>
+<p><strong>隐藏层单元数&lt;输入层单元数</strong>即可用于降维，如果编码的激活函数为线性函数就成为了<strong>PCA</strong></p>
+<p>但现在一般<strong>隐藏层单元数&gt;=输入层单元数</strong>比较多，这样可以挖掘更多高维特征，但容易造成神经网络的输出为输入的直接“复制”，为了解决这个问题，引入了<strong>正则</strong>和<strong>随机性</strong>等等，且可以组合使用</p>
+<h2 id="Regularized-Autoencoder"><a href="#Regularized-Autoencoder" class="headerlink" title="Regularized Autoencoder"></a>Regularized Autoencoder</h2><p>正则项自编码器</p>
+<p>神经网络的输入直接“复制”输出的一个具体表现就在于一些神经元权重过大，使得神经网路直接变成直连通路</p>
+<p>于是可以直接向损失函数正则项</p>
+<script type="math/tex; mode=display">
+L(x,g(f(x)))+\Omega(h)</script><p><strong>实现方法</strong>：使用传统的加入正则项实现方法</p>
+<h2 id="Sparse-Autoencoder"><a href="#Sparse-Autoencoder" class="headerlink" title="Sparse Autoencoder"></a>Sparse Autoencoder</h2><p>稀疏自编码器</p>
+<p>使得参数变得稀疏，避免过多神经元被激活</p>
+<p>引入稀疏度公式</p>
+<script type="math/tex; mode=display">
+\hat{\rho}_j = \frac{1}{N} \Sigma_{i=1}^N h_j(x^{(i)})</script><p>此公式计算了第$j$个神经元在训练集$\{x^{i}\}$上激活度的平均值，那么就可以取一个足够小的$\rho$，保证$\hat{\rho}_j=\rho,j=1,2,3,\cdots$</p>
+<p>对于$\hat{\rho}_j&gt;&gt;\rho$，对其使用KL散度进行惩罚，KL散度可以用于衡量两个分布的相似度（在前面这篇论文的阅读笔记：<a href="https://aisakaki.com/2019/07/30/Examples/" target="_blank" rel="noopener">Explaining and Harnessing Adversarial Examples</a>中使用到了这个数学工具。</p>
+<p>向损失函数中加入KL散度</p>
+<script type="math/tex; mode=display">
+J=L(x,g(f(x)))+\Sigma_{j=1}^mKL(\hat{\rho}_j||\rho)</script><script type="math/tex; mode=display">
+KL(\hat{\rho}_j||\rho)=\rho·\log \frac{\rho}{\hat{\rho}_j}+(1-\rho)·\log \frac{1-\rho}{1-\hat{\rho}_j}</script><p><strong>实现方法</strong>：可以设置一个三维矩阵，第一维为$||\{x^{(i)}\}||$，第二和第三维对应神经网络每一个神经元。然后在数据流经一次模型后抽取出每一层神经元的参数，作平均。抽取方法可以用我以前写的<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/" target="_blank" rel="noopener">pytorch获取中间层参数、输出与可视化/</a>一文中提到的中间层参数可视化方法</p>
+<h2 id="Denoising-Autoencoder"><a href="#Denoising-Autoencoder" class="headerlink" title="Denoising Autoencoder"></a>Denoising Autoencoder</h2><p>降噪自编码器（DAE）</p>
+<p>向输出加入噪声$\hat{x}$，并设置损失函数尽量减少输出的噪声，目标使得模型学习<strong>重构分布</strong>$p_{decoder}(x|\hat{x})$，增强模型健壮性</p>
+<p>最小化</p>
+<script type="math/tex; mode=display">
+L(x,g(f(\hat{x})))</script><p>也就是要<strong>使得正确输入与加噪声的输入经过模型后还原得到的输出尽量一样</strong></p>
+<p><strong>实现方法：</strong>加入噪声的方法可以有多种，比如增加高斯分布随机扰动$x\to x+\epsilon,\epsilon ～ N(μ,\sigma^2)$，也可以使用掩码方法遮蔽部分特征</p>
+<blockquote>
+<p>补充：得分匹配是最大似然的代替。它提供了概率分布的一致性估计，使得模型在各个数据点$x$上获得与数据分布相同的得分，在这种情况下，得分是一个特定的梯度场：</p>
+</blockquote>
+<script type="math/tex; mode=display">
+\nabla_x\log p(x)</script><p>DAE的训练目标可以使得AE学到能估计数据分布得分的向量场$(g(f(x))-x)$</p>
+<h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>收缩自编码器(CAE)</p>
+<p>是正则自编码器的一个变形，将正则项设置为惩罚导数——隐藏层函数对输入求导，也即其Jacobi矩阵$J_h$</p>
+<script type="math/tex; mode=display">
+J=L(x,g(f(x)))+\lambda\Sigma_i||\nabla_xh_i||_F^2</script><p>注意这里是矩阵的F-范数，即矩阵每项平方求和</p>
+<p>可以看出收缩惩罚目标是使得学习到的参数在所有方向上不变，而是在整体上进行参数的缩放，其使得函数梯度很小，所以能够很好的学习到流形结构，（而使得$J_x$很大的方向$x$，会快速改变$h$，则很可能是近似流形切平面的方向）</p>
 
           
         
@@ -499,7 +523,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/08/notes-1108/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/10/03/[object Object]/日记/不要回头，一直向前/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -518,7 +542,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/08/notes-1108/" itemprop="url">notes_1108</a></h1>
+                <a class="post-title-link" href="/2019/10/03/[object Object]/日记/不要回头，一直向前/" itemprop="url">行って、振り向かないで</a></h1>
         
 
         <div class="post-meta">
@@ -533,8 +557,173 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T11:35:24+08:00">
-                2018-11-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-03T18:40:27+08:00">
+                2019-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/03/[object Object]/日记/不要回头，一直向前/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/03/[object Object]/日记/不要回头，一直向前/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/10/03/[object Object]/日记/不要回头，一直向前/" class="leancloud_visitors" data-flag-title="行って、振り向かないで">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="//aisaka.cloud/2019/10/03/[object Object]/日记/不要回头，一直向前/0.png" alt="Snipaste_2019-10-04_08-27-03"></p>
+<p><div style="text-align: center"><i>“不要回头，一直向前 ”</i></div></p>
+<p><div style="text-align: right"><i>——《千与千寻的神隐》</i></div></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=578090&auto=0&height=66"></iframe>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/" itemprop="url">另一种提取中间层输出的办法与风格迁移的改进</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-30T12:38:19+08:00">
+                2019-09-30
               </time>
             
 
@@ -585,8 +774,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/08/notes-1108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/notes-1108/" itemprop="commentCount"></span>
+                <a href="/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -595,7 +784,361 @@
 
           
           
-             <span id="/2018/11/08/notes-1108/" class="leancloud_visitors" data-flag-title="notes_1108">
+             <span id="/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/" class="leancloud_visitors" data-flag-title="另一种提取中间层输出的办法与风格迁移的改进">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="提取中间层输出"><a href="#提取中间层输出" class="headerlink" title="提取中间层输出"></a>提取中间层输出</h2><p>除了在我前面的文章<a href="https://aisakaki.com/2019/07/10/pytorch获取中间层参数、输出与可视化/" target="_blank" rel="noopener">pytorch获取中间层参数、输出与可视化</a></p>
+<p>提到的使用hook函数获取中间层输出以外，还可以用更直接的办法，不使用hook函数</p>
+<p><strong>方法一：将model中的每层拆解出来依次在监控下让数据流过</strong><br>可以借助<code>isinstance(layer, nn.Conv2d)</code>判断层类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_layers</span><span class="params">(layers,img,model)</span>:</span></span><br><span class="line">    layer_index = <span class="number">0</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> layer <span class="keyword">in</span> model:</span><br><span class="line">        <span class="keyword">if</span> layer_index == <span class="number">0</span>:</span><br><span class="line">            out = layer(img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            out = layer(out)</span><br><span class="line">        <span class="keyword">if</span> layer_index <span class="keyword">in</span> layers:</span><br><span class="line">            res.append(out)</span><br><span class="line">        layer_index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<p><strong>方法二：直接在定义模型的时候输出中间层数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        self.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">16</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input)</span>:</span></span><br><span class="line">        linear1_out = self.linear1(input)</span><br><span class="line">        linear2_out = self.linear2(linear1_out)</span><br><span class="line">        <span class="keyword">return</span> linear1_out,linear2_out</span><br></pre></td></tr></table></figure>
+<h2 id="对于噪点的改进-降噪"><a href="#对于噪点的改进-降噪" class="headerlink" title="对于噪点的改进-降噪"></a>对于噪点的改进-降噪</h2><p>修改方程，向方程中加入总变差损失(total variation denoising)</p>
+<script type="math/tex; mode=display">
+L_{total}(S,C,G) = \alpha L_{content}(C,G)+\beta L_{style} (S,G)+\gamma L_{noise}(C,G)</script><script type="math/tex; mode=display">
+L_{noise}(C,G)=\Sigma_{i,j}|x_{i,j}-x_{i+1,j}|+|x_{i,j}-x_{i,j+1}|</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TotalVariationLoss</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,weight)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weight = weight</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,inputs)</span>:</span></span><br><span class="line">        <span class="comment">#矩阵计算，一步到位</span></span><br><span class="line">        loss = <span class="number">0.5</span>*((inputs[:, :, <span class="number">1</span>:, :]-inputs[:, :, :<span class="number">-1</span>, :]).abs().mean()+(inputs[:, :, :, <span class="number">1</span>:]-inputs[:, :, :, :<span class="number">-1</span>]).abs().mean())</span><br><span class="line">        <span class="keyword">return</span> loss * self.weight</span><br></pre></td></tr></table></figure>
+<p> 在<code>loss function</code>中对应作修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#总变差损失计算</span></span><br><span class="line">    noise_loss = TotalVariationLoss(noise_weight)</span><br><span class="line">    noise_loss_this = noise_loss(input_param)</span><br><span class="line">    </span><br><span class="line">    loss = style_loss_this + content_loss_this + noise_loss_this</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/30/[object Object]/人工智能/另一种提取中间层输出的办法与风格迁移的改进/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/28/[object Object]/数据库与中间件/Redis持久化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/28/[object Object]/数据库与中间件/Redis持久化/" itemprop="url">Redis持久化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-28T23:52:38+08:00">
+                2019-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/28/[object Object]/数据库与中间件/Redis持久化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/28/[object Object]/数据库与中间件/Redis持久化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/09/28/[object Object]/数据库与中间件/Redis持久化/" class="leancloud_visitors" data-flag-title="Redis持久化">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Redis 的持久化机制有两种，第一种是快照，第二种是 AOF 日志</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/28/[object Object]/数据库与中间件/Redis持久化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/26/[object Object]/人工智能/拟牛顿法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/[object Object]/人工智能/拟牛顿法/" itemprop="url">拟牛顿法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T16:04:01+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/[object Object]/人工智能/拟牛顿法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/[object Object]/人工智能/拟牛顿法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/09/26/[object Object]/人工智能/拟牛顿法/" class="leancloud_visitors" data-flag-title="拟牛顿法">
 
 
              </span>
@@ -623,27 +1166,267 @@
       
         
           
-            <ol>
-<li><p>NN的输出是一个向量，包含对各个种类的输出值，最后一个层有多少个神经元，输出向量就有多少维，所以在求的时候是矩阵求梯度下降，Loss Function作用于一个矩阵</p>
-</li>
-<li><p>NN为什么用非线性激活函数</p>
-<p>线性函数公式写出来之后 会发现 无论多少层，他都只能生成线性分类器（成为了感知机）<br>无法去拟合绝大多数的真实情况<br>而非线性的组合 就可以去逼近任何函数</p>
-</li>
-<li><p>关于梯度下降的算法<br>一个训练样本的损失函数就是一个向量，有多少特征就有多少维<br>ML算法中的代价函数通常可以分解成每个样本的代价函数的总和<br>具体求和之后如何求导见1</p>
-<p>于是不使用batch的整体梯度下降需要计算($m$为训练集样本个数)。所有样本计算出最终结果来计算梯度。这样对显存的要求就极高（在大样本集上是不可能）</p>
+            <h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>牛顿法中最困难的部分在于计算$H$和$H^{-1}$</p>
+<p>拟牛顿法的思想就是不用二阶偏导数而构造出可以<strong>近似</strong>$H$和$H^{-1}$的正定对称矩阵，在拟牛顿的条件下优化目标函数。但是不可能随便一个矩阵都能近似$H$，所以我们要给近似矩阵开一个条件，也就是下面的拟牛顿条件</p>
+<h2 id="拟牛顿条件"><a href="#拟牛顿条件" class="headerlink" title="拟牛顿条件"></a>拟牛顿条件</h2><p>由上一篇我写的文章可知（依然省略掉高阶导数无穷项，实际上应该用$≈$，为了方便这里都用$=$了</p>
 <script type="math/tex; mode=display">
-     \nabla_{\theta}J(\theta)=\frac{1}{m}\sum_{i=1}^m\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>如果使用minibatch，则变成（一个batch有$m’$个训练样本） 一个batch计算一个$g$来更新梯度</p>
+\nabla f(x)=g_{k+1}+H_{k+1}(x-x_{k+1})</script><p>设$x=x_k$</p>
+<p>记$s_k=x_{k+1}-x_k,y_k=g_{k+1}-g_k$</p>
+<p>$\therefore y_k=H_{k+1}\cdot s_k$</p>
+<p>或$s_k=H^{-1}_{k+1}\cdot y_k$</p>
+<p>此即为拟牛顿条件</p>
+<p>选择合适的$B_{k+1}$做$H_{k+1}$的近似，合适的$D_{K+1}$做$H^{-1}_{k+1}$的近似，使他们满足拟牛顿条件即可</p>
+<p>相当于给拟合$H，H^{-1}$做了一个约束，使得在$f(x_k)与f(x_{k+1})$拟合矩阵与真实矩阵的一阶导相等</p>
+<p>以下不同的算法实际上就是<strong>设计拟合矩阵</strong>的算法</p>
+<h2 id="DFP算法"><a href="#DFP算法" class="headerlink" title="DFP算法"></a>DFP算法</h2><p>DFP算法通过迭代的方法对$D_{K+1}$做$H^{-1}_{k+1}$的近似</p>
+<p>主要设置$D_k$待定形式为</p>
 <script type="math/tex; mode=display">
- g=\frac{1}{m'}\sum_{i=1}^{m'}\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>然后使用如下的梯度下降算法估计梯度</p>
+\Delta D_k=\alpha uu^T+\beta vv^T</script><p>推导过程类似BFGS算法，略，见下</p>
 <script type="math/tex; mode=display">
-    \theta \leftarrow \theta - \epsilon g</script><p>于是在一轮训练集中，要更新很多次梯度，目标去逼近整体更新梯度的方向<br>在一轮中的几个批次，可能是局部梯度减小，整体损失变大，但是在一轮下来之后，会变成朝着整体减小的方向震荡前进</p>
+D_{k+1}=D_{k}+\frac{s_ks_k^T}{s_k^Ty_k}-\frac{D_ky_ky_k^TD_k}{y_k^TD_ky_k},k=0,1,2,\cdots</script><p>一般$D_0=I$</p>
+<h2 id="BFGS算法"><a href="#BFGS算法" class="headerlink" title="BFGS算法"></a>BFGS算法</h2><p>BFGS算法通过迭代的方法对$B_{K+1}$做$H_{k+1}$的近似，直接逼近Hessian矩阵</p>
+<p>采用迭代法</p>
+<script type="math/tex; mode=display">
+B_{k+1}=B_k+\Delta B_k,k=0,1,2,\cdots</script><p>一般$B_0=I$</p>
+<p>设置$B_k$的待定形式</p>
+<script type="math/tex; mode=display">
+\Delta B_k=\alpha uu^T+\beta vv^T</script><p>$uu^T$和$vv^T$正好构成对称矩阵</p>
+<p>代入$y_k=H_{k+1}\cdot s_k$中（$B_{k+1}$逼近$H_{k+1}$）得</p>
+<script type="math/tex; mode=display">
+y_k=(B_k+\alpha uu^T+\beta vv^T)\cdot s_k</script><script type="math/tex; mode=display">
+=B_ks_k+\alpha u^Ts_k\cdot u+\beta v^ts_k\cdot v</script><p>$u^Ts_k$和$v^Ts_k$都是常数，不妨令$\alpha u^Ts_k=1,\beta v^ts_k=-1,u=y_k,v=B_ks_k$,</p>
+<script type="math/tex; mode=display">
+\therefore \alpha=\frac{1}{y_k^Ts_k},\beta=-\frac{1}{s_k^TB_ks_k}</script><script type="math/tex; mode=display">
+\therefore \Delta B_k=\frac{y_ky_k^T}{y_k^Ts_k}-\frac{B_ks_ks_k^TB_k}{s_k^TB_ks_k}</script><p>但由于必须储存$D$，使得储存开销很大，不适用大数据大型模型</p>
+<h2 id="LBFGS算法"><a href="#LBFGS算法" class="headerlink" title="LBFGS算法"></a>LBFGS算法</h2><p>通过避免储存完整的Hessian逆运算近似$D$,降低BFGS的储存代价</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/26/[object Object]/人工智能/牛顿法求解非线性优化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/[object Object]/人工智能/牛顿法求解非线性优化/" itemprop="url">牛顿法求解非线性优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T10:02:25+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/[object Object]/人工智能/牛顿法求解非线性优化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/[object Object]/人工智能/牛顿法求解非线性优化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/09/26/[object Object]/人工智能/牛顿法求解非线性优化/" class="leancloud_visitors" data-flag-title="牛顿法求解非线性优化">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>前面在风格迁移的时候用到了LBFGS，很好奇只需要设置一个闭包迭代即可，不需要像动量算法等一阶优化算法一样设置步长学习率等，于是系统地去了解了一下牛顿法与拟牛顿法</em></p>
+<h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>首先回想起泰勒展开，此式子即为$f(x)$在$x_k$附近的二阶泰勒展开式</p>
+<script type="math/tex; mode=display">
+\phi(x) =f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2+O</script><p>令导数为0即可求得最值</p>
+<script type="math/tex; mode=display">
+\phi'(x)=0</script><p>省略掉高阶项，则</p>
+<script type="math/tex; mode=display">
+f'(x_k)+f''(x_k)(x-x_k)=0</script><p>$\therefore$</p>
+<script type="math/tex; mode=display">
+x = x_k-\frac{f'(x_k)}{f''(x_k)},k=0,1,2,···</script><p>于是我们就可以从初始$x_0$值开始用此式进行迭代来逼近极小值点，其逼近就是<strong>在每次迭代的时候直接跳到近似函数的最小点</strong></p>
+<p>那么对于高维度的情形，原泰勒公式就可以表示为</p>
+<script type="math/tex; mode=display">
+\phi(X) = \nabla f(X_k)·(X-X_k)+\frac{1}{2}(X-X_k)^T·\nabla^2f(X_k)·(X-X_k)</script><p>这里的$\nabla^2 f(X_k)$即为Hessian矩阵，其实就是二阶梯度</p>
+<script type="math/tex; mode=display">
+\nabla^2 f(X_k)=
+\begin{bmatrix}
+{\frac{\partial^2 f}{\partial x_1^2}}&{\frac{\partial^2 f}{\partial x_1\partial x_2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_1\partial x_n}}\\
+{\frac{\partial^2 f}{\partial x_2\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_2\partial x_n}}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{\frac{\partial^2 f}{\partial x_n\partial x_1}}&{\frac{\partial^2 f}{\partial x_2^2}}&{\cdots}&{\frac{\partial^2 f}{\partial x_n\partial x_n}}\\
+\end{bmatrix}</script><p>$\nabla f(X_k)$就是一阶梯度，不展开了</p>
+<p>因为Hessian矩阵是实对称矩阵，我们可以将其分解为一组实特征值和一组特征向量的正交基。在特定方向$d$的二阶导数可以写成$d^THd$。</p>
+<p>当$d$是$H$的一个特征向量的时候，这个方向的二阶导数就是对应的特征值。对于其他方向$d$，方向二阶导数是所有特征值的加权平均，权重在0和1之间，且与$d$夹角越小的特征值权重越大。最大特征值确定最大二阶导数，最小特征值确定最小二阶导数。</p>
+<p>记$g_k=\nabla f(X_k)$,$H_k=\nabla^2 f(X_k)$，</p>
+<script type="math/tex; mode=display">
+\nabla \phi(X)=0</script><p>则</p>
+<script type="math/tex; mode=display">
+g_k+H_k(X-X_k)=0</script><p>$H_k$必为非奇异矩阵（满秩矩阵）</p>
+<p>$\therefore$</p>
+<script type="math/tex; mode=display">
+X = X_k-H_k^{-1}·g_k ,k=0,1,2,\cdots</script><p>此即为牛顿法的迭代式，$d_k=-H_k^{-1}·g_k$称为<strong>牛顿方向</strong></p>
+<p>牛顿法求出的方向是一个逼近，因为其省略了泰勒的高阶展开项（但如果是二次函数，那就不是逼近了，这时候Hessian矩阵退化为常数矩阵，只需要一次运算即可到达最优点）</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
+<li><p>使用牛顿法可以比一阶优化算法更快的收敛，因为每次它都是直接跳到近似函数的最小点（对于二次函数，直接一步收敛），但是这种特性在<strong>鞍点</strong>附近会造成病态。</p>
 </li>
-<li><p>CNN一个牛逼的地方就在于通过感受野和权值共享减少了神经网络需要训练的参数的个数，所谓权值共享就是同一个Feature Map中神经元权值共享，该Feature Map中的所有神经元使用同一个权值。因此参数个数与神经元的个数无关，只与卷积核的大小及Feature Map的个数相关。但是共有多少个连接个数就与神经元的个数相关了，神经元的个数也就是特征图的大小。</p>
+<li><p>会造成<strong>局部收敛</strong></p>
 </li>
-<li><p>为什么用交叉熵作损失函数？每层怎么做计算<br><a href="https://blog.csdn.net/huwenxing0801/article/details/82791879" target="_blank" rel="noopener">https://blog.csdn.net/huwenxing0801/article/details/82791879</a><br>对于分类问题，用交叉熵损失函数更好，因为交叉熵函数公式可知道，<strong>交叉熵只关心对正确类别的预测概率</strong>，因为只要其值<strong>足够大</strong>，就可以保证分类结果正确。<br>对于回归问题，用平方差损失函数更好，它希望<strong>预测概率尽量完全等于标签概率</strong>。（比交叉熵损失函数严格很多）</p>
+<li><p>Hessian矩阵的计算量是其它一阶优化方法的平方倍，所以对硬件计算负担要求极高</p>
 </li>
-<li><p>前馈神经网络，如BP，RFN</p>
-<p>循环神经网络，RNN</p>
+<li><p>由于步长是定的，所以牛顿方向$-H_k^{-1}·g_k$并不能保证稳定下降，其并不是梯度下降算法</p>
+</li>
+<li><p>函数必须二阶可导，Hessian矩阵必须为正定矩阵</p>
+</li>
+</ol>
+<p>   <em>深度学习通常都有很多局部极值，鞍点，且计算量巨大，所以很少在深度学习中使用牛顿法</em></p>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><ol>
+<li><p>针对第四个缺陷，可以对其进行改进，加入<strong>线搜索</strong>，称作<strong>阻尼牛顿法</strong>，这个思想和动量算法思想一样</p>
+<p>仍然用$d_k$在方向上进行迭代，但是每次迭代的时候需要进行一次线搜索，寻求最优步长因子$\lambda_k $</p>
+<p>$d_k\to\lambda_k d_k$</p>
+<p>$\lambda_k=arg\min f(x_k+\lambda_k d_k)$</p>
+</li>
+<li><p>可以通过多种手段避免直接对Hessian矩阵求逆</p>
+<p>比如共轭梯度法（PCG），代数多重网格法（AMG）等</p>
+<p>补充PCG思想：结合梯度下降与牛顿法，在一个方向上用牛顿法，一次性迭代完，理论上N个方向N次即可收敛</p>
+</li>
+<li><p>拟牛顿法</p>
 </li>
 </ol>
 
@@ -694,7 +1477,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/07/使用markdown编辑数学公式/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/25/[object Object]/Anime/骚动时节的少女们啊/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -713,7 +1496,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/07/使用markdown编辑数学公式/" itemprop="url">使用markdown编辑数学公式</a></h1>
+                <a class="post-title-link" href="/2019/09/25/[object Object]/Anime/骚动时节的少女们啊/" itemprop="url">骚动时节的少女们啊</a></h1>
         
 
         <div class="post-meta">
@@ -728,8 +1511,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T17:22:44+08:00">
-                2018-11-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T18:30:48+08:00">
+                2019-09-25
               </time>
             
 
@@ -751,8 +1534,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
+                  <a href="/categories/Anime/" itemprop="url" rel="index">
+                    <span itemprop="name">Anime</span>
                   </a>
                 </span>
 
@@ -769,8 +1552,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/07/使用markdown编辑数学公式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/使用markdown编辑数学公式/" itemprop="commentCount"></span>
+                <a href="/2019/09/25/[object Object]/Anime/骚动时节的少女们啊/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/[object Object]/Anime/骚动时节的少女们啊/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -779,237 +1562,7 @@
 
           
           
-             <span id="/2018/11/07/使用markdown编辑数学公式/" class="leancloud_visitors" data-flag-title="使用markdown编辑数学公式">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
-<p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
-<h3 id="创建公式编辑栏的方式"><a href="#创建公式编辑栏的方式" class="headerlink" title="创建公式编辑栏的方式"></a>创建公式编辑栏的方式</h3><ul>
-<li>内联公式：两个$之间​</li>
-<li>公式块：两个$$之间</li>
-<li>ctrl + shift +m</li>
-</ul>
-<h3 id="常用公式的代码"><a href="#常用公式的代码" class="headerlink" title="常用公式的代码"></a>常用公式的代码</h3><p>   注意，一个块要用{}包裹起来，^_上下标叠着写就行</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">输入</th>
-<th style="text-align:center">公式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">x^2</td>
-<td style="text-align:center">$x^2$</td>
-</tr>
-<tr>
-<td style="text-align:center">x_1</td>
-<td style="text-align:center">$x_1$</td>
-</tr>
-<tr>
-<td style="text-align:center">\frac{x}{y}</td>
-<td style="text-align:center">$\frac{x}{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sqrt[x]{y}</td>
-<td style="text-align:center">$\sqrt[x]{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\vec{x}</td>
-<td style="text-align:center">$\vec{x}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\int_{a}^{b}{x}dx</td>
-<td style="text-align:center">$\int_{a}^{b}{x}dx$</td>
-</tr>
-<tr>
-<td style="text-align:center">\cdots</td>
-<td style="text-align:center">$\cdots$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sum_{n=1}^{100}{a_n}</td>
-<td style="text-align:center">$\sum_{n=1}^{100}{a_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\lim_{n\to +\infty}</td>
-<td style="text-align:center">$\lim_{n\to +\infty}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\prod_{n=1}^{99}{x_n}</td>
-<td style="text-align:center">$\prod_{n=1}^{99}{x_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">a \quad b</td>
-<td style="text-align:center">$a \quad b$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/07/使用markdown编辑数学公式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/11/06/更换HEXO框架/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/06/更换HEXO框架/" itemprop="url">更换HEXO框架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T11:57:58+08:00">
-                2018-11-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/06/更换HEXO框架/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/06/更换HEXO框架/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/11/06/更换HEXO框架/" class="leancloud_visitors" data-flag-title="更换HEXO框架">
+             <span id="/2019/09/25/[object Object]/Anime/骚动时节的少女们啊/" class="leancloud_visitors" data-flag-title="骚动时节的少女们啊">
 
 
              </span>
@@ -1037,11 +1590,13 @@
       
         
           
-            <p>这两天将更换了个人网站的框架</p>
-<p>更改框架是个蛮麻烦的过程</p>
-<p>其中以前的文章很多格式都乱掉了</p>
-<p>而且图片全部没有了…….</p>
-<p>只能手动修正了</p>
+            <p>应该是老马失蹄的最惨的一次</p>
+<p>没想到后半段开始一路血崩…</p>
+<p>这就是部青春期性教育重要性的宣传片.. 前八集非常不错，冈妈将细腻与敏感的初春体现的淋漓尽致</p>
+<p>但是第八集之后，至少我是理解不能…… </p>
+<p>冈妈把关于性和爱的模糊不清的这种情感无限夸大 ，然后非常魔幻地表达出来，造成一种非常尴尬的效果，把非常抽象的东西用现实的手段生硬地表现出来造成了极强的违和感</p>
+<p>还有白毛和矮子这俩能不能删了orz</p>
+<p>前8集9分 ，后几集2分 ，加权一下，6.7分</p>
 
           
         
@@ -1090,7 +1645,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/10/18/Pytorch常用模块以及nn-Module/">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/09/25/[object Object]/开发/XCODE开发小记/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aisaka">
@@ -1109,7 +1664,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/18/Pytorch常用模块以及nn-Module/" itemprop="url">Pytorch常用模块以及nn.Module</a></h1>
+                <a class="post-title-link" href="/2019/09/25/[object Object]/开发/XCODE开发小记/" itemprop="url">IOS开发小记</a></h1>
         
 
         <div class="post-meta">
@@ -1124,8 +1679,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T12:20:59+08:00">
-                2018-10-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T17:23:04+08:00">
+                2019-09-25
               </time>
             
 
@@ -1147,8 +1702,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
                   </a>
                 </span>
 
@@ -1158,8 +1713,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
+                  <a href="/categories/开发/IOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">IOS开发</span>
                   </a>
                 </span>
 
@@ -1176,8 +1731,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/10/18/Pytorch常用模块以及nn-Module/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/18/Pytorch常用模块以及nn-Module/" itemprop="commentCount"></span>
+                <a href="/2019/09/25/[object Object]/开发/XCODE开发小记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/09/25/[object Object]/开发/XCODE开发小记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1186,7 +1741,7 @@
 
           
           
-             <span id="/2018/10/18/Pytorch常用模块以及nn-Module/" class="leancloud_visitors" data-flag-title="Pytorch常用模块以及nn.Module">
+             <span id="/2019/09/25/[object Object]/开发/XCODE开发小记/" class="leancloud_visitors" data-flag-title="IOS开发小记">
 
 
              </span>
@@ -1214,561 +1769,81 @@
       
         
           
-            <h2 id="pytroch常用包"><a href="#pytroch常用包" class="headerlink" title="pytroch常用包"></a>pytroch常用包</h2><p>PyTorch框架中有一个很常用的包：<code>torchvision</code><br>torchvision主要由3个子包构成：<code>torchvision.datasets</code>、<code>torchvision.models</code>、<code>torchvision.transforms</code><br><code>torchvision</code>和<code>torchtext</code>基于<code>torch.utils.data.Dataset</code>和<code>torch.utils.data.DataLoder</code>类构建<br><code>nn</code>来源于<code>torch.nn</code><br><code>optim</code>来源于<code>torch.optim</code> 超参数算法都在里面<br><code>lr_scheduler</code>来源于<code>torch.optim.lr_scheduler</code> 自适应学习率算法在里面<br><code>ImageFolder</code>在<code>torchvision.datasets</code>中<br><code>torchvision.models</code>中提供一些现有的流行算法</p>
-<p><code>torch.nn.functional</code> 各中层函数的实现，与层类型对应，如：卷积函数、池化函数、归一化函数等等</p>
-<h2 id="torch-nn与nn-Module"><a href="#torch-nn与nn-Module" class="headerlink" title="torch.nn与nn.Module"></a>torch.nn与nn.Module</h2><p>torch.nn是专门为神经网络设计的模块化接口。nn构建于autograd之上，可以用来定义和运行神经网络。</p>
-<p>torch.nn的核心数据结构是<code>Module</code>，它是一个抽象概念，既可以表示神经网络中的某个层（layer），也可以表示一个包含很多层的神经网络。无需纠结variable和tensor了，0.4版本已经将两个类彻底合并了。</p>
-<p>在实际使用中，最常见的做法是<strong>继承</strong><code>nn.Module</code>，撰写自己的网络/层。</p>
+            <p>最近老师想要给一个去中心链的IM开发几个功能，安卓端有人做，但我们实验室没人开发过IOS，老师想起我面试的时候提到过我大二做过IOS开发，就让我这个月搞出来，然后…</p>
+<p>不愧是世界上最难用的IDE，回想起了大二被XCODE支配的恐惧</p>
+<p>因为当时没用pods管理第三方库…以下踩坑记录</p>
+<ol>
+<li><p>使用CocoaPod管理依赖的项目，XCode只能使用workspace编译项目，如果还只打开以前的xcodeproj文件进行开发，编译会失败。新增的workspace文件会引用原有的应用主工程，还会引用新增的Pods工程</p>
+</li>
+<li><p>如果   PODS生成的静态链接库没有被主工程target链接，要自己手动建立链接</p>
+</li>
+<li><p>在头文件搜索路径里 xxx/xxx/<em> re… 别忘了加\</em>并设置迭代搜索</p>
+</li>
+<li><p>build后修改代码，需要build clean再重新build，不然会报上次一样的错</p>
+</li>
+<li><p>要检查头文件路径是否正确<xxx xxx="">，或者直接写”.h”，则xcode会直接在头文件搜索路径里搜索</xxx></p>
+</li>
+<li><p>mac自带的ruby权限较小，开发不要用这个。我们要自己安装rvm并创建ruby环境，随后我们的cocoapods是在这个环境使用的</p>
+</li>
+<li><p>respondsToSelector 用来判断某一个方法时候实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#如果destroy这个方法实现了，就执行之</span><br><span class="line">if ([subViewController respondsToSelector:@selector(destroy)])</span><br><span class="line">&#123;</span><br><span class="line">	[subViewController destroy];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UINavigationController 导航控制器</p>
+<p>开发的时候一般都是多控制器，由一个父控制器管理多个子控制器</p>
+<p>一般都是在Appdelegate中生成（可以将Nav写在一个VC中，然后在Appdelegate中实例化这个VC）</p>
+<p>使用方法：</p>
 <ul>
-<li><p>自定义层<code>Linear</code>必须继承<code>nn.Module</code>，并且在其构造函数中需调用<code>nn.Module</code>的构造函数，即<code>super(Linear, self).__init__()</code>  或<code>nn.Module.__init__(self)</code>，推荐使用第一种用法。</p>
+<li><p>初始化UINavigationController实例</p>
 </li>
-<li><p>在<strong>构造函数<code>__init__</code>中必须自己定义可学习的参数，并封装成<code>Parameter</code></strong>，比如 _FasterRcnn类init中定义了 self.RCNN_loss_cls = 0 和 self.RCNN_loss_bbox = 0 还有在本例中我们把<code>w</code>和<code>b</code>封装成<code>parameter</code>。<strong><code>parameter</code>是一种特殊的<code>Variable</code>，但其默认需要求导</strong>（requires_grad = True）。</p>
+<li><p>在AppDelegate中设置一个根控制器，即设置<code>self.window.rootViewController=UINavigationController</code>（在AppDelegate中设置,self指的appdelegate）</p>
 </li>
-<li><p><code>forward</code>函数实现前向传播过程，其输入可以是一个或多个variable，对x的任何操作也必须是variable支持的操作。</p>
-</li>
-<li><p><strong>无需写反向传播函数</strong>，<strong>因其前向传播都是对variable进行操作，nn.Module能够利用autograd自动实现反向传播，这点比Function简单许多。 faster rcnn等中反向传播直接写pass的原因。</strong></p>
-</li>
-<li><p>使用时，直观上可将layer看成数学概念中的函数，调用layer(input)即可得到input对应的结果。它等价于<code>layers.__call__(input)</code>，在<code>__call__</code>函数中，主要调用的是  <code>layer.forward(x)</code>，另外还对钩子做了一些处理。所以在实际使用中<strong>应尽量使用<code>layer(x)</code>而不是使用<code>layer.forward(x)</code></strong>。</p>
-</li>
-<li><p><code>Module</code>中的<strong>可学习参数</strong>可以<strong>通过<code>named_parameters()</code>或者<code>parameters()</code>返回迭代器</strong>，前者会给每个parameter都附上名字，使其更具有辨识度。</p>
-<p>Module能够自动检测到自己的<code>Parameter</code>，并将其作为学习参数。</p>
+<li><p>通过push方法添加需要的子控制器</p>
+<p>在初始化UINavagationController的时候调用构造方法<code>initWithRootViewController:</code>就会自动push自己设定的根控制器，但其它view就要创建后手动push</p>
 </li>
 </ul>
-<h2 id="nn-ReLU和F-ReLU有什么区别"><a href="#nn-ReLU和F-ReLU有什么区别" class="headerlink" title="nn.ReLU和F.ReLU有什么区别?"></a>nn.ReLU和F.ReLU有什么区别?</h2><p>将ReLU层添加到网络有两种不同的实现，即nn.ReLU和F.ReLU两种实现方法。<br>其中nn.ReLU作为一个层结构，必须添加到nn.Module容器中才能使用，而F.ReLU则作为一个函数调用，看上去作为一个函数调用更方便更简洁。具体使用哪种方式，取决于编程风格。在PyTorch中,nn.X都有对应的函数版本F.X，但是并不是所有的F.X均可以用于forward或其它代码段中，因为当网络模型训练完毕时，在存储model时，在forward中的F.X函数中的参数是无法保存的。也就是说，在forward中，使用的F.X函数一般均没有状态参数，比如F.ReLU，F.avg_pool2d等，均没有参数，它们可以用在任何代码片段中。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.Softmax() = nn.Linear() + forward最后输出的时候调用F.softmax()</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/10/15/CNN的卷积过程理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/15/CNN的卷积过程理解/" itemprop="url">CNN的卷积过程理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T20:30:52+08:00">
-                2018-10-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/15/CNN的卷积过程理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/15/CNN的卷积过程理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/10/15/CNN的卷积过程理解/" class="leancloud_visitors" data-flag-title="CNN的卷积过程理解">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="CNN的卷积层"><a href="#CNN的卷积层" class="headerlink" title="CNN的卷积层"></a>CNN的卷积层</h2><p>这就涉及到CNNs要做的工作了。每一个卷积核中的数值，都是<strong>算法自己学习来的</strong>，不需要我们费心去设置。<br>【CNN的特征提取部分和FC部分一样，也是需要训练的。训练学得Fliter的具体值，然后学得图像特征<br>相当于Fliter是W，图片是X，最终提取得到的特征是Y 输入进FC里（全连接层）<br>训练过程中，W不断学习得到最佳Fliter<br>（Filter其实就是权值！每个像素的权值！二维的<br>所以在最开始的FIlter时候其实就是权值初始化的问题,后面算法自己会学到）<br>】<br>我们需要做的是设置超参数（学习超参数）</p>
-<p><strong>所谓的卷积层conv就是一堆卷积核，卷积层的参数就是卷积核的参数</strong></p>
-<p>CONV-&gt;ACTIVATE-&gt;POOL-&gt; XXXXXXXX -&gt;FC</p>
-<h2 id="多通道卷积——理解卷积层的工作原理"><a href="#多通道卷积——理解卷积层的工作原理" class="headerlink" title="多通道卷积——理解卷积层的工作原理"></a>多通道卷积——理解卷积层的工作原理</h2><p>非常重要<br><strong>输出的层数必为卷积核的层数，以卷积核的视角来做卷积，一个卷积核生成一个卷积层！</strong></p>
-<p><img src="//aisakaki.com/2018/10/15/CNN的卷积过程理解/神经网络实践_多通道卷积.png" alt="神经网络实践_多通道卷积">**</p>
-<p><strong>同一个卷积核对所有通道做卷积然后进行求和得到该卷积核对应的卷积层</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/25/中秋/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/25/中秋/" itemprop="url">中秋</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-25T20:11:51+08:00">
-                2018-09-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/25/中秋/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/25/中秋/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/09/25/中秋/" class="leancloud_visitors" data-flag-title="中秋">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>中秋到了，月儿圆了。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/25/中秋/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisakaki.com/2018/09/15/notes-0915/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/15/notes-0915/" itemprop="url">notes_0915</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T10:44:40+08:00">
-                2018-09-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/09/15/notes-0915/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/09/15/notes-0915/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/09/15/notes-0915/" class="leancloud_visitors" data-flag-title="notes_0915">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ol>
-<li><p>尽量少使用显式循环<br>用向量化（并行运算） 即将元素作为向量进行计算<br>numpy.dot(x,y)<br>numpy.exp(v)<br>等等 numpy有很多向量化函数<br>即为点乘<br>平时计算的时候也可以直接用向量化计算，速度快很多</p>
+<p>当前view所属控制器<code>self.navigationController</code></p>
+<p>控制器跳转：<code>[self.navigationController pushViewController:xxxViewController animated:YES]</code></p>
+<p>压入(push)控制器：<code>-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
+<p>移除(pop)栈顶控制器:<code>-(UIViewController *)popViewControllerAnimated:(BOOL)animated;</code>即可返回上一层控制器</p>
+<p>回到(popTo)指定子控制器:<code>-(NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;</code></p>
+<p>回到根(popToRoot)控制器（栈底）:<code>-(NSArray *)popToRootViewControllerAnimated:(BOOL)Animated;</code></p>
+<p>一次压入多个控制器<code>setViewController</code></p>
+<p>栈顶控制器<code>nav.topViewController</code></p>
+<p>当前可见视图控制器<code>nav.visibleViewController</code></p>
 </li>
-<li><p>神经网络——堆叠的线性分类器<br>一个网元就是一个线性分类器</p>
+<li><p>ViewController相关</p>
+<p>根据名字获取VC：<code>_homeViewController = self.viewControllers[TABBAR_HOME_INDEX];</code></p>
 </li>
-<li><p>激活函数的选择 ReLU&gt;sigmod<br>ReLU最常用，sigmod基本不用</p>
+<li><p>账户登入状态等信息可以用单例模式来管理</p>
 </li>
-<li><p>tensor = 张量<br>在pytorch中，matrix即为张量</p>
+<li><p>AppDelegate负责管理程序周期，是程序入口</p>
+<p>如<code>-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code></p>
+<p>这里就是程序launch完后做的事情，这时候就可以初始化Root VC了</p>
 </li>
-<li><p>tensor，list，numpy array, tensor list的 <strong>转换方法</strong></p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">list = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]]</span><br><span class="line">tensor = torch.Tensor(list) <span class="comment">#List-&gt;Tensor</span></span><br><span class="line">narray = numpy.array(list)  <span class="comment">#List-&gt;narray</span></span><br><span class="line">tensor = torch.from_numpy(narray) <span class="comment">#narray-&gt;tensor</span></span><br><span class="line">narray = tensor.numpy()   <span class="comment">#Tensor-&gt;narray</span></span><br><span class="line">注意list narray tensor之间的转换方法</span><br></pre></td></tr></table></figure>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">将tensor list转变为tensor： </span><br><span class="line">用torch.stack而不是torch.Tensor</span><br><span class="line">tensor_list = [tensor0,tensor1,tensor2..]=&gt;tensor</span><br><span class="line">tensor = torch.stack(tensor_list)</span><br><span class="line">注意tensor中的格式必须相同，如果想要和list一样合并变长tensor必须用cat）</span><br></pre></td></tr></table></figure></li></ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/15/notes-0915/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<li><p>协议 接口 委托</p>
+<p>委托：A委托B去做某事，B如果没有这个方法，B从C继承，C有这个方法，就会执行C中的该方法（与java一样的向上转型）</p>
+<ul>
+<li>A是B的委托对象</li>
+<li>B引用一个A</li>
+<li>A将实现B的委托方法</li>
+<li>B通过委托方法通知</li>
+</ul>
+<p>接口：接口就相当于一个头文件，告诉外部可以用，联想生物细胞的构造</p>
+<p>在h文件里写@interfacae，在m文件里实现该interface，就相当于建立了一个类，只有interface暴露的东西才能被外部使用，这种设计是为了更好的安全性</p>
+<p>java类和oc类的核心区别在于，java类的共有私用是由类里面自己实现的，可以设置共私有变量和方法，而OC中每个类都是由一个接口interface和实现该interface的类来完成，只有interface中的东西暴露给了外部</p>
+<pre><code> 协议：协议可以类比java中的interface
+</code></pre></li>
+<li><p><code>Universal Link</code>, 中文是通用链接. 可以通过<code>http(s)</code>来唤醒<code>App</code></p>
+</li>
+<li><p>prepareForSegue:sender: </p>
+<p>为了区分视图的跳转，可以用上一个、下一个来表示，也可以用源视图、目标视图来表示。 即： sourceViewController 和destinationViewController。  目标视图控制器是指：即将显示（加载）的视图， 而源视图控制器是指：即将被取代的视图控制器。</p>
+</li>
+<li><p>跳转总结</p>
+<p><a href="https://www.jianshu.com/p/ceaf978f9dfe" target="_blank" rel="noopener">https://www.jianshu.com/p/ceaf978f9dfe</a></p>
+</li>
+</ol>
+
+          
         
       
     </div>
@@ -1806,7 +1881,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1854,7 +1929,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">157</span>
+                  <span class="site-state-item-count">222</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1865,7 +1940,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1901,7 +1976,7 @@
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://real-neo.me/" title="question" target="_blank">question</a>
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
                   </li>
                 
                   <li class="links-of-blogroll-item">
@@ -1922,6 +1997,14 @@
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
                   </li>
                 
               </ul>

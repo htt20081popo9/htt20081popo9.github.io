@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SLB入坑学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡">
+<meta property="og:url" content="https://aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="SLB入坑学习笔记">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/23/[object%20Object]/网络与云/负载均衡/0.png">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/23/[object%20Object]/网络与云/负载均衡/1.png">
+<meta property="og:updated_time" content="2020-06-28T14:00:41.602Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="负载均衡">
+<meta name="twitter:description" content="SLB入坑学习笔记">
+<meta name="twitter:image" content="https://aisaka.cloud/2020/06/23/[object%20Object]/网络与云/负载均衡/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/">
+
+
+
+
+
+  <title>负载均衡 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">负载均衡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-23T22:12:59+08:00">
+                2020-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络与云/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与云</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/23/[object Object]/网络与云/负载均衡/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/06/23/[object Object]/网络与云/负载均衡/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2020/06/23/[object Object]/网络与云/负载均衡/" class="leancloud_visitors" data-flag-title="负载均衡">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center><i>SLB入坑学习笔记</i></center>
+
+ <a id="more"></a>
+<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><ol>
+<li><p><strong>Nginx</strong></p>
+<p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器。 Nginx  主要提供<strong>反向代理、负载均衡、动静分离(静态资源服务，即静态web server)</strong>等服务。</p>
+<p>反向代理部分，以以前的例子来说，比如国内访问香港快，香港访问github快，但国内访问github慢，那我用一个香港服务器做nginx反代github，就能加速国内访问github了</p>
+<p>反向代理需要设置在配置文件的HTTP模块中</p>
+<p><strong>Nginx作为负载均衡使用的话就是一种常用的SLB软件。</strong>具体见后面“SLB：Nginx”一节</p>
+<p>参考阅读：<a href="https://www.jianshu.com/p/e2893b7c9c7b" target="_blank" rel="noopener">Nginx</a></p>
+</li>
+<li><p><strong>正向代理和反向代理</strong></p>
+<p>正向代理：Proxy代理客户端去访问服务器</p>
+<p>反向代理：客户端访问Proxy，该Proxy代理了服务端</p>
+</li>
+</ol>
+<p>反代是负载均衡的一种实现手段（的一个步骤）</p>
+<h1 id="使用负载均衡的网络架构举例"><a href="#使用负载均衡的网络架构举例" class="headerlink" title="使用负载均衡的网络架构举例"></a>使用负载均衡的网络架构举例</h1><p><a href="https://blog.csdn.net/qinglianchen0851/article/details/84306448" target="_blank" rel="noopener">架构笔记：负载均衡SLB，互联网架构大剖析</a></p>
+<p><img src="//aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/0.png" alt=""></p>
+<ul>
+<li>反向代理层的负载均衡，是通过“DNS轮询”实现的</li>
+<li>站点层的负载均衡，是通过“nginx”实现的</li>
+<li>服务层的负载均衡，是通过“服务连接池”实现的</li>
+<li>数据层的负载均衡，要考虑“数据的均衡”与“请求的均衡”两个点，常见的方式有“按照范围水平切分”与“hash水平切分”</li>
+</ul>
+<h1 id="四层和七层负载均衡"><a href="#四层和七层负载均衡" class="headerlink" title="四层和七层负载均衡"></a>四层和七层负载均衡</h1><p>由前面的例子可以看到，<strong>负载均衡实际上是可以实现在网络结构的每一个层次的</strong>，其核心目的就是平衡负载，前面所说的层次是指在网络请求架构上的层次，而这里的<strong>“四层”，“七层”SLB指的是SLB实现在在OSI七层模型的第几个层次</strong>。这两者是不冲突的，勿混淆。</p>
+<p>那么根据OSI七层网络模型，<strong>1物理层、2数据链路层、3网络层、4传输层、5会话层、6表示层、7应用层。</strong></p>
+<p>四层SLB工作在OSI第四层，也就是传输层；七层SLB工作在最高层，也就是应用层。</p>
+<p>区别如图：</p>
+<p><img src="//aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/1.png" alt=""></p>
+<p><strong>四层负载均衡</strong>：使用IP加端口的方式进行路由转发，也就是说客户端并没有和proxy建立TCP连接，而是<strong>客户端直接和后端服务器建立TCP连接</strong>（客户端先向负载均衡发送SYN请求建立第一次连接，然后再通过SLB算法，让客户端去与目标后端服务器进行三次握手连接）；</p>
+<p><strong>七层负载均衡</strong>：一般是基于请求URL地址的方式进行代理转发，七层服务均衡在应用层选择服务器，只能先与负载均衡设备进行TCP连接，然后<strong>负载均衡设备再与后端服务器建立另外一条TCP连接通道</strong>。</p>
+<p><strong>四层和七层负载均衡实现方式整体原理（重要）</strong>：<a href="https://zhuanlan.zhihu.com/p/34904010" target="_blank" rel="noopener">四层负载均衡和七层负载均衡区别在哪里？</a></p>
+<p><strong>常用负载均衡软件：</strong><a href="https://www.cnblogs.com/readygood/p/9757951.html" target="_blank" rel="noopener">四层和七层负载均衡的特点及常用负载均衡Nginx、Haproxy、LVS对比</a></p>
+<p>（四层: F5、LVS等，七层: nginx、apache等）</p>
+<p>显然<strong>七层SLB更损失性能</strong>；<strong>四层SLB可能会遭受SYN Flood攻击</strong>（一种DDoS攻击），可能将<strong>垃圾流量</strong>转发给后台服务器，而七层显然可以在SLB服务器上设置过滤</p>
+<p>（SYN Flood：利用TCP协议缺陷，发送大量伪造的TCP连接请求，从而使得被攻击方资源耗尽，更细节原理参考：<a href="https://www.jianshu.com/p/25030ded4fdb" target="_blank" rel="noopener">详解SYN Flood攻击原理与防范</a> 待阅读）</p>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><p><strong>四层负载均衡可通过LVS（Linux Virtual Server）+ keepalived的方式实现，七层负载均衡通过Tengine</strong>（淘宝网发起的Web服务器项目，在Nginx的基础上，针对有大访问量的网站需求进行了优化）<strong>实现</strong>。</p>
+<p>来自公网的请求通过<strong>等价多路径路由（ECMP）</strong>到达LVS集群，LVS集群内的每台LVS通过<strong>组播报文</strong>将会话同步到该集群内的其它LVS机器上，从而实现LVS集群内各台机器间的<strong>会话同步</strong>。同时，<strong>LVS集群会对Tengine集群进行健康检查</strong>，将异常机器从Tengine集群移除，保证七层负载均衡的可用性。</p>
+<p>产品架构：<a href="https://help.aliyun.com/document_detail/27544.html?spm=a2c4g.11186623.6.549.745f69f7HXgNjq" target="_blank" rel="noopener">阿里云负载均衡产品架构</a></p>
+<h2 id="集群综述"><a href="#集群综述" class="headerlink" title="集群综述"></a>集群综述</h2><p>集群根据功能分为两大类<strong>：高可用集群（HA）</strong>和<strong>负载均衡集群（SLB）</strong></p>
+<p>高可用集群主要是防止服务器宕机导致服务不可用，主要功能是服务器状态检测和故障隔离（热备）</p>
+<p>负载均衡集群则是平衡负载功能，请求分发给后端服务器处理</p>
+<h2 id="HA：VIP、VRRP"><a href="#HA：VIP、VRRP" class="headerlink" title="HA：VIP、VRRP"></a>HA：VIP、VRRP</h2><p>虚拟IP，方便切换实际主机而保持IP不变，目的是高可用性HA，<a href="https://www.cnblogs.com/51net/p/11643178.html" target="_blank" rel="noopener">虚拟IP(VIP)</a></p>
+<p><strong>持有VIP的是集群中的一台主机，只是对于外界来说，整个集群好像一台IP为VIP的主机</strong></p>
+<p>其需要使用VRRP协议</p>
+<p><strong>VRRP (Virtual Router Redundancy Protocol-虚拟路由冗余协议)</strong>：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">双机热备份-VRRP</a></p>
+<p><strong>VRRP</strong>可以通过<strong>把多台设备虚拟化成一台设备</strong>，然后通过<strong>配置虚拟IP地址(VIP)作为网关</strong>就能实现对网关的备份（<strong>这虚拟IP地址是代表整个VRRP组内的所有设备</strong>），当其中一台设备出现故障之后，VRRP组内其他设备会通过某些机制来接替故障设备的工作。</p>
+<p><strong>VIP地址与VRRP组中的某台VRRP设备实际IP地址相同，则此设备为IP地址拥有者</strong>（如在keepalived中我们最开始会手动设置一个master，后面再通过各种检查和选举机制决定新master）<strong>只有IP地址拥有者（master）才真正拥有这个VIP，显示在网卡信息中，其它backup是没有的</strong></p>
+<p>master会通过<strong>组播</strong>的形式向各个backup发送VRRP协议的数据包，当<strong>backup收不到master发来的VRRP数据包时，就会认为master宕机了</strong>。此时就需要根据各个backup的优先级来决定谁成为新的mater。</p>
+<h2 id="HA：keepalived"><a href="#HA：keepalived" class="headerlink" title="HA：keepalived"></a>HA：keepalived</h2><p>keepalived是一个实现服务器HA的<strong>软件</strong></p>
+<p>keepalived通过VRRP实现HA：<a href="https://blog.csdn.net/cdefggg/article/details/88431086" target="_blank" rel="noopener">基于VIP的keepalived高可用集群架构</a></p>
+<p>Keepalived主要有三个模块，分别是<strong>core</strong>、<strong>check</strong>和<strong>vrrp</strong>。</p>
+<p>①<strong>core模块</strong>：为keepalived的核心，负责<strong>主进程的启动、维护以及全局配置文件的加载和解析</strong></p>
+<p>②<strong>check模块</strong>：负责<strong>健康检查</strong></p>
+<p>③<strong>vrrp模块</strong>：是来<strong>实现VRRP协议</strong>的。</p>
+<p><strong>keepalived可以集成LVS配置</strong>，这样就不必单独配置LVS（见后面“keepalived+LVS集群”部分）</p>
+<h2 id="SLB：LVS"><a href="#SLB：LVS" class="headerlink" title="SLB：LVS"></a>SLB：LVS</h2><p>LVS：Linux Virtual Server</p>
+<p>LVS 是一个实现负载均衡集群的开源<strong>软件</strong></p>
+<p>LVS工作模式分为NAT模式、TUN模式、以及DR模式（见下面链接）</p>
+<p><strong>NAT模式</strong>就是运用NAT的原理，直接改IP头，这样的话数据往返都要经过ds。</p>
+<p><strong>DR模式</strong>：为了实现每台rs在向外发送响应报文的时候，可以把VIP作为源地址，因此我们设置<strong>ds和rs集群的所有主机都是同样的VIP</strong>，这样数据返回的时候就可以直接返回给请求端了。但<strong>需要在rs上禁用ARP解析</strong>，让所有的<strong>rs上的VIP地址不响应VIP的arp广播请求</strong>（否则vip一样，所有rs同时响应，谁响应快调度谁，不符合slb目的，这样一来只有ds会响应MAC地址请求，那么请求报文就一定发给ds了，再由ds根据调度算法指定目的rs的MAC地址，传给它，rs拿到清请求包后，将请求数据结果返回SIP（sourceIP）即可。</p>
+<p><strong>DR模式是最常用的</strong>，因为一般返回的数据比较庞大，返回流量不经过SLB可以大大减小负荷</p>
+<p>LVS的十大调度算法：<a href="https://www.cnblogs.com/caodneg7/p/10082700.html" target="_blank" rel="noopener">LVS十种调度算法介绍</a></p>
+<p>使用LVS架设的服务器集群有三个部分组成：</p>
+<p>负载均衡层(Load Balancer)：包含<strong>负载调度器（Director）</strong>，<strong>简写“ds”</strong></p>
+<p>服务器集群层(Server Array)：包含后端的服务器，<strong>真实服务器（Real Server）</strong>集群，是客户端真实访问的服务器，<strong>简写“rs”</strong></p>
+<p>数据共享存储层(Shared Storage)：提供给后端服务器进行数据访问</p>
+<p>LVS已经是Linux标准内核的一部分，只需要再安装一个<strong>lvs的管理工具：ipvsadm</strong>即可（ IPVS为LVS的核心模块）</p>
+<p><a href="https://www.cnblogs.com/lixigang/p/5371815.html" target="_blank" rel="noopener">Lvs之NAT、DR、TUN三种模式的应用配置案例以及底层原理</a>（<a href="https://www.cnblogs.com/MacoLee/p/5856858.html" target="_blank" rel="noopener">整理版本：LVS安装使用详解</a>）</p>
+<h2 id="SLB：Nginx"><a href="#SLB：Nginx" class="headerlink" title="SLB：Nginx"></a>SLB：Nginx</h2><p><a href="https://www.jianshu.com/p/3ca785008a20" target="_blank" rel="noopener">Nginx配置详解</a></p>
+<p><a href="https://www.cnblogs.com/sxshaolong/p/11706223.html" target="_blank" rel="noopener">Nginx如何配置反向代理</a>  </p>
+<p><a href="https://www.nginx.cn/4996.html" target="_blank" rel="noopener">Nginx如何配置负载均衡【很清晰，推荐】</a></p>
+<p>Nginx功能有反向代理、七层负载均衡，也可以作为静态web服务器，邮件服务器。默认使用端口80。其它功能见“引入”一节。</p>
+<p>Nginx的这些功能都是工作在第七层的，都是通过HTTP/HTTPS实现的，所以我们在写反代、负载均衡等的配置的时候自然要写在HTTP模块里。在HTTP子模块中主要有server和upstream子模块，server中需要配置location路由信息模块。</p>
+<p><strong>反向代理</strong>：在配置反向代理的时候，我们<strong>在http模块中定义server子模块，这个子模块配置虚拟主机，该服务器接受到端口80的所有流量（所有到达本Nginx服务器的HTTP请求）都发往该虚拟主机，也就完成了反代。</strong></p>
+<p><strong>负载均衡</strong>：如果有定义upstream子模块，<strong>server虚拟主机子模块将所有流量转发上游upstream子模块中的服务器，在upstream中可以设置多台rs后端服务器，可以选用负载均衡策略</strong>，也就实现了负载均衡功能。默认轮询调度upstream中的backend rs。（注意，upstream名称和server配置中的proxy_pass需要匹配才能转发到upstream。）</p>
+<p>Nginx的负载均衡功能支持3种负载均衡策略，2种常用的第三方策略</p>
+<p>以下为Nginx通用配置结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">main      # 全局配置                          </span><br><span class="line">events &#123;  </span><br><span class="line"># nginx工作模式配置</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;    # http设置                            </span><br><span class="line">    ....</span><br><span class="line"></span><br><span class="line">    server &#123;     # 服务器主机配置（虚拟主机）                   </span><br><span class="line">        ....</span><br><span class="line">        location &#123;   # 路由配置                 </span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location path &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location otherpath &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream name &#123;   # 负载均衡配置                 </span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：所有rs都要禁用arp解析（写个jio本），原因和lvs集群须禁用rs的arp解析一样</p>
+<h2 id="SLB：Tengine"><a href="#SLB：Tengine" class="headerlink" title="SLB：Tengine"></a>SLB：Tengine</h2><p>淘宝网发起的Nginx的升级版，就是针对淘宝网的需求优化了一下</p>
+<h2 id="keepalived-LVS集群：实现高可用负载均衡"><a href="#keepalived-LVS集群：实现高可用负载均衡" class="headerlink" title="keepalived+LVS集群：实现高可用负载均衡"></a>keepalived+LVS集群：实现高可用负载均衡</h2><p><strong>【整体网络架构：keepalived管理LVS集群，LVS管理后端服务器集群】</strong></p>
+<p>（LVS集群中由keepalived指定的就是本次工作的ds）</p>
+<p>为什么要两者结合？因为LVS做负载均衡，来达到分发请求的目的，但是不能很好的避免单点故障，假如LVS服务器挂点了，那么所有的服务也会跟着瘫痪 。keepalived+LVS，就能很好的解决这一问题</p>
+<p><strong>keepAlived用于保证SLB集群（LVS）的高可用性，是指的SLB本身的高可用</strong>。对于在keepalived中配置lvs模块，起目的是补充lvs的配置，keepalived属于lvs的扩展项目</p>
+<p><strong>实践例子</strong>：  </p>
+<p>①<a href="https://blog.csdn.net/qq_35587839/article/details/52604007?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">keepalived基础使用</a></p>
+<p>②<a href="https://blog.csdn.net/super_lixiang/article/details/82707805" target="_blank" rel="noopener">keepAlived+lvs→效率最高的负载均衡【重要：KeepAlived集成LVS】</a>      </p>
+<p>③<a href="https://blog.csdn.net/lijian12388806/article/details/51882333?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">keepalived + nginx 实现高可用集群方案</a>（这里Nginx只是安装好后直接启动，没有任何配置，其实和①差不多）</p>
+<p><strong>keepalived可以集成LVS配置</strong>，在①的配置文件中，若多写个<strong>virtual_server</strong>项，即可<strong>在keepalived中配置本机的VIP等信息的时候同时将本机配置为LVS服务器</strong>，<strong>virtual_server中的real_server</strong>项配置即为<strong>本机LVS负责调度的真实的后端服务器集群</strong>，keepalived的负载均衡框架实际上就是使用的LVS，<strong>keepalived直接使用了IPVS，即LVS的核心组件，实现了负载均衡功能</strong>。</p>
+<p>这样一来，<strong>keepalived就接管了虚拟ip完成了虚拟ip的高可用（主从热备功能）</strong>，同时<strong>keepalived也监测了两台Real Server（负载均衡功能）</strong></p>
+<p>也可以不在KeepAlived中配置LVS，单独手动配置LVS，见前面“LVS-Lvs之NAT、DR、TUN三种模式的应用配置案例以及底层原理”一部分，但这样显然更麻烦；对于集群不是LVS集群，如是普通主机集群or Nginx集群，就只能各个服务自己配置自己的了，keepalived只负责主从热备。</p>
+<p><strong>[KeepAlived+LVS大概步骤总结]：</strong></p>
+<p>先给每台LVS配置同一个VIP（增加一个本地路由lo0，设置其IP为想要的VIP，注意VIP必须和实际IP在同一个网段）<a href="https://blog.csdn.net/chengxuyuanyonghu/article/details/83539966" target="_blank" rel="noopener">linux配置虚拟IP—VIP</a></p>
+<p>安装ipvsadm</p>
+<p><strong>集群中每台主机都安装keepalived</strong>，写keepalived配置：配置VIP和真实服务IP，配置LVS（配置virtual_server和对应的real_server）</p>
+<p>如果是LVS工作在DR模式，需要在每台rs上抑制arp响应</p>
+<p>那么网络结构就是：<strong>请求端——keepalived+lvs集群（ds）+后端服务器集群（rs）</strong></p>
+<h2 id="keepalived-LVS集群-Nginx集群：实现四层、七层高可用负载均衡"><a href="#keepalived-LVS集群-Nginx集群：实现四层、七层高可用负载均衡" class="headerlink" title="keepalived+LVS集群+Nginx集群：实现四层、七层高可用负载均衡"></a>keepalived+LVS集群+Nginx集群：实现四层、七层高可用负载均衡</h2><p><a href="https://blog.csdn.net/lupengfei1009/article/details/86514445" target="_blank" rel="noopener">LVS+KeepAlived+Nginx高可用实现方案【这篇写得很详细，推荐】</a></p>
+<p>网络结构：<strong>请求端——keepalived+lvs集群（ds）——Nginx集群（ds/rs）——后端服务器集群（rs）</strong></p>
+<p><strong>Ningx集群对于lvs集群来说是rs，对于后端服务器集群来说是ds</strong>（配置也就按这样ds-rs关系配置）</p>
+<p>LVS作为四层和七层SLB的入口。对于四层，由LVS集群转发给rs；对于七层，LVS集群将请求转发给Tengine集群，再由Tengine集群转发给rs；由于lvs的消耗很低，所以这种结构是合理的，即能满足四层SLB的速度，又能满足七层SLB的多功能。</p>
+<p>在使用VIP下，如果lvs集群、nginx集群、rs集群对外的vip都是一样的，所以为了让请求到达云的时候，只让lvs的ds响应，我们要<strong>抑制nginx集群和rs集群的arp响</strong>应：<a href="https://www.cnblogs.com/lgfeng/archive/2012/10/16/2726308.html" target="_blank" rel="noopener">LVS负载均衡中arp_ignore和arp_annonuce参数配置的含义</a>（对于keepalived+lvs集群本身，keepalived会根据VRRP协议，只让master（也就是VIP目前指向的真实MAC地址机器）作出响应，所以无需再手动抑制lvs集群的arp响应）</p>
+<p>高性能负载均衡设计与实现 - 阿里云云栖号的文章 - 知乎 <a href="https://zhuanlan.zhihu.com/p/29949340" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/29949340</a></p>
+<h2 id="高可用架构可能出现的问题"><a href="#高可用架构可能出现的问题" class="headerlink" title="高可用架构可能出现的问题"></a>高可用架构可能出现的问题</h2><p><strong>脑裂</strong>：<strong>主备集群中两个节点互相认为对方已挂掉，都成为了master</strong>，然后开始争抢共享资源，结果会导致系统混乱，数据损坏。</p>
+<p>在keepalived+LVS集群+Nginx集群网络结构中，<strong>只有keepalived+LVS集群这一层可能出现脑裂（keepalived导致）</strong>，即keepalived的master主机使用vrrp对keepalived+lvs集群进行心跳检查<strong>（vrrp报文）</strong>的时候出现故障，以为对方挂了，在vrrp协议中，backup如果收不到来自master的心跳包，就认为master down了，自动转为master，<strong>那集群就出现两个master了，它们都持有VIP，那么他俩都能接收到SIP（source IP）发出的请求，开始争抢资源，系统混乱，也就是脑裂</strong>。</p>
+<p>可能原因：VRRP中的心跳检查出故障了</p>
+<p>待更新更多可能问题…</p>
+<h2 id="Key-Server"><a href="#Key-Server" class="headerlink" title="Key Server"></a>Key Server</h2><p>如果相应的负载均衡实例服务端口使用的是七层<strong>HTTPS</strong>协议，与上述HTTP处理过程类似（keepalived+LVS集群+Tengine集群），差别是在按策略将服务请求最终分发到后端ECS服务器<strong>（rs）前，先调用Key Server进行证书验证及数据包加解密等前置操作</strong>。</p>
+<p>这一步是<strong>由Tengine集群向Key Server发送请求进行验证</strong>，而不是后端服务器rs</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/" title="负载均衡">https://aisaka.cloud/2020/06/23/[object Object]/网络与云/负载均衡/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/21/[object Object]/Game/最后生还者2/" rel="next" title="为年度雷王的诞生献上礼炮">
+                <i class="fa fa-chevron-left"></i> 为年度雷王的诞生献上礼炮
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/25/[object Object]/网络与云/HTTPS-ver2/" rel="prev" title="HTTPS(ver2)">
+                HTTPS(ver2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引入"><span class="nav-number">1.</span> <span class="nav-text">引入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用负载均衡的网络架构举例"><span class="nav-number">2.</span> <span class="nav-text">使用负载均衡的网络架构举例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四层和七层负载均衡"><span class="nav-number">3.</span> <span class="nav-text">四层和七层负载均衡</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number">4.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#集群综述"><span class="nav-number">4.1.</span> <span class="nav-text">集群综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HA：VIP、VRRP"><span class="nav-number">4.2.</span> <span class="nav-text">HA：VIP、VRRP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HA：keepalived"><span class="nav-number">4.3.</span> <span class="nav-text">HA：keepalived</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SLB：LVS"><span class="nav-number">4.4.</span> <span class="nav-text">SLB：LVS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SLB：Nginx"><span class="nav-number">4.5.</span> <span class="nav-text">SLB：Nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SLB：Tengine"><span class="nav-number">4.6.</span> <span class="nav-text">SLB：Tengine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived-LVS集群：实现高可用负载均衡"><span class="nav-number">4.7.</span> <span class="nav-text">keepalived+LVS集群：实现高可用负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived-LVS集群-Nginx集群：实现四层、七层高可用负载均衡"><span class="nav-number">4.8.</span> <span class="nav-text">keepalived+LVS集群+Nginx集群：实现四层、七层高可用负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高可用架构可能出现的问题"><span class="nav-number">4.9.</span> <span class="nav-text">高可用架构可能出现的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Key-Server"><span class="nav-number">4.10.</span> <span class="nav-text">Key Server</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
