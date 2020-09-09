@@ -1776,7 +1776,7 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <h2 id="SQL语句优化"><a href="#SQL语句优化" class="headerlink" title="SQL语句优化"></a>SQL语句优化</h2><p>禁用储存过程（将它分离到业务层）、储存文件不要太大、平衡范式和冗余、禁止使用外键、建议分离冷热数据</p>
 <p>尽量定义为not null并提供默认值、禁用TEXT、根据业务选择char/varcahr</p>
 <p>索引不宜过多、禁止在更新十分频繁的属性建立索引、禁止在区分度不高的属性上建立索引、建立联合索引遵循最左原则</p>
-<p>禁止以下语句，否则会导致遍历全表：select *、属性隐式转换、where条件属性上使用函数表达式、负向查询、模糊查询、null判断</p>
+<p>禁止以下语句，否则会导致遍历全表：<code>select *</code>、属性隐式转换、where条件属性上使用函数表达式、负向查询、模糊查询、null判断</p>
 <p>禁止大表用join（会产生<strong>临时表</strong>）、尽量用union all代替union（后者有去重功能）、使用limit、尽量使用inner join（默认join，因为<strong>inner join会选择较小的表作为驱动表</strong>，大表作为被驱动表）、尽量用小表去驱动大表（减少连接次数）</p>
 <p>当mysql优化器选错索引的时候，我们可以用FORCE INDEX来强制使用某索引（SQL索引-慢查询-3）</p>
 <p>应用程序需要捕获SQL异常并处理</p>
@@ -1811,7 +1811,7 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <p>保证写库的高可用：双主同步（两个互相同步），但要考虑双主的键冲突问题</p>
 <p>然后就一堆分布式问题了。</p>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ol>
-<li><p>select <em> from table_name limit 1; 从表中<em>*随机</em></em>取出一条数据</p>
+<li><p><code>select * from table_name limit 1;</code> 从表中<strong>随机</strong>取出一条数据</p>
 </li>
 <li><p>VARVHAR最大长度是16384，储存app meta够用。CHAR的长度是255。</p>
 </li>
@@ -1846,8 +1846,8 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <p>②对于<strong>RR：读取最老提交事务（版本号最小）的快照版本</strong>（每次查询都会重新生成快照列表）也就是我只要开始读了，那一串写快照链都雨我无瓜了。</p>
 <p>在读写锁（即共享锁S和互斥锁X）中，我们已经实现了读-读兼容</p>
 <p>MVCC的意义在于①实现读-写兼容。也就是实现了不阻塞查询，即允许了读时写。②同时由于没有加锁，也使得效率提高。</p>
-<h2 id="快照读、当前读"><a href="#快照读、当前读" class="headerlink" title="快照读、当前读"></a>快照读、当前读</h2><p><strong>SQL默认快照读：就是默认的MVCC方法（不含锁）</strong>（即我们平时默认SQL语句比如select * from tb1）</p>
-<p><strong>当前读：不使用MVCC方案，而是采用读写锁</strong>（需要SQL显示加锁：select <em> from tb1 where ? lock in share mode，select </em> from tb1 where ? for update）</p>
+<h2 id="快照读、当前读"><a href="#快照读、当前读" class="headerlink" title="快照读、当前读"></a>快照读、当前读</h2><p><strong>SQL默认快照读：就是默认的MVCC方法（不含锁）</strong>（即我们平时默认SQL语句比如<code>select * from tb1</code>）</p>
+<p><strong>当前读：不使用MVCC方案，而是采用读写锁</strong>（需要SQL显示加锁：<code>select * from tb1 where ? lock in share mode，select * from tb1 where ? for update</code>）</p>
 <p><strong>快照读是非一致性读，当前度是一致性读</strong></p>
 <p><strong>当前读用在一致性要求高的地方，比如多个并发数据库请求，当读被写阻塞的时候，我就得等写完（释放写锁），再进行读（加读锁）。当一致性要求不高的时候，使用MVCC，那即使前面有事务在写，那我也可以读，只不过读的是个旧的快照罢了！</strong></p>
 <hr>
@@ -2653,6 +2653,8 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 <p>3、调用Condition的await()和signal()方法，都必须在lock保护之内，就是说必须在lock.lock()和lock.unlock之间才可以使用。</p>
 <p>4、Conditon中的await()对应Object的wait()，Condition中的signal()对应Object的notify()，Condition中的signalAll()对应Object的notifyAll()。</p>
 <p>参考：<a href="https://blog.csdn.net/weixin_43767015/article/details/104933955" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43767015/article/details/104933955</a></p>
+<h2 id="reentrantlock和synchronized主要区别"><a href="#reentrantlock和synchronized主要区别" class="headerlink" title="reentrantlock和synchronized主要区别"></a>reentrantlock和synchronized主要区别</h2><p>reentrantlock：多次加解锁、可中断、可公平、可非阻塞、多个condition-多同步队列-精确控制</p>
+<p>reentrantlock底层：AQS同步器、CAS方式获取同步器状态</p>
 <p>实践例子见生产者消费者问题</p>
 <h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>多个线程竞争获取许可信号，并发控制交由信号量本身实现，我们只需要调用其提供的API即可</p>
 <p><strong>release()释放信号量，信号量计数+1；acquire()获取信号量，信号量计数-1</strong></p>
@@ -9409,6 +9411,15 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p><strong>理解：</strong>所以我们一般用个id（默认的）做主键，然后再用辅助索引索引name之类的字段，然后我们通过辅助索引查得name所对应的主键id，再回标去主键索引中查就能很快查出主键索引树对应叶子节点上的数据。（当然这里可以用覆盖索引改善，不用回表查询）。想想如果没有辅助索引只有主键索引，那我们就得去所有数据行中找对应的name，就相当于没有索引了。</p>
 <p><strong>非主键索引</strong>：也叫<strong>辅助索引</strong>。非主键索引是要先链接到主键索引上的，<strong>只要建立的不是主键就是非主键索引</strong>。使用：create index on（由于默认建立主键，所以非主键索引可以不用担心没有链接到主键索引）</p>
 <p>非主键索引可以是不唯一的，但主键索引一定是唯一的</p>
+<h2 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B+Tree和B Tree的区别"></a>B+Tree和B Tree的区别</h2><p><strong>B+树的叶子节点只存储数据（还有索引值、链表指针），在B+树查找命中的时候，会将叶子结点的data域（一页）读进内存</strong></p>
+<p><strong>B+树的一个节点（所有结点）大小=innodb的一页</strong>=4个操作系统页(一页4kb)=16kb(系统规定，不用纠结)<strong>然后把非叶子结点读入内存，叶子结点只在读取到的时候读入内存</strong></p>
+<p><strong>叶子节点只存储数据</strong>(索引值和链表指针占不考虑)</p>
+<p><strong>非叶子节点存储(索引值+指针（指向下子结点））</strong>&lt;=这<strong>就是B+树相比B树优秀的地方之一，①非叶子结点只存索引，那当然使得非叶子结点储存的索引量增大，使得中间索引更快，层数更低，查询更有效率！</strong></p>
+<p>并且利用外存的“预读取”原则，每次读取的时候，把整个节点的数据读取到内存中，下次读取很有可能还读取结点附近的数据（<strong>局部性原理</strong>）</p>
+<p>②<strong>查询速度更稳定</strong>：由于B+Tree非叶子节点不存储数据（data），因此<strong>所有的数据都要查询至叶子节点</strong>，而叶子节点的高度都是相同的，因此所有数据的查询速度都是一样的。</p>
+<p>③<strong>添加了指向相邻叶节点的指针</strong>，形成了带有顺序访问指针的B+Tree，这样做是为了提高区间查找的效率</p>
+<p><strong>非主键索引，主键索引都是用B+树结构</strong>（但非主键索引的叶子结点存放的是主键值）</p>
+<p>补充阅读，可以更详细地了解具体结构：<a href="https://blog.csdn.net/qq_24384579/article/details/90902132" target="_blank" rel="noopener">https://blog.csdn.net/qq_24384579/article/details/90902132</a></p>
 <h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><p>当建立<strong>联合索引</strong>(a,b,c)的时候，那么就会先排序a，再在a定的基础上排序b，再c。这样一来我们在select查询的时候就必须遵循<strong>最左匹配原则，要使用后面的索引，必须得先使用前面的索引</strong>，即只能select a或a b或abc，才会使用能进行快速索引查找，否则就只是全表扫描很慢</p>
 <p>联合索引是一棵树</p>
 <p>更多见索引优化-2</p>
@@ -9440,7 +9451,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>(1)、<strong>没有用上索引</strong>：例如该<strong>字段没有索引</strong>；由于对<strong>字段进行运算、函数操作</strong>导致无法用索引；<strong>没有遵循最左原则选择列</strong>。</p>
 <p>(2)、<strong>数据库选错了索引。</strong></p>
 <p>3、我们的<strong>SQL请求太多/太长</strong>了</p>
-<p>尽量上select *，最好用limit，尽量将大SQL语句拆成小的，以便使用缓存</p>
+<p>尽量上<code>select *</code>，最好用limit，尽量将大SQL语句拆成小的，以便使用缓存</p>
 <p>索引不使用于小表上（索引开销大还不如全表扫描，索引的B+树的新增、更新、删除操作需要分裂旋转等操作）</p>
 <h2 id="索引设计原则"><a href="#索引设计原则" class="headerlink" title="索引设计原则"></a>索引设计原则</h2><p>MySQL 索引设计原则：</p>
 <p>（1）对于<strong>经常查询</strong>的字段，建议创建索引。</p>
@@ -10910,12 +10921,12 @@ drop掉1后就变成
 </li>
 <li><p><strong>table.列名</strong>：点语法</p>
 <p>点语法，可以助力<strong>多表查询</strong></p>
-<p>于是就可以配合出多表查询比如：<strong>select</strong> <em> <strong>from</strong> table1,table2 <em>*where</em></em> table1.NAME=table2.NAME;</p>
+<p>于是就可以配合出多表查询比如：<code>select * from table1,table2 where table1.NAME=table2.NAME;</code></p>
 <p>我们也可以用专业的join，见下</p>
 </li>
 <li><p><strong>join</strong>：多表查询</p>
 <p>从两个或更多的表中获取结果</p>
-<p>select <em> from table1 <strong>join</strong> table2 <em>*on</em></em> tb1.name=tb2.name;</p>
+<p><code>select * from table1 join table2 on tb1.name=tb2.name;</code></p>
 <p>同时有inner join，left join，right join，full join</p>
 <p><strong>join=inner join</strong>是返回两张表中<strong>完全匹配</strong>的结果</p>
 <p><strong>left join，right join</strong>返回左/右表所有行</p>
@@ -10924,11 +10935,11 @@ drop掉1后就变成
 </li>
 <li><p><strong>union</strong>：合并查询结果</p>
 <p>写在两个select from中间（是一个语句！）</p>
-<p>eg：select <em> from tb1 <strong>union</strong> select </em> from tb2;</p>
+<p>eg：<code>select * from tb1 **union** select * from tb2;</code></p>
 <p>union选取不同的值，union all可以选取相同的值</p>
 </li>
 <li><p><strong>insert select into</strong>：从一个表中选取数据插入另一个表，<strong>复制表，常用来备份</strong></p>
-<p>insert into table_backup select * from table1;</p>
+<p><code>insert into table_backup select * from table1;</code></p>
 <p><strong>from后面可以加上①where子句，②还可以配合join连接两个表一起复制</strong></p>
 <p>要求目标表存在</p>
 </li>
@@ -11033,8 +11044,8 @@ drop掉1后就变成
 <p>对于inner join没有区别</p>
 <p><strong>但在left join时，on后面的条件只对右表有效（right join就只对左表有效）</strong></p>
 <p><strong>而where是对两个表都有效</strong></p>
-<p>//这两个结果是不一样的<br>select <em> from person p left <strong>join</strong> account a <strong>on</strong> p.id=a.id <em>*and</em></em> p.id!=4 and a.id!=4;</p>
-<p>select <em> from person p left <strong>join</strong> account a <strong>on</strong> p.id=a.id <em>*where</em></em> p.id!=4 and a.id!=4;</p>
+<p>//这两个结果是不一样的<br><code>select * from person p left join account a on p.id=a.id and p.id!=4 and a.id!=4;</code></p>
+<p><code>select * from person p left join account a on p.id=a.id where p.id!=4 and a.id!=4;</code></p>
 <p><a href="https://blog.csdn.net/u013468917/article/details/61933994" target="_blank" rel="noopener">https://blog.csdn.net/u013468917/article/details/61933994</a></p>
 </li>
 <li><p>sql having（前面出现的）和where（可以前面未出现）</p>

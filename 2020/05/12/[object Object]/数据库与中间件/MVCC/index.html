@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-31T13:20:25.469Z">
+<meta property="og:updated_time" content="2020-09-02T11:39:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL并发相关原理">
 <meta name="twitter:description" content="隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁">
@@ -444,8 +444,8 @@
 <p>②对于<strong>RR：读取最老提交事务（版本号最小）的快照版本</strong>（每次查询都会重新生成快照列表）也就是我只要开始读了，那一串写快照链都雨我无瓜了。</p>
 <p>在读写锁（即共享锁S和互斥锁X）中，我们已经实现了读-读兼容</p>
 <p>MVCC的意义在于①实现读-写兼容。也就是实现了不阻塞查询，即允许了读时写。②同时由于没有加锁，也使得效率提高。</p>
-<h2 id="快照读、当前读"><a href="#快照读、当前读" class="headerlink" title="快照读、当前读"></a>快照读、当前读</h2><p><strong>SQL默认快照读：就是默认的MVCC方法（不含锁）</strong>（即我们平时默认SQL语句比如select * from tb1）</p>
-<p><strong>当前读：不使用MVCC方案，而是采用读写锁</strong>（需要SQL显示加锁：select <em> from tb1 where ? lock in share mode，select </em> from tb1 where ? for update）</p>
+<h2 id="快照读、当前读"><a href="#快照读、当前读" class="headerlink" title="快照读、当前读"></a>快照读、当前读</h2><p><strong>SQL默认快照读：就是默认的MVCC方法（不含锁）</strong>（即我们平时默认SQL语句比如<code>select * from tb1</code>）</p>
+<p><strong>当前读：不使用MVCC方案，而是采用读写锁</strong>（需要SQL显示加锁：<code>select * from tb1 where ? lock in share mode，select * from tb1 where ? for update</code>）</p>
 <p><strong>快照读是非一致性读，当前度是一致性读</strong></p>
 <p><strong>当前读用在一致性要求高的地方，比如多个并发数据库请求，当读被写阻塞的时候，我就得等写完（释放写锁），再进行读（加读锁）。当一致性要求不高的时候，使用MVCC，那即使前面有事务在写，那我也可以读，只不过读的是个旧的快照罢了！</strong></p>
 <hr>

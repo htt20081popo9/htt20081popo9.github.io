@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="SQL 分为数据操作语言 (DML) 和 数据定义语言 (DDL)。 DML是用于执行查询的语法：select，update，delete，insert into DDL部分使我们有能力创建或删除表格，定义索引（键），规定表之间的链接，以及施加表间的约束：create database，alter database，create table，alter table，drop table，creat">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-29T14:11:40.671Z">
+<meta property="og:updated_time" content="2020-09-02T11:43:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL语句">
 <meta name="twitter:description" content="SQL 分为数据操作语言 (DML) 和 数据定义语言 (DDL)。 DML是用于执行查询的语法：select，update，delete，insert into DDL部分使我们有能力创建或删除表格，定义索引（键），规定表之间的链接，以及施加表间的约束：create database，alter database，create table，alter table，drop table，creat">
@@ -482,12 +482,12 @@
 </li>
 <li><p><strong>table.列名</strong>：点语法</p>
 <p>点语法，可以助力<strong>多表查询</strong></p>
-<p>于是就可以配合出多表查询比如：<strong>select</strong> <em> <strong>from</strong> table1,table2 <em>*where</em></em> table1.NAME=table2.NAME;</p>
+<p>于是就可以配合出多表查询比如：<code>select * from table1,table2 where table1.NAME=table2.NAME;</code></p>
 <p>我们也可以用专业的join，见下</p>
 </li>
 <li><p><strong>join</strong>：多表查询</p>
 <p>从两个或更多的表中获取结果</p>
-<p>select <em> from table1 <strong>join</strong> table2 <em>*on</em></em> tb1.name=tb2.name;</p>
+<p><code>select * from table1 join table2 on tb1.name=tb2.name;</code></p>
 <p>同时有inner join，left join，right join，full join</p>
 <p><strong>join=inner join</strong>是返回两张表中<strong>完全匹配</strong>的结果</p>
 <p><strong>left join，right join</strong>返回左/右表所有行</p>
@@ -496,11 +496,11 @@
 </li>
 <li><p><strong>union</strong>：合并查询结果</p>
 <p>写在两个select from中间（是一个语句！）</p>
-<p>eg：select <em> from tb1 <strong>union</strong> select </em> from tb2;</p>
+<p>eg：<code>select * from tb1 **union** select * from tb2;</code></p>
 <p>union选取不同的值，union all可以选取相同的值</p>
 </li>
 <li><p><strong>insert select into</strong>：从一个表中选取数据插入另一个表，<strong>复制表，常用来备份</strong></p>
-<p>insert into table_backup select * from table1;</p>
+<p><code>insert into table_backup select * from table1;</code></p>
 <p><strong>from后面可以加上①where子句，②还可以配合join连接两个表一起复制</strong></p>
 <p>要求目标表存在</p>
 </li>
@@ -605,8 +605,8 @@
 <p>对于inner join没有区别</p>
 <p><strong>但在left join时，on后面的条件只对右表有效（right join就只对左表有效）</strong></p>
 <p><strong>而where是对两个表都有效</strong></p>
-<p>//这两个结果是不一样的<br>select <em> from person p left <strong>join</strong> account a <strong>on</strong> p.id=a.id <em>*and</em></em> p.id!=4 and a.id!=4;</p>
-<p>select <em> from person p left <strong>join</strong> account a <strong>on</strong> p.id=a.id <em>*where</em></em> p.id!=4 and a.id!=4;</p>
+<p>//这两个结果是不一样的<br><code>select * from person p left join account a on p.id=a.id and p.id!=4 and a.id!=4;</code></p>
+<p><code>select * from person p left join account a on p.id=a.id where p.id!=4 and a.id!=4;</code></p>
 <p><a href="https://blog.csdn.net/u013468917/article/details/61933994" target="_blank" rel="noopener">https://blog.csdn.net/u013468917/article/details/61933994</a></p>
 </li>
 <li><p>sql having（前面出现的）和where（可以前面未出现）</p>

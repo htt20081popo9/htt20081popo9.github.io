@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="索引类型、实现、以及索引优化">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-17T11:04:24.534Z">
+<meta property="og:updated_time" content="2020-09-02T11:39:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL索引">
 <meta name="twitter:description" content="索引类型、实现、以及索引优化">
@@ -439,6 +439,15 @@
 <p><strong>理解：</strong>所以我们一般用个id（默认的）做主键，然后再用辅助索引索引name之类的字段，然后我们通过辅助索引查得name所对应的主键id，再回标去主键索引中查就能很快查出主键索引树对应叶子节点上的数据。（当然这里可以用覆盖索引改善，不用回表查询）。想想如果没有辅助索引只有主键索引，那我们就得去所有数据行中找对应的name，就相当于没有索引了。</p>
 <p><strong>非主键索引</strong>：也叫<strong>辅助索引</strong>。非主键索引是要先链接到主键索引上的，<strong>只要建立的不是主键就是非主键索引</strong>。使用：create index on（由于默认建立主键，所以非主键索引可以不用担心没有链接到主键索引）</p>
 <p>非主键索引可以是不唯一的，但主键索引一定是唯一的</p>
+<h2 id="B-Tree和B-Tree的区别"><a href="#B-Tree和B-Tree的区别" class="headerlink" title="B+Tree和B Tree的区别"></a>B+Tree和B Tree的区别</h2><p><strong>B+树的叶子节点只存储数据（还有索引值、链表指针），在B+树查找命中的时候，会将叶子结点的data域（一页）读进内存</strong></p>
+<p><strong>B+树的一个节点（所有结点）大小=innodb的一页</strong>=4个操作系统页(一页4kb)=16kb(系统规定，不用纠结)<strong>然后把非叶子结点读入内存，叶子结点只在读取到的时候读入内存</strong></p>
+<p><strong>叶子节点只存储数据</strong>(索引值和链表指针占不考虑)</p>
+<p><strong>非叶子节点存储(索引值+指针（指向下子结点））</strong>&lt;=这<strong>就是B+树相比B树优秀的地方之一，①非叶子结点只存索引，那当然使得非叶子结点储存的索引量增大，使得中间索引更快，层数更低，查询更有效率！</strong></p>
+<p>并且利用外存的“预读取”原则，每次读取的时候，把整个节点的数据读取到内存中，下次读取很有可能还读取结点附近的数据（<strong>局部性原理</strong>）</p>
+<p>②<strong>查询速度更稳定</strong>：由于B+Tree非叶子节点不存储数据（data），因此<strong>所有的数据都要查询至叶子节点</strong>，而叶子节点的高度都是相同的，因此所有数据的查询速度都是一样的。</p>
+<p>③<strong>添加了指向相邻叶节点的指针</strong>，形成了带有顺序访问指针的B+Tree，这样做是为了提高区间查找的效率</p>
+<p><strong>非主键索引，主键索引都是用B+树结构</strong>（但非主键索引的叶子结点存放的是主键值）</p>
+<p>补充阅读，可以更详细地了解具体结构：<a href="https://blog.csdn.net/qq_24384579/article/details/90902132" target="_blank" rel="noopener">https://blog.csdn.net/qq_24384579/article/details/90902132</a></p>
 <h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><p>当建立<strong>联合索引</strong>(a,b,c)的时候，那么就会先排序a，再在a定的基础上排序b，再c。这样一来我们在select查询的时候就必须遵循<strong>最左匹配原则，要使用后面的索引，必须得先使用前面的索引</strong>，即只能select a或a b或abc，才会使用能进行快速索引查找，否则就只是全表扫描很慢</p>
 <p>联合索引是一棵树</p>
 <p>更多见索引优化-2</p>
@@ -470,7 +479,7 @@
 <p>(1)、<strong>没有用上索引</strong>：例如该<strong>字段没有索引</strong>；由于对<strong>字段进行运算、函数操作</strong>导致无法用索引；<strong>没有遵循最左原则选择列</strong>。</p>
 <p>(2)、<strong>数据库选错了索引。</strong></p>
 <p>3、我们的<strong>SQL请求太多/太长</strong>了</p>
-<p>尽量上select *，最好用limit，尽量将大SQL语句拆成小的，以便使用缓存</p>
+<p>尽量上<code>select *</code>，最好用limit，尽量将大SQL语句拆成小的，以便使用缓存</p>
 <p>索引不使用于小表上（索引开销大还不如全表扫描，索引的B+树的新增、更新、删除操作需要分裂旋转等操作）</p>
 <h2 id="索引设计原则"><a href="#索引设计原则" class="headerlink" title="索引设计原则"></a>索引设计原则</h2><p>MySQL 索引设计原则：</p>
 <p>（1）对于<strong>经常查询</strong>的字段，建议创建索引。</p>
@@ -720,7 +729,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">1.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">2.</span> <span class="nav-text">B+ Tree索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合索引"><span class="nav-number">3.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希索引"><span class="nav-number">4.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引优化"><span class="nav-number">5.</span> <span class="nav-text">索引优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL慢的可能"><span class="nav-number">6.</span> <span class="nav-text">SQL慢的可能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引设计原则"><span class="nav-number">7.</span> <span class="nav-text">索引设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">8.</span> <span class="nav-text">备注</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">1.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">2.</span> <span class="nav-text">B+ Tree索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree和B-Tree的区别"><span class="nav-number">3.</span> <span class="nav-text">B+Tree和B Tree的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合索引"><span class="nav-number">4.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希索引"><span class="nav-number">5.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引优化"><span class="nav-number">6.</span> <span class="nav-text">索引优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL慢的可能"><span class="nav-number">7.</span> <span class="nav-text">SQL慢的可能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引设计原则"><span class="nav-number">8.</span> <span class="nav-text">索引设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">9.</span> <span class="nav-text">备注</span></a></li></ol></div>
             
 
           </div>

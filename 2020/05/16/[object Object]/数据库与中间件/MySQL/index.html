@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="MySQL日志、范式、SQL语句优化、JOIN优化、EXPLAIN">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-16T17:46:45.116Z">
+<meta property="og:updated_time" content="2020-09-02T11:40:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL零散知识">
 <meta name="twitter:description" content="MySQL日志、范式、SQL语句优化、JOIN优化、EXPLAIN">
@@ -475,7 +475,7 @@
 <h2 id="SQL语句优化"><a href="#SQL语句优化" class="headerlink" title="SQL语句优化"></a>SQL语句优化</h2><p>禁用储存过程（将它分离到业务层）、储存文件不要太大、平衡范式和冗余、禁止使用外键、建议分离冷热数据</p>
 <p>尽量定义为not null并提供默认值、禁用TEXT、根据业务选择char/varcahr</p>
 <p>索引不宜过多、禁止在更新十分频繁的属性建立索引、禁止在区分度不高的属性上建立索引、建立联合索引遵循最左原则</p>
-<p>禁止以下语句，否则会导致遍历全表：select *、属性隐式转换、where条件属性上使用函数表达式、负向查询、模糊查询、null判断</p>
+<p>禁止以下语句，否则会导致遍历全表：<code>select *</code>、属性隐式转换、where条件属性上使用函数表达式、负向查询、模糊查询、null判断</p>
 <p>禁止大表用join（会产生<strong>临时表</strong>）、尽量用union all代替union（后者有去重功能）、使用limit、尽量使用inner join（默认join，因为<strong>inner join会选择较小的表作为驱动表</strong>，大表作为被驱动表）、尽量用小表去驱动大表（减少连接次数）</p>
 <p>当mysql优化器选错索引的时候，我们可以用FORCE INDEX来强制使用某索引（SQL索引-慢查询-3）</p>
 <p>应用程序需要捕获SQL异常并处理</p>
@@ -510,7 +510,7 @@
 <p>保证写库的高可用：双主同步（两个互相同步），但要考虑双主的键冲突问题</p>
 <p>然后就一堆分布式问题了。</p>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ol>
-<li><p>select <em> from table_name limit 1; 从表中<em>*随机</em></em>取出一条数据</p>
+<li><p><code>select * from table_name limit 1;</code> 从表中<strong>随机</strong>取出一条数据</p>
 </li>
 <li><p>VARVHAR最大长度是16384，储存app meta够用。CHAR的长度是255。</p>
 </li>
