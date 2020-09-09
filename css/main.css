@@ -1831,7 +1831,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #9806a7;
+  background: #cdff2e;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2678,7 +2678,7 @@ embed {
     right: 0;
     bottom: 0;
     left: 0;
-    background: url("https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/83333853_p0.jpg") center 0 no-repeat;
+    background: url("/images/new/83333853_p0.jpg") center 0 no-repeat;
     background-size: cover;
   }
   .main-inner {
