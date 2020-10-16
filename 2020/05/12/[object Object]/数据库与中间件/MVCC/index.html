@@ -118,7 +118,7 @@
 <meta property="og:site_name" content="宵晓咲">
 <meta property="og:description" content="隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-02T11:39:43.000Z">
+<meta property="og:updated_time" content="2020-09-14T02:35:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL并发相关原理">
 <meta name="twitter:description" content="隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁">
@@ -479,6 +479,40 @@
 <p><strong>行锁</strong>：InnoDB的行锁给索引项加锁，所以<strong>只有通过索引条件检索数据才会对行加行锁，否则加表锁</strong>（非索引查询方式需要全索引/全表扫描，所以上表锁。这也是<strong>不加索引查询很慢</strong>的原因之一）同时，非主键索引被加行锁时，其对应的主键索引也会一起被加行锁。<strong>行锁属于读写锁</strong>。</p>
 <p><strong>临键锁</strong>：临键锁Next-Key Locks=Gap Lock<strong>间隙锁</strong>+Record Lock<strong>记录锁</strong>，这个记录锁就是行锁</p>
 <p><strong>意向锁</strong>：<strong>意向锁是一种表锁，行锁在加锁前要先加意向锁</strong>。与其说它是锁不如说它是标志位。<strong>意向锁只与表锁冲突</strong>，即当事务2想要申请表锁的时候，如果此时表有意向锁，那就申请失败。<strong>意向锁的目的在于解决事务想申请表锁的时候，需要先一行行判断表中是否有行锁，耗费时间的问题。</strong>如果加行锁之前必加意向锁，那么只要存在意向锁就代表表中有行锁，那就不能给另一个事务申请表锁。</p>
+<h2 id="事务与日志"><a href="#事务与日志" class="headerlink" title="事务与日志"></a>事务与日志</h2><p>（以下摘自网络）</p>
+<p>参考：<a href="https://www.jianshu.com/p/4bcfffb27ed5" target="_blank" rel="noopener">https://www.jianshu.com/p/4bcfffb27ed5</a></p>
+<p>MySQL中是如何实现事务提交和回滚的？</p>
+<p>为了保证数据的持久性，数据库在执行SQL操作数据之前会先记录redo log和undo log，这俩叫<strong>事务日志</strong></p>
+<p><strong>redo log是重做日志，通常是物理日志，记录的是物理数据页的修改（比如某字段的值是多少balabala，而不是操作记录），它可以用来恢复提交后的物理数据页。它缓存了运行时的部分修改，然后提交的时候，将这些修改刷到磁盘里</strong></p>
+<p><strong>对数据页的修改是先redo log记录到os kernel的buffer中，再使用fsync命令刷到磁盘里（落盘，和redis的aof方案一样）。</strong>（redo log也一样，redo/undo log都是写先写到日志缓冲区，再通过缓冲区写到磁盘日志文件中进行持久化保存）</p>
+<p>redo log的buffer是一个<strong>环形的</strong>缓冲记录空间，只会记录<strong>运行时的修改</strong></p>
+<p><strong>有了redo log，当数据库发生宕机重启后，可通过redo log将【未落盘】的数据恢复，即保证【已经提交的事务记录】不会丢失。</strong></p>
+<p><strong>undo log是回滚日志，用来回滚行记录到某个版本，undo log一般是逻辑日志，根据行的数据变化进行记录</strong></p>
+<p><strong>undo日志还有一个用途就是用来控制数据的多版本（MVCC）</strong></p>
+<p>redo log是用来恢复数据的，用于保障<strong>已提交事务的持久性</strong></p>
+<p>undo log是用来回滚事务的，用于保障<strong>未提交事务的原子性</strong></p>
+<p>redo log里记录了提交前的操作</p>
+<p>【<strong>不提交 不回滚，那么事务就不会结束</strong>（表现为<strong>事务中对物理数据页的修改仍然只记录在redo log中</strong>，等待下一步安排，<strong>要么回滚，撤销redo log中的这些未提交操作；要么提交，redo log将操作刷回磁盘</strong>）】</p>
+<hr>
+<p><strong>bin log是sql server级别的，为了保binlog和redolog的一致性，commit后，redo log刷盘后还要写bin log。binlog负责主从同步，数据恢复。</strong></p>
+<p>如下为写commit的时候redo log和bin log发生了什么</p>
+<ol>
+<li>会话发起COMMIT动作</li>
+<li>存储引擎层开启[Prepare]状态：在对应的<strong>Redo日志记录上打上Prepare标记</strong></li>
+<li>写入binlog并执行fsync(刷盘)</li>
+<li>在<strong>redo日志记录上打上COMMIT标记</strong>表示记录提交完成</li>
+</ol>
+<p>bin log和redo log的区别：</p>
+<p>1<strong>.redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用。</strong></p>
+<p>2.<strong>redo log 是物理日志</strong>，记录的是“在某个数据页上做了什么修改”；<strong>bin log 是逻辑日志</strong>，记录的是这个语句的原始逻辑，比如“给 ID=2 这一行的 c 字段加 1 ”。</p>
+<p>3.<strong>redo log 是循环写的，空间固定会用完，只会记录一定时间内的数据修改</strong>；<strong>binlog 是追加写入的</strong>。“追加写”是指 binlog 文件写到一定大小后会切换到下一个，并不会覆盖以前的日志。</p>
+<p><strong>所以说，要恢复数据，还得看bin log</strong></p>
+<hr>
+<p>提交过程中，主要做了4件事情，</p>
+<p>1、<strong>清理undo段信息</strong></p>
+<p>2、<strong>释放锁资源（事务结束）</strong>，mysql通过锁互斥机制保证不同事务不同时操作一条记录，<strong>事务执行后才会真正释放所有锁资源，并唤醒等待其锁资源的其他事务；</strong></p>
+<p>3、<strong>刷redo日志</strong>，前面我们说到，mysql实现事务一致性和持久性的机制。通过redo日志落盘操作，保证了即使修改的数据页没有即使更新到磁盘，只要日志是完成了，就能保证数据库的完整性和一致性；</p>
+<p>4、<strong>清理保存点列表</strong>，每个语句实际都会有一个savepoint(保存点)，保存点作用是为了可以回滚到事务的任何一个语句执行前的状态，由于事务都已经提交了，所以保存点列表可以被清理了。</p>
 
       
     </div>
@@ -615,7 +649,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">222</span>
+                  <span class="site-state-item-count">223</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -716,7 +750,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别、封锁协议"><span class="nav-number">1.</span> <span class="nav-text">隔离级别、封锁协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC原理、快照读"><span class="nav-number">2.</span> <span class="nav-text">MVCC原理、快照读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照读、当前读"><span class="nav-number">3.</span> <span class="nav-text">快照读、当前读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存（无关）"><span class="nav-number">4.</span> <span class="nav-text">缓存（无关）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undo日志、redo日志（无关）"><span class="nav-number">5.</span> <span class="nav-text">undo日志、redo日志（无关）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">6.</span> <span class="nav-text">锁</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别、封锁协议"><span class="nav-number">1.</span> <span class="nav-text">隔离级别、封锁协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC原理、快照读"><span class="nav-number">2.</span> <span class="nav-text">MVCC原理、快照读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照读、当前读"><span class="nav-number">3.</span> <span class="nav-text">快照读、当前读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存（无关）"><span class="nav-number">4.</span> <span class="nav-text">缓存（无关）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undo日志、redo日志（无关）"><span class="nav-number">5.</span> <span class="nav-text">undo日志、redo日志（无关）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">6.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务与日志"><span class="nav-number">7.</span> <span class="nav-text">事务与日志</span></a></li></ol></div>
             
 
           </div>

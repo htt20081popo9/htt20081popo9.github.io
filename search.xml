@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2020秋季追番表</title>
+    <url>/2020/10/16/%5Bobject%20Object%5D/Anime/2020%E7%A7%8B%E5%AD%A3%E8%BF%BD%E7%95%AA%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>-</p>
+<a id="more"></a>
+<h1 id="京紫三年·秋"><a href="#京紫三年·秋" class="headerlink" title="京紫三年·秋"></a>京紫三年·秋</h1><p>这个季度的新番可真牛逼，感谢京紫，感谢那个伟大的时代</p>
+<p>【0】</p>
+<p>突击莉莉</p>
+<p>魔女之旅</p>
+<p>成神之日【B霸候选】</p>
+<p>全员恶玉【B霸候选】</p>
+<p>请问您今天要来点兔子吗？BLOOM</p>
+<p>咒术回战【B霸候选】</p>
+<p>进击的巨人最终季【网盘霸权】</p>
+<p>安达与岛村</p>
+<p>寒蝉鸣泣之时</p>
+<p>【1】</p>
+<p>总之就是非常可爱</p>
+<p>在魔王城说晚安</p>
+<p>【泡面】</p>
+<p>one room</p>
+<p>【排雷中】</p>
+<p>试着用土下座来拜托她们吧</p>
+<p>前说！</p>
+<p>龙与魔女</p>
+<p>忧国的莫里亚蒂</p>
+<p>被神捡到的男人</p>
+]]></content>
+      <categories>
+        <category>Anime</category>
+      </categories>
+  </entry>
+  <entry>
     <title>理想</title>
     <url>/2020/08/11/%5Bobject%20Object%5D/%E6%97%A5%E8%AE%B0/%E7%90%86%E6%83%B3/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><em>我所谓的理想主义，就是无论何时何地都坚守自己的品格与信念，不拘泥于眼下的现实，始终望向一层在现实之上的美好，最终，定会抵达理想之一隅。到最后，回望我一路的旅程时，过往的每一个瞬间一定都会成为天上的繁星。</em></p>
@@ -1342,8 +1374,13 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <a id="more"></a>
 <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ol>
 <li><p>死锁恢复</p>
+<p>死锁四要素：互斥、占有和等待、不可抢占、环路等待</p>
+</li>
+</ol>
+<p>死锁恢复办法：</p>
 <ol>
-<li>撤消进程，剥夺资源</li>
+<li><p>撤消进程，剥夺资源</p>
+<ol>
 <li>线程设置优先级，让一个（或几个）线程回退，剩下的线程就像没发生死锁一样继续保持着它们需要的锁</li>
 <li>死锁发生的时候设置随机的优先级；如果赋予这些线程的优先级是固定不变的，同一批线程总是会拥有更高的优先级。</li>
 </ol>
@@ -1437,10 +1474,10 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <p>2、<strong>SYN 同步序列号，TCP建立连接时将这个位置1。</strong></p>
 <p>3、<strong>FIN</strong> 发送端完成发送任务位，当TCP完成数据传输需要断开时,，提出断开连接的一方将这位置1。</p>
 <p><strong>状态变化：客户端 SYN-SENT-&gt;ESTABLISHED 服务端：LISTEN-&gt;SYN-RCVD-&gt;ESTABLISHED</strong></p>
-<p><img src="https://img-blog.csdn.net/20180717202520531?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/计算机理论/操作系统与计算机网络补充/0.png" alt="img"></p>
 <p>状态变化：客户端ESTABLISHED-&gt;<strong>FIN-WAIT-1-&gt;FIN-WAIT2</strong>-&gt;<strong>TIME WAIT-</strong>&gt;CLOSED</p>
 <p>服务端：ESTABLISHED-&gt;<strong>CLOSE-WAIT</strong>-&gt;<strong>LAST-ACK</strong>-&gt;CLOSED</p>
-<p><img src="https://img-blog.csdn.net/20180717204202563?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><img src="//aisaka.cloud/2020/05/29/[object Object]/计算机理论/操作系统与计算机网络补充/1.png" alt="img"></p>
 <p>服务端的<strong>CLOSE-WAIT</strong>状态是为了<strong>让服务器端发送还未传送完毕的数据</strong>，传送完毕之后，服务器会发送 FIN 连接释放报文</p>
 <p>客户端的<strong>TIME_WAIT</strong>状态是为了<strong>确保最后一个确认报文能够到达（如果服务端没收到，会再次重发连接释放报文请求）</strong>，让本连接持续时间内所产生的所有报文都从网络中消失</p>
 </li>
@@ -1879,6 +1916,40 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <p><strong>行锁</strong>：InnoDB的行锁给索引项加锁，所以<strong>只有通过索引条件检索数据才会对行加行锁，否则加表锁</strong>（非索引查询方式需要全索引/全表扫描，所以上表锁。这也是<strong>不加索引查询很慢</strong>的原因之一）同时，非主键索引被加行锁时，其对应的主键索引也会一起被加行锁。<strong>行锁属于读写锁</strong>。</p>
 <p><strong>临键锁</strong>：临键锁Next-Key Locks=Gap Lock<strong>间隙锁</strong>+Record Lock<strong>记录锁</strong>，这个记录锁就是行锁</p>
 <p><strong>意向锁</strong>：<strong>意向锁是一种表锁，行锁在加锁前要先加意向锁</strong>。与其说它是锁不如说它是标志位。<strong>意向锁只与表锁冲突</strong>，即当事务2想要申请表锁的时候，如果此时表有意向锁，那就申请失败。<strong>意向锁的目的在于解决事务想申请表锁的时候，需要先一行行判断表中是否有行锁，耗费时间的问题。</strong>如果加行锁之前必加意向锁，那么只要存在意向锁就代表表中有行锁，那就不能给另一个事务申请表锁。</p>
+<h2 id="事务与日志"><a href="#事务与日志" class="headerlink" title="事务与日志"></a>事务与日志</h2><p>（以下摘自网络）</p>
+<p>参考：<a href="https://www.jianshu.com/p/4bcfffb27ed5" target="_blank" rel="noopener">https://www.jianshu.com/p/4bcfffb27ed5</a></p>
+<p>MySQL中是如何实现事务提交和回滚的？</p>
+<p>为了保证数据的持久性，数据库在执行SQL操作数据之前会先记录redo log和undo log，这俩叫<strong>事务日志</strong></p>
+<p><strong>redo log是重做日志，通常是物理日志，记录的是物理数据页的修改（比如某字段的值是多少balabala，而不是操作记录），它可以用来恢复提交后的物理数据页。它缓存了运行时的部分修改，然后提交的时候，将这些修改刷到磁盘里</strong></p>
+<p><strong>对数据页的修改是先redo log记录到os kernel的buffer中，再使用fsync命令刷到磁盘里（落盘，和redis的aof方案一样）。</strong>（redo log也一样，redo/undo log都是写先写到日志缓冲区，再通过缓冲区写到磁盘日志文件中进行持久化保存）</p>
+<p>redo log的buffer是一个<strong>环形的</strong>缓冲记录空间，只会记录<strong>运行时的修改</strong></p>
+<p><strong>有了redo log，当数据库发生宕机重启后，可通过redo log将【未落盘】的数据恢复，即保证【已经提交的事务记录】不会丢失。</strong></p>
+<p><strong>undo log是回滚日志，用来回滚行记录到某个版本，undo log一般是逻辑日志，根据行的数据变化进行记录</strong></p>
+<p><strong>undo日志还有一个用途就是用来控制数据的多版本（MVCC）</strong></p>
+<p>redo log是用来恢复数据的，用于保障<strong>已提交事务的持久性</strong></p>
+<p>undo log是用来回滚事务的，用于保障<strong>未提交事务的原子性</strong></p>
+<p>redo log里记录了提交前的操作</p>
+<p>【<strong>不提交 不回滚，那么事务就不会结束</strong>（表现为<strong>事务中对物理数据页的修改仍然只记录在redo log中</strong>，等待下一步安排，<strong>要么回滚，撤销redo log中的这些未提交操作；要么提交，redo log将操作刷回磁盘</strong>）】</p>
+<hr>
+<p><strong>bin log是sql server级别的，为了保binlog和redolog的一致性，commit后，redo log刷盘后还要写bin log。binlog负责主从同步，数据恢复。</strong></p>
+<p>如下为写commit的时候redo log和bin log发生了什么</p>
+<ol>
+<li>会话发起COMMIT动作</li>
+<li>存储引擎层开启[Prepare]状态：在对应的<strong>Redo日志记录上打上Prepare标记</strong></li>
+<li>写入binlog并执行fsync(刷盘)</li>
+<li>在<strong>redo日志记录上打上COMMIT标记</strong>表示记录提交完成</li>
+</ol>
+<p>bin log和redo log的区别：</p>
+<p>1<strong>.redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用。</strong></p>
+<p>2.<strong>redo log 是物理日志</strong>，记录的是“在某个数据页上做了什么修改”；<strong>bin log 是逻辑日志</strong>，记录的是这个语句的原始逻辑，比如“给 ID=2 这一行的 c 字段加 1 ”。</p>
+<p>3.<strong>redo log 是循环写的，空间固定会用完，只会记录一定时间内的数据修改</strong>；<strong>binlog 是追加写入的</strong>。“追加写”是指 binlog 文件写到一定大小后会切换到下一个，并不会覆盖以前的日志。</p>
+<p><strong>所以说，要恢复数据，还得看bin log</strong></p>
+<hr>
+<p>提交过程中，主要做了4件事情，</p>
+<p>1、<strong>清理undo段信息</strong></p>
+<p>2、<strong>释放锁资源（事务结束）</strong>，mysql通过锁互斥机制保证不同事务不同时操作一条记录，<strong>事务执行后才会真正释放所有锁资源，并唤醒等待其锁资源的其他事务；</strong></p>
+<p>3、<strong>刷redo日志</strong>，前面我们说到，mysql实现事务一致性和持久性的机制。通过redo日志落盘操作，保证了即使修改的数据页没有即使更新到磁盘，只要日志是完成了，就能保证数据库的完整性和一致性；</p>
+<p>4、<strong>清理保存点列表</strong>，每个语句实际都会有一个savepoint(保存点)，保存点作用是为了可以回滚到事务的任何一个语句执行前的状态，由于事务都已经提交了，所以保存点列表可以被清理了。</p>
 ]]></content>
       <categories>
         <category>数据库与中间件</category>
@@ -5485,8 +5556,8 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>矩阵论</tag>
         <tag>SVM</tag>
+        <tag>矩阵论</tag>
       </tags>
   </entry>
   <entry>
@@ -5725,8 +5796,8 @@ s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type=
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>SVM</tag>
         <tag>凸优化</tag>
+        <tag>SVM</tag>
       </tags>
   </entry>
   <entry>
@@ -8485,6 +8556,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 <h1 id="Spring事务管理"><a href="#Spring事务管理" class="headerlink" title="Spring事务管理"></a>Spring事务管理</h1><p>事务：事务就是并发控制的单位，是用户定义的一个操作序列。它满足ACID属性</p>
 <p><strong>事务管理，实质上就是按照给定的事务规则（事务传播行为，事务超时时间等）来执行提交或者回滚操作</strong></p>
 <p>Spring事务管理由PlatformTransactionManager 事务管理器（比如提交，回滚，获取状态等方法都在这里定义），TransactionStatus事务状态（设置回滚，是否回滚，是否完成，是否是新事务等），TransactionDefinition基本事务属性的定义（事务属性包括以下） 三个核心接口构成</p>
+<p><strong>Spring的事务主要是ThreadLocal和AOP去做实现的</strong></p>
 <p><strong>事务属性包括事务隔离级别、事务传播行为、事务超时、事务的只读属性、事务的回滚规则</strong></p>
 <h2 id="事务属性：事务隔离级别"><a href="#事务属性：事务隔离级别" class="headerlink" title="事务属性：事务隔离级别"></a>事务属性：事务隔离级别</h2><p><strong>事务隔离级别（4种）：若干个并发的事务之间的隔离程度</strong></p>
 <p>TransactionDefinition.ISOLATION_DEFAULT：使用底层数据库的默认隔离级别</p>
@@ -8903,6 +8975,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这和mybatis无关，只是mybatis为我们生成的mapper实体类要注入这些提供给service业务层的实体类中--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.appsec.system.persistence.mybatis.xdao"</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">&lt;!-- 这和mybatis无关，配置数据源，数据源的内容可以单独写在db.propertipes里 --&gt;</span>    </span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp.BasicDataSource"</span> <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/xx"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"1234"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--由于使用第三方的dbcp连接池获得DataSource，要写下这些连接池配置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxIdle"</span> <span class="attr">value</span>=<span class="string">"30"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"10"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultAutoCommit"</span> <span class="attr">value</span>=<span class="string">"false"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>    </span><br><span class="line">    </span><br><span class="line"><span class="comment">&lt;!-- 配置 SqlSessionFactoryBean ，Spring为我们自动获取SqlSessionFactory对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- mybatis 配置文件位置（默认配置的话，可以不用）--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:conf/mybatis/mybatis-config.xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">&lt;!-- DAO接口所在包名（映射接口扫描包），Spring会自动查找其下的DAO接口并创建mapper对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.appsec.system.persistence.mybatis.mapper"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里的需要配置sqlSessionFactoryBean属性，就是前面配置的那个，Spring为我们用它来自动获取sqlSession对象 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>然后就可以把mapper（DAO的数据库直接操作接口）写在com.appsec.system.persistence.mybatis.mapper目录下，然后在com.appsec.system.persistence.mybatis.xdao目录下，直接用@Autowired将mapper目录下的mapper注入进xdao的实体类里啦！这些实体类就提供给service层直接访问（在这些实体类中，可以加各种控制，比如数据校验等等，数据再处理等等）</p>
 <h2 id="mybatis工作流程"><a href="#mybatis工作流程" class="headerlink" title="mybatis工作流程"></a>mybatis工作流程</h2><p>通过Reader对象读取Mybatis映射文件<br>通过SqlSessionFactoryBuilder对象创建SqlSessionFactory对象<br>获取当前线程的SQLSession<br>事务默认开启<br>通过SQLSession读取映射文件中的操作编号，从而读取SQL语句<br>提交事务<br>关闭资源</p>
+<p><strong>sqlsession用mapper接口生成mapper动态代理对象，再调用该对象对应的方法完成sql语句执行</strong></p>
 <h2 id="Mybatis事务管理"><a href="#Mybatis事务管理" class="headerlink" title="Mybatis事务管理"></a>Mybatis事务管理</h2><p>mybatis可以不进行事务管理，直接用spring事务管理</p>
 <p>也可以用mabatis的事务管理：<a href="https://blog.csdn.net/andamajing/article/details/72026693" target="_blank" rel="noopener">https://blog.csdn.net/andamajing/article/details/72026693</a></p>
 <h2 id="几个注解"><a href="#几个注解" class="headerlink" title="几个注解"></a>几个注解</h2><p>@result：在使用mybatis注解开发的时候，数据库返回的结果集和实体类字段不对应，我们就需要手动指定映射关系</p>
@@ -12082,7 +12155,7 @@ drop掉1后就变成
 <p>UDP：无连接，非可靠（UDP也要校验，有差错就丢弃）</p>
 <p>TCP如何做到可靠传输：校验、序号（保证有序）、确认号（标明希望下一个报文段的序号，累计确认至第一个断序处）、重传（超时重传、冗余ACK确认可以快速重传）</p>
 <p>TCP流量控制：滑动窗口，每次可以动态要求窗口大小</p>
-<p>TCP拥塞控制（防止过多数据注入，以免网络中的路由器或链路过载，一般表现为超时）：[慢开始算法、拥塞避免算法]（慢开始窗口从1开始，倍数增大，到一个门限改用拥塞避免算法，窗口加法增大，第一次超时，窗口变为1，门限减半）、[快重传、快恢复]（依然慢开始，收到3个ACK就认为超时，然后改用快恢复算法，窗口加法增大，超时时窗口不变为1，而是从新门限开始）</p>
+<p>TCP拥塞控制（防止过多数据注入，以免网络中的路由器或链路过载，一般表现为超时）：[慢开始算法、拥塞避免算法]（慢开始窗口从1开始，倍数增大，到一个门限改用拥塞避免算法，窗口加法增大，第一次超时，窗口变为1，门限减半）、[快重传、快恢复]（快重传指收到3个ACK就认为超时，这时候以门限/2为窗口大小开始发包，直接进入拥塞避免状态）（<strong>慢开始</strong>和<strong>快重传</strong>都指的是拥塞/超时从什么时候开始，从1窗口开始是慢开始，从门限开始是快重传，门限都会减半）</p>
 <p>一旦发现拥塞，缩小窗口/减少主机发送分组数</p>
 <p>关于三次握手四次挥手（非常重要，但这里不解释）</p>
 <p>三次挥手的原因：</p>
