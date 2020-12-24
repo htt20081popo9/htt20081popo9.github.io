@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Software Defined Network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDN：软件定义网络">
+<meta property="og:url" content="https://aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="Software Defined Network">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/2.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/1.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/5.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/6.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/7.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/8.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/9.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/10.jpg">
+<meta property="og:updated_time" content="2020-06-28T14:00:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SDN：软件定义网络">
+<meta name="twitter:description" content="Software Defined Network">
+<meta name="twitter:image" content="https://aisaka.cloud/2020/06/28/[object%20Object]/网络与云/SDN/2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/">
+
+
+
+
+
+  <title>SDN：软件定义网络 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SDN：软件定义网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-28T21:33:37+08:00">
+                2020-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络与云/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与云</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/28/[object Object]/网络与云/SDN/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/06/28/[object Object]/网络与云/SDN/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2020/06/28/[object Object]/网络与云/SDN/" class="leancloud_visitors" data-flag-title="SDN：软件定义网络">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center><i>Software Defined Network</i></center>
+
+ <a id="more"></a>
+<h1 id="SDN：软件定义网络"><a href="#SDN：软件定义网络" class="headerlink" title="SDN：软件定义网络"></a>SDN：软件定义网络</h1><p><strong>SDN，即Software Defined Network，核心思想是将控制平面（Control Plane）和数据平面（Data Plane）分离；将传统交换机、路由器的分布式算法（如OSPF等）用控制器（Controller）的集中式算法实现，加强全局视角的控制能力，提高效率。</strong></p>
+<p>网络结构的扁平化的核心思想是功能上手，那么SDN就是做得最彻底的功能上收</p>
+<p>基础设备不需要专有设备，不依赖任何网络，只要有控制和转发功能即可</p>
+<p>园区网络扁平化除了取消汇聚层之外还有哪些？ - summer课堂的回答 - 知乎 <a href="https://www.zhihu.com/question/67268856/answer/251271775" target="_blank" rel="noopener">https://www.zhihu.com/question/67268856/answer/251271775</a></p>
+<h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p>Software Defined Network（软件定义网络）</p>
+<p><strong>导论</strong>文章：<a href="https://zhuanlan.zhihu.com/p/29038974" target="_blank" rel="noopener">图解SDN：软件定义网络导论篇</a> （包括网络架构发展和常用网络拓扑）</p>
+<p>在网络中有三大模块：<strong><u>管理平面</u>负责配置和管理指令，然后给<u>控制平面</u>生成相应的控制表（ARP表，FIB表，MPLS标签表，ACL访问控制表等等），然后再交由<u>转发平面</u>根据控制表进行处理与转发</strong>。<strong>但在传统网络中是分布式控制的，且这三大模块是耦合的，这导致</strong>①<u>管理部署难</u>：网络厂商杂、设备类型多、设备数量多、命令不一致；<strong>②</strong><u>性能瓶颈</u>：独立计算、接力棒交互、分布式架构；而SDN就是为了；③<u>流量控制棘手</u>：带宽静态分配（无法编程），流量可视化难；<strong>④</strong><u>无法按需，不可编程</u>。而SDN就是为了解决以上问题诞生的思想。</p>
+<p><strong>SDN是一种网络设计理念</strong>，核心思想是</p>
+<p><strong>①能够弹性响应上层应用变化的网络可编程=&gt;随心应变、随应用而动</strong></p>
+<p><strong>②引入一个集中统一的控制与管理层=&gt;控制与管理、动态响应</strong></p>
+<p><strong>③解耦网络设备的管理平面、控制平面、数据平面</strong>（将管理平面、控制平面从基础设施中抽取出来）</p>
+<p>这样一来，<strong>底层网络设备</strong>通过<strong>解耦</strong>实现了<strong>简单化</strong>；<strong>网络的管理</strong>通过<strong>集中控制器</strong>实现了<strong>全局化</strong>；<strong>网络的运维</strong>通过<strong>SDN南向接口与协议</strong>实现了<strong>自动化</strong>；<strong>网络的应用</strong>通过<strong>SDN北向接口</strong>与协议实现了<strong>更加弹性的人性化</strong></p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p><strong>ONF定义的SDN的基本架构——应用层、控制层、转发层：</strong></p>
+<p><strong>应用层</strong>：提供应用和服务（用户业务系统）</p>
+<p><strong>控制层</strong>：提供统一的管理和控制（下发流表到转发层，指导包转发行为）===网络的大脑</p>
+<p><strong>转发层（基础设施层）</strong>：只提供基础的数据转发功能</p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/2.jpg" alt="2"></p>
+<p>使用<strong>南向接口协议（OpenFlow）</strong>实现控制层面对转发平面的控制，使用<strong>北向API（REST API）</strong>实现业务应用与SDN控制器的交互。南向接口协议OpenFlow已经标准化，所有底层硬件设备厂商都满足该协议，这样就便于编程不依赖于底层设备；北向API使用REST API是主流</p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/1.jpg" alt=""></p>
+<h2 id="ONF定义"><a href="#ONF定义" class="headerlink" title="ONF定义"></a>ONF定义</h2><p><strong>ONF定义的SDN体系架构</strong>（四大平面，两大接口）：<strong>控制平面</strong>、<strong>应用平面</strong>、<strong>数据平面（转发层/基础设施层）</strong>、<strong>管理平面</strong>，以及<strong>北向接口</strong>、<strong>南向接口</strong>。</p>
+<hr>
+<p>南向接口协议主要采用OpenFlow，北向API主要采用REST API</p>
+<p><strong>OpenFlow</strong>是P4语言建模的<strong>PISA协议无关交换机架构架构</strong>的起源，这个<strong>PISA架构也称为OpenFlow2.0</strong></p>
+<p>openflow1.0和后面的版本不兼容，同时都在支持</p>
+<p>openflow协议需要芯片支持，所以需要openflow交换机；openflow交换机分为物理的和虚拟的（软件的，比如OVS，同时OVS提供OVSDB协议实现控制器对虚拟交换机vS的可编程访问和配置管理）</p>
+<p>OF-Config协议是openflow协议的伴侣协议，用于openflow交换机的管理和配置</p>
+<h2 id="数据平面"><a href="#数据平面" class="headerlink" title="数据平面"></a>数据平面</h2><p><strong>数据平面</strong>：解析数据包头、转发数据包到某些端口（网络IO可基于DPDK框架）</p>
+<p>数据面也叫转发面，在SDN白盒设计中，相当于一台通用的网络设备，只有数据转发和处理功能，而所有SDN白盒的控制层面（如ARP表、FIB表）功能全部集中到控制面去了</p>
+<p>所有转发表都被抽象为<strong>流表</strong>，转发过程抽象为<strong>匹配-动作过程</strong></p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/5.jpg" alt=""></p>
+<p>流表（1.0版本）：</p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/6.jpg" alt=""></p>
+<p>动作就是将数据包转发给不同的端口，不同的端口对应不同的进程，处理不同的功能，比如有的端口是按照传统方式转发，有的是按照表转发，有的是转发给交换机等等（具体看协议对不同端口的定义）。总得来说，<strong>流表记载了不同数据包的转发行为</strong>。</p>
+<p>数据包处理流程：</p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/7.jpg" alt=""></p>
+<h2 id="Openflow协议"><a href="#Openflow协议" class="headerlink" title="Openflow协议"></a>Openflow协议</h2><p>openflow协议有三种消息类型：</p>
+<p><strong>Controller-to-Switch消息</strong>（控制器发起）</p>
+<p><strong>Asynchronous消息</strong>（交换机发起）</p>
+<p><strong>Symmetric消息</strong>（可由任一方发起）</p>
+<p><strong>Openflow消息体由openflow Head和openflow message组成</strong></p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/8.jpg" style="zoom:50%;"></p>
+<p>然后再发送packet_out（属于Controller-to-Switch），packet_in（属于Asynchronous）消息，通过packet_out中的LLDP包进行网络拓扑探测，<strong>通过flow_mod信息下发流表操作（增删改等）</strong></p>
+<p>然后一次客户端的请求通信流程demo如下：</p>
+<p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/9.jpg" alt=""></p>
+<h2 id="OF-Config协议"><a href="#OF-Config协议" class="headerlink" title="OF-Config协议"></a>OF-Config协议</h2><p>用于OF交换机的配置，是Openflow的伴侣协议，也属于南向协议</p>
+<p>由openflow配置点统一对OF交换机进行配置</p>
+<p>有控制器连接设置（控制器IP端口传输协议）、多控制器参数配置、OF逻辑交换机资源配置、连接中断配置、加密设置（证书配置）、队列配置（速率）、端口设置（包括如基于VxLAN的逻辑端口）、能力发现配置</p>
+<p>还要支持配置隧道等运维需求</p>
+<p>OF-Config数据模型由XML语言定义</p>
+<h2 id="NetConf协议"><a href="#NetConf协议" class="headerlink" title="NetConf协议"></a>NetConf协议</h2><p>这个协议不是SDN必须的，但是一个很常用的网络设备的管理和配置协议，常用于<strong>自动化运维</strong></p>
+<p>也属于南向协议，基于C/S模型，使用RPC通信模式，采用XML编码的<code>&lt;rpc&gt;</code>和<code>&lt;rpc-reply&gt;</code>元素提供<br>独立于传输层协议的请求和回应消息框架。</p>
+<p><strong>配置数据有running、candidate、startup三个数据库</strong>，<code>&lt;running/&gt;</code>库用于保存当前已经生效的配置；<code>&lt;candidate/&gt;</code>用于保存可以提交为生效的数据；以及<code>&lt;startup/&gt;</code>用于保存启动时的配置数据。</p>
+<p>也是写XML，通过配置RPC操作</p>
+<p>详细参考见：<a href="https://www.jianshu.com/p/f93f5c9b2aa4" target="_blank" rel="noopener">网络运维自动化入门二：NETCONF</a></p>
+<h2 id="控制平面：SDN控制器"><a href="#控制平面：SDN控制器" class="headerlink" title="控制平面：SDN控制器"></a>控制平面：SDN控制器</h2><p><img src="//aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/10.jpg" alt=""></p>
+<p>内置应用层的overlay网络指的是如果本网络是另一个overlay网络的underlay网络，那么物理网络和虚拟网络都是有各自的SDN三平面的，下层网络的控制器提供给上层overlay调用</p>
+<h3 id="南向网络控制"><a href="#南向网络控制" class="headerlink" title="南向网络控制"></a>南向网络控制</h3><p>以下功能都是使用openflow协议实现，<strong>SDN控制器和SDN交换机通过前面所述的OF三种消息类型进行交互</strong></p>
+<p><strong>链路发现：</strong>获得SDN全网信息，实现网络地址学习、VLAN、路由转发；SDN交换机直连链路（指控制器与SDN交换机直连）的发现由LLDP协议实现，对于非直连链路通过广播的方式实现</p>
+<p><strong>拓扑管理</strong>：监控和采集SDN交换机的信息，反馈工作状态和链路连接状态</p>
+<p><strong>策略制定</strong></p>
+<p><strong>表项下发：</strong>主动下发/被动下发</p>
+<p>P.S 使用OF协议作为南向接口协议的SDN交换机也叫OF交换机</p>
+<h3 id="北向业务支撑"><a href="#北向业务支撑" class="headerlink" title="北向业务支撑"></a>北向业务支撑</h3><p>目前尚未统一标准（因为受实际业务影响很大），REST API是比较主流的一种</p>
+<p><strong>开源SDN控制器</strong>有如Mul、Trema、NOX、POX、<strong>Ryu</strong>、Beacon、<strong>Floodlight</strong>、ONOS、OpenDayLight（ODL）等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/" title="SDN：软件定义网络">https://aisaka.cloud/2020/06/28/[object Object]/网络与云/SDN/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/27/[object Object]/网络与云/RESTAPI/" rel="next" title="REST API">
+                <i class="fa fa-chevron-left"></i> REST API
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/28/[object Object]/网络与云/虚拟化/" rel="prev" title="虚拟化与云计算">
+                虚拟化与云计算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SDN：软件定义网络"><span class="nav-number">1.</span> <span class="nav-text">SDN：软件定义网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.1.</span> <span class="nav-text">What</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ONF定义"><span class="nav-number">1.3.</span> <span class="nav-text">ONF定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据平面"><span class="nav-number">1.4.</span> <span class="nav-text">数据平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Openflow协议"><span class="nav-number">1.5.</span> <span class="nav-text">Openflow协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OF-Config协议"><span class="nav-number">1.6.</span> <span class="nav-text">OF-Config协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NetConf协议"><span class="nav-number">1.7.</span> <span class="nav-text">NetConf协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制平面：SDN控制器"><span class="nav-number">1.8.</span> <span class="nav-text">控制平面：SDN控制器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#南向网络控制"><span class="nav-number">1.8.1.</span> <span class="nav-text">南向网络控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#北向业务支撑"><span class="nav-number">1.8.2.</span> <span class="nav-text">北向业务支撑</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

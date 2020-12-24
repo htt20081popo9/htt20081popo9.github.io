@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="采样,数学,统计数学,马尔科夫链,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
+<meta name="keywords" content="采样,数学,统计数学,马尔科夫链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蒙特卡罗方法">
+<meta property="og:url" content="https://aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2019/10/12/[object%20Object]/人工智能/蒙特卡罗方法/0.png">
+<meta property="og:image" content="https://aisaka.cloud/2019/10/12/[object%20Object]/人工智能/蒙特卡罗方法/1.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2019/10/12/[object%20Object]/人工智能/蒙特卡罗方法/2.jpg">
+<meta property="og:updated_time" content="2019-10-23T01:42:01.297Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="蒙特卡罗方法">
+<meta name="twitter:description" content="采样与蒙特卡罗方法为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样 蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p">
+<meta name="twitter:image" content="https://aisaka.cloud/2019/10/12/[object%20Object]/人工智能/蒙特卡罗方法/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/">
+
+
+
+
+
+  <title>蒙特卡罗方法 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">蒙特卡罗方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T11:43:29+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/" class="leancloud_visitors" data-flag-title="蒙特卡罗方法">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="采样与蒙特卡罗方法"><a href="#采样与蒙特卡罗方法" class="headerlink" title="采样与蒙特卡罗方法"></a>采样与蒙特卡罗方法</h2><p>为什么要采样？比如假设我们要计算积分$\int_a^bh(x)dx$，我们需要枚举$x∈[a,b]$，这是非常困难的；又比如使用mini-batch进行模型训练的时候需要采样</p>
+<p>蒙特卡罗采样的思想就是在这种很难进行枚举的时候，使用采样来近似它。这种想法<strong>把和或者积分视作某分布下的期望，然后通过估计对应的平均值来近似这个期望</strong>（也就是说把原函数$h(x)$分解成某个函数与概率密度函数$p(x)$的乘积，即$f(x)$在$p(x)$分布上的均值）</p>
+<script type="math/tex; mode=display">
+s = \int_a^bh(x)dx=\int_a^bp(x)f(x)dx=E_p(f(x))</script><p>从样本集中抽取$n$个样本$(x_1,\cdots,x_n)～p(x)$（同期望证明略，使用大数定理可证得）来近似之，则</p>
+<script type="math/tex; mode=display">
+\int_a^bh(x)dx=E_p(f(x))≈\frac{1}{n}\sum_{i=1}^nf(x_i)</script><p>蒙特卡罗方法是一种随机模拟技术</p>
+<h2 id="马尔科夫链蒙特卡罗方法（MCMC）"><a href="#马尔科夫链蒙特卡罗方法（MCMC）" class="headerlink" title="马尔科夫链蒙特卡罗方法（MCMC）"></a>马尔科夫链蒙特卡罗方法（MCMC）</h2><p>Markov Chain Monte Carlo</p>
+<p>马尔科夫链是<em>随机过程</em>中的重要角色，不多赘述</p>
+<p>马尔科夫过程<strong>各态遍历性</strong>需要满足：①非周期  ②不可约</p>
+<p>非周期即存在某个取值从它出发转移回自身所需要的转移次数总是整数$d(&gt;1)$的倍数，使得能够“连续”转移，这保证了马尔科夫过程的连续性，否则必须走特定步长（即周期）才能转移，使得马尔科夫过程不连续</p>
+<p>不可约即为任意两个取值之间总是能以非零的概率相互转移</p>
+<p>若马尔科夫过程是各态遍历的，无论初始值为何，随机变量的最终取值分布会收敛于一个唯一的平稳分布$\pi^*$</p>
+<script type="math/tex; mode=display">
+\lim_{t\to ∞ }\pi^{(0)}P^t=\pi^*</script><p><strong>意味着马尔科夫过程经过多次转以后，随机变量的分布会一直逼近该平稳分布</strong></p>
+<p>可以从这个角度证明：</p>
+<script type="math/tex; mode=display">
+\pi_t=P^t\pi_0=(Pdiag(\lambda)P^{-1})^t\pi_0=Pdiag(\lambda)^tP^{-1}\pi_0</script><p>可见这个过程将导致$P$中不为1的特征值全部衰减到0，因此该过程就收敛到平稳分布</p>
+<script type="math/tex; mode=display">
+\pi^*=\pi P</script><p>得到一个特征向量方程，收敛之后的$\pi^*$是特征值为1所对应的特征向量</p>
+<p>于是就可以<strong>利用马尔科夫链来进行蒙特卡罗估计</strong>，这类算法被称为<strong>马尔科夫链蒙特卡罗方法（MCMC）</strong></p>
+ <a id="more"></a>
+<p>由于要保证各态遍历性，于是MCMC方法<strong>最适用于基于能量的模型</strong>（见上一篇笔记）</p>
+<p>马尔科夫链的<strong>磨合过程</strong>：运行马尔科夫过程直到收敛</p>
+<p>马尔科夫过程中的<strong>混合时间</strong>：在未收敛前的那段时间</p>
+<p>连续的马尔科夫链也叫<strong>哈里斯链</strong></p>
+<p>难以预测马尔科夫链是否收敛，目前方法：</p>
+<p>①看$P$的特征值是否趋近于0 （但通常$P^t$计算难度极大，难以表示）</p>
+<p>②启发式方法（手动检查样本；衡量样本间的相关性）</p>
+<p><strong>但注意一个问题：在一个马尔科夫链的一个抽样序列无法完全表达均衡分布！</strong></p>
+<p>因为在一个马尔科夫链达到平稳状态后，两个连续样本之间会<strong>高度相关</strong>。（在马尔科夫过程平稳后，$P$使得每次转移使得样本的分布不变，但是$P$会改变每一次转移后的样本的形态，但同一时间下的样本形态是高度相关的）</p>
+<p>解决办法之一是间隔抽样，另一个是使用<strong>多条马尔科夫链</strong>，每个样本从不同的马尔科夫链抽样，在深度学习中的通用实践是选取的马尔科夫链数目和小批量中的样本数相近。</p>
+<h2 id="如何采样？（采样方法）"><a href="#如何采样？（采样方法）" class="headerlink" title="如何采样？（采样方法）"></a>如何采样？（采样方法）</h2><p>对于$uniform(0,1)$，我们可以使用<strong>线性同余发生器算法</strong>LCG：$R=(A*R+B)\%M$，推导略</p>
+<p>对于常见的概率分布，可以使用<strong>逆采样</strong>方法，将其他概率分布<strong>映射到</strong>$uniform(0,1)$，推导略（大体思路是将CDF的反函数代入$uniform(0,1)$的概率密度函数）</p>
+<p>这需要是常见概率分布，因为必须要求累计概率分布CDF可以求逆，所以</p>
+<p>对于非常见概率分布，可以使用<strong>接受—拒绝采样</strong>，但对MCMC使用接受—拒绝采样效果并不好</p>
+<p>（以上的采样方法可以以后单独写篇笔记）</p>
+<p><strong>那MCMC该如何采样呢？</strong>我们需要采样目标概率分布$p(x)$，而目标概率分布是由转移概率决定的，所以也就是说我们要构造一个转移概率矩阵$P$，使得$p(x)$恰好是我们想要的目标概率分布</p>
+<h2 id="Metropolis-Hasting采样"><a href="#Metropolis-Hasting采样" class="headerlink" title="Metropolis Hasting采样"></a>Metropolis Hasting采样</h2><p>为了满足能够构造一个转移概率矩阵$P$，使得$p(x)$<strong>恰好是我们想要的目标概率分布</strong>，我们设定马尔科夫链满足<strong>细致平稳条件</strong></p>
+<script type="math/tex; mode=display">
+\pi(i)P_{ij}=\pi(j)P_{ji}, \forall i,j</script><p>若满足，则马尔科夫链为平稳分布。</p>
+<p>细致平稳条件可理解为从$i$状态转移到$j$状态的付出消耗与从$j$转移回$i$的吸收消耗相同，所以状态$i$上的概率质量$\pi(i)$是稳定的。</p>
+<p>那么一般情况下</p>
+<script type="math/tex; mode=display">
+p(i)q(i,j)≠p(j)q(j,i)</script><p>$Q$为转移矩阵，$q$为转移概率。为了强行让它相等，即满足细致平稳条件，则设计一个$\alpha$（称作跳转的<strong>接受率</strong>）使得$\alpha(i,j)=p(j)q(j,i),\alpha(j,i)=p(i)q(i,j)$（对称性）</p>
+<script type="math/tex; mode=display">
+p(i)q(i,j)\alpha(i,j)=p(j)q(j,i)\alpha(j,i)</script><p>$\hat{Q}(i,j)=q(i,j)\alpha(i,j),\hat{Q}(j,i)=q(j,i)\alpha(j,i)$</p>
+<p>$q$称为<strong>提议概率</strong>，$Q$称为提议转移矩阵，<strong>自己选择一种简单的分布即可</strong></p>
+<p>于是原来的转移矩阵$Q$变成了现在可以保证细致平稳条件的转移矩阵$\hat{Q}$，此转移矩阵的平稳分布就是$p(x)$了</p>
+<p>以上称为Metropolis抽样</p>
+<p><strong>那么$\alpha$该如何更好地取值呢？</strong>太小的话会导致拒绝率太高，收敛速度太慢。发现如果在等式两边同时扩大相同的倍数，等式依然成立，于是想到将等式两边同比例放大使得最大的一边放大到1（概率最大为1），即</p>
+<script type="math/tex; mode=display">
+\alpha^*(i,j)=\min\{\frac{\alpha(j,i)}{\alpha(i,j)},1\}=\min\{\frac{p(j)q(j,i)}{p(i)q(i,j)},1\}</script><p>（这里的推导：当$\alpha(i,j)&gt;\alpha(j,i),则\alpha(i,j)先到1，\alpha^<em>(j,i)=\frac{1}{\alpha(i,j)}·\alpha(j,i)&lt;1$ <em>*缩放</em></em></p>
+<p>当$\alpha(j,i)&gt;\alpha(i,j),则\alpha(j,i)先到1，\alpha^<em>(i,j)=\frac{\alpha(i,j)}{\alpha(j,i)}$ <em>*缩放</em></em></p>
+<p>整合上两式记得上面的等式）</p>
+<p><strong>于是</strong>$p(x)$是<strong>目标平稳概率分布，自设已知</strong>；$q(x)$为<strong>提议概率分布，自设已知</strong>，那么就可以求出<strong>转移概率</strong>$\alpha$了</p>
+<p>从$uniform(0,1)$中采样$u$，如果$u&lt;\alpha(i,j)$，（相当于在拒绝采样中，随机采样点落入函数范围内），则该跳转成功，否则该跳转失败，以此迭代（这里使用<strong>接受-拒绝采样算法的思想</strong>，用提议转移矩阵$Q$去求得转移矩阵$\hat{Q}$）</p>
+<p>这就是Metropolis Hasting采样算法</p>
+<p>算法如下：</p>
+<p><img src="//aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/0.png" alt="0"></p>
+<h2 id="Gibbs采样（深度学习中的最佳选择）"><a href="#Gibbs采样（深度学习中的最佳选择）" class="headerlink" title="Gibbs采样（深度学习中的最佳选择）"></a>Gibbs采样（深度学习中的最佳选择）</h2><p>针对高维的情形，发现在高维情况下自然成立一个式子使得细致平稳条件成立，也就可以不拒绝，使得收敛迅速。Gibbs采样每一步都只更新变量的一个小部分</p>
+<p>对平面上任意两点$X,Y$</p>
+<script type="math/tex; mode=display">
+p(X)=Q(X,Y)=p(Y)Q(Y,X)</script><p><img src="//aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/1.jpg" alt="0"></p>
+<p>​    <img src="//aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/2.jpg" alt="0"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/" title="蒙特卡罗方法">https://aisaka.cloud/2019/10/12/[object Object]/人工智能/蒙特卡罗方法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/采样/" rel="tag"># 采样</a>
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+            <a href="/tags/统计数学/" rel="tag"># 统计数学</a>
+          
+            <a href="/tags/马尔科夫链/" rel="tag"># 马尔科夫链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/11/[object Object]/人工智能/深度学习中的结构化概率模型/" rel="next" title="深度学习中的结构化概率模型">
+                <i class="fa fa-chevron-left"></i> 深度学习中的结构化概率模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/13/[object Object]/游戏设计/腾讯游戏策划培训课课堂笔记-week1/" rel="prev" title="腾讯游戏策划培训课堂笔记-week1">
+                腾讯游戏策划培训课堂笔记-week1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样与蒙特卡罗方法"><span class="nav-number">1.</span> <span class="nav-text">采样与蒙特卡罗方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#马尔科夫链蒙特卡罗方法（MCMC）"><span class="nav-number">2.</span> <span class="nav-text">马尔科夫链蒙特卡罗方法（MCMC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何采样？（采样方法）"><span class="nav-number">3.</span> <span class="nav-text">如何采样？（采样方法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Metropolis-Hasting采样"><span class="nav-number">4.</span> <span class="nav-text">Metropolis Hasting采样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gibbs采样（深度学习中的最佳选择）"><span class="nav-number">5.</span> <span class="nav-text">Gibbs采样（深度学习中的最佳选择）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

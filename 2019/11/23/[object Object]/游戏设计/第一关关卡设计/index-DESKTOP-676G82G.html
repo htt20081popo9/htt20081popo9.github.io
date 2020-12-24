@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜 第一关设计目的给玩家引入新机制——电力，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一关关卡设计">
+<meta property="og:url" content="https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜 第一关设计目的给玩家引入新机制——电力，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/23/[object%20Object]/游戏设计/第一关关卡设计/1.jpg">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/23/[object%20Object]/游戏设计/第一关关卡设计/0.jpg">
+<meta property="og:updated_time" content="2019-11-24T03:56:54.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第一关关卡设计">
+<meta name="twitter:description" content="本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜 第一关设计目的给玩家引入新机制——电力，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。">
+<meta name="twitter:image" content="https://aisaka.cloud/2019/11/23/[object%20Object]/游戏设计/第一关关卡设计/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/">
+
+
+
+
+
+  <title>第一关关卡设计 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">第一关关卡设计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-23T15:16:18+08:00">
+                2019-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/游戏设计/" itemprop="url" rel="index">
+                    <span itemprop="name">游戏设计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" class="leancloud_visitors" data-flag-title="第一关关卡设计">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>本文为腾讯游策游戏制作，我的第一关关卡设计构思；游戏类型为横版潜行解谜</em></p>
+<h2 id="第一关设计目的"><a href="#第一关设计目的" class="headerlink" title="第一关设计目的"></a>第一关设计目的</h2><p>给玩家引入<strong>新机制——电力</strong>，强化第一关的作用于道具物品（如钥匙）的学习，通过道具改变环境给自己的潜行带来更多的优势，比如开着手电的守卫在黑暗的房间里视野会变短且容易被发现。</p>
+<a id="more"></a>    
+<h2 id="第一关可用道具"><a href="#第一关可用道具" class="headerlink" title="第一关可用道具"></a>第一关可用道具</h2><p><strong>梯子[1]</strong>：玩家使用该道具后在朝向位置生成一个梯子，该梯子与楼梯中其他上下梯子功能想通过但可以作为道具回收</p>
+<p><strong>钥匙[2]</strong>：可以敲开门与保险柜</p>
+<p><strong>绳索[3]</strong>：可以向下面进行移动</p>
+<p><strong>漏电的手电筒[4]</strong>：玩家持有手电筒可以在黑暗区域看清前方扇形区域的敌人</p>
+<p><strong>剪刀[5]</strong>：可与一些物体（如电线）进行交互使得部分房间停电</p>
+<p>可交互固定物品算作场景物品，不算作道具（如发电机，开关，门等）</p>
+<p>主要是要考虑到在电力机制下，道具的可复用性</p>
+<p><strong>道具：[]，场景物品：（）</strong></p>
+<h2 id="道具的交互设计——电力主题"><a href="#道具的交互设计——电力主题" class="headerlink" title="道具的交互设计——电力主题"></a>道具的交互设计——电力主题</h2><h3 id="绳索"><a href="#绳索" class="headerlink" title="绳索"></a>绳索</h3><p>基本用途：在攀爬点挂绳索以上下楼层移动；可以用来导电；绳索存在长度</p>
+<p>基于导电的用途：</p>
+<ol>
+<li>(发电机)+(开关)+[绳子]+(水摊)=<strong>同层陷阱</strong>：可以使水带电具有攻击，但要注意操作先后顺序</li>
+<li>(发电机)+(开关)+[绳子]+(食物)=<strong>引诱</strong>：可以电熟生食物，散发香气，吸引守卫</li>
+<li>(发电机)+(开关)+[绳子]+(收音机/电视/洗衣机)=<strong>引诱</strong>：通电启动放声音，吸引守卫</li>
+<li>(发电机)+(开关)+[绳子]+(开关)+(发电机)=<strong>停电</strong>：两台发电机同时运转，大楼电力超载宕机，电灯熄灭，经过若干房间主角可以不被任何守卫发现，若干房间后来电</li>
+<li>(发电机)+(开关)+[绳子]=<strong>跨层陷阱</strong>：将绳子挂在楼上发电机，绳落下到楼下，守卫经过的时候手触碰就会被电</li>
+<li>(发电机)+(开关)+[绳子]+(水)+[绳子]+(金属交互物品)=<strong>导电</strong>：水作为导线延长结点，启动电子设备</li>
+</ol>
+<h3 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h3><p>部分发电机需要该芯片才能启动（一个芯片对应一个固定的发动机）</p>
+<h3 id="钥匙"><a href="#钥匙" class="headerlink" title="钥匙"></a>钥匙</h3><ol>
+<li><p>打开任意宝箱和门</p>
+</li>
+<li><p>(漏电源)+[钥匙]（金属属性）+(金属交互物品)=<strong>导电</strong>：可以为金属物品提供电力，启动电子设备</p>
+</li>
+</ol>
+<h3 id="剪刀"><a href="#剪刀" class="headerlink" title="剪刀"></a>剪刀</h3><ol>
+<li><p>剪断电线，使房间/红外系统停电</p>
+</li>
+<li><p>刺杀工具</p>
+</li>
+</ol>
+<h3 id="手电筒"><a href="#手电筒" class="headerlink" title="手电筒"></a>手电筒</h3><p>基本用途：视野距离更远</p>
+<h2 id="场景内交互物品设计——电力主题"><a href="#场景内交互物品设计——电力主题" class="headerlink" title="场景内交互物品设计——电力主题"></a>场景内交互物品设计——电力主题</h2><p>以下物品都算电子设备，<strong>需要电力启动</strong></p>
+<h3 id="通过"><a href="#通过" class="headerlink" title="通过"></a>通过</h3><ol>
+<li>铁链门（<strong>同层</strong>）</li>
+<li>电力密码门（<strong>同层</strong>）：首先需要给电脑供电，打开电脑查看密码门的密码；再将给电脑供电的线接到密码门上，再输入密码</li>
+<li>传送带（<strong>跨层</strong>）：启动传送带，抓住上面的扶手，可以把主角运到高层或低层去</li>
+</ol>
+<h3 id="信息"><a href="#信息" class="headerlink" title="信息"></a>信息</h3><p>​    电脑/操作台：需要电力启动，打开后可以查看信息，该信息可以用来解密</p>
+<h3 id="场景物品位移"><a href="#场景物品位移" class="headerlink" title="场景物品位移"></a>场景物品位移</h3><p>​    传送带：需要电力启动，启动后滑轨上的物体会移动到传送带另一头</p>
+<ol>
+<li><p>位移辅助通关的扶梯到需要的位置</p>
+</li>
+<li><p>移开障碍物以通过</p>
+</li>
+<li><p>移动传送带上面的发电机，缩短需要导电的距离（导线距离不够长的情况）</p>
+</li>
+</ol>
+<h3 id="场景变换"><a href="#场景变换" class="headerlink" title="场景变换"></a>场景变换</h3><p>作为大关切换，启动<strong>大电梯</strong>，以进入下一个大关卡</p>
+<h2 id="地图与关卡设计"><a href="#地图与关卡设计" class="headerlink" title="地图与关卡设计"></a>地图与关卡设计</h2><p><strong>需要考虑解密和潜行的平衡性。</strong>可以设定剪刀作为刺杀武器设定声音很大，只能在房间里只有守卫一个人（被吸引走的守卫不算）且不正对主角的情况下使用。一般房间里为两个人，用陷阱干掉/引开一个人，另一个人刺杀。（一个人中了陷阱，另一个同房间的守卫会跑去看一会儿，然后又继续巡逻（这时候设定巡逻视野变大，巡逻速度加快，即刺杀难度更高））</p>
+<p>Surface Pen丢了。。。没法在电脑上画图（#捂脸）</p>
+<h3 id="Scene-A"><a href="#Scene-A" class="headerlink" title="Scene A"></a>Scene A</h3><p>引入电力机制，绳索连接发电机和铁链门，基础教学</p>
+<p><img src="//aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/1.jpg" alt="1" style="zoom:33%;"></p>
+<h3 id="Scene-B"><a href="#Scene-B" class="headerlink" title="Scene B"></a>Scene B</h3><p>目标是通过密码铁链门</p>
+<p><img src="//aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/0.jpg" alt="0" style="zoom: 25%;"></p>
+<p>①用绳子连接发动机和传送带，启动发电机，驱动传送带，移开障碍物；</p>
+<p>②取下绳子，将绳子从小洞放下楼，电晕左边的守卫；</p>
+<p>③搭楼梯从小洞爬下去，用剪刀暗杀右边的守卫</p>
+<p>④拿取二楼右边的芯片和左边的绳</p>
+<p>⑤下三楼，将第一根绳从三楼发电机连接到水摊，将第二根绳从水摊连接到电脑，启动电脑，获取密码铁链门的密码</p>
+<p>⑥将三楼发电机与电梯电桩相连，进入电梯回到一楼</p>
+<p>⑦将绳插入无芯片发电机，将绳从插入了芯片的发电机连到密码铁链门，输入密码，打开门</p>
+<p>通关</p>
+<h3 id="Scene-C"><a href="#Scene-C" class="headerlink" title="Scene C"></a>Scene C</h3><h2 id="多路线设计"><a href="#多路线设计" class="headerlink" title="多路线设计"></a>多路线设计</h2><p>每一个解谜关卡都设计另一种可以直接暗杀守卫的方式不解谜直接通关</p>
+<p>但是如果杀人太多，会走向bad ending</p>
+<p>这样可以合理降低难度又可以设计多结局</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" title="第一关关卡设计">https://aisaka.cloud/2019/11/23/[object Object]/游戏设计/第一关关卡设计/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/19/[object Object]/人工智能/Forest/" rel="next" title="Boosting(XGBoost、LightGBM)">
+                <i class="fa fa-chevron-left"></i> Boosting(XGBoost、LightGBM)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/25/[object Object]/Music/绮凝盏-双笙xHanser/" rel="prev" title="绮凝盏(双笙xHanser)">
+                绮凝盏(双笙xHanser) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一关设计目的"><span class="nav-number">1.</span> <span class="nav-text">第一关设计目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一关可用道具"><span class="nav-number">2.</span> <span class="nav-text">第一关可用道具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#道具的交互设计——电力主题"><span class="nav-number">3.</span> <span class="nav-text">道具的交互设计——电力主题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#绳索"><span class="nav-number">3.1.</span> <span class="nav-text">绳索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#芯片"><span class="nav-number">3.2.</span> <span class="nav-text">芯片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#钥匙"><span class="nav-number">3.3.</span> <span class="nav-text">钥匙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪刀"><span class="nav-number">3.4.</span> <span class="nav-text">剪刀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手电筒"><span class="nav-number">3.5.</span> <span class="nav-text">手电筒</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景内交互物品设计——电力主题"><span class="nav-number">4.</span> <span class="nav-text">场景内交互物品设计——电力主题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过"><span class="nav-number">4.1.</span> <span class="nav-text">通过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息"><span class="nav-number">4.2.</span> <span class="nav-text">信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景物品位移"><span class="nav-number">4.3.</span> <span class="nav-text">场景物品位移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景变换"><span class="nav-number">4.4.</span> <span class="nav-text">场景变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地图与关卡设计"><span class="nav-number">5.</span> <span class="nav-text">地图与关卡设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scene-A"><span class="nav-number">5.1.</span> <span class="nav-text">Scene A</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scene-B"><span class="nav-number">5.2.</span> <span class="nav-text">Scene B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scene-C"><span class="nav-number">5.3.</span> <span class="nav-text">Scene C</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多路线设计"><span class="nav-number">6.</span> <span class="nav-text">多路线设计</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

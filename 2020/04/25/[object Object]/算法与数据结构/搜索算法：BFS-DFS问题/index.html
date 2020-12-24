@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作） 经常需要使用全局变量来记录递归中的参数 对">
+<meta name="description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）（①和②可以合并在一起，不符合条件不继续递归">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搜索算法：BFS&#x2F;DFS问题">
 <meta property="og:url" content="https://aisaka.cloud/2020/04/25/[object Object]/算法与数据结构/搜索算法：BFS-DFS问题/index.html">
 <meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作） 经常需要使用全局变量来记录递归中的参数 对">
+<meta property="og:description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）（①和②可以合并在一起，不符合条件不继续递归">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-19T14:43:45.947Z">
+<meta property="og:updated_time" content="2020-10-19T03:58:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搜索算法：BFS&#x2F;DFS问题">
-<meta name="twitter:description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作） 经常需要使用全局变量来记录递归中的参数 对">
+<meta name="twitter:description" content="DFS BFS搜索算法经常带有一个visited矩阵  DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样） 其涵盖拥有前面递归所说的一切经验：理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）（①和②可以合并在一起，不符合条件不继续递归">
 
 
 
@@ -429,7 +429,7 @@
 <li><p>DFS BFS搜索算法经常带有一个<strong>visited矩阵</strong></p>
 </li>
 <li><p>DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样）</p>
-<p>其涵盖拥有前面递归所说的一切经验：<strong>理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）</strong></p>
+<p>其涵盖拥有前面递归所说的一切经验：<strong>理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）</strong>（①和②可以合并在一起，不符合条件不继续递归，自然出栈）</p>
 <p>经常需要使用<strong>全局变量</strong>来记录递归中的参数</p>
 <p>对于DFS，要有<strong>子问题思维：以前、以后的问题是不可见的，现在只需要考虑当前该节点的小问题，当前结点拥有哪些变量</strong></p>
 <p>也要有<strong>全局思维：理清子问题与以前、以后问题的关系</strong></p>
@@ -638,7 +638,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">224</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

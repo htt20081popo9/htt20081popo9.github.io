@@ -316,6 +316,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/05/12/[object Object]/数据库与中间件/MVCC/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/12/[object Object]/数据库与中间件/MVCC/" itemprop="url">MySQL并发相关原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T21:41:07+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/12/[object Object]/数据库与中间件/MVCC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/12/[object Object]/数据库与中间件/MVCC/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2020/05/12/[object Object]/数据库与中间件/MVCC/" class="leancloud_visitors" data-flag-title="MySQL并发相关原理">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/05/12/[object Object]/数据库与中间件/MVCC/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/05/05/[object Object]/日记/夏至/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1293,7 +1459,7 @@
 <li><p>DFS BFS搜索算法经常带有一个<strong>visited矩阵</strong></p>
 </li>
 <li><p>DFS算法入口一般传入第一轮位置参数，就像树遍历传入root根节点一样，然后每一轮DFS（每一层递归）就调用DFS（参数位置+1）（即下一个位置，具体不一定要这样）</p>
-<p>其涵盖拥有前面递归所说的一切经验：<strong>理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）</strong></p>
+<p>其涵盖拥有前面递归所说的一切经验：<strong>理解子问题，思考齐全①递归出口（所有终止条件）、②递归入栈（如何继续递归）与③执行体（做什么操作）</strong>（①和②可以合并在一起，不符合条件不继续递归，自然出栈）</p>
 <p>经常需要使用<strong>全局变量</strong>来记录递归中的参数</p>
 <p>对于DFS，要有<strong>子问题思维：以前、以后的问题是不可见的，现在只需要考虑当前该节点的小问题，当前结点拥有哪些变量</strong></p>
 <p>也要有<strong>全局思维：理清子问题与以前、以后问题的关系</strong></p>
@@ -1509,183 +1675,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2020/04/17/[object Object]/程序语言/JVM类加载器/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/17/[object Object]/程序语言/JVM类加载器/" itemprop="url">JVM&JVM类加载器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-17T18:02:51+08:00">
-                2020-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/" itemprop="url" rel="index">
-                    <span itemprop="name">程序语言</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/04/17/[object Object]/程序语言/JVM类加载器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/17/[object Object]/程序语言/JVM类加载器/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2020/04/17/[object Object]/程序语言/JVM类加载器/" class="leancloud_visitors" data-flag-title="JVM&JVM类加载器">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>类加载器</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/04/17/[object Object]/程序语言/JVM类加载器/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1738,7 +1727,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">224</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

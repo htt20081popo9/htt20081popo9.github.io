@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。 XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 引入正则化项来控制树的复杂度表记$T(x;\Th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Boosting(XGBoost、LightGBM)">
+<meta property="og:url" content="https://aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。 XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 引入正则化项来控制树的复杂度表记$T(x;\Th">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/19/[object%20Object]/人工智能/Forest/GOSS.png">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/19/[object%20Object]/人工智能/Forest/EFB.png">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/19/[object%20Object]/人工智能/Forest/0.png">
+<meta property="og:image" content="https://aisaka.cloud/2019/11/19/[object%20Object]/人工智能/Forest/1.png">
+<meta property="og:updated_time" content="2019-11-23T15:47:30.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Boosting(XGBoost、LightGBM)">
+<meta name="twitter:description" content="XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。 XGBoost原论文： https://arxiv.org/abs/1603.02754  基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进 引入正则化项来控制树的复杂度表记$T(x;\Th">
+<meta name="twitter:image" content="https://aisaka.cloud/2019/11/19/[object%20Object]/人工智能/Forest/GOSS.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/">
+
+
+
+
+
+  <title>Boosting(XGBoost、LightGBM) | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Boosting(XGBoost、LightGBM)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T17:15:30+08:00">
+                2019-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/19/[object Object]/人工智能/Forest/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/19/[object Object]/人工智能/Forest/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/11/19/[object Object]/人工智能/Forest/" class="leancloud_visitors" data-flag-title="Boosting(XGBoost、LightGBM)">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>XGBoost和LightGBM都属于GBDT的变种，见上篇；读本篇需要先熟练理解和掌握CART回归树和GBDT算法。</em></p>
+<h2 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h2><p>原论文： <a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">https://arxiv.org/abs/1603.02754</a> </p>
+<p>基于CART回归树的生成方法：依然是先确定最优树的结构，然后通过最小化损失函数确定叶子结点的输出值，XGBoost在GBDT上做了一定改进</p>
+<h3 id="引入正则化项来控制树的复杂度"><a href="#引入正则化项来控制树的复杂度" class="headerlink" title="引入正则化项来控制树的复杂度"></a>引入正则化项来控制树的复杂度</h3><p><strong>表记</strong>$T(x;\Theta_{m})=w_{q(x)}$，$x$为一个样本，$q(x)$表示<strong>该样本所在的叶子结点</strong>，$w_q$为叶子节点$q$的回归输出；于是$w_{q(x)}$即表示每个样本的回归输出，即决策树的输出。定义集合$I_j=\{i|q(x^{(i)})=j\}$表示划分到叶结点$j$的所有训练样本的集合即上一篇的表示法：$\{x|x∈R_{j}\}$。$T$为叶子节点个数（即划分个数）$m$为步/轮数，$N$为样本个数。</p>
+<p>定义每一步生成新决策树的损失函数的正则项：</p>
+<script type="math/tex; mode=display">
+\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||w||^2</script><p>可以看出惩罚考虑了两项：$T$为<strong>叶子节点个数</strong>，$w$为<strong>每个样本的输出值</strong></p>
+<p>（也可以用$c$表示：$\Omega(T(x;\Theta_m))=\gamma T+\frac{1}{2}\lambda||c||^2$，$c$即每个划分的输出值，也就对应了每个样本的输出）</p>
+<p>XGBoost向损失函数加入此正则项($L’$为不含正则项的原损失函数)变为（样本总体损失函数）：</p>
+<script type="math/tex; mode=display">
+L(y_{i+1},f_{m+1}(x_i))=\sum_iL'(y_{i+1},f_{m+1}(x_i))+\Omega(T(x;\Theta_{m+1}))</script><a id="more"></a>    
+<h3 id="修改拟合目标"><a href="#修改拟合目标" class="headerlink" title="修改拟合目标"></a>修改拟合目标</h3><p>在AdaBoost中我们是拟合残差</p>
+<p>在GBDT中我们是去拟合负梯度（一阶导数，泰勒公式一阶展开求导得出）来替代拟合残差</p>
+<p>而XGBoost中， 直接<strong>用泰勒展开式将损失函数二阶展开，求其一阶梯度和二阶梯度，正因为使用损失函数的二阶泰勒展开，因此与损失函数更接近，比只使用了一阶展开的GBDT收敛速度更快</strong>（前提是函数一阶、二阶都连续可导，而且在这里计算一阶导和二阶导时可以并行计算） </p>
+<script type="math/tex; mode=display">
+g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><p>于是用和GBDT一样的方法，对无正则的原损失函数（单个样本）$L’(y_{i+1},f_{m+1}(x_i))$在$\hat f_m(x_i)$处进行泰勒二阶展开，这里简要推导：</p>
+<p>$L’(y_{i+1},f_{m+1}(x_i))=L’(y_{i+1},f_m(x_i)+T(x,\Theta_{m+1}))$ </p>
+<p>对右式在$\hat f_m(x_i)$二阶泰勒展开，并令$x’=\hat f_m(x_i)+T(x,\Theta_{m+1})$，$y$为无关常量</p>
+<p>$\therefore 原式≈L’(y_{i+1},f_m(x_i))+g_i(x’-\hat f_m(x_i))+\frac{1}{2}h_i(x’-\hat f_m(x_i))^2$</p>
+<p>$=L’(y_{i+1},f_m(x_i))+g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
+<p>由于对本轮优化来说，$L’(y_{i+1},f_m(x_i))$是个常数，不会影响损失函数，于是：</p>
+<p>$L’(y_{i+1},f_{m+1}(x_i))≈g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})$</p>
+<p>于是计算整个样本集的损失函数（前面的损失函数都是单个样本的）加上前面的正则构成目标损失函数：</p>
+<p>$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\gamma T+\frac{1}{2}\lambda||w||^2$，转换表示，见开头的表记方法</p>
+<p>$=\sum_{i=1}^N[g_iw_{q(x_i)}+\frac{1}{2}h_iw^2_{q(x_i)}]+\gamma T+\frac{1}{2}\lambda\sum_{j=1}^Tw_j^2$ ，将对样本求和改为对划分求和，同一个叶子节点/划分$j$的输出值是相同的，即$w_{q(x_i)}=w_j\quad if\quad i∈I_j$，于是改写为：</p>
+<p>$Obj_{m+1}=\sum_{j=1}^T[(\sum_{i∈I_j} g_i)w_j+\frac{1}{2}(\sum_{i∈I_j}h_i+\lambda)w_j^2]+\gamma T$</p>
+<script type="math/tex; mode=display">
+令G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad,则：</script><script type="math/tex; mode=display">
+Obj_{m+1}=\sum_{j=1}^T[G_jw_j+\frac{1}{2}(H_j+\lambda)w_j^2]+\gamma T</script><p><strong>①</strong>于是<strong>【根据此损失函数先确定$(j,s)$划分，确定决策树的结构】</strong></p>
+<p>但是注意到实际上在确定决策树结构（选择最优特征和分割点）的时候，决策树结构数量是无穷的，所以<strong>实际上并不能穷举所有可能的决策树结构。</strong>什么样的决策树结构是最优的呢？<strong>通常使用贪心策略来生成决策树的每个结点。</strong>——因为对某个结点采取的是二分策略，分别对应<strong>左子结点和右子结点</strong>，除了当前待处理的结点，其他结点对应的$Obj_{m+1}$值都不变，所以对于收益的计算只需要考虑当前结点的$Obj_{m+1}$值即可。</p>
+<p>（其它DT和基于DT的boosting通常也用贪心策略）</p>
+<ol>
+<li>从深度为0的树开始<strong>对每个叶子结点穷举所有的可用特征</strong>；</li>
+<li>针对每一个特征，把属于该结点的训练样本的该<strong>特征升序排列</strong>，通过线性扫描的方式来决定该特征的<strong>最佳分裂点</strong>，并采用最佳分裂点时的<strong>收益</strong>；</li>
+<li>选择<strong>收益最大的特征作为分裂特征</strong>，用该特征的最佳分裂点作为分裂位置，把该结点生成出左右两个新的叶子结点，并为每个新结点关联新的样本集；</li>
+<li>退回到第一步，继续<strong>递归</strong>操作直到满足特定条件。</li>
+</ol>
+<p>不过原作者没有直接这样暴力枚举，因为即使贪心策略只考虑当前结点，该结点内可能的分裂点也很多。于是原作者<strong>通过加权分位数的算法选出了一些可能的分裂点（见后文）</strong>。</p>
+<p>下面我们就要通过一个<strong>增益函数/打分函数</strong>来判断谁是最佳特征和分裂点了：</p>
+<p>分裂前针对该结点的最优目标函数(<strong>这个最优目标函数是假设结构已经固定的情况下在第②步中先求出来的</strong>）为： </p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(before)}=-\frac{1}{2}\frac{G^2}{H+\lambda}+\gamma=-\frac{1}{2}\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}+\gamma</script><p>分裂后的最优目标函数为：（$G分为左G_L和右G_R,H同理$）</p>
+<script type="math/tex; mode=display">
+Obj_{m+1}^{(later)}=-\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}]+2\gamma</script><p>于是对于目标函数$Obj_m$，分裂后的收益为$Gain=Obj_{m+1}^{(before)}-Obj_{m+1}^{(later)}$：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p><strong>为了限制树的生长</strong>，我们可以加入阈值，当增益大于阈值时才让节点分裂，上式中的<strong>$\gamma$即阈值</strong>，它是正则项里叶子节点数$T$的系数，所以XGBoost在优化目标函数的同时<strong>相当于做了预剪枝</strong>。 同时可以看出该式子中<strong>$\lambda$起了对叶结点score做平滑的作用</strong>。（这俩参数定义见最前面的正则化公式）这两个参数在这里求分裂的时候也<strong>都起了正则化作用</strong></p>
+<p><strong>故可用此公式决定最优分裂特征和分裂点，贪心地选择收益最大的作为分裂点</strong></p>
+<p><strong>②【根据损失函数确定每个结点的最优回归输出】</strong></p>
+<p>由于决策树的结构已经固定了，那么就知道了$q(),I_j$。（<strong>这里的①与GBDT的第③步一样的，先求出划分，结构就固定了</strong>，然后在GDBT中下一步③求出残差的替代让新决策树去拟合之（即缩小与残差的损失函数），求得每个结点的最优输出值；不过<strong>在XGBoost中这里推导出了一个由一阶导，二阶导构成的损失函数，于是XGBoost就是要去缩小这个损失函数，选取每个结点的最优输出值</strong>）；</p>
+<p>又由于$g_i,h_i$是对当前已知模型(上一步/轮求出来的)$f_m(x_i)$的导数，那么$G_j,H_j$也是已知常数，于是让目标损失函数$Obj_{m+1}$对$w_j$<strong>求0导</strong>（我们原来是要对$T(x;\Theta_{m})$求导的，而$T(x;\Theta_{m})=w_{q(x)}$）可得</p>
+<script type="math/tex; mode=display">
+w^o=-\frac{G_j}{H_j+\lambda}</script><script type="math/tex; mode=display">
+最优损失函数:Obj_{m+1}=-\frac{1}{2}\sum_{j=1}^T\frac{G^2_j}{H_j+\lambda}+\gamma T</script><p>$w^o=-\frac{G_j}{H_j+\lambda}$即为叶子节点的最优输出，相当于GDBT的第④步</p>
+<h3 id="引入学习率-缩减（Shrinkage）"><a href="#引入学习率-缩减（Shrinkage）" class="headerlink" title="引入学习率/缩减（Shrinkage）"></a>引入学习率/缩减（Shrinkage）</h3><p>在更新前向分步模型的时候，在新树的输出引入学习率，以防止过拟合</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><h3 id="引入分布式加权分位数略图算法"><a href="#引入分布式加权分位数略图算法" class="headerlink" title="引入分布式加权分位数略图算法"></a>引入分布式加权分位数略图算法</h3><p>在决策树分裂的时候引入的减小计算量的方法：weighted quantile sketch。本质是<strong>基于权重的采样</strong></p>
+<p>决策树的分裂基本都是基于贪心的，也就是只考虑当前结点的最优特征和划分而不考虑全局最优，但这样依然需要穷举该结点内每个可能的分裂点。当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——分布式加权分位数略图算法 </p>
+<p>先看<strong>加权分位数略图算法</strong></p>
+<p>对原目标式：$Obj_{m+1}=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})]+\Omega(T(x;\Theta_m))$变形，在里面添加一个常数：</p>
+<p>$=\sum_{i=1}^N[g_iT(x,\Theta_{m+1})+\frac{1}{2}h_iT^2(x,\Theta_{m+1})+\frac{1}{2}\frac{g_i^2}{h_i}]+\Omega(T(x;\Theta_m))+constant$</p>
+<p>$=\sum_{i=1}^n\frac{1}{2}h_i[T(x,\Theta_{m+1})-(-\frac{g_i}{h_i})^2]+\Omega(T(x;\Theta_m))+constant$</p>
+<p>可以看出，最后的目标代价函数就是一个$h_i$的加权平均损失函数</p>
+<p>于是进一步我们想要如何以分位数的方式划分区域来取候选点。</p>
+<p><strong>思想：</strong>我们将特征样本排序，划分成不同区域，对样本取分位数点，每个分位数点落在区域内，但由于<strong>样本权重越高的区域，预测结果越是不确定的样本区域，切分的粒度就应该越密集。</strong></p>
+<p>那么具体怎么实现呢：</p>
+<p>对于数据集$D_k=\{(x_{1k},h_1),(x_{2k},h_2),\cdots,(x_{nk},h_n)\}$，$k$表示某特征，$h$即为损失函数在该样本在$k$特征对应的二阶梯度</p>
+<p>s在加权分位缩略图算法中，取值是按照Rank来取的：</p>
+<script type="math/tex; mode=display">
+r_k(z)=\frac{\sum_{(x,h)∈D_k,x<z}h}{\sum_{(x,h)∈D_k}h}</script><p>输入为某个特征的值$z$,计算的是该特征所有可取值中<strong>小于$z$的特征值的总权重占总的所有可取值的总权重和的比</strong>例，输出为一个<strong>比例值</strong>。 这个Rank计算出来就相当于<strong>将原特征值用$h$加了权映射到$(0,1)$上</strong></p>
+<p>于是按照此公式选取候选分割点$\{s_{k1},s_{k2},\cdots,s_{kl}\}$：</p>
+<script type="math/tex; mode=display">
+|r_k(s_{k,j})-r_k(s_{k,j+1})|<\epsilon\quad,s_{k1}=\min_ix_{ik},s_{kl}=\max_ix_{ik}</script><p>$\epsilon$ 是一个近似比例，或叫扫描步幅，就是说<strong>在加权后的特征取值区间上，按照步幅$\epsilon$取值</strong>，得到$\frac{1}{\epsilon}$个候选点</p>
+<p><strong>取值分两种</strong>：</p>
+<p>①<strong>global proposal</strong> ：也就是<strong>在最开始树还没分裂的时候就选好一组$\{s_{k1},s_{k2},\cdots,s_{kl}\}$，在总体样本里选择，每次树切分的时候都不变 。</strong></p>
+<p>②<strong>local proposal</strong>：它是在每次树<strong>分割成子树之后再选择出一组$\{s_{k1},s_{k2},\cdots,s_{kl}\}$</strong>，来自子树的样本集！</p>
+<p><strong>两种都要，共同组成分割候选点集合</strong>。对于子树中存在的global proposal选取的分割点，需要加入子树local proposal选取的分割点集合中，组成子树候选点</p>
+<p>于是可以找到整合和的所有候选点$\{s_{k1},s_{k2},\cdots,s_{kl}\}$</p>
+<p>对于<strong>分布式加权分位数略图算法</strong>，多了两个操作合并merge和修剪prune，可以看这篇文章<a href="http://datavalley.github.io/2017/09/11/xgboost%E6%BA%90%E7%A0%81%E4%B9%8B%E5%88%86%E4%BD%8D%E7%82%B9" target="_blank" rel="noopener">xgboost之分位点算法</a></p>
+<h3 id="引入直方图算法"><a href="#引入直方图算法" class="headerlink" title="引入直方图算法"></a>引入直方图算法</h3><p>找到了候选点$\{s_{k1},s_{k2},\cdots,s_{kl}\}$，就要开始遍历候选点选最大收益的最优分割点，<strong>直方图算法是在遍历候选点寻找最大增益的最优分割时候所进行的优化</strong></p>
+<p>使用直方图算法，即生成直方图。候选点将样本集合划分为了很多区间，每个区间叫分桶。在每个分桶上对样本统计值$g$、$h$进行累加统计求$Gain$，这样就生成了一个直方图，每个桶的值就是桶内二阶梯度之和，即累加统计的$Gain$。这时候我们要计算最优划分，就遍历候选点将其左边所有桶和右边所有桶分别作为左右子树求比不分裂前的增益，求使这个增益最大那个划分即可。</p>
+<p><strong>直方图算法</strong>可以降低内存消耗，直方图算法不仅不需要额外存储预排序的结果，而且可以只保存特征离散化后的值，而这个值一般用8位整型存储就足够了，内存消耗可以降低为原来的1/8。在计算上的代价也大幅降低，预排序算法每遍历一个特征值就需要计算一次分裂的增益，而直方图算法只需要计算$k$次（$k$可以认为是常数），时间复杂度从$O(#data ×#feature)$优化到$O(k×#features)$。 而且使用直方图可以更好地并行计算。</p>
+<h3 id="总结上2-如何分割成子树"><a href="#总结上2-如何分割成子树" class="headerlink" title="[总结上2]如何分割成子树"></a>[总结上2]如何分割成子树</h3><p>（分布式加权分位数略图算法+直方图算法）：</p>
+<ol>
+<li><p><strong>[找候选点：分布式加权分位数略图算法]</strong>求global proposal和local proposal，得到一系列候选分裂点集合$\{s_{k1},s_{k2},\cdots,s_{kl}\}$（加权分位数略图算法）</p>
+</li>
+<li><p><strong>[在候选点中找最优点：直方图算法]</strong>候选点将样本集合划分为了很多区间，每个区间叫分桶。在每个分桶上对样本统计值$g$、$h$进行累加统计求$Gain$，最后在这些累计的统计量上寻找最佳分裂点。（这步其实就是使用增益公式遍历选最佳分裂点的步骤，只是反映都直方图上）</p>
+</li>
+</ol>
+<p>结合贪心，替代上面“修改拟合目标”中的1234暴力枚举法</p>
+<h3 id="允许缺失值存在"><a href="#允许缺失值存在" class="headerlink" title="允许缺失值存在"></a>允许缺失值存在</h3><p>XGBoost模型允许缺失值的存在。对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。</p>
+<p>具体地，XGBoost把缺失值当做稀疏矩阵来对待，即本身的在节点<strong>[遍历寻找某特征的最优分裂点时不考虑缺失值的数值，只对非缺失值进行遍历]&lt;=允许缺失值存在的核心</strong>。所以缺失值对树生成不会有影响，缺失值数据会继续被其他特征进行最优划分，最终学习到分类（如果用下面的①可以最优但增加计算负担，用②也可以，实际上影响不大）。</p>
+<p>于是两种处理方法：</p>
+<p>①将缺失值分到左子树和右子树分别计算损失，选择较优的那个。</p>
+<p>②也可以直接设定缺失值默认分类方向。实际处理时，比如可以将缺失值设置成missing=-999等，大大提高运算速度。</p>
+<p>如果训练中没有数据缺失，预测时出现了数据缺失，那么默认被分类到右子树。 </p>
+<p>（在原始的GBDT策略中是要手动对缺失值进行处理的）</p>
+<h3 id="计算机系统优化"><a href="#计算机系统优化" class="headerlink" title="计算机系统优化"></a>计算机系统优化</h3><p>这部分略，可以阅读原论文</p>
+<h3 id="XGBoost算法总结"><a href="#XGBoost算法总结" class="headerlink" title="XGBoost算法总结"></a>XGBoost算法总结</h3><ol>
+<li><p>初始化</p>
+</li>
+<li><p>迭代计算每一步：</p>
+<p>①计算损失函数在当前模型的一阶梯度和二阶梯度：</p>
+<script type="math/tex; mode=display">
+g_i=\frac{\partial L'(y_i,f(x_i))}{\partial f(x_i)},h_i=\frac{\partial^2 L '(y_i,f(x_i))}{\partial f(x_i)}</script><script type="math/tex; mode=display">
+G_j=\sum_{i∈I_j} g_i \quad ,H_j=\sum_{i∈I_j}h_i\quad</script><p>② 通过加权分位数算法选出了一些可能的分裂点。 </p>
+<p>根据增益公式计算可能的特征和分裂点，选择最大化该公式的最优特征和最优分裂点，确定新树结构：</p>
+<script type="math/tex; mode=display">
+Gain=\frac{1}{2}[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{(H_L+H_R)+\lambda}]-\gamma</script><p>$\lambda$有正则效果，$\gamma$作为分裂阈值，也起了正则化效果</p>
+<p>③根据损失函数极小化确定每个子结点的回归输出</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+T^o(x;\Theta_{m+1})=-\frac{G_j}{H_j+\lambda}</script><p>​        ④新树乘以学习率，前向分步模型更新</p>
+<script type="math/tex; mode=display">
+f_{m+1}(x)=f_{m}(x)+\epsilon T^o(x;\Theta_{m+1})</script><p>​    3. 迭代直到满足停止条件</p>
+<h3 id="相比GBDT的优点"><a href="#相比GBDT的优点" class="headerlink" title="相比GBDT的优点"></a>相比GBDT的优点</h3><ol>
+<li><p>由于XGBoost使用了损失函数的泰勒<strong>二阶展开</strong>，因此<strong>与损失函数更接近</strong>，对其进行拟合，收敛速度更快。</p>
+<p>而GBDT只进行了一阶展开。</p>
+</li>
+<li><p>加入了<strong>正则项</strong>，控制模型复杂度，避免过拟合。正则项$\gamma$一方面在分割的时候相当于做了预剪枝，正则项$\lambda$相当于对leaf score做了平滑作用，这俩都等效于正则化；另一方面在损失函数中起到了正则化</p>
+</li>
+<li><p>采用<strong>[近似的]最优特征与最优分割点选择方法（加权中位数方法+贪心算法 ）</strong>。</p>
+<p><strong>a.</strong>贪心即只考虑当前结点最优特征和最优划分。（贪心算法一般决策树分裂都用，否则找全局最优，决策树枚举完计算量是非常大的）</p>
+<p><strong>b.</strong>同时决策树结点在分裂时需要穷举每个可能的分裂点，当数据没法全部加载到内存中时，这种方法会比较慢，XGBoost提出了一种近似的方法去高效的生成候选分割点——加权分位数的方法寻找可能的分裂点。</p>
+<p><strong>①可以加速和减小内存消耗</strong></p>
+<p>②<strong>支持并行</strong>，在对每棵决策树进行结点分裂时，需要每个特征的增益，选择最大的那个特征作为分裂特征，各个特征的增益计算可以多线程进行（GBDT其实也可以在求增益的时候做并行，但它没有做；XGBoost专门设置了一个<strong>block结构</strong>来储存并行计算的增益特征）</p>
+<p>③支持<strong>对缺失值的处理</strong>，对于特征值缺失的样本，XGBoost可以学习这些缺失值的分裂方向。见上</p>
+<p>（在原始的GBDT策略中是手动对缺失值进行处理的）</p>
+</li>
+<li><p>在每一轮更新前向分步模型的时候引入了<strong>学习率</strong>，防止过拟合。学习率可以降低每颗学到的新树的影响。在实际操作的时候可以将学习率设置低一点，迭代次数设置更大。（GBDT也有学习率）</p>
+</li>
+<li><p>引进了<strong>特征子采样/列抽样 </strong>，像Random Forest那样，既能降低过拟合，还能减少计算。 </p>
+</li>
+</ol>
+<h2 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h2><p>原论文： <a href="https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/publication/lightgbm-a-highly-efficient-gradient-boosting-decision-tree/</a> </p>
+<p>LightGBM是微软去年才发表并开源的新算法，也是一种<strong>基于GBDT</strong>的算法。其能达到速度比XGBoost快，但精度却一样。</p>
+<p><strong>其核心是在GBDT的每个CART分裂子树，选取最优分裂点的方法上进行了改进。</strong>原始GBDT中，即使使用了贪心，要对每个分裂点进行枚举，计算量也非常大。在XGBoost中，使用了加权分位数略图算法来解决这个问题。</p>
+<p>但对于GBDT，是没有权重的（没有像XGBoost采用二阶梯度），于是在LightGBM中为了<strong>基于GBDT改进</strong>，提出了<strong>Gradient-based One-Side Sampling (GOSS)</strong>和<strong>Exclusive Feature Bundling (EFB)</strong>算法来解决最优分割点选取问题</p>
+<h3 id="直方图算法与差加速"><a href="#直方图算法与差加速" class="headerlink" title="直方图算法与差加速"></a>直方图算法与差加速</h3><p>LightGBM采用了直方图算法，与XGBoost一样（但没有权重）。可以看XGBoost的直方图算法标题。</p>
+<p><strong>直方图差加速</strong>：一个叶子的直方图可以由它的父亲节点的直方图与它兄弟的直方图做差得到。通常构造直方图，需要遍历该叶子上的所有数据，使用差算法来做仅需遍历直方图的$k$个分桶 </p>
+<h3 id="Gradient-based-One-Side-Sampling-GOSS"><a href="#Gradient-based-One-Side-Sampling-GOSS" class="headerlink" title="Gradient-based One-Side Sampling(GOSS)"></a>Gradient-based One-Side Sampling(GOSS)</h3><p><strong>基于梯度的单边采样</strong>。GOSS是一种在减少数据量和保证精度上平衡的算法。 </p>
+<p>来源于基础思想：对于残差（一阶梯度）较小的样本，直接舍去不学习（因为其已经学得很好了）。但这样改变了数据分布，必然会影响模型的精度，于是提出GOSS，在这个思想上进行改进。</p>
+<p><strong>[思想]：GOSS保留残差（梯度）较大的样本，在梯度较小的样本上使用随机采样；并且给小样本采样的时候给一个更大的权重以免过多改变数据分布。</strong></p>
+<p><strong>[具体地]：</strong></p>
+<ol>
+<li><p>先计算每个样本的残差（梯度）</p>
+</li>
+<li><p>对残差的绝对值排序产生一个新序列</p>
+</li>
+<li><p>选取比例$a$的样本作为残差较大的样本，全部遍历求增益；</p>
+<p>在剩余的数据（比例$1-a$，为残差较小的样本）中以采样率$b$进行随机采样出一批样本，遍历求增益</p>
+</li>
+<li><p>在计算信息增益的时候，为采样出的残差小的数据乘以$\frac{1-a}{b}$（ 即：<strong>小梯度样本总数/随机采样出的小梯度样本数量</strong>，<strong>把采样值扩大到相当于采取了原始个数的样本</strong>）</p>
+</li>
+</ol>
+<p>附上原论文的算法：</p>
+<p><img src="//aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/GOSS.png" alt="GOSS" style="zoom: 50%;"></p>
+<p>原论文还继续分析了GOSS的性能和泛化性（分析过程见原论文，略），得到结论：</p>
+<p>①<strong>[性能分析]</strong>：随机采样是GOSS在$a=0$的一种情况。多数情况下，GOSS性能优于随机采样；GOSS并不会丢失太多精度，但速度大大加快</p>
+<p>②<strong>[泛化性能分析]</strong>：在GOSS准确的情况下，GOSS泛化误差近似于全量的真实数据。另一方面，采样将增加基学习器的多样性（因为每次采样获得的数据可能会不同），这将提高泛化性。 </p>
+<h3 id="Exclusive-Feature-Bundling-EFB"><a href="#Exclusive-Feature-Bundling-EFB" class="headerlink" title="Exclusive Feature Bundling(EFB)"></a>Exclusive Feature Bundling(EFB)</h3><p><strong>互斥的特征捆绑</strong>。 EFB可以有效减少特征的数量。 </p>
+<p><strong>[思想]：</strong>高维数据通常是稀疏的，且许多特征是互斥的（range不同），于是我们可以<strong>绑定这样的每一组互斥特征为单一特征</strong>，通过仔细设计特征扫描算法，我们从特征捆绑中构建了与单个特征相同的特征直方图。<strong>这种方式是无损的。</strong>我们只需要遍历捆绑后的大特征就可以获取到所有特征的直方图，<strong>降低了需要遍历的特征量，加快了计算速度。</strong></p>
+<p><strong>[寻找哪些特征可以绑定]：</strong> 将最优捆绑问题归结为图着色问题，<strong>用边连接非互斥特征，于是未有连接的特征团就是互斥特征</strong>，然后用近似的贪婪算法来做特征捆绑。  </p>
+<p>发现特征不是100%互斥但大部分情况是互斥的。于是设定一个参数$\gamma$，表示每个绑定的最大冲突比率，只要不高于这个阈值就可以绑定。</p>
+<p><strong>[怎么绑定/互斥特征如何合并]：</strong>我们需要将一组被捆绑的特征能够单独分离出来。于是可以通过<strong>为特征值添加偏移量，将特征放在不同的箱中来构建一个捆绑</strong>。也就是说将各个特征的range通过添加偏移量的方法，合并后扩展到一个大range。</p>
+<p>附上原论文的算法，算法3为贪心寻找绑定，算法4为合并互斥特征：</p>
+<p><img src="//aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/EFB.png" alt="EFB" style="zoom:50%;"></p>
+<h3 id="Leaf-wise-Best-first-Tree-Growth"><a href="#Leaf-wise-Best-first-Tree-Growth" class="headerlink" title="Leaf-wise (Best-first) Tree Growth"></a>Leaf-wise (Best-first) Tree Growth</h3><p>采用Leaf-wise策略建树（下图）</p>
+<p><img src="//aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/0.png" alt="0"></p>
+<p><img src="//aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/1.png" alt="1"></p>
+<p>图片来源：<a href="https://www.jianshu.com/p/3daf08229d78" target="_blank" rel="noopener">LightGBM原理分析</a></p>
+<p>用Leaf-wise可以做到每次从<strong>当前所有叶子</strong>中，找到分裂增益最大的一个叶子，也就能选取最优增益的建树方法；而level-wise同对待同层所有叶子就可能增益很低。但容易过拟合。Leaf-wise每次分裂可以降低更多偏差，精度更高，但容易过拟合。但可以通过限制树高来防止过拟合。</p>
+<p>而且由于GOSS和EFB算法本身就有正则化的效果，所以可以使用Leaf-wise来提升精度</p>
+<h3 id="直接支持类别特征"><a href="#直接支持类别特征" class="headerlink" title="直接支持类别特征"></a>直接支持类别特征</h3><p>GDBT，XGBoost不直接支持类别特征， 需要把类别特征转化到多维的0/1特征。</p>
+<p>而LightGBM直接支持了类别特征，在决策树算法上增加了类别特征的决策规则，具体略</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ol>
+<li><p><strong>实际上绝大多数树模型在划分结点的时候都是采用贪心算法，只计算当前结点的最优特征和最优划分，否则树模型的可能实在太多，枚举完的代价是巨大的</strong></p>
+</li>
+<li><p><strong>Bagging与Boosting</strong></p>
+<p>用XGBoost/GBDT在在调参的时候把树的最大深度调成6就有很高的精度了。但是用DecisionTree或RandomForest的时候需要把树的深度调到15或更高，why？</p>
+<p>①随机森林属于<strong>Bagging方法，主要降低方差</strong>， 使用<strong>训练数据的不同子集</strong>来训练多个模型。因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。  （dropout就可以视为神经网络的一种bagging）</p>
+<p>②XGB/GBDT属于<strong>Boosting方法，主要降低偏差</strong>，是一种<strong>迭代方法</strong>。因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成； </p>
+<p>Bagging和Boosting都属于集成学习</p>
+</li>
+<li><p>分割=分裂=划分，这三个词都是描述决策树变成子树的过程，我是混着用的</p>
+</li>
+<li><p>LightGBM只是略读，以后可以更深入了解其理论和复杂度</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/" title="Boosting(XGBoost、LightGBM)">https://aisaka.cloud/2019/11/19/[object Object]/人工智能/Forest/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/18/[object Object]/Game/11月游戏简报/" rel="next" title="11月游戏简评">
+                <i class="fa fa-chevron-left"></i> 11月游戏简评
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/23/[object Object]/游戏设计/第一关关卡设计/" rel="prev" title="第一关关卡设计">
+                第一关关卡设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#XGBoost"><span class="nav-number">1.</span> <span class="nav-text">XGBoost</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入正则化项来控制树的复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">引入正则化项来控制树的复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改拟合目标"><span class="nav-number">1.2.</span> <span class="nav-text">修改拟合目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入学习率-缩减（Shrinkage）"><span class="nav-number">1.3.</span> <span class="nav-text">引入学习率/缩减（Shrinkage）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入分布式加权分位数略图算法"><span class="nav-number">1.4.</span> <span class="nav-text">引入分布式加权分位数略图算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入直方图算法"><span class="nav-number">1.5.</span> <span class="nav-text">引入直方图算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结上2-如何分割成子树"><span class="nav-number">1.6.</span> <span class="nav-text">[总结上2]如何分割成子树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许缺失值存在"><span class="nav-number">1.7.</span> <span class="nav-text">允许缺失值存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机系统优化"><span class="nav-number">1.8.</span> <span class="nav-text">计算机系统优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost算法总结"><span class="nav-number">1.9.</span> <span class="nav-text">XGBoost算法总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相比GBDT的优点"><span class="nav-number">1.10.</span> <span class="nav-text">相比GBDT的优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LightGBM"><span class="nav-number">2.</span> <span class="nav-text">LightGBM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图算法与差加速"><span class="nav-number">2.1.</span> <span class="nav-text">直方图算法与差加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradient-based-One-Side-Sampling-GOSS"><span class="nav-number">2.2.</span> <span class="nav-text">Gradient-based One-Side Sampling(GOSS)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exclusive-Feature-Bundling-EFB"><span class="nav-number">2.3.</span> <span class="nav-text">Exclusive Feature Bundling(EFB)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leaf-wise-Best-first-Tree-Growth"><span class="nav-number">2.4.</span> <span class="nav-text">Leaf-wise (Best-first) Tree Growth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接支持类别特征"><span class="nav-number">2.5.</span> <span class="nav-text">直接支持类别特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

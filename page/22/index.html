@@ -316,6 +316,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" itemprop="url">CNN的卷积过程理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T20:30:52+08:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" class="leancloud_visitors" data-flag-title="CNN的卷积过程理解">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="CNN的卷积层"><a href="#CNN的卷积层" class="headerlink" title="CNN的卷积层"></a>CNN的卷积层</h2><p>这就涉及到CNNs要做的工作了。每一个卷积核中的数值，都是<strong>算法自己学习来的</strong>，不需要我们费心去设置。<br>【CNN的特征提取部分和FC部分一样，也是需要训练的。训练学得Fliter的具体值，然后学得图像特征<br>相当于Fliter是W，图片是X，最终提取得到的特征是Y 输入进FC里（全连接层）<br>训练过程中，W不断学习得到最佳Fliter<br>（Filter其实就是权值！每个像素的权值！二维的<br>所以在最开始的FIlter时候其实就是权值初始化的问题,后面算法自己会学到）<br>】<br>我们需要做的是设置超参数（学习超参数）</p>
+<p><strong>所谓的卷积层conv就是一堆卷积核，卷积层的参数就是卷积核的参数</strong></p>
+<p>CONV-&gt;ACTIVATE-&gt;POOL-&gt; XXXXXXXX -&gt;FC</p>
+<h2 id="多通道卷积——理解卷积层的工作原理"><a href="#多通道卷积——理解卷积层的工作原理" class="headerlink" title="多通道卷积——理解卷积层的工作原理"></a>多通道卷积——理解卷积层的工作原理</h2><p>非常重要<br><strong>输出的层数必为卷积核的层数，以卷积核的视角来做卷积，一个卷积核生成一个卷积层！</strong></p>
+<p><img src="//aisaka.cloud/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/神经网络实践_多通道卷积.png" alt="神经网络实践_多通道卷积">**</p>
+<p><strong>同一个卷积核对所有通道做卷积然后进行求和得到该卷积核对应的卷积层</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/10/11/[object Object]/数据库与中间件/SQL语句/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1493,174 +1671,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/08/15/[object Object]/日记/旅途之后/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/15/[object Object]/日记/旅途之后/" itemprop="url">旅途之后</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T21:45:03+08:00">
-                2018-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/08/15/[object Object]/日记/旅途之后/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/08/15/[object Object]/日记/旅途之后/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/08/15/[object Object]/日记/旅途之后/" class="leancloud_visitors" data-flag-title="旅途之后">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>从最后一节暑期课，到现在，快一个月了。我的旅途结束了。</p>
-<p>走了很多地方，看见了不同的人与景，进入了不同的生活。</p>
-<p>旅行也许是改变现在的尝试。回到了家。迷茫与困惑的感觉随之而归。一段旅行的结束，是思考的最好时机。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/15/[object Object]/日记/旅途之后/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1713,7 +1723,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">224</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

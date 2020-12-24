@@ -119,7 +119,7 @@
 <meta property="og:description" content="再探">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://aisaka.cloud/2020/04/02/[object%20Object]/算法与数据结构/递归再探/0.png">
-<meta property="og:updated_time" content="2020-05-22T03:54:50.361Z">
+<meta property="og:updated_time" content="2020-10-17T15:33:12.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="递归设计再探">
 <meta name="twitter:description" content="再探">
@@ -432,8 +432,11 @@
 <h2 id="递归树：描述递归的问题结构"><a href="#递归树：描述递归的问题结构" class="headerlink" title="递归树：描述递归的问题结构"></a>递归树：描述递归的问题结构</h2><p><strong>递归树</strong>可以用如下图表示，这个树描述了<strong>递归的问题结构</strong>（二分递归）</p>
 <p><img src="//aisaka.cloud/2020/04/02/[object Object]/算法与数据结构/递归再探/0.png" alt="0"></p>
 <p>对于<strong>先左后右，出栈执行（倒序执行）的递归（后序续历）</strong>，如下设计：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func()</span><br><span class="line">&#123;</span><br><span class="line">	if (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    if (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">    执行体（访问）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    <span class="keyword">if</span> (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">    执行体（访问）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>执行过程：[入]0、1、3、7、15    [出]15    [入]16   [出]16  [出]7  [入]8  [出]3  [入]4  [入]9  [出]9 [入]10 [出]10 [出]4  [出]1 [入]2、5、11  [出]11   [入]12   [出]12   [出]5   [入]6、13   [出]13   [入]14   [出]14、6、2、0   </p>
+<p>所以对于通过前中序序列来还原二叉树的问题，即<strong>可通过前序序列找到子问题个根节点，再通过中序序列找到左右节点的顺序</strong>（因为前序遍历是访问到子问题的根节点的时候就输出，中序遍历的输出顺序是左中右）</p>
+<p><strong>核心：</strong>在递归问题中，不变的就是要理清大问题和小问题，<strong>拥有“局部”的眼光，只看当前问题，不看以前的问题，将子问题封装成一个整体</strong>。一个递归是一个进入跟结点后的子问题（递归函数体），只解决了以这个结点为根节点的子问题，左右结点都是下一层递归的问题！<strong>左右结点就是左右子问题</strong>，和本层节点一样，自会去执行各自的子问题（比如输出data域，如果其下还有子问题，必然会有相应的输出，但不需要在目前这个问题管），<strong>所以不用管，看成一个整体即可</strong>。<strong>于是对于中序遍历</strong>，一个子问题就是：左递归完成，然后输出本节点data域，再进入右节点子问题——对于每一个子问题，都是先输出左边（不管，继续递归的子问题）再输出中间（本层）再输出右边（不管，继续递归的子问题）（<strong>对于最小子问题，就需要结束递归了，即最终出口</strong>）</p>
+<p><strong>结合代码去想</strong>，这个函数即为进入一个根节点所对应的一个子问题的执行过程。</p>
 <h2 id="几个要点与理解"><a href="#几个要点与理解" class="headerlink" title="几个要点与理解"></a>几个要点与理解</h2><p>①每一个子问题都满足该函数内部的内容</p>
 <p>②<strong>必须有子问题递归条件</strong></p>
 <p>对于子问题，判断是否继续递归（即上面中的if语句），<strong>否则就停止该子问题的递归，出栈该子问题</strong>（注意，出栈的是该子问题，不再继续递归该子问题）</p>
@@ -441,16 +444,17 @@
 <p><strong>执行执行体：解决该子问题</strong></p>
 <p>③a.<strong>子问题出栈的时候即解决该子问题（倒序执行）</strong></p>
 <p>在二叉树深度遍历中相当于<strong>后序遍历</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func()</span><br><span class="line">&#123;</span><br><span class="line">	if (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    if (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">    执行体（访问）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    <span class="keyword">if</span> (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">    执行体（访问）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>b.若要让<strong>子问题入栈的时候即解决该子问题（正序执行）</strong>，则如下设计：</p>
 <p>在二叉树深度遍历中相当于<strong>前序遍历</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func()</span><br><span class="line">&#123;</span><br><span class="line">	执行体（访问）</span><br><span class="line">	if (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    if (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	执行体（访问）</span><br><span class="line">	<span class="keyword">if</span> (left可递归)</span><br><span class="line">		func(left)</span><br><span class="line">    <span class="keyword">if</span> (right可递归)</span><br><span class="line">    	func(right)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>④递归树中父节点与子节点的关系</p>
 <p>递归的不同层次（父问题与子问题）</p>
 <p>⑤<strong>只有当子问题全部出栈（执行执行体，即解决问题），父问题才会出栈（执行执行体，即解决问题）</strong></p>
 <p><strong>以上面递归树例子为例</strong>，对于7的子问题，[入]7，代表开始解决7问题了，这时候递归7问题，发现7还有子问题，于是 [出]15    [入]16   [出]16，这时候7的子问题全部出栈（全部解决完），这时候再  [出]7（解决父问题：7）</p>
 <h2 id="基于思想灵活变通"><a href="#基于思想灵活变通" class="headerlink" title="基于思想灵活变通"></a>基于思想灵活变通</h2><p>基于以上的要点思想，进行灵活的递归设计</p>
 <p>但是有几个核心要明确：<strong>①子问题继续递归条件②执行体</strong></p>
+<p>（或者说：①递归最终出口（递归树叶子结点）②下一层递归入口③当层递归出口执行体；执行体可以在下一层递归入口之前（相当于前序），也可以没有单独的递归最终出口，直接在下一层递归入口处判断即可）</p>
 <p><strong>脑子要清晰，我现在处于哪一层的子问题，现在的环境变量，各个变量现在是什么（因为多个子问题，很容易搞错），要结合递归树、子问题、栈、执行过程仔细思考</strong></p>
 <h2 id="举例：归并排序的递归结构"><a href="#举例：归并排序的递归结构" class="headerlink" title="举例：归并排序的递归结构"></a>举例：归并排序的递归结构</h2><p>在归并中，执行体为Merge，但最小子问题（即划分为只有一个数的时候）是不用Merge的<br>也就是说执行体也有条件（即Left&lt;Right），叶子结点不用执行Merge操作，与递归条件是一样的（叶子结点不用再继续递归）<br>那么我们就将执行体写如递归判断条件中去！</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> sonMergeSort</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (left&lt;right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">            <span class="comment">//递归入口1 </span></span><br><span class="line">            sonMergeSort(array,left,mid); </span><br><span class="line">            <span class="comment">//递归入口2</span></span><br><span class="line">            sonMergeSort(array,mid+<span class="number">1</span>,right);  </span><br><span class="line">			</span><br><span class="line">			<span class="comment">//执行体</span></span><br><span class="line">            Merge(array)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -460,11 +464,13 @@
 <p>出栈即执行执行体，而对于[15]和[16]问题，我们判断不符合Left&lt;Right，那么就不会执行Merge，不做任何事就出栈</p>
 <p>于是就到了[出]7，在子问题[7]中，环境变量中有left，mid，right，当然满足left&lt;right，于是我们就要对left~mid和mid~right执行merge操作</p>
 <h2 id="易误解"><a href="#易误解" class="headerlink" title="易误解"></a>易误解</h2><ol>
-<li><p><strong>我自己的一个误区：递归并不是并发进行的！而是逐层进出栈！整个递归调用的顺序是线性的一条链！所以完全可以用一个全局变量来记录当前递归信息</strong></p>
+<li><p><strong>我自己的一个误区：递归并不是并发进行的，而是逐层进出栈，整个递归调用的顺序是线性的一条链。所以完全可以用一个全局变量来记录当前递归信息</strong></p>
 </li>
-<li><p><strong>二分查找是不需要递归来做的，外面一个循环，内部进行分治查找！</strong></p>
+<li><p><strong>二分查找是不需要递归来做的，外面一个循环，内部进行分治查找</strong></p>
 </li>
 <li><p><strong>二叉树的叶子结点有个虚的null结点，这样思考会更好一些</strong></p>
+</li>
+<li><p>并不是出栈即执行，结合代码思考</p>
 </li>
 </ol>
 
@@ -603,7 +609,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">224</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
