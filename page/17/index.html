@@ -316,6 +316,388 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/07/30/[object Object]/论文阅读笔记/Examples/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/[object Object]/论文阅读笔记/Examples/" itemprop="url">Explaining and Harnessing Adversarial Examples</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T12:20:14+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/[object Object]/论文阅读笔记/Examples/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/30/[object Object]/论文阅读笔记/Examples/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/07/30/[object Object]/论文阅读笔记/Examples/" class="leancloud_visitors" data-flag-title="Explaining and Harnessing Adversarial Examples">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
+</blockquote>
+<h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
+<p>本文的观点：<strong>Linear behavior</strong> in <strong>high-dimensional spaces</strong> is sufﬁcient to cause adversarial examples</p>
+<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ol>
+<li><p>Box-constrained L-BFGS can reliably ﬁnd adversarial examples.</p>
+</li>
+<li><p>On some datasets, such as ImageNet (Deng et al., 2009), the adversarial examples were so close to the original examples that the differences were indistinguishable to the human eye.</p>
+</li>
+<li><p>The same adversarial example is often misclassiﬁed by avariety of classiﬁers with different architectures or trained on different subsets of the training data.</p>
+</li>
+<li><p>Shallow softmax regression models are also vulnerable to adversarial examples. </p>
+</li>
+<li><p>Training on adversarial examples can regularize the model —however , this was not practical at the time due to the need for expensive constrained optimization in the inner loop</p>
+</li>
+</ol>
+<p>这就引起我们怀疑即便当前最好的模型是否只是虚有其表，并没有真正学习到内在的语义信息。仅仅能够fit现有样本，无法泛化。</p>
+<h2 id="对抗样本的线性解释"><a href="#对抗样本的线性解释" class="headerlink" title="对抗样本的线性解释"></a>对抗样本的线性解释</h2><p>本文提出了对对抗样本产生原因的线性解释.设置扰动$\eta,\epsilon$为一个小到可以被分类器忽略的值</p>
+<p>$\hat{x} = x+\eta$ ，若$||\eta||_\infty&lt;\epsilon$，分类器将无法将$x$与$\hat{x}$分开</p>
+<p>则$w^T\hat{x}=w^T(x+\eta)=w^Tx+w^T\eta$</p>
+<p>若维度很高，则即使$\eta$很小，也会使得$w^T\eta$非常大，影响分类器的判断</p>
+<p>令$\eta=sign(w)$即可使得$w^T\eta$最大</p>
+<h2 id="非线性模型的线性扰动"><a href="#非线性模型的线性扰动" class="headerlink" title="非线性模型的线性扰动"></a>非线性模型的线性扰动</h2><p>对于现在的神经网络都有很强的线性性质以至于无法抵抗对抗攻击，如 LSTMs (Hochreiter &amp; Schmidhuber, 1997), ReLUs (Jarrett et al., 2009; Glorot et al., 2011),  maxout networks (Goodfellow et al., 2013c) 都设计得具有很强的线性性质，所以也方便优化。FGSM将损失函数近似线性化，从而获取$||\eta||_\infty&lt;\epsilon$的最优扰动。</p>
+<p><strong>Fast Gradient Sign Method(FGSM)</strong></p>
+<script type="math/tex; mode=display">
+\eta = \epsilon sign(\nabla_xJ(\theta,x,y))​</script><script type="math/tex; mode=display">
+\hat{x} = x+\epsilon sign(\nabla_xJ(\theta,x,y))</script><p>注意这里$y=y_{true}$</p>
+<p>通过实验证明，作者的假设产生对抗样本的原因是由于模型的线性特性是正确的。这种方法也可以作为一种快速生成对抗样本的方法（即FGSM）</p>
+<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>在Logistics Regression上应用FGSM方法 ，$label\in\lbrace1,-1\rbrace$</p>
+<p>$P(y=1|x)=\sigma(w^Tx+b),\sigma(z)=softmax(z)$   </p>
+<p>$\therefore J = E{x,y \tilde{} p_{data}}[(-\frac{1+y}{2})\ln P(y=1|x)-\frac{1-y}{2}\ln P(y=-1|x)]$</p>
+<p>设$p=P(y=1|x),f=w^Tx+b$</p>
+<p>$\therefore J=-\frac{1}{2}\ln p-\frac{y}{2}\ln p-\frac{1}{2}\ln (1-p)+\frac{y}{2}\ln (1-p)$</p>
+<p>$=-\frac{1}{2}\ln p（1-p)-\frac{y}{2}\ln \frac{p}{1-p} $</p>
+<p>$= \frac{1}{2}(f-yf) + \ln(1+e^{-f})$</p>
+<p>$=\begin{cases} \ln(1+e^{-f}),y=1\\ f+\ln(1+e^{-f})=\ln e^f+\ln(1+e^{-f})=\ln(1+e^f),y=-1\end{cases}$</p>
+<p>$= \ln(1+e^{-yf})$</p>
+<p>$=\zeta(-yf)=E{x,y \tilde{} p_{data}}\zeta(-y(w^Tx+b)),\zeta(z) = \ln(1+e^z)$  </p>
+<p>$\therefore \eta=\epsilon sign(\nabla_xJ(\theta,x,y))$</p>
+<p>$=\epsilon sign(\nabla_x\zeta(-y(w^Tx+b)))$</p>
+<p>$= \epsilon sign(\frac{\partial \ln(1+e^{-y(w^Tx+b)})}{\partial x})$</p>
+<p>$=\epsilon sign(\frac{1}{1+e^{-y(w^Tx+b)}} ×(-e^{-y(w^Tx+b)})×(yw^T))$</p>
+<p>$=\epsilon sign(\frac{e^{-yf}}{1+e^{-yf}}×(-y)w)$</p>
+<p>$=\epsilon sign(-w)=-\epsilon sign(w)$</p>
+<p>$\because w^Tsign(w)=||w||_1，\hat{x}=x+\eta,\eta=\epsilon-sign(w)$</p>
+<p>$\therefore \hat{J}=E{x,y \tilde{} p_{data}}\zeta(y(\epsilon||w||_1 -w^Tx-b))$</p>
+<p>可以看到类似于$L^1$正则，不过是减去$L^1$惩罚项。当置信度很高，$w^Tx+b$足够大的时候，$\epsilon||w||_1$几乎不起作用，但是当模型欠拟合的时候，则会更加欠拟合</p>
+<h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
+<script type="math/tex; mode=display">
+\hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
+<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
+<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/07/27/[object Object]/日记/Animation/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/27/[object Object]/日记/Animation/" itemprop="url">Pray for Kyoto Animation</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-27T10:29:48+08:00">
+                2019-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/日记/" itemprop="url" rel="index">
+                    <span itemprop="name">日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/27/[object Object]/日记/Animation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/27/[object Object]/日记/Animation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/07/27/[object Object]/日记/Animation/" class="leancloud_visitors" data-flag-title="Pray for Kyoto Animation">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="//aisaka.cloud/2019/07/27/[object Object]/日记/Animation/QQ图片20190726230738.jpg" alt="QQ图片20190726230738"></p>
+<div style="text-align: center">你们一直伴随着我的青春时光，生命却止步于此。 </div>
+
+<div style="text-align: center">R.I.P. 为动画世界奉献了青春的你们。 </div>
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/07/26/[object Object]/人工智能/mini-batch/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1383,358 +1765,11 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/06/16/[object Object]/程序语言/生产者消费者问题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/16/[object Object]/程序语言/生产者消费者问题/" itemprop="url">生产者消费者问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T22:44:45+08:00">
-                2019-06-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/" itemprop="url" rel="index">
-                    <span itemprop="name">程序语言</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/16/[object Object]/程序语言/生产者消费者问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/16/[object Object]/程序语言/生产者消费者问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/06/16/[object Object]/程序语言/生产者消费者问题/" class="leancloud_visitors" data-flag-title="生产者消费者问题">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>经典问题</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/16/[object Object]/程序语言/生产者消费者问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/" itemprop="url">Redis服务&基本数据结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-01T17:22:53+08:00">
-                2019-06-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库与中间件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/" class="leancloud_visitors" data-flag-title="Redis服务&基本数据结构">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Redis（Remote Dictionary Server )，即<strong>远程字典服务</strong></p>
-<p>数据库是它的一个功能应用，它还可以作为其它中间件使用</p>
-<p><code>redis-cli</code>在命令行进入Redis服务客户端，可以用<code>Jedis</code>在JAVA中操作Redis客户端</p>
-<p>Jedis常用API：<a href="https://www.cnblogs.com/yepei/p/5662734.html" target="_blank" rel="noopener">https://www.cnblogs.com/yepei/p/5662734.html</a></p>
-<p>(注意，当我们在本机运行redis服务端之后，我们无论是其它机器在远程访问redis，还是本地用jedis或<code>redis-cli</code>访问redis，都是客户端)</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/01/[object Object]/数据库与中间件/Redis基本数据结构/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1782,7 +1817,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">225</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

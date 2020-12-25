@@ -316,6 +316,394 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" itemprop="url">深度学习实践结构性经验总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T16:34:33+08:00">
+                2019-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
+                    <span itemprop="name">神经网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/01/14/[object Object]/人工智能/深度学习实践结构性经验总结/" class="leancloud_visitors" data-flag-title="深度学习实践结构性经验总结">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
+<li>定义网络结构</li>
+<li>定义数据变换</li>
+<li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
+<li><p>读取训练集与测试集（自定义数据集，多种读入方式等..）<br><strong>开始训练</strong>：</p>
+<ul>
+<li><p><strong>训练一个Epoch</strong><br>自适应学习率更新<br><strong>循环：训练一个batch——从dataloader读取一个mini batch</strong></p>
+<ul>
+<li>转换为cuda变量</li>
+<li>梯度清0<br><strong>FORWARD</strong></li>
+<li>将数据输入模型得到结果</li>
+<li>根据结果得到预测标签</li>
+<li>计算train loss<br><strong>BACKWARD</strong></li>
+<li>反向计算梯度</li>
+<li>优化器更新<br><strong>统计本batch</strong></li>
+</ul>
+</li>
+<li><strong>统计本epoch</strong></li>
+</ul>
+</li>
+</ul>
+<p>【注】<br>①如果是<strong>测试</strong>，则取消[自适应学习率更新]和[BACKWARD]的步骤即可<br><strong>训练和测试可以结合起来</strong> train=datalodaer(trainset…),test=dataloader(testset…)<br>则在开始训练一个epoch的时候，加一个循环 <code>for phase in [train,test]</code>即可，后面的在测试不需要的步骤作判断<code>if phase is train: do</code>就行<br>②可以设置一个全局的最优准确率，然后记录下来最佳准确率，并储存当时的<strong>最优模型</strong>权重<br>③注意<strong>设置模型模式</strong>，<code>model.train(True)</code>设置为训练模式<code>model.eval(True)</code>设置为测试模式</p>
+<h2 id="定义网络结构"><a href="#定义网络结构" class="headerlink" title="定义网络结构"></a>定义网络结构</h2><p>在定义网络结构的时候,如下形式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义的网络结构类必须继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 注意传入参数self到结构函数</span></span><br><span class="line">    <span class="comment"># init中的参数为初始化网络的参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__</span><br><span class="line">        <span class="comment"># 定义网络</span></span><br><span class="line">        <span class="comment"># 单个定义</span></span><br><span class="line">        self.s1 = nn.Conv2d(......)</span><br><span class="line">        <span class="comment"># 或集合定义</span></span><br><span class="line">        self.s1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(......),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 全连接层(对于卷积神经网络用于分类）</span></span><br><span class="line">        self.fc = nn.Linear()</span><br><span class="line">    <span class="comment"># 注意传入参数self和x（输入矩阵）！</span></span><br><span class="line">    <span class="comment"># forward中的参数为训练的时候要传入的参数 比如求output = model(x)时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        <span class="comment"># 经过特征提取层后，要扁平化才能进入fc层！</span></span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> F.softmax(x)</span><br></pre></td></tr></table></figure></p>
+<p>注意，一个误区：定义网络是定义网络的结构！输入一般输入一个batch，对该batch的处理为网络的内容</p>
+<p>nn包含了所有的层结构定义组件, F包含了所有的函数, nn中的每个组件都需要添加到nn.Module容器中才能使用. def参数中的self即指向nn.Module(指向本类,而本类继承自nn.Module), 通过定义self.diyiceng = nn.Conv2d(xxx) 即将组件添加到了nn.Module容器中 </p>
+<h2 id="nn-Sequential-组合一系列组件定义"><a href="#nn-Sequential-组合一系列组件定义" class="headerlink" title="nn.Sequential 组合一系列组件定义"></a><strong>nn.Sequential</strong> 组合一系列组件定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#eg</span></span><br><span class="line">self.conv2 = nn.Sequential( </span><br><span class="line">	nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">	nn.ReLU(),  </span><br><span class="line">	nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">)  </span><br><span class="line"><span class="comment">#这里就将三个组件组合成一个组件了</span></span><br><span class="line"><span class="comment">#注意里面直接写组件组成即可 不是变量定义</span></span><br></pre></td></tr></table></figure>
+<h2 id="建立深度学习模型一般实践"><a href="#建立深度学习模型一般实践" class="headerlink" title="建立深度学习模型一般实践"></a>建立深度学习模型一般实践</h2><p><strong>数据预处理与特征工程</strong></p>
+<ul>
+<li>向量化</li>
+<li>值归一化</li>
+<li>处理缺省值</li>
+<li>特征工程<br><strong>过拟合</strong></li>
+<li>获取更多数据、数据增强等</li>
+<li>缩小网络规模</li>
+<li>应用权重正则化</li>
+<li>应用dropout<br><strong>欠拟合</strong></li>
+<li>获取更多数据</li>
+<li>增加权重</li>
+</ul>
+<p><strong>一般流程</strong></p>
+<ul>
+<li>问题定义与数据集创建</li>
+<li>选择模型评估标准</li>
+<li>评估协议（测试集 验证集）</li>
+<li>准备数据</li>
+<li>模型基线（创建一个非常简单的模型来打破基线分数 如二分类为0.5)</li>
+<li>训练大达到过拟合</li>
+<li>应用正则化</li>
+<li>学习率选择策略</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2019/01/02/[object Object]/数据库与中间件/Redis/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/02/[object Object]/数据库与中间件/Redis/" itemprop="url">Redis</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T17:12:14+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库与中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/02/[object Object]/数据库与中间件/Redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/02/[object Object]/数据库与中间件/Redis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/2019/01/02/[object Object]/数据库与中间件/Redis/" class="leancloud_visitors" data-flag-title="Redis">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>非关系型数据库，有字符串独立字典（有序无序）六种储存关系</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/02/[object Object]/数据库与中间件/Redis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/12/01/[object Object]/人工智能/向目标函数加入正则的具体实现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1451,382 +1839,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/10/18/[object Object]/人工智能/Pytorch常用模块以及nn-Module/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/18/[object Object]/人工智能/Pytorch常用模块以及nn-Module/" itemprop="url">Pytorch常用模块以及nn.Module</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T12:20:59+08:00">
-                2018-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/18/[object Object]/人工智能/Pytorch常用模块以及nn-Module/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/18/[object Object]/人工智能/Pytorch常用模块以及nn-Module/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/10/18/[object Object]/人工智能/Pytorch常用模块以及nn-Module/" class="leancloud_visitors" data-flag-title="Pytorch常用模块以及nn.Module">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="pytroch常用包"><a href="#pytroch常用包" class="headerlink" title="pytroch常用包"></a>pytroch常用包</h2><p>PyTorch框架中有一个很常用的包：<code>torchvision</code><br>torchvision主要由3个子包构成：<code>torchvision.datasets</code>、<code>torchvision.models</code>、<code>torchvision.transforms</code><br><code>torchvision</code>和<code>torchtext</code>基于<code>torch.utils.data.Dataset</code>和<code>torch.utils.data.DataLoder</code>类构建<br><code>nn</code>来源于<code>torch.nn</code><br><code>optim</code>来源于<code>torch.optim</code> 超参数算法都在里面<br><code>lr_scheduler</code>来源于<code>torch.optim.lr_scheduler</code> 自适应学习率算法在里面<br><code>ImageFolder</code>在<code>torchvision.datasets</code>中<br><code>torchvision.models</code>中提供一些现有的流行算法</p>
-<p><code>torch.nn.functional</code> 各中层函数的实现，与层类型对应，如：卷积函数、池化函数、归一化函数等等</p>
-<h2 id="torch-nn与nn-Module"><a href="#torch-nn与nn-Module" class="headerlink" title="torch.nn与nn.Module"></a>torch.nn与nn.Module</h2><p>torch.nn是专门为神经网络设计的模块化接口。nn构建于autograd之上，可以用来定义和运行神经网络。</p>
-<p>torch.nn的核心数据结构是<code>Module</code>，它是一个抽象概念，既可以表示神经网络中的某个层（layer），也可以表示一个包含很多层的神经网络。无需纠结variable和tensor了，0.4版本已经将两个类彻底合并了。</p>
-<p>在实际使用中，最常见的做法是<strong>继承</strong><code>nn.Module</code>，撰写自己的网络/层。</p>
-<ul>
-<li><p>自定义层<code>Linear</code>必须继承<code>nn.Module</code>，并且在其构造函数中需调用<code>nn.Module</code>的构造函数，即<code>super(Linear, self).__init__()</code>  或<code>nn.Module.__init__(self)</code>，推荐使用第一种用法。</p>
-</li>
-<li><p>在<strong>构造函数<code>__init__</code>中必须自己定义可学习的参数，并封装成<code>Parameter</code></strong>，比如 _FasterRcnn类init中定义了 self.RCNN_loss_cls = 0 和 self.RCNN_loss_bbox = 0 还有在本例中我们把<code>w</code>和<code>b</code>封装成<code>parameter</code>。<strong><code>parameter</code>是一种特殊的<code>Variable</code>，但其默认需要求导</strong>（requires_grad = True）。</p>
-</li>
-<li><p><code>forward</code>函数实现前向传播过程，其输入可以是一个或多个variable，对x的任何操作也必须是variable支持的操作。</p>
-</li>
-<li><p><strong>无需写反向传播函数</strong>，<strong>因其前向传播都是对variable进行操作，nn.Module能够利用autograd自动实现反向传播，这点比Function简单许多。 faster rcnn等中反向传播直接写pass的原因。</strong></p>
-</li>
-<li><p>使用时，直观上可将layer看成数学概念中的函数，调用layer(input)即可得到input对应的结果。它等价于<code>layers.__call__(input)</code>，在<code>__call__</code>函数中，主要调用的是  <code>layer.forward(x)</code>，另外还对钩子做了一些处理。所以在实际使用中<strong>应尽量使用<code>layer(x)</code>而不是使用<code>layer.forward(x)</code></strong>。</p>
-</li>
-<li><p><code>Module</code>中的<strong>可学习参数</strong>可以<strong>通过<code>named_parameters()</code>或者<code>parameters()</code>返回迭代器</strong>，前者会给每个parameter都附上名字，使其更具有辨识度。</p>
-<p>Module能够自动检测到自己的<code>Parameter</code>，并将其作为学习参数。</p>
-</li>
-</ul>
-<h2 id="nn-ReLU和F-ReLU有什么区别"><a href="#nn-ReLU和F-ReLU有什么区别" class="headerlink" title="nn.ReLU和F.ReLU有什么区别?"></a>nn.ReLU和F.ReLU有什么区别?</h2><p>将ReLU层添加到网络有两种不同的实现，即nn.ReLU和F.ReLU两种实现方法。<br>其中nn.ReLU作为一个层结构，必须添加到nn.Module容器中才能使用，而F.ReLU则作为一个函数调用，看上去作为一个函数调用更方便更简洁。具体使用哪种方式，取决于编程风格。在PyTorch中,nn.X都有对应的函数版本F.X，但是并不是所有的F.X均可以用于forward或其它代码段中，因为当网络模型训练完毕时，在存储model时，在forward中的F.X函数中的参数是无法保存的。也就是说，在forward中，使用的F.X函数一般均没有状态参数，比如F.ReLU，F.avg_pool2d等，均没有参数，它们可以用在任何代码片段中。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.Softmax() = nn.Linear() + forward最后输出的时候调用F.softmax()</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" itemprop="url">CNN的卷积过程理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T20:30:52+08:00">
-                2018-10-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/" class="leancloud_visitors" data-flag-title="CNN的卷积过程理解">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="CNN的卷积层"><a href="#CNN的卷积层" class="headerlink" title="CNN的卷积层"></a>CNN的卷积层</h2><p>这就涉及到CNNs要做的工作了。每一个卷积核中的数值，都是<strong>算法自己学习来的</strong>，不需要我们费心去设置。<br>【CNN的特征提取部分和FC部分一样，也是需要训练的。训练学得Fliter的具体值，然后学得图像特征<br>相当于Fliter是W，图片是X，最终提取得到的特征是Y 输入进FC里（全连接层）<br>训练过程中，W不断学习得到最佳Fliter<br>（Filter其实就是权值！每个像素的权值！二维的<br>所以在最开始的FIlter时候其实就是权值初始化的问题,后面算法自己会学到）<br>】<br>我们需要做的是设置超参数（学习超参数）</p>
-<p><strong>所谓的卷积层conv就是一堆卷积核，卷积层的参数就是卷积核的参数</strong></p>
-<p>CONV-&gt;ACTIVATE-&gt;POOL-&gt; XXXXXXXX -&gt;FC</p>
-<h2 id="多通道卷积——理解卷积层的工作原理"><a href="#多通道卷积——理解卷积层的工作原理" class="headerlink" title="多通道卷积——理解卷积层的工作原理"></a>多通道卷积——理解卷积层的工作原理</h2><p>非常重要<br><strong>输出的层数必为卷积核的层数，以卷积核的视角来做卷积，一个卷积核生成一个卷积层！</strong></p>
-<p><img src="//aisaka.cloud/2018/10/15/[object Object]/人工智能/CNN的卷积过程理解/神经网络实践_多通道卷积.png" alt="神经网络实践_多通道卷积">**</p>
-<p><strong>同一个卷积核对所有通道做卷积然后进行求和得到该卷积核对应的卷积层</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1874,7 +1891,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">223</span>
+                  <span class="site-state-item-count">225</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
