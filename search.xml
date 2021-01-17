@@ -4782,7 +4782,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
   </entry>
   <entry>
     <title>我知道光在哪里</title>
-    <url>/%E8%AF%BB%E4%B9%A6/%E5%86%99%E7%BB%99%E6%B3%95%E7%A7%91%E7%94%9F%E7%9A%84%E4%BF%A1/</url>
+    <url>/%E9%98%85%E8%AF%BB/%E5%86%99%E7%BB%99%E6%B3%95%E7%A7%91%E7%94%9F%E7%9A%84%E4%BF%A1/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>在一个黑白混杂的世界里，你是选择描摹黑暗，还是在内心不够强大的时候，先去感知光明？如果我们对于这个世界的态度取决于那些最恶的人做了哪些最恶的事，而不是那些最善良的人做了哪些善良的事，我们与黑暗，就是一体的。</p>
 <p>我，知道光在哪里。</p>
@@ -4816,7 +4816,7 @@ v=\rho^2(x_i,(y_1,y_2,\cdots,y_k))=\sum_{j=1}^k\rho^2(x_u,y_j)=\sum_{j=1}^k\frac
 <p><em>to be continued</em></p>
 ]]></content>
       <categories>
-        <category>读书</category>
+        <category>阅读</category>
       </categories>
   </entry>
   <entry>
@@ -8220,9 +8220,9 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
         <category>论文阅读笔记</category>
       </categories>
       <tags>
+        <tag>GAN</tag>
         <tag>对抗样本</tag>
         <tag>智能对抗</tag>
-        <tag>GAN</tag>
       </tags>
   </entry>
   <entry>
@@ -8864,7 +8864,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
   </entry>
   <entry>
     <title>DAO中发生了哪些事情（连接池、mybatis、事务管理）？</title>
-    <url>/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/DAO%E4%B8%AD%E5%8F%91%E7%94%9F%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85%EF%BC%9F/</url>
+    <url>/%E5%BC%80%E5%8F%91/DAO%E4%B8%AD%E5%8F%91%E7%94%9F%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85%EF%BC%9F/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>连接池、mybatis、事务管理等</p>
 <a id="more"></a>
 <h1 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h1><p>数据库连接池（Connection pooling）是程序启动时建立足够的数据库连接，并将这些连接组成一个连接池，由程序动态地对池中的连接进行申请，使用，释放。<br>为什么要使用<strong>带连接池的数据源</strong>呢，最根本的原因还是因为每次创建连接开销比较大，频繁的创建和关闭数据库连接将会严重的影响性能。因此，常用的做法是维护一个数据库连接池，每次使用完之后并不是直接关闭数据库连接，再后面如果需要创建数据库连接的时候直接拿之前释放的数据库连接使用，避免频繁创建和关闭数据库连接造成的开销。</p>
@@ -8930,7 +8930,7 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
 <p>【将事务管理以AOP织入DAO方法】使用tx:annotation-driven在里面设置好proxy就不需要我们配置AOP了。</p>
 ]]></content>
       <categories>
-        <category>后端框架</category>
+        <category>开发</category>
       </categories>
   </entry>
   <entry>
@@ -9219,7 +9219,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   </entry>
   <entry>
     <title>Mybatis</title>
-    <url>/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/Mybatis/</url>
+    <url>/%E5%BC%80%E5%8F%91/Mybatis/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>项目中，DAO是用mybatis来处理mysql数据库访问的，总结一下</p>
 <a id="more"></a>
 <h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h2><p>mybatis是一个优秀的基于 java 的持久层框架，<strong>它内部封装了 jdbc，使开发者只需要关注 sql语句本身， 而不需要花费精力去处理加载驱动、创建连接、创建 statement 等繁杂的过程</strong>。 </p>
@@ -9310,7 +9310,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p><em>3306</em>是<em>mysql</em>的默认端口</p>
 ]]></content>
       <categories>
-        <category>后端框架</category>
+        <category>开发</category>
       </categories>
   </entry>
   <entry>
@@ -9538,7 +9538,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   </entry>
   <entry>
     <title>Spring</title>
-    <url>/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/Spring/</url>
+    <url>/%E5%BC%80%E5%8F%91/Spring/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Spring思想"><a href="#Spring思想" class="headerlink" title="Spring思想"></a>Spring思想</h2><p>Spring框架中，core组件是其它组件的基础（其它组件继承core组件）</p>
 <p><strong>①控制反转IoC</strong>：控制权的反转，把创建对象的权利交给框架（或工厂），包括依赖注入和依赖查找，目标是降低耦合，依赖关系（当前类中需要用到的其它类对象）的管理全部交给Spring维护（只需要配置中写上）</p>
 <p>反射可以做到解耦：编译期不依赖、运行时依赖</p>
@@ -9692,7 +9692,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>于是我们用动态代理，可以做到动态指定代理对象和代理方法（就是AOP面向切面编程的基本思想）具体回顾前面：JAVA类型信息-动态代理</p>
 <p>动态代理特点：class字节码随用随修改，可以在不修改原码的基础上对方法加强</p>
 <p>分为：①基于接口的动态代理（前面所讲，需要被代理类实现一个接口）</p>
-<p><img src="//aisaka.cloud/后端框架/Spring/Users\htt20\AppData\Roaming\Typora\typora-user-images\image-20200418220306616.png" alt="image-20200418220306616"></p>
+<p><img src="//aisaka.cloud/开发/Spring/Users\htt20\AppData\Roaming\Typora\typora-user-images\image-20200418220306616.png" alt="image-20200418220306616"></p>
 <p>②基于子类（非接口）的动态代理</p>
 <p>需要第三包jar包支持：cglib（略，得学）</p>
 <p><strong>然后我们就可以用动态代理来实现事务控制：</strong>被代理对象即业务层对象，业务层对象中的任何方法调用都会先经过动态代理对象，在动态代理对象中，就会在原先的事物处理中加上事物控制代码。此时，事物控制代码（增强代码）和业务代码（原先目标代码）就做到了解耦</p>
@@ -9785,7 +9785,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>@repository（实现dao访问）<br> 用于标注数据访问层，也可以说用于标注数据访问组件，即DAO组件</p>
 ]]></content>
       <categories>
-        <category>后端框架</category>
+        <category>开发</category>
       </categories>
   </entry>
   <entry>
@@ -9937,7 +9937,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   </entry>
   <entry>
     <title>古都</title>
-    <url>/%E8%AF%BB%E4%B9%A6/%E5%8F%A4%E9%83%BD/</url>
+    <url>/%E9%98%85%E8%AF%BB/%E5%8F%A4%E9%83%BD/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>“对美的幻影，总没有厌倦的时候吧。幻影是不能践踏的，践踏了只能自食其果。”</p>
 <p align="right">——《古都》 川端康成 </p>
@@ -9950,7 +9950,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>&#160; &#160; &#160; &#160;无论是千重子，还是雪，亦或是古都——</p>
 ]]></content>
       <categories>
-        <category>读书</category>
+        <category>阅读</category>
       </categories>
       <tags>
         <tag>川端康成</tag>
@@ -10026,7 +10026,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
   </entry>
   <entry>
     <title>百年孤独</title>
-    <url>/%E8%AF%BB%E4%B9%A6/%E7%99%BE%E5%B9%B4%E5%AD%A4%E7%8B%AC/</url>
+    <url>/%E9%98%85%E8%AF%BB/%E7%99%BE%E5%B9%B4%E5%AD%A4%E7%8B%AC/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
 <p>“多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。”</p>
 <p>“同一血脉的两个孤独者之间的接近与友谊无涉，却有助于他们承受将两人分离又联合的神秘孤独。”</p>
@@ -10035,7 +10035,7 @@ H^{(t_0)}_{2*h}×W_{h*o} =
 <p>​     “生命从来不曾离开过孤独而独立存在。无论是我们出生、我们成长、我们相爱、还是我们成功失败，直到最后的最后，孤独犹如影子一样存在于生命一隅。”<br>​    百年孤独。</p>
 ]]></content>
       <categories>
-        <category>读书</category>
+        <category>阅读</category>
       </categories>
       <tags>
         <tag>阅读</tag>
@@ -10526,7 +10526,7 @@ drop掉1后就变成
   </entry>
   <entry>
     <title>JDBC Template和JDBC Statement</title>
-    <url>/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/JDBC/</url>
+    <url>/%E5%BC%80%E5%8F%91/JDBC/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><strong>JDBC Template和Mybatis都是对JDBC的封装，底层最终还是使用JDBC连接数据库。</strong></p>
 <a id="more"></a>
 <p>JdbcTemplate是Spring的一部分,是对数据库的操作在jdbc的封装,处理了资源的建立和释放(不需要我们管理连接了),我们只需要提供SQL语句(不需要我们设置参数了)和提取结果(查询时候可以直接返回对应的实体类),使JDBC更加易于使用。</p>
@@ -10562,7 +10562,7 @@ drop掉1后就变成
 <p>\4. 代码的可读性和可维护性。</p>
 ]]></content>
       <categories>
-        <category>后端框架</category>
+        <category>开发</category>
       </categories>
   </entry>
   <entry>

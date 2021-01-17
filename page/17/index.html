@@ -1,2580 +1,1287 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
+  <title itemprop="name">宵晓咲</title>
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
+    <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
   
-  
-  
-  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "宵晓咲";
+  mashiro_option.author_name = "宵晓咲";
+  mashiro_option.site_url = "https://aisaka.cloud";
+  mashiro_option.v_appId = "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz";
+  mashiro_option.v_appKey = "OLf7QaP1oTtqKhulLHuajYKu";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
 
-  
-    
-    
-  
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
 
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Hexo, NexT">
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="心情、思考、时光">
-<meta property="og:type" content="website">
-<meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisaka.cloud/page/17/index.html">
-<meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="心情、思考、时光">
-<meta property="og:locale" content="zh-Hans">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="宵晓咲">
-<meta name="twitter:description" content="心情、思考、时光">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://aisaka.cloud/page/17/">
-
-
-
-
-
-  <title>宵晓咲</title>
-  
-
-
-
-
-
-
-
-
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/new/83333853_p0.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
 </head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://aisaka.cloud">
+          <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/img/000.jpg">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>且听风吟</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="htt20081@126.com" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/img/social/email.svg">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono"></span>
+            <span class="shironeko">宵晓咲</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    ACG
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/Anime/">
+                          <i class="fa " aria-hidden="true"></i>
+                          动画
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Game/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Music/">
+                          <i class="fa " aria-hidden="true"></i>
+                          音乐
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/游戏设计/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏设计
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+                    随想
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/日记/">
+                          <i class="fa " aria-hidden="true"></i>
+                          日记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/阅读/">
+                          <i class="fa " aria-hidden="true"></i>
+                          阅读
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随笔/">
+                          <i class="fa " aria-hidden="true"></i>
+                          随笔
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+                    技术
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/程序语言/">
+                          <i class="fa " aria-hidden="true"></i>
+                          程序
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/人工智能/">
+                          <i class="fa " aria-hidden="true"></i>
+                          人工智能
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/开发/">
+                          <i class="fa " aria-hidden="true"></i>
+                          开发
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/数据库与中间件/">
+                          <i class="fa " aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/网络与云/">
+                          <i class="fa " aria-hidden="true"></i>
+                          网络
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/算法与数据结构/">
+                          <i class="fa " aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/计算机理论/">
+                          <i class="fa " aria-hidden="true"></i>
+                          CS
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/论文阅读笔记/">
+                          <i class="fa " aria-hidden="true"></i>
+                          论文
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    其它
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/硬件/">
+                          <i class="fa " aria-hidden="true"></i>
+                          硬件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/博客/">
+                          <i class="fa " aria-hidden="true"></i>
+                          博客
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/工具/">
+                          <i class="fa " aria-hidden="true"></i>
+                          工具
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    Link
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/about/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+                    我
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+      <div class="blank" style="padding-top: 0px;"></div>
+<div id="content" class="site-content">
   
+  <div class="notice" style="margin-top:60px">
+    <i class="iconfont icon-notification">
+    </i>
+    <div class="notice-content">魔改中</div>
+  </div>
   
-    
+  <div class="top-feature-row">
+  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
+  <i class="fa fa-anchor" aria-hidden="true">
+  </i>
+  START:DASH!!</h1>
   
-
-  <div class="container sidebar-position-left 
-  page-home">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">宵晓咲</span>
-        <span class="logo-line-after"><i></i></span>
+  <div class="top-feature-v2">
+    <div class="the-feature square from_left_and_right">
+      <a href="https://space.bilibili.com/741763" target="_blank">
+        <div class="img">
+          <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/img/startdash/bilibili.jpg">
+        </div>
+        <div class="info">
+          <h3>Bilibili</h3>
+          <p>宵晓咲的Bilibili</p>
+        </div>
       </a>
     </div>
-      
-        <p class="site-subtitle">且听风吟</p>
-      
   </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+  
 </div>
-
-<nav class="site-nav">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
+      <i class="fa fa-envira" aria-hidden="true"></i>
+      Discovery</h1>
+      
+  <!-- 首页默认取最最新文章集 -->
   
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
 
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
-    </div>
+  <div class="post-thumb">
+    <a href="/论文阅读笔记/Examples/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
   </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/论文阅读笔记/Examples/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-30 12:07</div>
+      <a href="/论文阅读笔记/Examples/" class="post-title">
+        <h3>Explaining and Harnessing Adversarial Examples</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/论文阅读笔记/Examples/" itemprop="url">Explaining and Harnessing Adversarial Examples</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T12:20:14+08:00">
-                2019-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
+            <a href="/tags/对抗样本/">对抗样本<em>·</em></a>
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/论文阅读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">论文阅读笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/智能对抗/">智能对抗<em>·</em></a>
           
-
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/论文阅读笔记/Examples/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/论文阅读笔记/Examples/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
+            <a href="/categories/论文阅读笔记/">论文阅读笔记</a>
           
-
-
-          
-          
-             <span id="/论文阅读笔记/Examples/" class="leancloud_visitors" data-flag-title="Explaining and Harnessing Adversarial Examples">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>《Explaining and Harnessing Adversarial Examples》<br>   Ian J. Goodfellow, Jonathon Shlens &amp; Christian Szegedy<br>   ICLR 2015</p>
-</blockquote>
-<h2 id="为什么会产生对抗样本？"><a href="#为什么会产生对抗样本？" class="headerlink" title="为什么会产生对抗样本？"></a>为什么会产生对抗样本？</h2><p>以前的观点： extreme nonlinearity of DNN and insufﬁcient model averaging and insufﬁcient regularization of the purely supervised learning problem</p>
-<p>本文的观点：<strong>Linear behavior</strong> in <strong>high-dimensional spaces</strong> is sufﬁcient to cause adversarial examples</p>
-<h2 id="RELATED-WORK"><a href="#RELATED-WORK" class="headerlink" title="RELATED WORK"></a>RELATED WORK</h2><ol>
-<li><p>Box-constrained L-BFGS can reliably ﬁnd adversarial examples.</p>
-</li>
-<li><p>On some datasets, such as ImageNet (Deng et al., 2009), the adversarial examples were so close to the original examples that the differences were indistinguishable to the human eye.</p>
-</li>
-<li><p>The same adversarial example is often misclassiﬁed by avariety of classiﬁers with different architectures or trained on different subsets of the training data.</p>
-</li>
-<li><p>Shallow softmax regression models are also vulnerable to adversarial examples. </p>
-</li>
-<li><p>Training on adversarial examples can regularize the model —however , this was not practical at the time due to the need for expensive constrained optimization in the inner loop</p>
-</li>
-</ol>
-<p>这就引起我们怀疑即便当前最好的模型是否只是虚有其表，并没有真正学习到内在的语义信息。仅仅能够fit现有样本，无法泛化。</p>
-<h2 id="对抗样本的线性解释"><a href="#对抗样本的线性解释" class="headerlink" title="对抗样本的线性解释"></a>对抗样本的线性解释</h2><p>本文提出了对对抗样本产生原因的线性解释.设置扰动$\eta,\epsilon$为一个小到可以被分类器忽略的值</p>
-<p>$\hat{x} = x+\eta$ ，若$||\eta||_\infty&lt;\epsilon$，分类器将无法将$x$与$\hat{x}$分开</p>
-<p>则$w^T\hat{x}=w^T(x+\eta)=w^Tx+w^T\eta$</p>
-<p>若维度很高，则即使$\eta$很小，也会使得$w^T\eta$非常大，影响分类器的判断</p>
-<p>令$\eta=sign(w)$即可使得$w^T\eta$最大</p>
-<h2 id="非线性模型的线性扰动"><a href="#非线性模型的线性扰动" class="headerlink" title="非线性模型的线性扰动"></a>非线性模型的线性扰动</h2><p>对于现在的神经网络都有很强的线性性质以至于无法抵抗对抗攻击，如 LSTMs (Hochreiter &amp; Schmidhuber, 1997), ReLUs (Jarrett et al., 2009; Glorot et al., 2011),  maxout networks (Goodfellow et al., 2013c) 都设计得具有很强的线性性质，所以也方便优化。FGSM将损失函数近似线性化，从而获取$||\eta||_\infty&lt;\epsilon$的最优扰动。</p>
-<p><strong>Fast Gradient Sign Method(FGSM)</strong></p>
-<script type="math/tex; mode=display">
-\eta = \epsilon sign(\nabla_xJ(\theta,x,y))​</script><script type="math/tex; mode=display">
-\hat{x} = x+\epsilon sign(\nabla_xJ(\theta,x,y))</script><p>注意这里$y=y_{true}$</p>
-<p>通过实验证明，作者的假设产生对抗样本的原因是由于模型的线性特性是正确的。这种方法也可以作为一种快速生成对抗样本的方法（即FGSM）</p>
-<h2 id="线性模型的对抗训练"><a href="#线性模型的对抗训练" class="headerlink" title="线性模型的对抗训练"></a>线性模型的对抗训练</h2><p>在Logistics Regression上应用FGSM方法 ，$label\in\lbrace1,-1\rbrace$</p>
-<p>$P(y=1|x)=\sigma(w^Tx+b),\sigma(z)=softmax(z)$   </p>
-<p>$\therefore J = E{x,y \tilde{} p_{data}}[(-\frac{1+y}{2})\ln P(y=1|x)-\frac{1-y}{2}\ln P(y=-1|x)]$</p>
-<p>设$p=P(y=1|x),f=w^Tx+b$</p>
-<p>$\therefore J=-\frac{1}{2}\ln p-\frac{y}{2}\ln p-\frac{1}{2}\ln (1-p)+\frac{y}{2}\ln (1-p)$</p>
-<p>$=-\frac{1}{2}\ln p（1-p)-\frac{y}{2}\ln \frac{p}{1-p} $</p>
-<p>$= \frac{1}{2}(f-yf) + \ln(1+e^{-f})$</p>
-<p>$=\begin{cases} \ln(1+e^{-f}),y=1\\ f+\ln(1+e^{-f})=\ln e^f+\ln(1+e^{-f})=\ln(1+e^f),y=-1\end{cases}$</p>
-<p>$= \ln(1+e^{-yf})$</p>
-<p>$=\zeta(-yf)=E{x,y \tilde{} p_{data}}\zeta(-y(w^Tx+b)),\zeta(z) = \ln(1+e^z)$  </p>
-<p>$\therefore \eta=\epsilon sign(\nabla_xJ(\theta,x,y))$</p>
-<p>$=\epsilon sign(\nabla_x\zeta(-y(w^Tx+b)))$</p>
-<p>$= \epsilon sign(\frac{\partial \ln(1+e^{-y(w^Tx+b)})}{\partial x})$</p>
-<p>$=\epsilon sign(\frac{1}{1+e^{-y(w^Tx+b)}} ×(-e^{-y(w^Tx+b)})×(yw^T))$</p>
-<p>$=\epsilon sign(\frac{e^{-yf}}{1+e^{-yf}}×(-y)w)$</p>
-<p>$=\epsilon sign(-w)=-\epsilon sign(w)$</p>
-<p>$\because w^Tsign(w)=||w||_1，\hat{x}=x+\eta,\eta=\epsilon-sign(w)$</p>
-<p>$\therefore \hat{J}=E{x,y \tilde{} p_{data}}\zeta(y(\epsilon||w||_1 -w^Tx-b))$</p>
-<p>可以看到类似于$L^1$正则，不过是减去$L^1$惩罚项。当置信度很高，$w^Tx+b$足够大的时候，$\epsilon||w||_1$几乎不起作用，但是当模型欠拟合的时候，则会更加欠拟合</p>
-<h2 id="深度网络的对抗训练"><a href="#深度网络的对抗训练" class="headerlink" title="深度网络的对抗训练"></a>深度网络的对抗训练</h2><p>相比于纯线性模型，深度网络可以在训练网络过程中来抵御对抗攻击。</p>
-<script type="math/tex; mode=display">
-\hat{J}= \alpha J(\theta,x,y)+(1-\alpha)J(\theta,x+\epsilon sign(\nabla_xJ(\theta,x,y)))</script><p>这种方法在训练中不断更新对抗样本，同时训练。</p>
-<h2 id="对抗样本的泛化原因"><a href="#对抗样本的泛化原因" class="headerlink" title="对抗样本的泛化原因"></a>对抗样本的泛化原因</h2><p>根据线性解释，FGSM可以在连续空间上生成对抗样本，而不是特定的点。作者通过取不同的$\epsilon$值证实了这一点。</p>
-<p>为什么不同的分类器会将对抗样本误分到同一类？因为作者假设的模型都在训练集的不同子集上训练，模型泛化后学得的参数差不多，具有一定的稳定性，导致对抗样本也具有稳定性。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/日记/Animation/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/日记/Animation/" itemprop="url">Pray for Kyoto Animation</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-27T10:29:48+08:00">
-                2019-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/日记/" itemprop="url" rel="index">
-                    <span itemprop="name">日记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/日记/Animation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/日记/Animation/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/日记/Animation/" class="leancloud_visitors" data-flag-title="Pray for Kyoto Animation">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="//aisaka.cloud/日记/Animation/QQ图片20190726230738.jpg" alt="QQ图片20190726230738"></p>
-<div style="text-align: center">你们一直伴随着我的青春时光，生命却止步于此。 </div>
-
-<div style="text-align: center">R.I.P. 为动画世界奉献了青春的你们。 </div>
-
-
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/mini-batch/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/mini-batch/" itemprop="url">mini-batch 在网络里的并行计算</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-26T21:11:32+08:00">
-                2019-07-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/mini-batch/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/mini-batch/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/mini-batch/" class="leancloud_visitors" data-flag-title="mini-batch 在网络里的并行计算">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用小批量可以</p>
-<p>①<strong>提高模型的训练速度，不用过于频繁地计算参数</strong>。通过经验风险最小化由一组样本并行计算并共同决定这批数据的梯度方向</p>
-<p> ②<strong>引入随机性以避免陷入局部极值</strong></p>
-<p>具体到设计网络，以RNN为例（RNN与CNN相比的输入是反常的）</p>
-<p>输入节点为$x$,隐藏层节点为$h$，输出节点为$o$。设vec_size = v, hidden_size = h, batch_size = 2,则设定参数矩阵(省略偏移)</p>
-<script type="math/tex; mode=display">W_{xh}=W_{v*h} , W_{hh}=W_{h*h}, W_{ho}=W_{h*o} ， seq_a = [a_0,a_1,a_2],seq_b = [b_0,b_1,b_2]</script><p>于是一个mini-batch为<script type="math/tex">[[a_0,b_0],[a_1,b_1],[a_2,b_2]]_{3*2*v}</script></p>
-<p>对其进行迭代，则$t_0$时刻输入矩阵<script type="math/tex">X^{t_0}=[a_0,b_0]=[a^{t_0}_{1*v},b^{t_0}_{1*v}]</script></p>
-<p>注意这里在python中的表示用数学表示形式是一个二维矩阵，</p>
-<script type="math/tex; mode=display">
-Input=
-X^{t_0} = X_{2*v} = 
-\begin{bmatrix}
-{a_{1*v}}\\{b_{1*v}}
-\end{bmatrix}</script><p>于是一次循环：</p>
-<script type="math/tex; mode=display">
-Hidden=
-\sigma (X^{t_0}×W_{xh} + H^{(t_0-1)}×W_{hh})=\sigma(X_{2*v}×W_{v*h}+ H^{(t_0-1)}_{2*h}×W_{h*h})</script><script type="math/tex; mode=display">
-= \sigma(
-\begin{bmatrix}
-a^{t_0}_{1*v}×W_{v*h}\\  
-b^{t_0}_{1*v}×W_{v*h}
-\end{bmatrix}
-+
-\begin{bmatrix}H^{(t_0-1)}_{1*h}×W_{h*h}\\ 
-H^{(t_0-1)}_{1*h}×W_{h*h}
-\end{bmatrix}
-)</script><script type="math/tex; mode=display">
-=
-\begin{bmatrix}
-{h^{a_0}_{1*h}}\\{h^{b_0}_{1*h}}
-\end{bmatrix}
-=H^{(t_0)}_{2*h}</script><script type="math/tex; mode=display">
-Output=
-H^{(t_0)}_{2*h}×W_{h*o} = 
-\begin{bmatrix}
-{h^{a_0}_{1*h}×W_{h*o}}\\
-{h^{b_0}_{1*h}×W_{h*o}}
-\end{bmatrix}</script><script type="math/tex; mode=display">
-=
-\begin{bmatrix}
-{o^{a_0}_{1*o}}\\{o^{b_0}_{1*o}}
-\end{bmatrix}
-=O^{t_0}_{2*o}</script><p>由此可看出，在矩阵相乘的规则下，相当于将不同的$seq$样本同时加载进网络中同时并行计算。</p>
-<p>通过一段时间将mini-batch全部加载进循环神经网络，通过loss function再平均作为mini-batch的loss，再作BPTT，就可以求出此mini-batch的梯度。</p>
-<p>对于CNN，也是一样的原理同时处理一个mini-batch的所有图片，只不过其输入方式与处理方式有所不同。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/RNN做批/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/RNN做批/" itemprop="url">RNN做批</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-25T11:20:09+08:00">
-                2019-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/RNN做批/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/RNN做批/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/RNN做批/" class="leancloud_visitors" data-flag-title="RNN做批">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>输入RNN的是时间序列，与CNN是<strong>反过来</strong>的。CNN的输入是输入(batch_size,$C_{in},H_{in},W_{in}$)，而RNN的输入是(seq_len, batch_size, input_size)，batch_size位于第二维度。</p>
-<p>在CNN中我们是要在同一时间里输入batch里每张图，而在RNN里我们是要在同一时刻输入一个batch里每个序列的同一个位置。</p>
-<p>训练每个batch后，使用ERM进行BP计算，与CNN一样</p>
-<p>以下画图理解，注意紫色是实体结构</p>
-<p><img src="//aisaka.cloud/人工智能/RNN做批/0.png" alt="0"></p>
-<p>于是对于一个可迭代的dataloader</p>
-<p><img src="//aisaka.cloud/人工智能/RNN做批/RNN输入结构2.png" alt="RNN输入结构2"></p>
-<p>对语料矩阵进行转置后可以更快捷方便生批</p>
-<p><img src="//aisaka.cloud/人工智能/RNN做批/RNN快捷生批.png" alt="RNN快捷生批"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/Anime/我永远喜欢间桐樱-jpg/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Anime/我永远喜欢间桐樱-jpg/" itemprop="url">我永远喜欢间桐樱</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-15T09:39:14+08:00">
-                2019-07-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Anime/" itemprop="url" rel="index">
-                    <span itemprop="name">Anime</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/Anime/我永远喜欢间桐樱-jpg/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/Anime/我永远喜欢间桐樱-jpg/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/Anime/我永远喜欢间桐樱-jpg/" class="leancloud_visitors" data-flag-title="我永远喜欢间桐樱">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="//aisaka.cloud/Anime/我永远喜欢间桐樱-jpg/53357546_p0.png" alt="53357546_p0"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/pytorch获取中间层参数、输出与可视化/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/pytorch获取中间层参数、输出与可视化/" itemprop="url">pytorch获取中间层参数、输出与可视化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T18:25:34+08:00">
-                2019-07-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/pytorch获取中间层参数、输出与可视化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/pytorch获取中间层参数、输出与可视化/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/pytorch获取中间层参数、输出与可视化/" class="leancloud_visitors" data-flag-title="pytorch获取中间层参数、输出与可视化">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="获取模型中间层的权重和其他参数"><a href="#获取模型中间层的权重和其他参数" class="headerlink" title="获取模型中间层的权重和其他参数"></a>获取模型中间层的权重和其他参数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先设定如下网络</span></span><br><span class="line"><span class="comment">#定义网络结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">	    self.c1 = nn.Sequential(</span><br><span class="line">	    nn.Conv2d(<span class="number">3</span>,<span class="number">16</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	    nn.ReLU()</span><br><span class="line">	        ) </span><br><span class="line">	    self.c2 = nn.Sequential(</span><br><span class="line">	        nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>), </span><br><span class="line">	        nn.ReLU(),</span><br><span class="line">	    )</span><br><span class="line">	    self.fc = nn.Linear(<span class="number">2097152</span>,<span class="number">2</span>)</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">	    x = self.c1(x)</span><br><span class="line">	    x = self.c2(x)</span><br><span class="line">	    x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">	    x = self.fc(x) </span><br><span class="line">	    <span class="keyword">return</span> x    </span><br><span class="line">model = net()</span><br><span class="line">model = model.cuda()</span><br><span class="line"><span class="comment">#载入先前训练好并保存的模型权重</span></span><br><span class="line">model.load_state_dict(torch.load(<span class="string">'model_wts.pkl'</span>))</span><br><span class="line"><span class="comment">#此时网络的结构为</span></span><br><span class="line">model</span><br><span class="line">&gt;&gt;</span><br><span class="line">net(</span><br><span class="line">  (c1): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (c2): Sequential(</span><br><span class="line">    (<span class="number">0</span>): Conv2d(<span class="number">16</span>, <span class="number">32</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">    (<span class="number">1</span>): ReLU()</span><br><span class="line">  )</span><br><span class="line">  (fc): Linear(in_features=<span class="number">2097152</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line">)</span><br><span class="line">	</span><br><span class="line"><span class="comment">#获取某一层</span></span><br><span class="line">model.c1</span><br><span class="line">&gt;&gt;</span><br><span class="line">Sequential(</span><br><span class="line">  (<span class="number">0</span>): Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">  (<span class="number">1</span>): ReLU()</span><br><span class="line">)</span><br><span class="line">model.fc</span><br><span class="line">&gt;&gt;</span><br><span class="line">Linear(in_features=<span class="number">1048576</span>, out_features=<span class="number">2</span>, bias=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment">#获取Sequential里的子层</span></span><br><span class="line">model.c1[<span class="number">0</span>]</span><br><span class="line">&gt;&gt;</span><br><span class="line">Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=(<span class="number">5</span>, <span class="number">5</span>), stride=(<span class="number">1</span>, <span class="number">1</span>), padding=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="comment">#获得某层的权重</span></span><br><span class="line">model.c1[<span class="number">0</span>].weight</span><br><span class="line">&gt;&gt;</span><br><span class="line">Parameter containing:</span><br><span class="line">tensor([[[[ <span class="number">2.7182e-03</span>, <span class="number">-8.7767e-03</span>,  <span class="number">3.2988e-02</span>, <span class="number">-1.0006e-01</span>, <span class="number">-1.1177e-01</span>],</span><br><span class="line">          [<span class="number">-2.9155e-02</span>, <span class="number">-6.2152e-02</span>,  <span class="number">4.1465e-02</span>, <span class="number">-4.5812e-02</span>,  <span class="number">6.7885e-02</span>],</span><br><span class="line">          [<span class="number">-1.0680e-01</span>, <span class="number">-1.0023e-01</span>, <span class="number">-1.7158e-02</span>, <span class="number">-1.3828e-02</span>,  <span class="number">5.7319e-02</span>],</span><br><span class="line">          [ <span class="number">5.1668e-02</span>, <span class="number">-4.2982e-02</span>,  <span class="number">2.7770e-02</span>, <span class="number">-1.1801e-01</span>,  <span class="number">7.9863e-02</span>],</span><br><span class="line">          [ <span class="number">1.1050e-01</span>,  <span class="number">2.4979e-02</span>,  <span class="number">5.1047e-03</span>, <span class="number">-4.6120e-02</span>, <span class="number">-9.9121e-02</span>]],</span><br><span class="line">··························<span class="comment">#省略</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#参数</span></span><br><span class="line">model.c1[<span class="number">0</span>].parameters()为该层的参数，包含梯度等等</span><br><span class="line">parameters()输出的参数在训练的时候需要传入优化器，比如在训练网络的时候，model的所有参数</span><br><span class="line">都要传入优化器，则是 optimizer = torch.optim.Adam(model.parameters(),lr=LR)</span><br><span class="line">又如下面一条迁移学习，只要训练最后一层，就只将最后一层的参数传入了优化器</span><br><span class="line"></span><br><span class="line"><span class="comment">#层的迭代器</span></span><br><span class="line"><span class="keyword">for</span> layer <span class="keyword">in</span> model.SequentialName.children():</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"><span class="comment">#应用方法可以见下面迁移学习部分</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/人工智能/pytorch获取中间层参数、输出与可视化/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/程序语言/Future/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/程序语言/Future/" itemprop="url">Future、FutureTask、Callable、Runnable、Thread</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-20T21:00:55+08:00">
-                2019-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/" itemprop="url" rel="index">
-                    <span itemprop="name">程序语言</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/程序语言/Future/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/程序语言/Future/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/程序语言/Future/" class="leancloud_visitors" data-flag-title="Future、FutureTask、Callable、Runnable、Thread">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Future、FutureTask、Callable在JUC包中，Runnable和Thread在java.lang中</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/程序语言/Future/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/后端框架/Mybatis/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/后端框架/Mybatis/" itemprop="url">Mybatis</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T11:26:59+08:00">
-                2019-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端框架/" itemprop="url" rel="index">
-                    <span itemprop="name">后端框架</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/后端框架/Mybatis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/后端框架/Mybatis/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/后端框架/Mybatis/" class="leancloud_visitors" data-flag-title="Mybatis">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>项目中，DAO是用mybatis来处理mysql数据库访问的，总结一下</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/后端框架/Mybatis/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
-            
-              <p class="site-author-name" itemprop="name">aisaka</p>
-              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">225</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">33</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-
-
-
-
-          
-
-        </div>
-      </section>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
+        </span>
       </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/论文阅读笔记/Examples/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/日记/Animation/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-27 10:07</div>
+      <a href="/日记/Animation/" class="post-title">
+        <h3>Pray for Kyoto Animation</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/京阿尼/">京阿尼<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/日记/">日记</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/日记/Animation/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/mini-batch/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-26 21:07</div>
+      <a href="/人工智能/mini-batch/" class="post-title">
+        <h3>mini-batch 在网络里的并行计算</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/mini-batch/">mini-batch<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/mini-batch/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/RNN做批/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-25 11:07</div>
+      <a href="/人工智能/RNN做批/" class="post-title">
+        <h3>RNN做批</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/RNN/">RNN<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/RNN做批/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/Anime/我永远喜欢间桐樱-jpg/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-15 09:07</div>
+      <a href="/Anime/我永远喜欢间桐樱-jpg/" class="post-title">
+        <h3>我永远喜欢间桐樱</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/老婆/">老婆<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/Anime/">Anime</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/Anime/我永远喜欢间桐樱-jpg/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/pytorch获取中间层参数、输出与可视化/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-7-10 18:07</div>
+      <a href="/人工智能/pytorch获取中间层参数、输出与可视化/" class="post-title">
+        <h3>pytorch获取中间层参数、输出与可视化</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/pytorch/">pytorch<em>·</em></a>
+          
+            <a href="/tags/神经网络/">神经网络<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/pytorch获取中间层参数、输出与可视化/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/程序语言/Future/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-6-20 21:06</div>
+      <a href="/程序语言/Future/" class="post-title">
+        <h3>Future、FutureTask、Callable、Runnable、Thread</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/程序语言/">程序语言</a>
+          
+            <a href="/categories/程序语言/JAVA/">JAVA</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/程序语言/Future/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/开发/Mybatis/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-6-19 11:06</div>
+      <a href="/开发/Mybatis/" class="post-title">
+        <h3>Mybatis</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/开发/">开发</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/开发/Mybatis/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+
+
     </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">aisaka</span>
-
+      <!-- 首页默认取最最新文章集 -->
+    <!-- 
+      <nav class="navigator">
+        
+        <a class="extend prev" rel="prev" href="/page/16/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/18/"><i class="iconfont icon-right"></i></a>
+      </nav>
+     -->
+  </div>
+  
+    <div id="pagination"><a href="/page/18/" class="">Previous</a></div>
   
 </div>
 
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
-
-
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail';
-    guest = guest.split(',').filter(item=>{
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: false,
-        notify: true,
-        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
-        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
-        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
-        avatar:'mm',
-        guest_info:guest,
-        pageSize:'10' || 10,
-    });
-  </script>
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
 <script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 aisaka<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2016~2021</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">
+          aisaka
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src="/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
     }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
     }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
+  }
+});
 </script>
 
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/img/000.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">宵晓咲</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            ACG
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/Anime/">
+                  <i class="fa " aria-hidden="true"></i>
+                  动画
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Game/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Music/">
+                  <i class="fa " aria-hidden="true"></i>
+                  音乐
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/游戏设计/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏设计
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+            随想
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/日记/">
+                  <i class="fa " aria-hidden="true"></i>
+                  日记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/阅读/">
+                  <i class="fa " aria-hidden="true"></i>
+                  阅读
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随笔/">
+                  <i class="fa " aria-hidden="true"></i>
+                  随笔
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+            技术
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/程序语言/">
+                  <i class="fa " aria-hidden="true"></i>
+                  程序
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/人工智能/">
+                  <i class="fa " aria-hidden="true"></i>
+                  人工智能
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/开发/">
+                  <i class="fa " aria-hidden="true"></i>
+                  开发
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/数据库与中间件/">
+                  <i class="fa " aria-hidden="true"></i>
+                  中间件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/网络与云/">
+                  <i class="fa " aria-hidden="true"></i>
+                  网络
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/算法与数据结构/">
+                  <i class="fa " aria-hidden="true"></i>
+                  算法
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/计算机理论/">
+                  <i class="fa " aria-hidden="true"></i>
+                  CS
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/论文阅读笔记/">
+                  <i class="fa " aria-hidden="true"></i>
+                  论文
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            其它
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/硬件/">
+                  <i class="fa " aria-hidden="true"></i>
+                  硬件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/博客/">
+                  <i class="fa " aria-hidden="true"></i>
+                  博客
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/工具/">
+                  <i class="fa " aria-hidden="true"></i>
+                  工具
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            Link
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/about/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+            我
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<meting-js
 
-  
-  
+    id="2660651585"
 
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
+    server="netease"
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
+    type="playlist"
 
+    fixed="true"
 
-  
+    autoplay="false"
 
-  
+    loop="all"
+
+    order="random"
+
+    preload="auto"
+
+    volume="0.7"
+
+    mutex="true"
+
+</meting-js>
+<!--这里我want aplayer失效-->
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
 
 </body>
 </html>

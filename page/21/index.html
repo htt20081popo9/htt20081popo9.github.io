@@ -1,2654 +1,1285 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
+  <title itemprop="name">宵晓咲</title>
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
+    <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
   
-  
-  
-  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "宵晓咲";
+  mashiro_option.author_name = "宵晓咲";
+  mashiro_option.site_url = "https://aisaka.cloud";
+  mashiro_option.v_appId = "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz";
+  mashiro_option.v_appKey = "OLf7QaP1oTtqKhulLHuajYKu";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
 
-  
-    
-    
-  
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
 
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Hexo, NexT">
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="心情、思考、时光">
-<meta property="og:type" content="website">
-<meta property="og:title" content="宵晓咲">
-<meta property="og:url" content="https://aisaka.cloud/page/21/index.html">
-<meta property="og:site_name" content="宵晓咲">
-<meta property="og:description" content="心情、思考、时光">
-<meta property="og:locale" content="zh-Hans">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="宵晓咲">
-<meta name="twitter:description" content="心情、思考、时光">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://aisaka.cloud/page/21/">
-
-
-
-
-
-  <title>宵晓咲</title>
-  
-
-
-
-
-
-
-
-
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/new/83333853_p0.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
 </head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://aisaka.cloud">
+          <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/img/000.jpg">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>且听风吟</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="htt20081@126.com" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/img/social/email.svg">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono"></span>
+            <span class="shironeko">宵晓咲</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    ACG
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/Anime/">
+                          <i class="fa " aria-hidden="true"></i>
+                          动画
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Game/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Music/">
+                          <i class="fa " aria-hidden="true"></i>
+                          音乐
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/游戏设计/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏设计
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+                    随想
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/日记/">
+                          <i class="fa " aria-hidden="true"></i>
+                          日记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/阅读/">
+                          <i class="fa " aria-hidden="true"></i>
+                          阅读
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随笔/">
+                          <i class="fa " aria-hidden="true"></i>
+                          随笔
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+                    技术
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/程序语言/">
+                          <i class="fa " aria-hidden="true"></i>
+                          程序
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/人工智能/">
+                          <i class="fa " aria-hidden="true"></i>
+                          人工智能
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/开发/">
+                          <i class="fa " aria-hidden="true"></i>
+                          开发
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/数据库与中间件/">
+                          <i class="fa " aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/网络与云/">
+                          <i class="fa " aria-hidden="true"></i>
+                          网络
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/算法与数据结构/">
+                          <i class="fa " aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/计算机理论/">
+                          <i class="fa " aria-hidden="true"></i>
+                          CS
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/论文阅读笔记/">
+                          <i class="fa " aria-hidden="true"></i>
+                          论文
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    其它
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/硬件/">
+                          <i class="fa " aria-hidden="true"></i>
+                          硬件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/博客/">
+                          <i class="fa " aria-hidden="true"></i>
+                          博客
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/工具/">
+                          <i class="fa " aria-hidden="true"></i>
+                          工具
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    Link
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/about/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+                    我
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+      <div class="blank" style="padding-top: 0px;"></div>
+<div id="content" class="site-content">
   
+  <div class="notice" style="margin-top:60px">
+    <i class="iconfont icon-notification">
+    </i>
+    <div class="notice-content">魔改中</div>
+  </div>
   
-    
+  <div class="top-feature-row">
+  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
+  <i class="fa fa-anchor" aria-hidden="true">
+  </i>
+  START:DASH!!</h1>
   
-
-  <div class="container sidebar-position-left 
-  page-home">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">宵晓咲</span>
-        <span class="logo-line-after"><i></i></span>
+  <div class="top-feature-v2">
+    <div class="the-feature square from_left_and_right">
+      <a href="https://space.bilibili.com/741763" target="_blank">
+        <div class="img">
+          <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/img/startdash/bilibili.jpg">
+        </div>
+        <div class="info">
+          <h3>Bilibili</h3>
+          <p>宵晓咲的Bilibili</p>
+        </div>
       </a>
     </div>
-      
-        <p class="site-subtitle">且听风吟</p>
-      
   </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
+  
 </div>
-
-<nav class="site-nav">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
+      <i class="fa fa-envira" aria-hidden="true"></i>
+      Discovery</h1>
+      
+  <!-- 首页默认取最最新文章集 -->
   
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
 
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
-    </div>
+  <div class="post-thumb">
+    <a href="/人工智能/深度学习实践结构性经验总结/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
   </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/深度学习实践结构性经验总结/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-1-14 16:01</div>
+      <a href="/人工智能/深度学习实践结构性经验总结/" class="post-title">
+        <h3>深度学习实践结构性经验总结</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/深度学习实践结构性经验总结/" itemprop="url">深度学习实践结构性经验总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-14T16:34:33+08:00">
-                2019-01-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
+            <a href="/tags/神经网络/">神经网络<em>·</em></a>
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
           
-
+            <a href="/categories/人工智能/">人工智能</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/深度学习实践结构性经验总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/深度学习实践结构性经验总结/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
           
-
-
-          
-          
-             <span id="/人工智能/深度学习实践结构性经验总结/" class="leancloud_visitors" data-flag-title="深度学习实践结构性经验总结">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><ul>
-<li>定义网络结构</li>
-<li>定义数据变换</li>
-<li>定义超参数，损失函数，优化方法，自适应学习率等…</li>
-<li><p>读取训练集与测试集（自定义数据集，多种读入方式等..）<br><strong>开始训练</strong>：</p>
-<ul>
-<li><p><strong>训练一个Epoch</strong><br>自适应学习率更新<br><strong>循环：训练一个batch——从dataloader读取一个mini batch</strong></p>
-<ul>
-<li>转换为cuda变量</li>
-<li>梯度清0<br><strong>FORWARD</strong></li>
-<li>将数据输入模型得到结果</li>
-<li>根据结果得到预测标签</li>
-<li>计算train loss<br><strong>BACKWARD</strong></li>
-<li>反向计算梯度</li>
-<li>优化器更新<br><strong>统计本batch</strong></li>
-</ul>
-</li>
-<li><strong>统计本epoch</strong></li>
-</ul>
-</li>
-</ul>
-<p>【注】<br>①如果是<strong>测试</strong>，则取消[自适应学习率更新]和[BACKWARD]的步骤即可<br><strong>训练和测试可以结合起来</strong> train=datalodaer(trainset…),test=dataloader(testset…)<br>则在开始训练一个epoch的时候，加一个循环 <code>for phase in [train,test]</code>即可，后面的在测试不需要的步骤作判断<code>if phase is train: do</code>就行<br>②可以设置一个全局的最优准确率，然后记录下来最佳准确率，并储存当时的<strong>最优模型</strong>权重<br>③注意<strong>设置模型模式</strong>，<code>model.train(True)</code>设置为训练模式<code>model.eval(True)</code>设置为测试模式</p>
-<h2 id="定义网络结构"><a href="#定义网络结构" class="headerlink" title="定义网络结构"></a>定义网络结构</h2><p>在定义网络结构的时候,如下形式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义的网络结构类必须继承自nn.Module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 注意传入参数self到结构函数</span></span><br><span class="line">    <span class="comment"># init中的参数为初始化网络的参数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__</span><br><span class="line">        <span class="comment"># 定义网络</span></span><br><span class="line">        <span class="comment"># 单个定义</span></span><br><span class="line">        self.s1 = nn.Conv2d(......)</span><br><span class="line">        <span class="comment"># 或集合定义</span></span><br><span class="line">        self.s1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(......),</span><br><span class="line">            nn.ReLU()</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 全连接层(对于卷积神经网络用于分类）</span></span><br><span class="line">        self.fc = nn.Linear()</span><br><span class="line">    <span class="comment"># 注意传入参数self和x（输入矩阵）！</span></span><br><span class="line">    <span class="comment"># forward中的参数为训练的时候要传入的参数 比如求output = model(x)时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        <span class="comment"># 经过特征提取层后，要扁平化才能进入fc层！</span></span><br><span class="line">        x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> F.softmax(x)</span><br></pre></td></tr></table></figure></p>
-<p>注意，一个误区：定义网络是定义网络的结构！输入一般输入一个batch，对该batch的处理为网络的内容</p>
-<p>nn包含了所有的层结构定义组件, F包含了所有的函数, nn中的每个组件都需要添加到nn.Module容器中才能使用. def参数中的self即指向nn.Module(指向本类,而本类继承自nn.Module), 通过定义self.diyiceng = nn.Conv2d(xxx) 即将组件添加到了nn.Module容器中 </p>
-<h2 id="nn-Sequential-组合一系列组件定义"><a href="#nn-Sequential-组合一系列组件定义" class="headerlink" title="nn.Sequential 组合一系列组件定义"></a><strong>nn.Sequential</strong> 组合一系列组件定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#eg</span></span><br><span class="line">self.conv2 = nn.Sequential( </span><br><span class="line">	nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">	nn.ReLU(),  </span><br><span class="line">	nn.MaxPool2d(<span class="number">2</span>)</span><br><span class="line">)  </span><br><span class="line"><span class="comment">#这里就将三个组件组合成一个组件了</span></span><br><span class="line"><span class="comment">#注意里面直接写组件组成即可 不是变量定义</span></span><br></pre></td></tr></table></figure>
-<h2 id="建立深度学习模型一般实践"><a href="#建立深度学习模型一般实践" class="headerlink" title="建立深度学习模型一般实践"></a>建立深度学习模型一般实践</h2><p><strong>数据预处理与特征工程</strong></p>
-<ul>
-<li>向量化</li>
-<li>值归一化</li>
-<li>处理缺省值</li>
-<li>特征工程<br><strong>过拟合</strong></li>
-<li>获取更多数据、数据增强等</li>
-<li>缩小网络规模</li>
-<li>应用权重正则化</li>
-<li>应用dropout<br><strong>欠拟合</strong></li>
-<li>获取更多数据</li>
-<li>增加权重</li>
-</ul>
-<p><strong>一般流程</strong></p>
-<ul>
-<li>问题定义与数据集创建</li>
-<li>选择模型评估标准</li>
-<li>评估协议（测试集 验证集）</li>
-<li>准备数据</li>
-<li>模型基线（创建一个非常简单的模型来打破基线分数 如二分类为0.5)</li>
-<li>训练大达到过拟合</li>
-<li>应用正则化</li>
-<li>学习率选择策略</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/数据库与中间件/Redis/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/数据库与中间件/Redis/" itemprop="url">Redis</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T17:12:14+08:00">
-                2019-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库与中间件/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库与中间件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/数据库与中间件/Redis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/数据库与中间件/Redis/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/数据库与中间件/Redis/" class="leancloud_visitors" data-flag-title="Redis">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>非关系型数据库，有字符串独立字典（有序无序）六种储存关系</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/数据库与中间件/Redis/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/向目标函数加入正则的具体实现/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/向目标函数加入正则的具体实现/" itemprop="url">向目标函数加入正则的具体实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-01T11:04:42+08:00">
-                2018-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/向目标函数加入正则的具体实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/向目标函数加入正则的具体实现/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/向目标函数加入正则的具体实现/" class="leancloud_visitors" data-flag-title="向目标函数加入正则的具体实现">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><p>在数据经过模型之后</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">l1, l2 = torch.tensor(<span class="number">0</span>), torch.tensor(<span class="number">0</span>)</span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = model(input)</span><br><span class="line"><span class="keyword">for</span> params <span class="keyword">in</span> model.parameters():</span><br><span class="line">    l1 += torch.norm(param,<span class="number">1</span>)  <span class="comment">#torch.norm(param,1)为求param的l1范数</span></span><br><span class="line">    l2 += torch.norm(param,<span class="number">2</span>)  <span class="comment">#torch.norm(param,2)为求param的l2范数</span></span><br><span class="line">loss_origin = loss(output,label)</span><br><span class="line">loss = loss_origin + l1 + l2</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
-<p>ATT：<strong>不能</strong>使用在模型中输出！</p>
-<p>使用以下这种方法是输出的中间层的输出，而不是参数！</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#错误示范</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">model</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        self.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">16</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input)</span>:</span></span><br><span class="line">        linear1_out = self.linear1(input)</span><br><span class="line">        linear2_out = self.linear2(linear1_out)</span><br><span class="line">        <span class="keyword">return</span> linear1_out,linear2_out</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用pytorch自带的权重衰减</p>
-<p><code>torch.optim</code>自带的参数<code>weight_decay</code>可以设置权值衰减率，即可以实现L2正则化</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/Pytorch中常用的维度变换与torch-max/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/Pytorch中常用的维度变换与torch-max/" itemprop="url">维度及Pytorch中常用的维度变换与torch.max()</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-12T19:25:24+08:00">
-                2018-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/Pytorch中常用的维度变换与torch-max/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/Pytorch中常用的维度变换与torch-max/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/Pytorch中常用的维度变换与torch-max/" class="leancloud_visitors" data-flag-title="维度及Pytorch中常用的维度变换与torch.max()">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Tensor-view-扁平化"><a href="#Tensor-view-扁平化" class="headerlink" title="Tensor.view() 扁平化"></a>Tensor.view() 扁平化</h2><p>简单说就是一个把tensor 进行reshape的操作。<br>常常配合 <code>a.size(0)</code>来取得某一位的维度数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=torch.randn(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line">b = a.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">print(b.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">1</span>, <span class="number">420</span>])</span><br></pre></td></tr></table></figure>
-<p><strong>其中参数-1表示剩下的值的个数一起构成一个维度</strong>。如上例中，第一个参数1将第一个维度的大小设定成1，后一个-1就是说第二个维度的大小=元素总数目/第一个维度的大小，此例中为<code>3*4*5*7/1=420</code>. （由于第一个维度被展为1了，那后面所有元素全部摊开展平了）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第1,2个维度不变（保持原来的维度），第三个位置写-1表示剩下的维度全部扁平化为一个维度</span></span><br><span class="line">d = a.view(a.size(<span class="number">0</span>),a.size(<span class="number">1</span>),<span class="number">-1</span>)</span><br><span class="line">print(d.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">3</span>, <span class="number">4</span>, <span class="number">35</span>])</span><br><span class="line"></span><br><span class="line"> e=a.view(<span class="number">4</span>,<span class="number">-1</span>,<span class="number">5</span>)</span><br><span class="line"> print(e.size())</span><br><span class="line"> &gt;&gt;torch.Size([<span class="number">4</span>, <span class="number">21</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
-<p> 在<strong>扁平化批处理的图片</strong>的时候（CNN中会出现）<br> 为了扁平化每一张图片的数据，又不想把不同图片的数据混在一起扁平，那么就应该</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>注意：遇到错误</strong><code>RuntimeError: invalid argument 2: view size is not compatible with input tensor&#39;s size and stride (at least one dimension spans across two contiguous subspaces). Call .contiguous() before .view().</code><br>需要让Tensor连续化，即加一步<code>x = x.contiguous()</code><br>原因解释:<a href="https://blog.csdn.net/appleml/article/details/80143212" target="_blank" rel="noopener">https://blog.csdn.net/appleml/article/details/80143212</a>使用torch.view()的条件是Tensor是连续的,在对Tensor进行了transpose等操作之后就会变得不连续，就需要这个函数来连续化</p>
-<h2 id="unsqueeze降维-和squeeze升维"><a href="#unsqueeze降维-和squeeze升维" class="headerlink" title="unsqueeze降维 和squeeze升维"></a>unsqueeze降维 和squeeze升维</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">对于torch:使用unsqueeze降维 和squeeze升维</span><br><span class="line"><span class="comment">#升维</span></span><br><span class="line">unsqueeze(torch1,<span class="number">0</span>)  <span class="comment">#在第0个位置增加一个值为1的维度</span></span><br><span class="line"><span class="comment">#(2, 2)-&gt;(1,2,2)</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">#降维</span></span><br><span class="line">squeeze(torch1)  <span class="comment">#squeeze给torch删去值为1的维度</span></span><br><span class="line"><span class="comment">#(2, 2, 1)-&gt;(2, 2)</span></span><br><span class="line">    </span><br><span class="line">比如灰度图像只有<span class="number">2</span>维,这个时候就需要升维</span><br><span class="line">    </span><br><span class="line">对于numpy array,函数不一样:expand_dims 升维 squeeze 降维</span><br><span class="line"><span class="comment">#升维</span></span><br><span class="line">expand_dims(narray1,<span class="number">0</span>) <span class="comment">#在第0个位置增加一个值为1的维度</span></span><br><span class="line">与torch用法一致</span><br></pre></td></tr></table></figure>
-<h2 id="torch-max函数"><a href="#torch-max函数" class="headerlink" title="torch.max函数"></a>torch.max函数</h2><p>①torch.max()简单来说是返回一个tensor中的最大值。例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">si=torch.randn(<span class="number">4</span>,<span class="number">5</span>)  </span><br><span class="line">print(si)  </span><br><span class="line">&gt;&gt;tensor([[ <span class="number">1.1659</span>, <span class="number">-1.5195</span>, <span class="number">0.0455</span>, <span class="number">1.7610</span>, <span class="number">-0.2064</span>],  </span><br><span class="line">[<span class="number">-0.3443</span>, <span class="number">2.0483</span>, <span class="number">0.6303</span>, <span class="number">0.9475</span>, <span class="number">0.4364</span>],  </span><br><span class="line">[<span class="number">-1.5268</span>, <span class="number">-1.0833</span>, <span class="number">1.6847</span>, <span class="number">0.0145</span>, <span class="number">-0.2088</span>],  </span><br><span class="line">[<span class="number">-0.8681</span>, <span class="number">0.1516</span>, <span class="number">-0.7764</span>, <span class="number">0.8244</span>, <span class="number">-1.2194</span>]])</span><br><span class="line"></span><br><span class="line">print(torch.max(si))  </span><br><span class="line">&gt;&gt;tensor(<span class="number">2.0483</span>) <span class="comment">#输出了最大值</span></span><br></pre></td></tr></table></figure>
-<p>②这个函数的参数中还有一个dim参数，使用方法为re = torch.max(Tensor,dim),<strong>返回的res为一个</strong>二维向量<strong>，</strong>其中res[0]为最大值的Tensor，res[1]为Tensor中最大值对应的index**。例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(torch.max(si,<span class="number">0</span>))</span><br><span class="line">(tensor([<span class="number">1.1659</span>, <span class="number">2.0483</span>, <span class="number">1.6847</span>, <span class="number">1.7610</span>, <span class="number">0.4364</span>]), tensor([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(torch.max(si,<span class="number">0</span>)[<span class="number">0</span>])  </span><br><span class="line">tensor([<span class="number">1.1659</span>, <span class="number">2.0483</span>, <span class="number">1.6847</span>, <span class="number">1.7610</span>, <span class="number">0.4364</span>])</span><br></pre></td></tr></table></figure>
-<p>注意，Tensor的维度从0开始算起。在torch.max()中指定了dim之后，比如对于一个3x4x5的    Tensor，指定dim为0后，得到的结果是维度为0的“每一行”对应位置求最大的那个值，此时输出的Tensor的维度是4x5. （<strong>在这个二维tensor里，dim=0就是求每行最大值</strong>）</p>
-<p>对于简单的二维Tensor，如上面例子的这个4x5的Tensor。指定dim为0，则给出的结果是4行做比较之后的最大值；如果指定dim为1，则给出的结果是5列做比较之后的最大值，且此处做比较时是按照位置分别做比较，得到一个新的Tensor。（<strong>在这个二维tensor里，dim=1就是求每列最大值</strong>）</p>
-<p>eg<br><code>_, preds = torch.max(outputs.data, 1)</code></p>
-<p>输出的outputs也是torch.autograd.Variable格式，得到输出后（网络的全连接层的输出）还希望能到到模型预测该样本属于哪个类别的信息，这里采用torch.max。torch.max()的第一个输入是tensor格式，所以用outputs.data而不是outputs作为输入；第二个参数1是代表dim的意思，也就是取每一行的最大值，<strong>其实就是我们常见的取概率最大的那个index</strong>；第三个参数loss也是</p>
-<p>这个函数可以直接处理组</p>
-<h2 id="对于python中的维度的理解-tensor-array等"><a href="#对于python中的维度的理解-tensor-array等" class="headerlink" title="对于python中的维度的理解(tensor array等)"></a>对于python中的<strong>维度</strong>的理解(tensor array等)</h2><p>[   [    [    ]   ]   ]<br>最外层是第0维，中间层是第1维，最里层是第二维<br>操作哪一维，就相当于该维以外的维度都<strong>固定</strong>住，操作只在该维下进行，对于更高维度（外维），<strong>都执行相同的操作</strong></p>
-<p>对于网络中fc层之后还要返回计算softmax的值的时候，应该选择<code>return F.los_softmax(x,dim=1)</code><br>因为经过fc层之后的矩阵结构为[[a1,a2],[b1,b2]]  (假设二分类，batch=2）<br>则要对[a1,a2]求softmax，再对[b1,b2]求softmax，所以是固定第0维，操作第1维，对第一维的每组求softmax</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/对反向传播的理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/对反向传播的理解/" itemprop="url">对BP算法的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T12:55:38+08:00">
-                2018-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/对反向传播的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/对反向传播的理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/对反向传播的理解/" class="leancloud_visitors" data-flag-title="对BP算法的理解">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>损失函数$J(W_{11},W_{12},\cdots,W_{ij},\cdots,W{mn})$</p>
-<p>要计算梯度$\nabla J=\frac{\partial J}{\partial W_{11}}e_{11}+\cdots+\frac{\partial J}{\partial W_{mn}}e_{mn} $，$e_{ij}$为单位正交向量（$J$对每个参数求偏导）</p>
-<p>那么使用链式法则，我们可以画出计算图</p>
-<p>①先标记出所有中间结点</p>
-<p>②对每一个结点，写出<strong>上一层直连结点</strong>（最顶层就是$J$）对该节点求得的偏导式（偏的是本结点中间变量），其他变量都视为常数</p>
-<p>③根据计算图，使用链式法则（两个结点之间，偏导式同路径相乘，所有路径相加）</p>
-<p>主要理解清，某一个中间结点对另一个邻层中间结点求导，<strong>是对中间变量求导</strong>，只看局部，<strong>其它的变量都视为常数</strong>，都先只计算<strong>邻接层求导</strong>，再分别计算完每个偏导式之后，再运用链式法则根据全路径计算<strong>跨层求导</strong></p>
-<p>这样一来会有很多的重复计算（重复路径）。</p>
-<p>为了解决这个问题，BP的做法是<strong>自顶向下，逐层反向求导，累计计算</strong></p>
-<p>也就是说从<strong>最高层$J$开始</strong>，<strong>按层计算</strong>出该层的偏导式值，然后再把这个值（<strong>是个含变量的表达式，但是对于这个中间层来说是个常数</strong>）发给这个结点下属路径下的每个结点（让他们乘上这个上层来的偏导式），然后再计算下一层的偏导式，如此<strong>迭代到输入层</strong></p>
-<p>注意都是先推导式子，最后再代入值计算，比如输入以及真实label都是最后推导完式子后计算的时候的一个常数值</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/notes-1108/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/人工智能/notes-1108/" itemprop="url">notes_1108</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T11:35:24+08:00">
-                2018-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/" itemprop="url" rel="index">
-                    <span itemprop="name">人工智能</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/人工智能/神经网络/" itemprop="url" rel="index">
-                    <span itemprop="name">神经网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/人工智能/notes-1108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/notes-1108/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/人工智能/notes-1108/" class="leancloud_visitors" data-flag-title="notes_1108">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><p>NN的输出是一个向量，包含对各个种类的输出值，最后一个层有多少个神经元，输出向量就有多少维，所以在求的时候是矩阵求梯度下降，Loss Function作用于一个矩阵</p>
-</li>
-<li><p>NN为什么用非线性激活函数</p>
-<p>线性函数公式写出来之后 会发现 无论多少层，他都只能生成线性分类器（成为了感知机）<br>无法去拟合绝大多数的真实情况<br>而非线性的组合 就可以去逼近任何函数</p>
-</li>
-<li><p>关于梯度下降的算法<br>一个训练样本的损失函数就是一个向量，有多少特征就有多少维<br>ML算法中的代价函数通常可以分解成每个样本的代价函数的总和<br>具体求和之后如何求导见1</p>
-<p>于是不使用batch的整体梯度下降需要计算($m$为训练集样本个数)。所有样本计算出最终结果来计算梯度。这样对显存的要求就极高（在大样本集上是不可能）</p>
-<script type="math/tex; mode=display">
-     \nabla_{\theta}J(\theta)=\frac{1}{m}\sum_{i=1}^m\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>如果使用minibatch，则变成（一个batch有$m’$个训练样本） 一个batch计算一个$g$来更新梯度</p>
-<script type="math/tex; mode=display">
- g=\frac{1}{m'}\sum_{i=1}^{m'}\nabla_\theta L(x^{(i)},y^{(i)},\theta)</script><p>然后使用如下的梯度下降算法估计梯度</p>
-<script type="math/tex; mode=display">
-    \theta \leftarrow \theta - \epsilon g</script><p>于是在一轮训练集中，要更新很多次梯度，目标去逼近整体更新梯度的方向<br>在一轮中的几个批次，可能是局部梯度减小，整体损失变大，但是在一轮下来之后，会变成朝着整体减小的方向震荡前进</p>
-</li>
-<li><p>CNN一个牛逼的地方就在于通过感受野和权值共享减少了神经网络需要训练的参数的个数，所谓权值共享就是同一个Feature Map中神经元权值共享，该Feature Map中的所有神经元使用同一个权值。因此参数个数与神经元的个数无关，只与卷积核的大小及Feature Map的个数相关。但是共有多少个连接个数就与神经元的个数相关了，神经元的个数也就是特征图的大小。</p>
-</li>
-<li><p>为什么用交叉熵作损失函数？每层怎么做计算<br><a href="https://blog.csdn.net/huwenxing0801/article/details/82791879" target="_blank" rel="noopener">https://blog.csdn.net/huwenxing0801/article/details/82791879</a><br>对于分类问题，用交叉熵损失函数更好，因为交叉熵函数公式可知道，<strong>交叉熵只关心对正确类别的预测概率</strong>，因为只要其值<strong>足够大</strong>，就可以保证分类结果正确。<br>对于回归问题，用平方差损失函数更好，它希望<strong>预测概率尽量完全等于标签概率</strong>。（比交叉熵损失函数严格很多）</p>
-</li>
-<li><p>前馈神经网络，如BP，RFN</p>
-<p>循环神经网络，RNN</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/工具/使用markdown编辑数学公式/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/工具/使用markdown编辑数学公式/" itemprop="url">使用markdown编辑数学公式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T17:22:44+08:00">
-                2018-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/工具/使用markdown编辑数学公式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/工具/使用markdown编辑数学公式/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/工具/使用markdown编辑数学公式/" class="leancloud_visitors" data-flag-title="使用markdown编辑数学公式">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Typora是我认为最好用的markdown编辑器，书写直观，数学公式编辑器非常方便，总结一下在上面编辑数学公式的语法。</p>
-<p>注意，首先要在文件—偏好设置—Markdown关联语法 里勾选内联公式</p>
-<h3 id="创建公式编辑栏的方式"><a href="#创建公式编辑栏的方式" class="headerlink" title="创建公式编辑栏的方式"></a>创建公式编辑栏的方式</h3><ul>
-<li>内联公式：两个$之间​</li>
-<li>公式块：两个$$之间</li>
-<li>ctrl + shift +m</li>
-</ul>
-<h3 id="常用公式的代码"><a href="#常用公式的代码" class="headerlink" title="常用公式的代码"></a>常用公式的代码</h3><p>   注意，一个块要用{}包裹起来，^_上下标叠着写就行</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">输入</th>
-<th style="text-align:center">公式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">x^2</td>
-<td style="text-align:center">$x^2$</td>
-</tr>
-<tr>
-<td style="text-align:center">x_1</td>
-<td style="text-align:center">$x_1$</td>
-</tr>
-<tr>
-<td style="text-align:center">\frac{x}{y}</td>
-<td style="text-align:center">$\frac{x}{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sqrt[x]{y}</td>
-<td style="text-align:center">$\sqrt[x]{y}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\vec{x}</td>
-<td style="text-align:center">$\vec{x}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\int_{a}^{b}{x}dx</td>
-<td style="text-align:center">$\int_{a}^{b}{x}dx$</td>
-</tr>
-<tr>
-<td style="text-align:center">\cdots</td>
-<td style="text-align:center">$\cdots$</td>
-</tr>
-<tr>
-<td style="text-align:center">\sum_{n=1}^{100}{a_n}</td>
-<td style="text-align:center">$\sum_{n=1}^{100}{a_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\lim_{n\to +\infty}</td>
-<td style="text-align:center">$\lim_{n\to +\infty}$</td>
-</tr>
-<tr>
-<td style="text-align:center">\prod_{n=1}^{99}{x_n}</td>
-<td style="text-align:center">$\prod_{n=1}^{99}{x_n}$</td>
-</tr>
-<tr>
-<td style="text-align:center">a \quad b</td>
-<td style="text-align:center">$a \quad b$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/工具/使用markdown编辑数学公式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/博客/更换HEXO框架/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="aisaka">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="宵晓咲">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/博客/更换HEXO框架/" itemprop="url">更换HEXO框架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T11:57:58+08:00">
-                2018-11-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/博客/更换HEXO框架/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/博客/更换HEXO框架/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-
-          
-          
-             <span id="/博客/更换HEXO框架/" class="leancloud_visitors" data-flag-title="更换HEXO框架">
-
-
-             </span>
-          
-
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这两天将更换了个人网站的框架</p>
-<p>更改框架是个蛮麻烦的过程</p>
-<p>其中以前的文章很多格式都乱掉了</p>
-<p>而且图片全部没有了…….</p>
-<p>只能手动修正了</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
-            
-              <p class="site-author-name" itemprop="name">aisaka</p>
-              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">225</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">33</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                Links
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-
-
-
-
-          
-
-        </div>
-      </section>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
+        </span>
       </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/深度学习实践结构性经验总结/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/数据库与中间件/Redis/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-1-2 17:01</div>
+      <a href="/数据库与中间件/Redis/" class="post-title">
+        <h3>Redis</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/数据库与中间件/">数据库与中间件</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/数据库与中间件/Redis/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/向目标函数加入正则的具体实现/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-12-1 11:12</div>
+      <a href="/人工智能/向目标函数加入正则的具体实现/" class="post-title">
+        <h3>向目标函数加入正则的具体实现</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/pytorch/">pytorch<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/向目标函数加入正则的具体实现/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/Pytorch中常用的维度变换与torch-max/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-11-12 19:11</div>
+      <a href="/人工智能/Pytorch中常用的维度变换与torch-max/" class="post-title">
+        <h3>维度及Pytorch中常用的维度变换与torch.max()</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/pytorch/">pytorch<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/Pytorch中常用的维度变换与torch-max/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/对反向传播的理解/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-11-8 12:11</div>
+      <a href="/人工智能/对反向传播的理解/" class="post-title">
+        <h3>对BP算法的理解</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/BP/">BP<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/对反向传播的理解/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/人工智能/notes-1108/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-11-8 11:11</div>
+      <a href="/人工智能/notes-1108/" class="post-title">
+        <h3>notes_1108</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/人工智能/">人工智能</a>
+          
+            <a href="/categories/人工智能/神经网络/">神经网络</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/人工智能/notes-1108/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/工具/使用markdown编辑数学公式/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-11-7 17:11</div>
+      <a href="/工具/使用markdown编辑数学公式/" class="post-title">
+        <h3>使用markdown编辑数学公式</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/markdown/">markdown<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/工具/">工具</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/工具/使用markdown编辑数学公式/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+    
+<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+
+  <div class="post-thumb">
+    <a href="/博客/更换HEXO框架/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/image-404.png">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2018-11-6 11:11</div>
+      <a href="/博客/更换HEXO框架/" class="post-title">
+        <h3>更换HEXO框架</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/HEXO/">HEXO<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/博客/">博客</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p></p>
+        <div class="post-bottom">
+          <a href="/博客/更换HEXO框架/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+  
+
+
     </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">aisaka</span>
-
+      <!-- 首页默认取最最新文章集 -->
+    <!-- 
+      <nav class="navigator">
+        
+        <a class="extend prev" rel="prev" href="/page/20/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/22/"><i class="iconfont icon-right"></i></a>
+      </nav>
+     -->
+  </div>
+  
+    <div id="pagination"><a href="/page/22/" class="">Previous</a></div>
   
 </div>
 
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
-
-
-  <script type="text/javascript">
-    var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail';
-    guest = guest.split(',').filter(item=>{
-      return GUEST.indexOf(item)>-1;
-    });
-    new Valine({
-        el: '#comments' ,
-        verify: false,
-        notify: true,
-        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
-        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
-        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
-        avatar:'mm',
-        guest_info:guest,
-        pageSize:'10' || 10,
-    });
-  </script>
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
 <script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 aisaka<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2016~2021</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">
+          aisaka
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src="/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
     }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
     }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
+  }
+});
 </script>
 
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/aisakaki/aisakaki.github.io/images/img/000.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">宵晓咲</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            ACG
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/Anime/">
+                  <i class="fa " aria-hidden="true"></i>
+                  动画
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Game/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Music/">
+                  <i class="fa " aria-hidden="true"></i>
+                  音乐
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/游戏设计/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏设计
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+            随想
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/日记/">
+                  <i class="fa " aria-hidden="true"></i>
+                  日记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/阅读/">
+                  <i class="fa " aria-hidden="true"></i>
+                  阅读
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随笔/">
+                  <i class="fa " aria-hidden="true"></i>
+                  随笔
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+            技术
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/程序语言/">
+                  <i class="fa " aria-hidden="true"></i>
+                  程序
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/人工智能/">
+                  <i class="fa " aria-hidden="true"></i>
+                  人工智能
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/开发/">
+                  <i class="fa " aria-hidden="true"></i>
+                  开发
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/数据库与中间件/">
+                  <i class="fa " aria-hidden="true"></i>
+                  中间件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/网络与云/">
+                  <i class="fa " aria-hidden="true"></i>
+                  网络
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/算法与数据结构/">
+                  <i class="fa " aria-hidden="true"></i>
+                  算法
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/计算机理论/">
+                  <i class="fa " aria-hidden="true"></i>
+                  CS
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/论文阅读笔记/">
+                  <i class="fa " aria-hidden="true"></i>
+                  论文
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            其它
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/硬件/">
+                  <i class="fa " aria-hidden="true"></i>
+                  硬件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/博客/">
+                  <i class="fa " aria-hidden="true"></i>
+                  博客
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/工具/">
+                  <i class="fa " aria-hidden="true"></i>
+                  工具
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            Link
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/about/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+            我
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<meting-js
 
-  
-  
+    id="2660651585"
 
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
+    server="netease"
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
+    type="playlist"
 
+    fixed="true"
 
-  
+    autoplay="false"
 
-  
+    loop="all"
+
+    order="random"
+
+    preload="auto"
+
+    volume="0.7"
+
+    mutex="true"
+
+</meting-js>
+<!--这里我want aplayer失效-->
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
 
 </body>
 </html>
