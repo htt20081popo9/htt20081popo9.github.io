@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="条件随机场">
+<meta property="og:url" content="https://aisaka.cloud/人工智能/条件随机场/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/人工智能/条件随机场/0.jpg">
+<meta property="og:updated_time" content="2019-10-31T04:43:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="条件随机场">
+<meta name="twitter:description" content="Conditional Random Field在我前面的文章中有一些概率图模型的基础知识：深度学习中的结构化概率模型 如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：配分函数，其中用到了蒙特卡罗方法，参看前文：蒙特卡罗方法 将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的因子分解(factorization) 标注问题：在条件概率">
+<meta name="twitter:image" content="https://aisaka.cloud/人工智能/条件随机场/0.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/人工智能/条件随机场/">
+
+
+
+
+
+  <title>条件随机场 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/人工智能/条件随机场/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">条件随机场</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-29T19:05:15+08:00">
+                2019-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/" itemprop="url" rel="index">
+                    <span itemprop="name">人工智能</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/人工智能/机器学习与统计学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习与统计学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/人工智能/条件随机场/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/人工智能/条件随机场/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/人工智能/条件随机场/" class="leancloud_visitors" data-flag-title="条件随机场">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Conditional-Random-Field"><a href="#Conditional-Random-Field" class="headerlink" title="Conditional Random Field"></a>Conditional Random Field</h2><p>在我前面的文章中有一些概率图模型的基础知识：<a href="https://aisakaki.com/2019/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E6%A6%82%E7%8E%87%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">深度学习中的结构化概率模型</a></p>
+<p>如果数据量极大，配分函数有可能会遇到无法直接求和问题参看前文：<a href="https://aisakaki.com/2019/10/18/%E9%85%8D%E5%88%86%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">配分函数</a>，其中用到了蒙特卡罗方法，参看前文：<a href="https://aisakaki.com/2019/10/12/%E8%92%99%E7%89%B9%E5%8D%A1%E7%BD%97%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">蒙特卡罗方法</a></p>
+<p>将概率无向图模型的联合概率分布表示为其最大团上的随机变量的函数的乘积形式的操作，称为概率无向图模型的<strong>因子分解</strong>(factorization)</p>
+<p><strong>标注问题：</strong>在条件概率模型$P(Y|X)$中，$Y$是输出变量，表示输出的标记序列（或状态序列），$X$是输入变量，表示需要标注的观测序列。<strong>注意被标注的是标记序列/状态序列</strong>，不是观测序列。HMM和CRF都可以用于标注问题（只是其中一个应用）。</p>
+<p><strong>条件随机场(conditional random field,CRF)</strong>：给定随机变量$X$条件下，随机变量$Y$的马尔可夫随机场</p>
+<p><strong>线性链条件随机场(linear chain conditional random field,Linear-Chain CRF)</strong>：定义如下</p>
+<p>设$X=\{X_1,X_2,\cdots,X_n\},Y=\{Y_1,Y_2,\cdots,Y_n\}$均为线性链表示的随机变量序列，若在给定随机变量序列$X$的条件下，随机变量序列$Y$的条件概率分布$P(Y|X)$构成条件随机场，即满足马尔可夫性：</p>
+<script type="math/tex; mode=display">
+P(Y_i|X,Y_1,\cdots,Y_{i-1},Y_{i+1},\cdots,Y_n)=P(Y_i|X,Y_{i-1},Y_{i+1}),i=1,2,\cdots,n</script><p>则称$P(Y|X)$为线性链条件随机场。意思是$Y_i$只与$X$(观测序列)，$Y_{i-1},Y_{i+1}$有关</p>
+<a id="more"></a>
+<h2 id="Linear-Chain-CRF形式化表示"><a href="#Linear-Chain-CRF形式化表示" class="headerlink" title="Linear-Chain CRF形式化表示"></a>Linear-Chain CRF形式化表示</h2><h3 id="参数化形式"><a href="#参数化形式" class="headerlink" title="参数化形式"></a>参数化形式</h3><p>要先画<strong>状态路径图</strong>来理解公式</p>
+<p>设$P(Y|X)$为线性链CRF，则在随机变量$X$的取值为$x$（状态序列）的情况下，随机变量$Y$取值为$y$（取值/观测值序列）的条件概率具有如下形式：</p>
+<script type="math/tex; mode=display">
+P(y|x)=\frac{1}{Z(x)}e^{(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls_l(y_i,x,i))}</script><script type="math/tex; mode=display">
+Z(x)=\sum_ye^{(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls_l(y_i,x,i))}</script><p>$i$就是序列位置标号，见上面Linear-Chain中的定义（设$q,p∈\Gamma$，$\Gamma$为$Y_i$的取值空间（观测空间））</p>
+<p>$t_k(y_{i-1}=q,y_i=p,x,i)$，也写成$t_k(y_{i-1},y_i,x,i)$：<strong>特征函数</strong>，对应的权值为$\lambda_k$，定义为<strong>边</strong>上的特征函数，称为<strong>转移特征</strong>，依赖当前和前一个位置：[表示在第$i$位置上，序列第$i$位置$x$所对应的$y$取值（观测值）为$q$，到序列第$i-1$位置$x$对应的$y$取值（观测值）为$p$这条路径的转移特征，<strong>权值</strong>为$\lambda_k$]</p>
+<p>$s_l(y_i=p,x,i)$，也写成$s_l(y_i,x,i)$：<strong>特征函数</strong>，对应的权值为$\mu_l$，定义为<strong>结点</strong>上的特征函数，称为<strong>状态特征</strong>，依赖当前位置：[表示在第$i$位置上，序列第$i$位置的$x$所对应的$y$的取值（观测值）为$p$的结点的状态特征，该结点的<strong>权值</strong>为$\mu_l$]</p>
+<p>$k$表示边的转移特征函数数量，$l$表示结点的状态特征函数数量</p>
+<p>一般特征函数$t_k,s_l$取值为0或1</p>
+<p>此求和其实就是对<strong>所有路径</strong>求和（所有可能的输出序列）</p>
+<p>举例理解：</p>
+<p>对于$X=(X_1,X_2,X_3),Y=(Y_1,Y_2,Y_3),Y_i$的取值集合为$\Gamma=\{1,2\}$</p>
+<p>可以得到一个二维图，横坐标$i_1,i_2,i_3$表序号，纵坐标$Y=1,Y=2$表$y$的两个取值</p>
+<p>则图中所有坐标点（结点）为</p>
+<p>$(Y_1=2,X,1),(Y_1=2,X,2),(Y_1=2,X,3)$</p>
+<p>$(Y_1=1,X,1),(Y_1=1,X,2),(Y_1=1,X,3)$</p>
+<p>如$(Y_1=2,X,1)$就表示在$i=1$的$X$序列位置上，$Y$的取值（观测值）为2，也可以写成$Y(X_1)=2$</p>
+<p>然后就可以通过上面的结点和边特征函数以及权重将概率图绘制出来，一切求和就得出CRF的概率分布</p>
+<h3 id="其它形式"><a href="#其它形式" class="headerlink" title="其它形式"></a>其它形式</h3><p><strong>拼接</strong>$：K_1$个转移特征，$K_2$个状态特征，$K=K_1+K_2$</p>
+<p><strong>求和</strong>：对同一特征在各个位置求和（<strong>同一特征在不止一个位置上有定义</strong>）</p>
+<p>$f_k(y_{i-1},y_i,x,i)=\begin{cases} t_k(y_{i-1},y_i,x,i),k=1,2,\dots,K_1\\ s_l(y_i,x,i),k=K_1+l;l+1,2,\dots,K_2\end{cases}$——①</p>
+<p><strong>组一：</strong></p>
+<p>$f_k(y,x)=\sum_{i=1}^n f_k(y_{i-1},y_i,x,i),k=1,2,\dots,K$ （<strong>对同一特征函数$f_k$在所有位置$\sum_i^n~$上求和</strong>）</p>
+<p>$F(y,x)=(f_1(y,x),f_2(y,x),\dots,f_K(y,x))^T$（上面那个求和组成的向量，方便用于下面简化形式的内积形式）——③</p>
+<p><strong>组二：</strong></p>
+<p>$F_i(y_{i-1},y_i|x)=(f_1(y_{i-1},y_i,x,i),f_2(y_{i-1},y_i,x,i)，\cdots,f_K(y_{i-1},y_i,x,i))$  (<strong>某一位置$i$下所有特征函数组成的向量</strong>）</p>
+<p>$\therefore w·F_i(y_{i-1},y_i|x)=\sum_{k=1}^Kw_kf_k(y_{i-1},y_i,x,i)$   （与上上面的$f_k(y,x)$刚好反过来，先对一个位置$i$积分所有特征函数$f_k$，再积分所有位置$i$）——④</p>
+<p>注意这一组的$F$下标和上面那组的含义是不一样的，一个是$k:$特征函数数量一个是$i:$位置数量</p>
+<p>$w_k=\begin{cases} \lambda_k,k=1,2,\dots,K_1\\ \mu_l,k=K_1+l;l+1,2,\dots,K_2\end{cases}$——②</p>
+<p>$w=(w_1,w_2,\dots,w_K)^T$</p>
+<h3 id="简化形式—对每个特征函数求其在所有位置的和"><a href="#简化形式—对每个特征函数求其在所有位置的和" class="headerlink" title="简化形式—对每个特征函数求其在所有位置的和"></a>简化形式—对每个特征函数求其在所有位置的和</h3><p>由②③：</p>
+<p>$\therefore$特征*权重可以看成求正交化（内积）可以看成是先对每个特征函数$f_k$在所有位置$i$积分，再积所有特征函数$f_k$</p>
+<script type="math/tex; mode=display">
+P_w(y|x)=\frac{e^{w·F(y,x)}}{Z_w(x)}</script><script type="math/tex; mode=display">
+Z_w(x)=\sum_ye^{w·F(y,x)}</script><h3 id="矩阵形式—在每个位置求所有特征函数的和"><a href="#矩阵形式—在每个位置求所有特征函数的和" class="headerlink" title="矩阵形式—在每个位置求所有特征函数的和"></a>矩阵形式—在每个位置求所有特征函数的和</h3><p>由②④：</p>
+<p>$W_i(y_{i-1},y_i|x)=\sum_{k=1}^Kw_kf_k(y_{i-1},y_i,x,i)$</p>
+<p>$M_i(y_{i-1},y_i|x)=e^{W_i(y_{i-1},y_i|x)}$ （所以可以对每个位置$i$求$M$矩阵）</p>
+<script type="math/tex; mode=display">
+P_w(y|x)=\frac{1}{Z_w(x)}\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)</script><script type="math/tex; mode=display">
+Z_w(x)=[M_1(x)M_2(x)\dots M_{n+1}(x)]_{start,stop}</script><p>由于矩阵表示可以很直观的表示序列上每个位置的矩阵，所以很好用，下面概率计算的时候直接累乘即可</p>
+<p><strong>非矩阵形式</strong>可以表示为：（注意这个式子的$f_i(x,y)=$组二中的$F_i(y_{i-1},y_i|x)$）</p>
+<script type="math/tex; mode=display">
+P_w(y|x)=\frac{e^{\sum_{i=1}^nw_if_i(x,y)}}{\sum_y e^{\sum_{i=1}^nw_if_i(x,y)}}</script><p><strong>此形式即最大熵模型形式！对Linear-Chain CRF参数的学习与对最大熵模型参数的学习一样</strong></p>
+<h2 id="概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x"><a href="#概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x" class="headerlink" title="概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$"></a>概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$</h2><p><strong>与HMM一样使用前向-后向算法</strong>，递归计算，用矩阵形式表达方便</p>
+<p><strong>前向算法：</strong> 前向右乘$M$矩阵（$\alpha^T$将原横着的序列变<strong>列向量</strong>与$M$矩阵相乘）</p>
+<p>初始化：$\alpha_0(y|x)=\begin{cases} 1, y=start\\ 0,otherwise\end{cases}$</p>
+<p>递推公式：$\alpha_i^T(y_i|x)=\alpha_{i-1}^T(y_{i-1}|x)[M_i(y_{i-1},y_i|x)],i=1,2,\dots,n+1$</p>
+<p><strong>后向算法：</strong> 后向左乘$M$矩阵</p>
+<p>初始化：$\beta_{n+1}(y_{n+1}|x)=\begin{cases} 1, y_{n+1}=stop\\ 0,otherwise\end{cases}$</p>
+<p>递推公式：$\beta_i(y_i|x)=[M_{i+1}(y_i,y_{i+1}|x)]\beta_{i+1}(y_{i+1}|x),i=0,1,2,\dots,n+1$</p>
+<p><strong>概率计算：</strong></p>
+<p>$P(Y_i=y_i|x)=\frac{1}{Z(x)}\alpha_i^T(y_i|x)\beta_i(y_i|x)$</p>
+<p>$P(Y_{i-1}=y_{i-1},Y_i=y_i|x)=\frac{1}{Z(x)}\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)$</p>
+<p>其中$Z(x)=\alpha_n^T\vec1=\vec1\beta_1(x)$，$\vec1$为元素均为1的$m$维向量</p>
+<p><strong>[O]期望值计算：</strong></p>
+<p>$\mathbb E_{P(Y|X)}[f_k]=\sum_yP(y|x)f_k(y,x)=略$</p>
+<p>$\mathbb E_{P(X|Y)}[f_k]=\sum_{x,y}P(x,y)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)=略$</p>
+<h2 id="学习算法—求模型参数-hat-w"><a href="#学习算法—求模型参数-hat-w" class="headerlink" title="学习算法—求模型参数$\hat w$"></a>学习算法—求模型参数$\hat w$</h2><p>Linear-Chain CRF的位置求和形式，也即最大熵模型形式，于是可以<strong>用与MEM一样的方法来求模型参数</strong></p>
+<h3 id="Improved-Iterative-Scaling"><a href="#Improved-Iterative-Scaling" class="headerlink" title="Improved Iterative Scaling"></a>Improved Iterative Scaling</h3><p>IIS，改进的迭代尺度法，具体略</p>
+<p><strong>注意</strong>模型参数是$w$，而$f_k$（或者全局特征向量$F(y,x)$）是先验参数！</p>
+<p>经验概率$\hat P(X,Y)$即为在训练集上直接通过观测法求得的经验概率，如通过多次抛硬币频数法求得概率一样</p>
+<p>极大化<strong>训练数据的条件概率对数似然函数</strong>：</p>
+<p>$L(w)=L_{\hat P}(P_w)=\log\prod_{x,y}P_w(y|x)^{\hat P(x,y)}=\sum_{x,y}\hat P(x,y)\log P_w(y|x)$</p>
+<p>将简化形式$P_w(y|x)$代入求极大</p>
+<p>对其使用IIS，略</p>
+<h3 id="拟牛顿法"><a href="#拟牛顿法" class="headerlink" title="拟牛顿法"></a>拟牛顿法</h3><p>可以见我以前写的文章<a href="https://aisakaki.com/2019/09/26/%E7%89%9B%E9%A1%BF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9D%9E%E7%BA%BF%E6%80%A7%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener">牛顿法求解非线性优化</a>和<a href="https://aisakaki.com/2019/09/26/%E6%8B%9F%E7%89%9B%E9%A1%BF%E6%B3%95/" target="_blank" rel="noopener">拟牛顿法</a></p>
+<p>直接对$P_w(y|x)$求对数似然得优化目标函数</p>
+<p>依然使用简化形式$P_w(y|x)$</p>
+<p>对其使用BFGS，略</p>
+<h2 id="预测算法—求-y-arg-y-max-P-w-y-x"><a href="#预测算法—求-y-arg-y-max-P-w-y-x" class="headerlink" title="预测算法—求$y^*=\arg_y\max P_w(y|x) $"></a>预测算法—求$y^*=\arg_y\max P_w(y|x) $</h2><p>给定输入序列/观测序列$x$，求条件概率最大输出序列$y^*$，即求$\arg_y\max P_w(y|x)$</p>
+<p>与HMM一样的维比特算法，动态规划，注意递推式。</p>
+<p>由于要确定路径，则使用在每个位置求特征和的积分方法，即上面的非矩阵形式公式，化简后可得：</p>
+<p>求$\max_y\sum_{i=1}^nw·F_i(y_{i-1},y_i,x) $  （即求$\max_y ④$)</p>
+<p>$F_i(y_{i-1},y_i|x)$为局部特征向量</p>
+<p>递推式：$\max\{\delta_{i-1}+w·F_i(y_{i-1},y_i,x)\}$</p>
+<p>具体略</p>
+<h2 id="HMM和CRF的对比区别"><a href="#HMM和CRF的对比区别" class="headerlink" title="HMM和CRF的对比区别"></a>HMM和CRF的对比区别</h2><ol>
+<li><p>HMM是生成模型，CRF是判别模型</p>
+<p> <img src="//aisaka.cloud/人工智能/条件随机场/0.jpg" alt="0"></p>
+<p> <em>（本图来自知乎）</em></p>
+</li>
+<li><p>CRF的优化函数，可以做到全局最优</p>
+</li>
+<li><p>定义</p>
+<p>CRF可以看成一组随机变量的集合，当给每一个位置按照某种分布随机赋予一个值之后，其全体就叫做随机场。这些随机变量之间可能有依赖关系 。</p>
+<p>如果给定的马尔科夫随机场（MRF）中每个随机变量下面还有观察值，我们要确定的是给定观察集合下，这个MRF的分布，也就是<strong>条件分布</strong>，那么这个MRF就称为 <strong>Conditional Random Fields (CRF)</strong>。它的条件分布形式完全类似于MRF的分布形式，只不过多了一个观察集合X。所以, CRF本质上是给定了条件(观察值observations)集合的MRF。</p>
+</li>
+<li><p>HMM可以由CRF表达，CRF的范围更广。也就说，<strong>每一个HMM都可以被CRF表示</strong></p>
+</li>
+<li><p>CRF要归一化而HMM不需要 </p>
+<p>因为CRF的权重值是任意的，而HMM是概率值必须满足概率约束条件</p>
+</li>
+<li><p>CRF可以依赖更多全局特征（Linear-Chain CRF的依赖也比较有限）</p>
+<p>HMM只能依赖前一个状态和当前观测，而CRF可以定义更远的依赖关系</p>
+</li>
+<li><p>CRF可以看成MEMM（最大熵马尔可夫模型）在标注问题上的推广</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/人工智能/条件随机场/" title="条件随机场">https://aisaka.cloud/人工智能/条件随机场/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/日记/海/" rel="next" title="海">
+                <i class="fa fa-chevron-left"></i> 海
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/人工智能/Scaling/" rel="prev" title="改进的迭代尺度法">
+                改进的迭代尺度法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">225</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-Random-Field"><span class="nav-number">1.</span> <span class="nav-text">Conditional Random Field</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Chain-CRF形式化表示"><span class="nav-number">2.</span> <span class="nav-text">Linear-Chain CRF形式化表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数化形式"><span class="nav-number">2.1.</span> <span class="nav-text">参数化形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它形式"><span class="nav-number">2.2.</span> <span class="nav-text">其它形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化形式—对每个特征函数求其在所有位置的和"><span class="nav-number">2.3.</span> <span class="nav-text">简化形式—对每个特征函数求其在所有位置的和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩阵形式—在每个位置求所有特征函数的和"><span class="nav-number">2.4.</span> <span class="nav-text">矩阵形式—在每个位置求所有特征函数的和</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算—求-max-P-Y-i-y-i-x-max-P-Y-i-1-y-i-1-Y-i-y-i-x"><span class="nav-number">3.</span> <span class="nav-text">概率计算—求$\max\{P(Y_i=y_i|x)\},\max\{P(Y_{i-1}=y_{i-1},Y_i=y_i|x)\}$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习算法—求模型参数-hat-w"><span class="nav-number">4.</span> <span class="nav-text">学习算法—求模型参数$\hat w$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Improved-Iterative-Scaling"><span class="nav-number">4.1.</span> <span class="nav-text">Improved Iterative Scaling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拟牛顿法"><span class="nav-number">4.2.</span> <span class="nav-text">拟牛顿法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测算法—求-y-arg-y-max-P-w-y-x"><span class="nav-number">5.</span> <span class="nav-text">预测算法—求$y^*=\arg_y\max P_w(y|x) $</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HMM和CRF的对比区别"><span class="nav-number">6.</span> <span class="nav-text">HMM和CRF的对比区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

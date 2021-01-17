@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《JAVA并发编程的艺术》笔记，主要记录我以前理解不够的地方，并不是重点笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA并发原理笔记">
+<meta property="og:url" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/index.html">
+<meta property="og:site_name" content="宵晓咲">
+<meta property="og:description" content="《JAVA并发编程的艺术》笔记，主要记录我以前理解不够的地方，并不是重点笔记">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/0.png">
+<meta property="og:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/1.png">
+<meta property="og:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/2.png">
+<meta property="og:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/3.png">
+<meta property="og:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/4.png">
+<meta property="og:updated_time" content="2020-05-04T04:00:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA并发原理笔记">
+<meta name="twitter:description" content="《JAVA并发编程的艺术》笔记，主要记录我以前理解不够的地方，并不是重点笔记">
+<meta name="twitter:image" content="https://aisaka.cloud/程序语言/JAVA并发原理笔记/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://aisaka.cloud/程序语言/JAVA并发原理笔记/">
+
+
+
+
+
+  <title>JAVA并发原理笔记 | 宵晓咲</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宵晓咲</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">且听风吟</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://aisaka.cloud/程序语言/JAVA并发原理笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aisaka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宵晓咲">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JAVA并发原理笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-04T11:41:10+08:00">
+                2020-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序语言/" itemprop="url" rel="index">
+                    <span itemprop="name">程序语言</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序语言/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/程序语言/JAVA并发原理笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/程序语言/JAVA并发原理笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+
+          
+          
+             <span id="/程序语言/JAVA并发原理笔记/" class="leancloud_visitors" data-flag-title="JAVA并发原理笔记">
+
+
+             </span>
+          
+
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《JAVA并发编程的艺术》笔记，主要记录我以前理解不够的地方，并不是重点笔记</p>
+<a id="more"></a>
+<h2 id="JAVA并发机制底层原理"><a href="#JAVA并发机制底层原理" class="headerlink" title="JAVA并发机制底层原理"></a>JAVA并发机制底层原理</h2><p>减少上下文切换的方法有无锁并发编程、CAS算法、使用最少线程和使用协程。</p>
+<p>如何在资源限制的情况下，让程序执行得更快呢?方法就是，根据不同的资源限制调整 程序的并发度</p>
+<p>如果一个字段被声明成volatile，Java线程内存 模型确保所有线程看到这个变量的值是一致的。</p>
+<p>Lock前缀的指令在多核处理器下会引发了两件事情<br>1)将当前处理器缓存行的数据写回到系统内存。<br>2)这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效。</p>
+<p>为了保证各个处理器的缓存是一致的，就会实现缓存一 致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当 处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状 态，当处理器对这个数据进行修改操作的时候，会重新从系统内存中把数据读到处理器缓存 里。</p>
+<p>————</p>
+<p>从JVM规范中可以看到Synchonized在JVM里的实现原理，JVM基于进入和退出Monitor对 象来实现方法同步和代码块同步，但两者的实现细节不一样。代码块同步是使用monitorenter 和monitorexit指令实现的，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有 详细说明。但是，方法的同步同样可以使用这两个指令来实现。（这里说的是重量级synchonized使用monitor对象，monitor锁底层是的操作系统mutex互斥信号量；非重量级不会用这个monitor）<br>monitorenter指令是在编译后插入到同步代码块的开始位置，而monitorexit是插入到方法结 束处和异常处，JVM要保证每个monitorenter必须有对应的monitorexit与之配对。任何对象都有 一个monitor与之关联，当且一个monitor被持有后，它将处于锁定状态。线程执行到monitorenter 指令时，将会尝试获取对象所对应的monitor的所有权，即尝试获得对象的锁。</p>
+<p>synchronized用的锁是存在Java对象头里的一个markword字段（锁实质）<br>Java对象头里的Mark Word里默认存储对象的HashCode、分代年龄和锁标记位（4种锁状态：无，偏，轻，重）</p>
+<p>当一个线程访问同步块并 获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出 同步块时不需要进行CAS操作来加锁和解锁，只需简单地测试一下对象头的Mark Word里是否 存储着指向当前线程的偏向锁。<br>偏向锁使用了一种等到竞争出现才释放锁的机制，所以当其他线程尝试竞争偏向锁时（其它锁cas失败后修改Mark word撤销偏向锁）， 持有偏向锁的线程才会释放锁</p>
+<p>轻量级锁适用无实质竞争或少量竞争的并发（每个线程cas基本都成功），不需要加锁，这样就没有线程切换问题也没有内核态用户态切换问题，开销少<br>当cas大量失败，就会膨胀成重量级（太多cas自旋非常吃cpu）</p>
+<p>————<br>cpu实现原子操作：总线锁（锁总线，完全禁止其它cpu访问ram）/缓存锁（锁缓存）<br>————<br>同步是指程序中用于控制不同线程间操作发生相对顺序的机制</p>
+<h2 id="JAVA内存模型：JMM"><a href="#JAVA内存模型：JMM" class="headerlink" title="JAVA内存模型：JMM"></a>JAVA内存模型：JMM</h2><p>Java线程之间的通信由Java内存模型(本文简称为JMM)控制，JMM决定一个线程对共享 变量的写入何时对另一个线程可见。从抽象的角度来看，JMM定义了线程和主内存之间的抽 象关系:线程之间的共享变量存储在主内存(Main Memory)中，每个线程都有一个私有的本地 内存(Local Memory)threadlocal？，本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的 一个抽象概念，并不真实存在。它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器优 化。<br>线程A与线程B之间要通信的话，必须要经历下面2个步骤。<br>1)线程A把本地内存A中更新过的共享变量刷新到主内存中去。 2)线程B到主内存中去读取线程A之前已更新过的共享变量。<br>JMM通过控制主内存与每个线程的本地内存之间的交互，来为Java程序员提供 内存可见性保证。<br>在执行程序时，为了提高性能，编译器和处理器常常会对指令做重排序。重排序分3种类型：编译器优化级，cpu指令流水级，内存系统级；这些重排序可能会导致多线程程序 出现内存可见性问题 ；JMM属于语言级的内存模型，它确保在不同的编译器和不同的处理器平台之上，通过禁止特定类型的编译器重排序和处理器重排序，为程序员提供一致的内存可见性保证（如写后读，du后写，写后写都不可重排）<br>为了保证内存可见性，Java编译器在生成指令序列的适当位置会插入内存屏障指令来禁 止特定类型的处理器重排序。<br>在JMM中，如果一 个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须要存在happens-before关 系。这里提到的两个操作既可以是在一个线程之内，也可以是在不同线程之间。一个happens-before规则对应于一个或多个编译器和处理器重排序规则。<br>JMM提供了happens-before保证：如果程序是正确同步（即需要程序员自己正确设置同步锁）的，程序的执行将具有顺序一致性(Sequentially Consistent)——即程 序的执行结果与该程序在顺序一致性内存模型中的<strong>执行结果相同</strong>（顺序一致性：a～一个线程中的所有操作必须按照程序的顺序来执行。且b～(不管程序是否同步)所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内 存模型中，每个操作都必须原子执行且立刻对所有线程可见。）（只是和它结果相同，如果真本体顺序一致模型了，那就是完全禁止重排序，少了很多编译器和指令优化）（可见对应不确定，意思是另一个线程的执行结果对这个线程是确定的）<br>如果A happens-before B，那么Java内存模型将向程序员保证——1.A操作的结果将对B可见， 2.且A的执行顺序排在B之前（重排序并不一定要求a先于b执行！只要结果与a先于b执行且a的结果对b可见这个haappens-before关系一致即可！）<br>JMM只根据happens-before规则禁止了会改变程序运行结果的重排序，不改变的不禁止<br>JMM其实是在遵 循一个基本原则:只要不改变程序的执行结果(指的是单线程程序和正确同步的多线程程序) 编译器和处理器怎么优化都行。as-if-serial语义保证单线程内程序的执行结果不被改变，happens-before关系保证正确同步的多线程程序的执行结果不被改变。<br>JMM屏蔽了不同处理器内存模型的差异，它在不同的处理器平台之上为Java程序员呈现 了一个一致的内存模型。<br>对于未同步/未正确同步的多线程程序。JMM为它们提供了最小安全性保障:线程执行时读取 到的值，要么是之前某个线程写入的值，要么是默认值(0、null、false)。</p>
+<p>————<br>volatile写的内存语义：当写一个volatile变量时，JMM会把该线程对应的本地内存中的共享变量值刷新到主内存。<br>volatile读的内存语义：当读一个volatile变量时，JMM会把该线程对应的本地内存置为无效。线程接下来将从主内存中读取共享变量。<br>为了实现volatile内存语义，JMM 会通过在指令中插入内存屏障来禁止特定类型的重排序（见下）（不同的vloatile执行环境，禁止重排序事项也不同，它并不是禁止所有重排序，而只是禁止部分重排序）</p>
+<p>也就是说：</p>
+<p>1线程A写一个volatile变量，实质上是线程A向接下来将要读这个volatile变量的某个线程发出了(其对共享变量所做修改的)消息。<br>2线程B读一个volatile变量，实质上是线程B接收了之前某个线程发出的(在写这个volatile变量之前对共享变量所做修改的)消息。<br>3线程A写一个volatile变量，随后线程B读这个volatile变量，这个过程实质上是线程A通过 主内存向线程B发送消息。</p>
+<p>————<br>释放锁内存语义：当线程释放锁时，JMM会把该线程对应的本地内存中的共享变量刷新到主内存中。<br>获取锁内存语义：当线程获取锁时，JMM会把该线程对应的本地内存置为无效。从而使得被监视器保护的临界区代码必须从主内存中读取共享变量。</p>
+<p>锁释放与volatile写有相同的内存语义;锁获取与volatile读有相同的内存语义。</p>
+<p>也就是说：<br>1线程A释放一个锁，实质上是线程A向接下来将要获取这个锁的某个线程发出了(线程A 对共享变量所做修改的)消息。<br>2线程B获取一个锁，实质上是线程B接收了之前某个线程发出的(在释放这个锁之前对共 享变量所做修改的)消息。<br>3线程A释放锁，随后线程B获取这个锁，这个过程实质上是线程A通过主内存向线程B发 送消息。</p>
+<h2 id="并发编程基础"><a href="#并发编程基础" class="headerlink" title="并发编程基础"></a>并发编程基础</h2><p>ReentrantLock是aqs框架的具体实现，其中用到了volatile和cas</p>
+<p><img src="//aisaka.cloud/程序语言/JAVA并发原理笔记/0.png" alt="0"></p>
+<p>更新变量都是靠cas，cas更新是原子操作<br>————<br>中断可以理解为线程的一个标识位属性，它表示一个运行中的线程是否被其他线程进行 了中断操作。中断好比其他线程对该线程打了个招呼，其他线程通过调用该线程的interrupt() 方法对其进行中断操作。<br>————</p>
+<p>等待/通知机制，是指一个线程A调用了对象O的wait()方法进入等待状态，而另一个线程B 调用了对象O的notify()或者notifyAll()方法，线程A收到通知后从对象O的wait()方法返回，进而 执行后续操作。上述两个线程通过对象O来完成交互，而对象上的wait()和notify/notifyAll()的 关系就如同开关信号一样，用来完成等待方和通知方之间的交互工作。<br>使用wait()、notify()和notifyAll()时需要先对调用对象加锁。<br>notify()或notifyAll()方法调用后，等待线程依旧不会从wait()返回，需要调用notify()或 notifAll()的线程释放锁之后，等待线程才有机会从wait()返回。<br>wait时候就已经释放锁了！然后就等通知了，等到通知之后，再重新获取到锁继续执行！<br>流程：WaitThread首先获取了对象的锁，然后调用对象的wait()方法，从而放弃了锁 并进入了对象的等待队列WaitQueue中，进入等待状态。由于WaitThread释放了对象的锁，NotifyThread随后获取了对象的锁，并调用对象的notify()方法，将WaitThread从WaitQueue移到 SynchronizedQueue中，此时WaitThread的状态变为阻塞状态。NotifyThread释放了锁之后， WaitThread再次获取到锁并从wait()方法返回继续执行。</p>
+<p>等待/通知机制依托于同步机制，其目的就是确保等待线程从wait()方法返回时能够感知到通知线程对变量做出的修改。<br>————<br>可以使用管道来进行线程数据传输<br>PipedOutputStream、PipedInputStream、PipedReader和PipedWriter<br>PipedWriter out = new PipedWriter();<br>PipedReader in = new PipedReader();<br>out.connect(in);<br>// 将输出流和输入流进行连接，否则在使用时会抛出IOException out.connect(in);</p>
+<p>如何传入对象：<br>static class Print implements Runnable {<br>      private PipedReader in;<br>      public Print(PipedReader in) {<br>this.in = in; }<br>}<br>————</p>
+<p>一个线程A执行了thread.join()语句，其含义是:当前线程A等待thread线程终止之后才 从thread.join()返回</p>
+<p>—————<br>可以看到，线程池的本质就是使用了一个线程安全的工作队列连接工作者线程和客户端 线程，客户端线程将任务放入工作队列后便返回，而工作者线程则不断地从工作队列上取出 工作并执行。当工作队列为空时，所有的工作者线程均等待在工作队列上，当有客户端提交了 一个任务之后会通知任意一个工作者线程，随着大量的任务被提交，更多的工作者线程会被 唤醒。<br>—————</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>synchronized是基于jvm底层实现的数据同步（不属于AQS），lock是基于Java编写</p>
+<p>Lock锁（接口，implement之）是面向使用者的，它定义了使用者与锁交 互的接口(比如可以允许两个线程并行访问)，隐藏了实现细节;<br>AQS队列同步器（类，extends之）面向的是锁的实现者， 它简化了锁的实现方式。<strong>AQS是一个同步框架，它提供通用机制来原子性管理同步状态、阻塞和唤醒线程，以及维护被阻塞线程的队列。基于AQS实现的同步器包括:ReentrantLock、Semaphore、ReentrantReadWriteLock、 CountDownLatch和FutureTask。</strong><br>使用aqs通常声明了一个内部私有的继承于AQS的子类。</p>
+<p>锁和同步器很好地隔离了使用者和实现者所需关注的领域。<br>实现Lock的类：<br>ReentrantLock() 可重入锁<br>ReadWriteLock 读写锁<br>ReentrantReadWriteLock 可重入读写锁<br>StampedLock  读写锁中读不仅不阻塞读，同时也不应该阻塞写<br>这些既实现了Lock接口，在其内部的同步器也继承了AQS，使用了AQS自带的同步器来实现Lock接口，这样一来我们自定义一个Lock同步组件就方便很多，AQS给我们省了很多事情</p>
+<p>AQS 同步器内部对同步状态的管理：<br>1独占式同步状态获取与释放：acquireQueued方法。同步器维 护一个同步队列，获取状态失败的线程都会被加入到队列中并在队列中进行自旋;移出队列 (或停止自旋)的条件是前驱节点为头节点且成功获取了同步状态（这时候还没轮到次节点运行，等释放）。在释放同步状态时，同步 器调用tryRelease(int arg)方法释放同步状态，然后唤醒头节点的后继节点。（此为公平锁的前提下）<br>2共享式同步状态获取与释放：acquireShared方法。 共享式获取与独占式获取最主要的区别在于同一时刻能否有多个线程同时获取到同步状态（比如多读）<br>3独占式超时获取同步状态：基于1，很好理解<br>在AQS中，同步状态表示锁被一个线程重复获取的次数</p>
+<p>什么是可中断获取锁：在Java 5之前，当一 个线程获取不到锁而被阻塞在synchronized之外时，对该线程进行中断操作，此时该线程的中 断标志位会被修改，但线程依旧会阻塞在synchronized上，等待着获取锁。在Java 5中，同步器 提供了acquireInterruptibly(int arg)方法，这个方法在等待获取同步状态时，如果当前线程被中 断，会立刻返回，并抛出InterruptedException。</p>
+<p>非公平锁，只要CAS设置同步状态成功，则表示当前线程获取了锁<br>公平锁需要维护一个队列，加入了同步队列中当前节点是否有前驱节点的判断，如果该 方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释 放锁之后才能继续获取锁。</p>
+<p>公平性锁保证了锁的获取按照FIFO原则，而代价是进行大量的线程切换，且需要维护一个队列。非公平性锁虽然可能造成线程“饥饿”，但极少的线程切换，保证了其更大的吞吐量。<br>（因为非公平锁中，刚释放锁的线程再次获取同步状态的几率会非常大，所以线程切换少。）</p>
+<p>————-</p>
+<p>如果当前线程在获取读锁时，写锁已被其他线程 获取，则进入等待状态。<br>写锁能降级成读锁（锁降级是指把持住(当前拥有的)写锁，再获取到 读锁，随后释放(先前拥有的)写锁的过程，中间有段过程会使得读锁等待，一但释放立即获取）<br>读锁不能升级（为了可见性）<br>写锁是一个支持重进入的排它锁<br>static ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();<br>static Lock r = rwl.readLock();<br>static Lock w = rwl.writeLock();</p>
+<p>—————<br>任意一个Java对象，都拥有一组监视器方法(定义在java.lang.Object上)，主要包括wait()、 wait(long timeout)、notify()以及notifyAll()方法，这些方法与synchronized同步关键字配合，可以 实现等待/通知模式。Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等 待/通知模式<br>获取一个Condition必须通过Lock的newCondition()方法<br>ConditionObject是同步器AbstractQueuedSynchronizer的内部类<br>一个锁上面可以生产多个Condition。<br>一个锁对应一个aqs同步器（底层由aqs实现），一个aqs同步器有一个同步队列和多个condition，每个condition包含一个等待队列。调用await方法时，相当于aqs同步队列的首节点移到该condition的等待队列中，signal则相反（signal被唤醒加入同步队列，不是立即执行）<br>等待队列是一个FIFO的队列，在队列中的每个节点都包含了一个线程引用，该线程就是 在Condition对象上等待的线程</p>
+<p>对比：<br>lock-aqs拥有一个同步队列和多个等待队列<br>sychnized-监视器模型是一个同步队列和一个等待队列<br>——————</p>
+<h2 id="并发容器和框架"><a href="#并发容器和框架" class="headerlink" title="并发容器和框架"></a>并发容器和框架</h2><p>ConcurrentLinkedQueue 可以非阻塞且安全<br>先是定位尾指针的位置，然后使用CAS算法能将入队节点设置成尾节点的next节点，如不成功则重定位尾节点并重试。</p>
+<p>——————<br>阻塞队列使用等待/通知模式实现来通知消费者/生产者队列可用的。通知模式，就是比如当生产者往满的队列里添加元素时会阻塞住生产者，当消费者消费了一个队列中的元素后，会通知生产者当前队列可用。<br>比如ArrayBlockingQueue使用了Condition来实现，使用await，signal方法</p>
+<p>——————</p>
+<p>Fork就是把一个大任务切分 为若干子任务并行的执行，Join就是合并这些子任务的执行结果，最后得到这个大任务的结 果。join和fork都是thread的方法<br>先分割任务，再合并任务<br>eg：<br>CountTask leftTask = new CountTask(start, middle);<br>CountTask rightTask = new CountTask(middle + 1, end);<br>// 执行子任务<br>leftTask.fork();<br>rightTask.fork();<br>// 等待子任务执行完，并得到其结果<br>int leftResult=leftTask.join();<br>int rightResult=rightTask.join();<br>// 合并子任务<br>sum = leftResult + rightResult;</p>
+<p>————-——</p>
+<p>工作窃取(work-stealing)算法是指某个线程从其他队列里窃取任务来执行<br>去其他线程的队列 里窃取一个任务来执行。而在这时它们会访问同一个队列，所以为了减少窃取任务线程和被 窃取任务线程之间的竞争，通常会使用双端队列，被窃取任务线程永远从双端队列的头部拿 任务执行，而窃取任务的线程永远从双端队列的尾部拿任务执行。</p>
+<p>——————</p>
+<h2 id="原子操作类和并发工具类"><a href="#原子操作类和并发工具类" class="headerlink" title="原子操作类和并发工具类"></a>原子操作类和并发工具类</h2><p>AtomicBoolean，AtomicInteger，AtomicLong都是通过cas实现<br>下同<br>AtomicIntegerArray，AtomicLongArray，AtomicReferenceArray:<br>AtomicReference原子更新引用<br>AstomicIntegerFieldUpdater 原子地更新某个类里的某个字段<br>——————<br>Exchanger(交换者)是一个用于线程间协作的工具类。Exchanger用于进行线程间的数据交 换。它提供一个同步点，在这个同步点，两个线程可以交换彼此的数据。这两个线程通过 exchange方法交换数据，如果第一个线程先执行exchange()方法，它会一直等待第二个线程也 执行exchange方法，当两个线程都到达同步点时，这两个线程就可以交换数据，将本线程生产 出来的数据传递给对方。</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池的意义：<br>第一:降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。<br>第二:提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。<br>第三:提高线程的可管理性。线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源， 还会降低系统的稳定性，使用线程池可以进行统一分配、调优和监控。但是，要做到合理利用 线程池，必须对其实现原理了如指掌。</p>
+<p>——————</p>
+<p><img src="//aisaka.cloud/程序语言/JAVA并发原理笔记/1.png" alt="1"></p>
+<p>队列排的都是竞争核心线程，非核心线程是队列满的时候创建执行（这样反而会导致队满后后来的线程先执行了，所以比如fix线程池，core和max线程数相同，即没有非核心线程）<br>核心线程（默认情况）下会一直存活在线程池中，即使这个核心线程啥也不干(闲置状态)，非核心线程闲置会被销毁（cache线程池的核心数就设置为0，max无界，这样就做到了都是非核心线程，闲置一段时间会被自动销毁，不来任务不创建）<br>（但CachedThreadPool的maximumPool是无界的也意味着，如果主线程提交任务的速度高于 maximumPool中线程处理任务的速度时，CachedThreadPool会不断创建新线程。极端情况下， CachedThreadPool会因为创建过多线程而耗尽CPU和内存资源。）</p>
+<p><img src="//aisaka.cloud/程序语言/JAVA并发原理笔记/2.png" alt="2"></p>
+<p>ThreadPoolExecutor执行execute方法，如图1234四个判断下分别执行的事情</p>
+<p>如果无法将任务加入BlockingQueue(队列已满)，则创建新的线程来处理任务，这里需要全局锁，很耗性能，所以才这么设计</p>
+<p>FixedThreadPool的corePoolSize和maximumPoolSize都被设置为创建FixedThreadPool时指定的参数nThreads。<br>——————</p>
+<p>向线程池提交任务：execute()方法用于提交不需要返回值的任务，submit()方法用于提交需要返回值的任务</p>
+<p>性质不同的任务可以用不同规模的线程池分开处理。CPU密集型任务应配置尽可能小的 线程，如配置Ncpu+1个线程的线程池。由于IO密集型任务线程并不是一直在执行任务，则应配 置尽可能多的线程，如2*Ncpu。混合型的任务，如果可以拆分，将其拆分成一个CPU密集型任务 和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐量 将高于串行执行的吞吐量。如果这两个任务执行时间相差太大，则没必要进行分解。<br>依赖数据库连接池的任务属于io密集型，因为线程提交SQL后需要等待数据库返回结果，等待的时间越 长，则CPU空闲时间就越长，那么线程数应该设置得越大，这样才能更好地利用CPU。<br>优先级不同的任务可以使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高 的任务先执行。<br>——————</p>
+<p>FixedThreadPool和SingleThreadExecutor使用无界队列LinkedBlockingQueue作为线程池的 工作队列。<br>CachedThreadPool使用没有容量的SynchronousQueue作为线程池的工作队列（SynchronousQueue是一个没有容量的阻塞队列。每个插入操作必须等待另一 个线程的对应移除操作）<br>ScheduledThreadPoolExecutor 使用DelayQueue作为任务队列</p>
+<p>——————</p>
+<h2 id="Excutor框架"><a href="#Excutor框架" class="headerlink" title="Excutor框架"></a>Excutor框架</h2><p>Excutor框架是ThreadPoolExcutor的祖师爷<br>应用程序通过Executor框架控制上层的调度;而下层的调度由操作系统 内核控制，下层的调度不受应用程序的控制。</p>
+<p><img src="//aisaka.cloud/程序语言/JAVA并发原理笔记/3.png" alt="3"></p>
+<p><img src="//aisaka.cloud/程序语言/JAVA并发原理笔记/4.png" alt="4"></p>
+<p>ThreadPoolExecutor执行execute方法，如图1234四个判断下分别执行的事情</p>
+<p>如果无法将任务加入BlockingQueue(队列已满)，则创建新的线程来处理任务，这里需要全局锁，很耗性能，所以才这么设计</p>
+<p>FixedThreadPool的corePoolSize和maximumPoolSize都被设置为创建FixedThreadPool时指定的参数nThreads。<br>——————</p>
+<p>向线程池提交任务：execute()方法用于提交不需要返回值的任务，submit()方法用于提交需要返回值的任务</p>
+<p>性质不同的任务可以用不同规模的线程池分开处理。CPU密集型任务应配置尽可能小的 线程，如配置Ncpu+1个线程的线程池。由于IO密集型任务线程并不是一直在执行任务，则应配 置尽可能多的线程，如2*Ncpu。混合型的任务，如果可以拆分，将其拆分成一个CPU密集型任务 和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐量 将高于串行执行的吞吐量。如果这两个任务执行时间相差太大，则没必要进行分解。<br>依赖数据库连接池的任务属于io密集型，因为线程提交SQL后需要等待数据库返回结果，等待的时间越 长，则CPU空闲时间就越长，那么线程数应该设置得越大，这样才能更好地利用CPU。<br>优先级不同的任务可以使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高 的任务先执行。<br>——————</p>
+<p>FixedThreadPool和SingleThreadExecutor使用无界队列LinkedBlockingQueue作为线程池的 工作队列。<br>CachedThreadPool使用没有容量的SynchronousQueue作为线程池的工作队列（SynchronousQueue是一个没有容量的阻塞队列。每个插入操作必须等待另一 个线程的对应移除操作）<br>ScheduledThreadPoolExecutor 使用DelayQueue作为任务队列</p>
+<p>——————<br>Excutor框架是ThreadPoolExcutor的祖师爷<br>应用程序通过Executor框架控制上层的调度;而下层的调度由操作系统 内核控制，下层的调度不受应用程序的控制。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>AQS框架的细节以后需要更多了解（源码）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    aisaka
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://aisaka.cloud/程序语言/JAVA并发原理笔记/" title="JAVA并发原理笔记">https://aisaka.cloud/程序语言/JAVA并发原理笔记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/程序语言/关于线程调度与并发、重量级锁的一些理解/" rel="next" title="关于CPU线程调度与并发、JAVA重量级锁的一些理解">
+                <i class="fa fa-chevron-left"></i> 关于CPU线程调度与并发、JAVA重量级锁的一些理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/日记/夏至/" rel="prev" title="5月5日，夏至">
+                5月5日，夏至 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/gg.jpg" alt="aisaka">
+            
+              <p class="site-author-name" itemprop="name">aisaka</p>
+              <p class="site-description motion-element" itemprop="description">心情、思考、时光</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">225</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://realneo.me/" title="question" target="_blank">question</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://hotalin.51vip.biz:100" title="hotalin" target="_blank">hotalin</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bilibili.com/" title="bilibili" target="_blank">bilibili</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mikanani.me" title="蜜柑计划" target="_blank">蜜柑计划</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leafjame.github.io" title="北宸" target="_blank">北宸</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lonelyi.cn" title="十一" target="_blank">十一</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://tding.top" title="小丁" target="_blank">小丁</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/alipayqrrhdbqsx9/gmkcgo/kpfvg7" title="zyg" target="_blank">zyg</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+
+
+
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA并发机制底层原理"><span class="nav-number">1.</span> <span class="nav-text">JAVA并发机制底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA内存模型：JMM"><span class="nav-number">2.</span> <span class="nav-text">JAVA内存模型：JMM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发编程基础"><span class="nav-number">3.</span> <span class="nav-text">并发编程基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">4.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发容器和框架"><span class="nav-number">5.</span> <span class="nav-text">并发容器和框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子操作类和并发工具类"><span class="nav-number">6.</span> <span class="nav-text">原子操作类和并发工具类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">7.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Excutor框架"><span class="nav-number">8.</span> <span class="nav-text">Excutor框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">9.</span> <span class="nav-text">后续</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aisaka</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'd2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz',
+        appKey: 'OLf7QaP1oTtqKhulLHuajYKu',
+        placeholder: '(..•˘_˘•..)已开启邮件通知功能，填写邮箱后有新回复就可以收到了哦~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz", "OLf7QaP1oTtqKhulLHuajYKu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
