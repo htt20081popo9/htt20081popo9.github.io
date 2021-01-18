@@ -5879,8 +5879,8 @@ s.t.\quad \sum_{i=1}^N\alpha_iy_i=0</script><script type="math/tex; mode=display
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>矩阵论</tag>
         <tag>SVM</tag>
+        <tag>矩阵论</tag>
       </tags>
   </entry>
   <entry>
@@ -6119,8 +6119,8 @@ s.t.\quad y_i(w·x_i+b)≥1-\epsilon_i\quad,i=1,2,\cdots,N</script><script type=
         <category>机器学习与统计学习</category>
       </categories>
       <tags>
-        <tag>SVM</tag>
         <tag>凸优化</tag>
+        <tag>SVM</tag>
       </tags>
   </entry>
   <entry>
@@ -8220,9 +8220,9 @@ J_L(\hat{x})=\frac{\partial L(f(x_i,I_{p^i};\theta),\hat{y})}{\partial \hat{x}}<
         <category>论文阅读笔记</category>
       </categories>
       <tags>
-        <tag>GAN</tag>
         <tag>对抗样本</tag>
         <tag>智能对抗</tag>
+        <tag>GAN</tag>
       </tags>
   </entry>
   <entry>
