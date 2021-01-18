@@ -489,16 +489,371 @@
         <div class="entry-content">
           <h2 id="ROOT-DNS"><a href="#ROOT-DNS" class="headerlink" title="ROOT_DNS"></a>ROOT_DNS</h2><p><em>根服务器的逻辑代码</em></p>
  <a id="more"></a>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRroot.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+
+#define RRFILE "RRroot.txt"
+
+int main(int argc, char *argv[]) 
+{
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in addr;
+    addr.sin_family =AF_INET;
+    addr.sin_port =htons(SERVER_PORT);
+    addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);   
+
+    bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+    struct sockaddr_in cli;
+    socklen_t len=sizeof(cli);
+    while(1)   
+    {
+        recvfrom(sockfd,recvbuf,sizeof(recvbuf),0,(struct sockaddr*)&cli,&len);
+        printf("\n收到本地服务器请求：\n");
+        //读取，构造包，得到需要找的域名和类型
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        print_header(recv_header);    
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        decode_query_section(query_section,recvbuf,&recvBufferPointer);
+        print_query_section(query_section);      
+
+        //开始查找与写缓冲
+        //调用初次搜索函数
+        int over = firstFindRR(query_section,RRFILE,sendbuf,&sendBufferPointer);
+
+        //第一次搜索没有查到结果,开始查询下一个该去哪个服务器
+        if(over==0) 
+        {
+            printf("\n本服务器没有找到\n");
+            loopFindNS(query_section,RRFILE,sendbuf,&sendBufferPointer);
+        }
+        //发送
+        sendto(sockfd,sendbuf,sendBufferPointer,0,(struct sockaddr*)&cli,len);  
+        //缓冲区重置
+        sendBufferPointer=0;    
+        recvBufferPointer=0;
+        memset(sendbuf,0,512);
+        memset(recvbuf,0,512);
+    }
+    close(sockfd);
+}
+</code></pre>
 <h2 id="DNS1"><a href="#DNS1" class="headerlink" title="DNS1"></a>DNS1</h2><p><em>第一级域名解析服务器主逻辑，以下四个中间级服务器逻辑都差不多</em></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVER_IP <span class="meta-string">"127.0.0.4"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRL1.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+
+#define SERVER_IP "127.0.0.4"
+#define RRFILE "RRL1.txt"
+
+int main(int argc, char *argv[]) 
+{
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in addr;
+    addr.sin_family =AF_INET;
+    addr.sin_port =htons(SERVER_PORT);
+    addr.sin_addr.s_addr=inet_addr(SERVER_IP);   
+
+    bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+    struct sockaddr_in cli;
+    socklen_t len=sizeof(cli);
+    while(1)   
+    {
+        recvfrom(sockfd,recvbuf,sizeof(recvbuf),0,(struct sockaddr*)&cli,&len);
+        printf("\n收到本地服务器请求：\n");
+        //读取，构造包，得到需要找的域名和类型
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        print_header(recv_header);    
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        decode_query_section(query_section,recvbuf,&recvBufferPointer);
+        print_query_section(query_section);      
+
+        //开始查找与写缓冲
+        //调用初次搜索函数
+        int over = firstFindRR(query_section,RRFILE,sendbuf,&sendBufferPointer);
+
+        //第一次搜索没有查到结果,开始查询下一个该去哪个服务器
+        if(over==0) 
+        {
+            printf("\n本服务器没有找到\n");
+            loopFindNS(query_section,RRFILE,sendbuf,&sendBufferPointer);
+        }
+        //发送
+        sendto(sockfd,sendbuf,sendBufferPointer,0,(struct sockaddr*)&cli,len);  
+        //缓冲区重置
+        sendBufferPointer=0;    
+        recvBufferPointer=0;
+        memset(sendbuf,0,512);
+        memset(recvbuf,0,512);
+    }
+    close(sockfd);
+}
+</code></pre>
 <h2 id="DNS2"><a href="#DNS2" class="headerlink" title="DNS2"></a>DNS2</h2><p><em>第二级域名解析服务器主逻辑</em></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVER_IP <span class="meta-string">"127.0.0.5"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRL2.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+
+#define SERVER_IP "127.0.0.5"
+#define RRFILE "RRL2.txt"
+
+int main(int argc, char *argv[]) 
+{
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in addr;
+    addr.sin_family =AF_INET;
+    addr.sin_port =htons(SERVER_PORT);
+    addr.sin_addr.s_addr=inet_addr(SERVER_IP);   
+
+    bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+    struct sockaddr_in cli;
+    socklen_t len=sizeof(cli);
+    while(1)   
+    {
+        recvfrom(sockfd,recvbuf,sizeof(recvbuf),0,(struct sockaddr*)&cli,&len);
+        printf("\n收到本地服务器请求：\n");
+        //读取，构造包，得到需要找的域名和类型
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        print_header(recv_header);    
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        decode_query_section(query_section,recvbuf,&recvBufferPointer);
+        print_query_section(query_section);      
+
+        //开始查找与写缓冲
+        //调用初次搜索函数
+        int over = firstFindRR(query_section,RRFILE,sendbuf,&sendBufferPointer);
+
+        //第一次搜索没有查到结果,开始查询下一个该去哪个服务器
+        if(over==0) 
+        {
+            printf("\n本服务器没有找到\n");
+            loopFindNS(query_section,RRFILE,sendbuf,&sendBufferPointer);
+        }
+        //发送
+        sendto(sockfd,sendbuf,sendBufferPointer,0,(struct sockaddr*)&cli,len);  
+        //缓冲区重置
+        sendBufferPointer=0;    
+        recvBufferPointer=0;
+        memset(sendbuf,0,512);
+        memset(recvbuf,0,512);
+    }
+    close(sockfd);
+}
+</code></pre>
 <h2 id="DNS3"><a href="#DNS3" class="headerlink" title="DNS3"></a>DNS3</h2><p><em>第三级域名解析服务器主逻辑</em></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVER_IP <span class="meta-string">"127.0.0.6"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRL3.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+
+#define SERVER_IP "127.0.0.6"
+#define RRFILE "RRL3.txt"
+
+int main(int argc, char *argv[]) 
+{
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in addr;
+    addr.sin_family =AF_INET;
+    addr.sin_port =htons(SERVER_PORT);
+    addr.sin_addr.s_addr=inet_addr(SERVER_IP);   
+
+    bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+    struct sockaddr_in cli;
+    socklen_t len=sizeof(cli);
+    while(1)   
+    {
+        recvfrom(sockfd,recvbuf,sizeof(recvbuf),0,(struct sockaddr*)&cli,&len);
+        printf("\n收到本地服务器请求：\n");
+        //读取，构造包，得到需要找的域名和类型
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        print_header(recv_header);    
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        decode_query_section(query_section,recvbuf,&recvBufferPointer);
+        print_query_section(query_section);      
+
+        //开始查找与写缓冲
+        //调用初次搜索函数
+        int over = firstFindRR(query_section,RRFILE,sendbuf,&sendBufferPointer);
+
+        //第一次搜索没有查到结果,开始查询下一个该去哪个服务器
+        if(over==0) 
+        {
+            printf("\n本服务器没有找到\n");
+            loopFindNS(query_section,RRFILE,sendbuf,&sendBufferPointer);
+        }
+        //发送
+        sendto(sockfd,sendbuf,sendBufferPointer,0,(struct sockaddr*)&cli,len);  
+        //缓冲区重置
+        sendBufferPointer=0;    
+        recvBufferPointer=0;
+        memset(sendbuf,0,512);
+        memset(recvbuf,0,512);
+    }
+    close(sockfd);
+}
+</code></pre>
 <h2 id="DNS4"><a href="#DNS4" class="headerlink" title="DNS4"></a>DNS4</h2><p><em>第四级域名解析服务器主逻辑</em></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVER_IP <span class="meta-string">"127.0.0.7"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RRFILE <span class="meta-string">"RRL4.txt"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	addr.sin_family =AF_INET;</span><br><span class="line">	addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">	addr.sin_addr.s_addr=inet_addr(SERVER_IP);   </span><br><span class="line">	</span><br><span class="line">	bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">cli</span>;</span></span><br><span class="line">	<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(cli);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)   </span><br><span class="line">	&#123;</span><br><span class="line">		recvfrom(sockfd,recvbuf,<span class="keyword">sizeof</span>(recvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;cli,&amp;len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n收到本地服务器请求：\n"</span>);</span><br><span class="line">		<span class="comment">//读取，构造包，得到需要找的域名和类型</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		decode_query_section(query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		print_query_section(query_section);      </span><br><span class="line">		</span><br><span class="line">		<span class="comment">//开始查找与写缓冲</span></span><br><span class="line">		<span class="comment">//调用初次搜索函数</span></span><br><span class="line">		<span class="keyword">int</span> over = firstFindRR(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//第一次搜索没有查到结果,开始查询下一个该去哪个服务器</span></span><br><span class="line">		<span class="keyword">if</span>(over==<span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n本服务器没有找到\n"</span>);</span><br><span class="line">			loopFindNS(query_section,RRFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//发送</span></span><br><span class="line">		sendto(sockfd,sendbuf,sendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;cli,len);  </span><br><span class="line">		<span class="comment">//缓冲区重置</span></span><br><span class="line">		sendBufferPointer=<span class="number">0</span>;    </span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	close(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参数与设置"><a href="#参数与设置" class="headerlink" title="参数与设置"></a>参数与设置</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOCAL_SERVER_IP <span class="meta-string">"127.0.0.2"</span></span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+
+#define SERVER_IP "127.0.0.7"
+#define RRFILE "RRL4.txt"
+
+int main(int argc, char *argv[]) 
+{
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+    struct sockaddr_in addr;
+    addr.sin_family =AF_INET;
+    addr.sin_port =htons(SERVER_PORT);
+    addr.sin_addr.s_addr=inet_addr(SERVER_IP);   
+
+    bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+    struct sockaddr_in cli;
+    socklen_t len=sizeof(cli);
+    while(1)   
+    {
+        recvfrom(sockfd,recvbuf,sizeof(recvbuf),0,(struct sockaddr*)&cli,&len);
+        printf("\n收到本地服务器请求：\n");
+        //读取，构造包，得到需要找的域名和类型
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        print_header(recv_header);    
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        decode_query_section(query_section,recvbuf,&recvBufferPointer);
+        print_query_section(query_section);      
+
+        //开始查找与写缓冲
+        //调用初次搜索函数
+        int over = firstFindRR(query_section,RRFILE,sendbuf,&sendBufferPointer);
+
+        //第一次搜索没有查到结果,开始查询下一个该去哪个服务器
+        if(over==0) 
+        {
+            printf("\n本服务器没有找到\n");
+            loopFindNS(query_section,RRFILE,sendbuf,&sendBufferPointer);
+        }
+        //发送
+        sendto(sockfd,sendbuf,sendBufferPointer,0,(struct sockaddr*)&cli,len);  
+        //缓冲区重置
+        sendBufferPointer=0;    
+        recvBufferPointer=0;
+        memset(sendbuf,0,512);
+        memset(recvbuf,0,512);
+    }
+    close(sockfd);
+}
+</code></pre>
+<h2 id="参数与设置"><a href="#参数与设置" class="headerlink" title="参数与设置"></a>参数与设置</h2><pre class=" language-lang-c"><code class="language-lang-c">#define LOCAL_SERVER_IP "127.0.0.2"
+</code></pre>
 
         </div>
         <!-- .entry-content -->

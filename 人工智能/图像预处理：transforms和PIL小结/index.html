@@ -508,7 +508,35 @@
 <p>这里的<code>func</code><strong>可以是自己定义的函数，也可以直接调用表达式</strong>比如<code>transforms.Lambda(lambda img:img)</code>(什么都没处理，返回了自己本身)</p>
 <p>在transforms库中存在很多官方给的预处理工具，但是如果需要自己定义，比如截取图像指定区域，则需要自己用Lambda函数封装一个处理函数</p>
 <p>eg:自己定义一个截取图片的crop函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__crop</span><span class="params">(img, pos, size)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param img: 输入的图像</span></span><br><span class="line"><span class="string">    :param pos: 图像截取的位置,类型为元组，包含(x, y)</span></span><br><span class="line"><span class="string">    :param size: 图像截取的大小</span></span><br><span class="line"><span class="string">    :return: 返回截取后的图像</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    ow, oh = img.size</span><br><span class="line">    x1, y1 = pos</span><br><span class="line">    tw = th = size</span><br><span class="line">    <span class="comment"># 有足够的大小截取</span></span><br><span class="line">    <span class="comment"># img.crop坐标表示 (left, upper, right, lower)</span></span><br><span class="line">    <span class="keyword">if</span> (ow &gt; tw <span class="keyword">or</span> oh &gt; th):</span><br><span class="line">        <span class="keyword">return</span> img.crop((x1, y1, x1+tw, y1+th))</span><br><span class="line">    <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后使用transforms.Lambda封装其为transforms策略</span></span><br><span class="line"><span class="comment"># 然后定义新的transforms为</span></span><br><span class="line">normalize = transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">data_transforms = transforms.Compose([</span><br><span class="line">    <span class="comment">#注意这里的用法</span></span><br><span class="line">    transforms.Lambda(<span class="keyword">lambda</span> img: __crop(img, (<span class="number">5</span>,<span class="number">5</span>), <span class="number">224</span>)),</span><br><span class="line">    transforms.RandomHorizontalFlip(),  <span class="comment"># 随机水平翻转给定的PIL.Image,翻转概率为0.5</span></span><br><span class="line">    transforms.ToTensor(),  <span class="comment"># 转成Tensor格式，大小范围为[0,1]</span></span><br><span class="line">    normalize</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">from torchvision import transforms
+
+def __crop(img, pos, size):
+    """
+    :param img: 输入的图像
+    :param pos: 图像截取的位置,类型为元组，包含(x, y)
+    :param size: 图像截取的大小
+    :return: 返回截取后的图像
+    """
+    ow, oh = img.size
+    x1, y1 = pos
+    tw = th = size
+    # 有足够的大小截取
+    # img.crop坐标表示 (left, upper, right, lower)
+    if (ow > tw or oh > th):
+        return img.crop((x1, y1, x1+tw, y1+th))
+    return img
+
+# 然后使用transforms.Lambda封装其为transforms策略
+# 然后定义新的transforms为
+normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+data_transforms = transforms.Compose([
+    #注意这里的用法
+    transforms.Lambda(lambda img: __crop(img, (5,5), 224)),
+    transforms.RandomHorizontalFlip(),  # 随机水平翻转给定的PIL.Image,翻转概率为0.5
+    transforms.ToTensor(),  # 转成Tensor格式，大小范围为[0,1]
+    normalize
+])
+</code></pre>
 <p>Ⅳ. <strong>逆过程</strong></p>
 <p><code>transforms.Normalize()</code>的逆过程即<strong>原公式求反函数</strong></p>
 <p>原公式$Normalize = \frac{(x-(-mean))}{std}$的反函数即为</p>
@@ -531,28 +559,67 @@
 <li><p>注意<code>open</code>: 打开并识别所提供的图像文件。不过，使用这函数的时候，<strong>真正的图像数据在你进行数据处理之前并没有被读取出来</strong>。可使用 <code>load</code>函数进行强制加载。 mode 参数可以省略，但它只能是 “r” 值。</p>
 </li>
 <li><p>如果想要迭代打开多张图片每张都显示，则必须</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.imshow(img)</span><br><span class="line"><span class="comment">#多一句show</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python">plt.imshow(img)
+#多一句show
+plt.show()
+</code></pre>
 </li>
 </ul>
 <ul>
 <li><p>也可以使用<code>PIL.Image.open</code>加载图片</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(iMagePath)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">from PIL import Image
+img = Image.open(iMagePath)
+</code></pre>
 </li>
 <li><p>注意读取单个图片进入神经网络训练的时候</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imga = torch.unsqueeze(imga, <span class="number">0</span>)</span><br><span class="line">imga = imga.cuda()</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">imga = torch.unsqueeze(imga, 0)
+imga = imga.cuda()
+</code></pre>
 </li>
 </ul>
 <p>Ⅱ. plt.imshow()不能同时显示多张图片<br>如果想要显示多张，<strong>可以在每个plt.imshow()后面加一个plt.show()</strong></p>
 <p>Ⅲ. 图片处理部分</p>
-   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   <span class="comment">#resize并不会改变长宽比例！ 重要问题1</span></span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>),   <span class="comment">#resize后要crop！</span></span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#然后可以用这个来处理单个PIL图片</span></span><br><span class="line">img = transform(img)</span><br><span class="line"><span class="comment">#这样即应用了变换</span></span><br><span class="line"><span class="comment">#也可以用以下这个来处理数据集</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">   transform=transforms.Compose(
+       [transforms.Resize(256),   #resize并不会改变长宽比例！ 重要问题1
+        transforms.CenterCrop(256),   #resize后要crop！
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), 
+        ])
+   #然后可以用这个来处理单个PIL图片
+   img = transform(img)
+   #这样即应用了变换
+   #也可以用以下这个来处理数据集
+   trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)
+</code></pre>
 <p>   Ⅳ. 应用图片数据预处理 transforms模块</p>
 <p>   生成的transforms直接作用在PIL上</p>
-   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># 比如这段定义了变换之后</span></span><br><span class="line">  transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),   </span><br><span class="line">     transforms.CenterCrop(<span class="number">256</span>), </span><br><span class="line">     transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)), </span><br><span class="line">     ])</span><br><span class="line"><span class="comment">#如果是用loader来加载的话就是</span></span><br><span class="line">trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)</span><br><span class="line"><span class="comment">#如果是直接应用到一个图片上的话就是</span></span><br><span class="line">img = Image.open(picPath)</span><br><span class="line">imga = transform(img)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">    # 比如这段定义了变换之后
+     transform=transforms.Compose(
+       [transforms.Resize(256),   
+        transforms.CenterCrop(256), 
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), 
+        ])
+   #如果是用loader来加载的话就是
+   trainset = torchvision.datasets.ImageFolder(train_dir, transform=transform)
+   #如果是直接应用到一个图片上的话就是
+   img = Image.open(picPath)
+   imga = transform(img)
+</code></pre>
 <p>   Ⅴ. resize与toTensor的先后顺序</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">transform=transforms.Compose(</span><br><span class="line">    [transforms.Resize(<span class="number">256</span>),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">     transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)),</span><br><span class="line">     ])</span><br><span class="line"><span class="comment"># 这里面的变换是有顺序的！</span></span><br><span class="line"><span class="comment"># transforms.Resize()是图片变换，是作用在PIL.Images上的！所以一定要在ToTensor之前！</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">transform=transforms.Compose(
+    [transforms.Resize(256),
+    transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+     ])
+# 这里面的变换是有顺序的！
+# transforms.Resize()是图片变换，是作用在PIL.Images上的！所以一定要在ToTensor之前！
+</code></pre>
 <p>   <strong>图片变换》ToTensor》归一化</strong><br>   <code>transforms.Resize()</code> works on <code>PIL.Images</code>, so just swap the order of your transformations and your code should run.<br>   否则会报错TypeError: img should be PIL Image. Got <class 'torch.tensor'=""></class></p>
 <p>Ⅵ. resize和crop的区别<br>resize并不会改变长宽比例！是等比缩放的<br>crop是在图中挖出一部分（裁剪） 这个才会改变比例！<br><strong>resize后要crop！</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">transforms.Resize(<span class="number">256</span>)</span><br><span class="line">transforms.CenterCrop(<span class="number">256</span>)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">transforms.Resize(256)
+transforms.CenterCrop(256)
+</code></pre>
 <p>crop 有很多种方式 待学习<br>crop和resize的作用范围都是PIL而不是tensor</p>
 <h2 id="ImageFolder"><a href="#ImageFolder" class="headerlink" title="ImageFolder"></a>ImageFolder</h2><p>图片数据集定义<br>   <code>trainset = torchvision.datasets.ImageFolder(root=train_dir)</code><br>   train_dir中要有子文件夹！ 按照子文件夹读取标签！</p>
 <p>   <strong>imageFolder打标签的问题：</strong>和文件夹的顺序有关<br>   【按照各子文件夹的顺序打上0.1.2….  且是刷新后的顺序！ 所以最好是直接0,1,2,3给子文件夹命名，自己清楚里面代表的是啥就是了！】<br>   所以如果说两个文件夹内的子文件夹都是一样的话，相同分类打的标签就是一样的</p>

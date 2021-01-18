@@ -527,24 +527,88 @@ drop掉1后就变成
 </li>
 <li><p><code>feaMatrix[:,&#39;a&#39;]</code>等效于<code>feaMatrix.a</code></p>
 </li>
-<li><p>DataFrame.values</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">values是DataFrame的一个特殊属性，得到一个array包含每一行的值(一个list)</span><br><span class="line"></span><br><span class="line">columns和rows也是DF的特殊属性，分布得到Index类型的列索引和行索引</span><br><span class="line"></span><br><span class="line">如果feaMatrix.columns.values则得到array类型的列索引列表和行索引列表</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;feaMatrix.columns.values</span><br><span class="line">array([<span class="string">'a'</span>, <span class="string">'b'</span>], dtype=object)</span><br></pre></td></tr></table></figure>
+<li><p>DataFrame.values<br>```python<br>values是DataFrame的一个特殊属性，得到一个array包含每一行的值(一个list)</p>
+<p>columns和rows也是DF的特殊属性，分布得到Index类型的列索引和行索引</p>
+<p>如果feaMatrix.columns.values则得到array类型的列索引列表和行索引列表</p>
 </li>
+</ol>
+<pre><code>&gt;&gt;feaMatrix.columns.values
+array([&#39;a&#39;, &#39;b&#39;], dtype=object)
+
+```
+</code></pre><ol>
 <li><p><strong>切片和range都是左闭右开</strong>！！！！！</p>
 </li>
 <li><p>切片的时候 行用：而列不能用：</p>
 </li>
 <li><p>矩阵合并<br>可以用merge和append，都属于pandas库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pd.merge(left, right, how=&apos;inner&apos;, on=None, left_on=None, right_on=None,</span><br><span class="line">left_index=False, right_index=False, sort=True,</span><br><span class="line">suffixes=(&apos;_x&apos;, &apos;_y&apos;), copy=True, indicator=False)</span><br></pre></td></tr></table></figure>
-<p>left︰ 对象<br>right︰ 另一个对象<br>on︰ 要加入的列 （名称）。必须在左、 右综合对象中找到。如果不能通过 left_index 和 right_index 是假，将推断 DataFrames 中的列的交叉点为连接键<br>left_on︰ 从左边的综合使用作为键列。可以是列名或数组的长度等于长度综合<br>right_on︰ 从正确的综合，以用作键列。可以是列名或数组的长度等于长度综合<br>left_index︰ 如果为 True，则使用索引 （行标签） 从左综合作为其联接键。在与多重 （层次） 的综合，级别数必须匹配联接键从右综合的数目<br>right_index︰ 相同用法作为正确综合 left_index<br>how︰ 之一 ‘左’，’右’，’外在’、 ‘内部’。默认为内部。每个方法的更详细说明请参阅︰<br>sort︰ 综合通过联接键按字典顺序对结果进行排序。默认值为 True，设置为 False将提高性能极大地在许多情况下<br>suffixes︰ 字符串后缀并不适用于重叠列的元组。默认值为 (‘_x’，’_y’)。<br>copy︰ 即使重新索引是不必要总是从传递的综合对象，复制的数据 （默认值True）。在许多情况下不能避免，但可能会提高性能 / 内存使用情况。可以避免复制上述案件有些病理但尽管如此提供此选项。<br>indicator︰ 将列添加到输出综合呼吁 _merge 与信息源的每一行。_merge 是绝对类型，并对观测其合并键只出现在 ‘左’ 的综合，观测其合并键只会出现在 ‘正确’ 的综合，和两个如果观察合并关键发现在两个 right_only left_only 的值。<br>eg：<code>result = pd.merge(left, right, how=&#39;outer&#39;, on=[&#39;key1&#39;, &#39;key2&#39;])</code></p>
+<pre><code>pd.merge(left, right, how=&#39;inner&#39;, on=None, left_on=None, right_on=None,
+left_index=False, right_index=False, sort=True,
+suffixes=(&#39;_x&#39;, &#39;_y&#39;), copy=True, indicator=False)
+</code></pre><p>left︰ 对象<br>right︰ 另一个对象<br>on︰ 要加入的列 （名称）。必须在左、 右综合对象中找到。如果不能通过 left_index 和 right_index 是假，将推断 DataFrames 中的列的交叉点为连接键<br>left_on︰ 从左边的综合使用作为键列。可以是列名或数组的长度等于长度综合<br>right_on︰ 从正确的综合，以用作键列。可以是列名或数组的长度等于长度综合<br>left_index︰ 如果为 True，则使用索引 （行标签） 从左综合作为其联接键。在与多重 （层次） 的综合，级别数必须匹配联接键从右综合的数目<br>right_index︰ 相同用法作为正确综合 left_index<br>how︰ 之一 ‘左’，’右’，’外在’、 ‘内部’。默认为内部。每个方法的更详细说明请参阅︰<br>sort︰ 综合通过联接键按字典顺序对结果进行排序。默认值为 True，设置为 False将提高性能极大地在许多情况下<br>suffixes︰ 字符串后缀并不适用于重叠列的元组。默认值为 (‘_x’，’_y’)。<br>copy︰ 即使重新索引是不必要总是从传递的综合对象，复制的数据 （默认值True）。在许多情况下不能避免，但可能会提高性能 / 内存使用情况。可以避免复制上述案件有些病理但尽管如此提供此选项。<br>indicator︰ 将列添加到输出综合呼吁 _merge 与信息源的每一行。_merge 是绝对类型，并对观测其合并键只出现在 ‘左’ 的综合，观测其合并键只会出现在 ‘正确’ 的综合，和两个如果观察合并关键发现在两个 right_only left_only 的值。<br>eg：<code>result = pd.merge(left, right, how=&#39;outer&#39;, on=[&#39;key1&#39;, &#39;key2&#39;])</code></p>
 <p><strong>遇见大坑:</strong><br>合并中发生排列组合问题！<br>当两个要合并的dataframe里合并关键字有<strong>重名项</strong>的时候，将会发生排列组合！</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a  b</span><br><span class="line"><span class="number">1</span>  <span class="number">0</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">a  c  d</span><br><span class="line"><span class="number">1</span>  <span class="number">1</span>  <span class="number">5</span></span><br><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">6</span></span><br><span class="line">    </span><br><span class="line">按a合并，结果是</span><br><span class="line">a	b	c	d</span><br><span class="line"><span class="number">1</span>	<span class="number">0</span>	<span class="number">1</span>	<span class="number">5</span></span><br><span class="line"><span class="number">1</span>	<span class="number">0</span>	<span class="number">2</span>	<span class="number">6</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">1</span>	<span class="number">5</span></span><br><span class="line"><span class="number">1</span>	<span class="number">2</span>	<span class="number">2</span>	<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">a  b
+1  0
+1  2
+
+a  c  d
+1  1  5
+1  2  6
+
+按a合并，结果是
+a    b    c    d
+1    0    1    5
+1    0    2    6
+1    2    1    5
+1    2    2    6
+</code></pre>
 </li>
 <li><p>矩阵检索</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对于两个矩阵，找同一项的另一项，直接找速度非常慢。可以采用矩阵合并之后，再搜索</span></span><br><span class="line">df.loc[df.Filename==filename, <span class="string">'label'</span>] = <span class="number">1</span></span><br><span class="line">tencent[tencent.Filename == <span class="string">'5F94E5453CF23ACBF0256575D629A442'</span>]</span><br><span class="line"><span class="comment">#以上两种都可以找</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">#对于两个矩阵，找同一项的另一项，直接找速度非常慢。可以采用矩阵合并之后，再搜索
+df.loc[df.Filename==filename, 'label'] = 1
+tencent[tencent.Filename == '5F94E5453CF23ACBF0256575D629A442']
+#以上两种都可以找
+</code></pre>
 </li>
 <li><p>dataframe删除行或列</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">用法：DataFrame.drop(labels=<span class="keyword">None</span>,axis=<span class="number">0</span>, index=<span class="keyword">None</span>, columns=<span class="keyword">None</span>, inplace=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">在这里默认：axis=<span class="number">0</span>，指删除index，因此删除columns时要指定axis=<span class="number">1</span>；</span><br><span class="line"></span><br><span class="line">inplace=<span class="keyword">False</span>，默认该删除操作不改变原数据，而是返回一个执行删除操作后的新dataframe；</span><br><span class="line"></span><br><span class="line">inplace=<span class="keyword">True</span>，则会直接在原数据上进行删除操作，删除后就回不来了。</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">tencent = tencent.drop([tencent[tencent.Filename == <span class="string">'6A6709AA7F9DF362CF90D2DE063D1FFF'</span>].index.values[<span class="number">0</span>]],inplace=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里tencent[tencent.Filename == '6A6709AA7F9DF362CF90D2DE063D1FFF'] 找到了该行，.index.values[0]]取出了索引号，然后由drop函数去drop，inplace=True重建索引，然后赋值回给tencent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##################################</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;df = pd.DataFrame(np.arange(<span class="number">12</span>).reshape(<span class="number">3</span>,<span class="number">4</span>), columns=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>])</span><br><span class="line">&gt;&gt;&gt;df</span><br><span class="line"></span><br><span class="line">   A   B   C   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">1</span>   <span class="number">2</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">5</span>   <span class="number">6</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>   <span class="number">9</span>  <span class="number">10</span>  <span class="number">11</span></span><br><span class="line"><span class="comment">#Drop columns,下面两种方法等价</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop([<span class="string">'B'</span>, <span class="string">'C'</span>], axis=<span class="number">1</span>)</span><br><span class="line">   A   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">11</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop(columns=[<span class="string">'B'</span>, <span class="string">'C'</span>])</span><br><span class="line">   A   D</span><br><span class="line"><span class="number">0</span>  <span class="number">0</span>   <span class="number">3</span></span><br><span class="line"><span class="number">1</span>  <span class="number">4</span>   <span class="number">7</span></span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">11</span></span><br><span class="line"><span class="comment">#Drop rows by index</span></span><br><span class="line">&gt;&gt;&gt;df = df.drop([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">   A  B   C   D</span><br><span class="line"><span class="number">2</span>  <span class="number">8</span>  <span class="number">9</span>  <span class="number">10</span>  <span class="number">11</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">用法：DataFrame.drop(labels=None,axis=0, index=None, columns=None, inplace=False)
+
+在这里默认：axis=0，指删除index，因此删除columns时要指定axis=1；
+
+inplace=False，默认该删除操作不改变原数据，而是返回一个执行删除操作后的新dataframe；
+
+inplace=True，则会直接在原数据上进行删除操作，删除后就回不来了。
+
+eg:
+tencent = tencent.drop([tencent[tencent.Filename == '6A6709AA7F9DF362CF90D2DE063D1FFF'].index.values[0]],inplace=True)
+
+#这里tencent[tencent.Filename == '6A6709AA7F9DF362CF90D2DE063D1FFF'] 找到了该行，.index.values[0]]取出了索引号，然后由drop函数去drop，inplace=True重建索引，然后赋值回给tencent
+
+##################################
+
+>>>df = pd.DataFrame(np.arange(12).reshape(3,4), columns=['A', 'B', 'C', 'D'])
+>>>df
+
+   A   B   C   D
+0  0   1   2   3
+1  4   5   6   7
+2  8   9  10  11
+#Drop columns,下面两种方法等价
+>>>df = df.drop(['B', 'C'], axis=1)
+   A   D
+0  0   3
+1  4   7
+2  8  11
+>>>df = df.drop(columns=['B', 'C'])
+   A   D
+0  0   3
+1  4   7
+2  8  11
+#Drop rows by index
+>>>df = df.drop([0, 1])
+   A  B   C   D
+2  8  9  10  11
+</code></pre>
 </li>
 <li><p>对于<code>index</code>类型，可以用<code>index.values</code>转化为<code>array类型</code></p>
 </li>
@@ -553,15 +617,29 @@ drop掉1后就变成
 <li><p>JSON和字典<br>[JSON]和[字典]的标准格式是用<code>{}</code>包起来的内容！必须要有外面的{}<br><code>dict = eval(str)</code>可以将字符串转化为字典</p>
 </li>
 <li><p>inplace</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inplace参数的理解：</span><br><span class="line">修改一个对象时：</span><br><span class="line">inplace=<span class="keyword">True</span>：不创建新的对象，直接对原始对象进行修改；</span><br><span class="line">inplace=<span class="keyword">False</span>：对数据进行修改，创建并返回新的对象承载其修改结果。</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">inplace参数的理解：
+修改一个对象时：
+inplace=True：不创建新的对象，直接对原始对象进行修改；
+inplace=False：对数据进行修改，创建并返回新的对象承载其修改结果。
+</code></pre>
 </li>
 <li><p>python中list转字符串<br>命令：’’.join(list)<br>其中，引号中是字符之间的分割符，如“,”，“;”，“\t”等等<br>如：<br>list = [1, 2, 3, 4, 5]<br>‘’.join(list) 结果即为：12345<br>‘,’.join(list) 结果即为：1,2,3,4,5</p>
 </li>
 <li><p>json函数库</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">dict = json.loads(string)</span><br><span class="line"><span class="comment">#即可将string转换为json，其中里面的一切格式问题都不用管，json.loads全部解决</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">import json
+dict = json.loads(string)
+#即可将string转换为json，其中里面的一切格式问题都不用管，json.loads全部解决
+</code></pre>
 </li>
 <li><p>python分割<br>除了用<code>split</code>方法以外，还可以用正则表达式实现多规则分割</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">"Hello world!How are you?My friend.Tom"</span></span><br><span class="line">re.split(<span class="string">" !|\?|\."</span>, a)</span><br><span class="line">[<span class="string">'Hello'</span>, <span class="string">'world'</span>, <span class="string">'How'</span>, <span class="string">'are'</span>, <span class="string">'you'</span>, <span class="string">'My'</span>, <span class="string">'friend'</span>, <span class="string">'Tom'</span>]</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">但要注意，对? ( ) . 等字符分割的时候要转义，即要写 \. \( \) \?</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">import re
+a = "Hello world!How are you?My friend.Tom"
+re.split(" !|\?|\.", a)
+['Hello', 'world', 'How', 'are', 'you', 'My', 'friend', 'Tom']
+'''
+但要注意，对? ( ) . 等字符分割的时候要转义，即要写 \. \( \) \?
+'''
+</code></pre>
 </li>
 <li><p>append的时候勿忘<code>ignore_index = True</code> 否则索引就凉了！</p>
 </li>
@@ -582,10 +660,14 @@ drop掉1后就变成
 <li><p><code>list.append()</code><br>不需要a = a.append()</p>
 </li>
 <li><p>改变DATAFRAME的顺序</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">order = [<span class="string">'date'</span>, <span class="string">'time'</span>, <span class="string">'open'</span>, <span class="string">'high'</span>, <span class="string">'low'</span>, <span class="string">'close'</span>, <span class="string">'volumefrom'</span>, <span class="string">'volumeto'</span>]</span><br><span class="line">df = df[order]</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">order = ['date', 'time', 'open', 'high', 'low', 'close', 'volumefrom', 'volumeto']
+df = df[order]
+</code></pre>
 </li>
 <li><p>Dataframe遍历<br>不能用<code>for Line in DataFrame</code>来遍历！<br>要么用iloc index方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(df)):</span><br><span class="line">    <span class="keyword">print</span> df.iloc[i][<span class="string">'c1'</span>], df.iloc[i][<span class="string">'c2'</span>]</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">for i in range(0, len(df)):
+    print df.iloc[i]['c1'], df.iloc[i]['c2']
+</code></pre>
 <p>要么用iterrows（<a href="https://blog.csdn.net/ls13552912394/article/details/79349809）" target="_blank" rel="noopener">https://blog.csdn.net/ls13552912394/article/details/79349809）</a></p>
 </li>
 <li><p>排序不成功问题<br>问题：遇到排序问题，使用下面的语句对pandas的某列进行排序时,发现根本没排序成功。<br>bada_air.sort_value(by=’time’,ascending=False)<br>解决方案：这里牵扯到很重要的参数inplace,默认的inplace设置是False,并没有对本体进行覆盖，所以解决方法有两个：<br>1.设置本体覆盖，令inplace=True<br>bada_air.sort_value(by=’time’,ascending=False,inplace=True)<br>2.设置传值覆盖<br>bada_air=bada_air.sort_value(by=’time’,ascending=False)</p>
@@ -610,45 +692,183 @@ drop掉1后就变成
 <li><p><strong>重建索引</strong><br>df = df.reset_index(drop = True)</p>
 </li>
 <li><p><strong>修改DF某元素</strong>（最终选择方法二）<br>一。<br>一个大坑<br>在<strong>修改df元素</strong>的时候，iloc和loc有重大区别！<br>loc和iloc都可以进行切片，但是用<strong>iloc不可以修改切片中的元素！</strong><br><strong>loc可以修改切片中的元素！</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test.iloc[<span class="number">2</span>].c+=<span class="number">2</span>  <span class="comment">#用iloc</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">0</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br><span class="line"></span><br><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test.loc[<span class="number">2</span>].c+=<span class="number">2</span>  <span class="comment">#用loc</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">2</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">test =  pd.DataFrame({'a':[3,4,5,6],'b':[6,7,8,9]})
+test['c']=0
+test.iloc[2].c+=2  #用iloc
+test
+
+>>
+    a    b    c
+0    3    6    0
+1    4    7    0
+2    5    8    0
+3    6    9    0
+
+test =  pd.DataFrame({'a':[3,4,5,6],'b':[6,7,8,9]})
+test['c']=0
+test.loc[2].c+=2  #用loc
+test
+
+>>
+    a    b    c
+0    3    6    0
+1    4    7    0
+2    5    8    2
+3    6    9    0
+</code></pre>
 <p><strong>二。但是！！</strong> 在很多情况下 这样还是无法修改！！！！<br><strong>所以用这个方法！！</strong><br><strong>不用loc iloc 先选列索引 再选行索引！</strong><br><strong><code>test[&#39;c&#39;][2]+=2</code></strong>  <strong>统一使用此方法！</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">test =  pd.DataFrame(&#123;<span class="string">'a'</span>:[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],<span class="string">'b'</span>:[<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]&#125;)</span><br><span class="line">test[<span class="string">'c'</span>]=<span class="number">0</span></span><br><span class="line">test[<span class="string">'c'</span>][<span class="number">2</span>]+=<span class="number">2</span>  <span class="comment">#看这里！！！！！！！！！！！！！！！！</span></span><br><span class="line">test</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line">	a	b	c</span><br><span class="line"><span class="number">0</span>	<span class="number">3</span>	<span class="number">6</span>	<span class="number">0</span></span><br><span class="line"><span class="number">1</span>	<span class="number">4</span>	<span class="number">7</span>	<span class="number">0</span></span><br><span class="line"><span class="number">2</span>	<span class="number">5</span>	<span class="number">8</span>	<span class="number">2</span></span><br><span class="line"><span class="number">3</span>	<span class="number">6</span>	<span class="number">9</span>	<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">test =  pd.DataFrame({'a':[3,4,5,6],'b':[6,7,8,9]})
+test['c']=0
+test['c'][2]+=2  #看这里！！！！！！！！！！！！！！！！
+test
+
+>>
+    a    b    c
+0    3    6    0
+1    4    7    0
+2    5    8    2
+3    6    9    0
+</code></pre>
 </li>
 <li><p>在处理大批量数据时,如果需要先向df对象插入空列,在后期再填充空列中对应位置的元素,应优先考虑使用loc而不是iloc,因为前者的访问速度比后者快几十倍</p>
 </li>
 <li><p>dict排序<br><a href="https://www.cnblogs.com/dylan-wu/p/6041465.html" target="_blank" rel="noopener">https://www.cnblogs.com/dylan-wu/p/6041465.html</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dict = sorted(dict.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># items()将dict转化为迭代器，lambda正咋表达式，item[1]即为迭代器的第二项</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">dict = sorted(dict.items(),key=lambda item:item[1],reverse=True)
+# items()将dict转化为迭代器，lambda正咋表达式，item[1]即为迭代器的第二项
+</code></pre>
 </li>
+</ol>
+<ol>
 <li><p>判断nan</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">math.isnan(x) <span class="comment">#x得是float类型</span></span><br><span class="line"></span><br><span class="line">type(x) != float      <span class="comment">#用类型判断，因为nan属于float类型</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">math.isnan(x) #x得是float类型
+
+type(x) != float      #用类型判断，因为nan属于float类型
+</code></pre>
 </li>
 <li><p><strong>python取数据！ python搜索数据 重要总结！</strong><br><a href="https://www.jianshu.com/p/805f20ac6e06" target="_blank" rel="noopener">https://www.jianshu.com/p/805f20ac6e06</a></p>
 </li>
 <li><p>python搜索数据的时候 这种情况要用isin</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allDatasetApiCorpus[allDatasetApiCorpus[<span class="string">'Filename'</span>].isin(list)]</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">allDatasetApiCorpus[allDatasetApiCorpus['Filename'].isin(list)]
+</code></pre>
 </li>
 <li><p>Series可以直接与int比大小，等于对每一项比大小！</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">lis = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-3</span>]</span><br><span class="line">lis = pd.Series(lis)</span><br><span class="line">lis[lis&gt;<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>    <span class="number">1</span></span><br><span class="line"><span class="number">1</span>    <span class="number">2</span></span><br><span class="line"><span class="number">2</span>    <span class="number">3</span></span><br><span class="line">dtype: int64</span><br><span class="line"></span><br><span class="line">lis&gt;<span class="number">0</span></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">1</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">2</span>     <span class="keyword">True</span></span><br><span class="line"><span class="number">3</span>    <span class="keyword">False</span></span><br><span class="line"><span class="number">4</span>    <span class="keyword">False</span></span><br><span class="line"><span class="number">5</span>    <span class="keyword">False</span></span><br><span class="line">dtype: bool</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">eg:
+lis = [1,2,3,-1,-2,-3]
+lis = pd.Series(lis)
+lis[lis>0]
+
+>>
+0    1
+1    2
+2    3
+dtype: int64
+
+lis>0
+>>
+0     True
+1     True
+2     True
+3    False
+4    False
+5    False
+dtype: bool
+</code></pre>
 </li>
 <li><p>枚举 enumerate的用法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">lis = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">-3</span>]</span><br><span class="line"><span class="keyword">for</span> index, var <span class="keyword">in</span> enumerate(lis):</span><br><span class="line">    print(index,<span class="string">' '</span>,var)</span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line"><span class="number">0</span>   <span class="number">1</span></span><br><span class="line"><span class="number">1</span>   <span class="number">2</span></span><br><span class="line"><span class="number">2</span>   <span class="number">3</span></span><br><span class="line"><span class="number">3</span>   <span class="number">-1</span></span><br><span class="line"><span class="number">4</span>   <span class="number">-2</span></span><br><span class="line"><span class="number">5</span>   <span class="number">-3</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">lis = [1,2,3,-1,-2,-3]
+for index, var in enumerate(lis):
+    print(index,' ',var)
+
+>>
+0   1
+1   2
+2   3
+3   -1
+4   -2
+5   -3
+</code></pre>
 </li>
 <li><p>元组可以这样用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = (<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">s[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">s = (2,1)
+s[0]
+
+>>2
+</code></pre>
 </li>
 <li><p>转置<br><code>narray.T, dataframe.T</code></p>
 </li>
 <li><p>去重 <code>drop_duplicates()</code><br><code>drop_duplicates()</code>是去除重复行，要想去除重复列要先转置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DataFrame = DataFrame.drop_duplicates(subset=<span class="keyword">None</span>, keep=<span class="string">'first'</span>, inplace=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">subset : column label or sequence of labels, optional</span></span><br><span class="line"><span class="string">用来指定特定的列，默认所有列（指的是以哪些列为参考删除行，删的还是行）</span></span><br><span class="line"><span class="string">keep : &#123;‘first’, ‘last’, False&#125;, default ‘first’</span></span><br><span class="line"><span class="string">删除重复项并保留第一次出现的项</span></span><br><span class="line"><span class="string">inplace : boolean, default False</span></span><br><span class="line"><span class="string">是直接在原来数据上修改还是保留一个副本</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">DataFrame = DataFrame.drop_duplicates(subset=None, keep='first', inplace=False)
+
+'''
+subset : column label or sequence of labels, optional
+用来指定特定的列，默认所有列（指的是以哪些列为参考删除行，删的还是行）
+keep : {‘first’, ‘last’, False}, default ‘first’
+删除重复项并保留第一次出现的项
+inplace : boolean, default False
+是直接在原来数据上修改还是保留一个副本
+'''
+</code></pre>
 </li>
 <li><p>初始化列表 list</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一维列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化递增的list，与L = [i for i in range(10)] 效果相同</span></span><br><span class="line">L = range(<span class="number">10</span>)  </span><br><span class="line"><span class="comment"># print(L)</span></span><br><span class="line"><span class="comment"># [0,1,2,3,4,5,6,7,8,9]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#初始化每项为0的一维列表</span></span><br><span class="line">L = [<span class="number">0</span>] * <span class="number">5</span></span><br><span class="line"><span class="comment"># print(L)</span></span><br><span class="line"><span class="comment">#[0,0,0,0,0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维列表</span></span><br><span class="line"></span><br><span class="line">L = [[<span class="number">0</span>] * <span class="number">5</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</span><br><span class="line"><span class="comment">#print(L)</span></span><br><span class="line"><span class="comment">#[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#这里需要注意，虽然L = [[0] * 5] * 5，也输出同样的效果，但是万万不能这样做！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#因为[0] * 5是一个一维列表的对象，再* 5的话只是把对象的引用复制了3次。什么意思呢，就是如果我们将L[0][0] = 1，#再输出L如下：</span></span><br><span class="line">L = [[<span class="number">0</span>] * <span class="number">5</span>] * <span class="number">5</span></span><br><span class="line">L[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line"><span class="comment">#print(L)</span></span><br><span class="line"><span class="comment">#[[1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0]]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#我们只是想改变L[0][0]，结果L[[n][0]全部改变了！这回知道为啥不能这么做了吧！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#所以对于一位列表初始化，也建议大家用L = [[0] for i in range(5)]来代替L = [[0] * 5]</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python"># 一维列表
+
+# 初始化递增的list，与L = [i for i in range(10)] 效果相同
+L = range(10)  
+# print(L)
+# [0,1,2,3,4,5,6,7,8,9]
+
+#初始化每项为0的一维列表
+L = [0] * 5
+# print(L)
+#[0,0,0,0,0]
+
+# 二维列表
+
+L = [[0] * 5 for i in range(5)]
+#print(L)
+#[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+
+#这里需要注意，虽然L = [[0] * 5] * 5，也输出同样的效果，但是万万不能这样做！
+
+#因为[0] * 5是一个一维列表的对象，再* 5的话只是把对象的引用复制了3次。什么意思呢，就是如果我们将L[0][0] = 1，#再输出L如下：
+L = [[0] * 5] * 5
+L[0][0] = 1
+#print(L)
+#[[1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0]]
+
+#我们只是想改变L[0][0]，结果L[[n][0]全部改变了！这回知道为啥不能这么做了吧！
+
+#所以对于一位列表初始化，也建议大家用L = [[0] for i in range(5)]来代替L = [[0] * 5]
+</code></pre>
 </li>
 <li><p>Numpy扁平化函数 ravel和flatten</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">   a = arange(<span class="number">12</span>).reshape(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">   print(a)</span><br><span class="line">   <span class="comment"># [[ 0  1  2  3]</span></span><br><span class="line">   <span class="comment">#  [ 4  5  6  7]</span></span><br><span class="line">   <span class="comment">#  [ 8  9 10 11]]</span></span><br><span class="line">   print(a.ravel())</span><br><span class="line">   <span class="comment"># [ 0  1  2  3  4  5  6  7  8  9 10 11]</span></span><br><span class="line">   print(a.flatten())</span><br><span class="line">   <span class="comment"># [ 0  1  2  3  4  5  6  7  8  9 10 11]</span></span><br><span class="line"></span><br><span class="line">可以看到这两个函数实现的功能一样,但我们在平时使用的时候flatten()更为合适.在使用过程中flatten()分配了新的内存,但ravel()返回的是一个数组的视图.视图是数组的引用(说引用不太恰当,因为原数组和ravel()返回后的数组的地址并不一样),在使用过程中应该注意避免在修改视图时影响原本的数组.</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">from numpy import *
+
+a = arange(12).reshape(3,4)
+print(a)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+print(a.ravel())
+# [ 0  1  2  3  4  5  6  7  8  9 10 11]
+print(a.flatten())
+# [ 0  1  2  3  4  5  6  7  8  9 10 11]
+
+可以看到这两个函数实现的功能一样,但我们在平时使用的时候flatten()更为合适.在使用过程中flatten()分配了新的内存,但ravel()返回的是一个数组的视图.视图是数组的引用(说引用不太恰当,因为原数组和ravel()返回后的数组的地址并不一样),在使用过程中应该注意避免在修改视图时影响原本的数组.
+</code></pre>
 </li>
+</ol>
+<ol>
 <li><p><code>[confusion_matrix - too many values to unpack]</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">you can only assign multiple variables dynamically <span class="keyword">if</span> the number of outputs <span class="keyword">is</span> certain. If you 		assign the result of `confusion_matrix` to a single variable, you can then check its contents 		<span class="keyword">in</span> a loop <span class="keyword">and</span> assign the contents conditionally:</span><br><span class="line">returned = confusion_matrix(y_true, y_predict).ravel()</span><br><span class="line">   <span class="keyword">for</span> var <span class="keyword">in</span> returned:</span><br><span class="line">   <span class="comment">#... do stuff with each item in the returned collection</span></span><br><span class="line">You could also just check its length <span class="keyword">and</span> <span class="keyword">if</span> it <span class="keyword">is</span> <span class="number">4</span>, you can proceed <span class="keyword">as</span> usual:</span><br><span class="line"><span class="keyword">if</span> len(returned) == <span class="number">4</span>:</span><br><span class="line">       tn, fp, fn, tp = returned</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">you can only assign multiple variables dynamically if the number of outputs is certain. If you         assign the result of `confusion_matrix` to a single variable, you can then check its contents         in a loop and assign the contents conditionally:
+returned = confusion_matrix(y_true, y_predict).ravel()
+for var in returned:
+#... do stuff with each item in the returned collection
+You could also just check its length and if it is 4, you can proceed as usual:
+if len(returned) == 4:
+    tn, fp, fn, tp = returned
+</code></pre>
 </li>
 <li><p>遍历dataframe<br><code>for col in df</code>遍历的是列标签<br>要遍历行有几种方案<a href="https://blog.csdn.net/ls13552912394/article/details/79349809" target="_blank" rel="noopener">https://blog.csdn.net/ls13552912394/article/details/79349809</a><br>遍历这种东西在df选取等操作中不是一个好的解决方案，可以通过df的搜索loc iloc等很多方式来实现，比遍历好得多方便的多</p>
 </li>
@@ -670,13 +890,28 @@ drop掉1后就变成
 <li><p>将数据结构转化为集合可以自动去重！（#去重）<br><code>a = set(a)</code><br><code>set(1,2,3) = set(1,1,1,1,1,1,2,3)</code></p>
 </li>
 <li><p>tensor,numpy array的创建与扩展</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建</span></span><br><span class="line">np.zeros([<span class="number">3</span>,<span class="number">10</span>]) <span class="comment">#创建一个3x10的array</span></span><br><span class="line">torch.zeros(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#创建一个3x10的tensor</span></span><br><span class="line">list([<span class="number">0</span>])*<span class="number">10</span>  <span class="comment">#[10,10,10,10,10,10,10,10,10,10]</span></span><br><span class="line">list([[<span class="number">0</span>]*<span class="number">10</span>]*<span class="number">3</span>) <span class="comment">#创建一个3x10的list</span></span><br><span class="line"></span><br><span class="line">np.random.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的array</span></span><br><span class="line">torch.rand(<span class="number">3</span>,<span class="number">10</span>) <span class="comment">#随机创建一个3x10的tensor</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">#合并/拓展</span></span><br><span class="line">a.extend([<span class="number">4</span>,<span class="number">5</span>]) <span class="comment">#[1,2,3,4,5]</span></span><br><span class="line"><span class="comment">#注意用法</span></span><br><span class="line">extend后保存的值就为a，和append用法类似</span><br><span class="line"></span><br><span class="line">removes = np.append(array1,array2,axis=<span class="number">0</span>) <span class="comment">#axis为合并的维度</span></span><br><span class="line">tensor 使用torch.stack进行合并</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">#创建
+np.zeros([3,10]) #创建一个3x10的array
+torch.zeros(3,10) #创建一个3x10的tensor
+list([0])*10  #[10,10,10,10,10,10,10,10,10,10]
+list([[0]*10]*3) #创建一个3x10的list
+
+np.random.rand(3,10) #随机创建一个3x10的array
+torch.rand(3,10) #随机创建一个3x10的tensor
+
+ #合并/拓展
+a.extend([4,5]) #[1,2,3,4,5]
+#注意用法
+extend后保存的值就为a，和append用法类似
+
+removes = np.append(array1,array2,axis=0) #axis为合并的维度
+tensor 使用torch.stack进行合并
+</code></pre>
 </li>
-</ol>
-<ol>
 <li><p>list 删除元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list.remove(x)</span><br><span class="line">print(list)</span><br></pre></td></tr></table></figure>
-<p>该方法没有返回值<br>只会删掉匹配到的第一个<br>还有2个方法懒得记了</p>
+<pre><code>list.remove(x)
+print(list)
+</code></pre><p>该方法没有返回值<br>只会删掉匹配到的第一个<br>还有2个方法懒得记了</p>
 <p>python remove里有个巨坑！<br>如果用for循环来remove的话，for循环的时候，每删除一个元素，长度就会改变，索引就会变化！所以remove就会出问题！<br>比如 要依次删除1，2位置的元素。<br>第一次删除了1位置，那么列表索引就变了，2元素成为了1元素，3元素成为了2元素！2元素就这样被跳过了！<br>解决办法见下</p>
 </li>
 <li><p>for循环 <strong>动态修改列表</strong>的时候的注意事项<br>如何解决：deepcopy一份，一个列表用于循环，一个列表用于移除值<br>（<code>from copy import deepcopy</code>)</p>

@@ -495,21 +495,261 @@
 <p>②仓库是<strong>互斥</strong>访问的，同时只能有一个线程（生产者或消费者）访问</p>
 <p>③如何做到<strong>线程间的通信</strong></p>
 <h1 id="生产者消费者问题实现方法"><a href="#生产者消费者问题实现方法" class="headerlink" title="生产者消费者问题实现方法"></a>生产者消费者问题实现方法</h1><h2 id="wait-notify-方法"><a href="#wait-notify-方法" class="headerlink" title="wait() / notify()方法"></a>wait() / notify()方法</h2><p><strong>被锁住的对象是list（消费者线程和生产者线程互斥访问list）那么就要调用list.wait()和list.notify()进行线程间通信</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="comment">//仓库（即资源）</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Storage</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//仓库容量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_SIZE = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//仓库内容</span></span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;Object&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//生产一个产品添加进仓库</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(list)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//如果仓库已满，就wait等待，放弃锁，等待notify唤醒重新获取锁（</span></span><br><span class="line">            <span class="comment">//因为仓库是互斥访问的，这时候仓库是满的，生产者得等消费者先消费了再生产，所以生产者如果获取了锁就要主动放弃锁，等消费者notify()</span></span><br><span class="line">            <span class="keyword">while</span>(list.size()+<span class="number">1</span>&gt;MAX_SIZE)</span><br><span class="line">            &#123;</span><br><span class="line">                System.out.println(<span class="string">"【生产者"</span>+Thread.currentThread().getName()+<span class="string">"】仓库已满"</span>);</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                    list.wait();  <span class="comment">//必须由notify()唤醒</span></span><br><span class="line">                &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//仓库未满，可以生产加入仓库了</span></span><br><span class="line">            list.add(<span class="keyword">new</span> Object());</span><br><span class="line">            System.out.println(<span class="string">"【生产者"</span>+Thread.currentThread().getName()+<span class="string">"】生产一个产品，现库存"</span>+list.size());</span><br><span class="line">            <span class="comment">//放弃锁，并通知wait队列可以获取锁了（唤醒生产者）</span></span><br><span class="line">            list.notify();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从仓库中消费一个产品</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (list)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (list.size()==<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                System.out.println(<span class="string">"【消费者"</span>+Thread.currentThread().getName()+<span class="string">"】仓库为空"</span>);</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                    list.wait();</span><br><span class="line">                &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            list.remove();</span><br><span class="line">            System.out.println(<span class="string">"【消费者"</span>+Thread.currentThread().getName()+<span class="string">"】消费一个产品，现库存"</span>+list.size());</span><br><span class="line">            list.notify();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义生产者任务</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//用于记录仓库的引用，来让生产者访问仓库</span></span><br><span class="line">    Storage storage;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(Storage storage)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.storage = storage;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        storage.produce();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义消费者任务</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    Storage storage;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Consumer</span><span class="params">(Storage storage)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.storage = storage;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        storage.consume();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//建立仓库实体</span></span><br><span class="line">        Storage storage = <span class="keyword">new</span> Storage();</span><br><span class="line">        <span class="comment">//创建生产者消费者线程</span></span><br><span class="line">        Thread p1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer(storage));</span><br><span class="line">        Thread p2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer(storage));</span><br><span class="line">        Thread p3 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer(storage));</span><br><span class="line"></span><br><span class="line">        Thread c1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer(storage));</span><br><span class="line">        Thread c2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer(storage));</span><br><span class="line">        Thread c3 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer(storage));</span><br><span class="line"></span><br><span class="line">        p1.start();</span><br><span class="line">        p2.start();</span><br><span class="line">        p3.start();</span><br><span class="line">        c1.start();</span><br><span class="line">        c2.start();</span><br><span class="line">        c3.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">import java.util.LinkedList;
+
+//仓库（即资源）
+class Storage
+{
+    //仓库容量
+    private final int MAX_SIZE = 10;
+    //仓库内容
+    private LinkedList<Object> list = new LinkedList<>();
+
+    //生产一个产品添加进仓库
+    public void produce()
+    {
+        synchronized(list)
+        {
+            //如果仓库已满，就wait等待，放弃锁，等待notify唤醒重新获取锁（
+            //因为仓库是互斥访问的，这时候仓库是满的，生产者得等消费者先消费了再生产，所以生产者如果获取了锁就要主动放弃锁，等消费者notify()
+            while(list.size()+1>MAX_SIZE)
+            {
+                System.out.println("【生产者"+Thread.currentThread().getName()+"】仓库已满");
+                try
+                {
+                    list.wait();  //必须由notify()唤醒
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+            //仓库未满，可以生产加入仓库了
+            list.add(new Object());
+            System.out.println("【生产者"+Thread.currentThread().getName()+"】生产一个产品，现库存"+list.size());
+            //放弃锁，并通知wait队列可以获取锁了（唤醒生产者）
+            list.notify();
+        }
+    }
+
+    //从仓库中消费一个产品
+    public void consume()
+    {
+        synchronized (list)
+        {
+            while (list.size()==0)
+            {
+                System.out.println("【消费者"+Thread.currentThread().getName()+"】仓库为空");
+                try
+                {
+                    list.wait();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+            list.remove();
+            System.out.println("【消费者"+Thread.currentThread().getName()+"】消费一个产品，现库存"+list.size());
+            list.notify();
+        }
+    }
+}
+
+//定义生产者任务
+class Producer implements Runnable
+{
+    //用于记录仓库的引用，来让生产者访问仓库
+    Storage storage;
+    public Producer(Storage storage)
+    {
+        this.storage = storage;
+    }
+    public void run()
+    {
+        storage.produce();
+    }
+}
+
+//定义消费者任务
+class Consumer implements Runnable
+{
+    Storage storage;
+    public Consumer(Storage storage)
+    {
+        this.storage = storage;
+    }
+    public void run()
+    {
+        storage.consume();
+    }
+}
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //建立仓库实体
+        Storage storage = new Storage();
+        //创建生产者消费者线程
+        Thread p1 = new Thread(new Producer(storage));
+        Thread p2 = new Thread(new Producer(storage));
+        Thread p3 = new Thread(new Producer(storage));
+
+        Thread c1 = new Thread(new Consumer(storage));
+        Thread c2 = new Thread(new Consumer(storage));
+        Thread c3 = new Thread(new Consumer(storage));
+
+        p1.start();
+        p2.start();
+        p3.start();
+        c1.start();
+        c2.start();
+        c3.start();
+    }
+}
+</code></pre>
 <h2 id="await-signal-方法（ReentrantLock的应用）"><a href="#await-signal-方法（ReentrantLock的应用）" class="headerlink" title="await() / signal()方法（ReentrantLock的应用）"></a>await() / signal()方法（ReentrantLock的应用）</h2><p>await() / signal()是<strong>属于ReentrantLock机制的Condition组件的方法</strong>，而不是Object的</p>
 <p>一个ReentrantLock锁可以创建多个Condition，每个Condition都维护一个等待队列</p>
 <p>修改仓库类，不使用重量级锁synchronized，改用ReentrantLock轻量级锁</p>
 <p>仓库使用一把ReentrantLock锁，并同时维护两个Condition队列：full Condition队列 和 empty Condition队列，将生产者和消费者分开到两个Condition监视器中：full Condition为仓库满的监视器，维护了一个队列，该队列上的线程都是因为list已满而阻塞的生产者；empty Condition为仓库空的监视器，维护了一个队列，该队列上的线程都是因为list为空而阻塞的消费者（当然也可以只用1个Conditon）</p>
 <p><strong>多个Condition维持多个等待队列可以使得通知更准确，只通知指定队列的线程开始获取锁，并发效率高</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Storage</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//仓库容量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_SIZE = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//仓库内容</span></span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;Object&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建ReentrantLock锁</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将生产者和消费者分开到两个Condition监视器中</span></span><br><span class="line">    <span class="comment">//仓库满的监视器，维护了一个队列，该队列上的线程都是因为list已满而阻塞的生产者</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Condition full = lock.newCondition();</span><br><span class="line">    <span class="comment">//仓库空的监视器，维护了一个队列，该队列上的线程都是因为list为空而阻塞的消费者</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Condition empty = lock.newCondition();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//生产一个产品添加进仓库</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//不使用重量级锁synchronized，改用轻量级锁</span></span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">while</span>(list.size()+<span class="number">1</span>&gt;MAX_SIZE)</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.println(<span class="string">"【生产者"</span>+Thread.currentThread().getName()+<span class="string">"】仓库已满"</span>);</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                full.await();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        list.add(<span class="keyword">new</span> Object());</span><br><span class="line">        System.out.println(<span class="string">"【生产者"</span>+Thread.currentThread().getName()+<span class="string">"】生产一个产品，现库存"</span>+list.size());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通知empty condition队列上的所有线程</span></span><br><span class="line">        empty.signalAll();</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//从仓库中消费一个产品</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">while</span> (list.size()==<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            System.out.println(<span class="string">"【消费者"</span>+Thread.currentThread().getName()+<span class="string">"】仓库为空"</span>);</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                empty.await();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        list.remove();</span><br><span class="line">        System.out.println(<span class="string">"【消费者"</span>+Thread.currentThread().getName()+<span class="string">"】消费一个产品，现库存"</span>+list.size());</span><br><span class="line">        full.signalAll();</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="BlockingQueue阻塞队列方法"><a href="#BlockingQueue阻塞队列方法" class="headerlink" title="BlockingQueue阻塞队列方法"></a>BlockingQueue阻塞队列方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Storage</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LinkedBlockingDeque&lt;Object&gt; list = <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;(<span class="number">10</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            list.put(<span class="keyword">new</span> Object());   <span class="comment">//阻塞队列如果队满会阻塞住，并自动释放锁，通知其它等待线程，相当于帮我们自动完成了并发管理</span></span><br><span class="line">            System.out.println(<span class="string">"【生产者"</span> + Thread.currentThread().getName() + <span class="string">"】生产一个产品，现库存"</span> + list.size());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            list.take();</span><br><span class="line">            System.out.println(<span class="string">"【消费者"</span> + Thread.currentThread().getName() + <span class="string">"】消费了一个产品，现库存"</span> + list.size());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">class Storage
+{
+    //仓库容量
+    private final int MAX_SIZE = 10;
+    //仓库内容
+    private LinkedList<Object> list = new LinkedList<>();
+
+    //创建ReentrantLock锁
+    private final ReentrantLock lock = new ReentrantLock();
+
+    //将生产者和消费者分开到两个Condition监视器中
+    //仓库满的监视器，维护了一个队列，该队列上的线程都是因为list已满而阻塞的生产者
+    private final Condition full = lock.newCondition();
+    //仓库空的监视器，维护了一个队列，该队列上的线程都是因为list为空而阻塞的消费者
+    private final Condition empty = lock.newCondition();
+
+    //生产一个产品添加进仓库
+    public void produce()
+    {
+        //不使用重量级锁synchronized，改用轻量级锁
+        lock.lock();
+        while(list.size()+1>MAX_SIZE)
+        {
+            System.out.println("【生产者"+Thread.currentThread().getName()+"】仓库已满");
+            try
+            {
+                full.await();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        list.add(new Object());
+        System.out.println("【生产者"+Thread.currentThread().getName()+"】生产一个产品，现库存"+list.size());
+
+        //通知empty condition队列上的所有线程
+        empty.signalAll();
+        lock.unlock();
+    }
+
+
+    //从仓库中消费一个产品
+    public void consume()
+    {
+        lock.lock();
+        while (list.size()==0)
+        {
+            System.out.println("【消费者"+Thread.currentThread().getName()+"】仓库为空");
+            try
+            {
+                empty.await();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        list.remove();
+        System.out.println("【消费者"+Thread.currentThread().getName()+"】消费一个产品，现库存"+list.size());
+        full.signalAll();
+        lock.unlock();
+    }
+}
+</code></pre>
+<h2 id="BlockingQueue阻塞队列方法"><a href="#BlockingQueue阻塞队列方法" class="headerlink" title="BlockingQueue阻塞队列方法"></a>BlockingQueue阻塞队列方法</h2><pre class=" language-lang-java"><code class="language-lang-java">class Storage
+{
+    private LinkedBlockingDeque<Object> list = new LinkedBlockingDeque<>(10);
+    public void produce()
+    {
+        try{
+            list.put(new Object());   //阻塞队列如果队满会阻塞住，并自动释放锁，通知其它等待线程，相当于帮我们自动完成了并发管理
+            System.out.println("【生产者" + Thread.currentThread().getName() + "】生产一个产品，现库存" + list.size());
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void consume()
+    {
+        try{
+            list.take();
+            System.out.println("【消费者" + Thread.currentThread().getName() + "】消费了一个产品，现库存" + list.size());
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
 <h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>设计三个信号量</p>
 <p>①互斥访问信号量：保证访问仓库的互斥性</p>
 <p>②仓库空位信号量（空的格子即仓库还能放入的资源数量）：维持生产者等待队列</p>
 <p>③仓库满格信号量（满的格子即仓库已放入的资源数量）：维持消费者等待队列（若无，则队空）</p>
 <p>这里实际上可以结合前面的方法，三类实体各自采用不同的并发控制实现手段</p>
 <p><strong>注意这里的先后顺序，是先申请生产产品，再申请仓库访问互斥量（因为先判断能否生产仓库是否已满，没满才去申请访问仓库开始操作</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Storage</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//仓库</span></span><br><span class="line">    LinkedList&lt;Object&gt; list = <span class="keyword">new</span> LinkedList&lt;Object&gt;();</span><br><span class="line">    <span class="comment">//访问仓库互斥信号量</span></span><br><span class="line">    Semaphore mutex = <span class="keyword">new</span> Semaphore(<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//空格信号量</span></span><br><span class="line">    Semaphore EmptyPositions = <span class="keyword">new</span> Semaphore(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">//满格信号量</span></span><br><span class="line">    Semaphore FullPositions = <span class="keyword">new</span> Semaphore(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">produce</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="comment">//请求生产一个商品，那么空格-1（释放一个空格—）</span></span><br><span class="line">            EmptyPositions.acquire();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//注意这里的先后顺序，是先申请生产产品，再申请仓库访问互斥量（因为先判断能否生产仓库是否已满，没满才去申请访问仓库开始操作）</span></span><br><span class="line">            <span class="comment">//申请仓库访问互斥量</span></span><br><span class="line">            mutex.acquire();</span><br><span class="line">            <span class="comment">//生产操作</span></span><br><span class="line">            list.add(<span class="keyword">new</span> Object());</span><br><span class="line">            System.out.println(<span class="string">"【生产者"</span> + Thread.currentThread().getName() + <span class="string">"】生产一个产品，现库存"</span> + list.size());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//生产操作完成，释放仓库访问互斥量</span></span><br><span class="line">            mutex.release();</span><br><span class="line">            <span class="comment">//生产操作完成，满格+1（增加一个满格）</span></span><br><span class="line">            FullPositions.release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            FullPositions.acquire();</span><br><span class="line">            mutex.acquire();</span><br><span class="line">            list.remove();</span><br><span class="line">            System.out.println(<span class="string">"【消费者"</span> + Thread.currentThread().getName() + <span class="string">"】消费一个产品，现库存"</span> + list.size());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            mutex.release();</span><br><span class="line">            EmptyPositions.release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">class Storage
+{
+    //仓库
+    LinkedList<Object> list = new LinkedList<Object>();
+    //访问仓库互斥信号量
+    Semaphore mutex = new Semaphore(1);
+    //空格信号量
+    Semaphore EmptyPositions = new Semaphore(10);
+    //满格信号量
+    Semaphore FullPositions = new Semaphore(0);
+
+    public void produce()
+    {
+        try{
+            //请求生产一个商品，那么空格-1（释放一个空格—）
+            EmptyPositions.acquire();
+
+            //注意这里的先后顺序，是先申请生产产品，再申请仓库访问互斥量（因为先判断能否生产仓库是否已满，没满才去申请访问仓库开始操作）
+            //申请仓库访问互斥量
+            mutex.acquire();
+            //生产操作
+            list.add(new Object());
+            System.out.println("【生产者" + Thread.currentThread().getName() + "】生产一个产品，现库存" + list.size());
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }finally {
+            //生产操作完成，释放仓库访问互斥量
+            mutex.release();
+            //生产操作完成，满格+1（增加一个满格）
+            FullPositions.release();
+        }
+    }
+
+    public void consume()
+    {
+        try{
+            FullPositions.acquire();
+            mutex.acquire();
+            list.remove();
+            System.out.println("【消费者" + Thread.currentThread().getName() + "】消费一个产品，现库存" + list.size());
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }finally {
+            mutex.release();
+            EmptyPositions.release();
+        }
+    }
+}
+</code></pre>
 <h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p>不同线程间直接传送数据，一个线程发送数据到输出管道，另一个线程从输入管道中读数据。</p>
 <p>只适合两个线程间通信</p>
 <p>暂略</p>

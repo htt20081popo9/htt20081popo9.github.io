@@ -499,14 +499,87 @@
 </li>
 <li><p>（在其它地方）<strong>告知某外部类去创建其自己的内部类对象：<code>.new</code>语法</strong>（易错）</p>
 <p>这个方法也适合多重嵌套内部类，<code>.new</code>能限定正确的作用域</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//外部类对象outer</span></span><br><span class="line">OuterClassName outer = <span class="keyword">new</span> OuterClassName();</span><br><span class="line"><span class="comment">//【通知外部类对象outer去建立其内部类对象】，注意这里的用法！</span></span><br><span class="line">OuterClassName.InnerClassName inner = outer.new InnerClassName()</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//外部类对象outer
+OuterClassName outer = new OuterClassName();
+//【通知外部类对象outer去建立其内部类对象】，注意这里的用法！
+OuterClassName.InnerClassName inner = outer.new InnerClassName()
+</code></pre>
 </li>
 <li><p><strong>拥有外部类对象之后，才能创建内部类对象</strong></p>
 </li>
 <li><p><strong>内部类的一大用途：与接口配合使用——工厂方法</strong>（内部类Ver.最常用）</p>
 <p>阻止任何依赖于类型的代码，并且完全隐藏了实现的细节。<strong>我们并不需要知道是什么类实现了接口，我们只要根据接口的描述去使用这个新生成的对象（引用类型为接口类类型）即可，这个对象通过工厂类里的实现了该接口的内部类生成</strong></p>
 <p><strong>举例如下：</strong>其中有接口<code>Sing</code>和<code>Dance</code>，于是我建立了一个工厂类<code>Factory</code>，在里面通过内部类<code>Singer</code>和<code>Dancer</code>实现了<code>Sing</code>和<code>Dance</code>接口（显然这么设计是因为Singer当然会Sing，只要一个对象满足Sing接口的要求，那它就<strong>可以是</strong>个Sing接口类型的对象，其子类型为Singer）。然后我在工厂类里提供两个供外部使用的方法<code>createSinger</code>和<code>createDancer</code>，其返回<code>Sing</code>和<code>Dance</code>接口类型的对象，在这里在函数中返回的实际上是接口类型的子类对象<code>Singer</code>和<code>Dancer</code>，于是就经过了自动的向上转型为接口类型。在外部看来，该函数返回的就是符合接口的对象，并不关心也没法知道具体细节，只需要根据接口定义来使用该对象即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> aisaka;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Sing</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> sound = <span class="keyword">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">singing</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Dance</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> dance = <span class="keyword">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dancing</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Factory</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//私有内部类，禁止外部访问，实现了Sing接口</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Singer</span> <span class="keyword">implements</span> <span class="title">Sing</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        String name;</span><br><span class="line">        Singer(String name)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">super</span>();</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">singing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(name + <span class="string">":A Singer is singing"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有内部类，禁止外部访问，实现了Dance接口</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Dancer</span> <span class="keyword">implements</span> <span class="title">Dance</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        String name;</span><br><span class="line">        Dancer(String name)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">super</span>();</span><br><span class="line">            <span class="keyword">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dancing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(name + <span class="string">":A Dancer is dancing"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供外部创建符合Sing接口的对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Sing <span class="title">createSinger</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Singer(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//提供外部创建符合Dance接口的对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Dance <span class="title">createDancer</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Dancer(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Factory factory = <span class="keyword">new</span> Factory();</span><br><span class="line">        Sing singer1 = factory.createSinger(<span class="string">"世界第一歌手aisaka"</span>);</span><br><span class="line">        Dance dancer1 = factory.createDancer(<span class="string">"世界第一舞者aisaka"</span>);</span><br><span class="line">        singer1.singing();</span><br><span class="line">        dancer1.dancing();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*OUTPUTS</span></span><br><span class="line"><span class="comment">* 世界第一歌手aisaka:A Singer is singing</span></span><br><span class="line"><span class="comment">* 世界第一舞者aisaka::A Dancer is dancing</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">package aisaka;
+interface Sing
+{
+    boolean sound = true;
+    void singing();
+}
+
+interface Dance
+{
+    boolean dance = true;
+    void dancing();
+}
+
+class Factory
+{
+    //私有内部类，禁止外部访问，实现了Sing接口
+    private class Singer implements Sing
+    {
+        String name;
+        Singer(String name)
+        {
+            super();
+            this.name = name;
+        }
+        @Override
+        public void singing() {
+            System.out.println(name + ":A Singer is singing");
+        }
+    }
+
+    //私有内部类，禁止外部访问，实现了Dance接口
+    private class Dancer implements Dance
+    {
+        String name;
+        Dancer(String name)
+        {
+            super();
+            this.name = name;
+        }
+        @Override
+        public void dancing() {
+            System.out.println(name + ":A Dancer is dancing");
+        }
+    }
+    //提供外部创建符合Sing接口的对象
+    public Sing createSinger(String name)
+    {
+        return new Singer(name);
+    }
+    //提供外部创建符合Dance接口的对象
+    public Dance createDancer(String name)
+    {
+        return new Dancer(name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Factory factory = new Factory();
+        Sing singer1 = factory.createSinger("世界第一歌手aisaka");
+        Dance dancer1 = factory.createDancer("世界第一舞者aisaka");
+        singer1.singing();
+        dancer1.dancing();
+    }
+}
+/*OUTPUTS
+* 世界第一歌手aisaka:A Singer is singing
+* 世界第一舞者aisaka::A Dancer is dancing
+*/
+</code></pre>
 <p>不过注意工厂类内的东西不能为static的</p>
 </li>
 <li><p>更多内部类的使用方法</p>
@@ -517,10 +590,24 @@
 <p>②<strong>匿名内部类</strong>：</p>
 <p><strong>当一个子类继承/实现父类的时候，一种简化不需要给子类命名的一种表达式</strong></p>
 <p>注意新建对象的时候就<strong>不是写那个继承父类的那个匿名内部类的引用了（因为匿名了，本来也没有），而是写父类对象引用</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将上面的工厂方法中，实现接口的类写作工厂类的匿名内部类</span></span><br><span class="line"><span class="comment">//这里直接在工厂类中的生成对象方法里写内部类，就不需要单独写个内部类实现接口了，而是新建对象的时候直接写在匿名内部类里</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Dance <span class="title">createDancer</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//注意这里是new一个Dance接口类型而不是Dancer实现类型，实际上这里的意思是创建一个继承/实现自Dance的匿名类的对象</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Dance()</span><br><span class="line">        &#123;  <span class="comment">//内部类开始&#123;</span></span><br><span class="line">            <span class="meta">@Override</span>  </span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dancing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"A Dancer is dancing"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;; <span class="comment">//内部类结束&#125;;</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//将上面的工厂方法中，实现接口的类写作工厂类的匿名内部类
+//这里直接在工厂类中的生成对象方法里写内部类，就不需要单独写个内部类实现接口了，而是新建对象的时候直接写在匿名内部类里
+    public Dance createDancer(String name)
+    {
+        //注意这里是new一个Dance接口类型而不是Dancer实现类型，实际上这里的意思是创建一个继承/实现自Dance的匿名类的对象
+        return new Dance()
+        {  //内部类开始{
+            @Override  
+            public void dancing() {
+                System.out.println("A Dancer is dancing");
+            }
+        }; //内部类结束};
+    }
+</code></pre>
 <p><strong>匿名内部类不能有构造器；</strong></p>
 <p><strong>对于需要构造器的的匿名内部类</strong>，a. 对于传参数到构造器：只需要简单地将参数直接传递给基类（父类）构造器即可 b.对于想要在构造器初始化：用初始化块替代</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Dance(x)&#123;内部类&#125;;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">new Dance(x){内部类};
+</code></pre>
 <p>但注意，接口没有构造器，所以匿名内部类只有继承的时候才有构造方法，实现接口不能有构造方法！</p>
 <p>显然匿名内部类只能实现一个接口or继承一个类；如果要在同一个类中继承两个类，那就只能通过匿名内部类的方式继承（最多继承一个类，多个接口）</p>
 <p>匿名内部类想要使用外部定义对象的时候，需要该参数引用是<code>final</code>的</p>
@@ -537,7 +624,21 @@
 <li><p>内部类的继承问题</p>
 <p>当继承某个外围类的时候，子类中新建一个与父类内部类重名的内部类，这两个内部类是共存的，各自在各自的命名空间互不影响；如果明确直接继承某个内部类，那调用子类的时候就是调用该子类了</p>
 <p>内部类的构造器必须连接到指向其外围类对象的引用，所以在继承内部类的时候，导出类不再存在可以连接的默认对象，这时候就需要将外围类对象传入这个子类构造函数中并用<code>outerObject.super()</code>调用其构造器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WithInner</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InheritInner</span> <span class="keyword">extends</span> <span class="title">WithInner</span>.<span class="title">Inner</span> </span>&#123;</span><br><span class="line">  <span class="comment">//! InheritInner() &#123;&#125; // 这样写就报错了</span></span><br><span class="line">  InheritInner(WithInner wi) &#123; <span class="comment">//注意这里，在子类的构造函数中传入了继承内部类的外围类对象</span></span><br><span class="line">    wi.<span class="keyword">super</span>(); <span class="comment">//继承外围类构造器</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    WithInner wi = <span class="keyword">new</span> WithInner();</span><br><span class="line">    InheritInner ii = <span class="keyword">new</span> InheritInner(wi);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">class WithInner {
+  class Inner {}
+}
+
+public class InheritInner extends WithInner.Inner {
+  //! InheritInner() {} // 这样写就报错了
+  InheritInner(WithInner wi) { //注意这里，在子类的构造函数中传入了继承内部类的外围类对象
+    wi.super(); //继承外围类构造器
+  }
+  public static void main(String[] args) {
+    WithInner wi = new WithInner();
+    InheritInner ii = new InheritInner(wi);
+  }
+}
+</code></pre>
 </li>
 <li><p>内部类标识符</p>
 <p>每个类都会产生<code>.class</code>文件，内部类则<code>WithInner$Inner.class</code></p>

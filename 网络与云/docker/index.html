@@ -517,7 +517,100 @@
 <p><img src="//aisaka.cloud/网络与云/docker/docker.jpg" alt="docker"></p>
 <p>详细说明：</p>
 <p>P.S. docker镜像的命名一般是<code>&lt;name:tag&gt;</code>，不写tag则默认tag是<code>latest</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ====从远程仓库拉取镜像到本地====</span></span><br><span class="line">docker pull &lt;name&gt;</span><br><span class="line"><span class="comment"># 如何设置默认仓库见https://www.cnblogs.com/silva/p/11505925.html</span></span><br><span class="line"><span class="comment"># 可以创建自己的仓库服务，以阿里云为例，见 阿里云-容器镜像服务 说明</span></span><br><span class="line"><span class="comment"># 可以指定从哪个registry的哪个仓库拉取，比如registry是myregistry.local:1234，仓库是aisaka-test，想要拉取test-image：</span></span><br><span class="line">docker pull myregistry.local:1234/aisaka-test/<span class="built_in">test</span>-image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库搜索镜像</span></span><br><span class="line">docker search </span><br><span class="line"><span class="comment"># ====推送容器镜像到远程镜像仓库====</span></span><br><span class="line">docker push &lt;name&gt;</span><br><span class="line"><span class="comment"># 同pull一样也可以push到指定仓库</span></span><br><span class="line">docker push myregistry.local:1234/aisaka-test/<span class="built_in">test</span>-image</span><br><span class="line"></span><br><span class="line"><span class="comment"># ====查看本地镜像====</span></span><br><span class="line">docker images</span><br><span class="line"><span class="comment"># 删除本地镜像</span></span><br><span class="line">docker rmi &lt;name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ====从容器生成镜像====</span></span><br><span class="line">docker commit -a <span class="string">"aisaka"</span> -m <span class="string">"test"</span> nextcloud nextcloud:v1</span><br><span class="line"><span class="comment"># -a :提交的镜像作者；</span></span><br><span class="line"><span class="comment"># -c :使用Dockerfile指令来创建镜像；</span></span><br><span class="line"><span class="comment"># -m :提交时的说明文字；</span></span><br><span class="line"><span class="comment"># -p :在commit时，将容器暂停。</span></span><br><span class="line"><span class="comment"># nextcloud:v1是我给生成镜像取的名字，:后面跟着的是TAG，用于标识版本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====用dockerfile生成镜像====</span></span><br><span class="line">docker build</span><br><span class="line"><span class="comment"># 见https://www.runoob.com/docker/docker-build-command.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====镜像创建容器====</span></span><br><span class="line">docker create &lt;name&gt;</span><br><span class="line"><span class="comment"># 与run的区别在于，create创建的容器是stop状态，而run是running状态</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====【运行容器镜像】====</span></span><br><span class="line">docker run -d -p 3306:3306 -v /mnt/sde/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=WZS134125 --name mysql mysql</span><br><span class="line"><span class="comment"># -d 后台守护进程方式运行（启动后进入后台）</span></span><br><span class="line"><span class="comment"># -p 端口映射，宿主端口：容器端口【重要】 </span></span><br><span class="line"><span class="comment"># -v 目录挂载，宿主目录：容器目录【重要】  </span></span><br><span class="line"><span class="comment"># -e 设置变量</span></span><br><span class="line"><span class="comment"># --name 设置容器名称【别忘了】</span></span><br><span class="line"><span class="comment"># 最后一个 即为要运行的镜像名</span></span><br><span class="line"><span class="comment"># 【多端口，多目录映射】-p和-v参数都可以有多个，即可以指定多个端口和目录映射</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====容器的暂停、终止====</span></span><br><span class="line"><span class="comment"># 容器终止</span></span><br><span class="line">docker stop &lt;name&gt;</span><br><span class="line"><span class="comment"># 启动已终止运行的容器</span></span><br><span class="line">docker start &lt;name&gt;</span><br><span class="line"><span class="comment"># 清理掉所有处于终止状态的容器</span></span><br><span class="line">docker container prune</span><br><span class="line"><span class="comment"># 暂停容器</span></span><br><span class="line">docker pause &lt;name&gt;</span><br><span class="line"><span class="comment"># 继续已暂停的容器</span></span><br><span class="line">docker unpause &lt;name&gt;</span><br><span class="line"><span class="comment"># 重启容器</span></span><br><span class="line">docker restart &lt;name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ====删除容器====</span></span><br><span class="line">docker rm -f &lt;name&gt;</span><br><span class="line"><span class="comment"># 删除容器不是删除镜像</span></span><br><span class="line"><span class="comment"># -f可以删除未终止的容器；安全的操作是先终止再删除，-f可以省事</span></span><br><span class="line">docker rm -v</span><br><span class="line"><span class="comment"># -v 会同时删除该容器挂载的volume（且没有其它容器连接到该Volume，否则不会删除）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====进入容器====</span></span><br><span class="line">docker <span class="built_in">exec</span> -it mysql /bin/bash </span><br><span class="line"><span class="comment">#-it 分配一个虚拟终端，进入该容器命令行界面</span></span><br><span class="line"><span class="comment"># /bin/bash 放在镜像名后的是命令，这里我们希望使用/bin/bash。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ====容器与宿主复制====</span></span><br><span class="line">docker cp &lt;宿主文件地址&gt; &lt;name&gt;:&lt;容器文件地址&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ====查看容器状态====   </span></span><br><span class="line">docker ps </span><br><span class="line"></span><br><span class="line"><span class="comment"># ====镜像打包相关====</span></span><br><span class="line"><span class="comment"># 将镜像打包成tar（打包就是压缩，格式为tar）</span></span><br><span class="line">docker save -o myImages.tar myImages</span><br><span class="line"><span class="comment">#-o 指定打包后的名字</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入tar打包的镜像（导入到本地镜像仓库）</span></span><br><span class="line">docker load &lt; myImages.tar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成容器快照：容器直接打包成tar镜像（相当于commit+save）</span></span><br><span class="line">docker <span class="built_in">export</span> &lt;name&gt; &gt; myDockerImage.tar</span><br><span class="line"><span class="comment"># 导入容器快照：将打包的tar镜像直接生成容器（相当于load+run）</span></span><br><span class="line">docker import</span><br><span class="line"><span class="comment"># 使用见：https://www.simapple.com/327.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 给镜像打tag</span></span><br><span class="line">docker tag</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash"># ====从远程仓库拉取镜像到本地====
+docker pull <name>
+# 如何设置默认仓库见https://www.cnblogs.com/silva/p/11505925.html
+# 可以创建自己的仓库服务，以阿里云为例，见 阿里云-容器镜像服务 说明
+# 可以指定从哪个registry的哪个仓库拉取，比如registry是myregistry.local:1234，仓库是aisaka-test，想要拉取test-image：
+docker pull myregistry.local:1234/aisaka-test/test-image
+
+# 在仓库搜索镜像
+docker search 
+# ====推送容器镜像到远程镜像仓库====
+docker push <name>
+# 同pull一样也可以push到指定仓库
+docker push myregistry.local:1234/aisaka-test/test-image
+
+# ====查看本地镜像====
+docker images
+# 删除本地镜像
+docker rmi <name>
+
+# ====从容器生成镜像====
+docker commit -a "aisaka" -m "test" nextcloud nextcloud:v1
+# -a :提交的镜像作者；
+# -c :使用Dockerfile指令来创建镜像；
+# -m :提交时的说明文字；
+# -p :在commit时，将容器暂停。
+# nextcloud:v1是我给生成镜像取的名字，:后面跟着的是TAG，用于标识版本
+
+# ====用dockerfile生成镜像====
+docker build
+# 见https://www.runoob.com/docker/docker-build-command.html
+
+# ====镜像创建容器====
+docker create <name>
+# 与run的区别在于，create创建的容器是stop状态，而run是running状态
+
+# ====【运行容器镜像】====
+docker run -d -p 3306:3306 -v /mnt/sde/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=WZS134125 --name mysql mysql
+# -d 后台守护进程方式运行（启动后进入后台）
+# -p 端口映射，宿主端口：容器端口【重要】 
+# -v 目录挂载，宿主目录：容器目录【重要】  
+# -e 设置变量
+# --name 设置容器名称【别忘了】
+# 最后一个 即为要运行的镜像名
+# 【多端口，多目录映射】-p和-v参数都可以有多个，即可以指定多个端口和目录映射
+
+# ====容器的暂停、终止====
+# 容器终止
+docker stop <name>
+# 启动已终止运行的容器
+docker start <name>
+# 清理掉所有处于终止状态的容器
+docker container prune
+# 暂停容器
+docker pause <name>
+# 继续已暂停的容器
+docker unpause <name>
+# 重启容器
+docker restart <name>
+
+# ====删除容器====
+docker rm -f <name>
+# 删除容器不是删除镜像
+# -f可以删除未终止的容器；安全的操作是先终止再删除，-f可以省事
+docker rm -v
+# -v 会同时删除该容器挂载的volume（且没有其它容器连接到该Volume，否则不会删除）
+
+# ====进入容器====
+docker exec -it mysql /bin/bash 
+#-it 分配一个虚拟终端，进入该容器命令行界面
+# /bin/bash 放在镜像名后的是命令，这里我们希望使用/bin/bash。
+
+# ====容器与宿主复制====
+docker cp <宿主文件地址> <name>:<容器文件地址>
+
+# ====查看容器状态====   
+docker ps 
+
+# ====镜像打包相关====
+# 将镜像打包成tar（打包就是压缩，格式为tar）
+docker save -o myImages.tar myImages
+#-o 指定打包后的名字
+
+# 导入tar打包的镜像（导入到本地镜像仓库）
+docker load < myImages.tar
+
+# 生成容器快照：容器直接打包成tar镜像（相当于commit+save）
+docker export <name> > myDockerImage.tar
+# 导入容器快照：将打包的tar镜像直接生成容器（相当于load+run）
+docker import
+# 使用见：https://www.simapple.com/327.html
+
+# 给镜像打tag
+docker tag
+</code></pre>
 <ol>
 <li><p>pull、push、run，commit，images，ps，rmi，rm，cp，build等都是很常用的命令</p>
 </li>
@@ -543,18 +636,44 @@
 <p><strong>先在宿主新建一个volume，然后再将volume挂载到指定容器内的挂载点上。</strong>容器目录是不会变的，迁移的时候新建volume直接指定名字即可，所以也不需要改变。</p>
 <p>volume是被docker管理的，<strong>docker下所有的volume都在host机器上的指定目录下<code>/var/lib/docker/volumes</code></strong></p>
 <p>最常用的就是volume方式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建一个volume</span></span><br><span class="line">docker volume create my-volume</span><br><span class="line"></span><br><span class="line"><span class="comment"># 挂载</span></span><br><span class="line">docker run  -v my-volume:/var/lib/mysql mysql</span><br><span class="line"><span class="comment"># （省略掉了其它参数）</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash"># 新建一个volume
+docker volume create my-volume
+
+# 挂载
+docker run  -v my-volume:/var/lib/mysql mysql
+# （省略掉了其它参数）
+</code></pre>
 <p>如果<strong>不指定volume的话，也会挂载到该目录，不过名字是随机生成的一串id</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run  -v /var/lib/mysql mysql</span><br><span class="line"><span class="comment"># 未指定volume，自动生成了</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash">docker run  -v /var/lib/mysql mysql
+# 未指定volume，自动生成了
+</code></pre>
 <p>使用dockerfile的话，直接写VOLUME项的挂载点即可</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/lib/mysql</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-dockerfile"><code class="language-lang-dockerfile">VOLUME /var/lib/mysql
+</code></pre>
 <p>但是，通过 dockerfile的VOLUME 指令创建的挂载点，是自动生成的<strong>默认容器名字</strong>（和前面一样）！</p>
 <p>docker的volume也有一套管理工具</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker volume create &lt;volume name&gt;</span><br><span class="line">docker volume inspect &lt;volume name&gt; <span class="comment">#查看指定容器详细信息</span></span><br><span class="line">docker volume ls</span><br><span class="line">docker volume rm</span><br><span class="line">docker volume prune <span class="comment">#删掉本地所有未使用的容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器的时候同时删除挂载的volume（前提是没有其它容器连接到该Volume，否则不会删除）</span></span><br><span class="line">docker rm -v</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash">docker volume create <volume name>
+docker volume inspect <volume name> #查看指定容器详细信息
+docker volume ls
+docker volume rm
+docker volume prune #删掉本地所有未使用的容器
+
+# 删除容器的时候同时删除挂载的volume（前提是没有其它容器连接到该Volume，否则不会删除）
+docker rm -v
+</code></pre>
 <p>关于volume的迁移：<a href="https://www.dazhuanlan.com/2019/12/17/5df802a921096/" target="_blank" rel="noopener">Docker数据卷Volume的备份，迁移，恢复</a></p>
 <p><strong>docker-compose也可以设置volume，且可以指定volume挂载目录！结合后面一节docker-compose看</strong></p>
 <p><strong>建议首选在docker-compose中配置volume（最方便、明了）</strong>（等其它参数），而不是在dockerfile中</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span> <span class="comment"># 表示该 Docker-Compose 文件使用的是 Version 2 file</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  docker-demo:</span>  <span class="comment"># 指定服务名称</span></span><br><span class="line"><span class="attr">    build:</span> <span class="string">.</span>  <span class="comment"># 指定 Dockerfile 所在路径</span></span><br><span class="line"><span class="attr">    ports:</span>    <span class="comment"># 指定端口映射</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"9000:8761"</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">&lt;宿主目录volumes地址&gt;:&lt;容器挂载目录&gt;</span>   <span class="comment">#使用具体路径直接挂载到本地</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">&lt;volumes名&gt;:&lt;容器挂载目录&gt;</span>   <span class="comment">#直接使用volumes名，但不能设置volumes目录，自动挂载在/var/lib/docker/volumes目录</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-yaml"><code class="language-lang-yaml">version: '2' # 表示该 Docker-Compose 文件使用的是 Version 2 file
+services:
+  docker-demo:  # 指定服务名称
+    build: .  # 指定 Dockerfile 所在路径
+    ports:    # 指定端口映射
+      - "9000:8761"
+    volumes:
+      - <宿主目录volumes地址>:<容器挂载目录>   #使用具体路径直接挂载到本地
+      - <volumes名>:<容器挂载目录>   #直接使用volumes名，但不能设置volumes目录，自动挂载在/var/lib/docker/volumes目录
+</code></pre>
 <h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>容器中未被宿主目录挂载的目录和里面的数据，将被储存在容器里，随容器删除而删除</p>
 <p><strong>所以要想将数据和容器隔离，必须用前面的方式做数据持久化，只有被挂载的数据会被持久化</strong></p>
 <p>P.S.1 容器目录不可以为相对路径</p>
@@ -590,9 +709,43 @@
 <h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>多个docker之间要相互合作，比如nginx、mysql、nextcloud每个组件都在一个容器里，那我就需要docker-compose。将项目需要哪些镜像，每个镜像怎么配置，要挂载哪些volume等等信息都写在docker-compose.yml里来实现容器的协同工作</p>
 <p><strong>阅读参考（这个写得很详细了，具体配置和指令见此文）</strong>：<a href="https://www.jianshu.com/p/658911a8cff3" target="_blank" rel="noopener">Docker：Docker Compose 详解</a></p>
 <p>在docker-compose中会指定多个dockerfile，且会指定该dockerfile生成的镜像的端口<code>容器端口：宿主端口</code>的映射（注意勿忘了必须在dockerfile里配置要暴露的端口）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 docker-compose.yml 所在路径下执行该命令 Compose 就会自动构建镜像并使用镜像启动容器</span></span><br><span class="line">docker-compose up -d </span><br><span class="line"></span><br><span class="line">docker-compose ps</span><br><span class="line">docker-compose logs</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose start </span><br><span class="line">docker-compose stop </span><br><span class="line">docker-compose rm</span><br><span class="line">docker-compose up</span><br><span class="line">docker-compose <span class="built_in">kill</span></span><br><span class="line">docker-compose run </span><br><span class="line">docker-compose scale</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash"># 在 docker-compose.yml 所在路径下执行该命令 Compose 就会自动构建镜像并使用镜像启动容器
+docker-compose up -d 
+
+docker-compose ps
+docker-compose logs
+docker-compose build
+docker-compose start 
+docker-compose stop 
+docker-compose rm
+docker-compose up
+docker-compose kill
+docker-compose run 
+docker-compose scale
+</code></pre>
 <p>模板（参数可选）：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span> <span class="comment"># 表示该 Docker-Compose 文件使用的是 Version 2 file</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  server-docker-name1:</span>  <span class="comment"># 指定服务名称</span></span><br><span class="line"><span class="attr">    build:</span> <span class="string">.</span>  <span class="comment"># 指定 Dockerfile 所在路径，如果没写下面三个子项就可以只写这里</span></span><br><span class="line"><span class="attr">      context:</span> <span class="string">./dir</span>  </span><br><span class="line"><span class="attr">      dockerfile:</span> <span class="string">Dockerfile</span>  <span class="comment">#对象</span></span><br><span class="line"><span class="attr">      args:</span></span><br><span class="line"><span class="attr">    image:</span>  <span class="comment">#指定镜像</span></span><br><span class="line"><span class="attr">    ports:</span>    <span class="comment"># 指定端口映射 &lt;宿主&gt;:&lt;容器&gt;</span></span><br><span class="line"><span class="attr">    volumes:</span>  <span class="comment">#设置volumes</span></span><br><span class="line"><span class="attr">    dns:</span></span><br><span class="line"><span class="attr">    dns_search:</span></span><br><span class="line"><span class="attr">    environment:</span> <span class="comment">#环境变量</span></span><br><span class="line"><span class="attr">    env_file:</span>  <span class="comment">#环境变量文件</span></span><br><span class="line"><span class="attr">    expose:</span> <span class="comment">#暴露端口，只将端口暴露给连接的服务，而不暴露给主机</span></span><br><span class="line"><span class="attr">    network_mode:</span> <span class="comment">#设置网络模式</span></span><br><span class="line"><span class="attr">    links:</span> <span class="comment">#将指定容器连接到当前连接，可以设置别名，避免ip方式导致的容器重启动态改变的无法连接情况</span></span><br><span class="line"><span class="attr">    volumes:</span>  <span class="comment">#卷挂载目录</span></span><br><span class="line"><span class="attr">    logs:</span> <span class="comment">#日志输出信息</span></span><br><span class="line"><span class="attr">  server-docker-name2:</span>  </span><br><span class="line">    <span class="comment"># xxxxxx 和前面一样</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-yaml"><code class="language-lang-yaml">version: '2' # 表示该 Docker-Compose 文件使用的是 Version 2 file
+services:
+  server-docker-name1:  # 指定服务名称
+    build: .  # 指定 Dockerfile 所在路径，如果没写下面三个子项就可以只写这里
+      context: ./dir  
+      dockerfile: Dockerfile  #对象
+      args:
+    image:  #指定镜像
+    ports:    # 指定端口映射 <宿主>:<容器>
+    volumes:  #设置volumes
+    dns:
+    dns_search:
+    environment: #环境变量
+    env_file:  #环境变量文件
+    expose: #暴露端口，只将端口暴露给连接的服务，而不暴露给主机
+    network_mode: #设置网络模式
+    links: #将指定容器连接到当前连接，可以设置别名，避免ip方式导致的容器重启动态改变的无法连接情况
+    volumes:  #卷挂载目录
+    logs: #日志输出信息
+  server-docker-name2:  
+    # xxxxxx 和前面一样
+</code></pre>
 <h1 id="SOA和微服务"><a href="#SOA和微服务" class="headerlink" title="SOA和微服务"></a>SOA和微服务</h1><h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><p>SOA=<strong>Service Oriented Architecture</strong>，面向服务的架构</p>
 <blockquote>
 <p>SOA是一种设计方法，其包含多个服务，而<strong>服务之间通过相互依赖配合最终会提供一系列功能</strong>。一个服务通常以独立的形式存在于操作系统进程中。服务之间通过网络调用，而非采用进程内调用的方式进行通信。</p>

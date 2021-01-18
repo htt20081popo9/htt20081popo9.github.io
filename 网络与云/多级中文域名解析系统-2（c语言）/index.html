@@ -489,9 +489,400 @@
         <div class="entry-content">
           <h2 id="LOCAL-DNS"><a href="#LOCAL-DNS" class="headerlink" title="LOCAL_DNS"></a>LOCAL_DNS</h2><p><em>local DNS作为本地网络中的逻辑核心非常重要</em></p>
  <a id="more"></a>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"localServer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CACHEFILE <span class="meta-string">"localCache.txt"</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isEnd</span><span class="params">(struct DNS_Header *header)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (header-&gt;authorNum!=<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//①设置监听</span></span><br><span class="line">	<span class="keyword">int</span> serverSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//发送缓冲区和接收缓冲区</span></span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>]; </span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//初始化缓冲区</span></span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">//声明两个套接字sockaddr_in结构体，分别用于客户端和服务器 </span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span>  </span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">clientAddr</span>;</span>  </span><br><span class="line">	<span class="keyword">int</span> addr_len = <span class="keyword">sizeof</span>(clientAddr);  </span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> client;  </span><br><span class="line">	<span class="comment">//初始化服务器端的套接字</span></span><br><span class="line">	bzero(&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));  </span><br><span class="line">	server_addr.sin_family = AF_INET;  </span><br><span class="line">	server_addr.sin_port = htons(SERVER_PORT); </span><br><span class="line">	server_addr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);  </span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//绑定套接字</span></span><br><span class="line">	bind(serverSocket, (struct sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(server_addr));</span><br><span class="line">	<span class="comment">//设置监听状态</span></span><br><span class="line">	listen(serverSocket, <span class="number">5</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//②循环监听</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"监听端口 ： %d\n"</span>,SERVER_PORT);</span><br><span class="line">		<span class="comment">//调用accept，进入阻塞状态，返回一个client套接字描述符</span></span><br><span class="line">		client = accept(serverSocket, (struct sockaddr*)&amp;clientAddr, (<span class="keyword">socklen_t</span>*)&amp;addr_len);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接成功\n"</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">c</span>;</span></span><br><span class="line">		<span class="keyword">socklen_t</span> cLen = <span class="keyword">sizeof</span>(c);</span><br><span class="line">		getpeername(client, (struct sockaddr*) &amp;c, &amp;cLen); </span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"请求端信息： %s : %d\n"</span>,inet_ntoa(c.sin_addr),ntohs(c.sin_port));	</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对于TCP，先接收一个两字节的包长度</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> recv_length;</span><br><span class="line">		recv(client,&amp;recv_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		recv_length = ntohs(recv_length);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//接收客户端发来的数据，recv返回值为接收字节数</span></span><br><span class="line">		<span class="keyword">int</span> dataNum = recv(client,recvbuf,recv_length,<span class="number">0</span>);</span><br><span class="line">					</span><br><span class="line">		<span class="comment">//③提取recvbuf，构建DNS包</span></span><br><span class="line">		<span class="comment">//构造DNS包头部，从缓冲区读取一个DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">client_query_header</span>;</span></span><br><span class="line">		client_query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(client_query_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n请求端信息：\n"</span>);</span><br><span class="line">		print_header(client_query_header);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//构造准备发送的DNS头部</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">query_header</span>;</span></span><br><span class="line">		query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		<span class="built_in">memcpy</span>(query_header,client_query_header,<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		query_header-&gt;queryNum = <span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//④解析并处理请求</span></span><br><span class="line">		<span class="comment">//有多少个请求，就进行几次循环，每个循环完成一次系统运作</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;client_query_header-&gt;queryNum;i++)   </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析一个请求部分</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">client_query_section</span>;</span></span><br><span class="line">			client_query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">			decode_query_section(client_query_section,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n正在处理第 %d 个请求\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//判断本地缓存中是否存在</span></span><br><span class="line">			<span class="keyword">int</span> findInCache = firstFindRR(client_query_section,CACHEFILE,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> (findInCache==<span class="number">1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"在本地缓存中找到记录，直接回复请求\n"</span>);</span><br><span class="line">				<span class="keyword">goto</span> findit;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//本地缓存不存在</span></span><br><span class="line">			<span class="keyword">char</span> UDPsendbuf[<span class="number">512</span>];</span><br><span class="line">			<span class="keyword">char</span> UDPrecvbuf[<span class="number">512</span>]; </span><br><span class="line">			<span class="keyword">int</span> UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//直接将从客户端接受收的包写入缓冲区</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n发送给根服务器的请求：\n"</span>);</span><br><span class="line">			encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_header(query_header);</span><br><span class="line">			encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">			print_query_section(client_query_section);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//定义用于接收的结构。由于根服务器必然不可能返回最终结果，所以不需要构造answer</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">DNS_RR</span> *<span class="title">recv_answer</span>,*<span class="title">recv_authority</span>,*<span class="title">recv_additional</span>;</span></span><br><span class="line">			recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">			recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//与根服务器建立UDP连接</span></span><br><span class="line">			<span class="keyword">int</span> sockfd=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">			addr.sin_family =AF_INET;</span><br><span class="line">			addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">			addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);	</span><br><span class="line">			</span><br><span class="line">			bind(sockfd,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//发送  </span></span><br><span class="line">			sendto(sockfd,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//接收回复</span></span><br><span class="line">			<span class="keyword">socklen_t</span> len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">			recvfrom(sockfd,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);   </span><br><span class="line">			</span><br><span class="line">			<span class="comment">//断开</span></span><br><span class="line">			close(sockfd); </span><br><span class="line">			</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n收到根服务器的回复：\n"</span>);</span><br><span class="line">			<span class="comment">//从接收缓冲区解析并构造包结构然后打印</span></span><br><span class="line">			decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_header(recv_header);</span><br><span class="line">			 </span><br><span class="line">			decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_authority);</span><br><span class="line">			decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">			print_resource_record(recv_additional);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//重置缓冲区</span></span><br><span class="line">			UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//用于计数本次循环是第几级服务器发来的</span></span><br><span class="line">			<span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>(isEnd(recv_header)==<span class="number">0</span>)  </span><br><span class="line">			&#123;</span><br><span class="line">				count++;</span><br><span class="line">				<span class="comment">//向下一个服务器建立UDP连接</span></span><br><span class="line">				<span class="keyword">int</span> sockfm=socket(AF_INET,SOCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">				<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">				addr.sin_family =AF_INET;</span><br><span class="line">				addr.sin_port =htons(SERVER_PORT);</span><br><span class="line">				addr.sin_addr.s_addr=inet_addr(recv_additional-&gt;rdata);		</span><br><span class="line">				<span class="comment">//recv_additional-&gt;rdata即保存着下一个服务器的IP</span></span><br><span class="line">				</span><br><span class="line">				bind(sockfm,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//重置缓冲区和结构</span></span><br><span class="line">				UDPsendBufferPointer=<span class="number">0</span>;</span><br><span class="line">				UDPrecvBufferPointer=<span class="number">0</span>;</span><br><span class="line">				<span class="built_in">memset</span>(UDPsendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">memset</span>(UDPrecvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">				<span class="built_in">free</span>(recv_header);     recv_header = <span class="literal">NULL</span>;           </span><br><span class="line">				<span class="built_in">free</span>(recv_authority);  recv_authority = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">free</span>(recv_additional); recv_additional = <span class="literal">NULL</span>;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//直接将从客户端接受收的请求写入发送缓冲区</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n发送给 %d级 服务器的请求：\n"</span>,count);</span><br><span class="line">				encode_header(query_header,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_header(query_header);</span><br><span class="line">				encode_query_section(client_query_section,UDPsendbuf,&amp;UDPsendBufferPointer);</span><br><span class="line">				print_query_section(client_query_section);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//发送</span></span><br><span class="line">				sendto(sockfm,UDPsendbuf,UDPsendBufferPointer,<span class="number">0</span>,(struct sockaddr*)&amp;addr,<span class="keyword">sizeof</span>(addr));</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//接收回复</span></span><br><span class="line">				len=<span class="keyword">sizeof</span>(addr);</span><br><span class="line">				recvfrom(sockfm,UDPrecvbuf,<span class="keyword">sizeof</span>(UDPrecvbuf),<span class="number">0</span>,(struct sockaddr*)&amp;addr,&amp;len);</span><br><span class="line">				</span><br><span class="line">				<span class="comment">//断开连接</span></span><br><span class="line">				close(sockfm); </span><br><span class="line">				</span><br><span class="line">				<span class="comment">//开始处理</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"\n收到 %d级 服务器发来的回复：\n"</span>,count);	</span><br><span class="line">				</span><br><span class="line">				recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">				recv_answer = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_authority = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				recv_additional = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">				</span><br><span class="line">				decode_header(recv_header,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">				print_header(recv_header);</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;   </span><br><span class="line">					decode_resource_record(recv_answer,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_answer);</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;  </span><br><span class="line">					decode_resource_record(recv_authority,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_authority);</span><br><span class="line">				&#125;</span><br><span class="line">				 </span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;      </span><br><span class="line">					decode_resource_record(recv_additional,UDPrecvbuf,&amp;UDPrecvBufferPointer);</span><br><span class="line">					print_resource_record(recv_additional);</span><br><span class="line">				&#125;			</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//UDP请求的循环结束，此时构造得到的结构体已经得到该次请求目标结果，且已经在循环中打印  </span></span><br><span class="line">			<span class="comment">//将从最终结果服务器返回来的结构写入发送缓冲区，本次循环结束</span></span><br><span class="line">			encode_header(recv_header,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;answerNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_answer,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				<span class="comment">//将结果写入cache</span></span><br><span class="line">				addRRToCache(recv_answer,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;authorNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_authority,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_authority,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;recv_header-&gt;addNum;j++)&#123;</span><br><span class="line">				encode_resource_record(recv_additional,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">				addRRToCache(recv_additional,<span class="string">"localCache.txt"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		findit:;</span><br><span class="line">			<span class="comment">//⑤发送缓冲</span></span><br><span class="line">			<span class="comment">//发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标</span></span><br><span class="line">			<span class="keyword">unsigned</span> <span class="keyword">short</span> send_length = htons(sendBufferPointer);</span><br><span class="line">			send(client,&amp;send_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">			send(client, sendbuf, sendBufferPointer, <span class="number">0</span>);   </span><br><span class="line">			<span class="comment">//一个请求的解析与回答发送结束,清空发送缓冲区与指针，准备进行下一次发送</span></span><br><span class="line">			sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//对一个客户端的所有请求解析结束</span></span><br><span class="line">		close(client);</span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接关闭\n"</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"===================================\n\n"</span>);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+
+#include "defAndTools.h"
+#include "localServer.h"
+
+#define CACHEFILE "localCache.txt"
+int isEnd(struct DNS_Header *header)
+{
+    if (header->authorNum!=0)
+        return 0;
+    return 1;
+}
+
+int main(int argc, char *argv[]) 
+{
+    //①设置监听
+    int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    //发送缓冲区和接收缓冲区
+    char sendbuf[512];
+    char recvbuf[512]; 
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    //初始化缓冲区
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    //声明两个套接字sockaddr_in结构体，分别用于客户端和服务器 
+    struct sockaddr_in server_addr;  
+    struct sockaddr_in clientAddr;  
+    int addr_len = sizeof(clientAddr);  
+
+    int client;  
+    //初始化服务器端的套接字
+    bzero(&server_addr, sizeof(server_addr));  
+    server_addr.sin_family = AF_INET;  
+    server_addr.sin_port = htons(SERVER_PORT); 
+    server_addr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);  
+
+    //绑定套接字
+    bind(serverSocket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    //设置监听状态
+    listen(serverSocket, 5);
+
+    //②循环监听
+    while(1)
+    {
+        printf("监听端口 ： %d\n",SERVER_PORT);
+        //调用accept，进入阻塞状态，返回一个client套接字描述符
+        client = accept(serverSocket, (struct sockaddr*)&clientAddr, (socklen_t*)&addr_len);
+        printf("连接成功\n");
+
+        struct sockaddr_in c;
+        socklen_t cLen = sizeof(c);
+        getpeername(client, (struct sockaddr*) &c, &cLen); 
+        printf("请求端信息： %s : %d\n",inet_ntoa(c.sin_addr),ntohs(c.sin_port));    
+
+        //对于TCP，先接收一个两字节的包长度
+        unsigned short recv_length;
+        recv(client,&recv_length,2,0);
+        recv_length = ntohs(recv_length);
+
+        //接收客户端发来的数据，recv返回值为接收字节数
+        int dataNum = recv(client,recvbuf,recv_length,0);
+
+        //③提取recvbuf，构建DNS包
+        //构造DNS包头部，从缓冲区读取一个DNS头部
+        struct DNS_Header *client_query_header;
+        client_query_header = malloc(sizeof(DNS_HEAD));
+        decode_header(client_query_header,recvbuf,&recvBufferPointer);
+        printf("\n请求端信息：\n");
+        print_header(client_query_header);
+
+        //构造准备发送的DNS头部
+        struct DNS_Header *query_header;
+        query_header = malloc(sizeof(DNS_HEAD));
+        memcpy(query_header,client_query_header,sizeof(DNS_HEAD));
+        query_header->queryNum = 1;
+
+        //④解析并处理请求
+        //有多少个请求，就进行几次循环，每个循环完成一次系统运作
+        for(int i=0;i<client_query_header->queryNum;i++)   
+        {
+            //读取解析一个请求部分
+            struct DNS_Query *client_query_section;
+            client_query_section = malloc(sizeof(DNS_QUERY));
+            decode_query_section(client_query_section,recvbuf,&recvBufferPointer);
+            printf("\n正在处理第 %d 个请求\n",i+1);
+            print_query_section(client_query_section);
+
+            //判断本地缓存中是否存在
+            int findInCache = firstFindRR(client_query_section,CACHEFILE,sendbuf,&sendBufferPointer);
+
+            if (findInCache==1)
+            {
+                printf("在本地缓存中找到记录，直接回复请求\n");
+                goto findit;
+            }
+
+            //本地缓存不存在
+            char UDPsendbuf[512];
+            char UDPrecvbuf[512]; 
+            int UDPsendBufferPointer=0;
+            int UDPrecvBufferPointer=0;
+            memset(UDPsendbuf,0,512);
+            memset(UDPrecvbuf,0,512);
+
+            //直接将从客户端接受收的包写入缓冲区
+            printf("\n发送给根服务器的请求：\n");
+            encode_header(query_header,UDPsendbuf,&UDPsendBufferPointer);
+            print_header(query_header);
+            encode_query_section(client_query_section,UDPsendbuf,&UDPsendBufferPointer);
+            print_query_section(client_query_section);
+
+            //定义用于接收的结构。由于根服务器必然不可能返回最终结果，所以不需要构造answer
+            struct DNS_Header *recv_header;
+            struct DNS_RR *recv_answer,*recv_authority,*recv_additional;
+            recv_header = malloc(sizeof(DNS_HEAD));
+            recv_authority = malloc(sizeof(DNS_ResouceRecord));
+            recv_additional = malloc(sizeof(DNS_ResouceRecord));
+
+            //与根服务器建立UDP连接
+            int sockfd=socket(AF_INET,SOCK_DGRAM,0);
+            struct sockaddr_in addr;
+            addr.sin_family =AF_INET;
+            addr.sin_port =htons(SERVER_PORT);
+            addr.sin_addr.s_addr=inet_addr(ROOT_SERVER_IP);    
+
+            bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+
+            //发送  
+            sendto(sockfd,UDPsendbuf,UDPsendBufferPointer,0,(struct sockaddr*)&addr,sizeof(addr));
+
+            //接收回复
+            socklen_t len=sizeof(addr);
+            recvfrom(sockfd,UDPrecvbuf,sizeof(UDPrecvbuf),0,(struct sockaddr*)&addr,&len);   
+
+            //断开
+            close(sockfd); 
+
+            printf("\n收到根服务器的回复：\n");
+            //从接收缓冲区解析并构造包结构然后打印
+            decode_header(recv_header,UDPrecvbuf,&UDPrecvBufferPointer);
+            print_header(recv_header);
+
+            decode_resource_record(recv_authority,UDPrecvbuf,&UDPrecvBufferPointer);
+            print_resource_record(recv_authority);
+            decode_resource_record(recv_additional,UDPrecvbuf,&UDPrecvBufferPointer);
+            print_resource_record(recv_additional);
+
+            //重置缓冲区
+            UDPsendBufferPointer=0;
+            UDPrecvBufferPointer=0;
+            memset(UDPsendbuf,0,512);
+            memset(UDPrecvbuf,0,512);
+
+            //用于计数本次循环是第几级服务器发来的
+            int count=0;
+            while(isEnd(recv_header)==0)  
+            {
+                count++;
+                //向下一个服务器建立UDP连接
+                int sockfm=socket(AF_INET,SOCK_DGRAM,0);
+                struct sockaddr_in addr;
+                addr.sin_family =AF_INET;
+                addr.sin_port =htons(SERVER_PORT);
+                addr.sin_addr.s_addr=inet_addr(recv_additional->rdata);        
+                //recv_additional->rdata即保存着下一个服务器的IP
+
+                bind(sockfm,(struct sockaddr*)&addr,sizeof(addr));
+
+                //重置缓冲区和结构
+                UDPsendBufferPointer=0;
+                UDPrecvBufferPointer=0;
+                memset(UDPsendbuf,0,512);
+                memset(UDPrecvbuf,0,512);
+                free(recv_header);     recv_header = NULL;           
+                free(recv_authority);  recv_authority = NULL;
+                free(recv_additional); recv_additional = NULL;
+
+                //直接将从客户端接受收的请求写入发送缓冲区
+                printf("\n发送给 %d级 服务器的请求：\n",count);
+                encode_header(query_header,UDPsendbuf,&UDPsendBufferPointer);
+                print_header(query_header);
+                encode_query_section(client_query_section,UDPsendbuf,&UDPsendBufferPointer);
+                print_query_section(client_query_section);
+
+                //发送
+                sendto(sockfm,UDPsendbuf,UDPsendBufferPointer,0,(struct sockaddr*)&addr,sizeof(addr));
+
+                //接收回复
+                len=sizeof(addr);
+                recvfrom(sockfm,UDPrecvbuf,sizeof(UDPrecvbuf),0,(struct sockaddr*)&addr,&len);
+
+                //断开连接
+                close(sockfm); 
+
+                //开始处理
+                printf("\n收到 %d级 服务器发来的回复：\n",count);    
+
+                recv_header = malloc(sizeof(DNS_HEAD));
+                recv_answer = malloc(sizeof(DNS_ResouceRecord));
+                recv_authority = malloc(sizeof(DNS_ResouceRecord));
+                recv_additional = malloc(sizeof(DNS_ResouceRecord));
+
+                decode_header(recv_header,UDPrecvbuf,&UDPrecvBufferPointer);
+                print_header(recv_header);
+
+                for(int j=0;j<recv_header->answerNum;j++){   
+                    decode_resource_record(recv_answer,UDPrecvbuf,&UDPrecvBufferPointer);
+                    print_resource_record(recv_answer);
+                }
+
+                for(int j=0;j<recv_header->authorNum;j++){  
+                    decode_resource_record(recv_authority,UDPrecvbuf,&UDPrecvBufferPointer);
+                    print_resource_record(recv_authority);
+                }
+
+                for(int j=0;j<recv_header->addNum;j++){      
+                    decode_resource_record(recv_additional,UDPrecvbuf,&UDPrecvBufferPointer);
+                    print_resource_record(recv_additional);
+                }            
+            }
+
+            //UDP请求的循环结束，此时构造得到的结构体已经得到该次请求目标结果，且已经在循环中打印  
+            //将从最终结果服务器返回来的结构写入发送缓冲区，本次循环结束
+            encode_header(recv_header,sendbuf,&sendBufferPointer);
+            for(int j=0;j<recv_header->answerNum;j++){
+                encode_resource_record(recv_answer,sendbuf,&sendBufferPointer);
+                //将结果写入cache
+                addRRToCache(recv_answer,"localCache.txt");
+            }
+            for(int j=0;j<recv_header->authorNum;j++){
+                encode_resource_record(recv_authority,sendbuf,&sendBufferPointer);
+                addRRToCache(recv_authority,"localCache.txt");
+            }
+            for(int j=0;j<recv_header->addNum;j++){
+                encode_resource_record(recv_additional,sendbuf,&sendBufferPointer);
+                addRRToCache(recv_additional,"localCache.txt");
+            }
+
+        findit:;
+            //⑤发送缓冲
+            //发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标
+            unsigned short send_length = htons(sendBufferPointer);
+            send(client,&send_length,2,0);
+            send(client, sendbuf, sendBufferPointer, 0);   
+            //一个请求的解析与回答发送结束,清空发送缓冲区与指针，准备进行下一次发送
+            sendBufferPointer=0;
+            memset(sendbuf,0,512);    
+        }
+
+        //对一个客户端的所有请求解析结束
+        close(client);
+        recvBufferPointer=0;
+        memset(recvbuf,0,512);
+        printf("连接关闭\n");
+        printf("===================================\n\n");
+    } 
+}
+</code></pre>
 <h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><p><em>Client为本机主逻辑</em></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="comment">//底层操作</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defAndTools.h"</span></span></span><br><span class="line"><span class="comment">//本地服务器</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"localServer.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	<span class="comment">//容错</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=(argc<span class="number">-1</span>)/<span class="number">2</span>;i++)</span><br><span class="line">		<span class="keyword">if</span> (strTypeToCode(argv[<span class="number">2</span>*i])==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"类型错误！\n"</span>);</span><br><span class="line">				<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">			&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//①连接本地服务器 初始化TCP连接</span></span><br><span class="line">	<span class="keyword">int</span> clientSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//发送缓冲和接收缓冲</span></span><br><span class="line">	<span class="keyword">char</span> sendbuf[<span class="number">512</span>];    </span><br><span class="line">	<span class="keyword">char</span> recvbuf[<span class="number">512</span>];</span><br><span class="line">	<span class="comment">//定义缓冲区指示下标</span></span><br><span class="line">	<span class="keyword">int</span> sendBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//清空缓冲区</span></span><br><span class="line">	<span class="built_in">memset</span>(sendbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serverAddr</span>;</span></span><br><span class="line">	serverAddr.sin_family = AF_INET;</span><br><span class="line">	serverAddr.sin_port = htons(SERVER_PORT);</span><br><span class="line">	serverAddr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);</span><br><span class="line">	<span class="comment">//连接服务器</span></span><br><span class="line">	<span class="keyword">if</span>(connect(clientSocket, (struct sockaddr *)&amp;serverAddr, <span class="keyword">sizeof</span>(serverAddr))==<span class="number">-1</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"连接失败\n"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"发送信息：\n"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//②根据输入内容，准备DNS包，并写入发送缓冲区</span></span><br><span class="line">	<span class="comment">//定义DNS头部</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">query_header</span>;</span></span><br><span class="line">	query_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">	<span class="comment">//调用函数，填写欲发送的DNS包的头部结构体</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> tag = create_tag(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);    </span><br><span class="line">	<span class="comment">//argc-1除2即为域名请求的个数，因为每个域名参数后带一个类型</span></span><br><span class="line">	create_query_header(query_header,<span class="number">999</span>,tag,argc/<span class="number">2</span>,<span class="number">0x0000</span>,<span class="number">0x0000</span>,<span class="number">0x0000</span>);</span><br><span class="line">	<span class="comment">//将头部写入缓冲区</span></span><br><span class="line">	encode_header(query_header,sendbuf,&amp;sendBufferPointer);</span><br><span class="line">	<span class="comment">//打印生成的头部</span></span><br><span class="line">	print_header(query_header);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//根据运行参数生成一个或多个请求部分并写入缓冲区                         </span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=(argc<span class="number">-1</span>)/<span class="number">2</span>;i++) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//填写DNS请求结构，argv[2*i]字符串对应的类型</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> qtype = strTypeToCode(argv[<span class="number">2</span>*i]);    </span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> qclass = <span class="number">0x0001</span>;  </span><br><span class="line">		</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Query</span> *<span class="title">query_section</span>;</span></span><br><span class="line">		query_section = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">		create_query_section(query_section,argv[<span class="number">2</span>*i<span class="number">-1</span>],qtype,qclass);</span><br><span class="line">		encode_query_section(query_section,sendbuf,&amp;sendBufferPointer);	</span><br><span class="line">		print_query_section(query_section);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//③向本地服务器发包</span></span><br><span class="line">	<span class="comment">//发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> length = htons(sendBufferPointer);</span><br><span class="line">	<span class="comment">//对于TCP连接，必须先发送一个DNS包总长度，否则wireshark不会识别！</span></span><br><span class="line">	send(clientSocket,&amp;length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">	send(clientSocket, sendbuf, sendBufferPointer, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//④根据请求数量收包,有多少个请求就会收到多少个DNS包</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;query_header-&gt;queryNum;k++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> recv_length;</span><br><span class="line">		recv(clientSocket,&amp;recv_length,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		recv_length = ntohs(recv_length);</span><br><span class="line">		<span class="keyword">int</span> dataNum = recv(clientSocket, recvbuf, recv_length, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">		<span class="comment">//⑤处理接收到缓冲区的DNS包,从中抽取出需要返还给用户的数据</span></span><br><span class="line">		<span class="comment">//构造DNS包头部，从缓冲区读取并填充DNS头部	</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_Header</span> *<span class="title">recv_header</span>;</span></span><br><span class="line">		recv_header = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_HEAD));</span><br><span class="line">		decode_header(recv_header,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"[回复： %d]\n"</span>,k+<span class="number">1</span>);</span><br><span class="line">		print_header(recv_header);	</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">DNS_RR</span> *<span class="title">recv_answer</span>,*<span class="title">recv_add</span>;</span></span><br><span class="line">		<span class="comment">//标准回复只可能在answer和addition有值，所以只需要考虑读这两个部分</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;recv_header-&gt;answerNum;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析打印一个回应部分</span></span><br><span class="line">			recv_answer = <span class="literal">NULL</span>;</span><br><span class="line">			recv_answer = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_ResouceRecord));</span><br><span class="line">			decode_resource_record(recv_answer,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			print_resource_record(recv_answer);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;recv_header-&gt;addNum;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//读取解析打印一个addition部分</span></span><br><span class="line">			recv_add = <span class="literal">NULL</span>;</span><br><span class="line">			recv_add = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DNS_QUERY));</span><br><span class="line">			decode_resource_record(recv_add,recvbuf,&amp;recvBufferPointer);</span><br><span class="line">			print_resource_record(recv_add);</span><br><span class="line">		&#125;</span><br><span class="line">		recvBufferPointer=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">memset</span>(recvbuf,<span class="number">0</span>,<span class="number">512</span>);	</span><br><span class="line">	&#125;</span><br><span class="line">	close(clientSocket);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  
+#include <unistd.h>  
+#include <sys/stat.h>  
+#include <fcntl.h>  
+#include <errno.h>  
+#include <netdb.h>  
+#include <sys/types.h>  
+#include <sys/socket.h>  
+#include <netinet/in.h>  
+#include <arpa/inet.h>
+#include <stdint.h>
+//底层操作
+#include "defAndTools.h"
+//本地服务器
+#include "localServer.h"
+
+int main(int argc, char *argv[]) 
+{ 
+    //容错
+    for (int i=1;i<=(argc-1)/2;i++)
+        if (strTypeToCode(argv[2*i])==0)
+            {
+                printf("类型错误！\n");
+                exit(0);
+            }
+
+    //①连接本地服务器 初始化TCP连接
+    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    //发送缓冲和接收缓冲
+    char sendbuf[512];    
+    char recvbuf[512];
+    //定义缓冲区指示下标
+    int sendBufferPointer=0;
+    int recvBufferPointer=0;
+    //清空缓冲区
+    memset(sendbuf,0,512);
+    memset(recvbuf,0,512);
+
+    struct sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(SERVER_PORT);
+    serverAddr.sin_addr.s_addr = inet_addr(LOCAL_SERVER_IP);
+    //连接服务器
+    if(connect(clientSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr))==-1)
+        printf("连接失败\n");
+    printf("发送信息：\n");
+
+    //②根据输入内容，准备DNS包，并写入发送缓冲区
+    //定义DNS头部
+    struct DNS_Header *query_header;
+    query_header = malloc(sizeof(DNS_HEAD));
+    //调用函数，填写欲发送的DNS包的头部结构体
+    unsigned short tag = create_tag(0,0,0,0,0,0,0,0);    
+    //argc-1除2即为域名请求的个数，因为每个域名参数后带一个类型
+    create_query_header(query_header,999,tag,argc/2,0x0000,0x0000,0x0000);
+    //将头部写入缓冲区
+    encode_header(query_header,sendbuf,&sendBufferPointer);
+    //打印生成的头部
+    print_header(query_header);
+
+    //根据运行参数生成一个或多个请求部分并写入缓冲区                         
+    for(int i=1;i<=(argc-1)/2;i++) 
+    {
+        //填写DNS请求结构，argv[2*i]字符串对应的类型
+        unsigned short qtype = strTypeToCode(argv[2*i]);    
+        unsigned short qclass = 0x0001;  
+
+        struct DNS_Query *query_section;
+        query_section = malloc(sizeof(DNS_QUERY));
+        create_query_section(query_section,argv[2*i-1],qtype,qclass);
+        encode_query_section(query_section,sendbuf,&sendBufferPointer);    
+        print_query_section(query_section);
+    }
+
+    //③向本地服务器发包
+    //发送已准备好的在缓冲区的数据,包总长度即为当下发送缓冲区指针下标
+    unsigned short length = htons(sendBufferPointer);
+    //对于TCP连接，必须先发送一个DNS包总长度，否则wireshark不会识别！
+    send(clientSocket,&length,2,0);
+    send(clientSocket, sendbuf, sendBufferPointer, 0);
+
+    //④根据请求数量收包,有多少个请求就会收到多少个DNS包
+    for(int k=0;k<query_header->queryNum;k++)
+    {
+        unsigned short recv_length;
+        recv(clientSocket,&recv_length,2,0);
+        recv_length = ntohs(recv_length);
+        int dataNum = recv(clientSocket, recvbuf, recv_length, 0);
+
+        //⑤处理接收到缓冲区的DNS包,从中抽取出需要返还给用户的数据
+        //构造DNS包头部，从缓冲区读取并填充DNS头部    
+        struct DNS_Header *recv_header;
+        recv_header = malloc(sizeof(DNS_HEAD));
+        decode_header(recv_header,recvbuf,&recvBufferPointer);
+        printf("[回复： %d]\n",k+1);
+        print_header(recv_header);    
+        struct DNS_RR *recv_answer,*recv_add;
+        //标准回复只可能在answer和addition有值，所以只需要考虑读这两个部分
+        for(int i=0;i<recv_header->answerNum;i++)
+        {
+            //读取解析打印一个回应部分
+            recv_answer = NULL;
+            recv_answer = malloc(sizeof(DNS_ResouceRecord));
+            decode_resource_record(recv_answer,recvbuf,&recvBufferPointer);
+            print_resource_record(recv_answer);
+        }
+        for(int i=0;i<recv_header->addNum;i++)
+        {
+            //读取解析打印一个addition部分
+            recv_add = NULL;
+            recv_add = malloc(sizeof(DNS_QUERY));
+            decode_resource_record(recv_add,recvbuf,&recvBufferPointer);
+            print_resource_record(recv_add);
+        }
+        recvBufferPointer=0;
+        memset(recvbuf,0,512);    
+    }
+    close(clientSocket);
+}
+</code></pre>
 
         </div>
         <!-- .entry-content -->

@@ -492,7 +492,10 @@
 <h1 id="MySQL小TIP"><a href="#MySQL小TIP" class="headerlink" title="MySQL小TIP"></a>MySQL小TIP</h1><p>语句后面跟<code>\G</code>可以让返回结果表示成列表</p>
 <p>delete删数据，drop删结构</p>
 <p>没有<code>delete * from</code>的用法，只有<code>delete from</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#登陆mysql</span></span><br><span class="line">mysql -u username -p</span><br><span class="line"><span class="comment">#然后才会提示你输入密码，密码不能直接输在-p后面</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-bash"><code class="language-lang-bash">#登陆mysql
+mysql -u username -p
+#然后才会提示你输入密码，密码不能直接输在-p后面
+</code></pre>
 <p>mysql如何查看用户及其权限：<a href="https://blog.csdn.net/GX_1_11_real/article/details/95052475" target="_blank" rel="noopener">https://blog.csdn.net/GX_1_11_real/article/details/95052475</a></p>
 <p><code>&#39;username&#39;@&#39;ip&#39;</code>，表示用户名，和登陆ip。ip为’%’则表示一切ip，<code>localhost</code>表示本机</p>
 <p>host、user字段标识了可以访问数据库的<strong>主机和用户组合</strong></p>

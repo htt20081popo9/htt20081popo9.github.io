@@ -3952,7 +3952,7 @@ li.feature-2 {
         top: 98px !important;
     }
     .top-social_v2 li {
-        margin-right: 0px !important; 
+        margin-right: 0px !important;
         cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/ayuda.cur),auto !important;
     }
 }
@@ -7285,7 +7285,7 @@ to {
 }
 .highlight-wrap {
     position: relative;
-    background:#21252b;
+    background:#21252b;  /*  */
     border-radius:5px;
     font:15px/22px "Microsoft YaHei","Arial",Sans-Serif;
     line-height:1.6;
@@ -7293,7 +7293,7 @@ to {
     max-width:100%;
     overflow:auto;
     text-shadow:none;
-    color:#000;
+    color:#000;  /*#000*/
     padding-top:30px;
     box-shadow:0 10px 30px 0 rgba(0,0,0,.4)
 }

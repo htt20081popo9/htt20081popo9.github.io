@@ -494,12 +494,178 @@
 <p>输入第一行为组数，第二行为地图尺寸</p>
 <a id="more"></a>    
 <p>输入示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">5</span><br><span class="line">S###.</span><br><span class="line">...#.</span><br><span class="line">E#.##</span><br><span class="line">.#..#</span><br><span class="line">.####</span><br></pre></td></tr></table></figure>
-<p>示例答案：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">6215.</span><br><span class="line">...4.</span><br><span class="line">12.26</span><br><span class="line">.3..3</span><br><span class="line">.5621</span><br></pre></td></tr></table></figure>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>主要就是明确筛子的状态空间</p>
+<pre><code>1
+5
+S###.
+...#.
+E#.##
+.#..#
+.####
+</code></pre><p>示例答案：</p>
+<pre><code>6215.
+...4.
+12.26
+.3..3
+.5621
+</code></pre><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>主要就是明确筛子的状态空间</p>
 <p>只有一条路径，无岔路，我这里看成有岔路了，然后写dfs去找正确路径耽误了时间。。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">S</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> qian,hou,shang,xia,zuo,you;</span><br><span class="line">    <span class="keyword">int</span> temp_shang,temp_xia,temp_zuo,temp_you;</span><br><span class="line">    S(<span class="keyword">int</span> qian,<span class="keyword">int</span> hou, <span class="keyword">int</span> shang ,<span class="keyword">int</span> xia,<span class="keyword">int</span> zuo,<span class="keyword">int</span> you)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.qian = qian;</span><br><span class="line">        <span class="keyword">this</span>.hou = hou;</span><br><span class="line">        <span class="keyword">this</span>.shang = shang;</span><br><span class="line">        <span class="keyword">this</span>.xia = xia;</span><br><span class="line">        <span class="keyword">this</span>.zuo = zuo;</span><br><span class="line">        <span class="keyword">this</span>.you = you;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">youFan</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        temp_zuo = zuo;</span><br><span class="line">        temp_you = you;</span><br><span class="line">        you = shang;</span><br><span class="line">        zuo = xia;</span><br><span class="line">        shang = temp_zuo;</span><br><span class="line">        xia = temp_you;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">xiaFan</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        temp_shang = shang;</span><br><span class="line">        temp_xia = xia;</span><br><span class="line">        xia = qian;</span><br><span class="line">        shang = hou;</span><br><span class="line">        qian = temp_shang;</span><br><span class="line">        hou = temp_xia;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">zuoFan</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        temp_zuo = zuo;</span><br><span class="line">        temp_you = you;</span><br><span class="line">        zuo = shang;</span><br><span class="line">        you = xia;</span><br><span class="line">        xia = temp_zuo;</span><br><span class="line">        shang = temp_you;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">shangFan</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">         temp_shang = shang;</span><br><span class="line">         temp_xia = xia;</span><br><span class="line">         shang = qian;</span><br><span class="line">         xia = hou;</span><br><span class="line">         hou = temp_shang;</span><br><span class="line">         qian = temp_xia;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">color</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> xia;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> T = sc.nextInt();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> group=<span class="number">0</span>;group&lt;T;group++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> n = sc.nextInt();</span><br><span class="line">            <span class="keyword">int</span>[][] array = <span class="keyword">new</span> <span class="keyword">int</span>[n][n];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> startX = <span class="number">0</span>,startY=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> endX =<span class="number">0</span> ,endY=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> x=<span class="number">0</span>;x&lt;n;x++)</span><br><span class="line">            &#123;</span><br><span class="line">                String line = sc.next();</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; n; y++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (line.charAt(y) == <span class="string">'S'</span>) &#123;</span><br><span class="line">                        array[x][y] = <span class="number">6</span>;</span><br><span class="line">                        startX = x;</span><br><span class="line">                        startY = y;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (line.charAt(y) == <span class="string">'E'</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        array[x][y] = <span class="number">0</span>;</span><br><span class="line">                        endX = x;</span><br><span class="line">                        endY = y;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (line.charAt(y) == <span class="string">'#'</span>)</span><br><span class="line">                        array[x][y] = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">if</span> (line.charAt(y) == <span class="string">'.'</span>)</span><br><span class="line">                        array[x][y] = -<span class="number">9</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//新建筛子</span></span><br><span class="line">            S shaizi = <span class="keyword">new</span> S(<span class="number">3</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> i=startX,j=startY;</span><br><span class="line">            <span class="keyword">while</span>(!(i==endX&amp;&amp;j==endY))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//上</span></span><br><span class="line">                <span class="keyword">if</span> (i+<span class="number">1</span>&lt;n)</span><br><span class="line">                    <span class="keyword">if</span>(array[i+<span class="number">1</span>][j]==<span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        shaizi.shangFan();</span><br><span class="line">                        array[i+<span class="number">1</span>][j]=shaizi.color();</span><br><span class="line">                        i++;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//下</span></span><br><span class="line">                <span class="keyword">if</span> (i-<span class="number">1</span>&gt;=<span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">if</span>(array[i-<span class="number">1</span>][j]==<span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        shaizi.xiaFan();</span><br><span class="line">                        array[i-<span class="number">1</span>][j]=shaizi.color();</span><br><span class="line">                        i--;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//右</span></span><br><span class="line">                <span class="keyword">if</span> (j+<span class="number">1</span>&lt;n)</span><br><span class="line">                    <span class="keyword">if</span>(array[i][j+<span class="number">1</span>]==<span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        shaizi.youFan();</span><br><span class="line">                        array[i][j+<span class="number">1</span>]=shaizi.color();</span><br><span class="line">                        j++;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//左</span></span><br><span class="line">                <span class="keyword">if</span> (j-<span class="number">1</span>&gt;=<span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">if</span>(array[i][j-<span class="number">1</span>]==<span class="number">0</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        shaizi.zuoFan();</span><br><span class="line">                        array[i][j-<span class="number">1</span>]=shaizi.color();</span><br><span class="line">                        j--;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            array[i][j]=shaizi.color();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//输出array</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i1 = <span class="number">0</span>; i1 &lt; n; i1++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j1 = <span class="number">0</span>; j1 &lt; n; j1++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (array[i1][j1]==-<span class="number">9</span>)</span><br><span class="line">                        System.out.print(<span class="string">"."</span>);</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        System.out.print(array[i1][j1]);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">import java.util.Scanner;
+
+class S
+{
+    int qian,hou,shang,xia,zuo,you;
+    int temp_shang,temp_xia,temp_zuo,temp_you;
+    S(int qian,int hou, int shang ,int xia,int zuo,int you)
+    {
+        this.qian = qian;
+        this.hou = hou;
+        this.shang = shang;
+        this.xia = xia;
+        this.zuo = zuo;
+        this.you = you;
+    }
+    void youFan()
+    {
+        temp_zuo = zuo;
+        temp_you = you;
+        you = shang;
+        zuo = xia;
+        shang = temp_zuo;
+        xia = temp_you;
+    }
+    void xiaFan()
+    {
+        temp_shang = shang;
+        temp_xia = xia;
+        xia = qian;
+        shang = hou;
+        qian = temp_shang;
+        hou = temp_xia;
+    }
+    void zuoFan()
+    {
+        temp_zuo = zuo;
+        temp_you = you;
+        zuo = shang;
+        you = xia;
+        xia = temp_zuo;
+        shang = temp_you;
+    }
+    void shangFan()
+    {
+         temp_shang = shang;
+         temp_xia = xia;
+         shang = qian;
+         xia = hou;
+         hou = temp_shang;
+         qian = temp_xia;
+    }
+    int color()
+    {
+        return xia;
+    }
+}
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        for(int group=0;group<T;group++)
+        {
+            int n = sc.nextInt();
+            int[][] array = new int[n][n];
+
+            int startX = 0,startY=0;
+            int endX =0 ,endY=0;
+            for(int x=0;x<n;x++)
+            {
+                String line = sc.next();
+                for (int y = 0; y < n; y++) {
+                    if (line.charAt(y) == 'S') {
+                        array[x][y] = 6;
+                        startX = x;
+                        startY = y;
+                    }
+                    if (line.charAt(y) == 'E')
+                    {
+                        array[x][y] = 0;
+                        endX = x;
+                        endY = y;
+                    }
+                    if (line.charAt(y) == '#')
+                        array[x][y] = 0;
+                    if (line.charAt(y) == '.')
+                        array[x][y] = -9;
+                }
+            }
+
+            //新建筛子
+            S shaizi = new S(3,4,1,6,5,2);
+
+            int i=startX,j=startY;
+            while(!(i==endX&&j==endY))
+            {
+                //上
+                if (i+1<n)
+                    if(array[i+1][j]==0)
+                    {
+                        shaizi.shangFan();
+                        array[i+1][j]=shaizi.color();
+                        i++;
+                        continue;
+                    }
+
+                //下
+                if (i-1>=0)
+                    if(array[i-1][j]==0)
+                    {
+                        shaizi.xiaFan();
+                        array[i-1][j]=shaizi.color();
+                        i--;
+                        continue;
+                    }
+
+                //右
+                if (j+1<n)
+                    if(array[i][j+1]==0)
+                    {
+                        shaizi.youFan();
+                        array[i][j+1]=shaizi.color();
+                        j++;
+                        continue;
+                    }
+
+                //左
+                if (j-1>=0)
+                    if(array[i][j-1]==0)
+                    {
+                        shaizi.zuoFan();
+                        array[i][j-1]=shaizi.color();
+                        j--;
+                        continue;
+                    }
+            }
+            array[i][j]=shaizi.color();
+
+            //输出array
+            for(int i1 = 0; i1 < n; i1++)
+            {
+                for (int j1 = 0; j1 < n; j1++)
+                {
+                    if (array[i1][j1]==-9)
+                        System.out.print(".");
+                    else{
+                        System.out.print(array[i1][j1]);
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+}
+</code></pre>
 
         </div>
         <!-- .entry-content -->

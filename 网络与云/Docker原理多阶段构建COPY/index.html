@@ -515,9 +515,20 @@
 <p>但除此之外，还有更重要的：</p>
 <p>COPY FROM不仅可以从前置构建阶段的镜像中拷贝文件，还可以从一个已经存在的镜像中远程拷贝。 这样就相当于FROM了多个base镜像（但并不是，是拷贝了该镜像里的文件）</p>
 <p>栗子：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> -from=hub/image_sample file_path_in_image_sample target_path_of_this_image</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-dockerfile"><code class="language-lang-dockerfile">COPY -from=hub/image_sample file_path_in_image_sample target_path_of_this_image
+</code></pre>
 <p><strong>这样就把远程镜像的<code>hub/image_sample</code>的路径为<code>file_path_in_image_sample</code>的文件给拷贝到了本镜像的<code>target_path_of_this_image</code>路径</strong></p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.7</span>.<span class="number">3</span> as builder</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /go/src/github.com/alexellis/href-counter/</span></span><br><span class="line"><span class="bash">RUN go get -d -v golang.org/x/net/html  </span></span><br><span class="line"><span class="bash">COPY app.go    .</span></span><br><span class="line"><span class="bash">RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .</span></span><br><span class="line"><span class="bash">FROM alpine:latest  </span></span><br><span class="line"><span class="bash">RUN apk --no-cache add ca-certificates</span></span><br><span class="line"><span class="bash">WORKDIR /root/</span></span><br><span class="line"><span class="bash">COPY --from=builder /go/src/github.com/alexellis/href-counter/app .  <span class="comment">#注意这里COPY的from，就是从builder构建中继续执行</span></span></span><br><span class="line"><span class="bash">CMD [<span class="string">"./app"</span>]</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-dockerfile"><code class="language-lang-dockerfile">FROM golang:1.7.3 as builder
+WORKDIR /go/src/github.com/alexellis/href-counter/
+RUN go get -d -v golang.org/x/net/html  
+COPY app.go    .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+FROM alpine:latest  
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/alexellis/href-counter/app .  #注意这里COPY的from，就是从builder构建中继续执行
+CMD ["./app"]
+</code></pre>
 </li>
 <li><p>docker原理：<a href="https://zhuanlan.zhihu.com/p/51836305" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/51836305</a></p>
 <p>①<strong>docker就是个应用程序，运行在用户空间</strong>，一个容器就是一个用户进程，通过调用系统接口实现功能，直接跑在内核上</p>
@@ -529,7 +540,13 @@
 <p>Namespace有六种：Mount、IPC、PID、Network、User，每个容器不同的资源都对应各自种类的namespace，只有namespace相同的（认定为同一容器）的才能访问该namespace下的资源。</p>
 <p><img src="https://pic4.zhimg.com/v2-e7ade4269dd31d43713fe4ccf02c6bef_r.jpg" alt=""></p>
 <p>（于是你甚至可以在容器启动的时候，指定这些参数，从而强制容器运行在特定namespace之中。例如，你可以指定 —pid host，从而让容器进程使用宿主机进程空间，此时容器可以看到host上所有的进程。见下）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run中namespace相关参数</span><br><span class="line"></span><br><span class="line">--ipc string IPC namespace to use</span><br><span class="line">--pid string PID namespace to use</span><br><span class="line">--userns string User namespace to use</span><br><span class="line">--uts string UTS namespace to use</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-shell"><code class="language-lang-shell">docker run中namespace相关参数
+
+--ipc string IPC namespace to use
+--pid string PID namespace to use
+--userns string User namespace to use
+--uts string UTS namespace to use
+</code></pre>
 <p>cgroups 的全称是control groups，是Linux内核提供的一种可以限制单个进程或者多个进程所使用资源的机制，可以对 cpu，内存等资源实现精细化的控制。</p>
 <p>③<strong>docker镜像是分层的</strong>：<a href="https://zhuanlan.zhihu.com/p/70424048" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70424048</a></p>
 <p>Docker镜像是分层构建的，<strong>Dockerfile 中每条指令都会新建一层</strong>。</p>

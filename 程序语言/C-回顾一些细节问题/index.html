@@ -493,10 +493,26 @@
 <p>输入的时候需要在变量前加一个<code>&amp;</code>，因为实际上scanf是将输入流中的数据输入到给定变量地址对应的储存单元上</p>
 <p>但注意字符串并不需要加<code>&amp;</code>，因为字符串变量名实际上就是一个指向字符串所在地址的指针（数组变量名也是）</p>
 <p><code>scanf</code>读取任何数据都以<strong>空格、换行</strong>为分隔符</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*INPUT*/</span></span><br><span class="line"><span class="comment">//输入格式控制</span></span><br><span class="line"><span class="comment">//int、float、double、char</span></span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a);</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%c"</span>,&amp;a);</span><br><span class="line"><span class="comment">//string不需要&amp;</span></span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%s"</span>,s);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*OUTPUT*/</span></span><br><span class="line"><span class="comment">//输出格式控制</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>,a);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%s"</span>,s);</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">/*INPUT*/
+//输入格式控制
+//int、float、double、char
+scanf("%d",&a);
+scanf("%c",&a);
+//string不需要&
+scanf("%s",s);
+
+/*OUTPUT*/
+//输出格式控制
+printf("%d",a);
+printf("%s",s);
+</code></pre>
 <h2 id="读字符串问题"><a href="#读字符串问题" class="headerlink" title="读字符串问题"></a>读字符串问题</h2><p><a href="http://c.biancheng.net/view/1833.html" target="_blank" rel="noopener">http://c.biancheng.net/view/1833.html</a></p>
 <p>注意：字符串不能这样，<strong>以下两者都是错的</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%s"</span>,str);</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line">gets(str);</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">char *str;
+scanf("%s",str);
+//或
+gets(str);
+</code></pre>
 <p>在C中，<strong>无论字符串或数组都必须要初始化，也就是要给定初值，或者只申明长度</strong>（初值默认为NULL）</p>
 <p><strong><code>scanf</code>默认以空格作为分隔符</strong></p>
 <p><strong><code>gets</code>默认以回车作为分隔符</strong></p>
@@ -507,16 +523,47 @@
 <p>不过注意数组在定义的时候就已经开辟了一串相邻的空间，指针增加元素要自己额外开辟内存</p>
 <h2 id="返回数组的函数"><a href="#返回数组的函数" class="headerlink" title="返回数组的函数"></a>返回数组的函数</h2><p>C 语言不允许返回一个完整的数组作为函数的参数。</p>
 <p>但是可以通过指定不带索引的数组名来<strong>返回一个指向数组的指针</strong>。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//举例</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">input</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[<span class="number">5</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;; </span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> *a = input();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>,*a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">//举例
+#include<stdio.h>
+int* input()
+{
+    int a[5] = {1,2,3,4,5}; 
+    return a;
+}
+
+int main()
+{
+    int *a = input();
+    printf("%d",*a);
+}
+</code></pre>
 <h2 id="形参实参"><a href="#形参实参" class="headerlink" title="形参实参"></a>形参实参</h2><p>要改变实参需<strong>传递指针（地址）给函数</strong></p>
 <p>像在java中就不需要考虑这个问题，因为java中没指针，一切变量名皆引用（基本数据类型除外）</p>
-<h2 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> [<span class="number">2</span>][<span class="number">3</span>];<span class="comment">//只申明长度，默认初始化，值为NULL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> [][]=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,&#123;<span class="number">2</span>,<span class="number">3</span>&#125;&#125;<span class="comment">//不申明长度，直接自定义初始化</span></span><br></pre></td></tr></table></figure>
+<h2 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h2><pre class=" language-lang-c"><code class="language-lang-c">int [2][3];//只申明长度，默认初始化，值为NULL
+
+int [][]={{1,2},{2,3}}//不申明长度，直接自定义初始化
+</code></pre>
 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>其定义方式很像字符数组：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> greeting[] = <span class="string">"Hello"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以这样定义（我常用）</span></span><br><span class="line"><span class="keyword">char</span> *<span class="built_in">string</span> = <span class="string">"abc"</span>;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">char greeting[] = "Hello";
+
+//也可以这样定义（我常用）
+char *string = "abc";
+</code></pre>
 <p><strong>但字符串末尾是<code>&#39;\0&#39;</code>，标志字符串的结束位，而字符数组不需要，因为字符串变量名/数组变量名实际上就是一个指向字符串所在地址的指针</strong>，所以程序必须通过<code>&#39;\0&#39;</code>来判断读取字符串是否结束。</p>
 <p>所以<code>sizeof(s)-1</code>才是字符串<code>s</code>的长度，而<code>sizeof(array)</code>即是数组长度</p>
 <p>比如对于上面定义的字符串</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串</span></span><br><span class="line"><span class="keyword">char</span> *<span class="built_in">string</span> = <span class="string">"abc"</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="built_in">string</span>));</span><br><span class="line">---</span><br><span class="line"><span class="number">4</span> <span class="comment">//'a','b','c','\0'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//字符数组</span></span><br><span class="line"><span class="keyword">char</span> <span class="built_in">string</span>[] = &#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>&#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="built_in">string</span>));</span><br><span class="line">---</span><br><span class="line"><span class="number">3</span> <span class="comment">//'a','b','c'</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">//字符串
+char *string = "abc";
+printf("%d",sizeof(string));
+---
+4 //'a','b','c','\0'
+
+//字符数组
+char string[] = {'a','b','c'};
+printf("%d",sizeof(string));
+---
+3 //'a','b','c'
+</code></pre>
 <p>以下三个函数需导入<code>#include &lt;string.h&gt;</code></p>
 <p>字符串长度：<code>strlen</code>函数</p>
 <p>将指定长度的字符串复制到字符数组中：<code>strncpy</code>函数</p>

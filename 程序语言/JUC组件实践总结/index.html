@@ -502,20 +502,54 @@
 <p><strong>③<code>interrupt</code></strong>：中断线程</p>
 <p>可以理解为isInterrupted是检查标志位，interrupted是检查并恢复中断标志位，interrupt就是中断</p>
 <h1 id="Synchronizer"><a href="#Synchronizer" class="headerlink" title="Synchronizer"></a>Synchronizer</h1><h2 id="锁代码块"><a href="#锁代码块" class="headerlink" title="锁代码块"></a>锁代码块</h2><p><strong>在代码块中锁住某对象（在代码块中获得该对象的对象锁）</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(Object)  <span class="comment">//锁住圆括号里的对象</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//锁住该对象的作用范围</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">synchronized(Object)  //锁住圆括号里的对象
+{
+    //锁住该对象的作用范围
+}
+</code></pre>
 <p>如果要锁的目标是本实例，则锁this引用指代的对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(<span class="keyword">this</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">synchronized(this)
+{
+    //todo
+}
+</code></pre>
 <p>如果要锁的目标是该类的所有对象，则锁该类的Class对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(Object.class) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">synchronized(Object.class) 
+{
+    //todo
+}
+</code></pre>
 <h2 id="锁方法"><a href="#锁方法" class="headerlink" title="锁方法"></a>锁方法</h2><p><strong>锁的作用范围是该方法</strong>，线程执行该方法必须获得同步锁</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">// todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">public synchronized void method()
+{
+   // todo
+}
+</code></pre>
 <p>如果锁的是静态方法，则锁定的就是这个类的所有对象的该静态方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">// todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">public synchronized static void method()
+{
+   // todo
+}
+</code></pre>
 <p>接口方法不适用，synchronized方法不可被继承，synchronized方法被重写默认不同步</p>
 <h1 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h1><p>ReentrantLock实现了Lock接口：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可用的Lock接口方法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>; <span class="comment">//阻塞获取锁</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span></span>;  <span class="comment">//阻塞获取锁，获取到之前可被中断，中断后会抛出中断异常</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span>; <span class="comment">//非阻塞获取锁</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> time, TimeUnit unit)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span>; <span class="comment">//释放锁</span></span><br><span class="line"><span class="function">Condition <span class="title">newCondition</span><span class="params">()</span></span>;  <span class="comment">//返回当前线程的Condition，可用获得多个Condition</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//可用的Lock接口方法
+void lock(); //阻塞获取锁
+void lockInterruptibly();  //阻塞获取锁，获取到之前可被中断，中断后会抛出中断异常
+boolean tryLock(); //非阻塞获取锁
+boolean tryLock(long time, TimeUnit unit);
+void unlock(); //释放锁
+Condition newCondition();  //返回当前线程的Condition，可用获得多个Condition
+</code></pre>
 <p>ReentrantLock自己添加的方法，主要是管理作用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock(<span class="keyword">boolean</span> fair);   <span class="comment">//构造器方法，传入true为公平锁，false为非公平锁</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getQueueLength</span><span class="params">()</span></span>; <span class="comment">//等待锁的线程数量 </span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">hasQueuedThreads</span><span class="params">()</span> <span class="comment">//是否有线程等待锁</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">hasQueuedThread</span><span class="params">(Thread thread)</span> <span class="comment">//是否有指定线程等待锁</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getHoldCount</span><span class="params">()</span> <span class="comment">//当前线程是否获取到了锁，返回1表示获取到了</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isLocked</span><span class="params">()</span> <span class="comment">//是否有线程持有该锁</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isFair</span><span class="params">()</span>  <span class="comment">//是不是公平锁</span></span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">ReentrantLock(boolean fair);   //构造器方法，传入true为公平锁，false为非公平锁
+int getQueueLength(); //等待锁的线程数量 
+boolean hasQueuedThreads() //是否有线程等待锁
+boolean hasQueuedThread(Thread thread) //是否有指定线程等待锁
+int getHoldCount() //当前线程是否获取到了锁，返回1表示获取到了
+boolean isLocked() //是否有线程持有该锁
+boolean isFair()  //是不是公平锁
+</code></pre>
 <p>一个ReentrantLock锁可以创建多个Condition，每个Condition都维护一个等待队列</p>
 <p>await() / signal()是<strong>属于ReentrantLock机制的Condition组件的方法</strong>，而不是Object的</p>
 <p>ReetrentLock需要处理异常</p>
@@ -540,7 +574,10 @@
 <h1 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h1><p><strong>阻塞队列就相当于给你提供了一个带有同步功能的list</strong>，那就不需要自己辛苦去做线程同步了，直接使用阻塞队列提供的put() get() take()等方法即可</p>
 <p>见生产者消费者问题，阻塞队列BlockingQueue方法</p>
 <h1 id="Object线程相关方法"><a href="#Object线程相关方法" class="headerlink" title="Object线程相关方法"></a>Object线程相关方法</h1><p>wait、notify等都是<strong>Object类</strong>的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object.wait()</span><br><span class="line">Object.notify()</span><br><span class="line">Object.notifyAll()</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">Object.wait()
+Object.notify()
+Object.notifyAll()
+</code></pre>
 <p><strong>每个Object都有一个等待队列，队列上是等待线程</strong>（若无多线程同步访问，则该等待队列是空的）</p>
 <p><strong>wait()必须配合notify()使用，wait()等待由notify()唤醒</strong>（wait带参数可以设定最大等待时长）</p>
 <p><strong>wait()等待会让当前线程立即放弃锁（即使它在同步块中），加入等待队列，直到notify()唤醒才会重新获取锁</strong></p>
@@ -551,10 +588,23 @@
 <h1 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h1><p>为每个线程<strong>提供一个独立的变量副本</strong>解决了<strong>变量并发访问的冲突</strong>问题。在很多情况下，ThreadLocal比直接使用synchronized同步机制解决线程安全问题更简单，更方便，且结果程序拥有更高的并发性。<strong>主要就是不同线程有不同数据副本的情形下使用，如用来解决数据库连接、Session管理等；而如果该数据需要不同线程同步访问一份，那就不能用ThreadLocal</strong></p>
 <p><strong>每个线程包含一个自己的ThreadLocal.ThreadLocalMap实例对象</strong>（成员变量引用名为threadLocals，private的），其中包含<code>&lt;threadlocal-value&gt;</code>键值对，我们通过ThreadLocal管理ThreadLocalMap。<strong>每创建一个ThreadLocal实例就是在当前线程中断ThreadLocalMap中创建了一个键，通过set函数设置其value</strong></p>
 <p>如下例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal th1 = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line">th1.set(<span class="keyword">new</span> Object());</span><br><span class="line"></span><br><span class="line">ThreadLocal th2 = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line">th2.set(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(th1.get().getClass().toString());</span><br><span class="line"><span class="comment">//class java.lang.Object</span></span><br><span class="line">System.out.println(th2.get());</span><br><span class="line"><span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">ThreadLocal th1 = new ThreadLocal();
+th1.set(new Object());
+
+ThreadLocal th2 = new ThreadLocal();
+th2.set(1);
+
+System.out.println(th1.get().getClass().toString());
+//class java.lang.Object
+System.out.println(th2.get());
+//1
+</code></pre>
 <p>P.S. ThreadLocal可能引发<strong>内存泄漏</strong>问题（原因同weakhashmap）：<strong>ThreadLocalMap的key是弱引用（ThreadLocalMap-&gt;Entry），而Value是强引用(Entry-&gt;Value)。</strong>这就导致ThreadLocal在没有外部对象强引用时，发生GC时弱引用Key会被回收，这样value就会一直存在，导致内存泄漏。</p>
 <p><a href="https://blog.csdn.net/Rex_WUST/article/details/98959422" target="_blank" rel="noopener">https://blog.csdn.net/Rex_WUST/article/details/98959422</a></p>
-<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService pool = Executors.newXXXThreadPool();</span><br><span class="line">pool.submit(Callable&lt;T&gt; callable);</span><br><span class="line">pool.execute(Runnable runnable);</span><br></pre></td></tr></table></figure>
+<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><pre class=" language-lang-java"><code class="language-lang-java">ExecutorService pool = Executors.newXXXThreadPool();
+pool.submit(Callable<T> callable);
+pool.execute(Runnable runnable);
+</code></pre>
 <p>四要素：核心线程，阻塞队列，非核心线程，最大线程数。各种线程池由以上不同的设置实现</p>
 <h1 id="P-S"><a href="#P-S" class="headerlink" title="P.S."></a>P.S.</h1><p><code>new Exception.printStackTrace</code>打印日志（最好用log4j）</p>
 <p>sleep、wait等函数的单位都是ms</p>

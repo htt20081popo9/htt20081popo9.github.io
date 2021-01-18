@@ -501,7 +501,34 @@
 <p>P.S.使用==，eqauls比较两个自定义对象<strong>默认比较地址</strong>（==不可重写，eqauls可重写）</p>
 <p>③注意：<strong>hashcode()和equals()都是Object对象的方法</strong>（hashmap只是使用了要hash的Object的这两个方法）。且，<strong>重写了eqalus()就必须重写hashcode()（因为是先判断hashcode()，再判断eqauls()）</strong></p>
 <p>重写示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Key</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Key</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">//这里我让hashCode方法返回该对象内部的变量id的hashCode，也就是说，你hashmap在hash我这个对象的时候，实际上是hash的变量id！而不是默认的这个对象的地址</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id.hashCode();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">//这里就是比较本对象与传入对象是否相等的具体方法了（hashcode可能导致冲突，不够，还得equals定义具体的比较方法）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (obj == <span class="keyword">null</span> || !(obj <span class="keyword">instanceof</span> Key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.getId().equals(((Key) obj).getId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">class Key {
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Key(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    //这里我让hashCode方法返回该对象内部的变量id的hashCode，也就是说，你hashmap在hash我这个对象的时候，实际上是hash的变量id！而不是默认的这个对象的地址
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    //这里就是比较本对象与传入对象是否相等的具体方法了（hashcode可能导致冲突，不够，还得equals定义具体的比较方法）
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Key)) {
+            return false;
+        } else {
+            return this.getId().equals(((Key) obj).getId());
+        }
+    }
+}
+</code></pre>
 <p>④hashmap的rehash</p>
 <p>当散列表（list）被填的越满，冲突概率越高，当超过一个负载因子后，就会resize。resize开销很大，扩大一倍，需要重新计算hash。</p>
 <p>hashmap可以使用<code>HashMap(int initialCapacity, float loadFactor)</code>来指定初始容量和负载因子，根据自己的需求设置</p>

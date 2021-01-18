@@ -634,7 +634,8 @@ Attention(Query,Source)=\sum_{i=1}^{||Source||}Similaity(Query,Key_i)*Value_i</s
 <p>注意力允许解码器网络针对解码器自身输出的每一步“聚焦”编码器输出的不同部分。</p>
 <p><img src="//aisaka.cloud/人工智能/Attention/18.png" alt="image-20200301182413221"></p>
 <h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>Pytorch.nn中已经实现Multi-head Attention</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.MultiheadAttention(embed_dim, num_heads, dropout=<span class="number">0.0</span>, bias=<span class="keyword">True</span>, add_bias_kv=<span class="keyword">False</span>, add_zero_attn=<span class="keyword">False</span>, kdim=<span class="keyword">None</span>, vdim=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">torch.nn.MultiheadAttention(embed_dim, num_heads, dropout=0.0, bias=True, add_bias_kv=False, add_zero_attn=False, kdim=None, vdim=None)
+</code></pre>
 <p>attention的实现实际上就是从原理上来实现，本质就是在线性层（参数就是个矩阵）基础上多了一些（一堆）变换，训练attention就是训练该线性变换层的参数矩阵</p>
 <p>而self-attention由于有三个参数矩阵，输入经过了三个不同的线性层，要训练的就是这三个线性层的参数矩阵</p>
 <p>具体实现见源代码</p>

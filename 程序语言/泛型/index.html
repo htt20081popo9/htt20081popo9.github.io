@@ -499,7 +499,16 @@
 <p>与普通类的定义相比，泛型的代码在类名后面多出了<code>&lt;T1, T2&gt;</code>，<code>T1, T2</code>是自定义的标识符，也是参数，用来传递数据的类型，而不是数据的值，我们称之为类型参数。在泛型中，不但数据的值可以通过参数传递，数据的类型也可以通过参数传递。<code>T1, T2</code>只是数据类型的占位符，运行时会被替换为真正的数据类型。</p>
 <p>传值参数（我们通常所说的参数）由小括号包围，如<code>(int x, double y)</code>，类型参数（泛型参数）由尖括号包围，多个参数由逗号分隔，如<code>&lt;T&gt;</code>或<code>&lt;T, E&gt;</code>。<br>也可以定义范型方法、泛型接口，<strong>总之只要是（引用）类型，都可以作为参数了，使用也是按原来那样使用</strong></p>
 <p>举例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用泛型的类</span></span><br><span class="line">ClassName&lt;T1,T2&gt; <span class="comment">//这里&lt;T1,T2&gt;就是泛型参数表了，这是一种专门传递类型参数的特殊写法</span></span><br><span class="line">&#123;</span><br><span class="line">    T1 x;  <span class="comment">//这里就使用了T1,T2类型参数</span></span><br><span class="line">    T2 y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//主函数使用</span></span><br><span class="line">objectName&lt;T1,T2&gt; balabala....  <span class="comment">//&lt;T1,T2&gt;就是实际使用的时候，传递进去的参数</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//使用泛型的类
+ClassName<T1,T2> //这里<T1,T2>就是泛型参数表了，这是一种专门传递类型参数的特殊写法
+{
+    T1 x;  //这里就使用了T1,T2类型参数
+    T2 y;
+}
+
+//主函数使用
+objectName<T1,T2> balabala....  //<T1,T2>就是实际使用的时候，传递进去的参数
+</code></pre>
 <p>类型参数需要在类名后面给出。一旦给出了类型参数，就可以在类中使用了。类型参数必须是一个合法的标识符，习惯上使用单个大写字母，通常情况下，K 表示键，V 表示值，E 表示异常或错误，T 表示一般意义上的数据类型。</p>
 <p>注意：<strong>方法参数列表中的的参数类型是局部参数，形式参数！</strong>这点和普通参数一样</p>
 <p><strong>泛型边界限制：</strong>（关于边界的意义见下面第4条）</p>
@@ -525,7 +534,32 @@
 <p><strong>在C++中，由于泛型被真正的实现了，所以程序在编译期就能判断该泛型具体是什么类型</strong>，如果你调用了该泛型没有的方法或属性，那么程序在编译期就会报错，如果有就不会。然而，JAVA泛型做不到：<strong>由于泛型类型被擦除，JAVA编译器无法判断该泛型具体是什么类型</strong>，一律无法编译通过。<strong>于是在JAVA中，我们必须协助泛型类，人为给出泛型的边界，以告诉编译器只能接受遵循这个边界的类型。</strong>（如果不遵守，就会编译报错，这其实就<strong>达到了C++一样的目的，不过泛型边界是编码者人为设置的</strong>）本段话具体例子见下面的“举例”</p>
 <p>于是我们可以得出：<strong>一个泛型参数<code>&lt;T&gt;</code>不能直接拿去用，得先规定边界</strong>，比如<code>&lt;Integer&gt;、&lt;? extends Father&gt;</code>都是边界，前者限定<code>Integer</code>，后者限定<code>Father</code>及其子类（<strong>上界</strong>）</p>
 <p><strong>举例：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> String <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"i am father"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可行</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FXtest</span>&lt;<span class="title">T1</span> <span class="keyword">extends</span> <span class="title">Father</span>&gt;  //规定上边界<span class="title">Father</span>；或者<span class="title">class</span> <span class="title">FXtest</span>&lt;<span class="title">Father</span>&gt;也行</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    FXtest()</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(T1.f());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不可行</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FXtest</span>&lt;<span class="title">T1</span>&gt;  //没有规定边界，一律报错；然而这在<span class="title">C</span>++里是可行的。</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    FXtest()</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(T1.f());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">class Father
+{
+    static String f()
+        {
+            return "i am father";
+        }
+}
+
+//可行
+class FXtest<T1 extends Father>  //规定上边界Father；或者class FXtest<Father>也行
+{
+    FXtest()
+    {
+        System.out.println(T1.f());
+    }
+}
+
+//不可行
+class FXtest<T1>  //没有规定边界，一律报错；然而这在C++里是可行的。
+{
+    FXtest()
+    {
+        System.out.println(T1.f());
+    }
+}
+</code></pre>
 <p>JAVA泛型只是提供了一种类型信息，<strong>它的底层仍然只是个Object（或其它上界），你只是看起来好像拥有有关参数的类型信息而已</strong>，所以<strong>涉及具体操作的时候，你要认识清楚，它实际上是什么类（Object或其它上界），只不过我们额外告诉编译器它应该的类型信息，提供一种安全向下转型的保证。</strong>（不过像容器类，你<code>get()</code>将对象取出容器的时候就<strong>顺带给你转型了（毕竟泛型已经提供安全了）</strong>，而不是让你取出来的还是个Object或其它上界然后自己转型）</p>
 <p><strong>所以“擦除”擦的是：真实类型（上界）以下的类型信息。真实对象类型是默认情况的最高上界（无人为规定上界的话）</strong>。</p>
 <h2 id="一些细节问题"><a href="#一些细节问题" class="headerlink" title="一些细节问题"></a>一些细节问题</h2><p>①任何基本类型都不能作为类型参数（声明泛型类型引用的时候必须写非基本类型，但向里存的时候容器类会自动装箱，但底层依然不是基本类型）</p>

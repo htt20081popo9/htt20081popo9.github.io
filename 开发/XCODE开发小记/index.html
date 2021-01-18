@@ -504,7 +504,12 @@
 <li><p>mac自带的ruby权限较小，开发不要用这个。我们要自己安装rvm并创建ruby环境，随后我们的cocoapods是在这个环境使用的</p>
 </li>
 <li><p>respondsToSelector 用来判断某一个方法时候实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#如果destroy这个方法实现了，就执行之</span><br><span class="line">if ([subViewController respondsToSelector:@selector(destroy)])</span><br><span class="line">&#123;</span><br><span class="line">	[subViewController destroy];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-objective-c"><code class="language-lang-objective-c">#如果destroy这个方法实现了，就执行之
+if ([subViewController respondsToSelector:@selector(destroy)])
+{
+    [subViewController destroy];
+}
+</code></pre>
 </li>
 <li><p>UINavigationController 导航控制器</p>
 <p>开发的时候一般都是多控制器，由一个父控制器管理多个子控制器</p>

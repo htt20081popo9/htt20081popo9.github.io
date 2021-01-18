@@ -488,8 +488,14 @@
         
         <div class="entry-content">
           <p>六、超链接样式</p>
-<p>CSS:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">a:link&#123;      &lt;!–此为默认情况–&gt;</span><br><span class="line"></span><br><span class="line">text-decoration:none;   &lt;!–去掉下划线–&gt;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>②访问后样式 a:visited</strong>{      &lt;!–链接被访问（点击）过之后–&gt;</p>
+<p>CSS:</p>
+<pre><code>
+a:link{      &lt;!–此为默认情况–&gt;
+
+text-decoration:none;   &lt;!–去掉下划线–&gt;
+
+}
+</code></pre><p><strong>②访问后样式 a:visited</strong>{      &lt;!–链接被访问（点击）过之后–&gt;</p>
 <p>}</p>
  <a id="more"></a>
 <p>兼容性问题：非IE会继承默认属性而IE不继承，故第一段未访问情况改为这样</p>
@@ -520,8 +526,32 @@
 <p>布局一：</p>
 <p>一整块div网页的写法 这种大DIV一块的方式是以前的网站的常用布局</p>
 <p>现在的布局一般不采用</p>
-<p>布局二：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div id=“head”&gt;</span><br><span class="line"></span><br><span class="line">      &lt;div id=“c_head”&gt;顶部图片&lt;/div&gt;  /*c center*/</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id=“nav”&gt;</span><br><span class="line"></span><br><span class="line">      &lt;div id=“c_nav”&gt;导航内容&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id=“content”&gt;</span><br><span class="line"></span><br><span class="line">      &lt;div id=“c_content”&gt;内容&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id=“bottom”&gt;</span><br><span class="line"></span><br><span class="line">      &lt;div id=“c_bottom”&gt;底部内容&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<p>c_xxx也要用到div的居中对齐方法，见文章 <em>CSS扼要-1</em></p>
+<p>布局二：</p>
+<pre><code>
+&lt;div id=“head”&gt;
+
+      &lt;div id=“c_head”&gt;顶部图片&lt;/div&gt;  /*c center*/
+
+&lt;/div&gt;
+
+&lt;div id=“nav”&gt;
+
+      &lt;div id=“c_nav”&gt;导航内容&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div id=“content”&gt;
+
+      &lt;div id=“c_content”&gt;内容&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div id=“bottom”&gt;
+
+      &lt;div id=“c_bottom”&gt;底部内容&lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre><p>c_xxx也要用到div的居中对齐方法，见文章 <em>CSS扼要-1</em></p>
 <p>这样就使得页面很宽 内容全铺在屏幕上</p>
 <p>但实际上显示的内容还是在中间一部分</p>
 <p>布局三：瀑布流布局</p>

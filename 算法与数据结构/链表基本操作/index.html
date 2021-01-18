@@ -489,7 +489,122 @@
         <div class="entry-content">
           <p>建输增删查改反</p>
 <a id="more"></a>    
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">// null head node</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> content;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">struct node *<span class="title">createLinklist</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">head</span> = <span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">node</span>));</span>  </span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">p</span> = <span class="title">head</span>;</span></span><br><span class="line">    <span class="keyword">int</span> input=<span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">while</span>(input!=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;input);</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">new</span> = <span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">node</span>));</span></span><br><span class="line">		<span class="keyword">new</span>-&gt;content = input;</span><br><span class="line">		<span class="keyword">new</span>-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		p-&gt;next = <span class="keyword">new</span>;</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	p-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printLinkList</span><span class="params">(struct node *head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">p</span> = <span class="title">head</span>-&gt;<span class="title">next</span>;</span></span><br><span class="line">	<span class="keyword">while</span>(p-&gt;next!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d "</span>,p-&gt;content);</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reversePrintLinkList</span><span class="params">(struct node *head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 递归出入口</span></span><br><span class="line">	<span class="keyword">if</span> (head-&gt;next!=<span class="literal">NULL</span>)</span><br><span class="line">		reversePrintLinkList(head-&gt;next);</span><br><span class="line">	<span class="comment">//递归执行体</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d "</span>,head-&gt;content); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(struct node *head,<span class="keyword">int</span> label)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">p</span> = <span class="title">head</span>;</span></span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;label<span class="number">-1</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	p-&gt;next = p-&gt;next-&gt;next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addNode</span><span class="params">(struct node *head,<span class="keyword">int</span> label,<span class="keyword">int</span> content)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">p</span> = <span class="title">head</span>;</span></span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;label;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">new</span> = <span class="title">malloc</span>(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">node</span>));</span></span><br><span class="line">	<span class="keyword">new</span>-&gt;content = content;</span><br><span class="line">	<span class="keyword">new</span>-&gt;next = p-&gt;next;</span><br><span class="line">	p-&gt;next = <span class="keyword">new</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findNode</span><span class="params">(struct node *head,<span class="keyword">int</span> content)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">p</span> = <span class="title">head</span>-&gt;<span class="title">next</span>;</span></span><br><span class="line">	<span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (p-&gt;content == content)</span><br><span class="line">			<span class="keyword">return</span> count;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				count+=<span class="number">1</span>;</span><br><span class="line">				p = p-&gt;next;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;<span class="keyword">while</span>(p-&gt;next!=<span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">LinkList</span> = <span class="title">createLinklist</span>();</span></span><br><span class="line">	printLinkList(LinkList); </span><br><span class="line">	</span><br><span class="line"><span class="comment">//	printf("which one to delete?\n");</span></span><br><span class="line"><span class="comment">//	int label;</span></span><br><span class="line"><span class="comment">//	scanf("%d",&amp;label);</span></span><br><span class="line"><span class="comment">//	deleteNode(LinkList,label);</span></span><br><span class="line"><span class="comment">//	printLinkList(LinkList);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//	printf("where to add behind and what?\n");</span></span><br><span class="line"><span class="comment">//	int label,content;</span></span><br><span class="line"><span class="comment">//	scanf("%d %d",&amp;label,&amp;content);</span></span><br><span class="line"><span class="comment">//	addNode(LinkList,label,content);</span></span><br><span class="line"><span class="comment">//	printLinkList(LinkList);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//	printf("what content to find?\n");</span></span><br><span class="line"><span class="comment">//	int content;</span></span><br><span class="line"><span class="comment">//	scanf("%d",&amp;content);</span></span><br><span class="line"><span class="comment">//	printf("found it in position %d",findNode(LinkList,content));</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"start reversing...\n"</span>);</span><br><span class="line">	reversePrintLinkList(LinkList-&gt;next);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
+// null head node
+struct node
+{
+    int content;
+    struct node *next;
+};
+struct node *createLinklist()
+{
+    struct node *head = malloc(sizeof(struct node));  
+    struct node *p = head;
+    int input=-1;
+    while(input!=0)
+    {
+        scanf("%d",&input);
+        struct node *new = malloc(sizeof(struct node));
+        new->content = input;
+        new->next = NULL;
+        p->next = new;
+        p = p->next;
+    }
+    p->next=NULL;
+    return head;
+}
+
+void printLinkList(struct node *head)
+{
+    struct node *p = head->next;
+    while(p->next!=NULL)
+    {
+        printf("%d ",p->content);
+        p = p->next;
+    }
+    printf("\n");
+}
+
+void reversePrintLinkList(struct node *head)
+{
+    // 递归出入口
+    if (head->next!=NULL)
+        reversePrintLinkList(head->next);
+    //递归执行体
+    printf("%d ",head->content); 
+}
+
+void deleteNode(struct node *head,int label)
+{
+    struct node *p = head;
+    int i;
+    for(i=0; i<label-1;i++)
+    {
+        p = p->next;
+    }
+    p->next = p->next->next;
+}
+
+void addNode(struct node *head,int label,int content)
+{
+    struct node *p = head;
+    int i;
+    for (i=0; i<label;i++)
+    {
+        p = p->next;
+    }
+    struct node *new = malloc(sizeof(struct node));
+    new->content = content;
+    new->next = p->next;
+    p->next = new;
+}
+
+int findNode(struct node *head,int content)
+{
+    struct node *p = head->next;
+    int count = 1;
+    do
+    {
+        if (p->content == content)
+            return count;
+        else
+            {
+                count+=1;
+                p = p->next;
+            }
+    }while(p->next!=NULL);
+    return -1;
+}
+
+int main()
+{    
+    struct node *LinkList = createLinklist();
+    printLinkList(LinkList); 
+
+//    printf("which one to delete?\n");
+//    int label;
+//    scanf("%d",&label);
+//    deleteNode(LinkList,label);
+//    printLinkList(LinkList);
+
+//    printf("where to add behind and what?\n");
+//    int label,content;
+//    scanf("%d %d",&label,&content);
+//    addNode(LinkList,label,content);
+//    printLinkList(LinkList);
+
+//    printf("what content to find?\n");
+//    int content;
+//    scanf("%d",&content);
+//    printf("found it in position %d",findNode(LinkList,content));
+
+    printf("start reversing...\n");
+    reversePrintLinkList(LinkList->next);
+    printf("\n");
+
+    return 0;
+}
+</code></pre>
 
         </div>
         <!-- .entry-content -->

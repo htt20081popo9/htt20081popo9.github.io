@@ -589,10 +589,71 @@
 <p><img src="https://pic2.zhimg.com/v2-92610586e77cf71ba5ce89087de52ff1_r.jpg" alt="preview"></p>
 <p>这里参考：<a href="https://www.zhihu.com/question/20794107/answer/658139129" target="_blank" rel="noopener">Java 动态代理作用是什么？ - bravo1988的回答 - 知乎</a> （这篇写得非常清晰）</p>
 <p>参考：Java 动态代理作用是什么？ - ZeaTalk的回答 - 知乎 <a href="https://www.zhihu.com/question/20794107/answer/23330381" target="_blank" rel="noopener">https://www.zhihu.com/question/20794107/answer/23330381</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="comment">//接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span>   </span></span><br><span class="line"><span class="class"></span>&#123;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="comment">//真实类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span>   </span></span><br><span class="line"><span class="class"></span>&#123;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span>   </span></span><br><span class="line"><span class="function">  </span>&#123;   </span><br><span class="line">    System.out.println( <span class="string">"call doSomething()"</span> );   </span><br><span class="line">  &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//真实对象</span></span><br><span class="line">    <span class="keyword">private</span> Object tar;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定委托对象，并返回代理类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">bind</span><span class="params">(Object tar)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.tar = tar;</span><br><span class="line">        <span class="comment">//绑定该类实现的所有接口，取得代理类 ，这里就是前面所说的，用真实接口class来构造代理class，再用代理class的构造器生成代理对象</span></span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(tar.getClass().getClassLoader(),</span><br><span class="line">                                      tar.getClass().getInterfaces(),</span><br><span class="line">                                      <span class="keyword">this</span>);</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用代理对象实际上就会调用该方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy , Method method , Object[] args)</span><span class="keyword">throws</span> Throwable</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Object result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//这里就可以进行所谓的AOP编程了</span></span><br><span class="line">        <span class="comment">//在调用具体函数方法前，执行功能处理</span></span><br><span class="line">        <span class="comment">//【这里就是，让真实对象tar，调用method方法，参数为args】，在这前后就可以进行增强</span></span><br><span class="line">        <span class="comment">//这里就可以看出动态代理的优越处了：实例对象、方法全是动态的</span></span><br><span class="line">        result = method.invoke(tar,args);</span><br><span class="line">        <span class="comment">//在调用具体函数方法后，执行功能处理</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestProxy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">           ProxyHandler proxy = <span class="keyword">new</span> ProxyHandler();</span><br><span class="line">           <span class="comment">//绑定该类实现的所有接口</span></span><br><span class="line">           Subject sub = (Subject) proxy.bind(<span class="keyword">new</span> RealSubject());</span><br><span class="line">           sub.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">package test;
+
+//接口
+public interface Subject   
+{   
+  public void doSomething();   
+}
+</code></pre>
+<pre class=" language-lang-java"><code class="language-lang-java">package test;
+
+//真实类
+public class RealSubject implements Subject   
+{   
+  public void doSomething()   
+  {   
+    System.out.println( "call doSomething()" );   
+  }   
+}
+</code></pre>
+<pre class=" language-lang-java"><code class="language-lang-java">package test;
+
+import java.lang.reflect.InvocationHandler;  
+import java.lang.reflect.Method;  
+import java.lang.reflect.Proxy;  
+
+public class ProxyHandler implements InvocationHandler
+{
+    //真实对象
+    private Object tar;
+
+    //绑定委托对象，并返回代理类
+    public Object bind(Object tar)
+    {
+        this.tar = tar;
+        //绑定该类实现的所有接口，取得代理类 ，这里就是前面所说的，用真实接口class来构造代理class，再用代理class的构造器生成代理对象
+        return Proxy.newProxyInstance(tar.getClass().getClassLoader(),
+                                      tar.getClass().getInterfaces(),
+                                      this);
+    }    
+
+    //调用代理对象实际上就会调用该方法
+    public Object invoke(Object proxy , Method method , Object[] args)throws Throwable
+    {
+        Object result = null;
+        //这里就可以进行所谓的AOP编程了
+        //在调用具体函数方法前，执行功能处理
+        //【这里就是，让真实对象tar，调用method方法，参数为args】，在这前后就可以进行增强
+        //这里就可以看出动态代理的优越处了：实例对象、方法全是动态的
+        result = method.invoke(tar,args);
+        //在调用具体函数方法后，执行功能处理
+        return result;
+    }
+}
+</code></pre>
+<pre class=" language-lang-java"><code class="language-lang-java">public class TestProxy
+{
+    public static void main(String args[])
+    {
+           ProxyHandler proxy = new ProxyHandler();
+           //绑定该类实现的所有接口
+           Subject sub = (Subject) proxy.bind(new RealSubject());
+           sub.doSomething();
+    }
+}
+</code></pre>
 <p>如上：在实际使用中直接<code>Proxy.newProxyInstance()</code>，然后就返回代理实例，简化使用</p>
 <p><strong>Spring AOP基于动态代理的</strong></p>
 <p>反射可以做到解耦：编译期不依赖、运行时依赖</p>

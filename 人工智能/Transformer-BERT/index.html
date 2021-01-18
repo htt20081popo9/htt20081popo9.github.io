@@ -524,7 +524,8 @@
 <p><strong>Transformer [预测]过程动图：</strong></p>
 <p><img src="//aisaka.cloud/人工智能/Transformer-BERT/Users\htt20\Desktop\transformer_decoding_2.gif" alt="transformer_decoding_2"></p>
 <h2 id="Transformer-XL"><a href="#Transformer-XL" class="headerlink" title="Transformer-XL"></a>Transformer-XL</h2><h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>pytorch中包含对Transformer的支持，<code>nn.Transformer</code>模块，也可以单独使用<code>nn.TransformerEncoder</code>和<code>nn.TransformerEncoderLayer</code>，<code>nn.TransformerDecoder</code>和<code>nn.TransformerDecoderLayer</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.Transformer(d_model=<span class="number">512</span>, nhead=<span class="number">8</span>, num_encoder_layers=<span class="number">6</span>, num_decoder_layers=<span class="number">6</span>, dim_feedforward=<span class="number">2048</span>, dropout=<span class="number">0.1</span>, activation=<span class="string">'relu'</span>, custom_encoder=<span class="keyword">None</span>, custom_decoder=<span class="keyword">None</span>) <span class="comment">#默认参数</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">torch.nn.Transformer(d_model=512, nhead=8, num_encoder_layers=6, num_decoder_layers=6, dim_feedforward=2048, dropout=0.1, activation='relu', custom_encoder=None, custom_decoder=None) #默认参数
+</code></pre>
 <p>具体代码实现看源码</p>
 <h1 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h1><p>BERT 的创新点在于使用了 Transformer 用于语言模型，Transformer是真正双向的，而不像Bi-LSTM那种“假双向”</p>
 <p>论文中介绍了一种新技术叫做 Masked LM（MLM），在这个技术出现之前是无法进行双向语言模型训练的</p>

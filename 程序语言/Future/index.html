@@ -510,7 +510,32 @@
 <p><strong>Runnable任务可以共享数据，多个Thread可以同时加载一个Runnable实现类实例</strong>，当各自Thread获得CPU时间片的时候开始运行runnable实现类实例，runnable实现类实例里面的资源是被共享的</p>
 <p><strong>Runnable和Callable只提供了run()/call()方法，无法任务控制，也无法异步获取Callable的返回结果，所以引出牛逼哄哄的FutureTask</strong></p>
 <h2 id="Future接口"><a href="#Future接口" class="headerlink" title="Future接口"></a>Future接口</h2><p>Future接口定义了一系列任务控制的方法，并且定义了获取异步线程的返回值的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Future接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">    <span class="comment">//mayInterruptRunning参数表示是否中断执行中的线程</span></span><br><span class="line">    <span class="comment">//①若中断（mayInterruptRunning=true）</span></span><br><span class="line">    <span class="comment">//如果任务还没开始，返回false；</span></span><br><span class="line">    <span class="comment">//如果任务已经启动，将以中断执行此任务线程的方式来试图停止任务，如果停止成功，返回true；</span></span><br><span class="line">    <span class="comment">//②若不中断（mayInterruptRunning=false）</span></span><br><span class="line">    <span class="comment">//当任务已经启动，将不会对正在执行的任务线程产生影响(让线程正常执行到完成)，此时返回false；</span></span><br><span class="line">    <span class="comment">//当任务已经完成，返回false。</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span></span>;  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//如果任务完成前被取消，则返回true</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//如果任务执行结束，无论是正常结束或是中途取消还是发生异常，都返回true</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>; </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取异步执行的结果，如果没有结果可用，此方法会阻塞直到异步计算完成</span></span><br><span class="line">    <span class="comment">//对于使用Runnable构造器，调用该方法会返回null</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取异步执行结果，如果没有结果可用，此方法会阻塞，但是会有时间限制，如果阻塞时间超过设定的timeout时间，该方法将抛出异常</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//Future接口
+public interface Future<V> 
+{  
+    //mayInterruptRunning参数表示是否中断执行中的线程
+    //①若中断（mayInterruptRunning=true）
+    //如果任务还没开始，返回false；
+    //如果任务已经启动，将以中断执行此任务线程的方式来试图停止任务，如果停止成功，返回true；
+    //②若不中断（mayInterruptRunning=false）
+    //当任务已经启动，将不会对正在执行的任务线程产生影响(让线程正常执行到完成)，此时返回false；
+    //当任务已经完成，返回false。
+    boolean cancel(boolean mayInterruptIfRunning);  
+
+    //如果任务完成前被取消，则返回true
+    boolean isCancelled();  
+
+    //如果任务执行结束，无论是正常结束或是中途取消还是发生异常，都返回true
+    boolean isDone(); 
+
+    //获取异步执行的结果，如果没有结果可用，此方法会阻塞直到异步计算完成
+    //对于使用Runnable构造器，调用该方法会返回null
+    V get() throws InterruptedException, ExecutionException;  
+
+    //获取异步执行结果，如果没有结果可用，此方法会阻塞，但是会有时间限制，如果阻塞时间超过设定的timeout时间，该方法将抛出异常
+    V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException;  
+}
+</code></pre>
 <h2 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h2><p><strong>FutureTask实现了RunnableFuture接口，RunnableFuture接口继承了Runnable接口和Future接口</strong>（<strong>即可以通过Runnable接口实现线程（实际上是一律将Runnable转化为Callable来处理），也可以通过Future取得线程执行完后的结果以及使用一系列的线程控制方法</strong>），因此FutureTask也可以直接提交给Executor执行。</p>
 <p><strong>【FutureTask是为了弥补Runnable和Callable的不足而设计的】：</strong></p>
 <p><strong>①可以获得异步返回结果（如果需要）</strong></p>
@@ -519,13 +544,60 @@
 <p>①<code>FutureTask(Runnable runnable, V result)</code>：无返回值异步运行，它在Runable的接口之上，封装了很多方法（对于Runable来说，FutureTask就像一个装饰器，实现Future接口来装饰Runable）</p>
 <p>②<code>FutureTask(Callable&lt;V&gt; callable)</code>：在①的基础上，变为有返回值异步运行结果</p>
 <p><strong>【ATT】FutureTask.run()的run()方法（就是Runnable的run方法）并没有创建线程，所以得交由线程池来执行</strong></p>
-<h2 id="Runnable、Callable、FutureTask、Future使用例"><a href="#Runnable、Callable、FutureTask、Future使用例" class="headerlink" title="Runnable、Callable、FutureTask、Future使用例"></a>Runnable、Callable、FutureTask、Future使用例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myRun</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span>  <span class="comment">//runnable实现run方法</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"123"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myCall</span> <span class="keyword">implements</span> <span class="title">Callable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="comment">//Callable里实现call方法</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"123"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">/*新建线程池，负责线程的管理（创建、销毁等）*/</span></span><br><span class="line">    	ExecutorService pool = Executors.newCachedThreadPool();</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*调用FutureTask(Runnable runnable, V result)构造器，作为封装的Runnable使用*/</span></span><br><span class="line">        <span class="comment">//第二个参数是为了兼容Excutors.callable方法（见PS），直接设置为null即可</span></span><br><span class="line">    	FutureTask ft = <span class="keyword">new</span> FutureTask(<span class="keyword">new</span> myRun(),<span class="keyword">null</span>);     </span><br><span class="line">        pool.submit(ft);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*调用FutureTask(Callable&lt;V&gt; callable)构造器，使用Future功能*/</span></span><br><span class="line">    	FutureTask&lt;T&gt; ft = <span class="keyword">new</span> FutureTask(<span class="keyword">new</span> myCall());</span><br><span class="line">        <span class="comment">//使用线程池的submit方法提交该FutureTask之后，异步运算结果保存在FutureTask自己中</span></span><br><span class="line">        pool.submit(ft);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*线程池的submit方法返回的就是个FutureTask实例，我们只是一般用Future接口来声明其引用*/</span></span><br><span class="line">    	Future&lt;String&gt; ft = pool.submit(<span class="keyword">new</span> myCall());</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*然后可以调用FutureTask的各种方法了*/</span></span><br><span class="line">        <span class="comment">//比如&lt;T&gt; temp = ft.get(); isDone()等</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Runnable、Callable、FutureTask、Future使用例"><a href="#Runnable、Callable、FutureTask、Future使用例" class="headerlink" title="Runnable、Callable、FutureTask、Future使用例"></a>Runnable、Callable、FutureTask、Future使用例</h2><pre class=" language-lang-java"><code class="language-lang-java">class myRun implements Runnable
+{
+    public void run()  //runnable实现run方法
+    {
+        System.out.println("123");
+    }
+}
+
+class myCall implements Callable
+{
+    public String call() //Callable里实现call方法
+    {
+        return "123";
+    }
+}
+
+public class main
+{
+    public static void main(String[] args) throws Exception 
+    {
+        /*新建线程池，负责线程的管理（创建、销毁等）*/
+        ExecutorService pool = Executors.newCachedThreadPool();
+
+
+        /*调用FutureTask(Runnable runnable, V result)构造器，作为封装的Runnable使用*/
+        //第二个参数是为了兼容Excutors.callable方法（见PS），直接设置为null即可
+        FutureTask ft = new FutureTask(new myRun(),null);     
+        pool.submit(ft);
+
+        /*调用FutureTask(Callable<V> callable)构造器，使用Future功能*/
+        FutureTask<T> ft = new FutureTask(new myCall());
+        //使用线程池的submit方法提交该FutureTask之后，异步运算结果保存在FutureTask自己中
+        pool.submit(ft);
+
+        /*线程池的submit方法返回的就是个FutureTask实例，我们只是一般用Future接口来声明其引用*/
+        Future<String> ft = pool.submit(new myCall());
+
+        /*然后可以调用FutureTask的各种方法了*/
+        //比如<T> temp = ft.get(); isDone()等
+    }
+}
+</code></pre>
 <p>P.S. <code>Executors.callable</code></p>
 <p>用来把<code>Runnable</code>包装成<code>Callable&lt;T&gt;</code>。包装出来的<code>Callable&lt;T&gt;</code>只能返回传入的<code>result</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Callable&lt;T&gt; Executors.callable(Runnable task, T result)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">Callable<T> Executors.callable(Runnable task, T result)
+</code></pre>
 <p>使用场景：<strong>当将需要Callable的方法应用于其他无结果的操作时</strong></p>
 <h2 id="What’s-next【】"><a href="#What’s-next【】" class="headerlink" title="What’s next【】"></a>What’s next【】</h2><p><strong>state属性</strong>是贯穿整个FutureTask的最核心的属性，该属性的值代表了<strong>任务在运行过程中的状态</strong>，随着任务的执行，状态将不断地进行转变。一共有7个state状态，都是volatile的，保证所有线程可见性。<br><strong>FutureTask五大核心属性：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">任务本尊：Callable <span class="comment">//如果构造器传入的是Runnable，也会被转化为Callable</span></span><br><span class="line">任务的执行者：runner</span><br><span class="line">任务的结果：outcome</span><br><span class="line">获取任务的结果：state + outcome + waiters</span><br><span class="line">中断或者取消任务：state + runner + waiters</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">任务本尊：Callable //如果构造器传入的是Runnable，也会被转化为Callable
+任务的执行者：runner
+任务的结果：outcome
+获取任务的结果：state + outcome + waiters
+中断或者取消任务：state + runner + waiters
+</code></pre>
 <hr>
 <p>待进一步深层源码解读</p>
 <p>参考：<a href="https://www.jianshu.com/p/18eced78038a" target="_blank" rel="noopener">FutureTask原理解析</a></p>

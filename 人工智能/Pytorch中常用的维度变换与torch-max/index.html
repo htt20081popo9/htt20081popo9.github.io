@@ -488,17 +488,58 @@
         
         <div class="entry-content">
           <h2 id="Tensor-view-扁平化"><a href="#Tensor-view-扁平化" class="headerlink" title="Tensor.view() 扁平化"></a>Tensor.view() 扁平化</h2><p>简单说就是一个把tensor 进行reshape的操作。<br>常常配合 <code>a.size(0)</code>来取得某一位的维度数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=torch.randn(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line">b = a.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">print(b.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">1</span>, <span class="number">420</span>])</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python"> a=torch.randn(3,4,5,7)
+ b = a.view(1,-1)
+ print(b.size())
+ >>torch.Size([1, 420])
+</code></pre>
 <p><strong>其中参数-1表示剩下的值的个数一起构成一个维度</strong>。如上例中，第一个参数1将第一个维度的大小设定成1，后一个-1就是说第二个维度的大小=元素总数目/第一个维度的大小，此例中为<code>3*4*5*7/1=420</code>. （由于第一个维度被展为1了，那后面所有元素全部摊开展平了）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第1,2个维度不变（保持原来的维度），第三个位置写-1表示剩下的维度全部扁平化为一个维度</span></span><br><span class="line">d = a.view(a.size(<span class="number">0</span>),a.size(<span class="number">1</span>),<span class="number">-1</span>)</span><br><span class="line">print(d.size())</span><br><span class="line">&gt;&gt;torch.Size([<span class="number">3</span>, <span class="number">4</span>, <span class="number">35</span>])</span><br><span class="line"></span><br><span class="line"> e=a.view(<span class="number">4</span>,<span class="number">-1</span>,<span class="number">5</span>)</span><br><span class="line"> print(e.size())</span><br><span class="line"> &gt;&gt;torch.Size([<span class="number">4</span>, <span class="number">21</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python">#第1,2个维度不变（保持原来的维度），第三个位置写-1表示剩下的维度全部扁平化为一个维度
+d = a.view(a.size(0),a.size(1),-1)
+print(d.size())
+>>torch.Size([3, 4, 35])
+
+ e=a.view(4,-1,5)
+ print(e.size())
+ >>torch.Size([4, 21, 5])
+</code></pre>
 <p> 在<strong>扁平化批处理的图片</strong>的时候（CNN中会出现）<br> 为了扁平化每一张图片的数据，又不想把不同图片的数据混在一起扁平，那么就应该</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python"> x = x.view(x.size(0), -1)
+</code></pre>
 <p><strong>注意：遇到错误</strong><code>RuntimeError: invalid argument 2: view size is not compatible with input tensor&#39;s size and stride (at least one dimension spans across two contiguous subspaces). Call .contiguous() before .view().</code><br>需要让Tensor连续化，即加一步<code>x = x.contiguous()</code><br>原因解释:<a href="https://blog.csdn.net/appleml/article/details/80143212" target="_blank" rel="noopener">https://blog.csdn.net/appleml/article/details/80143212</a>使用torch.view()的条件是Tensor是连续的,在对Tensor进行了transpose等操作之后就会变得不连续，就需要这个函数来连续化</p>
-<h2 id="unsqueeze降维-和squeeze升维"><a href="#unsqueeze降维-和squeeze升维" class="headerlink" title="unsqueeze降维 和squeeze升维"></a>unsqueeze降维 和squeeze升维</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">对于torch:使用unsqueeze降维 和squeeze升维</span><br><span class="line"><span class="comment">#升维</span></span><br><span class="line">unsqueeze(torch1,<span class="number">0</span>)  <span class="comment">#在第0个位置增加一个值为1的维度</span></span><br><span class="line"><span class="comment">#(2, 2)-&gt;(1,2,2)</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">#降维</span></span><br><span class="line">squeeze(torch1)  <span class="comment">#squeeze给torch删去值为1的维度</span></span><br><span class="line"><span class="comment">#(2, 2, 1)-&gt;(2, 2)</span></span><br><span class="line">    </span><br><span class="line">比如灰度图像只有<span class="number">2</span>维,这个时候就需要升维</span><br><span class="line">    </span><br><span class="line">对于numpy array,函数不一样:expand_dims 升维 squeeze 降维</span><br><span class="line"><span class="comment">#升维</span></span><br><span class="line">expand_dims(narray1,<span class="number">0</span>) <span class="comment">#在第0个位置增加一个值为1的维度</span></span><br><span class="line">与torch用法一致</span><br></pre></td></tr></table></figure>
+<h2 id="unsqueeze降维-和squeeze升维"><a href="#unsqueeze降维-和squeeze升维" class="headerlink" title="unsqueeze降维 和squeeze升维"></a>unsqueeze降维 和squeeze升维</h2><pre class=" language-lang-python"><code class="language-lang-python">对于torch:使用unsqueeze降维 和squeeze升维
+#升维
+unsqueeze(torch1,0)  #在第0个位置增加一个值为1的维度
+#(2, 2)->(1,2,2)
+
+#降维
+squeeze(torch1)  #squeeze给torch删去值为1的维度
+#(2, 2, 1)->(2, 2)
+
+比如灰度图像只有2维,这个时候就需要升维
+
+对于numpy array,函数不一样:expand_dims 升维 squeeze 降维
+#升维
+expand_dims(narray1,0) #在第0个位置增加一个值为1的维度
+与torch用法一致
+</code></pre>
 <h2 id="torch-max函数"><a href="#torch-max函数" class="headerlink" title="torch.max函数"></a>torch.max函数</h2><p>①torch.max()简单来说是返回一个tensor中的最大值。例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">si=torch.randn(<span class="number">4</span>,<span class="number">5</span>)  </span><br><span class="line">print(si)  </span><br><span class="line">&gt;&gt;tensor([[ <span class="number">1.1659</span>, <span class="number">-1.5195</span>, <span class="number">0.0455</span>, <span class="number">1.7610</span>, <span class="number">-0.2064</span>],  </span><br><span class="line">[<span class="number">-0.3443</span>, <span class="number">2.0483</span>, <span class="number">0.6303</span>, <span class="number">0.9475</span>, <span class="number">0.4364</span>],  </span><br><span class="line">[<span class="number">-1.5268</span>, <span class="number">-1.0833</span>, <span class="number">1.6847</span>, <span class="number">0.0145</span>, <span class="number">-0.2088</span>],  </span><br><span class="line">[<span class="number">-0.8681</span>, <span class="number">0.1516</span>, <span class="number">-0.7764</span>, <span class="number">0.8244</span>, <span class="number">-1.2194</span>]])</span><br><span class="line"></span><br><span class="line">print(torch.max(si))  </span><br><span class="line">&gt;&gt;tensor(<span class="number">2.0483</span>) <span class="comment">#输出了最大值</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python">si=torch.randn(4,5)  
+print(si)  
+>>tensor([[ 1.1659, -1.5195, 0.0455, 1.7610, -0.2064],  
+[-0.3443, 2.0483, 0.6303, 0.9475, 0.4364],  
+[-1.5268, -1.0833, 1.6847, 0.0145, -0.2088],  
+[-0.8681, 0.1516, -0.7764, 0.8244, -1.2194]])
+
+print(torch.max(si))  
+>>tensor(2.0483) #输出了最大值
+</code></pre>
 <p>②这个函数的参数中还有一个dim参数，使用方法为re = torch.max(Tensor,dim),<strong>返回的res为一个</strong>二维向量<strong>，</strong>其中res[0]为最大值的Tensor，res[1]为Tensor中最大值对应的index**。例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(torch.max(si,<span class="number">0</span>))</span><br><span class="line">(tensor([<span class="number">1.1659</span>, <span class="number">2.0483</span>, <span class="number">1.6847</span>, <span class="number">1.7610</span>, <span class="number">0.4364</span>]), tensor([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(torch.max(si,<span class="number">0</span>)[<span class="number">0</span>])  </span><br><span class="line">tensor([<span class="number">1.1659</span>, <span class="number">2.0483</span>, <span class="number">1.6847</span>, <span class="number">1.7610</span>, <span class="number">0.4364</span>])</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-Python"><code class="language-lang-Python">>>> print(torch.max(si,0))
+(tensor([1.1659, 2.0483, 1.6847, 1.7610, 0.4364]), tensor([0, 1, 2, 0, 1]))
+>>> print(torch.max(si,0)[0])  
+tensor([1.1659, 2.0483, 1.6847, 1.7610, 0.4364])
+</code></pre>
 <p>注意，Tensor的维度从0开始算起。在torch.max()中指定了dim之后，比如对于一个3x4x5的    Tensor，指定dim为0后，得到的结果是维度为0的“每一行”对应位置求最大的那个值，此时输出的Tensor的维度是4x5. （<strong>在这个二维tensor里，dim=0就是求每行最大值</strong>）</p>
 <p>对于简单的二维Tensor，如上面例子的这个4x5的Tensor。指定dim为0，则给出的结果是4行做比较之后的最大值；如果指定dim为1，则给出的结果是5列做比较之后的最大值，且此处做比较时是按照位置分别做比较，得到一个新的Tensor。（<strong>在这个二维tensor里，dim=1就是求每列最大值</strong>）</p>
 <p>eg<br><code>_, preds = torch.max(outputs.data, 1)</code></p>

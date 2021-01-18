@@ -524,7 +524,16 @@
 <p>常用的：200,201,400，401,404,500</p>
 <p><strong>元数据设计：HTTP头部设置元数据字段格式</strong>，如Content-Type、Content-Length等字段</p>
 <p>举例（SDN中ryu控制器提供的ACL模块的北向REST API）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//这个就是一个REST API，C端根据这个API进行传输请求</span><br><span class="line">//后面的这个URL就是S上的资源地址，POST就是操作</span><br><span class="line">//POST动作、DELETE动作还需要在JSON中写入需要传输的数据，见下面的请求demo</span><br><span class="line">REST API : POST http://&lt;controller_ip&gt;:8080/wm/acl/rules/json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//crul命令是一个http请求工具（-X：请求协议，-d：POST内容）</span><br><span class="line">crul -X POST -d '&#123;"src-ip":"10.0.0.1/32","dst-ip":"10.0.0.2/32","action":"deny"&#125;' </span><br><span class="line">http://&lt;controller_ip&gt;:8080/wm/acl/rules/json</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-json"><code class="language-lang-json">//这个就是一个REST API，C端根据这个API进行传输请求
+//后面的这个URL就是S上的资源地址，POST就是操作
+//POST动作、DELETE动作还需要在JSON中写入需要传输的数据，见下面的请求demo
+REST API : POST http://<controller_ip>:8080/wm/acl/rules/json
+
+
+//crul命令是一个http请求工具（-X：请求协议，-d：POST内容）
+crul -X POST -d '{"src-ip":"10.0.0.1/32","dst-ip":"10.0.0.2/32","action":"deny"}' 
+http://<controller_ip>:8080/wm/acl/rules/json
+</code></pre>
 <hr>
 <p>P.S. </p>
 <ol>

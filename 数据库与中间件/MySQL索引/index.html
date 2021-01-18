@@ -522,13 +522,27 @@
 <p>联合索引是将<strong>多个索引字段构成了一棵树</strong>而不是多颗树！该树的结点上的选择支选择<strong>遵循最左匹配原则</strong>。</p>
 <p>在构造联合索引的B+树时，每个结点先判断左边的索引再判断右边的索引（也就是左边索引字段排好序的情况下，右边索引字段再排序。显而易见为什么必须遵循最左匹配原则）</p>
 <p>在联合索引中，中间的结点就是索引字段的值了</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#建立联合索引</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb1 <span class="keyword">add</span> <span class="keyword">index</span> score_index(<span class="keyword">NAME</span>,SCORE);</span><br><span class="line"><span class="comment">#建立此联合索引之后，查询的时候查询NAME或NAME,SCORE就会使用联合索引查询Type=ref，即where NAME=或NAME= AND WHERE =查询的时候，其它顺序就无法使用联合索引（全表/全索引扫描 Type=ALL/index）</span></span><br><span class="line"><span class="comment">#（但实际上mysql的查询优化器会优化SCORE,NAME的情况，使得它也会是通过联合索引查询，但是如果顺序不一致，就不会覆盖索引了）</span></span><br><span class="line"><span class="comment">#注意：如果不符合最左匹配原则查询name和score，比如直接查询score，依然会使用联合索引，但是type=index，不会采用高效的查询算法了（此时score非有序，得全索引遍历查询）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查询，这里查询就查询了联合索引了 </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb1 <span class="keyword">where</span> <span class="keyword">NAME</span>=<span class="string">'a2dasdasd'</span> <span class="keyword">and</span> SCORE=<span class="number">102</span>;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-sql"><code class="language-lang-sql">#建立联合索引
+alter table tb1 add index score_index(NAME,SCORE);
+#建立此联合索引之后，查询的时候查询NAME或NAME,SCORE就会使用联合索引查询Type=ref，即where NAME=或NAME= AND WHERE =查询的时候，其它顺序就无法使用联合索引（全表/全索引扫描 Type=ALL/index）
+#（但实际上mysql的查询优化器会优化SCORE,NAME的情况，使得它也会是通过联合索引查询，但是如果顺序不一致，就不会覆盖索引了）
+#注意：如果不符合最左匹配原则查询name和score，比如直接查询score，依然会使用联合索引，但是type=index，不会采用高效的查询算法了（此时score非有序，得全索引遍历查询）
+
+#查询，这里查询就查询了联合索引了 
+select * from tb1 where NAME='a2dasdasd' and SCORE=102;
+</code></pre>
 </li>
 <li><p>对于长字符串，使用<strong>前缀索引</strong> （先计算索引选择性，得出最有选择度的长度比如为4，add key name(4)）</p>
 </li>
 <li><p><strong>覆盖索引</strong>：查询在索引树中就可查找所需数据，<strong>无需回表</strong>，速度更快。</p>
 <p>常见实现方法：将被查询的字段，<strong>建立到联合索引</strong>里去</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基于上面的联合索引</span></span><br><span class="line"><span class="comment">#用到了覆盖索引，因为name，score联合索引的</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">NAME</span>,SCORE <span class="keyword">from</span> tb1 <span class="keyword">where</span> <span class="keyword">NAME</span>=<span class="string">'a2dasdasd'</span> <span class="keyword">and</span> SCORE=<span class="number">102</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#没有用到覆盖索引，因为查找的字段不止name和score还有其它字段没被联合索引覆盖</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb1 <span class="keyword">where</span> <span class="keyword">NAME</span>=<span class="string">'a2dasdasd'</span> <span class="keyword">and</span> SCORE=<span class="number">102</span>;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-sql"><code class="language-lang-sql">#基于上面的联合索引
+#用到了覆盖索引，因为name，score联合索引的
+select NAME,SCORE from tb1 where NAME='a2dasdasd' and SCORE=102;
+
+#没有用到覆盖索引，因为查找的字段不止name和score还有其它字段没被联合索引覆盖
+select * from tb1 where NAME='a2dasdasd' and SCORE=102;
+</code></pre>
 <p><strong>联合索引就将多个索引字段的值放在了一个结点，这样比如我们只查联合索引索引的字段(id,name)的时候，一次性就把id和name查出来了，不用回表查询！</strong></p>
 <p>（explain的extra=using index则表示使用了覆盖索引）</p>
 </li>
@@ -552,7 +566,23 @@
 <p>（6）当唯一性是某字段本身的特征时，指定唯一索引能提高查询速度。</p>
 <p>（7）在频繁进行跑排列分组（即进行 group by 或 order by操作）的列上建立索引，如果待排序有多个，可以在这些列上建立组合索引。</p>
 <p>参考链接：<a href="https://blog.csdn.net/qq_30745307/article/details/81230109" target="_blank" rel="noopener">https://blog.csdn.net/qq_30745307/article/details/81230109</a></p>
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> sqlsentences <span class="comment">#分析</span></span><br><span class="line"><span class="comment">---explain结果---</span></span><br><span class="line"><span class="keyword">id</span>: <span class="keyword">SELECT</span> 查询的标识符. 每个 <span class="keyword">SELECT</span> 都会自动分配一个唯一的标识符.</span><br><span class="line">select_type: <span class="keyword">SELECT</span> 查询的类型.</span><br><span class="line"><span class="keyword">table</span>: 查询的是哪个表</span><br><span class="line"><span class="keyword">partitions</span>: 匹配的分区</span><br><span class="line"><span class="keyword">type</span>: 索引类型；常用的有<span class="keyword">index</span>：全索引扫描；all：全表扫描；<span class="keyword">ref</span>：联合索引</span><br><span class="line">possible_keys: 此次查询中可能选用的索引</span><br><span class="line"><span class="keyword">key</span>: 此次查询中确切使用到的索引.</span><br><span class="line"><span class="keyword">ref</span>: 哪个字段或常数与 <span class="keyword">key</span> 一起被使用</span><br><span class="line"><span class="keyword">rows</span>: 显示此查询一共扫描了多少行. 这个是一个估计值.</span><br><span class="line">filtered: 表示此查询条件所过滤的数据的百分比</span><br><span class="line">extra: 额外的信息；<span class="keyword">using</span> <span class="keyword">index</span>表示使用了覆盖检索</span><br><span class="line">参考：https://segmentfault.com/a/<span class="number">1190000008131735</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> tb1 <span class="comment">#查看索引</span></span><br></pre></td></tr></table></figure>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><pre class=" language-lang-SQL"><code class="language-lang-SQL">explain sqlsentences #分析
+---explain结果---
+id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.
+select_type: SELECT 查询的类型.
+table: 查询的是哪个表
+partitions: 匹配的分区
+type: 索引类型；常用的有index：全索引扫描；all：全表扫描；ref：联合索引
+possible_keys: 此次查询中可能选用的索引
+key: 此次查询中确切使用到的索引.
+ref: 哪个字段或常数与 key 一起被使用
+rows: 显示此查询一共扫描了多少行. 这个是一个估计值.
+filtered: 表示此查询条件所过滤的数据的百分比
+extra: 额外的信息；using index表示使用了覆盖检索
+参考：https://segmentfault.com/a/1190000008131735
+
+show index from tb1 #查看索引
+</code></pre>
 <p>更多阅读：MySQL优化策略大全：<a href="https://www.jianshu.com/p/d7665192aaaf" target="_blank" rel="noopener">https://www.jianshu.com/p/d7665192aaaf</a></p>
 
         </div>

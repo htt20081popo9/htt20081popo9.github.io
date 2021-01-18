@@ -540,7 +540,22 @@
 <h2 id="TiPS"><a href="#TiPS" class="headerlink" title="TiPS"></a>TiPS</h2><ol>
 <li><p>常量池</p>
 <p><strong>在Java方法区会维护一个常量池，对于使用简单赋值直接创建的一些可以共享的字符串、基本类型，会先在常量池中查找是否存在相同的内容，如果有就直接返回，不创建新对象。</strong>（JAVA字符串不可修改，修改其实就是建立一个新的String对象）<br>而<strong>如果是显式创建对象就不会是这样的，new就是new个新的了</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//显式创建（非字符串和基本类型，只能显式创建）</span></span><br><span class="line">System.out.println(<span class="keyword">new</span> test() == <span class="keyword">new</span> test());</span><br><span class="line"><span class="comment">//输出false，不是同一个对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//显式创建</span></span><br><span class="line">String a = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">String b = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(a==b);</span><br><span class="line"><span class="comment">//输出false，不是同一个对象，未共享对象，其它基本类型的包装类也是同理</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//非显式创建</span></span><br><span class="line">String a = <span class="string">"abc"</span>;</span><br><span class="line">String b = <span class="string">"abc"</span>;</span><br><span class="line">System.out.println(a==b);</span><br><span class="line"><span class="comment">//输出true，是同一个对象，共享对象，其它基本类型同理</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">//显式创建（非字符串和基本类型，只能显式创建）
+System.out.println(new test() == new test());
+//输出false，不是同一个对象
+
+//显式创建
+String a = new String("abc");
+String b = new String("abc");
+System.out.println(a==b);
+//输出false，不是同一个对象，未共享对象，其它基本类型的包装类也是同理
+
+//非显式创建
+String a = "abc";
+String b = "abc";
+System.out.println(a==b);
+//输出true，是同一个对象，共享对象，其它基本类型同理
+</code></pre>
 <p><code>static</code>变量也是常量，储存于常量池</p>
 </li>
 <li><p>类加载器的加载路径和<code>import</code>引入声明是两个东西，<strong>import是一个使用声明，是给编译器用的，静态；类加载器的加载路径是运行时，类加载器只认识加载路径下的类，动态</strong>。类加载器认识，但不一定会import：比如lang是启动类加载器认识，且默认import（只有lang默认import），util是扩展类加载器认识，但不默认import。</p>

@@ -500,14 +500,33 @@
 <p>4、无指针，用引用，同java</p>
 <p>5、使用<strong>ref</strong>关键字进行引用传递（必须初始化）</p>
 <p>ref关键字放在需要传递的变量面前，把一个输出参数的<strong>内存地址</strong>传递给方法（即传递实参）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public void Grow (int _nSpan, **ref** outCurrentAge)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">this.nAge+=_nSpan;</span><br><span class="line"></span><br><span class="line">nOutCurrentAge=this.nAge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>主程序中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int nCurrentAge=0;</span><br><span class="line"></span><br><span class="line">s.Grow(3 ,**ref** nCurrentAge)</span><br><span class="line"></span><br><span class="line">Console.WriteLine(nCurrentAge);</span><br></pre></td></tr></table></figure></p>
-<p>6、使用<strong>out</strong>关键字进行引用传递（无需初始化）</p>
+<pre><code>
+public void Grow (int _nSpan, **ref** outCurrentAge)
+
+{
+
+this.nAge+=_nSpan;
+
+nOutCurrentAge=this.nAge;
+
+}
+</code></pre><p>主程序中</p>
+<pre><code>
+int nCurrentAge=0;
+
+s.Grow(3 ,**ref** nCurrentAge)
+
+Console.WriteLine(nCurrentAge);
+</code></pre><p>6、使用<strong>out</strong>关键字进行引用传递（无需初始化）</p>
 <p>7、使用<strong>params</strong>关键字传递多个参数</p>
 <p>params关键字指明一个输出参数被看作为一个参数数组，这种类型的输出参数只能作为方法的最后一个输入参数</p>
 <p>主要用于，在调用一个方法时，预先不能确定参数的数量、数据类型等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void setHobby(**params** string[] _setArrHobby)</span><br><span class="line"></span><br><span class="line">&#123; &#125;</span><br><span class="line"></span><br><span class="line">主程序：s.setHobby(“reading”,”singing”,”programing”);</span><br></pre></td></tr></table></figure>
-<p>8、比较字符串</p>
+<pre><code>public void setHobby(**params** string[] _setArrHobby)
+
+{ }
+
+主程序：s.setHobby(“reading”,”singing”,”programing”);
+</code></pre><p>8、比较字符串</p>
 <p><code>int Compare(strA,strB);</code> 输出为0则相等</p>
 <p>亦可用<code>lool Equals</code>，<code>int CompareTo</code></p>
 <p>不过，Compare是静态方法，且可重载。</p>

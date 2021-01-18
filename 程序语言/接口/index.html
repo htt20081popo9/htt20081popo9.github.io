@@ -509,7 +509,8 @@
 <p>接口中的成员变量会被继承给导出类</p>
 <p>接口中<strong>所有方法都不能提供方法体</strong>（相比抽象类更抽象了，<strong>完全抽象</strong>），所有方法都是自动<code>abstract</code>的</p>
 <p>但有例外：接口中的<code>default</code>方法可以有方法体</p>
-   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span> <span class="keyword">void</span> forEach&#123;xxx&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">   default void forEach{xxx}
+</code></pre>
 <p>子类优先继承父类的方法， 如果父类没有相同签名的方法，才继承接口的默认方法</p>
 <p><strong>具体类必须实现接口的所有方法；如果不实现所有抽象方法，那么导出类就会是抽象类</strong></p>
 <p>接口的设计就可以做到：“你可以用任何你想要的对象来调用我的方法，只要你的对象遵循我的接口”，以<code>Scanner</code>举例，<code>Scanner</code>接受一个<code>Readable</code>接口的实现类对象，只要满足这个接口，那就可以输入进<code>Scanner</code>中，我们在使用键盘输入的时候输入<code>Scanner</code>的就是<code>System.in</code>，它就实现了<code>Readable</code>接口</p>

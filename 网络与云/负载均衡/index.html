@@ -566,7 +566,42 @@
 <p><strong>负载均衡</strong>：如果有定义upstream子模块，<strong>server虚拟主机子模块将所有流量转发上游upstream子模块中的服务器，在upstream中可以设置多台rs后端服务器，可以选用负载均衡策略</strong>，也就实现了负载均衡功能。默认轮询调度upstream中的backend rs。（注意，upstream名称和server配置中的proxy_pass需要匹配才能转发到upstream。）</p>
 <p>Nginx的负载均衡功能支持3种负载均衡策略，2种常用的第三方策略</p>
 <p>以下为Nginx通用配置结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">main      # 全局配置                          </span><br><span class="line">events &#123;  </span><br><span class="line"># nginx工作模式配置</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;    # http设置                            </span><br><span class="line">    ....</span><br><span class="line"></span><br><span class="line">    server &#123;     # 服务器主机配置（虚拟主机）                   </span><br><span class="line">        ....</span><br><span class="line">        location &#123;   # 路由配置                 </span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location path &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location otherpath &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream name &#123;   # 负载均衡配置                 </span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-conf"><code class="language-lang-conf">main      # 全局配置                          
+events {  
+# nginx工作模式配置
+}
+
+http {    # http设置                            
+    ....
+
+    server {     # 服务器主机配置（虚拟主机）                   
+        ....
+        location {   # 路由配置                 
+            ....
+        }
+
+        location path {
+            ....
+        }
+
+        location otherpath {
+            ....
+        }
+    }
+
+    server {
+        ....
+
+        location {
+            ....
+        }
+    }
+
+    upstream name {   # 负载均衡配置                 
+        ....
+    }
+}
+</code></pre>
 <p>注意：所有rs都要禁用arp解析（写个jio本），原因和lvs集群须禁用rs的arp解析一样</p>
 <h2 id="SLB：Tengine"><a href="#SLB：Tengine" class="headerlink" title="SLB：Tengine"></a>SLB：Tengine</h2><p>淘宝网发起的Nginx的升级版，就是针对淘宝网的需求优化了一下</p>
 <h2 id="keepalived-LVS集群：实现高可用负载均衡"><a href="#keepalived-LVS集群：实现高可用负载均衡" class="headerlink" title="keepalived+LVS集群：实现高可用负载均衡"></a>keepalived+LVS集群：实现高可用负载均衡</h2><p><strong>【整体网络架构：keepalived管理LVS集群，LVS管理后端服务器集群】</strong></p>

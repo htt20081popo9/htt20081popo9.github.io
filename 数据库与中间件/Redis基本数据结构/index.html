@@ -578,8 +578,14 @@
 </ol>
 <p><strong>客户端向服务器发送的指令只有一种格式：多行字符串数组</strong></p>
 <p>比如<code>set aaa bbbb</code>-&gt;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*3</span><br><span class="line">$3</span><br><span class="line">set</span><br><span class="line">$3</span><br><span class="line">aaa</span><br><span class="line">$4</span><br><span class="line">bbbb</span><br></pre></td></tr></table></figure>
-<p>服务器向客户端回复的响应要支持多种数据结构。</p>
+<pre><code>*3
+$3
+set
+$3
+aaa
+$4
+bbbb
+</code></pre><p>服务器向客户端回复的响应要支持多种数据结构。</p>
 <h2 id="小对象压缩"><a href="#小对象压缩" class="headerlink" title="小对象压缩"></a>小对象压缩</h2><p>redis可以使用32bit编译</p>
 <p>同时redis有个ziplist，当hashtable、linkedlist需要储存的内容很少的时候，redis就会自动有ziplist来实现hash字典和list列表。ziplist在空间上是连续的。对于hash，key-value在ziplist是相邻储存的，linkedkist就不比多说。</p>
 <p>当元素个数超过一定数量，那就会自动变换成标准储存结构来储存了</p>
@@ -590,7 +596,12 @@
 <p><code>multi</code>~<code>exec</code>之间收到的指令都不执行，只有在收到<code>exec</code>的时候执行，如果一旦捕获到异常，那么就执行回滚</p>
 <p><strong>Redis事务仅满足隔离性，不满足原子性，因为Redis事务不支持回滚</strong>（因为回滚复杂，为了保持Redis的简单和高效）</p>
 <p>通常 Redis 的客户端在执行事务时都会结合 pipeline 一起使用，这样可以<strong>将多次 IO 操作压缩为单次 IO 操作</strong>。比如我们在使用 Python 的 Redis 客户端时执行事务时是要强制使用 pipeline 的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pipe = redis.pipeline(transaction=true)  <span class="comment">#管道</span></span><br><span class="line">pipe.multi() <span class="comment">#事务开始</span></span><br><span class="line">pipe.incr(<span class="string">"books"</span>)</span><br><span class="line">pipe.incr(<span class="string">"books"</span>)</span><br><span class="line">values = pipe.execute() <span class="comment">#事务执行</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">pipe = redis.pipeline(transaction=true)  #管道
+pipe.multi() #事务开始
+pipe.incr("books")
+pipe.incr("books")
+values = pipe.execute() #事务执行
+</code></pre>
 <h2 id="Jedis"><a href="#Jedis" class="headerlink" title="Jedis"></a>Jedis</h2><p>如果是多线程redis请求，那么就要使用jedis的连接池：<code>JedisPool</code>来 管理多线程Jedis连接对象</p>
 <p>需要使用try catch语句来保证如果jedis对象抛出异常，要归还jedis给连接池</p>
 <p>在jedis连接失败不会提供重试机制，所以要人为写重试代码：try捕获连接异常，捕获到就重连</p>

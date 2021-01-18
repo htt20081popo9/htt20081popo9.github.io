@@ -545,13 +545,38 @@
 <p>不断重复上述</p>
 <p>时间复杂度$O(|V|^2)$，不依赖于边，所以<strong>适合稠密图</strong></p>
 <p>伪代码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Prim</span><span class="params">(G,T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T=∅;</span><br><span class="line">	U=&#123;w&#125;;</span><br><span class="line">	<span class="keyword">while</span>((V-U)!=∅)</span><br><span class="line">    &#123;</span><br><span class="line">        设(u,v)是使u∈U与v∈(V-U)，且权值最小的边 <span class="comment">//这里要用一个内存循环去找</span></span><br><span class="line">        T=T∪&#123;(u,v)&#125;;</span><br><span class="line">        U=U∪&#123;v&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-C"><code class="language-lang-C">void Prim(G,T)
+{
+    T=∅;
+    U={w};
+    while((V-U)!=∅)
+    {
+        设(u,v)是使u∈U与v∈(V-U)，且权值最小的边 //这里要用一个内存循环去找
+        T=T∪{(u,v)};
+        U=U∪{v};
+    }
+}
+</code></pre>
 <h3 id="Kruskal算法：以边为中心"><a href="#Kruskal算法：以边为中心" class="headerlink" title="Kruskal算法：以边为中心"></a>Kruskal算法：以边为中心</h3><p>按权值的递增次序选择合适的边来构造最小生成树</p>
 <p>设$N=(V,E)$是连通网</p>
 <p>每一轮循环不断选<strong>取当前未被选取的，边集中权值最小的边</strong>（不需要像Prime一样必须是已加入集合的结点的邻边），最终没有<strong>连通分量为1时候，表明已经生成一棵树</strong></p>
 <p>时间复杂度：$O(|E|\log|E|)$（用堆来存放边集，否则$O(|E|^2)$，<strong>适合边稀疏的图</strong></p>
 <p>伪代码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Kruskal</span><span class="params">(V,T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T=V;</span><br><span class="line">    numS=n;  <span class="comment">//连通分量数</span></span><br><span class="line">    <span class="keyword">while</span>(numS&gt;<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        从E中取出权值最小的边(v,u)  <span class="comment">//一个内存循环</span></span><br><span class="line">        <span class="keyword">if</span>(v和u属于T中不同的连通分量)  <span class="comment">//注意这里判断【】</span></span><br><span class="line">        &#123;</span><br><span class="line">            T=T∪&#123;(v,u)&#125;;</span><br><span class="line">            numS--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">void Kruskal(V,T)
+{
+    T=V;
+    numS=n;  //连通分量数
+    while(numS>1)
+    {
+        从E中取出权值最小的边(v,u)  //一个内存循环
+        if(v和u属于T中不同的连通分量)  //注意这里判断【】
+        {
+            T=T∪{(v,u)};
+            numS--;
+        }
+    }
+}
+</code></pre>
 <h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><p><strong>基本思想：如果要让任意两点（例如从顶点a点到顶点b）之间的路程变短，只能引入第三个点（顶点k），并通过这个顶点k中转即a-&gt;k-&gt;b，才【可能】缩短原来从顶点a点到顶点b的路程</strong></p>
 <h3 id="Dijkstra算法【1】"><a href="#Dijkstra算法【1】" class="headerlink" title="Dijkstra算法【1】"></a>Dijkstra算法【1】</h3><p>思想：<strong>广度优先搜索+贪心算法</strong>，每轮找最优解，局部最优最后达到全局最优</p>
 <p><strong>【数学原理：一条最短路径上的任意结点到原点的距离都是最短的】。（证明略）</strong></p>
@@ -574,7 +599,12 @@
 <h3 id="Floyd算法【2】"><a href="#Floyd算法【2】" class="headerlink" title="Floyd算法【2】"></a>Floyd算法【2】</h3><p>基于开头的基本思想：如果要让任意两点（例如从顶点a点到顶点b）之间的路程变短，只能引入第三个点（顶点k），并通过这个顶点k中转即a-&gt;k-&gt;b，才可能缩短原来从顶点a点到顶点b的路程</p>
 <p>那我们直接一个个去试不就好了？</p>
 <p>三个for</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(k=<span class="number">1</span>;k&lt;=n;k++)   <span class="comment">//k设定为途径结点</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)  </span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)  </span><br><span class="line">			<span class="keyword">if</span>(e[i][j]&gt;e[i][k]+e[k][j] )   </span><br><span class="line">				e[i][j]=e[i][k]+e[k][j];</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">for(k=1;k<=n;k++)   //k设定为途径结点
+    for(i=1;i<=n;i++)  
+        for(j=1;j<=n;j++)  
+            if(e[i][j]>e[i][k]+e[k][j] )   
+                e[i][j]=e[i][k]+e[k][j];
+</code></pre>
 <p>理解：<a href="https://www.cnblogs.com/wangyuliang/p/9216365.html" target="_blank" rel="noopener">https://www.cnblogs.com/wangyuliang/p/9216365.html</a></p>
 <p>不允许负权值(带有“负权回路”的图没有最短路)</p>
 <h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><ol>

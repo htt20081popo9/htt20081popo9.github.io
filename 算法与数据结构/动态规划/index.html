@@ -535,15 +535,67 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 <ol>
 <li><p>暴力搜索：其实暴力搜索解法就是使用递推式（所以我们还是得先像上面一样写出递归式！无论用暴力解还是DP解，这都是基础），从上往下递归DFS搜索所有可能，这其中就重复计算了很多东西，算法效率极低</p>
 <p> 先明白暴力搜索怎么做，再看DP就很容易理解，<strong>DP就是在暴力DFS之上的改进</strong></p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">cuttingRope</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dfs(n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//最小子问题n=2，无法拆分</span></span><br><span class="line">        <span class="keyword">if</span> (n==<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> maxOfSonProblem=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//遍历该子问题：划分，将数划分成i和n-i两段，目的是找到最佳i</span></span><br><span class="line">        <span class="comment">//在所有可能划分中×继续划分或不继续划分</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n-<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="comment">//n-i不继续划分，直接得到乘积，不需要递归计算</span></span><br><span class="line">            <span class="keyword">int</span> sonNotDivid = i*(n-i);</span><br><span class="line"></span><br><span class="line">           <span class="comment">//n-i继续划分，继续递归</span></span><br><span class="line">            <span class="keyword">int</span> sonDivid = i*dfs(n-i);</span><br><span class="line">            </span><br><span class="line">            maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonNotDivid,sonDivid));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxOfSonProblem;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java"> class Solution {
+     public int cuttingRope(int n) 
+     {
+         return dfs(n);
+     }
+     int dfs(int n)
+     {
+         //最小子问题n=2，无法拆分
+         if (n==2)
+             return 1;
+
+         int maxOfSonProblem=0;
+         //遍历该子问题：划分，将数划分成i和n-i两段，目的是找到最佳i
+         //在所有可能划分中×继续划分或不继续划分
+         for(int i=1;i<n-1;i++)
+         {
+            //n-i不继续划分，直接得到乘积，不需要递归计算
+             int sonNotDivid = i*(n-i);
+
+            //n-i继续划分，继续递归
+             int sonDivid = i*dfs(n-i);
+
+             maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonNotDivid,sonDivid));
+         }
+         return maxOfSonProblem;
+     }
+ }
+</code></pre>
 </li>
 <li><p><strong>动态规划</strong>：动态规划就从下到上，记录（备忘录）每个子问题的最优解，步步为营，算法效率极高</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] produce;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dp</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    produce = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    produce[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    produce[<span class="number">2</span>]=<span class="number">1</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="comment">//子问题计数，步步为营，规模扩大</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">3</span>;i&lt;n+<span class="number">1</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//遍历该子问题：划分，将数i（小规模子问题）划分成j和i-j两段</span></span><br><span class="line">        <span class="comment">//在所有可能划分中×继续划分或不继续划分，在这些组合中找出最优解</span></span><br><span class="line">        <span class="keyword">int</span> maxOfSonProblem=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;i;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> sonNotDivid = j*(i-j);</span><br><span class="line">            <span class="keyword">int</span> sonDivid = j*produce[i-j];</span><br><span class="line">            maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonDivid,sonNotDivid));</span><br><span class="line">        &#125;</span><br><span class="line">        produce[i]=maxOfSonProblem;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> produce[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">    int[] produce;
+    int dp(int n)
+    {
+        produce = new int[n+1];
+        produce[1]=0;
+        produce[2]=1;
+
+        //子问题计数，步步为营，规模扩大
+        for(int i=3;i<n+1;i++)
+        {
+            //遍历该子问题：划分，将数i（小规模子问题）划分成j和i-j两段
+            //在所有可能划分中×继续划分或不继续划分，在这些组合中找出最优解
+            int maxOfSonProblem=0;
+            for(int j=1;j<i;j++)
+            {
+                int sonNotDivid = j*(i-j);
+                int sonDivid = j*produce[i-j];
+                maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonDivid,sonNotDivid));
+            }
+            produce[i]=maxOfSonProblem;
+        }
+        return produce[n];
+    }
+</code></pre>
 </li>
 </ol>
 <h2 id="一维DP：最长子序列"><a href="#一维DP：最长子序列" class="headerlink" title="一维DP：最长子序列"></a>一维DP：最长子序列</h2><p>应该算是比较经典的题？</p>
 <p>但以前没做过，一次想出来了~</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">递推式：f(n)=max&#123;f(n-<span class="number">1</span>)+array[n],f(n-<span class="number">1</span>)&#125;</span><br><span class="line">启动子问题：f(<span class="number">1</span>)=max&#123;array&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">递推式：f(n)=max{f(n-1)+array[n],f(n-1)}
+启动子问题：f(1)=max{array}
+</code></pre>
 <h2 id="二维DP"><a href="#二维DP" class="headerlink" title="二维DP"></a>二维DP</h2><p><strong>搜索空间是二维的，需要两个起始边界，计算dp数组</strong></p>
 <p><strong>题目：</strong></p>
 <p>M个朋友一起完成一幅刺绣，这幅刺绣可以被分成N个部分，数组T表示绣完每个部分所需的时间。每个部分只能被一个人完成，并且每个人都只能完成连在一起的部分（即数组T内连续的一段）。所有人并行工作，请问想要完成这幅刺绣所需的最短时间是多少？要求：时间复杂度度为O(nlogt), t=sum(T)</p>
@@ -560,7 +612,65 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 <p>max(T(0)+T(1)+…+T(n-m), dp(m-1, m-1))</p>
 <p>)</p>
 <p>原问题变成第1个人做第0段，剩下m-1个人做剩下n-1段；第1个人做第0，1段，剩下m-1个人做剩下n-2段；……；第1个人做第0，1，……，n-m段，剩下m-1个人做剩下m-1段。这些里面最小的情况</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//M朋友，N段，T[]绣完每部分的时间</span></span><br><span class="line">        <span class="keyword">int</span> N=<span class="number">5</span>,M=<span class="number">3</span>;</span><br><span class="line">        <span class="keyword">int</span>[] T = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>&#125;; <span class="comment">//T[0]=0，非用户输入</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//dp(m,n)：m个人做右边n段的最优解子问题储存矩阵</span></span><br><span class="line">        <span class="comment">//则划分：第一个人做0,1,2,...n-m段</span></span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[M+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//启动子问题：dp(i,i),i个人做最后i段,取后i个里面的最大元素</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;M+<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> max=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=N;j&gt;=i;j--)</span><br><span class="line">                <span class="keyword">if</span> (T[j]&gt;max)</span><br><span class="line">                    max = T[j];</span><br><span class="line">            dp[i][i]=max;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//启动子问题：dp(1,i),1个人做最后i段，取和</span></span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;N+<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sum = T[N-i+<span class="number">1</span>]+sum;</span><br><span class="line">            dp[<span class="number">1</span>][i] = sum;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//开始m=2的由下向上计算递推过程</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> m=<span class="number">2</span>;m&lt;M+<span class="number">1</span>;m++)</span><br><span class="line">            <span class="comment">//m个人【至少】做m段</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> n=m+<span class="number">1</span>;n&lt;N+<span class="number">1</span>;n++)        </span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//求dp(m,n)子问题的最优解，m个人做后n段</span></span><br><span class="line">                <span class="keyword">int</span> min = <span class="number">1000000</span>;  <span class="comment">//这里一会儿改为T数组元素和</span></span><br><span class="line">                <span class="keyword">int</span> firstPersonSum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//这里在做dp(m,n)子问题，那么第一个人做的就应该从第m+1个数开始算</span></span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=N-n+<span class="number">1</span>;i&lt;N+<span class="number">1</span>;i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    firstPersonSum += T[i];</span><br><span class="line">                    <span class="comment">//剩下的人做剩下的部分</span></span><br><span class="line">                    <span class="keyword">int</span> otherPeopleSum = dp[m-<span class="number">1</span>][N-i];</span><br><span class="line">                    <span class="comment">//两者取最大，并行算最大耗时</span></span><br><span class="line">                    <span class="keyword">int</span> sonProblemSum = firstPersonSum&gt;otherPeopleSum?firstPersonSum:otherPeopleSum;</span><br><span class="line">                    <span class="comment">//刷新min记录</span></span><br><span class="line">                    <span class="keyword">if</span> (sonProblemSum&lt;min)</span><br><span class="line">                        min = sonProblemSum;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//求得dp(m,n)最小值即最优解</span></span><br><span class="line">                dp[m][n] = min;</span><br><span class="line">            &#125;</span><br><span class="line">        System.out.println(dp[M][N]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-java"><code class="language-lang-java">public class Main
+{
+    public static void main(String[] args)
+    {
+        //M朋友，N段，T[]绣完每部分的时间
+        int N=5,M=3;
+        int[] T = new int[]{0,1,1,1,4,3}; //T[0]=0，非用户输入
+
+        //dp(m,n)：m个人做右边n段的最优解子问题储存矩阵
+        //则划分：第一个人做0,1,2,...n-m段
+        int[][] dp = new int[M+1][N+1];
+
+        //启动子问题：dp(i,i),i个人做最后i段,取后i个里面的最大元素
+        for(int i=1;i<M+1;i++)
+        {
+            int max=0;
+            for(int j=N;j>=i;j--)
+                if (T[j]>max)
+                    max = T[j];
+            dp[i][i]=max;
+        }
+
+        //启动子问题：dp(1,i),1个人做最后i段，取和
+        int sum=0;
+        for(int i=1;i<N+1;i++)
+        {
+            sum = T[N-i+1]+sum;
+            dp[1][i] = sum;
+        }
+
+        //开始m=2的由下向上计算递推过程
+        for(int m=2;m<M+1;m++)
+            //m个人【至少】做m段
+            for(int n=m+1;n<N+1;n++)        
+            {
+                //求dp(m,n)子问题的最优解，m个人做后n段
+                int min = 1000000;  //这里一会儿改为T数组元素和
+                int firstPersonSum = 0;
+
+                //这里在做dp(m,n)子问题，那么第一个人做的就应该从第m+1个数开始算
+                for(int i=N-n+1;i<N+1;i++)
+                {
+                    firstPersonSum += T[i];
+                    //剩下的人做剩下的部分
+                    int otherPeopleSum = dp[m-1][N-i];
+                    //两者取最大，并行算最大耗时
+                    int sonProblemSum = firstPersonSum>otherPeopleSum?firstPersonSum:otherPeopleSum;
+                    //刷新min记录
+                    if (sonProblemSum<min)
+                        min = sonProblemSum;
+                }
+
+                //求得dp(m,n)最小值即最优解
+                dp[m][n] = min;
+            }
+        System.out.println(dp[M][N]);
+    }
+}
+</code></pre>
 <p>以前没写过二维DP题，直接就写出来了我也是把我自己惊住了</p>
 <p>方法二：此题也可以用非DP算法来求解，思路如下：</p>
 <p>通过二分方法寻找最大耗时，然后验证这个最大耗时是否可行<br>（段落结合即结合段落分配给一个人做）<br>验证方法为，从段落的第一段开始两两段落结合，①如果结合后的耗时&gt;最大耗时，则方案不可行；②如果&lt;最大耗时，则拆开这两段，继续往后遍历，如果遍历到最后发现剩余的人数不够做剩下的段落了，则方案不可行<br>直到最后就找到了最大耗时<br>这样复杂度就比dp还低，不需要探索状态空间</p>
