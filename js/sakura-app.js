@@ -180,10 +180,10 @@ function imgError (ele, type) {
       break
     case 3:
 
-      ele.src = '/404.jpg'
+      ele.src = '/404.png'
       break
     default:
-      ele.src = '/404.jpg'
+      ele.src = '/404.png'
   }
 }
 mashiro_global.post_list_show_animation = new function () {
