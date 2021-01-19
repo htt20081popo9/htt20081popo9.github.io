@@ -143,8 +143,8 @@
   <div id="video-container" style="">
     <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
     </video>
-    <div id="video-btn" class="loadvideo videolive">
-    </div>
+    <!-- <div id="video-btn" class="loadvideo videolive">
+    </div> -->
     <div id="video-add">
     </div>
     <div class="video-stu">
@@ -157,6 +157,7 @@
     </span>
   </div>
 </div>
+
     <div id="page" class="site wrapper">
       <header class="site-header no-select gizle sabit" role="banner">
   <div class="site-top">
@@ -414,7 +415,7 @@
                       </li>
                     
                       <li>
-                        <a href="/music/">
+                        <a href="/musicLibrary/">
                           <i class="fa fa-headphones" aria-hidden="true"></i>
                           歌单
                         </a>
@@ -489,10 +490,6 @@
 <p>坐标帝都，在校学生</p>
 <p>aisaka/宵晓咲/小Y</p>
 <p>喜欢动画，游戏，阅读，算法，代码</p>
-<p>游戏相关信息：<a href="https://steamcommunity.com/id/aisakaki/" target="_blank" rel="noopener">aisaka的Steam个人主页</a></p>
-<p>动画追番信息：<a href="http://bangumi.tv/user/aisakaki" target="_blank" rel="noopener">宵晓咲的Bangumi主页</a></p>
-<p>我的BiliBili：<a href="https://space.bilibili.com/741763" target="_blank" rel="noopener">宵晓咲的Bilibili Space</a></p>
-<p>我的邮箱：htt20081@126.com</p>
 <p>高中入宅，本命夏娜，最喜欢的番剧是《龙与虎》，最喜欢的Gal是《LittleBusters》(Refrain线)</p>
 <p>热爱游戏，核心玩家，最喜欢的游戏是《超级弹丸论破2》，喜欢七海千秋</p>
 <p>过去与现在是一个理想主义者，未来也希望自己能一直坚持下去</p>
@@ -550,12 +547,13 @@
       </section>
   </div><!-- #primary -->
 </div>
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -567,10 +565,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
@@ -918,7 +916,7 @@ $(document).ready(function() {
               </li>
             
               <li>
-                <a href="/music/">
+                <a href="/musicLibrary/">
                   <i class="fa fa-headphones" aria-hidden="true"></i>
                   歌单
                 </a>

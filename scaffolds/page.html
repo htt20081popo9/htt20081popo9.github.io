@@ -143,8 +143,8 @@
   <div id="video-container" style="">
     <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
     </video>
-    <div id="video-btn" class="loadvideo videolive">
-    </div>
+    <!-- <div id="video-btn" class="loadvideo videolive">
+    </div> -->
     <div id="video-add">
     </div>
     <div class="video-stu">
@@ -157,6 +157,7 @@
     </span>
   </div>
 </div>
+
     <div id="page" class="site wrapper">
       <header class="site-header no-select gizle sabit" role="banner">
   <div class="site-top">
@@ -414,7 +415,7 @@
                       </li>
                     
                       <li>
-                        <a href="/music/">
+                        <a href="/musicLibrary/">
                           <i class="fa fa-headphones" aria-hidden="true"></i>
                           歌单
                         </a>
@@ -526,12 +527,13 @@
       </section>
   </div><!-- #primary -->
 </div>
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -543,10 +545,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
@@ -894,7 +896,7 @@ $(document).ready(function() {
               </li>
             
               <li>
-                <a href="/music/">
+                <a href="/musicLibrary/">
                   <i class="fa fa-headphones" aria-hidden="true"></i>
                   歌单
                 </a>
