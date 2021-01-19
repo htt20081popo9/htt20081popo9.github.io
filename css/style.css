@@ -1,3 +1,11 @@
+#preloader {
+/* Images you want to preload*/
+background-image: url('/images/img/114.jpg');
+width: 0px;
+height: 0px;
+display: inline;
+}
+
 .aplayer-container {
     position: absolute;
     bottom: 0;
@@ -3945,6 +3953,7 @@ li.feature-2 {
         width: 100px !important;
         height: 100px !important;
     }
+
     .header-info {
         width: 90% !important;
     }
@@ -4006,6 +4015,7 @@ li.feature-2 {
     -moz-transition:all ease 1s;
     -o-transition:all ease 1s
 }
+
 .focusinfo .header-tou img:hover {
     content: url('/images/img/114.jpg');
     transform:rotate(30deg);
@@ -4014,6 +4024,7 @@ li.feature-2 {
     -o-transform:rotate(30deg);
     -ms-transform:rotate(30deg)
 }
+
 .bio-text {
     position:relative;
     width:auto;
