@@ -22,11 +22,11 @@ function bot_ui_ini() {
     var botui = new BotUI("hello-mashiro")
     botui.message.add({
         delay: 800,
-        content: "Hi, there👋"
+        content: "你好~"
     }).then(function () {
         botui.message.add({
             delay: 1100,
-            content: "这里是 Mashiro"
+            content: "这里是 aisaka"
         }).then(function () {
             botui.message.add({
                 delay: 1100,
@@ -65,15 +65,15 @@ function bot_ui_ini() {
         secondpart = function () {
             botui.message.add({
                 delay: 1500,
-                content: "目前就读于上海财经大学"
+                content: "目前就读于北京某大学"
             }).then(function () {
                 botui.message.add({
                     delay: 1500,
-                    content: "向往技术却误入商科，但后来喜欢上了经济学…"
+                    content: "就读计算机科学与技术专业"
                 }).then(function () {
                     botui.message.add({
                         delay: 1200,
-                        content: "因为数据分析也需要Coder嘛"
+                        content: "主攻AI和安全"
                     }).then(function () {
                         botui.message.add({
                             delay: 1500,
@@ -150,5 +150,5 @@ function bot_ui_ini() {
                     content: "那么，仔细看看我的博客吧？ ^_^"
                 })
             })
-        } 
+        }
 }

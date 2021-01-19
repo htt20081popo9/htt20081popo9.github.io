@@ -4007,11 +4007,12 @@ li.feature-2 {
     -o-transition:all ease 1s
 }
 .focusinfo .header-tou img:hover {
-    transform:rotate(360deg);
-    -webkit-transform:rotate(360deg);
-    -moz-transform:rotate(360deg);
-    -o-transform:rotate(360deg);
-    -ms-transform:rotate(360deg)
+    content: url('/images/img/111.jpg');
+    transform:rotate(30deg);
+    -webkit-transform:rotate(30deg);
+    -moz-transform:rotate(30deg);
+    -o-transform:rotate(30deg);
+    -ms-transform:rotate(30deg)
 }
 .bio-text {
     position:relative;
