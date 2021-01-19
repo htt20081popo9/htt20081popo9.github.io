@@ -1159,7 +1159,7 @@ a:hover,a:active {
     background-position:center center;
     background-origin:border-box;
     width:100%;
-    height:400px
+    height:400px;
 }
 .pattern-center header.pattern-header {
     position:absolute;
