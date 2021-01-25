@@ -183,6 +183,7 @@
 <th>2018</th>
 <th>2019</th>
 <th>2020</th>
+<th>2021</th>
 </tr>
 </thead>
 <tbody>
@@ -194,6 +195,7 @@
 <td></td>
 <td><strong>i5 9400f</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>CPU 散热</td>
@@ -202,6 +204,7 @@
 <td></td>
 <td></td>
 <td><strong>axp90</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -212,6 +215,7 @@
 <td></td>
 <td><strong>16G DDR4 2400MHz</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>主板</td>
@@ -220,6 +224,7 @@
 <td></td>
 <td></td>
 <td><strong>B360I</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -230,6 +235,7 @@
 <td></td>
 <td><strong>R9 NANO</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>显卡散热</td>
@@ -238,6 +244,7 @@
 <td></td>
 <td></td>
 <td><strong>-</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -248,6 +255,7 @@
 <td></td>
 <td><strong>SATA 480G</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>机械硬盘</td>
@@ -257,6 +265,7 @@
 <td></td>
 <td><strong>-</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>电源</td>
@@ -264,8 +273,9 @@
 <td></td>
 <td></td>
 <td></td>
-<td><strong>400w</strong></td>
+<td>400w</td>
 <td></td>
+<td><strong>700w</strong></td>
 </tr>
 <tr>
 <td>显示器</td>
@@ -275,6 +285,7 @@
 <td></td>
 <td>1080P 60Hz SRGB 21 inch</td>
 <td><strong>4k 60Hz SRGB 24inch</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>机箱</td>
@@ -284,6 +295,7 @@
 <td></td>
 <td>Q300L</td>
 <td><strong>K39</strong></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -4816,8 +4828,8 @@ pool.execute(Runnable runnable);
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center"><i>这里记录我所使用的硬件，持续更新</i></div>
 
 <a id="more"></a>
-<h1 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h1><h2 id="Workstation-主机"><a href="#Workstation-主机" class="headerlink" title="Workstation(主机)"></a>Workstation(主机)</h2><p><strong>CPU</strong>：Intel core i9 9900k + NZXT 海妖X62 280一体水冷<br><strong>主板</strong>：华擎 Z390 Phantom Gaming itx/ac<br><strong>显卡</strong>：已升级为 Nvidia RTX 3090<br><strong>内存</strong>： Asgard 64G DDR4 4166MHz<br><strong>NVMe M2固态硬盘</strong>：SAMSUNG PM981 1T + HIKVISION C2000 Pro 2T<br><strong>SATA3固态硬盘</strong>： WD蓝盘 2T<br><strong>显示器</strong>：ACER XV273K 27寸 4K 144Hz G-SYNC 10bit HDR<br><strong>外设</strong>：已升级为 HHKB Professional2  +  罗技 G903 HERO<br><strong>电源</strong>：振华 GX650 650W<br><strong>机箱</strong>：Be Quiet 500DX<br><strong>风扇</strong>：NZXT AER RGB2 x2 + NZXT HUE2控制中心 + Be Quiet wing3 PWM 14风扇 x5</p>
-<h2 id="Portable-Desktop-PC-副机"><a href="#Portable-Desktop-PC-副机" class="headerlink" title="Portable Desktop PC(副机)"></a>Portable Desktop PC(副机)</h2><p><strong>CPU</strong>：Intel core i5 9400f<br><strong>主板</strong>：MSI B360i Gaming Pro ac<br><strong>显卡</strong>：AMD R9 NANO<br><strong>内存</strong>：海盗船 32G DDR4 3200MHz<br><strong>SATA3固态硬盘</strong>： 英睿达 BX300 480G (mlc)<br><strong>显示器</strong>：ViewSonic VX2478 4k 24寸 10bit<br><strong>外设</strong>： Akko + 雷蛇蝰蛇 + Apple magic touchpad2<br><strong>电源</strong>：首席玩家 1U 400W<br><strong>散热</strong>：AXP 90i 纯铜<br><strong>机箱</strong>：K39(22cm(H) x 18cm(L) x 10cm(W)=3.9L)<br><strong>系统</strong>：MAC OSX/WINDOWS 10</p>
+<h1 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h1><h2 id="Workstation-主机"><a href="#Workstation-主机" class="headerlink" title="Workstation(主机)"></a>Workstation(主机)</h2><p><strong>CPU</strong>：Intel core i9 9900k + NZXT 海妖X62 280一体水冷<br><strong>主板</strong>：华擎 Z390 Phantom Gaming itx/ac<br><strong>显卡</strong>：Nvidia RTX 3090<br><strong>内存</strong>： Asgard 64G DDR4 4166MHz<br><strong>NVMe M2固态硬盘</strong>：SAMSUNG PM981 1T + HIKVISION C2000 Pro 2T<br><strong>SATA3固态硬盘</strong>： WD蓝盘 2T<br><strong>显示器</strong>：ACER XV273K 27寸 4K 144Hz G-SYNC 10bit HDR<br><strong>外设</strong>：HHKB Professional2  +  罗技 G903 HERO<br><strong>电源</strong>：振华 GX650 650W<br><strong>机箱</strong>：Be Quiet 500DX<br><strong>风扇</strong>：NZXT AER RGB2 x2 + NZXT HUE2控制中心 + Be Quiet wing3 PWM 14风扇 x5</p>
+<h2 id="Portable-Desktop-PC-副机"><a href="#Portable-Desktop-PC-副机" class="headerlink" title="Portable Desktop PC(副机)"></a>Portable Desktop PC(副机)</h2><p><strong>CPU</strong>：Intel core i5 9400f<br><strong>主板</strong>：MSI B360i Gaming Pro ac<br><strong>显卡</strong>：AMD R9 NANO<br><strong>内存</strong>：海盗船 32G DDR4 3200MHz<br><strong>SATA3固态硬盘</strong>： 英睿达 BX300 480G (mlc)<br><strong>显示器</strong>：ViewSonic VX2478 4k 24寸 10bit<br><strong>外设</strong>： Akko + 雷蛇蝰蛇 + Apple magic touchpad2<br><strong>电源</strong>：极智猫 1u 700w<br><strong>散热</strong>：AXP 90i 纯铜<br><strong>机箱</strong>：K39(22cm(H) x 18cm(L) x 10cm(W)=3.9L)<br><strong>系统</strong>：MAC OSX/WINDOWS 10</p>
 <h2 id="Laptop"><a href="#Laptop" class="headerlink" title="Laptop"></a>Laptop</h2><p><strong>Microsoft Surface Pro</strong>（Gen6 i5 8G 128G） </p>
 <p><strong>Apple Macbook Pro</strong> (2014 i5 4G 128G)</p>
 <h1 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h1><p><strong>Playstation 4 Pro</strong></p>
