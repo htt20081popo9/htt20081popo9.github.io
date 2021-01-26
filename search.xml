@@ -13811,6 +13811,90 @@ transforms.CenterCrop(256)
       </tags>
   </entry>
   <entry>
+    <title>背包问题</title>
+    <url>/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><strong>题目：有$n$个物品，背包体积为$m$，$v[i]$代表第$i$个物品体积，$w[i]$代表第$i$个物品的价值</strong></p>
+<a id="more"></a>
+<p>注意这里只写出状态定义和状态转移公式，有些判断就没写了</p>
+<p>注意dp数组元素的生成顺序，要先生成小问题再生成大问题，这就决定了循环顺序，特殊的像区间DP的外层循环就必须是长度<code>len</code></p>
+<p>对于滚动数组优化，如果<strong>用到了$i-1$层的更小状态</strong>，那么就必须<strong>倒序</strong>循环枚举状态；如果只<strong>用到了$i$层的更小状态</strong>，那么就只能<strong>顺序</strong>循环枚举状态</p>
+<p><strong>所有背包问题都是①先循环物品，②再循环体积（多一个其它条件就多一维，多循环一层）③再枚举决策（可能无需循环）</strong></p>
+<p><strong>背包枚举的都是$dp$数组的状态空间，搞清定义</strong></p>
+<h2 id="01背包"><a href="#01背包" class="headerlink" title="01背包"></a>01背包</h2><p><strong>题目：每个物品只有选与不选</strong></p>
+<p>$f(i,j)$表示前$i$个物品装进体积为$j$的背包的最大价值</p>
+<p>最后一个不同点：第$i$个物品选还是不选</p>
+<script type="math/tex; mode=display">
+f(i,j)=\max\{f(i-1,j),f(i-1,j-v[i])+w[i]\}</script><p>注意，左边都是$i-1$子问题，想清楚式子的含义！</p>
+<p>空间优化（滚动数组）：$f(j)=max(f(j),f(j-v[i])+w[i])$，由于用到上层dp值（在滚动数组中即为编号较小的未更新元素），<strong>所以$j$必须倒序循环枚举</strong></p>
+<h2 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h2><p><strong>题目：每件物品可以选无限次</strong></p>
+<p>$f(i,j)$表示前$i$个物品装进体积为$j$的背包的最大价值</p>
+<p>最后一个不同点：第$i$个物品不选，第$i$个物品选1个，第$i$个物品选2个，…..</p>
+<p>$f(i,j)=\max\{f(i-1,j),f(i-1,j-v[i])+w[i],f(i-1,j-2v[i])+2w[i]+\cdots\}$</p>
+<p>等价变形：$f(i,j-v[i])=\max\{f(i-1,j-v[i]),f(i-1,j-2v[i])+w[i],f(i-1,j-3v[i])+2w[i]+\cdots\}$</p>
+<p>回代原式（时间优化）：</p>
+<script type="math/tex; mode=display">
+f(i,j)=\max\{f(i-1,j),f(i,j-v[i])+w[i]\}</script><p>注意：这里就背包体积$j$只能从小到大循环了，因为用到了当层$i$下、$j$更小的子问题解，而以前用到的都是$i-1$层的子问题解</p>
+<p>空间优化（滚动数组）：$f(j)=max(f(j),f(j-v[i])+w[i])$，用到了本层编号较小的dp值，<strong>所以$j$必须正序循环枚举</strong></p>
+<h2 id="多重背包"><a href="#多重背包" class="headerlink" title="多重背包"></a>多重背包</h2><p><strong>题目：每个物品最多有$s[i]$件</strong></p>
+<p>$f(i,j)$表示前$i$个物品装进体积为$j$的背包的最大价值</p>
+<p>最后一个不同点：第$i$个物品不选，第$i$个物品选1个，第$i$个物品选2个，…..，第$i$个物品选$s[i]$个</p>
+<p>$f(i,j)=\max\{f(i-1,j),f(i-1,j-v[i])+w[i],f(i-1,j-2v[i])+2w[i]+\cdots+f(i-1,j-s[i]×v[i])+s[i]×w[i]\}$</p>
+<p>由于每个物品的选择上限不同，所以不能等价变形，需要多写一层循环遍历第$i$个物品可能的选择个数$0$到$s[i]$来求，也就是多了个决策循环；（但转化为01背包就可以不循环决策了，见下面优化方法）</p>
+<p>时间优化：可以将同一个物品的$s[i]$份拆开变成$s[i]$个1个物品，这就转化为01背包问题了。但直接拆复杂度是不变的，可以<strong>通过二进制的方法来拆，将$s$个物品打包成$\log s$个物品组，用它们可以凑出$0$到$s$的任意一个数</strong>，减少01背包子问题数量，这样时间复杂度由$O(nsv)$优化到$O(n\log s v)$。举个例子，我们原来想要用01背包表示“第$i$个物品最多可选7个”，就需要用$[1,1,1,1,1,1,1,1]$来表示，然后用01背包dp来解；而现在我们知道7的二进制编码为$0111$，那么第$i$个数就只需要$[4,2,1]$来表示，那么我们dp的时候会自动组合这三个堆，比如算得$dp(i,j)$下$i$选3个是最优解，那么dp实际上就是选择了$2$和$1$，没选$4$。这里的核心就在于：<strong>二进制的组合可以以较低的位数表达（编码）任意一位十进制</strong></p>
+<h2 id="混合背包"><a href="#混合背包" class="headerlink" title="混合背包"></a>混合背包</h2><p><strong>题目：有三类物品，第一类：只能用1次（01背包）；第二类：可以用无限次（完全背包）；第三类：物品最多只能用$s[i]$次（多重背包）</strong></p>
+<p>只需要判断当前物品是什么类，然后转移的时候按照对应类的物品去转移即可</p>
+<p>可以将多重背包转化为01背包，那就只需要判断两种情况了（01、完全）</p>
+<h2 id="二维费用背包"><a href="#二维费用背包" class="headerlink" title="二维费用背包"></a>二维费用背包</h2><p><strong>题目：除了体积限制以外还有其它限制，背包重量不能超过$M$，每个物品的重量为$m[i]$</strong>（基于01背包）</p>
+<p>$f(i,j,k)$：第$i$个物品装进体积是$j$，重量是$k$的背包的最大价值</p>
+<p>$f(i,j,k)=\max \{f(i-1,j,k),f(i-1,j-v[i],k-m[i])+w[i]\}$</p>
+<p>需要进行三重循环：前$i$个物品、背包最大体积$j$、背包最大重量$k$</p>
+<p>空间优化（滚动数组）：$f(j,k)=\max\{f(j-v[i],k-m[i]),f(j,k)\}$，用到上一层$i$，需要从大到小枚举体积和重量</p>
+<p>二维背包也可以基于完全背包等，基本都是一样改，<strong>多一个条件，状态方程就多一维，就多一层枚举循环</strong></p>
+<p>ATT：我们<strong>枚举的是状态空间</strong>，多的一层枚举循环是背包重量不同造成状态维度多了一维，也就是说子问题更多了</p>
+<h2 id="分组背包"><a href="#分组背包" class="headerlink" title="分组背包"></a>分组背包</h2><p><strong>题目：物品分为$N$组，同一组内物品只能选一件</strong></p>
+<p>先遍历组，再遍历决策，求最值</p>
+<p>$f(i,j)$：从前$i$<strong>组</strong>物品里选，且体积不超过$j$的背包最大价值</p>
+<p>$v[i][k]$即为第$i$组第$k$个物品，要先构造好；第$i$组一共用$s$个物品</p>
+<p>$f(i,j)=\max\{f(i-1,j),f(i-1,j-v[i][0])+w[i][0],f(i-1,j-v[i][1])+w[i][1],\cdots,f(i-1,j-v[i][s])+w[i][s]\}$</p>
+<p>需要进行三次循环：遍历组$i$，背包体积$j$，遍历组内物品编号$k$</p>
+<p>很像多重背包问题，公式也像，其实多重背包问题就是分组背包问题的一种特殊情况，但分组背包无法进行优化</p>
+<h2 id="背包问题求方案数"><a href="#背包问题求方案数" class="headerlink" title="背包问题求方案数"></a>背包问题求方案数</h2><p><strong>题目：一般背包问题是求最大最小价值，这里还需要求最优价值下的方案数</strong></p>
+<p><strong>在01背包的基础上</strong>，①需要新开一个数组，两个dp同时进行（<strong>最优解dp、方案数dp</strong>）且<strong>需要利用最优解的dp状态去推方案数dp状态</strong>②决策的时候<strong>需要判断选$i$和不选$i$两种选择的总价值的大小关系</strong>，如果<strong>选$i$与不选$i$的价值一样大</strong>则最大价值的方案数多了$g(i-1,j−v[i])+g(i-1,j)$种；若<strong>不选第$i$个物品更大</strong>，则多了$g(i-1,j)$种；若<strong>选第$i$个物品更大</strong>，则多了$g(i-1,j−v[i])$种③方案数dp的状态方程如何理解？因为$g(i,j)$是$i$个物品在背包体积$j$下的最佳方案数，可由②中所述的三种选法组成，<strong>这里对$g$的集合划分、最后一个不同点 是不同的！</strong></p>
+<p>$f(i,j)$：前$i$个物品，背包体积是$j$的情况下的背包最大价值（以前是体积最多是$j$的背包方案数，这样的话可能体积用不完，但是也能转移）</p>
+<script type="math/tex; mode=display">
+f(i,j)=\max\{f(i-1,j),f(i-1,j-v[i])+w[i]\}​（同01背包）</script><p>$g(i,j)$：前$i$个物品，背包体积是$j$的情况下的背包方案数（注意转移条件，最后一个子问题划分为三类）</p>
+<script type="math/tex; mode=display">
+g(i,j)=
+   \begin{cases}
+    g(i-1,j), f(i-1,j)>f(i-1,j-v[i])+w[i]\\ 
+   g(i-1,j−v[i]),f(i-1,j)<f(i-1,j-v[i])+w[i] \\
+   g(i-1,j)+g(i-1,j−v[i]),f(i-1,j)=f(i-1,j-v[i])+w[i] 
+   \end{cases}</script><p>初始化的时候，$g(i,0)=1$，$f(i,j)=0$，最后的最优解的方案数就是$g(i,j)$</p>
+<p><strong>同样可以用滚动数组优化，这样最后也就省去了同$i$相加的步骤，只需要两个数组$f(i)$和$g(i)$</strong></p>
+<p>注意：这个问题也可以换成完全背包，分组背包，但是思想是一样的：利用最优解的dp状态去推方案数的dp状态，根据最优解方程，<strong>方案数状态方程只能选择最优解对应的方案数来进行状态转移，如果相等则加和再转移</strong></p>
+<h2 id="背包问题求具体方案"><a href="#背包问题求具体方案" class="headerlink" title="背包问题求具体方案"></a>背包问题求具体方案</h2><p><strong>题目：一般背包问题是求最大最小价值，这里还需要求最优价值下字典序最小的方案（字典序这里指所选物品的编号所构成的序列）</strong></p>
+<p>要求字典序最小的方案，那首先就得先求出所有方案，我们需要记录所有的状态，就不能压缩为一维了</p>
+<blockquote>
+<p>我们需要反推方案，即在我们知道$f(i,j)$是前$i$个物品装进容量为$j$的包的<strong>最优解的情况下</strong>，<strong>想知道第$i$个物品有没有选，我们可以通过看 $f(i,j)$是从哪个状态转移过来的来判断</strong>：①  $f(i,j)=f(i-1,j)$，代表不选第$i$个物品，从$f(i-1,j)$状态转移过来；②$f(i,j)=f(i-1,j-v[i])+w[i]$，<strong>代表选第$i$个物品</strong>，从$f(i-1,j-v[i])$状态转移过来；③如果$f(i-1,j)=f(i-1,j-v[i])+w[i]$，代表第$i$个物品选不选都可以。</p>
+</blockquote>
+<p><strong>但是这种思路存在问题</strong>，就是<strong>本题要求编号字典序序列最小的一种方案，所以我们选的数应该越靠前越好</strong>，而这样的话我们无法实现这个需求。</p>
+<p>所以这里我们<strong>重新定义状态</strong>：</p>
+<p><strong>定义$f(i,j)$：第$i$个元素以后的物品，背包总容量为$j$的最大价值（最优解），那么这里最后一个区别依然是选不选第$i$个物品，属性依然为$\max$</strong></p>
+<p><strong>这样我们就做到了能早选就早选，这样的话$f(1,M)$就是字典序最小的最大价值。</strong></p>
+<script type="math/tex; mode=display">
+f(i,j)=\max\{f(i+1,j),f(i+1,j-v[i])+w[i]\}</script><p>于是，对于$f(i,j)$，</p>
+<p><strong>①</strong>$f(i,j)=f(i+1,j)$，<strong>不选</strong>第$i$个物品才能达到最优解</p>
+<p><strong>②</strong>$f(i,j)=f(i+1,j-v[i])$，<strong>选取</strong>第$i$个物品可以达到最优解</p>
+<p><strong>③</strong>$f(i,j)=f(i+1,j)=f(i+1,j-v[i])$，<strong>可选</strong>可不选，我们<strong>必选</strong></p>
+<p>这样我们通过遍历$i$，并且维持一个背包剩余体积$vol$，通过上述的顺着递推的方法进行判断即可求得最优解一路的方案。</p>
+<p>举例子，如果判断②选取第$i$个物品是最优解，那么我们记录$i$，并且体积变为$vol-v[i]$，下一步转移到状态去$f(i+1,vol-v[i])$去，直到背包体积装不下剩下元素或遍历完</p>
+<p><strong>核心：通过看 $f(i,j)$是从哪个状态转移过来的来判断第$i$个物品选没有，然后沿着状态推就可以得到每个物品选没有（小的最优解是由大的最优解组成的）</strong></p>
+]]></content>
+      <categories>
+        <category>算法与数据结构</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Redis做缓存的一些问题</title>
     <url>/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis%E5%81%9A%E7%BC%93%E5%AD%98%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>缓存雪崩、缓存穿透、缓存预热、缓存更新、缓存降级</p>
