@@ -3059,203 +3059,6 @@ public class Main
       </categories>
   </entry>
   <entry>
-    <title>动态规划</title>
-    <url>/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><strong>能用DP解决的问题：</strong></p>
-<p>如果是<strong>【求一个问题的最优解（通常是求最大值或最小值）】</strong>，而且该问题能够分解成若干个子问题，并且子问题之间还有重叠的更小的子问题，就可以考虑用动态规划来解决这个问题（也可以用DFS搜索）。</p>
-<p>在应用动态规划之前要分析能否把大问题分解成小问题，<strong>【分解后的每个小问题也存在最优解，如果把小问题的最优解组合起来能够得到整个问题的最优解（核心）】</strong>，那么我们可以应用动态规划解决这个问题。</p>
-<a id="more"></a>    
-<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p><strong>将问题拆分为规模不同的子问题，然后就可以使用递归DFS从上到下计算</strong>（难点），但这样会导致大量重复计算</p>
-<p>于是我们从最小规模开始，步步为营，<strong>记录每一个子问题的最优解，一直递推出最大规模问题的最优解，此即DP的思想</strong></p>
-<h2 id="DP解决问题步骤"><a href="#DP解决问题步骤" class="headerlink" title="DP解决问题步骤"></a>DP解决问题步骤</h2><ol>
-<li><p><strong>将问题划分为相似的子问题</strong>====&gt;<strong>这常常是难点与关键，找到不同规模的相似子问题，划分子问题</strong></p>
-<p><strong>每一个子问题要在 【不存在更小子问题的所有可能（不与子问题关联）】和【存在更小子问题的所有可能（建立更小规模子问题的关联）】（不用考虑更小子问题如何求解，因为问题规模是从小到大递推求解的，此时更小规模子问题的最优解已经被记录下来了），在这些所有的可能中【选择出最优解作为当前规模的子问题的最优解】</strong></p>
-</li>
-<li><p><strong>根据小规模子问题，建立状态转移方程</strong>（<strong>递推式，有的是从顶部往下推，有的是从底部往上推</strong>）</p>
-<p>（实际上找到了相似子问题建立递推方程之后，我们就可以用暴力DFS来做了，只不过这样效率极低，重复计算了很多子问题，于是我们才想接下来走3 4步骤走DP。）</p>
-</li>
-<li><p><strong>步步为营，缓存并复用以往结果，记录规模从小到大的子问题的最优解</strong>（这里就是DP的优势，这样使得搜索树中重复计算的部分全部不用重算了）</p>
-</li>
-<li><p><strong>继续按顺序从小往大递推计算，步步求最优并重复③，直到最终规模问题</strong>（用for循环，计算递推式）</p>
-</li>
-</ol>
-<p><strong>【1和2是解决这类问题必须的（即使暴力DFS来做），3和4步才是DP的关键】</strong></p>
-<p>是不是很熟悉，是不是很耳熟</p>
-<p>这不就是数学归纳法、数学归纳法、数学归纳法（重要的事情要强调三遍）吗</p>
-<p>不过DP中是先推导出状态转移方程，再利用计算机暴力求解出来</p>
-<p>注意，如果不采用步骤②③，而是使用递归来解决步骤①，那就不是DP了，递归来解决此问题效率很低（递归树中存在大量重复计算，且栈开销大）</p>
-<p>更详见这篇：<a href="https://blog.csdn.net/zw6161080123/article/details/80639932" target="_blank" rel="noopener">https://blog.csdn.net/zw6161080123/article/details/80639932</a></p>
-<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><p><strong>【思考DP题，先想递归DFS怎么做，再想改成DP来做】先抽象成用DFS来做，即找到子问题就是难点，不同问题要抽象建模。</strong></p>
-<p><strong>【DP就是DFS改为从下而上+备忘录】</strong></p>
-<p><strong>可以先用DFS暴力搜索做出来，再改成DP</strong></p>
-<h2 id="一维DP：剪绳子问题（整数拆分问题）"><a href="#一维DP：剪绳子问题（整数拆分问题）" class="headerlink" title="一维DP：剪绳子问题（整数拆分问题）"></a>一维DP：剪绳子问题（整数拆分问题）</h2><p>一根长度为 $n $的绳子，请把绳子剪成整数长度的$ m $段（$m、n$都是整数，$n &gt; 1$并且$m &gt; 1$），每段绳子的长度记为$ k[0],k[1], … ,k[m] $。请问$ k[0]×k[1] ×… ×k[m] $可能的最大乘积是多少？例如，当绳子的长度是$8$时，我们把它剪成长度分别为$2、3、3$的三段，此时得到的最大乘积是$18$。</p>
-<p><strong>思路：</strong></p>
-<p><strong>①先找到子问题</strong>：将一个数拆分为<strong>两个数</strong>的所有可能拆法中，若不继续划分（不考虑更小子问题，即一个绳子拆分为两段的所有可能拆法），以及另一个数将被继续拆分（有更小子问题，在子问题中还将被继续划分，但不用考虑内部，更小规模问题的最优解<strong>已经被记录</strong>），<strong>在这里面中找到最优解</strong></p>
-<p><strong>该问题的小规模子问题就是每一次切分将一个数切成两个部分，使其乘积最大</strong></p>
-<p>这里可能很难理解，见下面的理解部分</p>
-<p>（问题画成一颗树，暴力枚举就要搜索这棵树的每个可能性）</p>
-<p><strong>②给出递推式（从顶部开始推）</strong>：</p>
-<script type="math/tex; mode=display">
-F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</strong>$F(1)=\max \{0\}=0$：若长度为$n=1$，最小切分为$1$，那分完只能是$0×1=0$</p>
-<p>$F(2)=\max\{1×1,1×F(1)\}=1$：长度为$n=2$，最优解为不继续划分（具体理解见下面第三个子问题最优解$F(3)$的计算）</p>
-<p>$F(3)=\max\{1×2,1×F(2)\}$：长度为$n=3$，这时候就有两种选择了，直接划分一刀为$1，2$或者划分为$1,2$后还继续将$2$划分，由$F(2)=1$可知<strong>如果继续划分的话</strong>，划分后的子问题最优解为$1$，那么$1×F(2)=1×1=1$，显然比不划分（$1×2$）小，<strong>那么该子问题我们就选择不划分就是最优解，即$F(3)=2$</strong></p>
-<p>$F(4)=\max\{1×3,2×2,3×1,4×0,1×F(3),2×F(2),3×F(1),4×F(0)\}=balabala$</p>
-<p>左边为拆成两半之后不再继续拆分，右边为拆成两半后继续拆分</p>
-<p><strong>以此类推，我们不断得到了在<u>绳子长度不断增加（就是问题规模不断扩大）</u>下的最优解序列</strong>：$F(0),F(1),F(2),F(3),\cdots F(n)$，每个前面的问题都是其后面的问题的更小规模的子问题，每一步都获得了子问题的最优解，那么最终得到的就是最终问题的最优解。</p>
-<p><strong>③④缓存并复用结果，我们从底往顶推，依次计算$F(0),F(1),F(2),F(3),\cdots F(n)$</strong></p>
-<p>每一轮求出一个子问题的最优解，从最小规模问题逐步往上推，每个$F(x)$都是最优解，那么最终就求出问题$F(n)$的最优解</p>
-<p>其中根据方程最开始的几个子问题需要手动计算作为启动</p>
-<p><strong>解题：</strong></p>
-<ol>
-<li><p>暴力搜索：其实暴力搜索解法就是使用递推式（所以我们还是得先像上面一样写出递归式！无论用暴力解还是DP解，这都是基础），从上往下递归DFS搜索所有可能，这其中就重复计算了很多东西，算法效率极低</p>
-<p> 先明白暴力搜索怎么做，再看DP就很容易理解，<strong>DP就是在暴力DFS之上的改进</strong></p>
-<pre class=" language-lang-java"><code class="language-lang-java"> class Solution {
-     public int cuttingRope(int n) 
-     {
-         return dfs(n);
-     }
-     int dfs(int n)
-     {
-         //最小子问题n=2，无法拆分
-         if (n==2)
-             return 1;
-
-         int maxOfSonProblem=0;
-         //遍历该子问题：划分，将数划分成i和n-i两段，目的是找到最佳i
-         //在所有可能划分中×继续划分或不继续划分
-         for(int i=1;i<n-1;i++)
-         {
-            //n-i不继续划分，直接得到乘积，不需要递归计算
-             int sonNotDivid = i*(n-i);
-
-            //n-i继续划分，继续递归
-             int sonDivid = i*dfs(n-i);
-
-             maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonNotDivid,sonDivid));
-         }
-         return maxOfSonProblem;
-     }
- }
-</code></pre>
-</li>
-<li><p><strong>动态规划</strong>：动态规划就从下到上，记录（备忘录）每个子问题的最优解，步步为营，算法效率极高</p>
-<pre class=" language-lang-java"><code class="language-lang-java">    int[] produce;
-    int dp(int n)
-    {
-        produce = new int[n+1];
-        produce[1]=0;
-        produce[2]=1;
-
-        //子问题计数，步步为营，规模扩大
-        for(int i=3;i<n+1;i++)
-        {
-            //遍历该子问题：划分，将数i（小规模子问题）划分成j和i-j两段
-            //在所有可能划分中×继续划分或不继续划分，在这些组合中找出最优解
-            int maxOfSonProblem=0;
-            for(int j=1;j<i;j++)
-            {
-                int sonNotDivid = j*(i-j);
-                int sonDivid = j*produce[i-j];
-                maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonDivid,sonNotDivid));
-            }
-            produce[i]=maxOfSonProblem;
-        }
-        return produce[n];
-    }
-</code></pre>
-</li>
-</ol>
-<h2 id="一维DP：最长子序列"><a href="#一维DP：最长子序列" class="headerlink" title="一维DP：最长子序列"></a>一维DP：最长子序列</h2><p>应该算是比较经典的题？</p>
-<p>但以前没做过，一次想出来了~</p>
-<pre class=" language-lang-java"><code class="language-lang-java">递推式：f(n)=max{f(n-1)+array[n],f(n-1)}
-启动子问题：f(1)=max{array}
-</code></pre>
-<h2 id="二维DP"><a href="#二维DP" class="headerlink" title="二维DP"></a>二维DP</h2><p><strong>搜索空间是二维的，需要两个起始边界，计算dp数组</strong></p>
-<p><strong>题目：</strong></p>
-<p>M个朋友一起完成一幅刺绣，这幅刺绣可以被分成N个部分，数组T表示绣完每个部分所需的时间。每个部分只能被一个人完成，并且每个人都只能完成连在一起的部分（即数组T内连续的一段）。所有人并行工作，请问想要完成这幅刺绣所需的最短时间是多少？要求：时间复杂度度为O(nlogt), t=sum(T)</p>
-<p> 输入：<br> 第一行为N<br> 第二行为M<br> 第三行为T</p>
-<p> 示例1，<br> 输入：<br> 3<br> 2<br> 3 1 4<br> 输出：<br> 4<br> 说明：第一个人去绣3和1，耗时为4；第二个人绣4，耗时为4。总耗时为4。</p>
-<p> 示例2，<br> 输入：<br> 5<br> 3<br> 1 1 1 4 3<br> 输出：4<br> 说明：第一个人绣1,1,1，耗时为3；第二个人绣4，耗时为4；第三个人绣3，耗时为3。总耗时为4</p>
-<p><strong>解题：</strong></p>
-<p>方法一，二维DP算法</p>
-<p>递推式：dp(m, n) = </p>
-<p>min( //所有拆分的最小可能</p>
-<p>max(T(0), dp(m-1, n-1)),  //max是因为统计的是最长耗时</p>
-<p>max(T(0)+T(1), dp(m-1, n-2)), </p>
-<p>… ,</p>
-<p>max(T(0)+T(1)+…+T(n-m), dp(m-1, m-1))</p>
-<p>)</p>
-<p>原问题变成第1个人做第0段，剩下m-1个人做剩下n-1段；第1个人做第0，1段，剩下m-1个人做剩下n-2段；……；第1个人做第0，1，……，n-m段，剩下m-1个人做剩下m-1段。这些里面最小的情况</p>
-<pre class=" language-lang-java"><code class="language-lang-java">public class Main
-{
-    public static void main(String[] args)
-    {
-        //M朋友，N段，T[]绣完每部分的时间
-        int N=5,M=3;
-        int[] T = new int[]{0,1,1,1,4,3}; //T[0]=0，非用户输入
-
-        //dp(m,n)：m个人做右边n段的最优解子问题储存矩阵
-        //则划分：第一个人做0,1,2,...n-m段
-        int[][] dp = new int[M+1][N+1];
-
-        //启动子问题：dp(i,i),i个人做最后i段,取后i个里面的最大元素
-        for(int i=1;i<M+1;i++)
-        {
-            int max=0;
-            for(int j=N;j>=i;j--)
-                if (T[j]>max)
-                    max = T[j];
-            dp[i][i]=max;
-        }
-
-        //启动子问题：dp(1,i),1个人做最后i段，取和
-        int sum=0;
-        for(int i=1;i<N+1;i++)
-        {
-            sum = T[N-i+1]+sum;
-            dp[1][i] = sum;
-        }
-
-        //开始m=2的由下向上计算递推过程
-        for(int m=2;m<M+1;m++)
-            //m个人【至少】做m段
-            for(int n=m+1;n<N+1;n++)        
-            {
-                //求dp(m,n)子问题的最优解，m个人做后n段
-                int min = 1000000;  //这里一会儿改为T数组元素和
-                int firstPersonSum = 0;
-
-                //这里在做dp(m,n)子问题，那么第一个人做的就应该从第m+1个数开始算
-                for(int i=N-n+1;i<N+1;i++)
-                {
-                    firstPersonSum += T[i];
-                    //剩下的人做剩下的部分
-                    int otherPeopleSum = dp[m-1][N-i];
-                    //两者取最大，并行算最大耗时
-                    int sonProblemSum = firstPersonSum>otherPeopleSum?firstPersonSum:otherPeopleSum;
-                    //刷新min记录
-                    if (sonProblemSum<min)
-                        min = sonProblemSum;
-                }
-
-                //求得dp(m,n)最小值即最优解
-                dp[m][n] = min;
-            }
-        System.out.println(dp[M][N]);
-    }
-}
-</code></pre>
-<p>以前没写过二维DP题，直接就写出来了我也是把我自己惊住了</p>
-<p>方法二：此题也可以用非DP算法来求解，思路如下：</p>
-<p>通过二分方法寻找最大耗时，然后验证这个最大耗时是否可行<br>（段落结合即结合段落分配给一个人做）<br>验证方法为，从段落的第一段开始两两段落结合，①如果结合后的耗时&gt;最大耗时，则方案不可行；②如果&lt;最大耗时，则拆开这两段，继续往后遍历，如果遍历到最后发现剩余的人数不够做剩下的段落了，则方案不可行<br>直到最后就找到了最大耗时<br>这样复杂度就比dp还低，不需要探索状态空间</p>
-<hr>
-<p>DP还有很多题型，以后继续补充在这里</p>
-]]></content>
-      <categories>
-        <category>算法与数据结构</category>
-      </categories>
-  </entry>
-  <entry>
     <title>搜索算法：BFS/DFS问题</title>
     <url>/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%EF%BC%9ABFS-DFS%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><ol>
@@ -15162,6 +14965,200 @@ $ ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 libstdc++.so.6
       <categories>
         <category>开发</category>
         <category>andoird开发</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>动态规划</title>
+    <url>/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><strong>能用DP解决的问题：</strong></p>
+<p>如果是<strong>【求一个问题的最优解（通常是求最大值或最小值）】</strong>，而且该问题能够分解成若干个子问题，并且子问题之间还有重叠的更小的子问题，就可以考虑用动态规划来解决这个问题（也可以用DFS搜索）。</p>
+<p>在应用动态规划之前要分析能否把大问题分解成小问题，<strong>【分解后的每个小问题也存在最优解，如果把小问题的最优解组合起来能够得到整个问题的最优解（核心）】</strong>，那么我们可以应用动态规划解决这个问题。</p>
+<a id="more"></a>    
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p><strong>将问题拆分为规模不同的子问题，然后就可以使用递归DFS从上到下计算</strong>（难点），但这样会导致大量重复计算</p>
+<p>于是我们从最小规模开始，步步为营，<strong>记录每一个子问题的最优解，一直递推出最大规模问题的最优解，此即DP的思想</strong></p>
+<h2 id="DP解决问题步骤"><a href="#DP解决问题步骤" class="headerlink" title="DP解决问题步骤"></a>DP解决问题步骤</h2><ol>
+<li><p><strong>将问题划分为相似的子问题</strong>====&gt;<strong>这常常是难点与关键，找到不同规模的相似子问题，划分子问题</strong></p>
+<p><strong>每一个子问题要在 【不存在更小子问题的所有可能（不与子问题关联）】和【存在更小子问题的所有可能（建立更小规模子问题的关联）】（不用考虑更小子问题如何求解，因为问题规模是从小到大递推求解的，此时更小规模子问题的最优解已经被记录下来了），在这些所有的可能中【选择出最优解作为当前规模的子问题的最优解】</strong></p>
+</li>
+<li><p><strong>根据小规模子问题，建立状态转移方程</strong>（<strong>递推式，有的是从顶部往下推，有的是从底部往上推</strong>）</p>
+<p>（实际上找到了相似子问题建立递推方程之后，我们就可以用暴力DFS来做了，只不过这样效率极低，重复计算了很多子问题，于是我们才想接下来走3 4步骤走DP。）</p>
+</li>
+<li><p><strong>步步为营，缓存并复用以往结果，记录规模从小到大的子问题的最优解</strong>（这里就是DP的优势，这样使得搜索树中重复计算的部分全部不用重算了）</p>
+</li>
+<li><p><strong>继续按顺序从小往大递推计算，步步求最优并重复③，直到最终规模问题</strong>（用for循环，计算递推式）</p>
+</li>
+</ol>
+<p><strong>【1和2是解决这类问题必须的（即使暴力DFS来做），3和4步才是DP的关键】</strong></p>
+<p>是不是很熟悉，是不是很耳熟</p>
+<p>这不就是数学归纳法、数学归纳法、数学归纳法（重要的事情要强调三遍）吗</p>
+<p>不过DP中是先推导出状态转移方程，再利用计算机暴力求解出来</p>
+<p>注意，如果不采用步骤②③，而是使用递归来解决步骤①，那就不是DP了，递归来解决此问题效率很低（递归树中存在大量重复计算，且栈开销大）</p>
+<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><p><strong>【思考DP题，先想递归DFS怎么做，再想改成DP来做】先抽象成用DFS来做，即找到子问题就是难点，不同问题要抽象建模。</strong></p>
+<p><strong>【DP就是DFS改为从下而上+备忘录】</strong></p>
+<p><strong>可以先用DFS暴力搜索做出来，再改成DP</strong></p>
+<h2 id="一维DP：剪绳子问题（整数拆分问题）"><a href="#一维DP：剪绳子问题（整数拆分问题）" class="headerlink" title="一维DP：剪绳子问题（整数拆分问题）"></a>一维DP：剪绳子问题（整数拆分问题）</h2><p>一根长度为 $n $的绳子，请把绳子剪成整数长度的$ m $段（$m、n$都是整数，$n &gt; 1$并且$m &gt; 1$），每段绳子的长度记为$ k[0],k[1], … ,k[m] $。请问$ k[0]×k[1] ×… ×k[m] $可能的最大乘积是多少？例如，当绳子的长度是$8$时，我们把它剪成长度分别为$2、3、3$的三段，此时得到的最大乘积是$18$。</p>
+<p><strong>思路：</strong></p>
+<p><strong>①先找到子问题</strong>：将一个数拆分为<strong>两个数</strong>的所有可能拆法中，若不继续划分（不考虑更小子问题，即一个绳子拆分为两段的所有可能拆法），以及另一个数将被继续拆分（有更小子问题，在子问题中还将被继续划分，但不用考虑内部，更小规模问题的最优解<strong>已经被记录</strong>），<strong>在这里面中找到最优解</strong></p>
+<p><strong>该问题的小规模子问题就是每一次切分将一个数切成两个部分，使其乘积最大</strong></p>
+<p>这里可能很难理解，见下面的理解部分</p>
+<p>（问题画成一颗树，暴力枚举就要搜索这棵树的每个可能性）</p>
+<p><strong>②给出递推式（从顶部开始推）</strong>：</p>
+<script type="math/tex; mode=display">
+F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</strong>$F(1)=\max \{0\}=0$：若长度为$n=1$，最小切分为$1$，那分完只能是$0×1=0$</p>
+<p>$F(2)=\max\{1×1,1×F(1)\}=1$：长度为$n=2$，最优解为不继续划分（具体理解见下面第三个子问题最优解$F(3)$的计算）</p>
+<p>$F(3)=\max\{1×2,1×F(2)\}$：长度为$n=3$，这时候就有两种选择了，直接划分一刀为$1，2$或者划分为$1,2$后还继续将$2$划分，由$F(2)=1$可知<strong>如果继续划分的话</strong>，划分后的子问题最优解为$1$，那么$1×F(2)=1×1=1$，显然比不划分（$1×2$）小，<strong>那么该子问题我们就选择不划分就是最优解，即$F(3)=2$</strong></p>
+<p>$F(4)=\max\{1×3,2×2,3×1,4×0,1×F(3),2×F(2),3×F(1),4×F(0)\}=balabala$</p>
+<p>左边为拆成两半之后不再继续拆分，右边为拆成两半后继续拆分</p>
+<p><strong>以此类推，我们不断得到了在<u>绳子长度不断增加（就是问题规模不断扩大）</u>下的最优解序列</strong>：$F(0),F(1),F(2),F(3),\cdots F(n)$，每个前面的问题都是其后面的问题的更小规模的子问题，每一步都获得了子问题的最优解，那么最终得到的就是最终问题的最优解。</p>
+<p><strong>③④缓存并复用结果，我们从底往顶推，依次计算$F(0),F(1),F(2),F(3),\cdots F(n)$</strong></p>
+<p>每一轮求出一个子问题的最优解，从最小规模问题逐步往上推，每个$F(x)$都是最优解，那么最终就求出问题$F(n)$的最优解</p>
+<p>其中根据方程最开始的几个子问题需要手动计算作为启动</p>
+<p><strong>解题：</strong></p>
+<ol>
+<li><p>暴力搜索：其实暴力搜索解法就是使用递推式（所以我们还是得先像上面一样写出递归式！无论用暴力解还是DP解，这都是基础），从上往下递归DFS搜索所有可能，这其中就重复计算了很多东西，算法效率极低</p>
+<p> 先明白暴力搜索怎么做，再看DP就很容易理解，<strong>DP就是在暴力DFS之上的改进</strong></p>
+<pre class=" language-lang-java"><code class="language-lang-java"> class Solution {
+     public int cuttingRope(int n) 
+     {
+         return dfs(n);
+     }
+     int dfs(int n)
+     {
+         //最小子问题n=2，无法拆分
+         if (n==2)
+             return 1;
+
+         int maxOfSonProblem=0;
+         //遍历该子问题：划分，将数划分成i和n-i两段，目的是找到最佳i
+         //在所有可能划分中×继续划分或不继续划分
+         for(int i=1;i<n-1;i++)
+         {
+            //n-i不继续划分，直接得到乘积，不需要递归计算
+             int sonNotDivid = i*(n-i);
+
+            //n-i继续划分，继续递归
+             int sonDivid = i*dfs(n-i);
+
+             maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonNotDivid,sonDivid));
+         }
+         return maxOfSonProblem;
+     }
+ }
+</code></pre>
+</li>
+<li><p><strong>动态规划</strong>：动态规划就从下到上，记录（备忘录）每个子问题的最优解，步步为营，算法效率极高</p>
+<pre class=" language-lang-java"><code class="language-lang-java">    int[] produce;
+    int dp(int n)
+    {
+        produce = new int[n+1];
+        produce[1]=0;
+        produce[2]=1;
+
+        //子问题计数，步步为营，规模扩大
+        for(int i=3;i<n+1;i++)
+        {
+            //遍历该子问题：划分，将数i（小规模子问题）划分成j和i-j两段
+            //在所有可能划分中×继续划分或不继续划分，在这些组合中找出最优解
+            int maxOfSonProblem=0;
+            for(int j=1;j<i;j++)
+            {
+                int sonNotDivid = j*(i-j);
+                int sonDivid = j*produce[i-j];
+                maxOfSonProblem = Math.max(maxOfSonProblem,Math.max(sonDivid,sonNotDivid));
+            }
+            produce[i]=maxOfSonProblem;
+        }
+        return produce[n];
+    }
+</code></pre>
+</li>
+</ol>
+<h2 id="一维DP：最长子序列"><a href="#一维DP：最长子序列" class="headerlink" title="一维DP：最长子序列"></a>一维DP：最长子序列</h2><p>应该算是比较经典的题？</p>
+<pre class=" language-lang-java"><code class="language-lang-java">递推式：f(n)=max{f(n-1)+array[n],f(n-1)}
+启动子问题：f(1)=max{array}
+</code></pre>
+<h2 id="二维DP"><a href="#二维DP" class="headerlink" title="二维DP"></a>二维DP</h2><p><strong>搜索空间是二维的，需要两个起始边界，计算dp数组</strong></p>
+<p><strong>题目：</strong></p>
+<p>M个朋友一起完成一幅刺绣，这幅刺绣可以被分成N个部分，数组T表示绣完每个部分所需的时间。每个部分只能被一个人完成，并且每个人都只能完成连在一起的部分（即数组T内连续的一段）。所有人并行工作，请问想要完成这幅刺绣所需的最短时间是多少？要求：时间复杂度度为O(nlogt), t=sum(T)</p>
+<p> 输入：<br> 第一行为N<br> 第二行为M<br> 第三行为T</p>
+<p> 示例1，<br> 输入：<br> 3<br> 2<br> 3 1 4<br> 输出：<br> 4<br> 说明：第一个人去绣3和1，耗时为4；第二个人绣4，耗时为4。总耗时为4。</p>
+<p> 示例2，<br> 输入：<br> 5<br> 3<br> 1 1 1 4 3<br> 输出：4<br> 说明：第一个人绣1,1,1，耗时为3；第二个人绣4，耗时为4；第三个人绣3，耗时为3。总耗时为4</p>
+<p><strong>解题：</strong></p>
+<p>方法一，二维DP算法</p>
+<p>递推式：dp(m, n) = </p>
+<p>min( //所有拆分的最小可能</p>
+<p>max(T(0), dp(m-1, n-1)),  //max是因为统计的是最长耗时</p>
+<p>max(T(0)+T(1), dp(m-1, n-2)), </p>
+<p>… ,</p>
+<p>max(T(0)+T(1)+…+T(n-m), dp(m-1, m-1))</p>
+<p>)</p>
+<p>原问题变成第1个人做第0段，剩下m-1个人做剩下n-1段；第1个人做第0，1段，剩下m-1个人做剩下n-2段；……；第1个人做第0，1，……，n-m段，剩下m-1个人做剩下m-1段。这些里面最小的情况</p>
+<pre class=" language-lang-java"><code class="language-lang-java">public class Main
+{
+    public static void main(String[] args)
+    {
+        //M朋友，N段，T[]绣完每部分的时间
+        int N=5,M=3;
+        int[] T = new int[]{0,1,1,1,4,3}; //T[0]=0，非用户输入
+
+        //dp(m,n)：m个人做右边n段的最优解子问题储存矩阵
+        //则划分：第一个人做0,1,2,...n-m段
+        int[][] dp = new int[M+1][N+1];
+
+        //启动子问题：dp(i,i),i个人做最后i段,取后i个里面的最大元素
+        for(int i=1;i<M+1;i++)
+        {
+            int max=0;
+            for(int j=N;j>=i;j--)
+                if (T[j]>max)
+                    max = T[j];
+            dp[i][i]=max;
+        }
+
+        //启动子问题：dp(1,i),1个人做最后i段，取和
+        int sum=0;
+        for(int i=1;i<N+1;i++)
+        {
+            sum = T[N-i+1]+sum;
+            dp[1][i] = sum;
+        }
+
+        //开始m=2的由下向上计算递推过程
+        for(int m=2;m<M+1;m++)
+            //m个人【至少】做m段
+            for(int n=m+1;n<N+1;n++)        
+            {
+                //求dp(m,n)子问题的最优解，m个人做后n段
+                int min = 1000000;  //这里一会儿改为T数组元素和
+                int firstPersonSum = 0;
+
+                //这里在做dp(m,n)子问题，那么第一个人做的就应该从第m+1个数开始算
+                for(int i=N-n+1;i<N+1;i++)
+                {
+                    firstPersonSum += T[i];
+                    //剩下的人做剩下的部分
+                    int otherPeopleSum = dp[m-1][N-i];
+                    //两者取最大，并行算最大耗时
+                    int sonProblemSum = firstPersonSum>otherPeopleSum?firstPersonSum:otherPeopleSum;
+                    //刷新min记录
+                    if (sonProblemSum<min)
+                        min = sonProblemSum;
+                }
+
+                //求得dp(m,n)最小值即最优解
+                dp[m][n] = min;
+            }
+        System.out.println(dp[M][N]);
+    }
+}
+</code></pre>
+<p>方法二：此题也可以用非DP算法来求解，思路如下：</p>
+<p>通过二分方法寻找最大耗时，然后验证这个最大耗时是否可行<br>（段落结合即结合段落分配给一个人做）<br>验证方法为，从段落的第一段开始两两段落结合，①如果结合后的耗时&gt;最大耗时，则方案不可行；②如果&lt;最大耗时，则拆开这两段，继续往后遍历，如果遍历到最后发现剩余的人数不够做剩下的段落了，则方案不可行<br>直到最后就找到了最大耗时<br>这样复杂度就比dp还低，不需要探索状态空间</p>
+<hr>
+<p>以后遇到的题继续补充在这</p>
+]]></content>
+      <categories>
+        <category>算法与数据结构</category>
       </categories>
   </entry>
   <entry>

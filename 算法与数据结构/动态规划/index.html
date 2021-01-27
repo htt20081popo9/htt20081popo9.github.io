@@ -483,7 +483,7 @@
         
           <header class="entry-header">
             <h1 class="entry-title">动态规划</h1>
-            <p class="entry-census">&nbsp;&nbsp;2020-4-25&nbsp;</p>
+            <p class="entry-census">&nbsp;&nbsp;2018-5-29&nbsp;</p>
 
             <hr>
           </header>
@@ -512,7 +512,6 @@
 <p>这不就是数学归纳法、数学归纳法、数学归纳法（重要的事情要强调三遍）吗</p>
 <p>不过DP中是先推导出状态转移方程，再利用计算机暴力求解出来</p>
 <p>注意，如果不采用步骤②③，而是使用递归来解决步骤①，那就不是DP了，递归来解决此问题效率很低（递归树中存在大量重复计算，且栈开销大）</p>
-<p>更详见这篇：<a href="https://blog.csdn.net/zw6161080123/article/details/80639932" target="_blank" rel="noopener">https://blog.csdn.net/zw6161080123/article/details/80639932</a></p>
 <h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><p><strong>【思考DP题，先想递归DFS怎么做，再想改成DP来做】先抽象成用DFS来做，即找到子问题就是难点，不同问题要抽象建模。</strong></p>
 <p><strong>【DP就是DFS改为从下而上+备忘录】</strong></p>
 <p><strong>可以先用DFS暴力搜索做出来，再改成DP</strong></p>
@@ -594,7 +593,6 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 </li>
 </ol>
 <h2 id="一维DP：最长子序列"><a href="#一维DP：最长子序列" class="headerlink" title="一维DP：最长子序列"></a>一维DP：最长子序列</h2><p>应该算是比较经典的题？</p>
-<p>但以前没做过，一次想出来了~</p>
 <pre class=" language-lang-java"><code class="language-lang-java">递推式：f(n)=max{f(n-1)+array[n],f(n-1)}
 启动子问题：f(1)=max{array}
 </code></pre>
@@ -673,11 +671,10 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
     }
 }
 </code></pre>
-<p>以前没写过二维DP题，直接就写出来了我也是把我自己惊住了</p>
 <p>方法二：此题也可以用非DP算法来求解，思路如下：</p>
 <p>通过二分方法寻找最大耗时，然后验证这个最大耗时是否可行<br>（段落结合即结合段落分配给一个人做）<br>验证方法为，从段落的第一段开始两两段落结合，①如果结合后的耗时&gt;最大耗时，则方案不可行；②如果&lt;最大耗时，则拆开这两段，继续往后遍历，如果遍历到最后发现剩余的人数不够做剩下的段落了，则方案不可行<br>直到最后就找到了最大耗时<br>这样复杂度就比dp还低，不需要探索状态空间</p>
 <hr>
-<p>DP还有很多题型，以后继续补充在这里</p>
+<p>以后遇到的题继续补充在这</p>
 
         </div>
         <!-- .entry-content -->
@@ -709,7 +706,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
           
             <div class="post-nepre half previous">
           
-            <a href="/算法与数据结构/筛子翻转路径/" rel="prev">
+            <a href="/开发/AS安装实录/" rel="prev">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
               </div>
@@ -717,7 +714,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
               Previous Post</span>
               <div class="info">
                 <h3>
-                筛子翻转路径</h3>
+                AS安装实录</h3>
                 <hr>
               </div>
             </a>
@@ -727,7 +724,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
           
             <div class="post-nepre half next">
           
-            <a href="/算法与数据结构/搜索算法：BFS-DFS问题/" rel="next">
+            <a href="/算法与数据结构/分治策略/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
               </div>
@@ -735,7 +732,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
               Next Post</span>
               <div class="info">
                 <h3>
-                搜索算法：BFS/DFS问题</h3>
+                分治策略</h3>
                 <hr>
               </div>
             </a>
@@ -847,7 +844,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -859,10 +856,10 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
