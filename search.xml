@@ -1,6 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>一个DP题的思路错误分析全过程</title>
+    <url>/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E4%B8%80%E4%B8%AADP%E9%A2%98%E7%9A%84%E6%80%9D%E8%B7%AF%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90%E5%85%A8%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这题可真是</p>
+<p>《最大子矩阵》</p>
+<p>给定一个正整数、负整数和 0 组成的 N × M 矩阵，编写代码找出元素总和最大的子矩阵。</p>
+<p>返回一个数组 [r1, c1, r2, c2]，其中 r1, c1 分别代表子矩阵左上角的行号和列号，r2, c2 分别代表右下角的行号和列号。若有多个满足条件的子矩阵，返回任意一个均可。</p>
+<p>示例：</p>
+<p>输入：<br>[<br>   [-1,0],<br>   [0,-1]<br>]<br>输出：[0,1,0,1]</p>
+<p>1 &lt;= matrix.length, matrix[0].length &lt;= 200</p>
+<hr>
+<p>拿到题先开始分析，属于二维区间DP，这个题显然是LMS的升级版</p>
+<p>$dp(i,j)$可能由$dp(i-1,j)$和$dp(i,j-1)$状态转移而来</p>
+<p>并且存在状态转移中断的可能</p>
+<p>所以我们定义$dp(i,j)$表示以$matrix(i,j)$元素为矩阵右下角（即该元素必选）的最大子矩阵</p>
+<p><strong>第一次，完全错了：</strong></p>
+<p>初步设想状态转移方式为</p>
+<p>①右扩$dp(i-1,j)\to dp(i,j)$：如果右扩，则新增的并不是$matrix(i,j)$，而是$\sum matrix(0…i,j)$，若$\sum matrix(0…i,j)&gt;0$则转移，否则不转移；</p>
+<p>②下扩$dp(i,j-1)\to dp(i,j)$：如果下扩，则新增是$\sum matrix(i,0…j)$，若$\sum matrix(i,0…j)&gt;0$则转移，否则不转移。</p>
+<p>显然发现这个转移方式有问题：</p>
+<p><strong>第二次，然而还是有错：</strong></p>
+<p>问题一：<strong>没有考虑状态中断</strong>。在状态转移中断之后，不是从0开始计算的，而是从上一次中断开始加和，所以需要第三维来记录上一个起点。并且根据题意要求输出坐标，所以也正好需要专门记录。</p>
+<p>问题二：和LMS一样容易犯的老错误，<strong>状态$dp(i,j)$中$matrix(i,j)$是必选的！</strong>不是根据新增元素，以右扩为例，即不是根据$\sum matrix(0…i,j)$大小来判断是否转移，而是应该判断$dp(i-1,j)&gt;0$才能转移，因为根据<strong>必须以$matrix(i,j)$为结尾的$dp(i,j)$定义</strong>，只要$dp(i-1,j)&gt;0$，那么加上新增元素无论大还是小都比中断状态转移更大。</p>
+<p>所以综合下来，状态转移方程为：</p>
+<p>①右扩$dp(i-1,j)\to dp(i,j)$：如果右扩，若$dp(i-1,j)&gt;0$则转移：</p>
+<script type="math/tex; mode=display">
+dp(i,j)=dp(i-1,j)+\sum matrix(i_{dp(i-1,j)}...i,j)</script><script type="math/tex; mode=display">
+i_{dp(i,j)}=i_{dp(i-1,j)},j_{dp(i,j)}=j_{dp(i-1,j)}</script><p>否则不转移：</p>
+<script type="math/tex; mode=display">
+dp(i,j)=matrix(i,j)</script><script type="math/tex; mode=display">
+i_{dp(i,j)}=i,j_{dp(i,j)}=j</script><p>②下扩$dp(i,j-1)\to dp(i,j)$：如果下扩，若$dp(i,j-1)&gt;0$则转移：</p>
+<script type="math/tex; mode=display">
+dp(i,j)=dp(i,j-1)+matrix(i,j_{dp(i,j-1)}...j)</script><script type="math/tex; mode=display">
+i_{dp(i,j)}=i_{dp(i,j-1)},j_{dp(i,j)}=j_{dp(i,j-1)}</script><p>否则不转移：</p>
+<script type="math/tex; mode=display">
+dp(i,j)=matrix(i,j)</script><script type="math/tex; mode=display">
+i_{dp(i,j)}=i,j_{dp(i,j)}=j</script><p>代码：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">getMaxMatrix</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> matrix<span class="token punctuation">:</span> List<span class="token punctuation">[</span>List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token comment">#dp[i][j]：以nums[i][j]为最右下角的矩阵的最小值</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>matrix<span class="token punctuation">)</span>  <span class="token comment">#行</span>
+    m <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment">#列</span>
+    dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">*</span>m <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">]</span>  <span class="token comment">#(nums,i,j) 分别代表该位值、上一个中断处</span>
+        
+    <span class="token comment">#start</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>     
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment">#右拓：dp(i,j)可能由dp(i,j-1)转移</span>
+            right_rec <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> j<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>  <span class="token comment">#边界判断</span>
+                row_sums <span class="token operator">=</span> <span class="token number">0</span>
+                <span class="token comment">#【关键点】中断之后，不是从0开始计算的，而是从上一次中断开始加和，所以需要第三维来记录上一个起点。同时根据题意，也需要专门记录。</span>
+                <span class="token keyword">for</span> row_index <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        
+                    row_sums <span class="token operator">+=</span> matrix<span class="token punctuation">[</span>row_index<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+                <span class="token comment">#若和增大，则可以转移，否则不转移（初始值）</span>
+                <span class="token comment"># if row_sums>=0:  #【错误点】：和LIS问题一样，状态转移公式出错,dp[i][j]中matrix[i][j]是必选的！转不转移是由源状态是否>=0来判断！  </span>
+                <span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">:</span>  
+                    right_rec <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> row_sums
+                    
+            <span class="token comment">#下拓：dp(i,j)可能由dp(i-1,j)转移</span>
+            down_rec <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+                col_sums <span class="token operator">=</span> <span class="token number">0</span>
+                <span class="token keyword">for</span> col_index <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    col_sums <span class="token operator">+=</span> matrix<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>col_index<span class="token punctuation">]</span>
+                <span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">:</span>  
+                    down_rec <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> col_sums                
+            <span class="token comment">#判断从哪个状态转移或未转移</span>
+            <span class="token keyword">if</span> right_rec<span class="token operator">==</span><span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span> <span class="token keyword">and</span> down_rec<span class="token operator">==</span><span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment">#错误点，inf少打了个负号...TMD找了半天BUG</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>matrix<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span>  <span class="token comment">#未发生转移，转移中断，设置为初始值，即matrix[i][j]</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token comment">#转移成功，这里要记录，本次矩阵起点与上一个转移状态起点一致</span>
+                <span class="token keyword">if</span> right_rec<span class="token operator">></span>down_rec<span class="token punctuation">:</span>   
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>right_rec<span class="token punctuation">,</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>down_rec<span class="token punctuation">,</span>dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        
+    <span class="token comment">#在dp矩阵中找值最大的状态</span>
+    max_rec <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span>
+    startxy <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+    endxy <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">></span>max_rec<span class="token punctuation">:</span>
+                max_rec <span class="token operator">=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+                startxy <span class="token operator">=</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                endxy <span class="token operator">=</span> <span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>startxy<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>startxy<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>endxy<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>endxy<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然而还是有问题…</p>
+<p>举个例子：</p>
+<pre class="line-numbers language-none"><code class="language-none">-1 -2 -9  6
+ 8 -9 -3 -6
+ 2  9 -7 -6<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>在这个输入中，主要关注左下角四个，其dp矩阵为</p>
+<pre class="line-numbers language-none"><code class="language-none">8  -1
+10 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>这里显然错了！</p>
+<p>按照上面的算法，dp(2,1)只能来源于dp(2,0)或dp(1,1)。dp(1,1)&lt;0直接跳过，dp(2,0)所得矩阵的起点是(2,0)，也就是说是由这两个数组成的矩阵：</p>
+<pre class="line-numbers language-none"><code class="language-none">8
+2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>那么在右扩的时候，计算起点只能是这个4个数的方格如下，成为了10+(-9)+9=10：</p>
+<pre class="line-numbers language-none"><code class="language-none">8 -9
+2  9<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>而正确答案是2+9=11：</p>
+<pre class="line-numbers language-none"><code class="language-none">2  9<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>上面的算法没给出这种可能性。所以思路是完全错误了，通过率为50%（悲）。</strong></p>
+<p>虽然有错，但是思路是很重要的。</p>
+<h2 id="正确答案"><a href="#正确答案" class="headerlink" title="正确答案"></a>正确答案</h2><p>正确思路是对矩阵进行降维，将二维问题拆解为一维LMS问题。</p>
+<p>实际上是一个巧解…..</p>
+<p>对于一个$n×m$的矩阵，有$1+2+\cdots+n$种横向选择方案，我们堆每一种横向选择方案进行列求和，存储进一个$sum[]$数组中，也就是将所有行选法$n×m$降维成了$1×m$，变成了一个一维序列。</p>
+<p>然后我们再对每个$sum[]$数组求LMS，求出所有$sum[]$数组最大的那个即可…</p>
+<p>不过要注意，由于给出起始与终点位置，所以要记录起始位置，记录方法与上面一样。</p>
+<p>eg:</p>
+<pre class="line-numbers language-none"><code class="language-none">-1 -2 -9  6
+ 8 -9 -3 -6
+ &#x3D;&gt;选第1行 sum[0]&#x3D;[-1,-2,-9,6]
+ &#x3D;&gt;选第2行 sum[1]&#x3D;[8,-9,-3,-6]
+ &#x3D;&gt;选第12行 sum[2]&#x3D;[7,-11,-12,0]
+ 然后分别对sum[0],sum[1],sum[2]用DP求LIS，再选出最大那个即可。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其思想就是利用矩阵特性，即<strong>子矩阵中每一行等宽，枚举上下边加和成一维，将行列分开计算</strong>，实现降维为一维LMS问题：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">getMaxMatrix</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> matrix<span class="token punctuation">:</span> List<span class="token punctuation">[</span>List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>matrix<span class="token punctuation">)</span>
+    m <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    sum_matrix <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    row_info <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment">#用于记录sum_matrix每一项对应的加法组合的行的起点和终点</span>
+
+    <span class="token comment">#降维存入sum数组</span>
+    <span class="token comment">#【错误点】通过双端指针枚举完所有组合法</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment">#错误点：注意这里应该从i+1起始</span>
+            new <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span>m
+            <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">for</span> l <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    new<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">+=</span> matrix<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>l<span class="token punctuation">]</span>
+            sum_matrix<span class="token punctuation">.</span>append<span class="token punctuation">(</span>new<span class="token punctuation">)</span>
+            row_info<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment">#对sum中的每一个子串使用LMS求(最大值,起点,终点），记录在LMS_max中</span>
+    LMS_max <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>sum_matrix<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        nums <span class="token operator">=</span> sum_matrix<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span>m
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>m<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> dp<span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+                dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">+</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>j<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+        list_res <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>m<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> dp<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">></span>list_res<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                list_res <span class="token operator">=</span> dp<span class="token punctuation">[</span>k<span class="token punctuation">]</span>
+        LMS_max<span class="token punctuation">.</span>append<span class="token punctuation">(</span>list_res<span class="token punctuation">)</span>
+    <span class="token comment">#寻找最大那个</span>
+    max_res <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'-inf'</span><span class="token punctuation">)</span>
+    index <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>sum_matrix<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> LMS_max<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">></span>max_res<span class="token punctuation">:</span>
+            max_res <span class="token operator">=</span> LMS_max<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            index <span class="token operator">=</span> i
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>row_info<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>LMS_max<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>row_info<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>LMS_max<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>答案是对的，但是部分答案OOT了，这不科学…</p>
+<p>反正思路就是这个思路了，时间哪里应该还能优化，下次补充</p>
+]]></content>
+      <categories>
+        <category>算法与数据结构</category>
+      </categories>
+  </entry>
+  <entry>
     <title>时光盲盒</title>
     <url>/Music/%E6%97%B6%E5%85%89%E7%9B%B2%E7%9B%92/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="/Music/%E6%97%B6%E5%85%89%E7%9B%B2%E7%9B%92/1.png" alt="1"></p>
@@ -47,7 +213,7 @@
 <p>工作细胞！！</p>
 <p>工作细胞Black</p>
 <p>五等分的花嫁$\int\int$（看情况追）</p>
-<p>约定的梦幻岛 第二季</p>
+<p>约定的梦幻岛 第二季【弃】</p>
 <p>石纪元 第二季</p>
 <p>进击的巨人 最终季 （钦点盘霸）</p>
 <p>Re0第二季下章</p>
@@ -55,7 +221,10 @@
 <p>堀与宫村</p>
 <p>碧蓝航线 微速前进！</p>
 <p>弱角友崎同学（看情况追）</p>
+<p>岸边露伴一动不动</p>
 <h1 id="原创"><a href="#原创" class="headerlink" title="原创"></a>原创</h1><p>皮蛋物语（钦点B霸）</p>
+<p>无限滑板</p>
+<p>天竺鼠车车</p>
 ]]></content>
       <categories>
         <category>Anime</category>
@@ -75,6 +244,7 @@
 <th>2018</th>
 <th>2019</th>
 <th>2020</th>
+<th>2021</th>
 </tr>
 </thead>
 <tbody>
@@ -86,6 +256,7 @@
 <td>i7 8700k</td>
 <td><strong>i9 9900k</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>CPU 散热</td>
@@ -94,6 +265,7 @@
 <td></td>
 <td></td>
 <td><strong>280水冷</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -104,6 +276,7 @@
 <td>16G DDR4 2400MHz</td>
 <td></td>
 <td><strong>64G DDR4 3600MHz</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>主板</td>
@@ -112,6 +285,7 @@
 <td></td>
 <td>B360M</td>
 <td><strong>Z390I</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -122,6 +296,7 @@
 <td>GTX1080Ti</td>
 <td>RTX2080Ti</td>
 <td><strong>RTX3090</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>显卡散热</td>
@@ -131,6 +306,7 @@
 <td>240水冷</td>
 <td>280水冷</td>
 <td><strong>无</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>固态硬盘</td>
@@ -139,6 +315,7 @@
 <td></td>
 <td>NVME 250G+SATA 480G</td>
 <td><strong>NVME 3T+ SATA 2T</strong></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -149,6 +326,7 @@
 <td></td>
 <td><strong>无</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>电源</td>
@@ -156,6 +334,7 @@
 <td></td>
 <td></td>
 <td><strong>650w</strong></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -167,6 +346,7 @@
 <td></td>
 <td><strong>4K 144Hz DCIP3 G-SYNC 27inch</strong></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>机箱</td>
@@ -176,6 +356,7 @@
 <td>酷冷至尊 Q300L</td>
 <td>NZXT MANTA</td>
 <td><strong>Be Quiet 500DX</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>键盘</td>
@@ -185,6 +366,7 @@
 <td></td>
 <td>IKBC C87 红轴</td>
 <td><strong>NIZ ATOM68 静电容</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>鼠标</td>
@@ -193,7 +375,8 @@
 <td></td>
 <td></td>
 <td>G903</td>
-<td><strong>G903 HERO</strong></td>
+<td>G903 HERO</td>
+<td><strong>G Pro Wireless</strong></td>
 </tr>
 </tbody>
 </table>
@@ -280,9 +463,9 @@
 <td></td>
 <td></td>
 <td></td>
-<td><strong>SATA 480G</strong></td>
+<td>SATA 480G</td>
 <td></td>
-<td></td>
+<td><strong>NVME 1T + SATA 480G</strong></td>
 </tr>
 <tr>
 <td>机械硬盘</td>
@@ -4528,8 +4711,8 @@ pool<span class="token punctuation">.</span><span class="token function">execute
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><div style="text-align: center"><i>这里记录我所使用的硬件，持续更新</i></div>
 
 <a id="more"></a>
-<h1 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h1><h2 id="Workstation-主机"><a href="#Workstation-主机" class="headerlink" title="Workstation(主机)"></a>Workstation(主机)</h2><p><strong>CPU</strong>：Intel core i9 9900k + NZXT 海妖X62 280一体水冷<br><strong>主板</strong>：华擎 Z390 Phantom Gaming itx/ac<br><strong>显卡</strong>：Nvidia RTX 3090<br><strong>内存</strong>： Asgard 64G DDR4 4166MHz<br><strong>NVMe M2固态硬盘</strong>：SAMSUNG PM981 1T + HIKVISION C2000 Pro 2T<br><strong>SATA3固态硬盘</strong>： WD蓝盘 2T<br><strong>显示器</strong>：ACER XV273K 27寸 4K 144Hz G-SYNC 10bit HDR<br><strong>外设</strong>：HHKB Professional2  +  罗技 G903 HERO<br><strong>电源</strong>：振华 GX650 650W<br><strong>机箱</strong>：Be Quiet 500DX<br><strong>风扇</strong>：NZXT AER RGB2 x2 + NZXT HUE2控制中心 + Be Quiet wing3 PWM 14风扇 x5</p>
-<h2 id="Portable-Desktop-PC-副机"><a href="#Portable-Desktop-PC-副机" class="headerlink" title="Portable Desktop PC(副机)"></a>Portable Desktop PC(副机)</h2><p><strong>CPU</strong>：Intel core i5 9400f<br><strong>主板</strong>：MSI B360i Gaming Pro ac<br><strong>显卡</strong>：AMD R9 NANO<br><strong>内存</strong>：海盗船 32G DDR4 3200MHz<br><strong>SATA3固态硬盘</strong>： 英睿达 BX300 480G (mlc)<br><strong>显示器</strong>：ViewSonic VX2478 4k 24寸 10bit<br><strong>外设</strong>： Akko + 雷蛇蝰蛇 + Apple magic touchpad2<br><strong>电源</strong>：极智猫 1u 700w<br><strong>散热</strong>：AXP 90i 纯铜<br><strong>机箱</strong>：K39(22cm(H) x 18cm(L) x 10cm(W)=3.9L)<br><strong>系统</strong>：MAC OSX/WINDOWS 10</p>
+<h1 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h1><h2 id="Workstation-主机"><a href="#Workstation-主机" class="headerlink" title="Workstation(主机)"></a>Workstation(主机)</h2><p><strong>CPU</strong>：Intel core i9 9900k + NZXT 海妖X62 280一体水冷<br><strong>主板</strong>：华擎 Z390 Phantom Gaming itx/ac<br><strong>显卡</strong>：Nvidia RTX 3090<br><strong>内存</strong>： Asgard 64G DDR4 4166MHz<br><strong>NVMe M2固态硬盘</strong>：SAMSUNG PM981 1T + HIKVISION C2000 Pro 2T<br><strong>SATA3固态硬盘</strong>： WD蓝盘 2T<br><strong>显示器</strong>：ACER XV273K 27寸 4K 144Hz G-SYNC 10bit HDR<br><strong>外设</strong>：HHKB Professional2  +  罗技 G Pro Wireless<br><strong>电源</strong>：振华 GX650 650W<br><strong>机箱</strong>：Be Quiet 500DX<br><strong>风扇</strong>：NZXT AER RGB2 x2 + NZXT HUE2控制中心 + Be Quiet wing3 PWM 14风扇 x5</p>
+<h2 id="Portable-Desktop-PC-副机"><a href="#Portable-Desktop-PC-副机" class="headerlink" title="Portable Desktop PC(副机)"></a>Portable Desktop PC(副机)</h2><p><strong>CPU</strong>：Intel core i5 9400f<br><strong>主板</strong>：MSI B360i Gaming Pro ac<br><strong>显卡</strong>：AMD R9 NANO<br><strong>内存</strong>：海盗船 32G DDR4 3200MHz<br><strong>SATA3固态硬盘</strong>： 英睿达 BX300 480G (mlc) + WD SN750 1T<br><strong>显示器</strong>：ViewSonic VX2478 4k 24寸 10bit<br><strong>外设</strong>： Akko + 雷蛇蝰蛇 + Apple magic touchpad2<br><strong>电源</strong>：极智猫 小1u 700w<br><strong>散热</strong>：AXP 90i 纯铜<br><strong>机箱</strong>：K39(22cm(H) x 18cm(L) x 10cm(W)=3.9L)<br><strong>系统</strong>：MAC OSX/WINDOWS 10</p>
 <h2 id="Laptop"><a href="#Laptop" class="headerlink" title="Laptop"></a>Laptop</h2><p><strong>Microsoft Surface Pro</strong>（Gen6 i5 8G 128G） </p>
 <p><strong>Apple Macbook Pro</strong> (2014 i5 4G 128G)</p>
 <h1 id="Console"><a href="#Console" class="headerlink" title="Console"></a>Console</h1><p><strong>Playstation 4 Pro</strong></p>
@@ -14793,9 +14976,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ol>
-<h2 id="一维DP：最长子序列"><a href="#一维DP：最长子序列" class="headerlink" title="一维DP：最长子序列"></a>一维DP：最长子序列</h2><p>应该算是比较经典的题？</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">递推式：<span class="token function">f</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token operator">=</span>max<span class="token punctuation">&#123;</span><span class="token function">f</span><span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span>array<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token function">f</span><span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
-启动子问题：<span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">=</span>max<span class="token punctuation">&#123;</span>array<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="一维DP：最大连续子序列"><a href="#一维DP：最大连续子序列" class="headerlink" title="一维DP：最大连续子序列"></a>一维DP：最大连续子序列</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">递推式：<span class="token function">f</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token operator">=</span><span class="token function">f</span><span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span>array<span class="token punctuation">[</span>n<span class="token punctuation">]</span> <span class="token keyword">if</span> <span class="token function">f</span><span class="token punctuation">(</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">>=</span><span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="二维DP"><a href="#二维DP" class="headerlink" title="二维DP"></a>二维DP</h2><p><strong>搜索空间是二维的，需要两个起始边界，计算dp数组</strong></p>
 <p><strong>题目：</strong></p>
 <p>M个朋友一起完成一幅刺绣，这幅刺绣可以被分成N个部分，数组T表示绣完每个部分所需的时间。每个部分只能被一个人完成，并且每个人都只能完成连在一起的部分（即数组T内连续的一段）。所有人并行工作，请问想要完成这幅刺绣所需的最短时间是多少？要求：时间复杂度度为O(nlogt), t=sum(T)</p>
@@ -14872,8 +15053,7 @@ F(n)=\max\{i×F(n-i),i×(n-i)\},i=1,2,\cdots,n-1</script><p><strong>理解：</s
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>方法二：此题也可以用非DP算法来求解，思路如下：</p>
 <p>通过二分方法寻找最大耗时，然后验证这个最大耗时是否可行<br>（段落结合即结合段落分配给一个人做）<br>验证方法为，从段落的第一段开始两两段落结合，①如果结合后的耗时&gt;最大耗时，则方案不可行；②如果&lt;最大耗时，则拆开这两段，继续往后遍历，如果遍历到最后发现剩余的人数不够做剩下的段落了，则方案不可行<br>直到最后就找到了最大耗时<br>这样复杂度就比dp还低，不需要探索状态空间</p>
-<hr>
-<p>以后遇到的题继续补充在这</p>
+<p>题型有很多</p>
 ]]></content>
       <categories>
         <category>算法与数据结构</category>
