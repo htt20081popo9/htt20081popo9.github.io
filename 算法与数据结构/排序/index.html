@@ -570,7 +570,14 @@
 <p>①在排序小数组子问题中<strong>切换</strong>到插入排序，<strong>结束该分支下的递归</strong></p>
 <p>②三取样切分：找序列的中位数点一分为二，再找子序列中为数点一分为二，再找一次一分为二，共做三次中位数划分，分别对划分出的子序列做快速排序，最后再做插入排序</p>
 <p>③三向切分：针对存在大量重复元素的序列，其时间复杂度降低到线性级别$O(N)$【略】</p>
-<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p><strong>[数据结构]：</strong>优先队列两大基本操作：①删除最大元素②插入元素。</p>
+<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p><strong>[核心]：</strong></p>
+<p><strong>堆的数组存储方式中，完全是按照完全二叉树的序号顺序存储的，对于父节点序号<code>parent</code>，左子节点序号为<code>2*parent+1</code>，右子节点序号为<code>2*parent+2</code>，序号最大的父节点序号为<code>(lastindex-1)/2</code></strong></p>
+<p>几个核心动作：</p>
+<p>①<strong>一次调整(adjust)</strong>：一次调整是一个<strong>循环</strong>过程。从parent节点子树往下进行调整（直到尾节点），如果不满足条件则子节点与父节点交换(swap)，并继续调整子节点，直到满足条件则停止继续往下调整，跳出循环。<strong>注意：从序号最大的parent开始，对每个节点进行调整！！！遍历范围: parent~((length-1)-1)/2</strong></p>
+<p>②<strong>建堆(build)</strong>：从序号最大的父节点开始向上进行多次调整(adjust)</p>
+<p>③<strong>堆排序(heap sort)</strong>：建堆(build)，然后每次取堆顶与堆尾进行交换(swap)，然后对堆顶进行一次调整(adjust)</p>
+<hr>
+<p><strong>[数据结构]：</strong>优先队列两大基本操作：①删除最大元素②插入元素。</p>
 <p><strong>二叉树 简称 堆</strong>。<strong>大根堆</strong>：二叉树上的每个子树的父节点大于两个子节点；<strong>小根堆</strong>：二叉树上的每个子树的父节点小于两个子节点。（注意理解“子树”的含义，所有的递归套娃子树都要满足这个条件）</p>
 <p>完全二叉树可以用数组实现，即<strong>二叉堆：一组能够用堆有序的完全二叉树排序的元素，并在数组中按层级储存</strong>（不使用数组中的第一个位置）</p>
 <p><strong>堆排序</strong>即是将无序堆<strong>通过上浮转化为大根堆</strong>，或<strong>通过下沉转化为小根堆</strong>，的<strong>堆有序化</strong>过程，是一种基于堆的优先序列实现。</p>

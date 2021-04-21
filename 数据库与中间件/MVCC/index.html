@@ -491,12 +491,24 @@
         <div class="entry-content">
           <p>隔离级别、封锁协议、MVCC、快照读、当前读、缓存、redo日志、undo日志、锁</p>
 <a id="more"></a>
+<h2 id="事务四大特性-ACID"><a href="#事务四大特性-ACID" class="headerlink" title="事务四大特性 ACID"></a>事务四大特性 ACID</h2><p>Atomicity（原子性）：事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。<strong>通过Undo Log实现</strong></p>
+<p>Consistency（一致性）：数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的。</p>
+<p>Isolation（隔离性）：一个事务所做的修改在最终提交以前，对其它事务是不可见的。</p>
+<p>Durability（持久性）：一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。<strong>通过Redo Log实现</strong></p>
+<p>在满足AID的情况下，就会满足C。四者非并行关系</p>
 <h2 id="隔离级别、封锁协议"><a href="#隔离级别、封锁协议" class="headerlink" title="隔离级别、封锁协议"></a>隔离级别、封锁协议</h2><p>四个隔离级别：RU、RC、RR、SERIALIZABLE</p>
 <p>对应四个级别封锁协议。不同级别封锁协议目的就是达到对应隔离级别</p>
 <p>两段封锁协议是指可加锁阶段和锁释放阶段分为两个阶段进行，这样保证可串行化调度。可串行化调度指通过并发控制，使得并发执行的结果=串行执行的结果</p>
 <p>MySQL的InnoDB储存引擎采用两段锁协议，会根据隔离级别在需要的时候自动加锁</p>
 <p>MySQL默认隔离级别：RR</p>
 <p>注意<strong>RU读未提交</strong>：指的是<strong>线程A修改后还没有提交！万一线程A没修改完，还在继续修改，或者线程A回滚了，那这个时候线程B读取的就是脏数据，此即脏读。这个时候脏是指的读取了线程A没有完成修改的数据，只修改了一半</strong></p>
+<h2 id="四个隔离级别的实现"><a href="#四个隔离级别的实现" class="headerlink" title="四个隔离级别的实现"></a>四个隔离级别的实现</h2><p>假设两个事务，写事务和读事务</p>
+<p>RU（读未提交）：写事务未提交，读事务读取了写的脏数据</p>
+<p>RC（读已提交）：在读事务未提交的过程中，写事务完成了多次提交，导致读事务同一个事务内看到的数据前后不一致，不可重复读。通过MVCC的<strong>当前读</strong>实现，需要在语句中手动加读锁/写锁，读锁：<code>... lock in share mode</code>；写锁：<code>... for update</code>。</p>
+<p>RR（可重复读）：在读事务未提交的过程中，可以重复读取已提交的写事务的数据。通过MVCC的<strong>快照读</strong>实现，且是InnoDB<strong>默认隔离级别，无需多余操作</strong></p>
+<p>S（串行化）：所有事务严格按照串行化进行</p>
+<p>同时通过MVCC RC隔离级别+Nexy-Key-Lock 解决幻读：<code>... between 10 and 20 for update</code></p>
+<p>四个级别的封锁协议，即对应四个隔离级别，封锁协议是隔离级别的逻辑实现</p>
 <h2 id="MVCC原理、快照读"><a href="#MVCC原理、快照读" class="headerlink" title="MVCC原理、快照读"></a>MVCC原理、快照读</h2><p>MySQL的InnoDB通过MVCC（多版本并发控制）实现RC和RR隔离级别（封锁协议）</p>
 <p><strong>在MVCC中，事务的写操作会为数据行新增一个版本快照</strong>，储存有<strong>事务ID，也是快照的版本号</strong>（事务ID递增）。</p>
 <p><strong>一行数据维护一个快照列表</strong>，每当<strong>开始一个写事务，它就copy一份行数据，生成一个快照</strong>（Undo日志），然后<strong>自己写自己的</strong>。将<strong>所有写版本快照（事务信息）串起来，后来的在队尾，版本号最大，最早的在队头，版本号最小</strong>。有两个指针，<strong>max指针是最新开始的事务（还未提交）的事务号（版本号最大），min指针指向当前最新提交的事务的事务号（版本号最小）</strong>。也就是说，<strong>快照列表中间，全都是活跃事务（已开始，未提交）。</strong></p>
