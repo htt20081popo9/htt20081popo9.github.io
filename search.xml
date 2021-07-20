@@ -1,6 +1,443 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux存储栈大略&amp;存储加速</title>
+    <url>/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="linux存储栈"><a href="#linux存储栈" class="headerlink" title="linux存储栈"></a>linux存储栈</h2><p>用户请求（流数据）-文件系统转换成块设备需要的块（块数据）（在内存中进行）-发送到设备（BIO方式） =&gt;完成将数据写到磁盘</p>
+<p>内存在这个过程中扮演磁盘缓存，将这一流程分为上下两个异步过程</p>
+<p>流 Stream；块 Block</p>
+<p>【<strong>Pic：The Linux Storage Stack Diagram</strong>】</p>
+<p><img src="/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/OneDrive/aisakaki/source/_posts/存储/Linux存储栈大略/linux storage stack diagram.png" alt="linux storage stack diagram"></p>
+<p><strong>此图为关键，包含linux存储栈所有内容</strong></p>
+<p>内存区域中，低位地址是用户态应用，高位地址给内核态应用（32位支持4G内存，低位3G用户态，高位1G内核态）</p>
+<p>pmap：查看进程的地址空间分布（or <code>/proc/&lt;pid&gt;/maps</code>查看）</p>
+<p>mmap/mmap2：将文件中指定长度的一段数据映射到指定内存区域，从而可以通过访问内存的方式访问文件；且设置参数可支持贡献映射，私有映射，匿名映射等）</p>
+<p>使用mmap访问内存，相比read/write，减少了一次用户空间到内核空间的映射（即直接访问内存来访问文件），提升性能</p>
+<p>（lab）</p>
+<p>用户态与内核态，是<strong>权限</strong>的差别</p>
+<p>凡是与硬件有关的（比如内存），以及操作系统级别的，都是属于很高的权限，都是系统调用</p>
+<p>系统调用从执行的时候就进入内核态，返回的时候才回到用户态</p>
+<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3><p><strong>VFS(Virtual File System)</strong>虚拟文件系统向用户提供统一的抽象系统调用供用户使用，屏蔽真实文件系统细节；各个真实文件系统需要遵循VFS提供的规范才能兼容，常见的真实文件系统有Ext3、NFS、ISOFS等。</p>
+<p>VFS主要有四个对象类型：</p>
+<ul>
+<li>超级块：存储文件系统相关信息</li>
+<li><strong>inode</strong>：存储<strong>文件</strong>（含目录）的<strong>元数据</strong>，一个文件对应一个inode，包含指向文件（目录项）数据的指针（或文本数据）</li>
+<li>目录项（<strong>也是文件，一种特殊的文件</strong>）：描述了文件系统的层次结构，主要格式为[目录—-文件名（含目录项）—-inode]</li>
+<li>文件</li>
+</ul>
+<p><strong>linux一切皆文件，一切文件皆有一个对应的inode结点，后面就不特意强调目录项也是文件了</strong></p>
+<h4 id="Btrfs特性"><a href="#Btrfs特性" class="headerlink" title="Btrfs特性"></a>Btrfs特性</h4><ul>
+<li><p><strong>BTree</strong></p>
+<p>Ext3额外使用BTree，<strong>当同一目录下文件容量超过2KB</strong>，这个目录的inode的i_data域（i_data域用于存放数据，目录的i_data域原来是没数据的，文本数据会直接存在其inode的i_data域（？））会指向一个BTree结构的目录索引，通过检索这个BTree可以快速找到目标文件的inode编号</p>
+<p><strong>Btrfs</strong>就是更进一步进化，其<strong>所有inode结点都是只通过BTree索引</strong></p>
+<p>一切文件的索引从超级块开始</p>
+<p>对于文件系统来说，假设用树结构进行索引，树的每个结点就是一页，<strong>在搜索树的时候，每访问一个结点，实际上都要进行一次IO，从磁盘读数据到内存</strong>，所以<strong>树越高，IO越多，所以我们用BTree，很扁平，IO很少</strong>（还有局部预读优势）</p>
+</li>
+<li><p><strong>extent</strong></p>
+<p><strong>inode中保存有指向数据块的指针</strong>，现代文件系统<strong>（如ext4、Btrfs）通常用extent来取代block</strong>（块），<strong>一个extent由很多连续的block组成，减小元数据的开销</strong>。</p>
+</li>
+<li><p><strong>动态索引节点分配</strong></p>
+<p>ext234的索引节点数量都是固定的，存在索引节点用完但磁盘空间没用完的情况，Btrfs则是动态分配</p>
+</li>
+<li><p>SSD优化（？）</p>
+</li>
+<li><p>支持元数据和数据的校验</p>
+</li>
+<li><p>支持写时复制</p>
+</li>
+<li><p>子分区subvolume</p>
+</li>
+<li><p>软件磁盘阵列</p>
+</li>
+<li><p>压缩</p>
+</li>
+</ul>
+<h3 id="page-cache"><a href="#page-cache" class="headerlink" title="page cache"></a>page cache</h3><p>计算机存储结构：扇区-&gt;块(簇,block)-&gt;页</p>
+<p><strong>扇区</strong>：磁盘上的最小寻址单位，通常为512B</p>
+<p><strong>块</strong>：文件系统读写数据的最小单位，也叫磁盘簇，Block。<strong>操作系统内核不能对磁盘扇区直接寻址，而是对块进行寻址</strong></p>
+<p><strong>页</strong>：内存的最小存储单位</p>
+<p>块由扇区组成，页由块组成</p>
+<p><strong>page cache，文件缓存，属于内核缓冲区，缓存页，在内存中</strong>；（注意与MMU管理的page table的区别，而TLB在CPU缓存中，这俩存的都是地址转换表，而page cache在内存中缓存的是page/block）在2.4.10版本内核之前有个buffer cache，用来缓存块，现在已经被包含在page cache里了；其主要作用是<strong>内核将闲余的内存空间利用起来对磁盘文件进行缓存（预读）</strong></p>
+<p>【更深入了解】</p>
+<h3 id="DDIO-Data-Direct-IO"><a href="#DDIO-Data-Direct-IO" class="headerlink" title="DDIO(Data Direct IO)"></a>DDIO(Data Direct IO)</h3><p><strong>跳过page cache，不经过内存</strong>直接进行块设备与CPU之间的数据传输</p>
+<p>见下面“关于SPDK&amp;DPDK”一节</p>
+<p><strong>所以IO也分为Direct IO和Buffered IO</strong></p>
+<h3 id="块层-Block-Layer"><a href="#块层-Block-Layer" class="headerlink" title="块层(Block Layer)"></a>块层(Block Layer)</h3><p>块设备复杂程度高，且块设备访问性能对系统影响很大，所以内核专门提供了一个子系统来管理块设备，叫Block Layer</p>
+<p>块层属于真实磁盘文件系统与IO调度层之间</p>
+<p>内核设备IO流程：</p>
+<p>【<strong>虚拟文件系统</strong>】—-【<strong>(page cache)</strong>】—-【<strong>真实文件系统</strong>】—-【<strong>通用块层</strong>】—-【<strong>IO调度层</strong>】—-【<strong>块设备驱动</strong>】—-【<strong>块设备</strong>】</p>
+<p><strong>通用块层</strong>：<strong>通用块层</strong>通过<strong>bio结构</strong>向<strong>IO调度层</strong>描述<strong>IO请求</strong>，这里已经到达了物理磁盘领域</p>
+<p><strong>IO调度层</strong>：对<strong>通用块层</strong>的请求进行优化调度处理（如合并等），再使用<strong>request结构</strong>体向下层块<strong>设备驱动</strong>发出请求</p>
+<p><strong>bio结构</strong>描述了<strong>真实操作位置（块设备上）的块</strong>与<strong>Page Cache（内存中）</strong>中<strong>块</strong>的映射关系，<strong>一个bio在磁盘中对应一块连续的位置，但其对应的内存中的数据可以不连续，由若干bio_vec来描述</strong>（一个bio对应多个bio_vec，一个bio_vec描述一个块在哪个page中的哪个位置）</p>
+<p>多个bio在块层被<strong>合并（蓄流-&gt;泄流）</strong>为一个<strong>request结构</strong>，request组成<strong>request队列</strong>，调用设备驱动程序接口将request移动到设备驱动层进行处理；一个块设备有若干request队列与之对应（一个队列一个CPU处理）</p>
+<p>IO调度有多种算法，如noop（FIFO）、deadline（电梯+最大等待时间防饥饿）、CFQ（多请求队列、时间片；默认）</p>
+<h3 id="LVM-Logic-Volume-Manager"><a href="#LVM-Logic-Volume-Manager" class="headerlink" title="LVM(Logic Volume Manager)"></a>LVM(Logic Volume Manager)</h3><p><strong>逻辑卷管理</strong></p>
+<p>LVM解决传统磁盘分区不方便管理的问题（需要重新进行系统引导）</p>
+<p><strong>LVM通过device mapper建立逻辑设备到物理设备的映射，它对IO请求进行过滤或重定向等工作</strong></p>
+<p>LVM是可选的，见上面大图中Block Layer上面那个矩形框，就是LVM层，它在Block Layer（块设备）之前，被注册为一个块设备驱动</p>
+<p><strong>device mapper机制</strong>由<strong>内核空间的device mapper块设备驱动</strong>（提供映射机制）和<strong>用户空间的device mapper库</strong>（<strong>用户空间可以决定如何建立映射</strong>）组成</p>
+<p>derive mapper块设备驱动则有三个重要对象概念：mapper device、target device、mapping table</p>
+<p><strong>LVM可以嵌套，即多层逻辑设备</strong></p>
+<h3 id="bcache"><a href="#bcache" class="headerlink" title="bcache"></a>bcache</h3><p>linux内核的<strong>块层缓存</strong>，使用<strong>固态硬盘</strong>作为硬盘驱动器缓存</p>
+<p>三种缓存策略：writeback、writethrough(default)、writearoud</p>
+<p><strong>bcache可以将固态硬盘池化，一个固态硬盘形成一个缓存池，对应多块硬盘驱动器</strong>，并且支持从缓存池中划分出瘦分配的纯Flash卷（thin-Flash LUN）单独使用。LUN是存储设备上可以被应用服务器识别的独立存储单元。</p>
+<p>bcache被划分为很多bucket，使用LRU策略缓存，计数周期减少；需要GC，压缩无效bucket</p>
+<p>块层缓存还有flashcache、dm-cache、enhanceIO等，前两者通过device mapper机制实现</p>
+<h3 id="DRBD-Distributed-Relicated-Block-Device"><a href="#DRBD-Distributed-Relicated-Block-Device" class="headerlink" title="DRBD(Distributed Relicated Block Device)"></a>DRBD(Distributed Relicated Block Device)</h3><p><strong>分布式块设备复制</strong>，用于<strong>通过网络在服务器之间对块设备进行镜像</strong>，以<strong>解决磁盘单点故障</strong>问题</p>
+<p>类似于HA集群</p>
+<p>两种工作模式：主从、双主</p>
+<h2 id="存储加速"><a href="#存储加速" class="headerlink" title="存储加速"></a>存储加速</h2><h3 id="关于syscall：read-syscall：write操作"><a href="#关于syscall：read-syscall：write操作" class="headerlink" title="关于syscall：read+syscall：write操作"></a>关于syscall：read+syscall：write操作</h3><p><strong>read+write连续调用的场景是网络读盘：即读取互联网一台计算机的磁盘数据，需要先read从磁盘到服务端[内核缓冲区]，再由服务端程序write从用户程序到网卡[套接字缓冲区]</strong></p>
+<p>磁盘缓冲—-(copy)—内存—(copy)—-用户程序缓冲区</p>
+<ul>
+<li><p>CPU Direct：在原来的存储栈中，read操作是 数据先从磁盘拷贝到磁盘缓冲区，再由CPU从磁盘缓冲区拷贝到内核缓冲区（<strong>在内存中-内核态，高位</strong>），再由CPU从内核缓冲区拷贝到应用程序缓冲区（<strong>也在内存中，但是状态不同-用户态，低位</strong>）；然后write则是将数据从应用程序缓冲区拷贝到套接字缓冲区，再从套接字缓冲区拷贝到网卡，这个过程全由CPU负责</p>
+<p><strong>一次syscall两次拷贝</strong>：指的是<strong>内存与用户之间往返的两次（内核缓冲区-用户缓冲区）</strong></p>
+<p><strong>一次syscall两次状态切换</strong>：syscall进入与返回两次</p>
+<p>read+write则是四次拷贝（CPU Direct全由CPU负责）、四次状态切换</p>
+</li>
+<li><p>CPU&amp;DMA：这个方式下CPU不再与磁盘直接交互，而是CPU命令DMA去与磁盘交互（DMA负责磁盘与内存之间的数据拷贝，这是在内核态，CPU只负责用户程序与内存之间数据的拷贝），CPU就解放了一部分。但是这个方式下，还是存在<strong>2次DMA拷贝，2次CPU拷贝，4次状态切换</strong>（进出read、write）。</p>
+</li>
+<li><p>zero-copy 零拷贝技术：不进行两次两次拷贝，而是直接</p>
+<ul>
+<li><p>mmap+write、sendfile、sendfile+DMA收集、splice、<strong>dpdk、spdk、rdma</strong>、NVMe Direct等</p>
+<p><strong>mmap</strong>可以做到<strong>共享内核缓冲区与用户空间缓冲区</strong>，减少了一次CPU拷贝（不需要内核缓冲区-&gt;用户空间缓冲区，只需要内核缓冲区-&gt;套接字缓冲区），且有状态切换</p>
+<p>mmap小文件可能出现碎片，且多进程环境下可能出现问题</p>
+</li>
+<li><p><strong>sendfile</strong>建立了两个文件之间的传输通道，一个syscall实现了read+write，减少了两次状态切换，数据不经过用户缓冲区。<strong>2次CPU拷贝，2次状态切换</strong>（进出sendfile）</p>
+<p>由于数据不经过用户缓冲区，所以数据无法被修改；且sendfile只能将数据拷贝在socket上</p>
+</li>
+<li><p><strong>sendfile+DMA</strong> 同理，改由DMA直接操作磁盘，<strong>2次DMA拷贝，2次状态切换</strong></p>
+<p>但需要DMA控制器</p>
+</li>
+<li><p><strong>splice</strong>则是在sendfile+DMA上改进，不需要DMA控制器，且不再限定将数据拷贝到socket上</p>
+<p>两个文件描述符参数中有一个必须是管道设备</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="关于DMA-amp-RDMA"><a href="#关于DMA-amp-RDMA" class="headerlink" title="关于DMA&amp;RDMA"></a>关于DMA&amp;RDMA</h3><p><strong>DMA(Direct Memory Access)</strong>，可以把计算机主板上的设备数据直接传送到内存中，不需要CPU参与</p>
+<p><strong>RDMA(Remote Direct Memory Access)</strong>，允许两台主机的应用程序（存储）在它们的内存空间之间直接进数据传输</p>
+<p><strong>RNIC：具有RDMA引擎的网卡</strong>（NIC：网卡）</p>
+<p><strong>数据传输路径：[host1的应用程序缓冲区]—-[host1的RNIC]—-NETWORK—-[host2的RNIC]—-[host2的应用程序缓冲区]</strong></p>
+<p><strong>显然这样就不用经历两次IO缓冲区</strong></p>
+<p>RDMA相比传统的TCP/IP有很大优势，RDMA不需要CPU参与，在用户态进行，且数据流将被处理为离散消息进行传输，且可以分散/聚合多个流</p>
+<p>RDMA特性：<strong>zero-copy，kernel bypass</strong>，无CPU干预，消息基于事务，支持分散/聚合条目</p>
+<p>支持RDMA的网络协议：IB，RoCE，iWARP；这些协议都要求RDMA专用NIC</p>
+<h3 id="关于RDMA-amp-DPDK"><a href="#关于RDMA-amp-DPDK" class="headerlink" title="关于RDMA&amp;DPDK"></a>关于RDMA&amp;DPDK</h3><p><strong>两者都不使用内核协议栈，都是使用自己的网络协议栈</strong>，也就实现了kernel bypass</p>
+<p><strong>RDMA是将协议栈下沉到网卡硬件</strong>，即由具有RDMA引擎的网卡RNIC来单独完成网络协议栈</p>
+<p><strong>DPDK是将协议栈上移到用户态软件</strong>，在用户态实现了网络协议栈</p>
+<p>DPDK是软件层面实现的；RDMA则需要专用RNIC硬件支持</p>
+<p>DPDK仍然会消耗CPU资源，并发度取决于CPU的核数；而RDMA的收包速率完全取决于网卡硬件的转发能力</p>
+<p>DPDK在低负荷场景下会造成CPU空转；RDMA不会</p>
+<p>DPDK用户可以自己定制协议栈；RDMA无法定制协议栈</p>
+<h3 id="关于DPDK-amp-SPDK"><a href="#关于DPDK-amp-SPDK" class="headerlink" title="关于DPDK&amp;SPDK"></a>关于DPDK&amp;SPDK</h3><p>DPDK关键技术：<strong>DDIO技术</strong>支持以太网控制器将IO流量直接传输到CPU高速缓存，不经过内存，<strong>UIO技术</strong>直接将设备数据映射拷贝到用户态、<strong>大页技术</strong>增大分页基本单位大小提高快表TLB访问命中率、利用<strong>CPU亲和性</strong>绑定网卡和线程到固定的core减少CPU任务切换、<strong>无锁队列</strong>减少资源竞争</p>
+<p>SPDK关键技术：</p>
+<p>32位linux系统的页面大小为4KB，DPDK中大页内存可以设置2MB或1GB，大页内存适合在程序占用内存很大的情况下，否则会浪费内存空间（程序占用内存小的话，调用却还是要以页为单位调入内存，页面过大就浪费内存了）</p>
+<h3 id="SMP-amp-NUMA"><a href="#SMP-amp-NUMA" class="headerlink" title="SMP&amp;NUMA"></a>SMP&amp;NUMA</h3><p>主要是多核处理器及其内存系统的调度管理技术</p>
+<ul>
+<li><p><strong>SMP/UMA(Uniform Memory Access Architecture)</strong>：一致性内存访问结构，所有硬件资源都是共享的，多个处理器没有区别、平等地访问内存和IO外部设备，并且每个处理器访问内存的任何地址所需时间是形同的。</p>
+<p>缺点：扩展性有限，当内存访问达到饱和的时候，系统<strong>总线成为效率瓶颈</strong>，增加处理器也无用，且处理器与内存之间的通信延迟也增大</p>
+</li>
+<li><p><strong>NUMA(Non-Uniform Memory Access Architecture)</strong>：非一致性内存访问技术，设置<strong>多个处理器模块(Node)</strong>，每个Node具有独立的本地内存、IO设备，处理器模块之间通过高速互联的接口连接起来。<strong>NUMA调度器负责将进程尽量在同一Node的CPU之间调度</strong>，除非负载太高，才迁移到其他结点。<strong>在设计包处理程序时，内存分配上使处理器尽量使用靠近其所在Node的内存</strong>，可以水平扩展包处理能力。</p>
+</li>
+</ul>
+<h3 id="CPU加速"><a href="#CPU加速" class="headerlink" title="CPU加速"></a>CPU加速</h3><ul>
+<li><p>超线程技术：OS将一个物理核识别为两个逻辑核，它们有独立的寄存器，但是共用主要的执行单元</p>
+</li>
+<li><p>优化指令</p>
+<ul>
+<li><p><strong>SIMD(Single Instruction Multiple Data)：单指令流多数据流指令</strong>，指拥有多个处理单元的计算机能够用<strong>一条指令（执行的流程）同时处理多个数据集</strong>；数据层次并行，一个寄存器可以作为完整的64位整数寄存器使用，也可以packed形式作为多个小的整数寄存器，如2个32位、4个16位、8个8位寄存器。</p>
+<p>intel提出的AVX指令集就引入了三操作数SIMD指令，如<strong>AVX512把指令扩展到了512位</strong>，同时定义了<strong>32个512位寄存器</strong>，利用<strong>SIMD</strong>就可以<strong>操作位宽更大的寄存器</strong>，同时进行更多的向量计算</p>
+</li>
+<li><p>扩展指令（一些在存储上有用的）</p>
+<p>如AES-NI指令集、CRC32扩展指令集、SHA-NI指令集</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="协处理器等其它硬件加速"><a href="#协处理器等其它硬件加速" class="headerlink" title="协处理器等其它硬件加速"></a>协处理器等其它硬件加速</h3><ul>
+<li>FPGA：定制化可编程芯片<ul>
+<li>数据密集计算加速：用FPGA实现纠删码、压缩算法、加密算法</li>
+<li>存储协议转换的加速：在RDMA方案中，FPGA替代CPU卸载存储</li>
+<li>特殊存储接口加速：用FPGA加速接口</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>智能网卡加速：将主机CPU上的工作放到网卡上来完成</p>
+</li>
+<li><p>Intel QAT(Quick Assist Technology)：专注数据安全和压缩的硬件加速器，主要用于数据中心</p>
+</li>
+<li>DVDIMM(Non-Volatile Dual In-Line Memory Module)：一种可以随机访问的非易失内存</li>
+</ul>
+<h3 id="ISA-L-智能存储加速库"><a href="#ISA-L-智能存储加速库" class="headerlink" title="ISA-L(智能存储加速库)"></a>ISA-L(智能存储加速库)</h3><p>包含数据保护、数据安全、数据完整性、数据压缩、数据加密等算法函数</p>
+<p>ISA-L利用汇编语言编写，<strong>利用IA特性，使用高效的SIMD指令和专用指令，最大化利用CPU的微架构来加速存储算法的计算过程</strong></p>
+<p>细节略</p>
+<h3 id="SPDK-核心"><a href="#SPDK-核心" class="headerlink" title="SPDK(核心)"></a>SPDK(核心)</h3><p>核心是<strong>用户态、异步、轮询方式的NVMe驱动</strong>，用于加速NVMe SSD</p>
+<p><strong>SPDK将内核驱动放到用户态，在用户态实现一个完整的存储栈</strong>（IO栈，见前面大节），其中一个重要话题就是文件系统，<strong>那么常见的文件系统如ext4、Btrfs都不能直接支持了</strong>。SPDK目前提供非常简单的文件系统<strong>BlobFS</strong>，但是并不支持可移植操作系统接口(<strong>POSIX</strong>,Portable Operating System Interface，是IEEE为要在各种UNIX操作系统上运行软件,而定义API的一系列互相关联的标准的总称)，即<strong>由于SPDK的用户态IO栈的FS（File System，文件系统）不支持POSIX，导致应用程序不能直接从其它OS迁移到SPDK的FS上，所以应用程序需要一些代码移植工作来支持SPDK的用户态IO栈FS，或者采用AIO的异步读写方式，不使用POSIX</strong></p>
+<h2 id="SPDK"><a href="#SPDK" class="headerlink" title="SPDK"></a>SPDK</h2><h3 id="SPDK-NVMe驱动"><a href="#SPDK-NVMe驱动" class="headerlink" title="SPDK NVMe驱动"></a>SPDK NVMe驱动</h3><ol>
+<li><p>Linux用户态驱动</p>
+<p><strong>UIO(userspace IO)：linux专门提供的一套在用户态开发驱动的框架</strong>，它<strong>把硬件寄存器的地址用ioremap函数映射到用户态的虚拟地址</strong>（原理：UIO框架在内核中的小模块修改了页表），<strong>然后在用户态打开这个文件，mmap到内存中，我们就可以在用户态对硬件进行直接IO了</strong>，将大部分的内核空间操作放到了用户态</p>
+<p><strong>VFIO(Virtual Function IO)</strong>：在UIO之上考虑到了安全，把设备IO、中断、DMA暴露到用户空间。引入<strong>IOMMU(IO Memory Management Unit)</strong>对设备进行限制，设备IO地址需要经过IOMMU重映射为内存物理地址来保证安全，这样物理设备将不能绕过或污染<strong>MMU(Memory Management Unit)</strong>。</p>
+<p><strong>用户态DMA</strong>：<strong>通过UIO或VFIO</strong>，就可以做到用户态驱动，<strong>在用户态发起对设备的DMA</strong></p>
+<p>用户态DMA三个要考虑问题：①提供设备可以认知的内存地址（设备支持IOMMU解决）②CPU对内存的更新必须对设备可见（CPU之间的缓存一致性来解决）③物理内存必须在位（人工pin解决不让换出解决，大页技术也可以缓解，因为大页可以使得页很少换出；大页技术还可以增大分页基本单位大小提高快表TLB访问命中率）</p>
+</li>
+<li><p>SPDK用户态驱动</p>
+<p>SPDK<strong>基于UIO、VFIO技术</strong>，并<strong>引入了其它优化技术</strong>来提高用户态驱动对设备的访问效率</p>
+<ul>
+<li><p><strong>异步轮询</strong></p>
+<p><strong>由SPDK用户态驱动对设备进行不断轮询，检查状态，判断是否操作完成，而不是让设备发起中断</strong>（因为中断由用户态进出处理不合适、给用户态程序引入不确定性）</p>
+</li>
+<li><p><strong>无锁化</strong></p>
+<p>利用<strong>CPU亲和性绑定线程和特定CPU核心</strong>，并<strong>通过轮询的方式占住该核的使用</strong>，采用<strong>Run To Completion（运行直到完成）</strong>的方式，就可以<strong>避免资源分配上使用锁</strong>，<strong>一个核上只会有一个线程</strong></p>
+<p><strong>单核上的资源依赖于DPDK的内存管理</strong>，不仅提供了核上的专门资源，还提供了高校访问全局资源的数据结构，如mempool、无锁队列、环等</p>
+</li>
+<li><p><strong>专门为Flash优化</strong></p>
+<p>SPDK是专门针对NVMe SSD设备（Flash闪存）的，充分利用设备的高性能（低延时、高带宽），SPDK实现了一组C代码库。</p>
+<p>但也支持块设备</p>
+</li>
+</ul>
+</li>
+<li><p>SPDK用户态驱动多进程的支持</p>
+<p>同一块NVMe SSD给多进程SPDK使用，NVMe SSD可以划分为多个Namespace或在同一个Namespace中划分多个空间分配给不同应用程序进程存储</p>
+<p>共享内存（各进程标识）、共享NVMe SSD（数据通道上的隔离：NVMe设备的IO队列）、管理软件完成队列（共享给所有进程）</p>
+</li>
+</ol>
+<h3 id="SPDK应用框架"><a href="#SPDK应用框架" class="headerlink" title="SPDK应用框架"></a>SPDK应用框架</h3><p>SPDK提供了一个指导性的SPDK应用框架，用户可以选择使用SPDK应用框架，也可以自己使用SPDK用户态NVMe驱动提供的函数进行编程</p>
+<ul>
+<li><p><strong>对CPU core和进程的管理</strong></p>
+<p><strong>设置绑定进程和CPU core</strong>，原则是用最少的core完成最多的任务，一个核上运行一个thread</p>
+<p>thread在SPDK中<strong>封装为Reactor</strong>，SPDK为其封装了很多管理，比如Reactor的state没有改变之前，会默认执行while(1)不断轮询，<strong>运行直到完成</strong></p>
+<p>提供<strong>Poller机制</strong>为用户定义函数的封装，即thread执行的内容，一个thread可以执行很多poller</p>
+</li>
+<li><p><strong>线程间的高效通信</strong></p>
+<p><strong>放弃锁</strong>来进行线程间通信，SPDK提供了<strong>事件调用（Event）机制</strong>，<strong>每个Reactor对应的数据结构维护了一个Event事件的环，这个环是多生产者和单消费者模型</strong>（MPSC），<strong>每个Reactor thread可以接受来自任何其他Reactor thread的事件消息进行处理</strong></p>
+</li>
+<li><p>IO的处理模型和数据路径的无锁化机制</p>
+</li>
+</ul>
+<p><strong>包括SPDK用户态存储栈（可以理解为SPDK应用框架的一个应用）的实现也是使用了SPDK应用框架的设计，来达到最高的性能</strong></p>
+<h3 id="SPDK用户态块设备层"><a href="#SPDK用户态块设备层" class="headerlink" title="SPDK用户态块设备层"></a>SPDK用户态块设备层</h3><p>在通用块层引入逻辑上的IO Channel来屏蔽下层的具体实现，<strong>IO Channel：Thread：Core=1:1:1</strong></p>
+<p><strong>SPDK Bdev（SPDK快设备层）有以下几类核心的数据结构：①通用块设备的数据结构②操作通用设备的函数指针表③块设备IO数据结构</strong></p>
+<p>这些核心的数据结构，提供了<strong>最基本的功能上的特殊性来支持不同的后端设备</strong>，比如<strong>通过SPDK用户态NVMe驱动来操作NVMe SSD</strong>；通过Linux AIO来操作除NVMe SSD外的其他满速存储设备比如HDD、SATA SSD、SAS SSD等；<strong>通过Cpeh RBD来操作远端 Ceph OSD设备</strong>；通过GPT在同一设备上创建逻辑分区等等….</p>
+<p><strong>SPDK通用块层也使用了SPDK应用框架的优化思想来设计</strong></p>
+<p>与linux内核存储栈思想一样，SPDK用户态存储栈也<strong>引入IO队列</strong>，提供很多功能比如限速流控，IO分发，异常恢复等等</p>
+<p><strong>SPDK基于通用块层进行流量控制</strong>，好处是和上层各种协议、后端具体设备无关，可以是任何一个通用块设备。</p>
+<p><strong>SPDK用户态LVM</strong>的核心技术是<strong>Blobstore</strong>，其本质是一个<strong>block的分配管理</strong>，是位于SPDK Bdev之上的Blob管理层，用于<strong>与用户态文件系统Blobstore Filesystem（BlobFS）集成</strong>，代替传统的文件系统</p>
+<p>P.S. Blob=Binary Large Object</p>
+<p>具体略</p>
+<p>【块设备层具体设计细节】</p>
+<h3 id="SPDK加速方案举例"><a href="#SPDK加速方案举例" class="headerlink" title="SPDK加速方案举例"></a>SPDK加速方案举例</h3><p>【略】</p>
+<p>SPDK vhost target</p>
+<p>SPDK iSCSI Target</p>
+<p>SPDK NVMe-oF Target</p>
+<p>SPDK RPC</p>
+<p>P.S. AHCI=Advanced Host Controller Interface </p>
+<p>NVMe=NVMHCIS=Non Volatile Memory Host Controller Interface Specification</p>
+]]></content>
+      <categories>
+        <category>存储</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Ceph</title>
+    <url>/%E5%AD%98%E5%82%A8/Ceph/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Ceph体系结构"><a href="#Ceph体系结构" class="headerlink" title="Ceph体系结构"></a>Ceph体系结构</h2><p><strong>RADOS</strong>(Reliable, Autonomous, Distributed Object Storage)，一个可无限扩展的集群，这一层本身是一个完整的<strong>对象存储系统</strong>，所有存储在Ceph系统中的用户数据最终都是由这一层来存储</p>
+<p>RADOS之上直接有<strong>librados</strong>（提供操作RADOS的基础库，在此基础上可以开放各种存储应用，以及RADOS GW、RBD等），<strong>Ceph FS</strong>（一个POSIX兼容的分布式FS）</p>
+<p>RADOS物理上由<strong>OSD集群和Monitor集群</strong>组成，其<strong>逻辑结构为Object——PG——OSD</strong></p>
+<p><strong>Object—-&gt;PG采用hash映射，PG—-&gt;OSD采用CRUSH映射</strong></p>
+<p>RADOS对Object有最大尺寸限定，所以一个File可能被划分为多个Object，作为RADOS的对象，而不是“应用意义上的对象”</p>
+<p>一个PG负责组织若干个Object，一个Object只能被映射到一个PG中，即<strong>Object和PG是多对一关系</strong></p>
+<p>一个PG会被映射到多个OSD（<strong>副本，备份</strong>），一个OSD承载多个PG，即<strong>PG和OSD是多对多关系</strong></p>
+<p><strong>存储池</strong>由若干PG和OSD构成，也是逻辑结构。</p>
+<p>为什么引入PG？因为object潜在的命名空间巨大，如果一个osb出现故障，需要遍历所有object来寻找所有该承载的object。引入一层PG中间层，PG数量是一定的，OSD数量是一定的，那么一个OSD故障了，只需要遍历该OSD承载的PG，对PG进行迁移即可</p>
+<p><strong>Ceph客户端（RBD客户端、RADOS客户端、Ceph FS客户端/MDS）</strong>可以<strong>直接</strong>与<strong>OSD集群、Monitor集群</strong>进行通信</p>
+<p><strong>OSD集群向Monitor上报状态信息</strong>（满足一些情况即上报，比如增加OSD、异常），<strong>Monitor集群负责所有OSD状态的发现与记录</strong>，并形成<strong>集群运行图</strong>的主副本，包括成员、状态、变更、以及ceph存储集群的整体健康状况；随后这份集群运行图被<strong>扩散至全体OSD及客户端</strong>（OSD使用集群运行图进行数据维护，客户端使用集群运行图进行数据寻址） 注意，信息是OSD主动上报的，图是由Monitor维护再扩散的</p>
+<p><strong>集群运行图：Monitor Map、OSD Map、PG Map、CRUSH Map、MDS Map等</strong></p>
+<p><strong>CRUSH Map</strong>里包含了<strong>存储设备列表</strong>、<strong>故障域树状结构</strong>（设备的分组信息，如设备、主机、机架、行、房间等）和<strong>存储数据时如何利用此树状结构的规则</strong>。根节点是default，所有非叶子结点称为桶（bucket，id为负），叶子结点即为OSD（id为正），<strong>选择OSD的时候就是要在这棵树上进行选择</strong>，有五种算法进行子节点选择：Uniform、List、Tree、Straw、Straw2</p>
+<p>由于Object-&gt;PG采用hash映射，<strong>客户端可以直接通过hash得到目标Object所在的PG信息</strong>，然后<strong>查询OSD Map</strong>（由monitor写好扩散到所有OSD了）就可以得到该PG分布信息，然后<strong>客户端就可以直接与Primary OSD进行通信了，不需要Monitor干预。</strong>仅当客户端需要获取最新OSD Map的时候才与Monitor通信</p>
+<p>OSD和Monitor之间存在心跳机制，OSD定时向Monitor上报PG信息、OSD本身信息。</p>
+<p>OSD的<strong>操作命令</strong>（osd scrub/deep scrub、pg/scrub、deep scrub等）是客户端通过Monitor传递给OSD的（注意是OSD操作命令，不包含读写等通信）</p>
+<p>Ceph的写操作采用Primary-Replica模型，客户端向对应OSD Set发起写请求，Primary收到Object的写请求后将数据<strong>发送给set里其它副本</strong>，当这个数据<strong>被保存到所有OSD上的时候</strong>（可以选择到内存缓冲区先第一次确认），Primary才<strong>应答Object的写请求</strong>，保证<strong>副本的一致性</strong>。序号最靠前的OSD为Primary。<strong>读操作则直接与Primary通信</strong>（也可以设置为其它OSD以减轻压力）。</p>
+<p><strong>Cache Tiering</strong>：ceph设计为<strong>分层代理</strong>模式，一个缓存层（高速ssd等）、一个storage层（低速hdd等），由一个Objecter（对象管理器，位于osdc即OSD客户端模块）决定往哪里存储对象。Objecter决定何时把缓存内的对象“刷回”Storage层。有以下几种模式：写回模式（写：直接写缓存并应答客户端，缓存再自己写Storage层；读：命中直接在缓存层读，未命中重定向到Storage，且最近有访问可以提升到缓存）、forward模式、readonly模式、readforward模式、readproxy模式、proxy模式。</p>
+<p><strong>块存储</strong>：ceph在基于RADOS对象存储+librados之上<strong>通过RBD提供了一个标准的块设备接口</strong>，提供基于块设备的访问模式。<strong>ceph中的块设备称为Image</strong>，可以<strong>在ceph上自由创建块设备并可调整</strong>，将数据<strong>条带化存储</strong>到集群的多个OSD中国。条带化能够将<strong>多个磁盘驱动器合并成一个卷，这样读写就比单盘快很多</strong>（因为是不同设备并行读写，和RAID一个原理），<strong>ceph的块设备就对应于LVM的逻辑卷</strong>。建立块设备之后，就<strong>可以映射到内核中，成为一个虚拟的块设备</strong>；或者<strong>通过librdb、librados访问块设备</strong>（后者一般是虚拟机场景）。</p>
+<p><strong>Ceph FS</strong>：<strong>兼容POSIX的分布式存储文件系统</strong>，<strong>需要对应客户端来访问Ceph FS</strong>，目前有<strong>Ceph FS FUSE（用户空间文件系统）</strong>、<strong>Ceph FS kernel（集成在内核的Kernel Module，内核空间）</strong>两种。Ceph FS FUSE基于libcephfs，而后者又基于librados。Ceph FS要求Ceph集群内至少有一个MDS（元数据服务器），将元数据从OSD分离出来，提高服务性能、减轻存储集群负载。MDS的管理，Multi Active MDS略。</p>
+<h2 id="后端存储ObjectStore"><a href="#后端存储ObjectStore" class="headerlink" title="后端存储ObjectStore"></a>后端存储ObjectStore</h2><p>ObjectStore完成了实际的数据存储，封装了所有对底层存储的IO操作。主要有以下几种ObjectStore</p>
+<p>MemStore：数据全放内存，主要测试用</p>
+<p>KStore：数据全放KVDB</p>
+<p>FileStore：基于Linux文件系统，每个Object被FileStore看作是一个文件。目前支持的FS有XFS、ext4、Btrfs；通过journal机制支持事物的原子性（一个环形缓冲区），journal是必经路径，是影响性能的瓶颈，也显然导致写数据量增倍，通常用ssd optane等额外的块设备。</p>
+<p>BlueStore：直接管理裸设备。在用户态实现了BlockDevice，使用Linux AIO直接对裸设备进行IO，实现了Allocate对裸设备进行空间管理。元数据与数据可以分开存储在不同设备中，元数据以KV的形式保存在KV数据库里（默认RocketDB，基于BlueStore实现的小文件系统BlueFS，不是裸设备）；使用SPDK、PMDK</p>
+<p><strong>SeaStore</strong>：下一代ObjectStore。特点：</p>
+<p>①专门为NVMe设计</p>
+<p>②SPDK访问NVMe，不再用Linux AIO</p>
+<p>③使用SeaStar编程模型进行优化，以及使用share-nothing机制避免锁竞争</p>
+<p>④网络驱动使用DPDK来实现零拷贝</p>
+<p>⑤Flash设备重写必须先擦除，不知道哪些数据有效，而FS知道，所以垃圾回收功能提到SeaStore来做</p>
+<h2 id="CRUSH"><a href="#CRUSH" class="headerlink" title="CRUSH"></a>CRUSH</h2><p>Hash——-&gt;一致性Hash——-&gt;<strong>CRUSH</strong></p>
+<p>一致性hash组成一个地址环，对服务器地址进行hash，使得服务器固定，环上的数据存储在其右边第一个服务器上，这样就解决了扩容/节点掉线等带来的数据迁移问题</p>
+<p>但一致性hash的问题：①所有数据均匀分布，一个结点失效，导致所有用户数据完整性问题②一致性hash无法感知存储节点的实际物理分布能力，无法合理控制数据的失效域</p>
+<p>所以提出了CRUSH</p>
+<p>CRUSH元数据：CRUSH Map保存了OSD的物理组织结构（Tree）、OSD Map保存了各OSD设备的运行时状态</p>
+<p>定义桶</p>
+<p>默认情况下会创建两种桶（root和主机），所有OSD都放在对应的主机桶中，<strong>用户根据自己的物理基础设施部署情况建立对应的桶</strong>，比如一个DC、一个机房、一个机架作为一个桶</p>
+<p><strong>bucket的type不是自定义的，一定属于某个类型！但name和id可以自定义（即下面的Bucket Class 名称）</strong></p>
+<p><strong>要先新建Bucket结构</strong></p>
+<p>eg：</p>
+<pre class="line-numbers language-none"><code class="language-none">ceph osd crush add-bucket dc0 datacenter
+&#x2F;&#x2F;ceph osd crush add-bucket &lt;bucket name&gt; &lt;bucket type&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>type有</strong>：osd(不属于bucket) 、host（服务器）、chassis（机壳）、rack（机架）、row（行）、pdu、pod、room（房间）、datacenter（数据中心）、region（区域）、root（根）</p>
+<p>再对该Bucket进行详细描述</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;Bucket Class的定义
+type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
+&#x2F;&#x2F;桶的定义
+&lt;Bucket Class 名称&gt; &lt;桶名&gt;&#123;
+	id &lt;负数 id&gt;
+	alg &lt;Bucket Type: Uniform&#x2F;List&#x2F;Straw&#x2F;Straw2&gt;
+	hash &lt;哈希算法:0&#x2F;1&gt;
+	item &lt;子桶名或设备名1&gt; weight &lt;权重1&gt;
+	item &lt;子桶名或设备名2&gt; weight &lt;权重2&gt;
+	......
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>alg <Bucket type: uniform list straw straw2>则是核心，其定义了这个Bucket的选择算法，即<strong>确定在该bucket的children列表中如何选出一个合适的item</strong>。默认用straw2算法。<strong>straw类算法的思想就是抽签</strong>，让bucket下的每个item随机抽一根签（一个数值），再乘以每个item的权重，然后互相比较选出签最长的那个item。<strong>抽签算法的特点是，新增item，新选出的item要么是新item，要么是现在的item，不会是其它item，增强了稳定性，即我们期望集群设备的增删仅影响到必要的结点，不要在正常运行的OSD上做无意义的数据迁移。</strong></Bucket></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#算法实现</span>
+<span class="token keyword">def</span> <span class="token function">bucket_choose</span><span class="token punctuation">(</span>in_bucket<span class="token punctuation">,</span> pgid<span class="token punctuation">,</span> trial<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">for</span> index<span class="token punctuation">,</span> item <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>in_bucket<span class="token punctuation">.</span>children<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		draw <span class="token operator">=</span> crush_hash<span class="token punctuation">(</span>item<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span> pgid<span class="token punctuation">,</span> trial<span class="token punctuation">)</span>
+		draw <span class="token operator">*=</span> item<span class="token punctuation">.</span>weight
+		<span class="token keyword">if</span> index <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">or</span> draw <span class="token operator">></span> high_draw<span class="token punctuation">:</span>
+			high_item <span class="token operator">=</span> item
+			high_draw <span class="token operator">=</span> draw
+	<span class="token keyword">return</span> high_item<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在选择的时候还有一个<code>is_avalible</code>来判断指定的item是否可用，如果不可用应该抛弃重选</p>
+<p><strong>一个Bucket Class 对应一个失效域（故障域 failure domain），CRUSH确保同一故障域最多只会被选中一次</strong></p>
+<p>除了默认CRUSH Rule以外，需要自己定义更精细的Rule</p>
+<pre class="line-numbers language-none"><code class="language-none">rule &lt;规则名称&gt; &#123;
+	ruleset &lt;唯一的规则ID&gt;
+	type &lt;备份策略：replicated&#x2F;erasure&gt;
+	min_size: &lt;规则支持的最少设备数量&gt;
+	max_size: &lt;规则支持的最多设备数量&gt;
+	&#x2F;&#x2F;选择设备范围，确定失效域
+    step take &lt;桶名称&gt; [class &lt;Device Class&gt;]#通过桶名称来确定规则的选择范围，对应CRUSH Map中的某一棵子树
+    &#x2F;&#x2F;核心：每一个step choose需要确定一个对应的失效域，以及在当前失效域中选择的子项个数
+    step &lt;选择方式：choose&#x2F;chosseleaf&gt;
+    	 &lt;选择备份的策略：firstn&#x2F;indep&gt;
+    	 &lt;选择个数:n&gt;  &#x2F;&#x2F;即要在这个Bucket中选择多少个OSD
+    	 type &lt;失效域锁对应的Bucket Class&gt;
+    ...
+    step emit  #步骤结束，输出选择的位置
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>每一步step choose都配置一个选择区域，直到最后step choose到OSD，最后可以用chooseleaf，会自动递归choose到OSD节点</p>
+<p>选择个数n=0的表示选择域备份数量一致的桶；n=负数的时候表示选择备份数量-n个桶；n=正数的时候表示选择n个桶</p>
+<p>firstn：适用镜像备份；indep：适用纠删码备份</p>
+<p>CRUSH测试工具：crushtool、crush小程序</p>
+<p>调整CRUSH算法：</p>
+<p>①Tunables</p>
+<p>②主OSD设备的亲和性</p>
+<p><strong>③自定义CRUSH Rule，以控制主OSD设备选择范围（即上面的内容）</strong></p>
+<p>eg:</p>
+<pre class="line-numbers language-none"><code class="language-none">rule ssd-primary&#123;
+	ruleset 5
+	type replicated
+	min_size 5
+	max_size 10
+	&#x2F;&#x2F;从SSD桶中选择一个主OSD
+	step take ssd
+	step chooseleaf firstn 1 type host
+	step emit
+	&#x2F;&#x2F;从platter桶中选出其他OSD
+	step take platter
+	step chooseleaf firstn -1 type host
+	step emit
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这就从两个选择域选出了一个主OSD一个从OSD了</p>
+<p>用户可以建立存储池，不同的存储池可以关联不同的CRUSH规则，指定不同的备份数量，以镜像或纠删码的方式保存数据，或是指定不同的存取权限和压缩方式。</p>
+<blockquote>
+<p>一言以蔽之，CRUSH：依赖于Hash实现的纯伪随机算法</p>
+<p>计算独立性（每次计算独立，不依赖集群分配情况或选择结果）、稳定性（straw算法）、可预测性（CRUSH map离线计算即可预测出PG分布情形，且与集群内实际使用一致）</p>
+<p>也有一些问题：假失败、故障额外迁移、使用率不均衡</p>
+<p>来源：<a href="https://zhuanlan.zhihu.com/p/59317425">CRUSH算法的原理与实现</a></p>
+</blockquote>
+<h2 id="Ceph可靠性"><a href="#Ceph可靠性" class="headerlink" title="Ceph可靠性"></a>Ceph可靠性</h2><p>cluster map是一个增量图，每一次OSD状态改变或其它改变都会使得epoch++。cluster map的更新也是增量更新。</p>
+<p>Monitor集群通过心跳机制检测OSD是否离线，Monitor集群判断某个OSD节点离线之后，会将最新的OSDMap通过消息机制随机分发给一个OSD，客户端和对等OSD处理 IO请求的时候发现自身OSD版本过低，会向Monitor请求新的OSDMap，经过一段时间的扩散，最终整个集群都会收到OSDMap的更新。</p>
+<p>OSD的map在扩散的时候，只与相邻OSD（或Client）通信，属于lazy update，当双方通信谁发现对方版本低就进行update，这样慢慢整个集群就完成了OSDMap更新【问题：这样会不会太慢？见论文Map Propagation有细节】</p>
+<p>CRUSH保证稳定性、高可用：数据在集群内自动复制，副本分布到不同的失败域，且映射保证稳定性</p>
+<p>Monitor采用集群保证集群结构高可靠性，通过Paxos算法组成一个决策者集群，对关键集群事件作出广播</p>
+<p>集群高可用：RBD mirror（两个Ceph集群实时备份，通过主机群开启RDB日志机制，远端集群读RDB日志完成备份）、RBD Snapshot（数据快照到灾备中心）做数据冗余备份</p>
+<p>OSD端数据冗余：多副本（强一致性，多个副本写入完毕后回答客户端）、纠删码</p>
+<p>CRC进行比特数据通信的完整性校验</p>
+<p>数据落盘时记录日志应对突发情况</p>
+<p>PG层使用PG日志（pglog）来应对副本之间的数据同步（保证多副本数据一致性）和恢复问题。pglog就在OSD上，一个OSD会管理多个pglog，同一个PG下的不同OSD上的pglog是一致的</p>
+<p>不同对象的并发控制（多对象进入同一PG）：采用pglog加锁</p>
+<p>同一对象的并发控制：网络层（TCP保证）、消息层（Ceph信息编号）、PG层（消息队列来的请求划分为多shared，消息来的时候就对pglog，保证有序）、对象读写锁（由PG层保证，不必单独提供）、ObjectStore层（FileStore里先通过单线程来控制持久化写到journal的顺序性，通过op的seq保证仿佛finish队列的顺序性，并且整个处理过程通过FIFO来保证出入队列的顺序性【？】）、副本层（PG层保证）</p>
+<p>Scrub机制：OSD状态异常（如磁盘坏道），需要一种机制主动去检查副本之间的数据是否一致（Scrub、Deep Scrub）【-】</p>
+<h2 id="Ceph-缓存"><a href="#Ceph-缓存" class="headerlink" title="Ceph 缓存"></a>Ceph 缓存</h2><p>Ceph缓存分为客户端缓存（RBD层在客户端的缓存）、Cache Tiering（在OSD端进行数据缓存），后者更下层。</p>
+<p>Ceph缓存有两种模式，对应Cpeh块设备的两种实现方式，内核支持块设备用Ceph社区写的KRBD（内核模块）驱动，可以使用内核的缓存；用户态块设备则用librdb库实现。</p>
+<p>用户态不能从内核缓冲中受益，所以Ceph实现了自己的<strong>用户态块设备缓存机制RBDCache</strong>，位于librbd库中，目前只能使用内存作为缓存。两种模式：写透（数据一致性问题），写回（安全问题）</p>
+<p>Linux内核中的缓存主要有Page Cache和Buffer Cache。前者为FS服务，后者则处于下层的块设备层，是块设备的缓存。<strong>RBDCache可以认为是块设备内部自带的缓存，</strong>也存在掉电等传统缓存有的问题，要用fsync等来完成数据回写。（linux内核提供fsync，librdb提供flush）</p>
+<p><strong>KVM write barrier</strong>可以在写透与写回之间折中，即安全又高效。它可以根据每个事务来进行数据持久化。写透相当于每次写都会发起fsync，而KVM write barrier相当于每完成一个事务发起一次fsync</p>
+<p>RBDCache具体结构略【】</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref."></a>Ref.</h2><p>本文为《Linux开源存储全栈详解》一书的读书笔记</p>
+]]></content>
+      <categories>
+        <category>存储</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>亲爱的旅人啊</title>
+    <url>/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="1-星空与银河"><a href="#1-星空与银河" class="headerlink" title="1 星空与银河"></a>1 星空与银河</h2><p>一路看过了湖泊沙漠戈壁丘陵雪山与草原<br>到了旅途中歇脚的小城市，突发奇想去看银河</p>
+<p>因为很久以前就听说大西北的天空有多美，而我从小到大所生活的城市连北斗七星都看不到，正好今夜无月，晴空万里。<br>于是凌晨1点拦了一辆出租车，跟司机说：“往城外开，去最黑暗的地方。”<br>于是我经历了一个令人难以置信的夜晚<br>当远离了城市的火光，走到了戈壁与沙漠附近，天空已如正午的海面一般，闪烁繁星，车子在星海中穿梭。密密麻麻的星星的映衬下，马路两道的树木已经成了漆黑的背景板<br>终于到达了开阔的大平原，头顶的星空已经震撼到无以言表。<br>第一次看到如此美丽的星海，第一次看到银河，极尽所能地想将天空中的所有星星尽收眼底<br>司机将车熄火去小憩了，于是最后的一点亮光与声响也被吞没在这无垠的夜空中，只剩下寂静、浩瀚、与空灵。<br>我静静地伫立着，静静地，想说的东西也被这璀璨的星河吞没了。<br>第一次被震撼到眼眶湿润。<br>只可惜手机拍照并无法很好的记录下来。</p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/1.jpg" alt="1"></p>
+<h2 id="2-旅途的驿站、海上的列车"><a href="#2-旅途的驿站、海上的列车" class="headerlink" title="2 旅途的驿站、海上的列车"></a>2 旅途的驿站、海上的列车</h2><p>在这座旅途中短暂停留的小城市的夜市中有个时光快递，一家开了10年的店，我在这里写了一封信，五年后店主会将信寄给我。这里有一整面墙的信，都是寄给未来，由岁月构成横纵坐标。<br>在这面墙下写信的时候，我想，也有很多和我一样的旅人来到这里，短暂地停留之后，将正在发生的故事与希望寄往未来。无论是离别还是相遇，现在无论多久激烈的情感，在未来都会成为故事，而从过去漂流过去的思念，在未来将会无比珍贵。</p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/2.jpg" alt="1"></p>
+<p>旅途也已经接近尾声了，今天坐在车上，用车载音响放起了这首《亲爱的旅人啊》，是周深翻唱的中文填词千与千寻主题曲《いつも何度でも》。<br>说起来夜市中公放的背景音乐也是这首歌的伴奏。千与千寻里的海上小火车也与旅途中遇到的蛮相似的。</p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/3.jpg" alt="1"></p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/4.jpg" alt="1"></p>
+<p>在这段旅途中也遇到了不少旅人，未曾相识，没有联系方式，我们的联系仅仅是巧合，那就让现在的旅途更加美好吧。</p>
+<h2 id="3-“不要回头看，一直向前”"><a href="#3-“不要回头看，一直向前”" class="headerlink" title="3 “不要回头看，一直向前”"></a>3 “不要回头看，一直向前”</h2><p>“不要回头看，一直向前”<br>从家出发之后，就开始了旅行，旅行的最后一站就是上海。这趟旅途，没有回程。<br>我用指尖弹出盛夏，心之所动，且就随缘去吧<br>亲爱的旅人啊，你要永远浪漫，永远保持理想，永远真诚，坚持到此生的光芒已黯淡</p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/5.jpg" alt="1"></p>
+<h2 id="4-《亲爱的旅人啊》"><a href="#4-《亲爱的旅人啊》" class="headerlink" title="4 《亲爱的旅人啊》"></a>4 《亲爱的旅人啊》</h2><p>就此告别吧 水上的列车就快到站<br>开往未来的路上 没有人会再回返<br>说声再见吧 就算留恋也不要回头看<br>在那大海的彼端 一定有空濛的彼岸</p>
+<p>做最温柔的梦 盛满世间行色匆匆<br>在渺茫的时空 在千百万人之中 听一听心声<br>一路不断失去 一生将不断见证<br>看过再多风景眼眸如初清澄 爱依旧让你动容</p>
+<p>亲爱的旅人 没有一条路无风无浪<br>会有孤独 会有悲伤 也会有无尽的希望<br>亲爱的旅人 这一程会短暂却又漫长<br>而一切终将 汇聚成最充盈的景象</p>
+<p>Lalalalalalalalal……Lulululululu</p>
+<p>就此告别吧 身后的灯火逐渐暗淡<br>每个恋家的孩子 都要扬起远行的帆<br>说声再见吧 美好的梦境不会消散<br>你的爱枕在臂弯 心脏将毕生柔软</p>
+<p>既然相遇是种 来自于时光的馈赠<br>那么离别时 也一定要微笑着 回忆放心中<br>生命无限渺小 却同样无限恢弘<br>你为寻找或是告别耗尽一生 也足够让人心动</p>
+<p>亲爱的旅人 你仍是记忆中的模样<br>穿过人群 走过人间 再去往更远的远方<br>你灵魂深处 总要有这样一个地方<br>永远在海面漂荡<br>在半空中飞扬<br>永远轻盈永远滚烫<br>不愿下沉不肯下降<br><a href="http://jump2.bdimg.com/safecheck/index?url=rN3wPs8te/pG5Gs5sN0MvZ/3/Kn3JI27wSmk9mcvOHwnvTAbh2EAT8jF+ibQSzMxmPvXcd30OTI5qbJfK/Y+hEnq9H/aiUYq1g4IY6FAP1uzExbbdDRe+xJjOOl+jmFVFK9oXeMTGGYmKEvedBQ9E1X3ZMCahZXTMDxm7iZ2BjQ=">https://music.163.com/song?id=1371939273</a></p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>这里就是这段旅途的终点了。</title>
+    <url>/%E6%97%A5%E8%AE%B0/%E8%BF%99%E9%87%8C%E5%B0%B1%E6%98%AF%E8%BF%99%E6%AE%B5%E6%97%85%E9%80%94%E7%9A%84%E7%BB%88%E7%82%B9%E4%BA%86%E3%80%82/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>我回来了<br>完成这一章冒险了<br>在座有没有人<br>有兴趣听我说<br>一路见过的潮起潮落</p>
+<p>即使火车比机票还贵，回家也选择了坐火车，因为这趟旅途的起点就是从发往北京的火车开始的<br>想再看一次沿途的风景，穿过湖泊与平原，想要一次漫长的道别<br>好像来的时候和现在回家的时候一样，两手空空<br>但是经历了那么多故事呢</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>我们会在更宽广的未来再次相遇</title>
+    <url>/%E6%97%A5%E8%AE%B0/%E6%88%91%E4%BB%AC%E4%BC%9A%E5%9C%A8%E6%9B%B4%E5%AE%BD%E5%B9%BF%E7%9A%84%E6%9C%AA%E6%9D%A5%E5%86%8D%E6%AC%A1%E7%9B%B8%E9%81%87/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>列出出发了</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>因为还有很多未曾见过的风景.</title>
+    <url>/%E6%97%A5%E8%AE%B0/%E5%9B%A0%E4%B8%BA%E8%BF%98%E6%9C%89%E5%BE%88%E5%A4%9A%E6%9C%AA%E6%9B%BE%E8%A7%81%E8%BF%87%E7%9A%84%E9%A3%8E%E6%99%AF%EF%BC%8Cbyebye/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>byebye.</p>
+<p><img src="/%E6%97%A5%E8%AE%B0/%E5%9B%A0%E4%B8%BA%E8%BF%98%E6%9C%89%E5%BE%88%E5%A4%9A%E6%9C%AA%E6%9B%BE%E8%A7%81%E8%BF%87%E7%9A%84%E9%A3%8E%E6%99%AF%EF%BC%8Cbyebye/62034426_p0.png" alt="62034426_p0"></p>
+<p>一口气喝完了几年前买的尊尼获加，从寝室，到食堂，到校门，一路晕晕晃晃的。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>星空</title>
     <url>/%E6%97%A5%E8%AE%B0/%E6%98%9F%E7%A9%BA/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><center>摸不到的颜色 是否叫彩虹</center></p>
@@ -39,6 +476,29 @@
 <p><center>最后只剩下星空 像不变回忆 陪着我</center></p>
 <p>很久以前很喜欢的歌。</p>
 <p>生日快乐。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>星空</title>
+    <url>/Music/%E6%98%9F%E7%A9%BA/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
+<p>摸不到的颜色 是否叫彩虹<br>看不到的拥抱 是否叫做微风<br>一个人 想着一个人 是否就叫寂寞<br>命运偷走如果 只留下结果<br>时间偷走初衷 只留下了苦衷<br>你来过 然后你走后 只留下星空<br>那一年我们望着星空<br>有那么多的灿烂的梦<br>以为快乐会永久 像不变星空 陪着我<br>猎户 天狼 织女光年外沉默<br>回忆 青春 梦想何时偷偷陨落<br>我爱过 然后我沉默 人海里漂流<br>那一年我们望着星空<br>未来的未来从没想过<br>当故事失去美梦 美梦失去线索<br>而我们失去联络<br>这一片无言无语星空<br>为什么静静看我泪流<br>如果你在的时候 会不会伸手 拥抱我<br>细数繁星闪烁 细数此生奔波<br>原来所有 所得 所获 不如一夜的星空<br>空气中的温柔 回忆你的笑容<br>彷佛只要伸手 就能触摸<br>摸不到的颜色 是否叫彩虹<br>看不到的拥抱 是否叫做微风<br>一个人 习惯一个人<br>这一刻独自望着星空<br>从前的从前从没变过<br>寂寞可以是忍受 也可以是享受<br>享受仅有的拥有<br>那一年我们望着星空<br>有那么多的灿烂的梦<br>至少回忆会永久 像不变星空 陪着我<br>最后只剩下星空 像不变回忆 陪着我</p>
+</blockquote>
+<p>生日快乐。</p>
+<p>想起很多事。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>promare</title>
+    <url>/%E6%97%A5%E8%AE%B0/promare/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>生病了，回老家修养一周。几个高中同学在群里商量去看promare，正好我也想看，于是我产生了一个好玩的想法XD<br>我在他们那场也订了一张票，在开始前1分钟偷偷摸进影厅坐在他们旁边，我没有告诉他们我回来了，甚至还在群里虚晃一枪吐槽北京的天气。开播之后有时往群里传照片，想必他们很好奇为什么我看的进度和他们那么一致XDDDD然后电影结束之后才突然发现右边坐着我，然后我就看到了极其搞笑的一幕三脸懵逼XDD<br>promare真是燃出了天际，只是我生病一直咳嗽很难进入状态…..打算过段时间就把天元突破也补了。<br>下午回家和弟弟一起打通了塞尔达最后一个神殿。四年了，打塞尔达是每年的定番。每年夏天就会和他坐在一起攻略神殿，然后妈就会一直在旁边吐槽催我弟去学习。明年夏天就该打加农了，嗯…<br>然后晚上去了夜市。如果问我为什么喜欢南方胜过北方，那夜市一定是很重要的答案之一，漫步在灯光辉映的夜晚，走走停停吃吃喝喝，看到喜欢的就去抓取一把，摊贩的老板都很热情，弥散在空气中的香味与鼎沸的人声编织出一个个小小的幸福。<br>这次回家也把《情书》的电影补完了，时隔多年在国内院线上映，然后全场就我一个人…包场了。我读过这部电影的原作小说，还好故事情节记不太清了没被自己剧透，只记得这是一个关于青春与回忆的暖暖的故事。看完之后我想，果然是日本人写的故事，真有日本的风格，暗含着物哀之美。捕获过去的情丝，追忆似水年华，那似有似无、淡淡的、捉摸不透的情愫，就是青春啊。探索回忆，穿越时间的界限，让故事变得圆满，很久的以后，再翻开这一页尘封的记忆，也会不自觉嘴角上扬吧。</p>
+<p>只是平凡一天的一些日常<br>咳死我了</p>
 ]]></content>
       <categories>
         <category>日记</category>

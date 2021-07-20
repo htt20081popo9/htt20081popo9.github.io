@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">Ceph | 宵晓咲</title>
+  
+    <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "宵晓咲";
+  mashiro_option.author_name = "宵晓咲";
+  mashiro_option.site_url = "https://aisaka.cloud";
+  mashiro_option.v_appId = "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz";
+  mashiro_option.v_appKey = "OLf7QaP1oTtqKhulLHuajYKu";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "/images/bg/0.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <div id="preloader"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <!-- <a href="https://aisaka.cloud"> -->
+          <img src="/images/img/112.jpg">
+        <!-- </a> -->
+      </div>
+      <div class="header-info">
+        <p>且听风吟</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="mailto:htt20081@126.com" target="_blank" class="social-github" title="email">
+                    <img src="/images/icon/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=28578795" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="/images/icon/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://space.bilibili.com/741763" target="_blank" class="social-github" title="bilibili">
+                    <img src="/images/icon/bilibili.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://steamcommunity.com/id/aisakaki/" target="_blank" class="social-github" title="steam">
+                    <img src="/images/icon/steam.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://bangumi.tv/user/aisakaki" target="_blank" class="social-github" title="bangumi">
+                    <img src="/images/icon/bgm.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://my.playstation.com/profile/AISAKAKI" target="_blank" class="social-github" title="psn">
+                    <img src="/images/icon/ps.png">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <!-- <div id="video-btn" class="loadvideo videolive">
+    </div> -->
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono"></span>
+            <span class="shironeko">宵晓咲</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  " aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    时间线
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    ACG
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/Anime/">
+                          <i class="fa " aria-hidden="true"></i>
+                          动画
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Game/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Music/">
+                          <i class="fa " aria-hidden="true"></i>
+                          音乐
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏设计
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+                    随想
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E6%97%A5%E8%AE%B0/">
+                          <i class="fa " aria-hidden="true"></i>
+                          日记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%98%85%E8%AF%BB/">
+                          <i class="fa " aria-hidden="true"></i>
+                          阅读
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%9A%8F%E7%AC%94/">
+                          <i class="fa " aria-hidden="true"></i>
+                          随笔
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+                    技术
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">
+                          <i class="fa " aria-hidden="true"></i>
+                          程序
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
+                          <i class="fa " aria-hidden="true"></i>
+                          人工智能
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%BC%80%E5%8F%91/">
+                          <i class="fa " aria-hidden="true"></i>
+                          开发
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                          <i class="fa " aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BA%91/">
+                          <i class="fa " aria-hidden="true"></i>
+                          网络
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%AD%98%E5%82%A8/">
+                          <i class="fa " aria-hidden="true"></i>
+                          存储
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                          <i class="fa " aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">
+                          <i class="fa " aria-hidden="true"></i>
+                          CS
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+                          <i class="fa " aria-hidden="true"></i>
+                          论文
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    其它
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E7%A1%AC%E4%BB%B6/">
+                          <i class="fa " aria-hidden="true"></i>
+                          硬件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%8D%9A%E5%AE%A2/">
+                          <i class="fa " aria-hidden="true"></i>
+                          博客
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%B7%A5%E5%85%B7/">
+                          <i class="fa " aria-hidden="true"></i>
+                          工具
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/musicLibrary/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    Link
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/about/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+                    我
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(/images/post_cover/ceph.jpg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/images/post_cover/ceph.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Ceph</h1>
+      <p class="entry-census">
+        <span>
+          <a href="/about/">
+
+         <img src="/images/img/112.jpg">
+          ·</a>
+        </span>
+        <span>
+          <a href="/about/"></a>
+         &nbsp  ·</span>
+        <span class="bull">
+        </span>   <!--删去一个点 · -->
+        2021-7-20<span class="bull">
+        </span>
+      <!-- <span id="busuanzi_value_page_pv"></span>次阅读</p> -->
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="Ceph体系结构"><a href="#Ceph体系结构" class="headerlink" title="Ceph体系结构"></a>Ceph体系结构</h2><p><strong>RADOS</strong>(Reliable, Autonomous, Distributed Object Storage)，一个可无限扩展的集群，这一层本身是一个完整的<strong>对象存储系统</strong>，所有存储在Ceph系统中的用户数据最终都是由这一层来存储</p>
+<p>RADOS之上直接有<strong>librados</strong>（提供操作RADOS的基础库，在此基础上可以开放各种存储应用，以及RADOS GW、RBD等），<strong>Ceph FS</strong>（一个POSIX兼容的分布式FS）</p>
+<p>RADOS物理上由<strong>OSD集群和Monitor集群</strong>组成，其<strong>逻辑结构为Object——PG——OSD</strong></p>
+<p><strong>Object—-&gt;PG采用hash映射，PG—-&gt;OSD采用CRUSH映射</strong></p>
+<p>RADOS对Object有最大尺寸限定，所以一个File可能被划分为多个Object，作为RADOS的对象，而不是“应用意义上的对象”</p>
+<p>一个PG负责组织若干个Object，一个Object只能被映射到一个PG中，即<strong>Object和PG是多对一关系</strong></p>
+<p>一个PG会被映射到多个OSD（<strong>副本，备份</strong>），一个OSD承载多个PG，即<strong>PG和OSD是多对多关系</strong></p>
+<p><strong>存储池</strong>由若干PG和OSD构成，也是逻辑结构。</p>
+<p>为什么引入PG？因为object潜在的命名空间巨大，如果一个osb出现故障，需要遍历所有object来寻找所有该承载的object。引入一层PG中间层，PG数量是一定的，OSD数量是一定的，那么一个OSD故障了，只需要遍历该OSD承载的PG，对PG进行迁移即可</p>
+<p><strong>Ceph客户端（RBD客户端、RADOS客户端、Ceph FS客户端/MDS）</strong>可以<strong>直接</strong>与<strong>OSD集群、Monitor集群</strong>进行通信</p>
+<p><strong>OSD集群向Monitor上报状态信息</strong>（满足一些情况即上报，比如增加OSD、异常），<strong>Monitor集群负责所有OSD状态的发现与记录</strong>，并形成<strong>集群运行图</strong>的主副本，包括成员、状态、变更、以及ceph存储集群的整体健康状况；随后这份集群运行图被<strong>扩散至全体OSD及客户端</strong>（OSD使用集群运行图进行数据维护，客户端使用集群运行图进行数据寻址） 注意，信息是OSD主动上报的，图是由Monitor维护再扩散的</p>
+<p><strong>集群运行图：Monitor Map、OSD Map、PG Map、CRUSH Map、MDS Map等</strong></p>
+<p><strong>CRUSH Map</strong>里包含了<strong>存储设备列表</strong>、<strong>故障域树状结构</strong>（设备的分组信息，如设备、主机、机架、行、房间等）和<strong>存储数据时如何利用此树状结构的规则</strong>。根节点是default，所有非叶子结点称为桶（bucket，id为负），叶子结点即为OSD（id为正），<strong>选择OSD的时候就是要在这棵树上进行选择</strong>，有五种算法进行子节点选择：Uniform、List、Tree、Straw、Straw2</p>
+<p>由于Object-&gt;PG采用hash映射，<strong>客户端可以直接通过hash得到目标Object所在的PG信息</strong>，然后<strong>查询OSD Map</strong>（由monitor写好扩散到所有OSD了）就可以得到该PG分布信息，然后<strong>客户端就可以直接与Primary OSD进行通信了，不需要Monitor干预。</strong>仅当客户端需要获取最新OSD Map的时候才与Monitor通信</p>
+<p>OSD和Monitor之间存在心跳机制，OSD定时向Monitor上报PG信息、OSD本身信息。</p>
+<p>OSD的<strong>操作命令</strong>（osd scrub/deep scrub、pg/scrub、deep scrub等）是客户端通过Monitor传递给OSD的（注意是OSD操作命令，不包含读写等通信）</p>
+<p>Ceph的写操作采用Primary-Replica模型，客户端向对应OSD Set发起写请求，Primary收到Object的写请求后将数据<strong>发送给set里其它副本</strong>，当这个数据<strong>被保存到所有OSD上的时候</strong>（可以选择到内存缓冲区先第一次确认），Primary才<strong>应答Object的写请求</strong>，保证<strong>副本的一致性</strong>。序号最靠前的OSD为Primary。<strong>读操作则直接与Primary通信</strong>（也可以设置为其它OSD以减轻压力）。</p>
+<p><strong>Cache Tiering</strong>：ceph设计为<strong>分层代理</strong>模式，一个缓存层（高速ssd等）、一个storage层（低速hdd等），由一个Objecter（对象管理器，位于osdc即OSD客户端模块）决定往哪里存储对象。Objecter决定何时把缓存内的对象“刷回”Storage层。有以下几种模式：写回模式（写：直接写缓存并应答客户端，缓存再自己写Storage层；读：命中直接在缓存层读，未命中重定向到Storage，且最近有访问可以提升到缓存）、forward模式、readonly模式、readforward模式、readproxy模式、proxy模式。</p>
+<p><strong>块存储</strong>：ceph在基于RADOS对象存储+librados之上<strong>通过RBD提供了一个标准的块设备接口</strong>，提供基于块设备的访问模式。<strong>ceph中的块设备称为Image</strong>，可以<strong>在ceph上自由创建块设备并可调整</strong>，将数据<strong>条带化存储</strong>到集群的多个OSD中国。条带化能够将<strong>多个磁盘驱动器合并成一个卷，这样读写就比单盘快很多</strong>（因为是不同设备并行读写，和RAID一个原理），<strong>ceph的块设备就对应于LVM的逻辑卷</strong>。建立块设备之后，就<strong>可以映射到内核中，成为一个虚拟的块设备</strong>；或者<strong>通过librdb、librados访问块设备</strong>（后者一般是虚拟机场景）。</p>
+<p><strong>Ceph FS</strong>：<strong>兼容POSIX的分布式存储文件系统</strong>，<strong>需要对应客户端来访问Ceph FS</strong>，目前有<strong>Ceph FS FUSE（用户空间文件系统）</strong>、<strong>Ceph FS kernel（集成在内核的Kernel Module，内核空间）</strong>两种。Ceph FS FUSE基于libcephfs，而后者又基于librados。Ceph FS要求Ceph集群内至少有一个MDS（元数据服务器），将元数据从OSD分离出来，提高服务性能、减轻存储集群负载。MDS的管理，Multi Active MDS略。</p>
+<h2 id="后端存储ObjectStore"><a href="#后端存储ObjectStore" class="headerlink" title="后端存储ObjectStore"></a>后端存储ObjectStore</h2><p>ObjectStore完成了实际的数据存储，封装了所有对底层存储的IO操作。主要有以下几种ObjectStore</p>
+<p>MemStore：数据全放内存，主要测试用</p>
+<p>KStore：数据全放KVDB</p>
+<p>FileStore：基于Linux文件系统，每个Object被FileStore看作是一个文件。目前支持的FS有XFS、ext4、Btrfs；通过journal机制支持事物的原子性（一个环形缓冲区），journal是必经路径，是影响性能的瓶颈，也显然导致写数据量增倍，通常用ssd optane等额外的块设备。</p>
+<p>BlueStore：直接管理裸设备。在用户态实现了BlockDevice，使用Linux AIO直接对裸设备进行IO，实现了Allocate对裸设备进行空间管理。元数据与数据可以分开存储在不同设备中，元数据以KV的形式保存在KV数据库里（默认RocketDB，基于BlueStore实现的小文件系统BlueFS，不是裸设备）；使用SPDK、PMDK</p>
+<p><strong>SeaStore</strong>：下一代ObjectStore。特点：</p>
+<p>①专门为NVMe设计</p>
+<p>②SPDK访问NVMe，不再用Linux AIO</p>
+<p>③使用SeaStar编程模型进行优化，以及使用share-nothing机制避免锁竞争</p>
+<p>④网络驱动使用DPDK来实现零拷贝</p>
+<p>⑤Flash设备重写必须先擦除，不知道哪些数据有效，而FS知道，所以垃圾回收功能提到SeaStore来做</p>
+<h2 id="CRUSH"><a href="#CRUSH" class="headerlink" title="CRUSH"></a>CRUSH</h2><p>Hash——-&gt;一致性Hash——-&gt;<strong>CRUSH</strong></p>
+<p>一致性hash组成一个地址环，对服务器地址进行hash，使得服务器固定，环上的数据存储在其右边第一个服务器上，这样就解决了扩容/节点掉线等带来的数据迁移问题</p>
+<p>但一致性hash的问题：①所有数据均匀分布，一个结点失效，导致所有用户数据完整性问题②一致性hash无法感知存储节点的实际物理分布能力，无法合理控制数据的失效域</p>
+<p>所以提出了CRUSH</p>
+<p>CRUSH元数据：CRUSH Map保存了OSD的物理组织结构（Tree）、OSD Map保存了各OSD设备的运行时状态</p>
+<p>定义桶</p>
+<p>默认情况下会创建两种桶（root和主机），所有OSD都放在对应的主机桶中，<strong>用户根据自己的物理基础设施部署情况建立对应的桶</strong>，比如一个DC、一个机房、一个机架作为一个桶</p>
+<p><strong>bucket的type不是自定义的，一定属于某个类型！但name和id可以自定义（即下面的Bucket Class 名称）</strong></p>
+<p><strong>要先新建Bucket结构</strong></p>
+<p>eg：</p>
+<pre class="line-numbers language-none"><code class="language-none">ceph osd crush add-bucket dc0 datacenter
+&#x2F;&#x2F;ceph osd crush add-bucket &lt;bucket name&gt; &lt;bucket type&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>type有</strong>：osd(不属于bucket) 、host（服务器）、chassis（机壳）、rack（机架）、row（行）、pdu、pod、room（房间）、datacenter（数据中心）、region（区域）、root（根）</p>
+<p>再对该Bucket进行详细描述</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;Bucket Class的定义
+type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
+&#x2F;&#x2F;桶的定义
+&lt;Bucket Class 名称&gt; &lt;桶名&gt;&#123;
+	id &lt;负数 id&gt;
+	alg &lt;Bucket Type: Uniform&#x2F;List&#x2F;Straw&#x2F;Straw2&gt;
+	hash &lt;哈希算法:0&#x2F;1&gt;
+	item &lt;子桶名或设备名1&gt; weight &lt;权重1&gt;
+	item &lt;子桶名或设备名2&gt; weight &lt;权重2&gt;
+	......
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>alg <Bucket type: uniform list straw straw2>则是核心，其定义了这个Bucket的选择算法，即<strong>确定在该bucket的children列表中如何选出一个合适的item</strong>。默认用straw2算法。<strong>straw类算法的思想就是抽签</strong>，让bucket下的每个item随机抽一根签（一个数值），再乘以每个item的权重，然后互相比较选出签最长的那个item。<strong>抽签算法的特点是，新增item，新选出的item要么是新item，要么是现在的item，不会是其它item，增强了稳定性，即我们期望集群设备的增删仅影响到必要的结点，不要在正常运行的OSD上做无意义的数据迁移。</strong></Bucket></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#算法实现</span>
+<span class="token keyword">def</span> <span class="token function">bucket_choose</span><span class="token punctuation">(</span>in_bucket<span class="token punctuation">,</span> pgid<span class="token punctuation">,</span> trial<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">for</span> index<span class="token punctuation">,</span> item <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>in_bucket<span class="token punctuation">.</span>children<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		draw <span class="token operator">=</span> crush_hash<span class="token punctuation">(</span>item<span class="token punctuation">.</span><span class="token builtin">id</span><span class="token punctuation">,</span> pgid<span class="token punctuation">,</span> trial<span class="token punctuation">)</span>
+		draw <span class="token operator">*=</span> item<span class="token punctuation">.</span>weight
+		<span class="token keyword">if</span> index <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">or</span> draw <span class="token operator">></span> high_draw<span class="token punctuation">:</span>
+			high_item <span class="token operator">=</span> item
+			high_draw <span class="token operator">=</span> draw
+	<span class="token keyword">return</span> high_item<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在选择的时候还有一个<code>is_avalible</code>来判断指定的item是否可用，如果不可用应该抛弃重选</p>
+<p><strong>一个Bucket Class 对应一个失效域（故障域 failure domain），CRUSH确保同一故障域最多只会被选中一次</strong></p>
+<p>除了默认CRUSH Rule以外，需要自己定义更精细的Rule</p>
+<pre class="line-numbers language-none"><code class="language-none">rule &lt;规则名称&gt; &#123;
+	ruleset &lt;唯一的规则ID&gt;
+	type &lt;备份策略：replicated&#x2F;erasure&gt;
+	min_size: &lt;规则支持的最少设备数量&gt;
+	max_size: &lt;规则支持的最多设备数量&gt;
+	&#x2F;&#x2F;选择设备范围，确定失效域
+    step take &lt;桶名称&gt; [class &lt;Device Class&gt;]#通过桶名称来确定规则的选择范围，对应CRUSH Map中的某一棵子树
+    &#x2F;&#x2F;核心：每一个step choose需要确定一个对应的失效域，以及在当前失效域中选择的子项个数
+    step &lt;选择方式：choose&#x2F;chosseleaf&gt;
+    	 &lt;选择备份的策略：firstn&#x2F;indep&gt;
+    	 &lt;选择个数:n&gt;  &#x2F;&#x2F;即要在这个Bucket中选择多少个OSD
+    	 type &lt;失效域锁对应的Bucket Class&gt;
+    ...
+    step emit  #步骤结束，输出选择的位置
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>每一步step choose都配置一个选择区域，直到最后step choose到OSD，最后可以用chooseleaf，会自动递归choose到OSD节点</p>
+<p>选择个数n=0的表示选择域备份数量一致的桶；n=负数的时候表示选择备份数量-n个桶；n=正数的时候表示选择n个桶</p>
+<p>firstn：适用镜像备份；indep：适用纠删码备份</p>
+<p>CRUSH测试工具：crushtool、crush小程序</p>
+<p>调整CRUSH算法：</p>
+<p>①Tunables</p>
+<p>②主OSD设备的亲和性</p>
+<p><strong>③自定义CRUSH Rule，以控制主OSD设备选择范围（即上面的内容）</strong></p>
+<p>eg:</p>
+<pre class="line-numbers language-none"><code class="language-none">rule ssd-primary&#123;
+	ruleset 5
+	type replicated
+	min_size 5
+	max_size 10
+	&#x2F;&#x2F;从SSD桶中选择一个主OSD
+	step take ssd
+	step chooseleaf firstn 1 type host
+	step emit
+	&#x2F;&#x2F;从platter桶中选出其他OSD
+	step take platter
+	step chooseleaf firstn -1 type host
+	step emit
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这就从两个选择域选出了一个主OSD一个从OSD了</p>
+<p>用户可以建立存储池，不同的存储池可以关联不同的CRUSH规则，指定不同的备份数量，以镜像或纠删码的方式保存数据，或是指定不同的存取权限和压缩方式。</p>
+<blockquote>
+<p>一言以蔽之，CRUSH：依赖于Hash实现的纯伪随机算法</p>
+<p>计算独立性（每次计算独立，不依赖集群分配情况或选择结果）、稳定性（straw算法）、可预测性（CRUSH map离线计算即可预测出PG分布情形，且与集群内实际使用一致）</p>
+<p>也有一些问题：假失败、故障额外迁移、使用率不均衡</p>
+<p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/59317425">CRUSH算法的原理与实现</a></p>
+</blockquote>
+<h2 id="Ceph可靠性"><a href="#Ceph可靠性" class="headerlink" title="Ceph可靠性"></a>Ceph可靠性</h2><p>cluster map是一个增量图，每一次OSD状态改变或其它改变都会使得epoch++。cluster map的更新也是增量更新。</p>
+<p>Monitor集群通过心跳机制检测OSD是否离线，Monitor集群判断某个OSD节点离线之后，会将最新的OSDMap通过消息机制随机分发给一个OSD，客户端和对等OSD处理 IO请求的时候发现自身OSD版本过低，会向Monitor请求新的OSDMap，经过一段时间的扩散，最终整个集群都会收到OSDMap的更新。</p>
+<p>OSD的map在扩散的时候，只与相邻OSD（或Client）通信，属于lazy update，当双方通信谁发现对方版本低就进行update，这样慢慢整个集群就完成了OSDMap更新【问题：这样会不会太慢？见论文Map Propagation有细节】</p>
+<p>CRUSH保证稳定性、高可用：数据在集群内自动复制，副本分布到不同的失败域，且映射保证稳定性</p>
+<p>Monitor采用集群保证集群结构高可靠性，通过Paxos算法组成一个决策者集群，对关键集群事件作出广播</p>
+<p>集群高可用：RBD mirror（两个Ceph集群实时备份，通过主机群开启RDB日志机制，远端集群读RDB日志完成备份）、RBD Snapshot（数据快照到灾备中心）做数据冗余备份</p>
+<p>OSD端数据冗余：多副本（强一致性，多个副本写入完毕后回答客户端）、纠删码</p>
+<p>CRC进行比特数据通信的完整性校验</p>
+<p>数据落盘时记录日志应对突发情况</p>
+<p>PG层使用PG日志（pglog）来应对副本之间的数据同步（保证多副本数据一致性）和恢复问题。pglog就在OSD上，一个OSD会管理多个pglog，同一个PG下的不同OSD上的pglog是一致的</p>
+<p>不同对象的并发控制（多对象进入同一PG）：采用pglog加锁</p>
+<p>同一对象的并发控制：网络层（TCP保证）、消息层（Ceph信息编号）、PG层（消息队列来的请求划分为多shared，消息来的时候就对pglog，保证有序）、对象读写锁（由PG层保证，不必单独提供）、ObjectStore层（FileStore里先通过单线程来控制持久化写到journal的顺序性，通过op的seq保证仿佛finish队列的顺序性，并且整个处理过程通过FIFO来保证出入队列的顺序性【？】）、副本层（PG层保证）</p>
+<p>Scrub机制：OSD状态异常（如磁盘坏道），需要一种机制主动去检查副本之间的数据是否一致（Scrub、Deep Scrub）【-】</p>
+<h2 id="Ceph-缓存"><a href="#Ceph-缓存" class="headerlink" title="Ceph 缓存"></a>Ceph 缓存</h2><p>Ceph缓存分为客户端缓存（RBD层在客户端的缓存）、Cache Tiering（在OSD端进行数据缓存），后者更下层。</p>
+<p>Ceph缓存有两种模式，对应Cpeh块设备的两种实现方式，内核支持块设备用Ceph社区写的KRBD（内核模块）驱动，可以使用内核的缓存；用户态块设备则用librdb库实现。</p>
+<p>用户态不能从内核缓冲中受益，所以Ceph实现了自己的<strong>用户态块设备缓存机制RBDCache</strong>，位于librbd库中，目前只能使用内存作为缓存。两种模式：写透（数据一致性问题），写回（安全问题）</p>
+<p>Linux内核中的缓存主要有Page Cache和Buffer Cache。前者为FS服务，后者则处于下层的块设备层，是块设备的缓存。<strong>RBDCache可以认为是块设备内部自带的缓存，</strong>也存在掉电等传统缓存有的问题，要用fsync等来完成数据回写。（linux内核提供fsync，librdb提供flush）</p>
+<p><strong>KVM write barrier</strong>可以在写透与写回之间折中，即安全又高效。它可以根据每个事务来进行数据持久化。写透相当于每次写都会发起fsync，而KVM write barrier相当于每完成一个事务发起一次fsync</p>
+<p>RBDCache具体结构略【】</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref."></a>Ref.</h2><p>本文为《Linux开源存储全栈详解》一书的读书笔记</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="/images/donate/WeChanQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/images/post_cover/linux storage stack diagram.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="/images/post_cover/linux storage stack diagram.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                Linux存储栈大略&amp;存储加速</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/%E6%97%A5%E8%AE%B0/%E4%BA%B2%E7%88%B1%E7%9A%84%E6%97%85%E4%BA%BA%E5%95%8A/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/images/post_cover/亲爱的旅人啊.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="/images/post_cover/亲爱的旅人啊.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                亲爱的旅人啊</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz",
+        appKey: "OLf7QaP1oTtqKhulLHuajYKu",
+        path: window.location.pathname,
+
+        emojiCDN: 'https://valinecdn.bili33.top/',
+        emojiMaps: {
+          //bilibili2233/
+          "2233娘_卖萌":"bilibili2233/[2233娘_卖萌].png","2233娘_吃惊":"bilibili2233/[2233娘_吃惊].png",
+          "2233娘_吐魂":"bilibili2233/[2233娘_吐魂].png","2233娘_喝水":"bilibili2233/[2233娘_喝水].png",
+          "2233娘_困惑":"bilibili2233/[2233娘_困惑].png","2233娘_大哭":"bilibili2233/[2233娘_大哭].png",
+          "2233娘_大笑":"bilibili2233/[2233娘_大笑].png","2233娘_委屈":"bilibili2233/[2233娘_委屈].png",
+          "2233娘_怒":"bilibili2233/[2233娘_怒].png","2233娘_无言":"bilibili2233/[2233娘_无言].png",
+          "2233娘_汗":"bilibili2233/[2233娘_汗].png","2233娘_疑问":"bilibili2233/[2233娘_疑问].png",
+          "2233娘_第一":"bilibili2233/[2233娘_第一].png","2233娘_耶":"bilibili2233/[2233娘_耶].png",
+          "2233娘_郁闷":"bilibili2233/[2233娘_郁闷].png",
+          //Tieba/
+          "0":"Tieba/i_f01.png","11":"Tieba/i_f02.png","22":"Tieba/i_f03.png",
+          "1":"Tieba/i_f04.png","12":"Tieba/i_f05.png","23":"Tieba/i_f06.png",
+          "2":"Tieba/i_f07.png","13":"Tieba/i_f08.png","24":"Tieba/i_f09.png",
+          "3":"Tieba/i_f10.png","14":"Tieba/i_f11.png","25":"Tieba/i_f12.png",
+          "4":"Tieba/i_f13.png","15":"Tieba/i_f14.png","26":"Tieba/i_f15.png",
+          "5":"Tieba/i_f16.png","16":"Tieba/i_f17.png","27":"Tieba/i_f18.png",
+          "6":"Tieba/i_f19.png","17":"Tieba/i_f20.png","28":"Tieba/i_f21.png",
+          "7":"Tieba/i_f22.png","18":"Tieba/i_f23.png","29":"Tieba/i_f24.png",
+          "8":"Tieba/i_f25.png","19":"Tieba/i_f26.png","30":"Tieba/i_f27.png",
+          "9":"Tieba/i_f28.png","20":"Tieba/i_f29.png","31":"Tieba/i_f30.png",
+          "10":"Tieba/i_f31.png","21":"Tieba/i_f32.png","32":"Tieba/i_f33.png",
+          //weibo/
+          "33":"weibo/d_chigua.png","34":"weibo/d_chijing.png","35":"weibo/d_doge.png",
+          "36":"weibo/d_erha.png","37":"weibo/d_kelian.png","38":"weibo/h_quantou.png",
+          "39":"weibo/h_zuoyi.png","40":"weibo/h_zan.png","41":"weibo/d_xiaoku.png",
+          "43":"weibo/d_xixi.png",
+          //bilibiliHotKey/
+          "44":"bilibiliHotKey/1.jpg","52":"bilibiliHotKey/10.jpg","60":"bilibiliHotKey/11.jpg","68":"bilibiliHotKey/12.jpg",
+          "45":"bilibiliHotKey/13.jpg","53":"bilibiliHotKey/14.jpg","61":"bilibiliHotKey/15.jpg","69":"bilibiliHotKey/16.jpg",
+          "46":"bilibiliHotKey/17.jpg","54":"bilibiliHotKey/18.jpg","62":"bilibiliHotKey/19.jpg","70":"bilibiliHotKey/2.jpg",
+          "47":"bilibiliHotKey/20.jpg","55":"bilibiliHotKey/21.jpg","63":"bilibiliHotKey/22.jpg","71":"bilibiliHotKey/23.jpg",
+          "48":"bilibiliHotKey/24.jpg","56":"bilibiliHotKey/25.jpg","64":"bilibiliHotKey/26.jpg","72":"bilibiliHotKey/27.jpg",
+          "49":"bilibiliHotKey/28.jpg","57":"bilibiliHotKey/29.jpg","65":"bilibiliHotKey/3.jpg","73":"bilibiliHotKey/30.jpg",
+          "50":"bilibiliHotKey/31.jpg","58":"bilibiliHotKey/32.jpg","66":"bilibiliHotKey/4.jpg","74":"bilibiliHotKey/5.jpg",
+          "51":"bilibiliHotKey/6.jpg","59":"bilibiliHotKey/7.jpg","67":"bilibiliHotKey/8.jpg","75":"bilibiliHotKey/9.jpg",
+          //Majotabi/
+          "77":"Majotabi/367516718.png","91":"Majotabi/367516719.png","104":"Majotabi/367516720.png",
+          "78":"Majotabi/367516721.png","92":"Majotabi/367516722.png","105":"Majotabi/367516723.png",
+          "79":"Majotabi/367516724.png","93":"Majotabi/367516725.png","106":"Majotabi/367516726.png",
+          "80":"Majotabi/367516727.png","94":"Majotabi/367516728.png","107":"Majotabi/367516729.png",
+          "81":"Majotabi/367516730.png","95":"Majotabi/367516731.png","108":"Majotabi/367516732.png",
+          "82":"Majotabi/367516733.png","96":"Majotabi/367516734.png","109":"Majotabi/367516735.png",
+          "83":"Majotabi/367516736.png","97":"Majotabi/367516737.png","110":"Majotabi/367516738.png",
+          "84":"Majotabi/367516739.png","98":"Majotabi/367516740.png","111":"Majotabi/367516741.png",
+          "85":"Majotabi/367516742.png","99":"Majotabi/367516743.png","112":"Majotabi/367516744.png",
+          "86":"Majotabi/367516745.png","100":"Majotabi/367516746.png","113":"Majotabi/367516747.png",
+          "87":"Majotabi/367516748.png","101":"Majotabi/367516749.png","114":"Majotabi/367516750.png",
+          "88":"Majotabi/367516751.png","102":"Majotabi/367516752.png","115":"Majotabi/367516753.png",
+          "89":"Majotabi/367516754.png","103":"Majotabi/367516755.png","116":"Majotabi/367516756.png",
+          "90":"Majotabi/367516757.png",
+
+        },
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="/about/" class="profile gravatar">
+
+            <img src="/images/img/112.jpg" itemprop="image" alt="" height="70" width="70">
+          </a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+
+            <a href="https://aisaka.cloud" itemprop="url" rel="author"></a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+
+        <p><i class="iconfont icon-write"></i>且听风吟</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 aisaka<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2016~2021</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">
+          aisaka
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!-- <script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script> -->
+<script src='//unpkg.com/valine@1.4.14/dist/Valine.min.js'></script>
+<script src="/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="/images/img/112.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">宵晓咲</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  " aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            时间线
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            ACG
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/Anime/">
+                  <i class="fa " aria-hidden="true"></i>
+                  动画
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Game/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Music/">
+                  <i class="fa " aria-hidden="true"></i>
+                  音乐
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏设计
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+            随想
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E6%97%A5%E8%AE%B0/">
+                  <i class="fa " aria-hidden="true"></i>
+                  日记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E9%98%85%E8%AF%BB/">
+                  <i class="fa " aria-hidden="true"></i>
+                  阅读
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E9%9A%8F%E7%AC%94/">
+                  <i class="fa " aria-hidden="true"></i>
+                  随笔
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+            技术
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">
+                  <i class="fa " aria-hidden="true"></i>
+                  程序
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
+                  <i class="fa " aria-hidden="true"></i>
+                  人工智能
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%BC%80%E5%8F%91/">
+                  <i class="fa " aria-hidden="true"></i>
+                  开发
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                  <i class="fa " aria-hidden="true"></i>
+                  中间件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BA%91/">
+                  <i class="fa " aria-hidden="true"></i>
+                  网络
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%AD%98%E5%82%A8/">
+                  <i class="fa " aria-hidden="true"></i>
+                  存储
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                  <i class="fa " aria-hidden="true"></i>
+                  算法
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">
+                  <i class="fa " aria-hidden="true"></i>
+                  CS
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+                  <i class="fa " aria-hidden="true"></i>
+                  论文
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            其它
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E7%A1%AC%E4%BB%B6/">
+                  <i class="fa " aria-hidden="true"></i>
+                  硬件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%8D%9A%E5%AE%A2/">
+                  <i class="fa " aria-hidden="true"></i>
+                  博客
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%B7%A5%E5%85%B7/">
+                  <i class="fa " aria-hidden="true"></i>
+                  工具
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/musicLibrary/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            Link
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/about/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+            我
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<meting-js
+
+    id=""
+
+    server="netease"
+
+    type="playlist"
+
+    fixed="true"
+
+    autoplay="false"
+
+    loop="all"
+
+    order="random"
+
+    preload="auto"
+
+    volume="0.7"
+
+    mutex="true"
+
+</meting-js>
+<!--这里我want aplayer失效-->
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+
+</body>
+</html>
