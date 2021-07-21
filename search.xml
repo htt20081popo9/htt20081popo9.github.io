@@ -7,7 +7,7 @@
 <p>内存在这个过程中扮演磁盘缓存，将这一流程分为上下两个异步过程</p>
 <p>流 Stream；块 Block</p>
 <p>【<strong>Pic：The Linux Storage Stack Diagram</strong>】</p>
-<p><img src="/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/OneDrive/aisakaki/source/_posts/存储/Linux存储栈大略/linux storage stack diagram.png" alt="linux storage stack diagram"></p>
+<p><img src="/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/linux storage stack diagram.png" alt="linux storage stack diagram"></p>
 <p><strong>此图为关键，包含linux存储栈所有内容</strong></p>
 <p>内存区域中，低位地址是用户态应用，高位地址给内核态应用（32位支持4G内存，低位3G用户态，高位1G内核态）</p>
 <p>pmap：查看进程的地址空间分布（or <code>/proc/&lt;pid&gt;/maps</code>查看）</p>
@@ -431,7 +431,7 @@ type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
     <url>/%E6%97%A5%E8%AE%B0/%E5%9B%A0%E4%B8%BA%E8%BF%98%E6%9C%89%E5%BE%88%E5%A4%9A%E6%9C%AA%E6%9B%BE%E8%A7%81%E8%BF%87%E7%9A%84%E9%A3%8E%E6%99%AF%EF%BC%8Cbyebye/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>byebye.</p>
 <p><img src="/%E6%97%A5%E8%AE%B0/%E5%9B%A0%E4%B8%BA%E8%BF%98%E6%9C%89%E5%BE%88%E5%A4%9A%E6%9C%AA%E6%9B%BE%E8%A7%81%E8%BF%87%E7%9A%84%E9%A3%8E%E6%99%AF%EF%BC%8Cbyebye/62034426_p0.png" alt="62034426_p0"></p>
-<p>一口气喝完了几年前买的尊尼获加，从寝室，到食堂，到校门，一路晕晕晃晃的。</p>
+<p>最后十分钟一口气喝完了几年前买的尊尼获加，从寝室，到食堂，到校门，一路晕晕晃晃的。</p>
 ]]></content>
       <categories>
         <category>日记</category>
