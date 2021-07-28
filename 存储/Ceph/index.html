@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "/images/bg/0.jpg".split(",");
+  var bg = "/images/bg/1.jpg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -550,14 +550,14 @@
 <p>但一致性hash的问题：①所有数据均匀分布，一个结点失效，导致所有用户数据完整性问题②一致性hash无法感知存储节点的实际物理分布能力，无法合理控制数据的失效域</p>
 <p>所以提出了CRUSH</p>
 <p>CRUSH元数据：CRUSH Map保存了OSD的物理组织结构（Tree）、OSD Map保存了各OSD设备的运行时状态</p>
-<p>定义桶</p>
-<p>默认情况下会创建两种桶（root和主机），所有OSD都放在对应的主机桶中，<strong>用户根据自己的物理基础设施部署情况建立对应的桶</strong>，比如一个DC、一个机房、一个机架作为一个桶</p>
-<p><strong>bucket的type不是自定义的，一定属于某个类型！但name和id可以自定义（即下面的Bucket Class 名称）</strong></p>
+<p>定义<strong>桶（bucket）</strong></p>
+<p>默认情况下会创建两种桶（root和主机），所有OSD都放在对应的主机桶中，<strong>用户根据自己的物理基础设施部署情况建立对应的桶</strong>，比如一个DC、一个机房、一个机架作为一个桶，<strong>这里的DC、机房就叫bucket class（即bucket种类）</strong></p>
+<p><strong>bucket的class不是自定义的，一定属于某个类型！但name和id可以自定义（即下面的Bucket Class 名称）</strong></p>
 <p><strong>要先新建Bucket结构</strong></p>
 <p>eg：</p>
 <pre class="line-numbers language-none"><code class="language-none">ceph osd crush add-bucket dc0 datacenter
 &#x2F;&#x2F;ceph osd crush add-bucket &lt;bucket name&gt; &lt;bucket type&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p><strong>type有</strong>：osd(不属于bucket) 、host（服务器）、chassis（机壳）、rack（机架）、row（行）、pdu、pod、room（房间）、datacenter（数据中心）、region（区域）、root（根）</p>
+<p><strong>bucket class有</strong>：osd(不属于bucket) 、host（服务器）、chassis（机壳）、rack（机架）、row（行）、pdu、pod、room（房间）、datacenter（数据中心）、region（区域）、root（根）</p>
 <p>再对该Bucket进行详细描述</p>
 <pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;Bucket Class的定义
 type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
@@ -570,6 +570,7 @@ type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
 	item &lt;子桶名或设备名2&gt; weight &lt;权重2&gt;
 	......
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>shadow crush map</strong>：crush map的叶子结点即为osd device，device有三种类型（class）——驱动器/SSD/NVMe。ceph内部会为每个device class维护一个shadow crush map，在用户指定规则中指定一个device class（ceph可以自动识别），比如ssd之后，crush会自行基于对应的shadow crush map执行。</p>
 <p>alg <Bucket type: uniform list straw straw2>则是核心，其定义了这个Bucket的选择算法，即<strong>确定在该bucket的children列表中如何选出一个合适的item</strong>。默认用straw2算法。<strong>straw类算法的思想就是抽签</strong>，让bucket下的每个item随机抽一根签（一个数值），再乘以每个item的权重，然后互相比较选出签最长的那个item。<strong>抽签算法的特点是，新增item，新选出的item要么是新item，要么是现在的item，不会是其它item，增强了稳定性，即我们期望集群设备的增删仅影响到必要的结点，不要在正常运行的OSD上做无意义的数据迁移。</strong></Bucket></p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#算法实现</span>
 <span class="token keyword">def</span> <span class="token function">bucket_choose</span><span class="token punctuation">(</span>in_bucket<span class="token punctuation">,</span> pgid<span class="token punctuation">,</span> trial<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -648,6 +649,8 @@ type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
 <p>Linux内核中的缓存主要有Page Cache和Buffer Cache。前者为FS服务，后者则处于下层的块设备层，是块设备的缓存。<strong>RBDCache可以认为是块设备内部自带的缓存，</strong>也存在掉电等传统缓存有的问题，要用fsync等来完成数据回写。（linux内核提供fsync，librdb提供flush）</p>
 <p><strong>KVM write barrier</strong>可以在写透与写回之间折中，即安全又高效。它可以根据每个事务来进行数据持久化。写透相当于每次写都会发起fsync，而KVM write barrier相当于每完成一个事务发起一次fsync</p>
 <p>RBDCache具体结构略【】</p>
+<h2 id="ceph前端"><a href="#ceph前端" class="headerlink" title="ceph前端"></a>ceph前端</h2><p>ceph前端可以有<strong>RBD方式</strong>（RADOS Block Device；块设备访问）、<strong>RGW方式</strong>（RADOS GateWay；对象存储方式访问，需要对象存储网关）、<strong>CephFS方式</strong>（Ceph FileSystem；文件系统，需要一个MDS服务器）、以及<strong>直接使用librados库</strong>（RBD、RGW基于librados库）</p>
+<p><strong>注意！RGW/Swift中所说的bucket和Ceph中CRUSH所说的bucket不是一个东西！后者属于ceph架构，更底层，而RGW本身不属于ceph架构！</strong></p>
 <h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref."></a>Ref.</h2><p>本文为《Linux开源存储全栈详解》一书的读书笔记</p>
 
         </div>
@@ -813,7 +816,7 @@ type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -825,10 +828,10 @@ type &lt;Bucket Class ID&gt; &lt;Bucket Class 名称&gt;
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',

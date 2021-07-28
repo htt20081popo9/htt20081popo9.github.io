@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "/images/bg/0.jpg".split(",");
+  var bg = "/images/bg/1.jpg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -598,6 +598,10 @@ docker <span class="token builtin class-name">exec</span> -it mysql /bin/bash
 <span class="token comment">#-it 分配一个虚拟终端，进入该容器命令行界面</span>
 <span class="token comment"># /bin/bash 放在镜像名后的是命令，这里我们希望使用/bin/bash。</span>
 
+<span class="token comment"># ====不进入容器执行语句====</span>
+docker <span class="token builtin class-name">exec</span> <span class="token operator">&lt;</span>container name<span class="token operator">></span> <span class="token operator">&lt;</span>command<span class="token operator">></span>
+<span class="token comment">#也很常用，进入容器执行很麻烦</span>
+
 <span class="token comment"># ====容器与宿主复制====</span>
 docker <span class="token function">cp</span> <span class="token operator">&lt;</span>宿主文件地址<span class="token operator">></span> <span class="token operator">&lt;</span>name<span class="token operator">></span>:<span class="token operator">&lt;</span>容器文件地址<span class="token operator">></span>
 
@@ -619,7 +623,10 @@ docker <span class="token function">import</span>
 <span class="token comment"># 使用见：https://www.simapple.com/327.html</span>
 
 <span class="token comment"># 给镜像打tag</span>
-docker tag<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+docker tag
+
+<span class="token comment">#查看docker信息</span>
+docker inspect <span class="token operator">&lt;</span>docker name<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ol>
 <li><p>pull、push、run，commit，images，ps，rmi，rm，cp，build等都是很常用的命令</p>
 </li>
@@ -956,7 +963,7 @@ docker-compose scale<span aria-hidden="true" class="line-numbers-rows"><span></s
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -968,10 +975,10 @@ docker-compose scale<span aria-hidden="true" class="line-numbers-rows"><span></s
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
