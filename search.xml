@@ -1,6 +1,871 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>c++_1</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/c-1/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="变量名"><a href="#变量名" class="headerlink" title="变量名"></a>变量名</h2><p>C++中的变量名，比如<code>int n</code>、<code>Object obj</code></p>
+<p>C++对变量名<code>n</code>、<code>obj</code>不做存储，只是用于方便编译成汇编代码，是给编译器看的，是方便人阅读的。</p>
+<blockquote>
+<p>举例：<code>int n=5;</code></p>
+<p>编译器编译它时，产生类似mov [0x00410FC0]，5的指令，即：把5放在该内存地址的空间上。其中并没有出现n，n只是编译时供编译器识别的名字，是一个高级语言抽象出来的概念，在真实执行的程序中并不存在n，至于n的地址是0x00410FC0还是其他的什么，这是由连接器(linker)决定的，连接器把全局变量放在.exe文件中，执行.exe文件时全局变量在类似0x00430000左右的地址。局部变量在栈上，一般地址为0x00120000左右。<br><strong>地址0x00410FC0并不需要一个地址去存放它</strong>，因为在<strong>最后产生.exe文件它自己知道它需要的一个值存放在什么地址</strong>，所以就在它的二进制代码中把0xffbffb0c<strong>硬编码</strong>进来了。<br>原文链接：<a href="https://blog.csdn.net/tina_ttl/article/details/52648533">https://blog.csdn.net/tina_ttl/article/details/52648533</a></p>
+</blockquote>
+<p><strong>C++中的变量名就是个代号，其就是存储单元上具体的数据。它不是指针，也不是引用。</strong></p>
+<h2 id="arr-amp-pointer"><a href="#arr-amp-pointer" class="headerlink" title="arr&amp;pointer"></a>arr&amp;pointer</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10];  &#x2F;&#x2F;数组名可以转化（当作）为指针，即求a数组第n个元素：a[n]实际上是*(a+n)，完成了一次解引用过程。
+
+int *p1 &#x3D; a;  &#x2F;&#x2F;指向数组a的第一个元素，这个指针的内容的类型为int，p1指针等价于a指针
+int (*p2)[10] &#x3D; &amp;a; &#x2F;&#x2F;指向一个10个元素数组的指针，这个指针的内容的类型为一个指针（指向了数组具体int元素）也是个指针即上面的p1，所以这个p2是指向指针a的指针，所以要对第一层指针a取地址；在二维数组中，若干个指向指针的指针组成一个数组，即上层维度
+
+&#x2F;&#x2F;第二句拆开来：
+int *temp &#x3D; a; &#x2F;&#x2F;定义指向数组的指针
+int *p2 &#x3D; &amp;temp; &#x2F;&#x2F;定义指向指针的指针
+&#x2F;&#x2F;由于这个指针的内容是一个int[10]数组，所以写为：
+int (*p2)[10] &#x3D; &amp;a;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>两者都发生了数组名自动转换为指针（a数组名，转化为指针）</p>
+<p>但是区别在于第二句又套了一层指针，主要发生在二维数组上。</p>
+<p><strong>建议一切数组操作都从指针角度入手和理解</strong></p>
+<p><strong>使用例子（重要）：</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+&#x2F;&#x2F;传入参数为指针，返回参数为指针
+int *test(int *arr)
+&#123;
+    arr[0] &#x3D; -1;
+    return arr;
+&#125;
+&#x2F;&#x2F;传入参数为指向指针的指针，返回参数也为指向指针的指针
+int (*test2(int (*arr)[10]))[10]
+&#x2F;&#x2F;int **test2(int **arr)  &#x2F;&#x2F;也可以这么定义，但是这样后面的所有数组维度声明全部要修改
+&#123;
+    (*arr)[1] &#x3D; -2; &#x2F;&#x2F;由于传入参数是指向指针的指针，要想操作指针所指向的指针所指向的数组具体元素，需要两次解引用
+    &#x2F;&#x2F;这里这句话等价于：
+    *(*arr+1) &#x3D; -2;  &#x2F;&#x2F;注意：多个解引用从内开始运算,所以要先解引用得内层指针，有[]则优先级最高
+    return arr; &#x2F;&#x2F;返回的是指向指针的指针，所以直接返回传入的arr即可
+&#125;
+int main()
+&#123;
+    int a[10];
+    int *p1 &#x3D; test(a);
+    int (*p2)[10] &#x3D; test2(&amp;a);
+
+    cout&lt;&lt;p1[0]&lt;&lt;endl; &#x2F;&#x2F;or *p1
+    cout&lt;&lt;(*p2)[1]&lt;&lt;endl; &#x2F;&#x2F;or *(*p2+1)
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="pointer-amp-reference"><a href="#pointer-amp-reference" class="headerlink" title="pointer &amp; reference"></a>pointer &amp; reference</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作为左值</th>
+<th>作为右值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>引用类型声明</td>
+<td>取地址符</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>指针类型声明</td>
+<td>解引用符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>比如：运算表达式的结果就是右值，函数参数表就是左值</strong>，赋值语句右边是右值，左边是左值</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void func(int &amp;var)&#123;&#125;
+int main()
+&#123;
+    int a;
+    func(a);  &#x2F;&#x2F;这里实际上发生了隐式初始化：int &amp;var &#x3D; a ，所以显然参数入口不用&amp;，函数参数表要用&amp;表示引用声明
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>c++中非常量引用的初始值必须是左值</strong></p>
+<p><strong>函数返回为左值则返回类型必须为引用</strong></p>
+<p>指针成员访问符<code>-&gt;</code>，和c中一样</p>
+<p>待补充</p>
+<p>引用的本质？底层实现</p>
+<p>c++指针与c指针的异同</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>靠里是顶层，靠外是底层</p>
+<p>非常量可以向常量转化（变严），反过来不行</p>
+<p>引用不能修改，都是const的，所以<code>&amp;const a</code>等价于<code>&amp;a</code>，不用写const</p>
+<p>对常量的引用：<code>const &amp;a</code> （引用对象不能修改，引用本身也不能修改；简称常量引用，注意只是简称！）</p>
+<p><strong>对常量的引用实际可能引用一个非常量的对象</strong>：常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定。</p>
+<p>常量指针：<code>int *const a</code> （指针不能修改）</p>
+<p>指向常量的指针： <code>const int *a</code>（指针指向的内容不能修改）</p>
+<p>指向常量的常量指针：<code>const int *const a</code>（指针和指针指向的内容都不能修改）</p>
+<p>待补充</p>
+<h2 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h2><ol>
+<li><p>C++中两种对象创建方式</p>
+<p>①<code>Object obj(param)</code>  （<strong>使用若无构造参数则不能写括号</strong>如：<code>Object obj</code>）</p>
+<p>②<code>Object *p = new Object(param)</code>（这个<code>p</code>是个指向对象的针，访问对象成员需要用<code>(*p).</code>或者<code>-&gt;</code>）</p>
+<p>与C不同，c中struct方式必须在类名前加struct，且c struct不能有默认参数；c++中类名前可以加class/struct关键字，也可以不加</p>
+<p>与JAVA中的new写法完全不同</p>
+<p>第一种属于<strong>自动变量</strong>写法，在c/c++中都是会自动分配内存（新建对象 /.cpp）的；第二种属于<strong>new关键字</strong>，动态分配内存</p>
+<p>这两种方式主要的不同在于对象的存储时间。当执行①时，它作为<strong>自动变量</strong>被创建，这意味着当对象出了作用域时也会自动销毁。而使用<code>new</code>关键字，②这种方式时，对象所拥有的内存是<strong>动态分配</strong>的，这表示直到你调用<code>delete()</code>方法对象才会被销毁，否则一直存在。当需要用动态分配内存来处理时，你应该只使用动态分配的方式，也就是说，当你可以使用动态分配内存的时候就不要使用自动变量。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;方法1
+#include &lt;iostream&gt;
+using namespace std;
+struct test
+&#123;
+    int a &#x3D; 10;
+    test(int f)
+    &#123;
+        a &#x3D; f;
+    &#125;
+    test get_obj()
+    &#123;
+        return *this;
+    &#125;
+&#125;;
+int main()
+&#123;
+    test t(-10);
+    test temp &#x3D; t.get_obj();
+    cout&lt;&lt;t.a&lt;&lt;endl;
+&#125;
+
+&#x2F;&#x2F;方法2
+#include &lt;iostream&gt;
+using namespace std;
+struct test
+&#123;
+    int a &#x3D; 10;
+    test(int f)
+    &#123;
+        a &#x3D; f;
+    &#125;
+    test&amp; get_obj()
+    &#123;
+        return *this;
+    &#125;
+&#125;;
+int main()
+&#123;
+    test *t &#x3D; new test(-10);
+    test &amp;t_ref &#x3D; t-&gt;get_obj();
+    cout&lt;&lt;t-&gt;a&lt;&lt;endl;
+&#125;
+
+&#x2F;&#x2F;output:-10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>c++中常用非成员接口函数来操作类，比如JAVA中的toString在C++中可以定义一个非成员接口函数print，传入参数为目标对象的引用，来实现（下面为该函数的定义声明）</p>
+<p><code>void print(const Object&amp;);</code></p>
+</li>
+<li><p>c++中的<strong>this是一个指向对象的常量指针</strong>，隐式初始化。调用成员函数的时候才初始化this。</p>
+<p>this默认情况下是指向非常量的常量指针，这样就会在指向常量对象成员的时候出问题，所以c++语言的做法是允许把const关键字放在成员函数的参数列表之后，这样就会在调用常量成员函数的时候初始化一个指向常量的常量指针</p>
+<p><code>int func() const&#123;&#125;;</code></p>
+</li>
+<li><p>类可以先只在内部声明成员函数，然后再在外面实现之</p>
+<p>要使用作用域运算符<code>::</code></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+class Object
+&#123;
+public:
+    int a &#x3D; 10;
+    void func();
+&#x2F;&#x2F;即使是私有函数，也可以在类外面实现
+private:
+    void test();
+&#125;;
+void Object::func()
+&#123;
+    cout&lt;&lt;&quot;func&quot;;
+&#125;
+void Object::test()
+&#123;
+    cout&lt;&lt;&quot;test&quot;;
+&#125;
+
+int main()
+&#123;
+    Object obj;
+    obj.func();
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>函数可以返回this对象</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;在外部定义一个Object类内的函数get_obj()
+Object&amp; Object::get_obj()
+&#123;
+	return *this
+&#125;
+
+Object obj;
+Objcet &amp;ref &#x3D; obj.get_obj(); &#x2F;&#x2F;ref是obj的引用<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>this指针指向对象，所以<code>*this</code>解引用后返回对象本身</p>
+<p><strong>这里返回的是<code>Object&amp;</code>即原对象的引用</strong></p>
+<p>这样就可以实现建造者模式：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;每一次函数调用都返回了&amp;obj，即原对象的引用，所以可以继续调用来修改原对象
+obj.set_hight(10).set_width(20).set_color(red);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>如果不返回引用，即下面这一段，这时候返回的就是一个原对象的拷贝</strong>！（但如果函数返回作为左值则必须返回引用类型）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Object Object::get_obj()
+&#123;
+	return *this
+&#125;
+
+Object obj;
+Objcet obj_copy &#x3D; obj.get_obj(); &#x2F;&#x2F;obj_copy是obj的拷贝，改变obj_copy不会改变obj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果不想其他人修改返回的对象，可以<strong>返回一个指向常量对象的引用（常量引用）</strong>，即</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const Object&amp; Object::get_obj()
+&#123;
+	return *this
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>返回常量引用之后，就不能再进行任何操作了，因为<strong>只能用常量函数操作常量对象，非常量函数不能操作非常量对象</strong>，这里原对象并没有被转换成常量对象，而是引用是常量引用，常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定（见const部分）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+class Object
+&#123;
+public:
+    int a &#x3D; 10;
+    const Object&amp; func();
+    void set();
+&#125;;
+const Object&amp; Object::func()
+&#123;
+    return *this;
+&#125;
+void Object::set()
+&#123;
+    this-&gt;a &#x3D; -10;
+&#125;
+
+int main()
+&#123;
+    Object obj;
+    const Object &amp;ref &#x3D; obj.func();
+    ref.set(); &#x2F;&#x2F;报错：ref是常量引用，该引用将目标对象当成常量，不能调用非常量函数set()
+    obj.set(); &#x2F;&#x2F;正确：obj是非常量对象本身，可以调用非常量函数set()
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以基于const重载，即同一个函数保留返回const Object&amp;版本和Object&amp;版本，常量对象会自动调用常量版本，非常量对象会自动调用非常量版本</p>
+</li>
+<li><p>与JAVA一样，编译器在发现类不包含任何构造函数的时候会自动生成一个默认构造器，一旦自己定义了一个构造器，就不会有默认构造器了</p>
+<p>在定义的时候，可以<code>Object()=default;</code>来要求编译器生成默认构造函数。</p>
+</li>
+<li><p>由于<code>this</code>是一个常量指针（指向对象），所以用的时候要以指针的用法使用</p>
+<p>因为以前常用JAVA，这里很容易搞忘</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct test
+&#123;
+    int a &#x3D; 10;
+    test(int a)
+    &#123;
+        this-&gt;a &#x3D; a;  &#x2F;&#x2F;或(*this).a；就算再在里，也别忘了先对this解引用才能使用，要用-&gt;指针成员访问符
+    &#125;
+    test get_obj()
+    &#123;
+        return *this; &#x2F;&#x2F;repo
+    &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>Cpp中有两种创建类的方式，class和struct，前者默认private，后者默认public，其它用法完全一致。struct主要是为了兼容c。</p>
+<p>class和struct最后一个大括号后面都要加分号<code>;</code></p>
+<p><strong>不能在class、struct之前加访问修饰符</strong>，要想整个类都public，使用struc；要想整个类都private，使用class；要想控制成员访问权限，在类定义中使用<code>public:</code>、<code>private:</code>、<code>protect:</code>语句</p>
+<p><strong>class定义中的默认构造器是public的，但非默认构造器是private的！</strong></p>
+<p>所以一定要在class中把构造器添加到<code>public:</code>修饰符中</p>
+</li>
+<li><p>对于友元，三种使用形式</p>
+<p>①声明<strong>非成员函数</strong>为友元（该函数可以访问本类公私有成员）</p>
+<p><code>friend &lt;函数声明&gt;</code></p>
+<p>②声明<strong>某类</strong>为友元（某类中的所有成员可以访问本类公私有成员）</p>
+<p><code>friend struct/class &lt;class_name&gt;</code></p>
+<p>③声明<strong>某类中的某成员函数</strong>为友元（某类中的某成员函数可以访问本类公私有成员）</p>
+<p><code>friend &lt;带有作用域声明符::的函数声明&gt;</code></p>
+<p><strong>类和非成员函数的声明不是必须在它们的友元声明之前。（只要注意访问类的时候该类必须已经定义即可）</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class B
+&#123;
+    &#x2F;&#x2F;这里A类还没声明，但是先在B类声明友元，这是可以的
+    friend class A; 
+public:
+    int a &#x3D; 10;
+&#125;;
+class A
+&#123;
+    void func()
+    &#123;
+        B b;
+        int s &#x3D; b.a;
+    &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但对于第三种类中的成员函数一定要注意顺序：<strong>被声明友元的函数必须在友元声明之前声明</strong>，比如我们想要<code>A</code>类中的<code>func()</code>方法访问<code>B</code>类中的私有成员<code>a</code>：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class A
+&#123;
+public:
+    &#x2F;&#x2F;1.由于B要声明A中的func为友元，所以A中的func()必须先定义
+    &#x2F;&#x2F;2.但是A中的func()要访问B，此时B还没声明，所以func()只能先声明，不实现内容
+    void func(); 
+&#125;;
+class B
+&#123;
+    friend void A::func();
+    int a &#x3D; 10;
+&#125;;
+&#x2F;&#x2F;在B实现完毕，也声明了A::func()是友元之后，再实现A::func()
+void A::func()
+&#123;
+    B b;
+    cout&lt;&lt;b.a&lt;&lt;endl;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>编译器处理类定义分<strong>两阶段</strong>进行：</p>
+<p>①首先，编译成员的所有<strong>声明</strong>（变量声明、函数声明等）</p>
+<p>②直到类全部可见后才编译<strong>函数体</strong></p>
+<p>这里指的是<strong>类中的声明</strong>与<strong>函数体</strong>两者的处理顺序，成员函数内的声明就完全按顺序执行了。</p>
+</li>
+<li><p>初始化</p>
+<p>构造函数初始值表起一个<strong>初始化声明</strong>的作用（const、引用必须借用这个语句进行显式初始化）</p>
+<p>注意，构造函数初始值表是初始化声明，而不是赋值。</p>
+<p><strong>注意：构造函数初始值表只是定义，而不是声明，表中的变量名需要先在类中声明。且初始化顺序与声明顺序而不是定义顺序一致。</strong> </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;定义并初始化
+string foo &#x3D; &quot;Hello World!&quot;;  &#x2F;&#x2F;方法一（定义处声明初始化）
+&lt;Constructor&gt;(param):var1(_var1),var2(_var2) &#123;&#125; &#x2F;&#x2F;方法二（构造函数初始值表）其中var1的值被初始化为_var1
+
+&#x2F;&#x2F;默认初始化为空的String对象
+string bar;
+&#x2F;&#x2F;为bar赋值
+bar &#x3D; &quot;Hello World!&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>初始化与赋值，两者发生在不同的时间。<strong>构造函数体一开始执行，初始化就完成了，然后才会执行函数体内的赋值操作。</strong></p>
+<p><strong>由于const和引用不能被赋值，所以他们只能直接初始化成目标值</strong>。所以<strong>const和引用要么直接作为形参被调用（隐式初始化），要么通过构造函数初始值表被显式初始化</strong>（即在类中声明引用/const变量名，然后在构造函数初始值表中初始化它）。</p>
+<p><strong>未提供默认构造函数的类类型也必须被显式初始化！</strong>（不然程序不知道怎么初始化它；可以使用两种初始化方法）</p>
+</li>
+</ol>
+<pre><code>建议直接初始化而非赋值，这样效率更高，也避免一些成员必须被初始化的情况。
+</code></pre>]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>c++_compile</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/c-compile/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h2><p><code>gcc</code>、<code>g++</code></p>
+<p>gcc和g++的区别：gcc不会主动链接标准库STL等 ，不主动link就只能编译单个源文件；gcc也是调用了g++里的cc1plus；但gcc更稳定</p>
+<p>gcc和g++编译程序发生了什么：</p>
+<p>① <strong>preprocess：</strong>调用预处理器（cpp）生成<strong>预处理文件</strong>(.i、.ii文件，后者是cpp） <strong>【源代码——&gt;预处理源代码】 </strong> </p>
+<p><code>gcc -E hello.cpp -o hello.ii</code></p>
+<p>② <strong>compile：</strong>调用实际的编译器（如cc cc1 cc1pp）生成<strong>汇编代码（.s文件）</strong>    <strong>【预处理后源代码——&gt;汇编代码】</strong></p>
+<p><code>gcc -S hello.ii -o hello.s</code> </p>
+<p>③<strong>assemble：</strong>调用汇编器（如as），生成<strong>目标文件（.o/.a文件）</strong> <strong>【汇编代码——&gt;机器指令】</strong></p>
+<p><code>gcc -c hello.s -o hello.o</code></p>
+<p>④<strong>link：</strong>调用链接器（如ld），链接多个目标文件（链接库），生成<strong>可执行文件</strong>    <strong>【链接多个机器指令.o文件/.a文件，生成可执行文件】</strong></p>
+<p><code>gcc hello.o -o hello</code></p>
+<p><strong>对于多个链接目标</strong>：<code>gcc a.o b.o c.o ..... -o output</code></p>
+<p><strong>也可以源文件与链接库混编(合并编译）</strong>：<code>gcc main.cc f1.o f2.o f3.a ... -o output</code></p>
+<p>即：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-E                       Preprocess only<span class="token punctuation">;</span> <span class="token keyword">do</span> not compile, assemble or link.
+-S                       Compile only<span class="token punctuation">;</span> <span class="token keyword">do</span> not assemble or link.
+-c                       Compile and assemble, but <span class="token keyword">do</span> not link.   
+-o <span class="token operator">&lt;</span>file<span class="token operator">></span>                Place the output into <span class="token operator">&lt;</span>file<span class="token operator">></span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>注意，上面的参数是向前兼容的，比如可以<code>gcc -c hello.cpp -o hello.o</code>直接由源文件生成目标文件</strong></p>
+<p><strong>[<code>-c</code>是非常常用的，先preprocess、compile、assemble，就可以先编译生成第三方库的链接库文件了。</strong></p>
+<p><code>-o</code>指定输出目标（各阶段都可以用）</p>
+<p><strong>【注意1】：gcc在链接过程中，对参数中的库的顺序是有要求的，参数【右侧的库会先于左侧的库加载】，也就是说参数的解析是从右往左的</strong></p>
+<p>一般报错undefined reference就是这个顺序问题导致的</p>
+<p><strong>【注意2】：<code>gcc</code>不自动链接标准库，所以需要手动链接：【添加参数<code>-lstdc++</code>】</strong></p>
+<p><strong>编译的时候可添加<code>-I</code>（添加搜索头文件的路径</strong>，见下面声明第三方库的方法1）、<code>-L</code>（指定要链接库所在的目录；放在<code>/lib</code>和<code>/usr/lib</code>和<code>/usr/local/lib</code>里的库直接用-l参数就能链接了，我们可以直接把第三方库放进去，如果不在上述三个默认目录，需要指定链接库目录）、<code>-l</code>（指定路径寻找库文件；直接跟库名，比如库文件叫test，则参数为<code>-ltest</code>） <strong>P.S.链接库格式为<code>libxxxx</code>，自己生成的链接库如果要合并编译也要遵守这个命名规则</strong> </p>
+<p>P.S. <strong>通过 <code>-l -L</code>来指定静态链接库，和直接链接链接库效果是一样的</strong>，即<code>gcc a.o b.o -o main</code>=<code>gcc a.o -lb -L . -o main</code>（b链接库改名libb.a)，<strong>但是对于动态链接库，就必须再用<code>-l -L</code>的方式来编译！</strong>（P.S.2 在同时有同名的静态和动态库的情况下，gcc默认是选择动态库的）</p>
+<hr>
+<p>Cpp程序的编译，链接过程：</p>
+<p><strong>链接的时候就必须要有个<code>main()</code>函数作为可执行程序的入口了</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">alpha.c(main) -&gt; alpha.obj(编译)
+                  	   	    	\
+                     	     	program.exe(链接)
+                     	    	&#x2F;
+		beta.c  -&gt; beta.obj(编译)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个<code>.obj</code>结尾的文件就是<strong>目标文件</strong>，也就是<strong>链接库</strong>（<strong>静态链接库<code>.a</code>、<code>.lib</code>，动态链接库<code>.so</code>、<code>.dll</code></strong>）</p>
+<p><strong>静态库：在链接阶段，会将汇编生成的目标文件.o与引用到的库一起链接打包到可执行文件中。</strong>在编译时期完成，之后再与函数库无瓜葛，很方便移植，但浪费空间</p>
+<p><strong>动态库：动态库在程序编译时并不会被链接到目标代码中（跳过链接这一步），而是在程序运行是才被载入。</strong>不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例节省空间，且可以直接对函数库进行修改，无须重新编译</p>
+<hr>
+<p><strong>P.S. gcc9.3完全支持到C++17</strong>，默认支持c++14，<strong>要使用c++17需要<code>gcc -std=c++17</code></strong></p>
+<h2 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h2><p><strong>Cpp使用第三方库需要</strong></p>
+<p><strong>①include第三方库的头文件(<code>.h</code>)，以使得编译器能够对源代码进行编译</strong>（得要声明第三方库才能使用库函数）</p>
+<p><strong>②链接第三方库的链接库文件（第三方库编译生成的目标文件<code>.a</code></strong>、<code>.lib</code>，动态链接库则运行时装载<code>.so</code>、<code>.dll</code>），<strong>以生成可执行文件</strong></p>
+<p>编译的时候</p>
+<p><strong>第三方库文件有两种情况：</strong></p>
+<blockquote>
+<p>使用第三方源代码大致分为两种情况：</p>
+<ol>
+<li><p>第三方库不大有源代码，但并未提供二进制库文件。比如jsoncpp 这种轻巧的库</p>
+<p>对于这种就需要和自己的源代码一起进行编译。需要在引用第三方库功能的源代码头部<strong>include 第三方代码的头文件，并将源代码的实现部分放置在自己的源代码文件夹中。构建时让C++ 编译器一起编译成二进制代码，再链接到一起。</strong></p>
+</li>
+<li><p>第三方库代码庞大或者仅提供头文件和编译好的二进制文件</p>
+<p>对于像openssl、ffmpeg 等等大块头的开源项目，即使是拿到了源代码也不建议将其与自己的源代码合并编译。因为他们本身就很复杂且搭建编译环境也要费一番功夫。一般这些项目都提供已经编译好的二进制库文件。极端情况下仅有源代码文件没有库文件，就需要先配置这些项目的编译环境先编译输出二进制库文件。</p>
+<p>这些项目提供的<strong>已经编译好的库文件.so .o .lib .dll 等</strong>与<strong>对应的头文件</strong>配合使用include到自己的源代码项目中。使用时，<strong>将第三方头文件include 到使用这些第三方库的源代码中，然后在链接环节指定链接器链接这些已经编译好的二进制库文件。其实在一些自动化构建工具比如CMake 中，这些非常好指定。</strong></p>
+</li>
+</ol>
+<p>链接：<a href="https://www.zhihu.com/question/384875984/answer/1173406367">https://www.zhihu.com/question/384875984/answer/1173406367</a></p>
+</blockquote>
+<p>总的来说，就是库文件编译好没有的区别，大库用CMake构建指定头文件与编译好的库文件路径，小库则直接将源码放目录下即可</p>
+<p>P.S.声明第三方库才能使用库函数，但为什么Cpp不像其它高级语言一样声明库函数后自己去库函数源文件找声明，而要单独一个<code>.h</code>头文件来声明呢？这是历史原因：<a href="https://www.zhihu.com/question/280665935/answer/649503865">为什么C/C++要分为头文件和源文件？ - wzsayiie的回答 - 知乎</a> 总结：和Cpp一起编译的其它文件可能根本不是Cpp，所以得自己单独声明</p>
+<p>Cpp提供了标准库，可以直接通过<code>#include &lt;library name&gt;</code>声明不用加路径，其存放于<code>/usr/include/&lt;ver&gt;/&lt;libaray name&gt;</code>，对于C提供的库（非标准库），通过<code>#include &quot;&lt;library name&gt;&quot;</code>文件来声明，注意<strong>C++标准库的文件是无后缀的，且用<code>&lt;&gt;</code>来include</strong>，其它库是<code>.h</code>头文件后缀，非C提供的库的<strong>其它第三方非标准库则需要声明时写出库头文件存放的位置</strong></p>
+<hr>
+<p><strong>为了方便声明第三方库，可以</strong></p>
+<p>①<strong>添加编译选项<code>-I</code></strong></p>
+<p><strong>②修改系统环境变量</strong>（注意，修改了环境变量，gcc/g++的时候还是要声明link的头文件！只是不用写路径了）</p>
+<blockquote>
+<p>将头文件路径和库文件路径添加到指定的系统环境变量中去，具体如下：</p>
+<ul>
+<li>使用 <strong>gcc</strong> 编译时将 <code>头文件</code> 路径添加到 <strong>C_INCLUDE_PATH</strong> 系统环境变量中；</li>
+<li>使用 <strong>g++</strong> 编译时将 <code>头文件</code> 路径添加到 <strong>CPLUS_INCLUDE_PATH</strong> 系统环境变量中；</li>
+<li>将 <code>动态连接库</code> 路径添加到 <strong>LD_LIBRARY_PATH</strong> 系统环境变量中；</li>
+<li>将 <code>静态库</code> 路径添加到 <strong>LIBRARY_PATH</strong> 系统变量中。</li>
+</ul>
+<p>改变系统变量主要有两种形式，一种是临时改变，另一种是永久改变。</p>
+<p>临时改变系统变量只需要使用 <strong>export</strong> 命令，重启终端后将恢复至先前状态，如</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>export <span class="token assign-left variable">C_INCLUDE_PATH</span><span class="token operator">=</span><span class="token variable">$CPLUS_INCLUDE_PATH</span>:/myinclude1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>而永久改变又可分为仅改变当前用户和改变所有用户：</p>
+<ul>
+<li>仅改变当前用户的系统环境时，只需将上述的 <strong>export</strong> 语句添加到 <code>~/.bashrc</code> 或者 <code>~/.bash_profile</code> 文件内容后面，重启终端即可。</li>
+<li>要改变所有用户的环境变量时，需将上述的的 <strong>export</strong> 语句添加到 <code>/etc/profile</code> 文件内容，并需要重启计算机。</li>
+</ul>
+<p>链接：<a href="https://www.codeleading.com/article/53332291471/">https://www.codeleading.com/article/53332291471/</a></p>
+</blockquote>
+<p>P.S. 环境变量存放于<code>~/.bashrc</code> （当前用户环境变量）、 <code>~/.bash_profile</code> （所有用户环境变量）</p>
+<p><strong>③<code>pkg-config</code>命令</strong>（<strong>对于第三方库常用，不然自己一个个找需要哪些系统链接库非常痛苦）</strong></p>
+<blockquote>
+<p>部分第三方库在安装完成后会自动生成一个 <em>.pc 的配置文件用来存放第三方库安装的路径，包括头文件路径以及库文件路径，可以使用 <em>*pkg-config</em></em> 命令查看，如：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>pkg-config --cflags --libs protobuf
+
+<span class="token operator">>></span><span class="token operator">>></span> -pthread -I/usr/local/include -L/usr/local/lib -lprotobuf -pthread123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>其中：</p>
+<ul>
+<li>–cflags 返回头文件目录</li>
+<li>–libs 返回库所在的目录以及库参数</li>
+<li>protobuf 为第三方库名</li>
+</ul>
+<p><strong>在编译包含这些库的代码时，需要执行上述命令获取返回结果，比如：</strong></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>g++ -c main.c <span class="token variable"><span class="token variable">`</span>pkg-config --cflags --libs protobuf<span class="token variable">`</span></span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其中，`符号为数字1键左边的那键。</p>
+<p>对于某些三方库没有<em>.pc文件，我们也可以自己写一个配置文件。</em>.pc文件的路径存放在 <strong>PKG_CONFIG_PATH</strong> 系统变量下，使用 <strong>echo</strong> 命令可查看其变量。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>echo <span class="token variable">$PKG_CONFIG_PATH</span>
+
+<span class="token operator">>></span><span class="token operator">>></span> :/usr/local/lib/pkgconfig123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>进入该路径，我们可以看到 *.pc 的配置文件，用文本编辑器打开其中一个如protobuf.pc，其内容如下：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>prefix<span class="token operator">=</span>/usr/local
+<span class="token operator">></span>exec_prefix<span class="token operator">=</span><span class="token variable">$&#123;prefix&#125;</span>
+<span class="token operator">></span>libdir<span class="token operator">=</span><span class="token variable">$&#123;exec_prefix&#125;</span>/lib
+<span class="token operator">></span>includedir<span class="token operator">=</span><span class="token variable">$&#123;prefix&#125;</span>/include
+
+<span class="token operator">></span>Name: Protocol Buffers
+<span class="token operator">></span>Description: Google's Data Interchange Format
+<span class="token operator">></span>Version: <span class="token number">3.5</span>.2
+<span class="token operator">></span>Libs: -L<span class="token variable">$&#123;libdir&#125;</span> -lprotobuf -pthread
+<span class="token operator">></span>Libs.private: -lz
+<span class="token operator">></span>Cflags: -I<span class="token variable">$&#123;includedir&#125;</span> -pthread
+<span class="token operator">></span>Conflicts: protobuf-lite123456789101112<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中：</p>
+<ul>
+<li>libdir 为库所在目录</li>
+<li>includedir 为头文件所在目录</li>
+<li>Libs 为调用参数，其内容为库所在的目录以及库参数</li>
+<li>cflags 为调用参数，其内容为头文件目录</li>
+</ul>
+<p>因此，我们可以照着上面的形式自己写一个<em>.pc文件放到 <em>*PKG_CONFIG_PATH</em></em> 所指定的目录下。</p>
+<p>链接：<a href="https://www.codeleading.com/article/53332291471/">https://www.codeleading.com/article/53332291471/</a></p>
+</blockquote>
+<p>当然也可以直接写全路径</p>
+<p><strong>对于同一个项目声明自己的其它函数库，就直接用相对路径引用即可</strong></p>
+<h2 id="工程构建：make、cmake"><a href="#工程构建：make、cmake" class="headerlink" title="工程构建：make、cmake"></a>工程构建：<code>make</code>、<code>cmake</code></h2><blockquote>
+<ol>
+<li><strong>make 是用来执行Makefile的</strong></li>
+<li><strong>Makefile是类unix环境下(比如Linux)的类似于批处理的”脚本”文件</strong>。其<strong>基本语法</strong>是: <strong>目标+依赖+命令</strong>，只有在<strong>目标</strong>文件不存在，或<strong>目标</strong>比<strong>依赖</strong>的文件更旧，<strong>命令</strong>才会被执行。由此可见，Makefile和make可适用于任意工作，不限于编程。比如，可以用来管理latex。</li>
+<li>Makefile+make可理解为类unix环境下的项目管理工具，但它太基础了，抽象程度不高，而且在windows下不太友好(针对visual studio用户)，于是就有了跨平台项目管理工具cmake</li>
+<li>cmake是<strong>跨平台</strong>项目管理工具，它用更抽象的语法来组织项目。虽然，仍然是目标，依赖之类的东西，但更为抽象和友好，比如你可用math表示数学库，而不需要再具体指定到底是math.dll还是libmath.so，在windows下它会支持生成visual studio的工程，<strong>在linux下它会生成Makefile</strong>，甚至它还能生成eclipse工程文件。也就是说，从同一个抽象规则出发，它为各个编译器定制工程文</li>
+<li><strong>cmake是抽象层次更高的项目管理工具，cmake命令执行的CMakeLists.txt文件</strong></li>
+<li>qmake是Qt专用的项目管理工具，对应的工程文件是<code>*.pro</code>，在Linux下面它也会生成Makefile，当然，在命令行下才会需要手动执行qmake，完全可以在qtcreator这个专用的IDE下面打开·<code>*.pro</code>文件，使用qmake命令的繁琐细节不用你管了。</li>
+</ol>
+<p>总结一下，<strong>make用来执行Makefile，cmake用来执行CMakeLists.txt</strong>，qmake用来处理<em>.pro工程文件。Makefile的抽象层次最低，cmake和qmake在Linux等环境下最后还是会生成一个Makefile。cmake和qmake支持跨平台，<em>*cmake的做法是生成指定编译器的工程文件</em></em>，而qmake完全自成体系。</p>
+<p><img src="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/c-compile/make.png" alt="make">链接：<a href="https://www.zhihu.com/question/27455963/answer/36722992">https://www.zhihu.com/question/27455963/answer/36722992</a></p>
+</blockquote>
+<h2 id="cmake的用法"><a href="#cmake的用法" class="headerlink" title="cmake的用法"></a>cmake的用法</h2><p><a href="https://blog.csdn.net/xuheazx/article/details/51980651">CMakeLists 的使用，大型工程使用cmake 的构件过程</a></p>
+<p><a href="https://www.jianshu.com/p/7e4aa4be239a">CMake入门和大型工程管理</a></p>
+<ol>
+<li><p><strong>编译库</strong></p>
+<p><strong>将右边所有指定源文件(source1,source2…..)编译生成左边名字为<code>&lt;name&gt;</code>的目标文件（链接库）</strong></p>
+<p>STATIC：生成静态库(.o)；SHARED：生成动态库(.so)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_library</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token namespace">STATIC</span> | <span class="token namespace">SHARED</span> | MODULE]
+            [<span class="token property">EXCLUDE_FROM_ALL</span>]
+            [source1] [source2] [...]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>将目标文件与库文件进行链接</strong></p>
+<p>其中<code>&lt;target&gt;</code>指通过<code>add_executable()</code>或<code>add_library()</code>指令生成已经创建的目标文件（前者就是动态链接，后者就是静态链接），<code>[item]</code>表示库文件没有后缀的名字。</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span>&lt;target<span class="token punctuation">></span> [item1] [item2] [...]
+                      [[debug|optimized|general] &lt;item<span class="token punctuation">></span>] ...<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>target_link_libraries里库文件的顺序符合gcc链接顺序的规则，即被依赖的库放在依赖它的库的后面</p>
+</li>
+<li><p><strong>添加头文件搜索路径</strong></p>
+<p>使用了这个之后，在源文件中， #include就不需要再写头文件目录了</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">include_directories</span><span class="token punctuation">(</span>
+	path1...
+	path2...
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>用来显式的定义变量</strong> </p>
+<p>定义变量name代替后面的字符串</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">set</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> xxx1 
+	xxx2
+	xxx3<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>生成可执行文件</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_executable</span> <span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token variable">WIN32</span>] [<span class="token property">MACOSX_BUNDLE</span>]
+      [<span class="token property">EXCLUDE_FROM_ALL</span>]
+      [source1] [source2 ...]<span class="token punctuation">)</span>
+<span class="token keyword">target_sources</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token variable">WIN32</span>] [<span class="token property">MACOSX_BUNDLE</span>]
+      [<span class="token property">EXCLUDE_FROM_ALL</span>]
+      [source1] [source2 ...]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>target_sources</code>继续为可执行目标文件添加源文件，要求是在调用target_sources之前，可执行目标文件必须已经通过add_executable或add_library定义了。</p>
+</li>
+<li><p><strong>添加一个子目录并构建该子目录。</strong></p>
+<p>大型cpp工程，多层次cmake使用，通过这个指令可以链接多个子模块</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_subdirectory</span> <span class="token punctuation">(</span>source_dir [binary_dir] [<span class="token property">EXCLUDE_FROM_ALL</span>]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p><code>source_dir</code><br><strong>必选参数</strong>。该参数指定一个子目录，子目录下应该包含<code>CMakeLists.txt</code>文件和代码文件。子目录可以是相对路径也可以是绝对路径，如果是相对路径，则是相对当前目录的一个相对路径。</p>
+<p><code>binary_dir</code><br><strong>可选参数</strong>。该参数指定一个目录，用于存放输出文件。可以是相对路径也可以是绝对路径，如果是相对路径，则是相对当前输出目录的一个相对路径。如果该参数没有指定，则默认的输出目录使用<code>source_dir</code>。</p>
+<p><code>EXCLUDE_FROM_ALL</code><br><strong>可选参数</strong>。当指定了该参数，则子目录下的目标不会被父目录下的目标文件包含进去，父目录的<code>CMakeLists.txt</code>不会构建子目录的目标文件，必须在子目录下显式去构建。<code>例外情况：当父目录的目标依赖于子目录的目标，则子目录的目标仍然会被构建出来以满足依赖关系（例如使用了target_link_libraries）</code>。</p>
+<p>详见：<a href="https://www.jianshu.com/p/07acea4e86a3">https://www.jianshu.com/p/07acea4e86a3</a></p>
+</blockquote>
+</li>
+<li><p><strong>配置（PROPERTIES有很多种，见doc）</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">set_target_properties</span><span class="token punctuation">(</span>target1 target2 ...
+                      <span class="token namespace">PROPERTIES</span> prop1 value1
+                      prop2 value2 ...<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><a href="https://cmake.org/cmake/help/latest/command/set_target_properties.html">https://cmake.org/cmake/help/latest/command/set_target_properties.html</a></p>
+</li>
+<li><p><strong>PROJECT标识</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">PROJECT</span><span class="token punctuation">(</span>&lt;project_name<span class="token punctuation">></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>配合下面的PROJECT_SOURCE_DIR内置变量使用</p>
+</li>
+<li><p><strong>cmake内置变量</strong></p>
+<p><strong>CMAKE_SOURCE_DIR指定了CMakeLists.txt所在的目录</strong>；</p>
+<p><strong>PROJECT_SOURCE_DIR为包含PROJECT()的最近一个CMakeLists.txt文件所在的文件夹</strong></p>
+</li>
+</ol>
+<p>另外，bash中的${VAR}参数为脚本环境变量，若脚本名为ex.sh，则可以<code>VAR=XXX ./ex.sh</code>来设置运行时环境变量</p>
+<p>make的用法就不用管了，cmake生成了Makefile之后，直接<code>make</code>、<code>make install</code>就完事</p>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><ol>
+<li><p><strong>注意，要在源文件中对自己的头文件进行声明</strong></p>
+</li>
+<li><p><strong>YCM语法检查是看头文件是否存在而不是看库是否存在，如果库不在是报链接库找不到的错误</strong></p>
+</li>
+<li><p><strong>父目录CMakeList的变量，可由子目录直接引用</strong></p>
+</li>
+<li><p><strong>关于头文件查找：</strong></p>
+<p><code>&lt;&gt;</code> 先到<strong>系统默认include目录（/usr/include)下查找</strong>，找不到再去<strong>工程目录下的 include 文件夹（需先指定工程目录，比如用cmake的话默认工程目录就是PROJECT_SOURCE_DIR）</strong>下查找。（<strong>不会在当前目录下查找</strong>）</p>
+<p><code>&quot;&quot;</code> 先在<strong>当前目录</strong>下查找，<strong>找不到的情况下，再到安装目录的 include 文件夹</strong>下查找，<strong>再找不到才去系统默认include目录下查找</strong></p>
+<p>如果直接用gcc使用第三方库头文件，要么写清相对绝对路径，要么<code>gcc -I</code>，要么加环境变量</p>
+<p>注意：YCM是不会去其它目录寻找头文件的，所以别开YCM语法检查；或者为每个项目单独配置一个<code>.ycm_extra_conf.py</code></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/quant-lee/p/6639008.html">“undefined reference to” 多种可能出现的问题解决方法</a></p>
+<p>链接问题</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>vim插件</title>
+    <url>/%E5%B7%A5%E5%85%B7/vim%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>CLion和SoureLight都蛮贵的，所以直接在vim写代码了，用了一些插件</p>
+<p>下面的快捷键都是我设置的，可以在~/.vimrc修改</p>
+<h2 id="操作模式"><a href="#操作模式" class="headerlink" title="操作模式"></a>操作模式</h2><p>normal模式</p>
+<p>insert模式（按<code>i</code>进入）</p>
+<p>visual模式（按<code>v</code>进入），可视化模式，主要是为了方便选取文本</p>
+<p>leader模式（默认<code>\</code>，可自定义）</p>
+<p>指令模式（输入<code>：</code>进入）</p>
+<h2 id="常见基本操作"><a href="#常见基本操作" class="headerlink" title="常见基本操作"></a>常见基本操作</h2><p><strong>normal模式下：u（undo回退）</strong>,可以按多个u一直回退</p>
+<p><strong>重做</strong>：<code>:redo</code>、<code>ctrl+r</code> (undo多了的时候要redo)</p>
+<p>基本命令：<a href="https://www.huaweicloud.com/articles/12650466.html">https://www.huaweicloud.com/articles/12650466.html</a></p>
+<p>查找与替换：<a href="https://www.huaweicloud.com/articles/86253e3b3898f6b543288e443c426ac0.html">https://www.huaweicloud.com/articles/86253e3b3898f6b543288e443c426ac0.html</a></p>
+<p><strong>复制nyy/yy、剪切、粘贴p</strong>：<a href="https://www.cnblogs.com/wojiaowoen/p/6110783.html">https://www.cnblogs.com/wojiaowoen/p/6110783.html</a></p>
+<p><strong>跳转操作：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:n</code>、<code>ngg</code>、<code>nG</code></td>
+<td>跳转到第n行</td>
+</tr>
+<tr>
+<td><code>ctrl+o</code></td>
+<td>跳转到光标上一个位置</td>
+</tr>
+<tr>
+<td><code>G</code></td>
+<td>跳到文本的最后一行</td>
+</tr>
+<tr>
+<td><code>gg</code></td>
+<td>跳到第一行的第一个字符</td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td>跳转到当前行的第一个字符</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>跳转到当前行的最后一个字符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>tab操作：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>快捷键</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:tabp</td>
+<td><code>&lt;leader&gt;1</code></td>
+<td>上一个tab</td>
+</tr>
+<tr>
+<td>:tabn</td>
+<td><code>&lt;leader&gt;2</code></td>
+<td>下一个tab</td>
+</tr>
+<tr>
+<td>:tabnew</td>
+<td><code>&lt;leader&gt;]</code></td>
+<td>新建tab</td>
+</tr>
+<tr>
+<td>:x</td>
+<td></td>
+<td>关闭tab</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>以后别<code>q!</code>了，很不安全，直接<code>q</code>，只有决定放弃修改才<code>q!</code></p>
+<p><strong>分屏操作：</strong></p>
+<p>分屏操作的格式都是<code>ctrl+w &lt;command&gt;</code></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vim -On\on</code></td>
+<td>启动vim的时候，将屏幕分为n个部分，O垂直，o水平</td>
+</tr>
+<tr>
+<td><code>:vsp/sp filename</code></td>
+<td>垂直(vsp)/水平(sp)分屏打开一个新文件（vsp是vsplit的缩写）</td>
+</tr>
+<tr>
+<td><code>ctrl+w v/s</code></td>
+<td>将当前打开的文件进行垂直(v)/水平(s)分割</td>
+</tr>
+<tr>
+<td><code>ctrl+w w</code></td>
+<td>顺时针在分屏间切换</td>
+</tr>
+<tr>
+<td><code>ctrl+w h/j/k/l</code></td>
+<td>分别向左、下、上、右4个方向切换</td>
+</tr>
+<tr>
+<td><code>ctrl+w c</code></td>
+<td>关闭当前操作的分屏</td>
+</tr>
+<tr>
+<td><code>ctrl+w +/-</code></td>
+<td>增加/减少当前屏幕的高度</td>
+</tr>
+<tr>
+<td><code>ctrl+w =</code></td>
+<td>设置所有的分屏幕都有相同的高度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://vimjc.com/vim-split-window.html">https://vimjc.com/vim-split-window.html</a></p>
+<h2 id="按键映射"><a href="#按键映射" class="headerlink" title="按键映射"></a>按键映射</h2><p>在vimrc中通过map进行快捷键映射</p>
+<pre class="line-numbers language-none"><code class="language-none">map &lt;leader&gt;快捷键 :原指令<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><a href="https://ixyzero.com/blog/archives/2305.html">https://ixyzero.com/blog/archives/2305.html</a></p>
+<p>nmap（normal模式映射）、imap（insert模式映射）、vmap（visual模式映射）</p>
+<p>noremap：非递归映射（nnoremap、inoremap、vnoremap）</p>
+<p>不带n、i、v前缀则代表通用</p>
+<p>快捷键用<code>&lt;&gt;</code>包起来，比如<code>&lt;C-A&gt;</code>代表ctrl+a</p>
+<h2 id="leader模式"><a href="#leader模式" class="headerlink" title="leader模式"></a>leader模式</h2><p>只用快捷键很麻烦，所以产生了leader模式，可以自己定义快捷指令</p>
+<p>vim默认的leader是<code>\</code>，输入<code>\</code>即进入leader模式，就可以使用leader模式的快捷键了</p>
+<p>可以通过<code>let mapleader=&quot;,&quot;</code>修改，比如这里修改成了<code>,</code></p>
+<p>注意：<strong>进入leader模式是在普通模式下进入！</strong>而不是在<code>:</code>命令模式下！！</p>
+<p>leader模式映射只需要在map后加一个<code>&lt;leader&gt;</code>，比如：<code>noremap &lt;leader&gt;file :&lt;C-U&gt;&lt;C-R&gt;=printf(&quot;Leaderf file %s&quot;, &quot;&quot;)&lt;CR&gt;&lt;CR&gt;</code></p>
+<h2 id="plug管理"><a href="#plug管理" class="headerlink" title="plug管理"></a>plug管理</h2><p><a href="https://github.com/junegunn/vim-plug">vim_plug</a></p>
+<p>以下为plug</p>
+<h2 id="LeaderF-search"><a href="#LeaderF-search" class="headerlink" title="LeaderF(search)"></a>LeaderF(search)</h2><p><a href="https://github.com/Yggdroot/LeaderF">https://github.com/Yggdroot/LeaderF</a></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>快捷键</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LeaderfFile</code></td>
+<td><code>&lt;leader&gt;file</code></td>
+<td>搜索当前目录下的文件</td>
+</tr>
+<tr>
+<td><code>LeaderfFunction</code></td>
+<td><code>&lt;leader&gt;ff</code></td>
+<td>搜索当前文件的函数</td>
+</tr>
+<tr>
+<td><code>LeaderfBuffer</code></td>
+<td><code>&lt;leader&gt;b</code></td>
+<td>搜索当前的Buffer</td>
+</tr>
+<tr>
+<td><code>LeaderfMru</code></td>
+<td><code>&lt;leader&gt;m</code></td>
+<td>搜索最近使用过的文件</td>
+</tr>
+<tr>
+<td><code>LeaderfLine</code></td>
+<td><code>&lt;leader&gt;l</code></td>
+<td>搜索当前文件中有的某个单词</td>
+</tr>
+<tr>
+<td><code>ctrl+j/k</code></td>
+<td></td>
+<td>在候选框打开模式下，上下移动选项</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="fzf-search"><a href="#fzf-search" class="headerlink" title="fzf(search)"></a>fzf(search)</h2><p>【如何使用】</p>
+<p><a href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></p>
+<h2 id="universal-ctags"><a href="#universal-ctags" class="headerlink" title="universal ctags"></a>universal ctags</h2><p>这个先不用管，装就完了，后面YCL等很多插件都依赖ctags</p>
+<p>用apt装，<code>apt install universal ctags</code></p>
+<p>ctags：自动跳转功能</p>
+<p>ctags(universal ctags)：ctags 的作用是扫描工程中的代码，为代码中定义的函数、变量生成一份 tags 数据库文件，然后我们用 vim 浏览代码的的时候，当光标移动到某个函数或者变量上，只要按下 Ctrl + ] 组合按键，就会自动跳转到这个函数或者变量定义地方。</p>
+<h2 id="NERDTree"><a href="#NERDTree" class="headerlink" title="NERDTree"></a>NERDTree</h2><p>目录树，类似于Finder</p>
+<p><a href="https://github.com/preservim/nerdtree">https://github.com/preservim/nerdtree</a></p>
+<p>进入当前目录的树形界面，通过小键盘”上下”键，能移动选中的目录或文件。</p>
+<p>目录前面有”+”号，按Enter会展开目录，文件前面是”-“号，按Enter会在右侧窗口展现该文件的内容，并光标的焦点focus右侧。</p>
+<p>光标focus左侧树形窗口，按<code>？</code>弹出NERDTree的帮助，再次按<code>？</code>关闭帮助显示。输入<code>:q</code>回车，关闭光标所在窗口。</p>
+<p><code>:NERDTreeToggle</code>  快捷键 <code>&lt;C+n&gt;</code></p>
+<p>当focus在目录树的时候，可以按下面按键可以执行命令</p>
+<p><code>?</code>: 快速帮助文档</p>
+<p><code>o</code>: 打开一个目录或者打开文件，创建的是 buffer，也可以用来打开书签</p>
+<p><code>go</code>: 打开一个文件，但是光标仍然留在 NERDTree，创建的是 buffer</p>
+<p><code>t</code>: 打开一个文件，创建的是<strong>Tab</strong>（而不是水平切分），对书签同样生效</p>
+<p><code>T</code>: 打开一个文件，但是光标仍然留在 NERDTree，创建的是 Tab，对书签同样生效</p>
+<p><code>i</code>: 水平分割创建文件的窗口，创建的是 buffer</p>
+<p><code>gi</code>: 水平分割创建文件的窗口，但是光标仍然留在 NERDTree</p>
+<p><code>s</code>: 垂直分割创建文件的窗口，创建的是 buffer</p>
+<p><code>gs</code>: 和 gi，go 类似</p>
+<p><code>x</code>: 收起当前打开的目录</p>
+<p><code>X</code>: 收起所有打开的目录</p>
+<p><code>e</code>: 以文件管理的方式打开选中的目录</p>
+<p><code>D</code>: 删除书签</p>
+<p>我的自定义快捷键：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>快捷键</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NERDTreeFocus</code></td>
+<td><code>&lt;leader&gt;t</code></td>
+<td>聚焦目录树</td>
+</tr>
+<tr>
+<td><code>NERDTreeToggle</code></td>
+<td><code>ctrl+t</code></td>
+<td>打开/关闭目录树</td>
+</tr>
+<tr>
+<td><code>NERDTreeFind</code></td>
+<td><code>ctrl+f</code></td>
+<td>打开目录树并定位到当前文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="vim-autoFormat"><a href="#vim-autoFormat" class="headerlink" title="vim-autoFormat"></a>vim-autoFormat</h2><p>格式化代码</p>
+<p><a href="https://github.com/vim-autoformat/vim-autoformat">https://github.com/vim-autoformat/vim-autoformat</a></p>
+<p><a href="https://blog.csdn.net/Demorngel/article/details/69053613">https://blog.csdn.net/Demorngel/article/details/69053613</a></p>
+<p>语言格式化工具装了clang-format、astyle</p>
+<p>:Autoformat   快捷键：F5</p>
+<h2 id="auto-pairs"><a href="#auto-pairs" class="headerlink" title="auto-pairs"></a>auto-pairs</h2><p>在输入/删除左括号时，能自动补上/删除右括号</p>
+<p>jiangmiao/auto-pairs</p>
+<h2 id="vim-airline"><a href="#vim-airline" class="headerlink" title="vim-airline"></a>vim-airline</h2><p>状态栏</p>
+<p><a href="https://github.com/vim-airline/vim-airline">https://github.com/vim-airline/vim-airline</a></p>
+<h2 id="YCM"><a href="#YCM" class="headerlink" title="YCM"></a>YCM</h2><p>YCM需要前置安装一些组件，然后再在.vimrc里配置</p>
+<p>vim_plug安装YCM的方法：<a href="https://blog.csdn.net/wycgi/article/details/88372516">https://blog.csdn.net/wycgi/article/details/88372516</a></p>
+<p>安装好后，要将<code>.ycm_extra_conf.py</code>放到vimrc的let g:ycm_global_ycm_extra_conf指定的位置</p>
+<p>YCM官方文档，里面有一些常用命令，以后用到可以自己设快捷键：<a href="https://github.com/ycm-core/YouCompleteMe#linux-64-bit">https://github.com/ycm-core/YouCompleteMe#linux-64-bit</a></p>
+<p>我定义的快捷键：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ctrl+d</td>
+<td>跳转到定义/声明处</td>
+</tr>
+<tr>
+<td>ctrl+i</td>
+<td>跳转到实现处</td>
+</tr>
+<tr>
+<td>ctrl+o</td>
+<td>跳转到光标上一个位置（非YCM功能，但和跳转定义结合非常常用！）</td>
+</tr>
+<tr>
+<td>ctrl+t</td>
+<td>显示类型</td>
+</tr>
+<tr>
+<td><code>&lt;leader&gt;doc</code></td>
+<td>显示doc</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>关于ycm颜色配置的可选项：<a href="https://siatwe.wordpress.com/2018/03/23/vim-ctermfg-and-ctermbg-color-values/">https://siatwe.wordpress.com/2018/03/23/vim-ctermfg-and-ctermbg-color-values/</a></p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>分屏操作直接用mobaxterm自带的！</p>
+<p><a href="https://blog.csdn.net/weixin_39915815/article/details/110986181">https://blog.csdn.net/weixin_39915815/article/details/110986181</a></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Linux存储栈大略&amp;存储加速</title>
     <url>/%E5%AD%98%E5%82%A8/Linux%E5%AD%98%E5%82%A8%E6%A0%88%E5%A4%A7%E7%95%A5/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="linux存储栈"><a href="#linux存储栈" class="headerlink" title="linux存储栈"></a>linux存储栈</h2><p>用户请求（流数据）-文件系统转换成块设备需要的块（块数据）（在内存中进行）-发送到设备（BIO方式） =&gt;完成将数据写到磁盘</p>
@@ -260,6 +1125,7 @@
 <p>Ceph的写操作采用Primary-Replica模型，客户端向对应OSD Set发起写请求，Primary收到Object的写请求后将数据<strong>发送给set里其它副本</strong>，当这个数据<strong>被保存到所有OSD上的时候</strong>（可以选择到内存缓冲区先第一次确认），Primary才<strong>应答Object的写请求</strong>，保证<strong>副本的一致性</strong>。序号最靠前的OSD为Primary。<strong>读操作则直接与Primary通信</strong>（也可以设置为其它OSD以减轻压力）。</p>
 <p><strong>Cache Tiering</strong>：ceph设计为<strong>分层代理</strong>模式，一个缓存层（高速ssd等）、一个storage层（低速hdd等），由一个Objecter（对象管理器，位于osdc即OSD客户端模块）决定往哪里存储对象。Objecter决定何时把缓存内的对象“刷回”Storage层。有以下几种模式：写回模式（写：直接写缓存并应答客户端，缓存再自己写Storage层；读：命中直接在缓存层读，未命中重定向到Storage，且最近有访问可以提升到缓存）、forward模式、readonly模式、readforward模式、readproxy模式、proxy模式。</p>
 <p><strong>块存储</strong>：ceph在基于RADOS对象存储+librados之上<strong>通过RBD提供了一个标准的块设备接口</strong>，提供基于块设备的访问模式。<strong>ceph中的块设备称为Image</strong>，可以<strong>在ceph上自由创建块设备并可调整</strong>，将数据<strong>条带化存储</strong>到集群的多个OSD中国。条带化能够将<strong>多个磁盘驱动器合并成一个卷，这样读写就比单盘快很多</strong>（因为是不同设备并行读写，和RAID一个原理），<strong>ceph的块设备就对应于LVM的逻辑卷</strong>。建立块设备之后，就<strong>可以映射到内核中，成为一个虚拟的块设备</strong>；或者<strong>通过librdb、librados访问块设备</strong>（后者一般是虚拟机场景）。</p>
+<p><strong>Image数据被分为一个个大小相等的数据片（默认为4MB，比如1GB的image分为256个），每个数据片都以RADOS对象的形式存储在RADOS集群中</strong>。且对于一个块设备，RBD在RADOS上还有元数据，主要有<code>rbd_id.&lt;:name&gt;</code>、<code>rbd_header.&lt;:id&gt;</code>、<code>rbd_object_map.&lt;:id&gt;</code>、<code>rbd_data.&lt;:obj_prefix&gt;.&lt;:obj_no&gt;</code></p>
 <p><strong>Ceph FS</strong>：<strong>兼容POSIX的分布式存储文件系统</strong>，<strong>需要对应客户端来访问Ceph FS</strong>，目前有<strong>Ceph FS FUSE（用户空间文件系统）</strong>、<strong>Ceph FS kernel（集成在内核的Kernel Module，内核空间）</strong>两种。Ceph FS FUSE基于libcephfs，而后者又基于librados。Ceph FS要求Ceph集群内至少有一个MDS（元数据服务器），将元数据从OSD分离出来，提高服务性能、减轻存储集群负载。MDS的管理，Multi Active MDS略。</p>
 <h2 id="后端存储ObjectStore"><a href="#后端存储ObjectStore" class="headerlink" title="后端存储ObjectStore"></a>后端存储ObjectStore</h2><p>ObjectStore完成了实际的数据存储，封装了所有对底层存储的IO操作。主要有以下几种ObjectStore</p>
 <p>MemStore：数据全放内存，主要测试用</p>
