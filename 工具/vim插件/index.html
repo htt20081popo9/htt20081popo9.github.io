@@ -503,10 +503,20 @@
 <p>visual模式（按<code>v</code>进入），可视化模式，主要是为了方便选取文本</p>
 <p>leader模式（默认<code>\</code>，可自定义）</p>
 <p>指令模式（输入<code>：</code>进入）</p>
+<p>vim粘贴会自动缩进，需要<code>:set paste</code>开启paste模式禁止缩进，<code>:set nopaste</code>取消</p>
 <h2 id="常见基本操作"><a href="#常见基本操作" class="headerlink" title="常见基本操作"></a>常见基本操作</h2><p><strong>normal模式下：u（undo回退）</strong>,可以按多个u一直回退</p>
+<p><strong>向前跳单词：<code>w</code></strong></p>
+<p><strong>先后跳单词：<code>b</code></strong></p>
 <p><strong>重做</strong>：<code>:redo</code>、<code>ctrl+r</code> (undo多了的时候要redo)</p>
 <p>基本命令：<a target="_blank" rel="noopener" href="https://www.huaweicloud.com/articles/12650466.html">https://www.huaweicloud.com/articles/12650466.html</a></p>
-<p>查找与替换：<a target="_blank" rel="noopener" href="https://www.huaweicloud.com/articles/86253e3b3898f6b543288e443c426ac0.html">https://www.huaweicloud.com/articles/86253e3b3898f6b543288e443c426ac0.html</a></p>
+<p><strong>查找与替换：</strong></p>
+<p><code>:/&lt;str&gt;</code> ，<code>n</code>：下一个，<code>N</code>上一个</p>
+<p><code>:%s/word1/word2/g</code>：在全局(<code>%</code>)，将word1替换(<code>g</code>）成word2</p>
+<p><code>:5,12s/word1/word2/g</code>：在5~12行(<code>5,12</code>)，将word1替换(<code>g</code>）成word2</p>
+<p><code>:.,+2s/word1/word2/g</code>在当前行，与接下来两行+2(<code>.,+2</code>)，将word1替换(<code>g</code>）成word2</p>
+<p>格式为：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">:<span class="token punctuation">&#123;</span>作用范围<span class="token punctuation">&#125;</span>s/<span class="token punctuation">&#123;</span>目标<span class="token punctuation">&#125;</span>/<span class="token punctuation">&#123;</span>替换<span class="token punctuation">&#125;</span>/<span class="token punctuation">&#123;</span>替换标志<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>更多替换见：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3b2f04c1897">https://www.jianshu.com/p/b3b2f04c1897</a></p>
 <p><strong>复制nyy/yy、剪切、粘贴p</strong>：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wojiaowoen/p/6110783.html">https://www.cnblogs.com/wojiaowoen/p/6110783.html</a></p>
 <p><strong>跳转操作：</strong></p>
 <div class="table-container">
@@ -627,6 +637,7 @@
 </table>
 </div>
 <p><a target="_blank" rel="noopener" href="https://vimjc.com/vim-split-window.html">https://vimjc.com/vim-split-window.html</a></p>
+<p>只读文件时候强制保存：<code>:w !sudo tee %</code></p>
 <h2 id="按键映射"><a href="#按键映射" class="headerlink" title="按键映射"></a>按键映射</h2><p>在vimrc中通过map进行快捷键映射</p>
 <pre class="line-numbers language-none"><code class="language-none">map &lt;leader&gt;快捷键 :原指令<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><a target="_blank" rel="noopener" href="https://ixyzero.com/blog/archives/2305.html">https://ixyzero.com/blog/archives/2305.html</a></p>
@@ -634,6 +645,43 @@
 <p>noremap：非递归映射（nnoremap、inoremap、vnoremap）</p>
 <p>不带n、i、v前缀则代表通用</p>
 <p>快捷键用<code>&lt;&gt;</code>包起来，比如<code>&lt;C-A&gt;</code>代表ctrl+a</p>
+<p>我设置的常用映射【目前都用不了！】：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>decip.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ctrl+a</td>
+<td>全文复制（normal模式；先要<code>set clipboard=unnamed</code>）</td>
+</tr>
+<tr>
+<td>crtl+c</td>
+<td>复制（normal）</td>
+</tr>
+<tr>
+<td>crtl+v</td>
+<td>粘贴（normal）</td>
+</tr>
+<tr>
+<td>ctrl+s</td>
+<td>保存文件（normal模式、insert模式）</td>
+</tr>
+<tr>
+<td>ctrl+a</td>
+<td>跳转行首（insert）</td>
+</tr>
+<tr>
+<td>ctrl+e</td>
+<td>跳转行尾（insert）</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="leader模式"><a href="#leader模式" class="headerlink" title="leader模式"></a>leader模式</h2><p>只用快捷键很麻烦，所以产生了leader模式，可以自己定义快捷指令</p>
 <p>vim默认的leader是<code>\</code>，输入<code>\</code>即进入leader模式，就可以使用leader模式的快捷键了</p>
 <p>可以通过<code>let mapleader=&quot;,&quot;</code>修改，比如这里修改成了<code>,</code></p>
@@ -685,8 +733,7 @@
 </tbody>
 </table>
 </div>
-<h2 id="fzf-search"><a href="#fzf-search" class="headerlink" title="fzf(search)"></a>fzf(search)</h2><p>【如何使用】</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></p>
+<h2 id="fzf-search"><a href="#fzf-search" class="headerlink" title="fzf(search)"></a>fzf(search)</h2><p><a target="_blank" rel="noopener" href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></p>
 <h2 id="universal-ctags"><a href="#universal-ctags" class="headerlink" title="universal ctags"></a>universal ctags</h2><p>这个先不用管，装就完了，后面YCL等很多插件都依赖ctags</p>
 <p>用apt装，<code>apt install universal ctags</code></p>
 <p>ctags：自动跳转功能</p>
@@ -751,6 +798,9 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/vim-airline/vim-airline">https://github.com/vim-airline/vim-airline</a></p>
 <h2 id="YCM"><a href="#YCM" class="headerlink" title="YCM"></a>YCM</h2><p>YCM需要前置安装一些组件，然后再在.vimrc里配置</p>
 <p>vim_plug安装YCM的方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wycgi/article/details/88372516">https://blog.csdn.net/wycgi/article/details/88372516</a></p>
+<p>sudo apt install build-essential cmake python3-dev</p>
+<p>cd .vim/plugged/YouCompleteMe/</p>
+<p>python3 ./install.py  —all</p>
 <p>安装好后，要将<code>.ycm_extra_conf.py</code>放到vimrc的let g:ycm_global_ycm_extra_conf指定的位置</p>
 <p>YCM官方文档，里面有一些常用命令，以后用到可以自己设快捷键：<a target="_blank" rel="noopener" href="https://github.com/ycm-core/YouCompleteMe#linux-64-bit">https://github.com/ycm-core/YouCompleteMe#linux-64-bit</a></p>
 <p>我定义的快捷键：</p>
@@ -787,8 +837,6 @@
 </table>
 </div>
 <p>关于ycm颜色配置的可选项：<a target="_blank" rel="noopener" href="https://siatwe.wordpress.com/2018/03/23/vim-ctermfg-and-ctermbg-color-values/">https://siatwe.wordpress.com/2018/03/23/vim-ctermfg-and-ctermbg-color-values/</a></p>
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>分屏操作直接用mobaxterm自带的！</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39915815/article/details/110986181">https://blog.csdn.net/weixin_39915815/article/details/110986181</a></p>
 
         </div>
         <!-- .entry-content -->
