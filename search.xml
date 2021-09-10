@@ -1,6 +1,807 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>-1.Valgrind、GDB</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B-1%5DValgrind%E3%80%81GDB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Valgrind"><a href="#Valgrind" class="headerlink" title="Valgrind"></a>Valgrind</h2><p>C/C++内存泄漏、内存错误检测工具</p>
+<p><a href="https://murphypei.github.io/blog/2019/04/valgrind-memory-leaky">https://murphypei.github.io/blog/2019/04/valgrind-memory-leaky</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">valgrind --tool<span class="token operator">=</span>memcheck --leak-check<span class="token operator">=</span>full ./a.out<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>eg:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+struct Dad &#123; &#125;;
+struct Son: public Dad &#123; int *m &#x3D; new int[2](); &#125;;  &#x2F;&#x2F;这里泄漏
+int main()
+&#123;
+    Dad *d &#x3D; new Son(1);
+    delete d;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这段代码发生了派生类指针到基类指针的类型转换，动态类型和静态类型不一致，运行时对象是派生类，静态类型是父类。但是由于析构函数不是虚函数，所以析构函数静态绑定到编译时类型（基类）上，导致<code>delete</code>的时候调用了基类析构函数，导致派生类（运行时对象）的资源没有释放（<code>m</code>管理的资源），发生内存泄漏。</p>
+<p>下面用Valgrind工具分析（只列出summary部分）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span> LEAK SUMMARY:
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>    definitely lost: <span class="token number">8</span> bytes <span class="token keyword">in</span> <span class="token number">1</span> blocks
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>    indirectly lost: <span class="token number">0</span> bytes <span class="token keyword">in</span> <span class="token number">0</span> blocks
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>      possibly lost: <span class="token number">0</span> bytes <span class="token keyword">in</span> <span class="token number">0</span> blocks
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>    still reachable: <span class="token number">0</span> bytes <span class="token keyword">in</span> <span class="token number">0</span> blocks
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>         suppressed: <span class="token number">0</span> bytes <span class="token keyword">in</span> <span class="token number">0</span> blocks
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span>
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span> For lists of detected and suppressed errors, rerun with: -s
+<span class="token operator">==</span><span class="token number">1633936</span><span class="token operator">==</span> ERROR SUMMARY: <span class="token number">1</span> errors from <span class="token number">1</span> contexts <span class="token punctuation">(</span>suppressed: <span class="token number">0</span> from <span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看出工具以及分析出8bytes的泄漏，这8bytes就是派生类<code>m</code>管理的动态资源，两个<code>int</code>元素数组的大小</p>
+<p>这个工具也可以跟踪内存申请和回收，解决double free等问题</p>
+<h2 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h2><p>待完善</p>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>5.运算符重载、模板(TBC)</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B5%5D%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E3%80%81%E6%A8%A1%E6%9D%BF(TBC)/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><ol>
+<li><p>对于<strong>成员函数</strong>的运算符重载，它的左侧运算对象必须是运算符所属类的一个对象</p>
+<p>这时，表达式<strong>右边第一个元素是被调用对象，第二个元素是运算符重载函数传入的参数</strong>。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">string t &#x3D; obj + &quot;!&quot;;
+#相当于调用 obj.operator+(&quot;!&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>所以<strong>第一个元素必须是运算符重载函数所属类的对象</strong></p>
+<p>当一个重载的运算符是<strong>成员函数的时候，<code>this</code>绑定到左侧运算对象</strong>。成员运算符函数的显式参数数量比运算对象的数量少一个。</p>
+</li>
+<li><p>对于<strong>非成员函数</strong>的运算符重载，要求<strong>至少有一个运算对象是类类型</strong>（类指针类型也不行）。</p>
+<p>比如如果想重载<code>int operator(const int a,const int b)</code><strong>是错误的！</strong></p>
+<p><code>cout&lt;&lt;a;</code>就是一个典型的非成员函数运算符重载函数的调用，输入输出运算符必须是非成员函数重载。<code>cout</code>是第一个元素，类型位<code>ostream&amp;</code>，第二个元素是<code>a</code>，运算符<code>&lt;&lt;</code>，且该表达式的返回值为一个<code>ostream&amp;</code>。然后在ios库中有定义<code>ostream</code>到<code>void*</code>类型的转换，于是就可以将其作为while等的判断条件，如果调用出错（如cin读到行尾等），那么<code>ostream&amp;</code>转换成<code>void*</code>为0，即False，那么循环就会跳出。（附，<code>ostream</code>库中转换运算符定义：<code>operator void *() const &#123; if(state&amp;(badbit|failbit) ) return 0; return (void this; &#125;</code>）</p>
+<p><strong>注意<code>ostream&amp;</code>要设置为非常量</strong>，因为<code>ostream</code>输出数据会改变其状态。</p>
+</li>
+<li><p><strong>类型转换运算符</strong>语法特殊</p>
+<p><strong> <code>operator type() const;</code> 转换为<code>type()</code>类型，返回转换后的<code>type()类型</code>的结果</strong>，<strong>加<code>explicit</code>可以禁止隐式转换，只能显式转换。</strong>注意定义类型转换运算符这个格式比较特殊</p>
+<p>注意，在表达式作为<code>if/while/for/!/||/&amp;&amp;/?:</code>等语句的条件部分的时候，<strong>显式的类型转换将会被隐式地执行（即使有explicit也会隐式执行显示转换）</strong>。所以如果定义了到bool类型的转换，就可以将该语句作为条件来使用。</p>
+<p>注意，要避免具有二义性的类型转换。<strong>二义性</strong>主要是<strong>隐式转换</strong>存在<strong>多种优先级相同的转换路径</strong>，导致编译器不在做隐式转换的时候不知道该选择哪一种。比如：两个类AB中A的构造函数与B的类型转换运算符二义；两个类型转换运算符都不能精准匹配导致的二义；几个重载函数的参数分属不同类型，但这几个类恰好定义了同样的转换构造函数（这种情况即使精准匹配也会二义，优先级视为相同）；类与算数类型且既提供了目标是算数类型的类型转换、也提供了重载运算符的算数表达式等等。<strong>为了避免二义性的建议：</strong>不要令两个类指向相同的类型转换；避免转换目标是内置算术类型的类型转换。除了显式地向bool类型转换，我们应该尽量避免定义类型转换函数并尽可能限制那些“显然正确”的非显式构造函数。<strong>禁用隐式转换</strong></p>
+</li>
+<li><p>为了使用后置运算符，后置版本接受一个额外的（不被使用）<code>int</code>类型的形参。当我们使用后置运算，编译器为这个形参提供一个值为0的实参，来调用这个后置版本重载。eg:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Obj Obj::operator++; &#x2F;&#x2F;前值版本
+Obj Obj::operator++(int); &#x2F;&#x2F;后值版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li><p><strong>箭头运算符的重载</strong>也属于特殊一类</p>
+<p><strong>重载的箭头运算符必须返回指向类的指针</strong>或者<strong>自定义了箭头运算符的某个类的对象</strong>。<strong>然后编译器会再调用内置箭头运算符访问成员。</strong></p>
+<p>运用箭头运算符的意义就是：重新定义<strong>内置箭头运算符应该访问哪个类</strong>的成员，而这个类就是重载的箭头运算符的返回值（指向它的指针）</p>
+<p>对于<code>point-&gt;action()</code>，由于优先级规则，它实际等价于编写<code>(point-&gt;action)()</code></p>
+<p>①如果<code>point</code>是一个指针，指向具有名为<code>action</code>的成员的类对象，则编译器将代码编译为调用该对象的 <code>action</code>成员（默认语义）。</p>
+<p>②否则，如果<code>point</code>是定义了 <code>operator-&gt;</code>操作符的类的一个对象，<strong>则 <code>point-&gt;action</code>与 <code>point.operator-&gt;()-&gt;action</code> 相同</strong>。即，执行<code>point 的 operator-&gt;()</code>，然后使用该结果重复这三步。（递归调用）</p>
+<p>③否则，代码出错。</p>
+<p>总结：通过箭头<code>-&gt;</code>操作符的执行过程，我们可以得到结论“重载箭头操作符必须<strong>返回</strong>指向类类型的<strong>指针</strong>，或者返回定义了自己的箭头操作符的类类型<strong>对象</strong>。”返回前者用于执行编译器默认语义终结箭头运算符的调用（<strong>如果重载的箭头运算符返回类型是指针，则内置箭头操作符将作用于该指针，编译器对该指针解引用并从结果对象获取指定成员</strong>），<strong>返回后者用于递归调用</strong>。（如果返回类型是类类型的其他对象（或是这种对象的引用），则将递归应用该操作符。编译器检查返回对象所属类型是否具有成员箭头，如果有，就应用那个操作符；否则，编译器产生一个错误。这个过程继续下去，直到返回一个指向带有指定成员的的对象的指针，或者返回某些其他值，在后一种情况下，代码出错。）<br>（参考：<a href="https://blog.csdn.net/dfwseq/article/details/25691063）">https://blog.csdn.net/dfwseq/article/details/25691063）</a></p>
+<p>重载的箭头运算符中通常将工作委托给<code>*</code>解引用运算符（获取实体），再返回指向该实体的指针，以使得语义自然</p>
+</li>
+<li><p>重载运算符的定义不应该脱离这个运算符最基本的含义、</p>
+</li>
+<li><p><strong>类型类型</strong></p>
+<p>对于<strong>函数</strong> <code>int func(int a,int b)</code>，其类型为<code>int(int,int)</code></p>
+<p>对于<strong>函数指针</strong>：<code>int *func(int a,int b)</code>，其类型为<code>int (*)(int,int)</code></p>
+<p>注意这里函数指针很容易搞错，<code>(*)</code>其实是<code>(*func)</code>的类型定义形式（即函数指针），前面的函数返回类型和后面的函数参数表都是<code>func</code>本身的定义，<code>(*)</code>是关键，跟在<code>func</code>后面表明这个类型是这个<code>func</code>的指针。</p>
+<p><strong>C++中，直接使用函数名、函数对象名、数组名都是指针！</strong></p>
+</li>
+<li><p><strong>函数调用运算符</strong>的格式要注意</p>
+<p><code>ovid operator()(const string str) const&#123;&#125;</code>，<strong>其中的<code>operator()</code>就是定义重载<code>()</code>运算符，也就是函数调用。第二个括号才是参数表！</strong></p>
+<p>函数调用运算符可以做到<strong>像函数一样使用对象</strong>，这种对象称为<strong>函数对象</strong>，也叫<strong>仿函数</strong>，是非匿名的函数对象</p>
+<p>函数对象常常作为泛型算法的实参，泛型算法负责调用函数对象。</p>
+<p>标准库也定义了一些函数对象，比如<code>greater&lt;Type&gt;</code>，<code>less&lt;Type&gt;</code>等，可以很方便用作泛型算法的实参</p>
+</li>
+<li><p><strong>可调用对象：①函数 ②函数指针 ③lambda表达式 ④bind创建的对象 ⑤重载了函数调用运算符的类</strong></p>
+<p>通过<strong>传递函数指针</strong>（或函数对象指针），可以将函数以参数的方式进行传递，方便灵活调用。（<strong>注意：函数本身并不能作为参数传递，所以我们传递函数指针，定义的类型也是函数指针类型；</strong>但lambda表达式本身可以作为参数传递，可以用一个auto类型接收）</p>
+<p><strong>lambda表达式也是（匿名）函数对象</strong>，与非匿名函数对象可以<strong>互相替代</strong>。但是lambda表达式的类型很难表达</p>
+<p><strong>为了方便表达可调用对象类型，C++11引入<code>function</code>类型，用函数调用形式来定义可调用对象，以便不写类型</strong>。<strong>只要调用形式相同（任何可调用对象，无论是函数、函数指针、lambda、函数对象），都可以用同一个<code>function</code>模板来表示一个函数类型</strong>。比如：<code>function&lt;int(int,int)&gt;</code>就代表函数调用形式为<code>int(int,int)</code>的可调用对象类型，注意这里省略了变量名</p>
+<p>eg:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class a
+&#123;
+	void operator()(const string &amp;str)
+    &#123;
+        cout&lt;&lt;str&lt;&lt;endl;
+    &#125;  
+&#125;;
+void func(const string &amp;str)
+&#123;
+    cout&lt;&lt;str&lt;&lt;endl;
+&#125;
+int main()
+&#123;
+	&#x2F;&#x2F;不用function，直接手动定义函数类型
+    vector&lt;void(*)(const string&amp;)&gt; vec;  &#x2F;&#x2F;函数名是指针类型！
+    vec.push_back(func);
+    vec[0](&quot;hello world&quot;); &#x2F;&#x2F;hello world
+
+    &#x2F;&#x2F;定义function，只要满足调用形式是void(const string&amp;)的都可以作为vector元素
+    vector&lt;function&lt;void(const string&amp;)&gt;&gt; vec2;
+    
+    vec2.push_back(func);  &#x2F;&#x2F;函数指针
+    auto func2 &#x3D; [](const string&amp; str)&#123;cout&lt;&lt;str&lt;&lt;endl;&#125;;  &#x2F;&#x2F;lambda
+    vec2.push_back(func2);
+    vec2.push_back(a);  &#x2F;&#x2F;函数对象
+    vec2[0](&quot;hello world2&quot;); &#x2F;&#x2F;hello world2
+    vec2[1](&quot;hello world3&quot;); &#x2F;&#x2F;hello world3
+    vec2[2](&quot;hello world4&quot;); &#x2F;&#x2F;hello world4
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样，在使用可调用对象作为成员的时候就方便了，比如在初始化模板定义的时候（如定义容器），不能用auto，就必须得用function类型来表达lambda类型了</p>
+<p>ATT：lambda表达式产生的类不含默认构造函数，赋值运算符，和默认析构函数，是否有默认的拷贝构造函数通常视捕获的数据成员类型而定。</p>
+</li>
+</ol>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+class Obj
+&#123;
+    &#x2F;&#x2F;make function friend ahead of definination!
+    friend ostream&amp; operator&lt;&lt;(const ostream&amp;, const Obj&amp;);
+public:
+    &#x2F;&#x2F;const can only be initialized by initialize list
+    Obj(const int a, const int b):a(a),b(b) &#123;&#125;
+    int operator+(const double a)
+    &#123;
+        return 4;
+    &#125;
+    &#x2F;&#x2F; no pram but () should exist
+    Obj&amp; operator++()
+    &#123;
+        ++b;
+        return *this;
+    &#125;
+    Obj&amp; operator++(int)
+    &#123;
+        b++;
+        return *this;
+    &#125;
+    int operator[](const int index) const
+    &#123;
+        return vec[index];
+    &#125;
+    &#x2F;&#x2F;const function cannot return a non-const reference
+    const vector&lt;int&gt;&amp; operator*() const
+    &#123;
+        return vec;
+    &#125;
+    &#x2F;&#x2F;special format
+    &#x2F;&#x2F;&#39;-&gt;&#39; operator must return a pointer or a object that defined the &#39;-&gt;&#39; operator
+    const vector&lt;int&gt;* operator-&gt;() const
+    &#123;
+        return &amp; this-&gt;operator*();
+    &#125;
+    &#x2F;&#x2F;special format
+    &#x2F;&#x2F; format special :no return define in function defination
+    explicit operator int() const
+    &#123;
+        return 10;
+    &#125;
+    &#x2F;&#x2F;special format
+    void operator()(const string str) const
+    &#123;
+        cout&lt;&lt;str&lt;&lt;endl;
+    &#125;
+
+    const int a;
+    int b;
+    vector&lt;int&gt; vec &#x3D; &#123;0,1,2,3,4,5&#125;;
+&#125;;
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const Obj&amp; obj)
+&#123;
+    cout&lt;&lt;obj.b;
+    return os;
+&#125;
+int main()
+&#123;
+    Obj a(3, 4);
+    ++a;
+    cout&lt;&lt;a++&lt;&lt;endl;
+    cout&lt;&lt;static_cast&lt;int&gt;(a)&lt;&lt;endl;
+    cout&lt;&lt;(*a)[1]&lt;&lt;endl;
+    cout&lt;&lt;(a-&gt;size())&lt;&lt;endl;
+    a(&quot;object function&quot;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2>]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>6.面向对象编程</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B6%5D%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="ch-15-OOP"><a href="#ch-15-OOP" class="headerlink" title="ch.15 OOP"></a>ch.15 OOP</h1><h2 id="三大核心思想"><a href="#三大核心思想" class="headerlink" title="三大核心思想"></a>三大核心思想</h2><p>OOP三大核心思想：数据抽象、继承、动态绑定</p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><ol>
+<li><p>我们可以<strong>将基类的指针或引用绑定到派生类的对象上</strong>，这发生了<strong>派生类到基类的隐式转换</strong>。这代表着：当使用基类的引用或指针的时候，实际上我们并不清楚该引用或指针所绑定对象的真实类型，该对象可能是基类对象，也可能是派生类对象；这就是<strong>多态的重要特征</strong>，我们可以对外屏蔽具体派生类细节，外部只需要以使用基类的方式去使用对象即可，方便解耦与抽象。（<strong>P.S.前提是派生类<code>public</code>继承基类</strong>，见第9条）</p>
+<p><strong>ATT！这里的转换只是对编译器来说类型转换了，让编译器在编译期把派生类当作基类对象来使用</strong>（因为派生类一定是完全包含基类的，<strong>不会对原派生类对象有任何修改</strong>）。其<strong>实际的运行时类型并没有被改变</strong>（而其它隐式转换会导致运行时类型一起变了），这<strong>导致了继承情况下进行类型转换，静态类型与动态类型会不一样</strong>，这也是下面<strong>动态绑定的基础</strong></p>
+</li>
+<li><p><strong>派生类到基类的自动类型转换只对指针或引用类型有效，在派生类类型和基类类型之间实际上不存在这样的转换。</strong>然而<strong>转换是存在的</strong>，<strong>它可以通过拷贝控制方式达到这种派生类类型到基类类型的转换</strong>（前提是基类有拷贝控制成员），即：派生类向基类的转换允许我们给基类拷贝/移动操作传递一个派生类的对象，而拷贝/移动构造器/赋值重载函数中只会存在对派生类中基类有的成员的操作，所以<strong>基类没有的成员会被”切掉”</strong>！</p>
+</li>
+<li><p>基类的引用或指针不能隐式转型为派生类的引用或指针，<strong>除非使用类型转换运算符强制转换</strong>。如果在基类中含有一个或多个虚函数，我们可以使用<code>dynamic_cast</code>请求一个类型转换，该转换的<strong>安全检查将在运行时执行</strong>，用于将<strong>基类</strong>的<strong>指针或引用</strong>，<strong>安全地</strong>转换成<strong>派生类</strong>的<strong>指针或引用</strong>（比static_cast更安全，在多态类型之间的显式强制转换主要用dynamic_cast）；同样如果我们已知某个基类向派生类的转换一定是安全的，则可以使用<code>static_cast</code>来<strong>强制覆盖掉编译器的检查工作（不进行运行时检查，不安全）</strong>。注意：<strong>类型转换所说的安全是指有问题能及时发现</strong>，比如一个指针转型成一个整数这很显然有大问题，尽早爆出来。<strong> <code>dynamic_cast</code>就可以做到一定是符合条件的基类转换成派生类，否则会报错，所以比较安全</strong></p>
+</li>
+</ol>
+<h2 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h2><ol>
+<li><p>当我们使用继承关系的类型的时候，必须将<strong>一个变量或其它表达式的静态类型</strong>，与该表达式<strong>对象的动态类型</strong>区分开来。表达式的静态类型在编译时是已知的，它是<strong>变量声明时</strong>的类型或表达式生成的类型；动态类型则是变量或表达式表示的<strong>内存中的对象的类型</strong>。动态类型直到运行时才可知。比如<code>A* a</code>，静态类型指左边变量类型是<code>A*</code>，而对象的动态类型指右边对象<code>a</code>的实际类型。<strong>基类的指针或引用的静态类型可能与其动态类型不一致，这是C++支持多态的根本所在。</strong>（<strong>为什么会不一致？因为可能做了派生类到基类的静态类型转换，这里所说的基类的指针或引用就可以通过这样获取</strong>）</p>
+</li>
+<li><p><strong>绑定</strong>：把一个<strong>方法与类对象关联起来</strong>的方法叫绑定。</p>
+</li>
+<li><p>在C++语言中，当我们<u>①使用<strong>基类</strong>的<strong>引用或指针</strong>，<strong>且</strong>②<strong>调用一个虚函数</strong></u>时将发生<strong>动态绑定</strong>。<strong>虚函数的运行版本由运行实参（动态对象）决定</strong>，所以称为动态绑定（变量绑定的对象类型是运行时决定的），其<strong>解析发生在运行时</strong>。</p>
+<p>而<strong>非虚函数/数据成员/直接对象</strong>的运行版本由变量静态类型决定，<strong>变量静态类型是什么，实际对象就是什么类型</strong>，所以是静态绑定，其解析发生在编译期。这种情况下，即使派生类重写了虚函数，但由于变量是基类类型，或者调用的函数是非虚函数，那么程序也只会调用基类的函数。<strong>只有虚函数是可以动态绑定的。</strong></p>
+</li>
+</ol>
+<h2 id="类型转换与动态绑定"><a href="#类型转换与动态绑定" class="headerlink" title="类型转换与动态绑定"></a>类型转换与动态绑定</h2><p>思考这段代码（C++多态性典型应用）：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Dad
+&#123;
+    virtual void func() &#123;cout&lt;&lt;&quot;dad&quot;&lt;&lt;endl; &#125;
+&#125;;
+struct Son: Dad
+&#123;
+    virtual void func() &#123;cout&lt;&lt;&quot;son&quot;&lt;&lt;endl; &#125;
+&#125;;
+int main()
+&#123;
+    Dad dad;
+    Son son;
+    Dad *d &#x3D; &amp;son; &#x2F;&#x2F;发生【静态类型转换】，son对象被隐式转换为Dad类型
+    d-&gt;func();  &#x2F;&#x2F;发生【动态绑定】，d的运行时对象是Son类型的，所以调用派生类的虚函数func而不是基类的虚函数func
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过基类指针或引用调用派生类对象的时候，虽然发生了<strong>派生类到基类的隐式类型转换</strong>（见上一条；这使得程序拥有多态特性，方便解耦与抽象），但这只是让编译器把派生类当作基类对象来使用，其运行时类型并没有被改变。</p>
+<p>在调用这个基类指针或引用的拥有的虚函数的时候又触发了<strong>动态绑定</strong>，能够绑定到实际的运行时对象（派生类）的虚函数。但是派生类独有的非虚函数，通过基类指针或引用就无法调用了，因为非虚函数是静态绑定的，静态绑定调用根据静态类型来决定，静态类型是父类，没有派生类的成员，所以无法调用。</p>
+<p><strong>类型转换是编译期的事情，而动态绑定是运行时的事情，类型转换的存在是动态绑定特性的基础</strong>（毕竟，如果静态类型和动态类型是一致的，那就不会触发动态绑定了）</p>
+<p><em>P.S. 关于类型转换与动态绑定《C++Primer5》一书中并没有深入展开，这里只是我读后的理解，可能有误，待看完《深度探索C++对象模型》之后再回来补充或修正</em></p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><ol>
+<li><p>函数前加关键字<code>virtual</code>声明为虚函数</p>
+<p>允许在函数末尾添加<code>override</code>关键字来提醒这是覆写基类的虚函数</p>
+<p>允许在函数末尾添加<code>final</code>关键字来提醒此函数/类不可继承or覆写</p>
+<p>override和final都是为了告诉编译器，让编译器提醒我们<strong>当且仅对通过指针或引用调用虚函数时，才会在运行时解析该调用</strong>，也只有在这种情况下，<strong>对象的动态类型才有可能和静态类型不同</strong></p>
+</li>
+<li><p>如果某次函数调用使用了默认实参，则该<strong>默认实参值由本次调用的静态类型决定，虚函数也是如此</strong>！</p>
+</li>
+<li><p>回避虚函数机制：<strong>通过作用域运算符来强制使用基类的虚函数</strong>。以上面的代码为eg：<code>son-&gt;Dad::func()</code>就调用了<code>Dad</code>的虚函数<code>Dad::func()</code>而不是<code>son::func()</code></p>
+</li>
+</ol>
+<h2 id="抽象基类、纯虚函数"><a href="#抽象基类、纯虚函数" class="headerlink" title="抽象基类、纯虚函数"></a>抽象基类、纯虚函数</h2><p>纯虚函数才类似于JAVA中的抽象函数，只负责定义接口，通过在虚函数声明语句分号前声明为<code>=0</code>，实现了这个纯虚函数的类才能实例化，含有纯虚函数的类叫抽象基类</p>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>重构：重新设计类的体系以便将操作和/或数据从一个类移动到另一个类中。</p>
+<h2 id="继承与虚析构函数、拷贝控制、构造函数"><a href="#继承与虚析构函数、拷贝控制、构造函数" class="headerlink" title="继承与虚析构函数、拷贝控制、构造函数"></a>继承与虚析构函数、拷贝控制、构造函数</h2><ol>
+<li><p><strong>派生类拥有基类全部成员函数和成员变量，但是不一定拥有访问权。</strong>比如，基类有个private变量a，派生类也会拥有，但是派生类自己也无权访问这个变量。注意派生后，<strong>派生类就是一个包含基类成员的独立结构</strong>，操作派生类对象发生的事情都是在派生类对象中的（<em>这里待看完《深入探索C++对象模型》后更多理解补充</em>）。<strong>构造函数、拷贝控制构造函数不能被继承。</strong>（显然赋值重载函数会被继承）</p>
+<p> 在一个对象中，继承自基类的部分和派生类自定义的部分不一定是连续存储的。</p>
+</li>
+<li><p><strong>每个类控制它自己成员的初始化过程</strong>，即<strong>某个类</strong>的成员只能由<strong>自己的构造函数来初始化</strong>。且在<strong>派生类中</strong>，<strong>首先</strong>在<strong>构造函数初始化列表中</strong>通过<strong>调用基类构造函数</strong>来<strong>初始化基类的部分</strong>（这就像JAVA中子类构造函数中需要先super），然后<strong>按照声明顺序依次初始化派生类的成员</strong></p>
+</li>
+<li><p><strong>构造函数不会被继承</strong>，所以<strong>初始化派生类中的基类成员需要手动调用所有的基类构造器</strong>。但是C++11之后<strong>可以通过<code>using</code>指定基类名</strong>，就能<strong>在派生类中自动生成所有基类构造器代码</strong>（注意，<code>using</code>一般只会改变作用域，但是这里不一样，它为派生类生成了基类构造器代码）。以下举例：</p>
+<p> （注意：<strong>using不会生成基类的拷贝控制构造函数（移动、赋值），以及析构</strong>）</p>
+ <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+struct Dad
+&#123;
+    Dad() &#x3D; default;
+    Dad(const int a) &#123;cout&lt;&lt;&quot;hi this is dad&quot;&lt;&lt;endl; &#125;
+&#125;;
+struct Son: public Dad
+&#123;
+    using Dad::Dad;
+    Son(const double &amp;b): Dad() &#123;cout&lt;&lt;&quot;hi this is son&quot;&lt;&lt;endl;  &#125; &#x2F;&#x2F;自构造器，就不能用using生成的构造器，要自己在初始化列表中初始化基类构造器
+&#125;;
+int main()
+&#123;
+    Son son(1); &#x2F;&#x2F;&quot;hi this is dad&quot;; 调用Son中using生成的基类构造器
+    Son son2(3.4); &#x2F;&#x2F;&quot;hi this is son&quot;; 调用Son自己写的构造器
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p> ATT1：<strong>只能在构造函数初始化表中调用基类构造器</strong>，且直接调用<strong>不需要</strong>加作用域运算符</p>
+<p> ATT2：对于<code>using</code>生成构造函数，有两个例外：①如果派生类定义的构造函数<strong>与基类的构造函数</strong>有<strong>相同参数表</strong>，则该基类构造函数<strong>不会被生成</strong> ②也就是前面所说的，<code>using</code><strong>不会生成拷贝控制构造函数</strong>。</p>
+<p> ATT3：<code>using Dad;</code>只是在派生类中自动生成<strong>调用基类构造器的派生类构造器</strong>，这个派生类构造器<strong>参数和基类构造器一样，然后用这个参数初始化基类构造器</strong>（<strong>形式：<code>Son(params):Dad(args)</code></strong>），其它什么都不干，如果派生类自己要写新的构造器，就还是要在构造函数初始化表中调用基类构造函数来初始化基类部分。以下举例：</p>
+ <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Dad
+&#123;
+    Dad();
+    Dad(const int a) &#123;cout&lt;&lt;&quot;hi this is dad&quot;&lt;&lt;endl; &#125;
+    Dad(const string a) &#123;cout&lt;&lt;&quot;hi this is dad too!&quot;&lt;&lt;endl; &#125;
+&#125;;
+struct Son: public Dad
+&#123;
+    using Dad::Dad;
+&#125;;
+&#x2F;&#x2F;等价于
+struct Son: public Dad
+&#123;
+    &#x2F;&#x2F;派生类构造器参数和基类构造器一样，然后用这个参数初始化基类构造器，其它什么都不干
+    Son():Dad()&#123;&#125;;
+    Son(const int a): Dad(a) &#123;cout&lt;&lt;&quot;hi this is dad&quot;&lt;&lt;endl; &#125; 
+    Son(const string a):Dad(a) &#123;cout&lt;&lt;&quot;hi this is dad too!&quot;&lt;&lt;endl; &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>构造函数拥有默认值会产生多个构造函数版本</strong>，且继承构造函数无法继承基类构造函数的默认参数，所以我们在使用有默认参数构造函数的基类时就必须要小心。</p>
+</li>
+<li><p>由于动态绑定，我们使用一个基类指针或引用的时候，实际上可能使用的对象是派生类，所以析构也必须调用对应派生类的析构函数来释放对应的动态资源，所以<strong>若要用到动态绑定特性，继承体系的析构函数最好是虚析构函数，以确保释放运行时对象管理的动态资源</strong>，这时候由于虚析构函数也是动态绑定的，所以对基类指针调用析构函数的时候就会调用运行时对象的虚析构函数。<strong>合成的析构函数并不是虚析构函数，所以这种动态资源+动态绑定情况下，需要自定义虚构函数。</strong>（若不用虚析构函数，那么析构函数是静态绑定到编译期变量（基类指针）的，那么只会调用基类的析构函数，于是GG，派生类资源泄漏；如果派生类没有自己的动态资源，确实可以不用虚析构函数，但这样一不小心就容易犯错，所以只要是这种情况，统统设为虚析构函数）</p>
+<p> 虚析构函数也是析构函数，包含析构函数其它特性，比如，虚析构函数会阻止编译器合成移动操作。</p>
+</li>
+<li><p><strong>派生类的析构函数只负责销毁由派生类自己分配的资源，父类的析构函数会被自动调用执行</strong>。也就是说<strong>构造的时候是从原基类成员开始构造，析构的时候是从派生类成员开始销毁</strong>（注意1：析构函数内只是析构前的工作，实际的解构和回收内存是在析构函数执行后隐式销毁的；注意2：使用虚析构函数也是一样，从派生类成员开始析构）</p>
+</li>
+<li><p>派生类中删除的拷贝控制与基类的关系：</p>
+<p>①如果基类的默认构造函数、拷贝构造函数、拷贝赋值运算符或析构函数是删除的或不可访问的，则派生类中对应的成员将是被删除的（显然，派生类不能使用基类成员来执行派生类对象中基类部分的构造赋值或销毁等操作）</p>
+<p>②如果在基类中有一个不可访问或删除的析构函数，则派生类中合成的默认和拷贝构造函数将是删除的（因为编译器无法销毁派生类中的基类部分，当然，基类的默认拷贝构造函数也是删除的）</p>
+<p>③编译器将不会合成一个删除掉的移动操作。当我们使用<code>=default</code>请求一个移动操作的时候，如果基类中对应操作是删除或不可访问的，那么派生类该函数将是删除的（因为派生类对象的基类部分不可移动）；同样，如果基类中的析构函数是删除或不可访问的，则派生类的移动构造函数也是删除的。</p>
+</li>
+<li><p><strong>由于大多基类都会定义一个虚析构函数，所以基类合成移动操作默认删除，所以派生类的合成移动操作也默认删除，所以如果派生类要定义移动操作，应该首先在基类中定义</strong></p>
+<p> <strong>总地来说：由于派生类的基类部分要依托基类的构造器，所以基类没有的，派生类就不能有</strong></p>
+</li>
+</ol>
+<h2 id="再次理解【重要】：自己的成员自己管（用构造函数）"><a href="#再次理解【重要】：自己的成员自己管（用构造函数）" class="headerlink" title="再次理解【重要】：自己的成员自己管（用构造函数）"></a><strong>再次理解【重要】</strong>：<strong>自己的成员自己管（用构造函数）</strong></h2><p>赋值操作符重载也是这样。<strong>在派生类中，一定要调用基类的拷贝控制函数来管理基类部分的成员</strong>，但是析构函数比较特殊，<strong>派生类析构函数中不需要调用基类析构函数</strong>，基类析构函数<code>Dad:~Dad()</code>会自动执行</p>
+<p>派生类中<strong>没有初始化基类部分成员</strong>就使用会提示<strong>找不到该成员</strong>。</p>
+<p><strong>在设计类继承体系的时候，就要明确，自己负责自己成员的拷贝控制，派生类要用的！</strong></p>
+<p>可以使用<strong> <code>using</code></strong>自动生成默认调用基类构造器的派生类构造器，但这样就无法自定义派生类的参数表。注意using只能生成构造函数，而拷贝控制构造函数是不行的。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;*****错误演示*****&#x2F;
+struct Dad
+&#123;
+    int tmp &#x3D; 0;
+&#125;
+struct Son : Dad
+&#123;
+    &#x2F;&#x2F;【错误】Son的拷贝控制构造函数。使用了父类构造器初始化tmp，但是却用被拷贝对象的基类成员初始化本对象的基类成员，违背“自己的成员自己管原则”。tmp是继承的基类成员，要用基类的构造器（各种）来初始化！
+    &#x2F;&#x2F;这里初始化调用的是基类的默认构造函数进行初始化，【没有初始化基类部分成员tmp，所以这里会报错提示本对象（拷贝对象，Son类）找不到tmp】。我们能够在派生类中操作基类部分成员的前提也是基类成员已经初始化了
+    Son(const Son &amp;son):Dad(),tmp(son.tmp) &#123; cout&lt;&lt;&quot;hi this is son copy sontructor&quot;&lt;&lt;endl; &#125;  
+&#125;
+
+&#x2F;*****【正确方法】：在基类Dad中定义拷贝控制函数，由它负责成员tmp的拷贝操作，再由派生类来调用基类的拷贝控制函数进行拷贝操作*****&#x2F;
+struct Dad
+&#123;
+    &#x2F;&#x2F;实现了一个基类的拷贝控制构造函数，负责基类成员tmp的拷贝控制
+    Dad(const Dad &amp;dad):tmp(dad.tmp) &#123;cout&lt;&lt;&quot;Dad copy constructor&quot;&lt;&lt;endl; &#125;
+    int tmp &#x3D; 0;
+&#125;
+struct Son : Dad
+&#123;
+    &#x2F;&#x2F;将被拷贝类引用传入基类的拷贝构造函数中，让它自己负责自己的成员！注意，这里将Son类型的son传入，Dad &amp;dad &#x3D; son，发生了静态隐式类型转换（见第一条），dad.tmp即son继承自基类的成员tmp
+	Son(const Son &amp;son):Dad(son) &#123; cout&lt;&lt;&quot;hi this is son copy sontructor&quot;&lt;&lt;endl; &#125;
+&#125;
+&#x2F;&#x2F;同理，赋值操作也要基类派生类各自实现，由于派生类没有拷贝成员操作，所以只需要父类实现一个赋值重载运算函数，派生类会函数匹配到父类的赋值重载运算函数（会发生派生类到基类的转型）
+&#x2F;*****为了演示完整，以下为包含赋值重载的完整版，包含了派生类赋值重载*****&#x2F;
+struct Dad
+&#123;
+    Dad(const Dad &amp;dad):tmp(dad.tmp) &#123;cout&lt;&lt;&quot;Dad copy constructor&quot;&lt;&lt;endl; &#125;
+    Dad&amp; operator&#x3D;(const Dad &amp;dad)
+	&#123;
+    	this-&gt;tmp &#x3D; dad.tmp;
+    	return *this;
+	&#125;
+    int tmp &#x3D; 0;
+&#125;
+struct Son : Dad
+&#123;
+	Son(const Son &amp;son):Dad(son) &#123; cout&lt;&lt;&quot;hi this is son copy sontructor&quot;&lt;&lt;endl; &#125;
+	Son&amp; operator&#x3D;(const Son &amp;son)
+	&#123;
+    	Dad::operator&#x3D;(son);  &#x2F;&#x2F;必须显式调用基类的赋值重载函数，让基类拷贝赋值函数对继承来的基类成员拷贝操作
+        this-&gt;var &#x3D; son.var;
+    	return *this;
+	&#125;
+    imt var &#x3D; 1;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>派生类调用基类移动构造器的时候要注意一下，由于移动构造器要求实参是右值，传入派生类形参的右值变成了左值，所以<strong>想要在派生类中再将对象传递给基类移动构造器需要再取右值<code>std::move()</code>一下</strong>。举例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;utility&gt;
+using namespace std;
+struct Dad
+&#123;
+    Dad() &#x3D; default;
+    Dad(Dad &amp;&amp;dad):m(dad.m) &#123; dad.m &#x3D; nullptr; &#125;  &#x2F;&#x2F;move 
+    Dad&amp; operator&#x3D;(Dad &amp;&amp;dad)  &#x2F;&#x2F;move 
+    &#123;
+        this-&gt;m &#x3D; dad.m;
+        dad.m &#x3D; nullptr;
+        return *this;
+    &#125;
+    int *m &#x3D; new int(10);
+    virtual ~Dad() &#123;delete m; &#125;
+&#125;;
+struct Son: public Dad
+&#123;
+    Son() &#x3D; default;
+    Son(Son &amp;&amp;son):Dad(std::move(son)) &#123; &#125;  &#x2F;&#x2F;move 注意这里，传入std::move(son)
+    Son&amp; operator&#x3D;(Son &amp;&amp;son)  &#x2F;&#x2F;move 
+    &#123;
+        Dad::operator&#x3D;(std::move(son));  &#x2F;&#x2F;注意这里，传入std::move(son)
+        return *this;
+    &#125;
+    int *m &#x3D; new int[2]();
+    virtual ~Son() &#123;delete m; cout&lt;&lt;&quot;destroy&quot;&lt;&lt;endl; &#125;
+&#125;;
+int main()
+&#123;
+    Son son;
+    auto addr1 &#x3D; son.Dad::m;  
+    Son son2(std::move(son));
+    auto addr2 &#x3D; son2.Dad::m;
+    cout&lt;&lt;(addr1&#x3D;&#x3D;addr2)&lt;&lt;endl; &#x2F;&#x2F;1 证明发生了对象移动
+    cout&lt;&lt;addr1; &#x2F;&#x2F;segmentfault 因为addr1已经寄了
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="继承与访问控制"><a href="#继承与访问控制" class="headerlink" title="继承与访问控制"></a>继承与访问控制</h2><p>①<strong>基类中成员的访问权限说明符</strong>是<strong>该类（基类）本身对外</strong>（<strong>一切非本类的代码</strong>，包括派生类、用户代码）提供的访问权限。eg：<code>class A &#123;private int a;&#125;</code></p>
+<p>②<strong>派生类继承基类的访问权限说明符</strong>是<strong>派生类继承的基类成员对派生类本身以外</strong>提供的访问权限，是<strong>派生类</strong>继承的成分对外提供的权限。其<strong>基于基类成员函数的访问权限，只能变严，不能变松</strong>，且<strong>无法更改基类本身的成员访问权限</strong>。eg：<code>class B: public A&#123;&#125;</code>。即使是<code>public</code>继承的，但是从基类继承来的<code>private</code>成员依然无法被派生类和用户代码访问到。</p>
+<p>如果没有继承访问权限说明符，则<code>struct</code>默认<code>public</code>，<code>class</code>默认<code>private</code></p>
+<p>可以<strong>通过<code>using</code>改变派生类继承基类某名字的访问权限为<code>public</code></strong>，注意改变的只是<strong>继承访问权限</strong>，即上面的”②“，所以也有一样的特性（只能变严或持平），其本质是<strong>让派生类继承的基类成员变量的对外访问权限和继承前基类中对外访问权限一致</strong>。eg:<code>using Dad::abc;</code> 主要用在如<code>private</code>继承之后，使用<code>using</code>修改个别名字的继承访问权限</p>
+<p><strong>派生类向基类转换的可访问性</strong>（假定D继承自B）：</p>
+<p>①<strong>只有当D<code>public</code>继承B时，用户代码才能使用派生类向基类的转换（1、2中的多态性的前提）</strong>；如果D<code>private</code>或<code>protected</code>继承B，用户代码不能使用该转换。</p>
+<p>②无论D以什么方式继承B，D的成员函数和友元都能使用派生类向基类的转换<strong>；派生类向其直接基类的类型转换对于派生类的成员和友元来说永远是可访问的</strong>。</p>
+<p>③如果D<code>public</code>或<code>protected</code>继承B，则<strong>D的派生类</strong>的成员和友元可以使用D向B的转换；如果D<code>private</code>继续B，则不能使用。</p>
+<p>友元不具传递性和继承性</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p><strong>派生类的作用域是被嵌套在基类中的</strong>。名字查找是先从内层作用域找再到外层作用域找。</p>
+<p>隐藏：<strong>派生类会隐藏基类中的所有同名函数（即使参数表不同）</strong>。（即使是虚函数也会被隐藏，这也是为什么派生类虚函数参数表一定要与基类一致，一不小心不是虚函数就）因为派生类是内层作用域，基类是外层作用域。<strong>外层作用域的名字会被内层作用域的名字隐藏</strong>。</p>
+<p>可以使用<strong>作用域运算符</strong>来<strong>指定</strong>使用被隐藏的基类成员：<code>int a = Dad::abc;</code></p>
+<p><strong>可以直接在派生类中用<code>using</code>把基类函数名添加到派生类作用域中</strong>（或者把基类同名函数全部在派生类中抄一遍）eg：<code>using Dad:funcname</code>。<strong>只需要<code>using</code>指定函数名字，不需要参数表</strong>。</p>
+<p>继承、访问控制、作用域、构造与析构、自己的成员自己管，结合五者可以明白派生类到底有什么，怎么用。</p>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>4.动态内存、拷贝控制</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B4%5D%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E3%80%81%E6%8B%B7%E8%B4%9D%E6%8E%A7%E5%88%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h2><p>主要内容见书</p>
+<ol>
+<li><p>可变容器是在堆上动态分配的，只不过STL已经为我们包装好了析构、allocator等， 不需要再手动new了。</p>
+<p>vector在栈上保留三个指向堆的指针，实际上的对象内容是在堆上，vector用栈上的指针来管理堆上的一大片内容</p>
+</li>
+<li><p>动态内存，静态内存</p>
+<p>静态内存在编译期分配，位于栈上；动态内存在运行时分配，位于堆上。</p>
+<p>栈上分配：static、局部作用域内的自动变量（基本类型；复杂类型如可变容器只是在栈上存了指针）</p>
+<p>堆上分配：用new、make_share等显式在堆上动态创建对象</p>
+</li>
+<li><p>什么时候需要动态内存</p>
+<p>①程序不知道自己需要使用多少/多大对象，所以不知道要分配多少内存（静态内存在编译器完成内存分配，无法改变，所以如果程序在编译器不知道对象有多少，多大，那静态编译的时候就要开辟上限个对象所需的空间，即使它们可能并不会被使用，这显然吃不消）</p>
+<p>②对象很大，栈空间不够</p>
+<p>③程序需要在多个对象间共享数据（C++内存优化，多个对象使用同一个份底层数据节约内存）</p>
+<p>④程序不知道所需对象的准确类型</p>
+</li>
+<li><p>对于普通的赋值操作，默认是底层元素拷贝+销毁（这时候可以通过传递指针/引用/共享动态内存的方式优化）；实参-&gt;形参的传递实际上也是赋值操作，若传递shared_ptr，引用计数会+1（但显然退出函数/退栈的时候形参shared_ptr销毁，引用计数又会-1，也就是说执行完函数没变，对象不会这样就被错误销毁了）</p>
+<p>注意，实参到形参的传递也是赋值操作</p>
+</li>
+<li><p>不要使用动态数组，尽量用容器替代。（实际上STL可变容器就是动态的，见1，自己用动态数组还得自己定义操作，管理拷贝、复制、销毁对象的时候所关联的内存）</p>
+<p>动态数组实际上并不是数组，得到了一个数组元素类型的指针，它实际上就是动态开辟了n个元素的内存</p>
+</li>
+<li><p>当delete一个指针之后，虽然指针已经无效，但是实际上只是释放了指针所指向的内存。这个时候指针就变成了空悬指针，指向一块已经失效的内存。为了安全，delete之后要将这个指针设置为指向nullptr</p>
+</li>
+<li><p>如何用智能指针共享内存？我们在类（栈中）中使用make_shared/new初始化一块内存（堆中）来存储目标对象，并返回一个智能指针/指针（最好前者），在这个类中实际上只存储了这个指针。当我们在对类进行拷贝、销毁、赋值的时候，<strong>实际上只复制了智能指针</strong>，这样指向目标对象的引用计数+1，目标对象就不会被释放，于是就使用了同一个目标对象。</p>
+<p>比如对假设两个对象<code>a,b</code>都属于一个类Object，这个类的定义中只存储了指向目标对象的智能指针，那么第一个实例化对象a新建了目标对象，开辟了内存，但这个内存不属于对象a，只有一个a对象的成员指向这块内存，那么在将a赋值给b（<code>Object b = a</code>）的时候，a会被拷贝给b，那么b实际上就拷贝了一个指向目标对象的智能指针</p>
+</li>
+<li><p><strong>不要混合使用智能指针和普通指针</strong>，典型的问题就是指针指针会+1引用计数可普通指针不会，导致内存被智能指针提前释放</p>
+</li>
+<li><p>混合声明周期管理出错——多次释放同一内存问题</p>
+<p>①注意不要将同一块内存绑定到多个智能指针</p>
+<p>比如假设p、q都是智能指针，<code>p.reset(q.get())</code>错误！因为两个智能指针各自管理生命周期，导致内存被两次释放</p>
+<p>②注意栈上分配的内存默认存在管理，所以不能reset给一个指向栈内存的指针，否则会重复释放内存（除非给reset传入自定义内存处理方法，否则默认是delete就会重复释放）</p>
+<p>（P.S. reset的参数必须是内置指针，要指向另一个智能指针用赋值即可，或者用另一个智能指针初始化）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">share_ptr&lt;string&gt; p1;
+string s &#x3D; &quot;hello&quot;;
+p1.reset(&amp;s); &#x2F;&#x2F;【报错：因为s是在栈上分配内存的，退栈的时候会销毁内存，智能指针再销毁就是重复销毁内存了】
+p1 &#x3D; make_shared&lt;string&gt;(s); &#x2F;&#x2F;通过：这里等于再以s的字面值在堆上分配了新内存
+
+string *s &#x3D; new string(&quot;hello&quot;);
+p1.reset(s); &#x2F;&#x2F;通过，令p1指向s
+p1 &#x3D; make_shared&lt;string&gt;(s);  &#x2F;&#x2F;报错：make_shared参数只接收对象或者对象构造器参数
+p1 &#x3D; make_shared&lt;string&gt;(*s);  &#x2F;&#x2F;通过：这里等于再以s所指向字符串的字面值在堆上分配了新内存
+share_ptr&lt;string&gt; new_p(s); &#x2F;&#x2F;通过：new_p接管了内置指针s对对象的所有权（原指针依然可用）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>建议使用<code>make_share</code>来初始化shared_ptr智能指针</strong></p>
+<p>可以采用初始化，make_share，reset方式、赋值方式改变shared_ptr的值</p>
+<p>可以采用初始化的方式改变unique_ptr的值</p>
+<p>不能直接将内置指针赋值给智能指针</p>
+</li>
+<li><p>new返回了一个内置指针</p>
+<p>delete不能删除智能指针</p>
+</li>
+<li><p>reset()和release()</p>
+<p><strong>不带参数的reset用于shared_ptr，相当于可以删除这个智能指针（引用计数-</strong>1，如果指向的内存引用计数为0则销毁）(<strong>带一个参数必须是内置指针</strong>，表明智能指针接管这个内置指针对对象的控制权，智能指针原指向对象引用计数-1)</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">shared_ptr&lt;string&gt; np1 &#x3D; make_shared&lt;string&gt;(&quot;test&quot;);
+shared_ptr&lt;string&gt; np2(np1);
+cout&lt;&lt;&quot;np2 unique? &quot;&lt;&lt;np2.unique()&lt;&lt;endl;  &#x2F;&#x2F;np2 unique? 0
+np1.reset();
+cout&lt;&lt;&quot;np2 unique? &quot;&lt;&lt;np2.unique()&lt;&lt;endl;  &#x2F;&#x2F;np2 unique? 1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>release用于unique_ptr，无参数，它可以切断unique_ptr与它原来管理对象的联系</strong>。<strong>但内存不会自动释放！</strong>release返回一个内置指针，一般用于初始化给另一个智能指针，相当于完成了unique_ptr的切换。此时如果要释放内存，则delete release返回的那个指针即可。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">unique_ptr&lt;string&gt; np3(new string(&quot;test&quot;));
+auto temp &#x3D; np3.release();
+unique_ptr&lt;string&gt; np4(temp);
+cout&lt;&lt;*np4&lt;&lt;endl;   &#x2F;&#x2F;test  
+cout&lt;&lt;*np3&lt;&lt;endl;   &#x2F;&#x2F;报错：Segmentation fault (core dumped)；因为这个指针已经不指向原内存了<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>对于指向没有定义析构函数的对象（哑类）的智能指针使用reset/初始化的时候要传入自定义删除器（这个只是为了兼容）</p>
+</li>
+<li><p>weak_ptr 是为了辅助shared_ptr而引入的一种智能指针，它存在的意义就是协助shared_ptr更好的完成工作</p>
+<p><a href="https://blog.csdn.net/LLZK_/article/details/52431404">https://blog.csdn.net/LLZK_/article/details/52431404</a></p>
+<p>weak_ptr可以指向一个对象，但不会改变其引用计数，常调用weak_ptr.lock()来获取一个新的指向对象的shared_ptr，安全。</p>
+</li>
+<li><p>allocator</p>
+<p>新建allocator类对象（是个模板），该对象可以将内存分配/销毁与对象构造/析构分离（new则是合并在一起了）</p>
+<p>该对象主要拥有以下函数</p>
+<p>内存分配（allocate）——&gt;对象构造（construct）</p>
+<p>对象析构（destroy）——&gt;内存销毁（deallocate）</p>
+<p>allocate会返回一个指向开辟的原始内存首地址的指针，要记录好这个头指针</p>
+<p>以下为分配内存+构建的demo</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">allocator&lt;string&gt; alloc;
+auto const p &#x3D; alloc.allocate(3);
+auto q &#x3D; p;  &#x2F;&#x2F;拷贝给一个新指针q，方便在内存上移动，构造对象
+alloc.construct(q++,&quot;hello0&quot;); &#x2F;&#x2F;在q位置构造对象，然后q右移一位
+alloc.construct(q++,&quot;hello1&quot;);
+alloc.construct(q++,&quot;hello2&quot;);  &#x2F;&#x2F;这时候q就到开辟内存的尾地址之后了
+auto w &#x3D; p; &#x2F;&#x2F;新建一个指向头的指针方便输出
+cout&lt;&lt;*w++&lt;&lt;&quot; &quot;&lt;&lt;*w++&lt;&lt;&quot; &quot;&lt;&lt;*w++&lt;&lt;endl;  
+&#x2F;&#x2F;输出：hello0 hello1 hello2
+
+&#x2F;&#x2F;同理通过首尾指针移动，destroy对象，然后最后再deallocate p指针指向开头的整片内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>RAII</p>
+<p><code>RAII</code>是<code>Resource Acquisition Is Initialization</code>的简称，其翻译过来就是“<strong>资源获取即初始化</strong>”，即在构造函数中申请分配资源，在析构函数中释放资源，它是<code>C++</code>语言中的一种管理资源、避免泄漏的良好方法。 </p>
+<p><code>C++</code>语言的机制保证了，当创建一个类对象时，会自动调用构造函数，当对象超出作用域时会自动调用析构函数。<code>RAII</code>正是利用这种机制，<strong>利用类来管理资源，将资源与类对象的生命周期绑定</strong>，即在对象创建时获取对应的资源，在对象生命周期内控制对资源的访问，使之始终保持有效，最后在对象析构时，释放所获取的资源。</p>
+<p>总结起来说，<code>RAII</code>的核心思想是将资源或状态与类对象的生命周期绑定，通过<code>C++</code>语言机制，实现资源与状态的安全管理。</p>
+<p>链接：<a href="https://zhuanlan.zhihu.com/p/389300115">https://zhuanlan.zhihu.com/p/389300115</a></p>
+</li>
+</ol>
+<h2 id="拷贝控制"><a href="#拷贝控制" class="headerlink" title="拷贝控制"></a>拷贝控制</h2><p>移动、赋值构造函数也<strong>属于构造函数</strong>，只是<strong>参数表特殊的构造函数，实现了移动、赋值的<u>语义</u></strong>；析构函数，重载赋值运算符不是构造函数</p>
+<p>定义为<strong>删除</strong>指编译器<strong>不合成默认构造器</strong>，即使再定义为<code>=default()</code>也无法使用</p>
+<p><strong>一般来说，如果一个类定义了任何一个拷贝/析构/移动操作，那么它就应该定义所有五个操作</strong></p>
+<p>主要内容见书</p>
+<ol>
+<li><p>如果一个类需要自定义析构函数，几乎可以肯定它也需要自定义拷贝赋值运算符和拷贝构造函数。</p>
+<p><strong>有动态内存需要释放，才会用自定义析构函数。</strong>显然默认构造函数只会销毁栈中的指针，而不会销毁其指向堆内动态内存。</p>
+<p><strong>对于类内成员指向动态内存点情况，拷贝构造函数、拷贝赋值函数，也都需要自己定义。</strong>。因为动态内存指针拷贝了，但内存并未拷贝，这种情况如果使用默认拷贝构造/赋值函数会导致多个指针指向同一个内存重复delete的问题！</p>
+<p>如果这个类需要一个拷贝构造函数，几乎可以肯定它也需要一个拷贝赋值函数，反之亦然。</p>
+<p><strong>但无论需要自定义拷贝还是赋值构造函数，都不一定需要析构函数</strong></p>
+</li>
+<li><p>如果一个<strong>类的成员</strong>（如const/引用/不可拷贝赋值析构的对象）<strong>不能</strong>拷贝、赋值或析构，则<strong>对应的成员函数</strong>（如：成员不能析构则类析构函数被删除，etc）<strong>将被定义为删除的</strong></p>
+</li>
+<li><p><strong>拷贝赋值运算符 与 有成员管理动态内存的类—易错</strong></p>
+<p>拷贝赋值运算符与拷贝构造不一样，比如<code>a = b;</code> 将b赋值给了a，那么a对象中的成员被覆盖，那么就要<strong>考虑到如果被赋值对象管理了动态内存，这些动态内存是否应该销毁</strong></p>
+<p><strong>对于行为像值的类：</strong>由于动态内存每个对象都各自管理一份，那么<strong>被赋值对象原来管理的动态内存必定需要在拷贝赋值重载函数中手动销毁</strong>（为了防止自赋值注销掉自己的动态内存，不能先销毁被赋值对象管理的原动态内存，应该先临时保存new的新对象的动态内存，再销毁，再赋值。）</p>
+<p><strong>对于行为像指针的类</strong>：①对于使用内置指针管理动态内存的类，需要设置一个<strong>引用计数</strong>，在拷贝赋值重载函数中，每一次发生赋值就将被赋值对象原管理的动态内存引用计数-1，如果引用计数为0，则销毁（引用计数可以保存在动态内存中，所有类共享，<strong>注意引用计数指针也要拷贝</strong>）；同时不但在<strong>a.赋值的时候要检查引用计数是否应该销毁动态成员</strong>(注意虽然左右对象都是同一类，但可能并不是共享同一动态内存的，所以存在要销毁左边对象的情况），<strong>b.析构函数中也要判断引用计数来决定是否销毁动态成员</strong>。</p>
+<p>②对于<strong>使用智能指针管理动态内存的类（建议！）</strong>，<strong>只需要将被赋值对象的对应智能指针成员设为<code>nullptr</code>即可（或者被赋值）</strong>，无需手动设置引用计数。智能指针会帮我们管理引用计数。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;utility&gt;
+#include &lt;string&gt;
+using namespace std;
+
+&#x2F;&#x2F;行为类似值传递的类
+struct Obj
+&#123;
+    Obj() &#x3D; default;
+    Obj(const Obj &amp;obj)
+    &#123;
+        sp &#x3D; new string(*(obj.sp));
+    &#125;
+    Obj&amp; operator&#x3D;(const Obj &amp;obj)
+    &#123;
+        auto new_sp &#x3D; new string(*(obj.sp));  &#x2F;&#x2F;为了防止自赋值情况，不能先销毁被赋值对象管理的原动态内存
+        delete sp;  &#x2F;&#x2F;手动释放被赋值对象原来所管理的动态内存
+        sp &#x3D; new_sp;
+        return *this;
+    &#125;
+    ~Obj()
+    &#123;
+        delete sp;
+    &#125;
+
+    string *sp &#x3D; new string();
+&#125;;
+&#x2F;&#x2F;行为类似指针的类-内置指针实现
+struct Objp
+&#123;
+    Objp()
+    &#123;
+        *ref &#x3D; 1; &#x2F;&#x2F;构造的时候，将引用计数记为1
+    &#125;
+    Objp(const Objp &amp;objp)
+    &#123;
+        sp &#x3D; objp.sp;
+        ++*(objp.ref);  &#x2F;&#x2F;新动态内存对应的引用计数++
+        ref &#x3D; objp.ref;  &#x2F;&#x2F;错点：然后将原动态内存的引用计数覆盖为新的动态内存的引用计数
+    &#125;
+    Objp&amp; operator&#x3D;(const Objp &amp;objp)
+    &#123;
+        ++*(objp.ref); &#x2F;&#x2F;赋值对象管理的动态内存的引用计数++   &#x2F;&#x2F;先+后-，避免自赋值销毁内存
+        --*ref; &#x2F;&#x2F;被赋值对象原来管理的动态内存的引用计数-- （注意本对象就是被赋值的对象）
+        if (!*ref)  &#x2F;&#x2F;检查被赋值对象管理的动态内存的引用计数是否为0，若为0则手动释放内存
+        &#123;
+            delete sp;
+            delete ref; &#x2F;&#x2F;要销毁sp了，则它的引用计数一起销毁了
+        &#125;
+        sp &#x3D; objp.sp;
+        ref &#x3D; objp.ref; &#x2F;&#x2F;引用计数也要赋值！新动态内存和被赋值对象管理的旧动态内存是两个东西，引用计数当然不同
+        return *this;
+    &#125;
+    ~Objp()
+    &#123;
+        --*ref;
+        if(!*ref)
+        &#123;
+            delete sp;
+            delete ref;
+        &#125;
+    &#125;
+
+    int *ref &#x3D; new int(0);  &#x2F;&#x2F;手动管理引用计数
+    string *sp &#x3D; new string();
+&#125;;
+&#x2F;&#x2F;行为类似指针的类-智能指针实现
+struct Objsp
+&#123;
+    Objsp() &#x3D; default;
+    Objsp(const Objsp &amp;objsp): sp(objsp.sp) &#123;&#125;
+    Objsp&amp; operator&#x3D;(const Objsp &amp;objsp)
+    &#123;
+        sp &#x3D; objsp.sp;  &#x2F;&#x2F;智能指针自动将被赋值对象管理的动态内存的引用计数-1了，不需要自己负责
+        return *this;
+    &#125;
+    ~Objsp()
+    &#123;
+        sp &#x3D; nullptr; &#x2F;&#x2F;智能指针析构设置为nullptr即可
+    &#125;
+
+    shared_ptr&lt;string&gt; sp &#x3D; make_shared&lt;string&gt;();
+&#125;;
+
+
+int main()
+&#123;
+    &#x2F;&#x2F;test1-Obj
+    Obj o1;
+    *(o1.sp) &#x3D; &quot;dynamic string&quot;;
+    Obj o2(o1);
+    Obj o3 &#x3D; o1;
+    *(o1.sp) &#x3D; &quot;changed string&quot;;
+    cout&lt;&lt;*(o2.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;dynamic string&quot;
+    cout&lt;&lt;*(o3.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;dynamic string&quot;
+
+    &#x2F;&#x2F;test2-Objp pointer
+    Objp op1;
+    *(op1.sp) &#x3D; &quot;dynamic string&quot;;
+    Objp op2(op1);
+    Objp op3 &#x3D; op1;
+    *(op1.sp) &#x3D; &quot;changed&quot;;
+    cout&lt;&lt;*(op2.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;changed&quot;
+    cout&lt;&lt;*(op3.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;changed&quot;
+
+    &#x2F;&#x2F;test3-Objsp smart pointer
+    Objsp osp1;
+    *(osp1.sp) &#x3D; &quot;dynamic string&quot;;
+    Objsp osp2(osp1);
+    Objsp osp3 &#x3D; osp1;
+    *(osp1.sp) &#x3D; &quot;changed&quot;;
+    cout&lt;&lt;*(osp2.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;changed&quot;
+    cout&lt;&lt;*(osp3.sp)&lt;&lt;endl;  &#x2F;&#x2F;&quot;changed&quot;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>赋值运算重载有返回值（<code>return *this</code>)</p>
+<p>各种构造函数无返回值，且各种构造函数的函数名和类名一致，只是参数表决定了它是什么构造函数</p>
+<p>（析构函数带<code>~</code>）</p>
+<p>注意只有构造器能用列表初始化</p>
+<p>拷贝构造函数、赋值构造函数的本类对象参数可以不是const的，但是设置为const引用有好处：①不可以随意更改 ②既可以接收右值，也可以接收左值</p>
+</li>
+<li><p><strong>移动语义</strong></p>
+<p>对于带有资源托管的对象（如管理一块动态内存）需要使用拷贝构造的时候</p>
+<p>Q1.我们不能直接使用拷贝语义，那么这样实际上是拷贝了指针，这使得两个对象同时持有同一份资源，危险</p>
+<p>Q2.我们虽然可以使用引用语义/拷贝指针，但我们在新对象里修改了和原对象共享的内存，原对象使用者却不知道，危险</p>
+<p>所以我们选择对象移动</p>
+<p><strong>对象移动：</strong>实质上就是<strong>新对象窃取原对象对资源的管理权</strong>：先<strong>获取右值对象（原对象），然后将右值对象管理的资源交给新对象，并切断右值对象与资源的联系</strong>。这<strong>看起来就像对象发生了移动，但实际上只切换了资源的管理权</strong>。</p>
+<p>这里的资源就是对象所管理的动态内存，比如对象中有一个指针指向一块动态内存</p>
+<p><strong>为什么要获取右值对象？</strong>如果我们只获取左值引用，那么这个引用的指针被拷贝之后，新对象原对象共享一个内存，就会出问题（即上面的Q2）。</p>
+<p>那么<strong>我们就想要获取一个“即将被销毁”的对象</strong>，我们<strong>向编译器确保将这个对象用来构造/赋值新对象之后一定会被销毁，以后就不使用这个对象了</strong>。而<strong>“一定即将被销毁”的对象，就是右值，它是临时的</strong>。但以前我们并没有办法直接获取右值。<strong>于是右值引用的出现，就是在语法上支持了“直接获取右值”这一语义</strong>。</p>
+<p><strong>①通过<code>std::move()</code>就可以获取右值对象（底层本质调用static_cast完成了右值到左值的强制转换），②再将这个右值对象拿来/i.拷贝构造新对象/ii.赋值新对象/iii.不操作，之后就会自动销毁</strong></p>
+<p>通过<strong>移动构造函数，移动赋值函数</strong>来设计<strong>如何</strong>进行<strong>右值对象的资源托管</strong>与<strong>右值对象析构前准备</strong>。前者就是把原对象（右值对象）的成员拷贝给新对象，后者就是把资源管理指针设为nullptr，因为马上要销毁了，不设的话会释放掉移动了的资源！</p>
+<p><strong>移动后的右值对象被销毁了，再通过原对象的左值引用/变量名访问就会报错</strong></p>
+<p>特殊情况1：string对象的资源被move之后，该string变为空字符串，还可以访问</p>
+<p>特殊情况2：对于简单对象来说（比如int、double等），默认的移动就是拷贝</p>
+<p>实际上return就是用到了move，return返回了一个右值引用，它通过在返回前调用std::move获取。返回来右值引用后，函数栈内的内存全部销毁。如果函数外面接收return的对象定义了移动构造/赋值函数，就会采用移动构造/赋值。</p>
+<p>Tips：std:move一般不会抛出异常，所以为移动操作设置为noexcept可以避免标准库的额外工作（标准库容器会对异常发生时其自身的行为提供保障）</p>
+<p><strong>再理解-搞清移动本质：实际上就是对于指针成员指向一片动态内存的对象，我们只拷贝指针，并且将原指针释放掉，这个行为看起来就像move了（新对象窃取了资源）</strong></p>
+</li>
+<li><p>移动赋值运算符必须考虑自赋值（if是自赋值，则不发生任何事情，否则会自己释放掉自己的资源，出现致命错误），拷贝赋值运算符自赋值问题也不算很大（但是还是多了无谓的开销）</p>
+</li>
+<li><p>合成的移动构造函数/移动赋值函数，只有在类<strong>①没有定义任何自己版本的拷贝控制成员</strong>（拷贝构造函数、拷贝赋值函数，析构函数），且它<strong>②所有数据成员都能移动构造和移动赋值</strong>（const、引用不行），且<strong>③类的析构函数可以访问</strong>，<strong>④移动构造函数和移动赋值函数任何一个都不能被显式定义为删除</strong>，编译器<strong>才会为它合成移动控制成员</strong>（移动构造函数，移动赋值函数），否则的合成移动控制成员被定义为删除的<strong>（即使<code>=default</code>，它也是删除的）</strong></p>
+<p>如果一个类只有拷贝控制成员，没有移动控制成员，那么移动操作会被当做拷贝执行</p>
+<p>多个构造函数，通过函数匹配规则来确定使用哪个，最先选择精准匹配</p>
+<p><strong>移动和拷贝的重载函数通常是拷贝控制接收<code>const T&amp;</code>，移动控制接收<code>T&amp;</code>。因为拷贝一般不需要改变原对象，是const的；而移动需要改变原对象，不能是const</strong></p>
+</li>
+<li><p>如果一个类<strong>定义了自己版本的移动控制成员</strong>，那么这个类的<strong>合成拷贝控制成员</strong>将被定义为删除的</p>
+</li>
+<li><p>对于赋值重载，要考虑到<strong>自赋值</strong>的问题，注意安全</p>
+<p>主要问题在于，自赋值情况下两个对象可能共享同一片内存，不考虑自赋值可能会先把被赋值对象管理的原动态内存销毁了，那么赋值对象的动态内存也被销毁，就出现内存错误。</p>
+</li>
+<li><p><strong>深刻理解右值的短暂性（重要）</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Type &amp;&amp;rref &#x3D; std::move(obj); &#x2F;&#x2F;正确
+Type &amp;&amp;lref &#x3D; rref; &#x2F;&#x2F;错误，rref是右值引用。右值引用也是个左值！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong> <code>std::move()</code>获取的右值必须立即赋值或销毁，只有再被赋值之前它才是右值，经过任何中间层就会丢失右值属性</strong>（右值是短暂的，不能保存！）<strong>所以右值引用是个左值！</strong></p>
+<p>所以<strong>实际上只有<code>std::move(obj)</code>本身是右值</strong>，它只存在于此时此刻，一旦经过任何处理让它能够长久被使用，那就是左值了</p>
+<p><strong>所以右值作为实参传递给形参的时候，这个形参就已经是左值了</strong>（即使传入实参是右值，但要知道被初始化的右值引用就是个左值，它可以永久引用右值）。<strong>那么在移动构造中，实际上就是先通过<code>std::move()</code>强制将左值转换成右值，传入移动构造函数中，然后这个时候在移动构造函数定义资源如何托管，【实际上就是完成了新左值如何诞生的过程（托管资源，销毁原对象）】</strong></p>
+<p><strong>在传递右值的时候想要保持对象的右值属性，需要不断使用<code>std::move()</code>！</strong></p>
+</li>
+<li><p>右值和左值引用成员函数</p>
+<p>可以在类成员函数声明处的参数表后面（在const之后）添加一个引用限定符，可以是左值引用<code>&amp;</code>或右值引用<code>&amp;&amp;</code>，分别指出<code>this</code>可以指向一个左值或右值。函数匹配的时候根据<code>this</code>是左值还是右值进行匹配。</p>
+<p><strong>对于<code>&amp;</code>限定的函数，我们只能在左值对象中使用；对于<code>&amp;&amp;</code>限定的函数，只能在右值对象中使用。</strong></p>
+<p>这个的用处是：<strong>①可以限定运算符本对象的位置 ②可以根据传入参数是右值还是左值来调用不同的函数</strong></p>
+</li>
+<li><p><strong>五法则</strong></p>
+<p>①需要析构函数的类也需要拷贝构造函数和拷贝赋值函数</p>
+<p>②需要拷贝操作的类也需要赋值操作，反之亦然</p>
+<p>③析构函数不能是删除的</p>
+<p>④如果一个类成员有删除的或不可访问的析构函数，那么其默认的拷贝构造函数会被定义为删除的</p>
+<p>⑤如果一个类有const或引用成员，则不能使用合成的拷贝赋值操作。（无法默认构造的const成员的类 则该类就无默认构造函数）</p>
+<p><strong>本质：当不可能拷贝、赋值、或销毁类的所有成员时，类的合成拷贝控制函数就被定义成删除的了</strong></p>
+<p><strong>一般来说，如果一个类定义了任何一个拷贝/析构/移动操作，那么它就应该定义所有五个操作</strong></p>
+</li>
+</ol>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;utility&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;memory&gt;
+using namespace std;
+struct Obj
+&#123;
+    &#x2F;&#x2F;constuctor
+    Obj() &#x3D; default;
+    &#x2F;&#x2F;copy constructor
+    Obj(const Obj &amp;obj): p(obj.p),a(obj.a) &#123;&#125;
+    &#x2F;&#x2F;copy-assignment operator
+    Obj&amp; operator&#x3D;(const Obj &amp;obj)
+    &#123;
+        p &#x3D; obj.p;
+        a &#x3D; obj.a;
+        return *this;
+    &#125;
+    &#x2F;&#x2F;move constructor
+    Obj(Obj &amp;&amp;obj) noexcept : p(obj.p),a(obj.a)
+    &#123;
+        obj.p &#x3D; nullptr;
+    &#125;
+    &#x2F;&#x2F;move-assignment operator
+    Obj&amp; operator&#x3D;(Obj &amp;&amp;obj) noexcept
+    &#123;
+        obj.p &#x3D; nullptr;
+        return *this;
+    &#125;
+    &#x2F;&#x2F;deconstructor
+    ~Obj()
+    &#123;
+        p.reset();
+    &#125;
+
+    &#x2F;&#x2F;dynamic resource(vector) admin smart pointer 这么做是为了多个对象共享同一个vector
+    shared_ptr&lt;vector&lt;int&gt;&gt; p &#x3D; make_shared&lt;vector&lt;int&gt;&gt;();
+    &#x2F;&#x2F;statck memory element
+    int a;
+
+    void print()
+    &#123;
+        for (auto element : *p)
+           cout&lt;&lt;element&lt;&lt;&quot; &quot;;
+        cout&lt;&lt;endl;
+    &#125;
+&#125;;
+
+int main()
+&#123;
+    Obj o;
+    o.p-&gt;push_back(1);
+    o.p-&gt;push_back(2);
+    o.a &#x3D; 10;
+    o.print();   &#x2F;&#x2F;输出：1 2
+
+    &#x2F;&#x2F;copy constructor
+    Obj o1(o);
+    o.p-&gt;push_back(3); &#x2F;&#x2F;改变原对象，拷贝构造的新对象也改变了，因为两个对象共享同一块内存
+    o1.print();   &#x2F;&#x2F;输出1 2 3
+
+    &#x2F;&#x2F;copy-assignment operator
+    Obj o2 &#x3D; o1;
+    o2.print();   &#x2F;&#x2F;输出1 2 3
+
+    &#x2F;&#x2F;move-assignment operator
+    Obj o3 &#x3D; std::move(o);
+    o3.print();  &#x2F;&#x2F;输出1 2 3
+    o.print(); &#x2F;&#x2F;Segmentation fault (core dumped) 原对象o move后已经被销毁，无法使用
+
+    &#x2F;&#x2F;move constructor
+    Obj o4(std::move(o3));
+    o4.print();   &#x2F;&#x2F;输出 1 2 3
+    o3.print();  &#x2F;&#x2F;Segmentation fault (core dumped) 原对象 o3 move后已经被销毁，无法使用
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C++学习目标</title>
     <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/C++%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>入坑ceph，要用C++开发，所以要看的书还蛮多的…</p>
@@ -11,6 +812,1000 @@
 <p>《Effective C++》</p>
 <p>《More Effective C++》</p>
 <p>《STL源码剖析》</p>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>1.变量、值、指针、引用、常量</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B1%5D%E5%8F%98%E9%87%8F%E3%80%81%E5%80%BC%E3%80%81%E6%8C%87%E9%92%88%E3%80%81%E5%BC%95%E7%94%A8%E3%80%81%E5%B8%B8%E9%87%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="变量名"><a href="#变量名" class="headerlink" title="变量名"></a>变量名</h2><p>C++中的变量名，比如<code>int n</code>、<code>Object obj</code></p>
+<p>C++对变量名<code>n</code>、<code>obj</code>不做存储，只是用于方便编译成汇编代码，是给编译器看的，是方便人阅读的。</p>
+<blockquote>
+<p>举例：<code>int n=5;</code></p>
+<p>编译器编译它时，产生类似mov [0x00410FC0]，5的指令，即：把5放在该内存地址的空间上。其中并没有出现n，n只是编译时供编译器识别的名字，是一个高级语言抽象出来的概念，在真实执行的程序中并不存在n，至于n的地址是0x00410FC0还是其他的什么，这是由连接器(linker)决定的，连接器把全局变量放在.exe文件中，执行.exe文件时全局变量在类似0x00430000左右的地址。局部变量在栈上，一般地址为0x00120000左右。<br><strong>地址0x00410FC0并不需要一个地址去存放它</strong>，因为在<strong>最后产生.exe文件它自己知道它需要的一个值存放在什么地址</strong>，所以就在它的二进制代码中把0xffbffb0c<strong>硬编码</strong>进来了。<br>原文链接：<a href="https://blog.csdn.net/tina_ttl/article/details/52648533">https://blog.csdn.net/tina_ttl/article/details/52648533</a></p>
+</blockquote>
+<p><strong>C++中的变量名就是个代号，其就是存储单元上具体的数据。它不是指针，也不是引用。</strong></p>
+<h2 id="arr-amp-pointer"><a href="#arr-amp-pointer" class="headerlink" title="arr&amp;pointer"></a>arr&amp;pointer</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10];  &#x2F;&#x2F;数组名可以转化（当作）为指针，即求a数组第n个元素：a[n]实际上是*(a+n)，完成了一次解引用过程。
+
+int *p1 &#x3D; a;  &#x2F;&#x2F;指向数组a的第一个元素，这个指针的内容的类型为int，p1指针等价于a指针
+int (*p2)[10] &#x3D; &amp;a; &#x2F;&#x2F;指向一个10个元素数组的指针，这个指针的内容的类型为一个指针（指向了数组具体int元素）也是个指针即上面的p1，所以这个p2是指向指针a的指针，所以要对第一层指针a取地址；在二维数组中，若干个指向指针的指针组成一个数组，即上层维度
+
+&#x2F;&#x2F;第二句拆开来：
+int *temp &#x3D; a; &#x2F;&#x2F;定义指向数组的指针
+int *p2 &#x3D; &amp;temp; &#x2F;&#x2F;定义指向指针的指针
+&#x2F;&#x2F;由于这个指针的内容是一个int[10]数组，所以写为：
+int (*p2)[10] &#x3D; &amp;a;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>两者都发生了数组名自动转换为指针（a数组名，转化为指针）</p>
+<p>但是区别在于第二句又套了一层指针，主要发生在二维数组上。</p>
+<p><strong>建议一切数组操作都从指针角度入手和理解</strong></p>
+<p><strong>使用例子（重要）：</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+&#x2F;&#x2F;传入参数为指针，返回参数为指针
+int *test(int *arr)
+&#123;
+    arr[0] &#x3D; -1;
+    return arr;
+&#125;
+&#x2F;&#x2F;传入参数为指向指针的指针，返回参数也为指向指针的指针
+int (*test2(int (*arr)[10]))[10]
+&#x2F;&#x2F;int **test2(int **arr)  &#x2F;&#x2F;也可以这么定义，但是这样后面的所有数组维度声明全部要修改
+&#123;
+    (*arr)[1] &#x3D; -2; &#x2F;&#x2F;由于传入参数是指向指针的指针，要想操作指针所指向的指针所指向的数组具体元素，需要两次解引用
+    &#x2F;&#x2F;这里这句话等价于：
+    *(*arr+1) &#x3D; -2;  &#x2F;&#x2F;注意：多个解引用从内开始运算,所以要先解引用得内层指针，有[]则优先级最高
+    return arr; &#x2F;&#x2F;返回的是指向指针的指针，所以直接返回传入的arr即可
+&#125;
+int main()
+&#123;
+    int a[10];
+    int *p1 &#x3D; test(a);
+    int (*p2)[10] &#x3D; test2(&amp;a);
+
+    cout&lt;&lt;p1[0]&lt;&lt;endl; &#x2F;&#x2F;or *p1
+    cout&lt;&lt;(*p2)[1]&lt;&lt;endl; &#x2F;&#x2F;or *(*p2+1)
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="pointer-amp-reference"><a href="#pointer-amp-reference" class="headerlink" title="pointer &amp; reference"></a>pointer &amp; reference</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作为左值</th>
+<th>作为右值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>引用类型声明</td>
+<td>取地址符</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>指针类型声明</td>
+<td>解引用符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol>
+<li><p><strong>运算表达式的结果是右值，函数参数表是左值</strong></p>
+<p>赋值语句右边是右值，左边是左值</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void func(int &amp;var)&#123;&#125;
+int main()
+&#123;
+    int a;
+    func(a);  &#x2F;&#x2F;这里实际上发生了隐式初始化：int &amp;var &#x3D; a ，所以显然参数入口不用&amp;，函数参数表要用&amp;表示引用声明
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>非常量引用(<code>T&amp;</code>)只能引用一个左值（只能用一个左值对引用进行初始化）</strong>，<strong>注意字符串字面量是左值</strong></p>
+<p><strong>常量引用(<code>const T&amp;</code>)也可以引用一个右值</strong></p>
+</li>
+<li><p><strong>函数传参，不改变参数时，尤其是大数据，尽量使用<code>const T&amp;</code> （常量引用）</strong></p>
+<p>好处：</p>
+<ol>
+<li><code>const T&amp;</code>形参初始化为引用，少了对对象的拷贝 </li>
+<li>设置为常量避免对对象的误修改 </li>
+<li><strong> <code>const T&amp;</code>既可以接收左值也可以接收右值</strong></li>
+</ol>
+</li>
+<li><p><strong>函数返回为左值则返回类型必须为引用</strong></p>
+</li>
+<li><p>指针成员访问符<code>-&gt;</code>，和c中一样</p>
+</li>
+<li><p>引用实质是操作地址指针</p>
+</li>
+</ol>
+<h2 id="左值，右值，亡值"><a href="#左值，右值，亡值" class="headerlink" title="左值，右值，亡值"></a>左值，右值，亡值</h2><p><a href="https://zhuanlan.zhihu.com/p/402251966">https://zhuanlan.zhihu.com/p/402251966</a></p>
+<p><a href="https://www.zhihu.com/question/363686723/answer/1976488046">https://www.zhihu.com/question/363686723/answer/1976488046</a></p>
+<p>【】</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>靠里是顶层，靠外是底层</p>
+<p>非常量可以向常量转化（变严），反过来不行</p>
+<p>引用不能修改，都是const的，所以<code>&amp;const a</code>等价于<code>&amp;a</code>，不用写const</p>
+<p>对常量的引用：<code>const &amp;a</code> （引用对象不能修改，引用本身也不能修改；简称常量引用，注意只是简称！）</p>
+<p><strong>对常量的引用实际可能引用一个非常量的对象</strong>：常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定。</p>
+<p>常量指针：<code>int *const a</code> （指针不能修改）</p>
+<p>指向常量的指针： <code>const int *a</code>（指针指向的内容不能修改）</p>
+<p>指向常量的常量指针：<code>const int *const a</code>（指针和指针指向的内容都不能修改）</p>
+<p>若将成员函数声明为const（函数参数表与语句大括号之间加const），则该函数<strong>不允许修改类的数据变量</strong>。且，<strong>const类型的成员函数不能返回非const类型的引用</strong>，比如这样就OK，<code>const vector&lt;int&gt;&amp; operator*() const</code>，如果返回类型去掉const就错了</p>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>2.类</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B2%5D%E7%B1%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="ch-7-class"><a href="#ch-7-class" class="headerlink" title="ch.7 class"></a>ch.7 class</h2><ol>
+<li><p>C++中两种显式对象创建方式</p>
+<p>①静态内存中：<code>Object obj(param)</code>  （<strong>使用若无构造参数则不能写括号</strong>如：<code>Object obj</code>，否则会被当成函数声明）</p>
+<p><code>Object obj;</code>执行默认初始化，也可以使用<code>Object obj = Object()</code>执行值初始化</p>
+<p>对于默认初始化和值初始化，见后面</p>
+<p>②动态内存中：<code>Object *p = new Object(param)</code>（这个<code>p</code>是个指向对象的针，访问对象成员需要用<code>(*p).</code>或者<code>-&gt;</code>） </p>
+<p>与C不同，c中struct方式必须在类名前加struct，且c struct不能有默认参数；c++中类名前可以加class/struct关键字，也可以不加</p>
+<p>与JAVA中的new写法完全不同</p>
+<p>第一种属于<strong>自动变量</strong>写法，在c/c++中都是会自动分配内存（新建对象 /.cpp）的；第二种属于<strong>new关键字</strong>，动态分配内存</p>
+<p>这两种方式主要的不同在于对象的存储时间。当执行①时，它作为<strong>自动变量</strong>被创建，这意味着当对象出了作用域时也会自动销毁。而使用<code>new</code>关键字，②这种方式时，对象所拥有的内存是<strong>动态分配</strong>的，这表示直到你调用<code>delete()</code>方法对象才会被销毁，否则一直存在。当需要用动态分配内存来处理时，你应该只使用动态分配的方式，也就是说，当你可以使用动态分配内存的时候就不要使用自动变量。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;方法1
+#include &lt;iostream&gt;
+using namespace std;
+struct test
+&#123;
+    int a &#x3D; 10;
+    test(int f)
+    &#123;
+        a &#x3D; f;
+    &#125;
+    test get_obj()
+    &#123;
+        return *this;
+    &#125;
+&#125;;
+int main()
+&#123;
+    test t(-10);
+    test temp &#x3D; t.get_obj();
+    cout&lt;&lt;t.a&lt;&lt;endl;
+&#125;
+
+&#x2F;&#x2F;方法2
+#include &lt;iostream&gt;
+using namespace std;
+struct test
+&#123;
+    int a &#x3D; 10;
+    test(int f)
+    &#123;
+        a &#x3D; f;
+    &#125;
+    test&amp; get_obj()
+    &#123;
+        return *this;
+    &#125;
+&#125;;
+int main()
+&#123;
+    test *t &#x3D; new test(-10);
+    test &amp;t_ref &#x3D; t-&gt;get_obj();
+    cout&lt;&lt;t-&gt;a&lt;&lt;endl;
+&#125;
+
+&#x2F;&#x2F;output:-10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>c++中常用非成员接口函数来操作类，比如JAVA中的toString在C++中可以定义一个非成员接口函数print，传入参数为目标对象的引用，来实现（下面为该函数的定义声明）</p>
+<p><code>void print(const Object&amp;);</code></p>
+</li>
+<li><p>c++中的<strong>this是一个指向对象的常量指针</strong>，隐式初始化。调用成员函数的时候才初始化this。</p>
+<p>this默认情况下是指向非常量的常量指针，这样就会在指向常量对象成员的时候出问题，所以c++语言的做法是允许把const关键字放在成员函数的参数列表之后，这样就会在调用常量成员函数的时候初始化一个指向常量的常量指针</p>
+<p><code>int func() const&#123;&#125;;</code></p>
+</li>
+<li><p>类可以先只在内部声明成员函数，然后再在外面实现之</p>
+<p>要使用作用域运算符<code>::</code></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+class Object
+&#123;
+public:
+    int a &#x3D; 10;
+    void func();
+&#x2F;&#x2F;即使是私有函数，也可以在类外面实现
+private:
+    void test();
+&#125;;
+void Object::func()
+&#123;
+    cout&lt;&lt;&quot;func&quot;;
+&#125;
+void Object::test()
+&#123;
+    cout&lt;&lt;&quot;test&quot;;
+&#125;
+
+int main()
+&#123;
+    Object obj;
+    obj.func();
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>函数可以返回this对象</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;在外部定义一个Object类内的函数get_obj()
+Object&amp; Object::get_obj()
+&#123;
+	return *this
+&#125;
+
+Object obj;
+Objcet &amp;ref &#x3D; obj.get_obj(); &#x2F;&#x2F;ref是obj的引用<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>this指针指向对象，所以<code>*this</code>解引用后返回对象本身</p>
+<p><strong>这里返回的是<code>Object&amp;</code>即原对象的引用</strong></p>
+<p>这样就可以实现建造者模式：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;每一次函数调用都返回了&amp;obj，即原对象的引用，所以可以继续调用来修改原对象
+obj.set_hight(10).set_width(20).set_color(red);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>如果不返回引用，即下面这一段，这时候返回的就是一个原对象的拷贝</strong>！（但如果函数返回作为左值则必须返回引用类型）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Object Object::get_obj()
+&#123;
+	return *this
+&#125;
+
+Object obj;
+Objcet obj_copy &#x3D; obj.get_obj(); &#x2F;&#x2F;obj_copy是obj的拷贝，改变obj_copy不会改变obj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果不想其他人修改返回的对象，可以<strong>返回一个指向常量对象的引用（常量引用）</strong>，即</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const Object&amp; Object::get_obj()
+&#123;
+	return *this
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>返回常量引用之后，就不能再进行任何操作了，因为<strong>只能用常量函数操作常量对象，非常量函数不能操作非常量对象</strong>，这里原对象并没有被转换成常量对象，而是引用是常量引用，常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定（见const部分）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+class Object
+&#123;
+public:
+    int a &#x3D; 10;
+    const Object&amp; func();
+    void set();
+&#125;;
+const Object&amp; Object::func()
+&#123;
+    return *this;
+&#125;
+void Object::set()
+&#123;
+    this-&gt;a &#x3D; -10;
+&#125;
+
+int main()
+&#123;
+    Object obj;
+    const Object &amp;ref &#x3D; obj.func();
+    ref.set(); &#x2F;&#x2F;报错：ref是常量引用，该引用将目标对象当成常量，不能调用非常量函数set()
+    obj.set(); &#x2F;&#x2F;正确：obj是非常量对象本身，可以调用非常量函数set()
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以基于const重载，即同一个函数保留返回const Object&amp;版本和Object&amp;版本，常量对象会自动调用常量版本，非常量对象会自动调用非常量版本</p>
+</li>
+<li><p>与JAVA一样，编译器在发现类不包含任何构造函数的时候会自动生成一个默认构造器，一旦自己定义了一个构造器，就不会有默认构造器了</p>
+<p>在定义的时候，可以<code>Object()=default;</code>来要求编译器生成默认构造函数。</p>
+</li>
+<li><p>由于<code>this</code>是一个常量指针（指向对象），所以用的时候要以指针的用法使用</p>
+<p>因为以前常用JAVA，这里很容易搞忘</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct test
+&#123;
+    int a &#x3D; 10;
+    test(int a)
+    &#123;
+        this-&gt;a &#x3D; a;  &#x2F;&#x2F;或(*this).a；就算再在里，也别忘了先对this解引用才能使用，要用-&gt;指针成员访问符
+    &#125;
+    test get_obj()
+    &#123;
+        return *this; &#x2F;&#x2F;repo
+    &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>Cpp中有两种创建类的方式，class和struct，前者默认private，后者默认public，其它用法完全一致。struct主要是为了兼容c。</p>
+<p>class和struct最后一个大括号后面都要加分号<code>;</code></p>
+<p><strong>不能在class、struct之前加访问修饰符</strong>，要想整个类都public，使用struc；要想整个类都private，使用class；要想控制成员访问权限，在类定义中使用<code>public:</code>、<code>private:</code>、<code>protect:</code>语句</p>
+<p><strong>class定义中的默认构造器是public的，但非默认构造器是private的！</strong></p>
+<p>所以一定要在class中把构造器添加到<code>public:</code>修饰符中</p>
+</li>
+<li><p>对于友元，三种使用形式</p>
+<p>①声明<strong>非成员函数</strong>为友元（该函数可以访问本类公私有成员）</p>
+<p><code>friend &lt;函数声明&gt;</code></p>
+<p>②声明<strong>某类</strong>为友元（某类中的所有成员可以访问本类公私有成员）</p>
+<p><code>friend struct/class &lt;class_name&gt;</code></p>
+<p>③声明<strong>某类中的某成员函数</strong>为友元（某类中的某成员函数可以访问本类公私有成员）</p>
+<p><code>friend &lt;带有作用域声明符::的函数声明&gt;</code></p>
+<p><strong>类和非成员函数的声明不是必须在它们的友元声明之前。（只要注意访问类的时候该类必须已经定义即可）</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class B
+&#123;
+    &#x2F;&#x2F;这里A类还没声明，但是先在B类声明友元，这是可以的
+    friend class A; 
+public:
+    int a &#x3D; 10;
+&#125;;
+class A
+&#123;
+    void func()
+    &#123;
+        B b;
+        int s &#x3D; b.a;
+    &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但对于第三种类中的成员函数一定要注意顺序：<strong>被声明友元的函数必须在友元声明之前声明</strong>，比如我们想要<code>A</code>类中的<code>func()</code>方法访问<code>B</code>类中的私有成员<code>a</code>：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class A
+&#123;
+public:
+    &#x2F;&#x2F;1.由于B要声明A中的func为友元，所以A中的func()必须先定义
+    &#x2F;&#x2F;2.但是A中的func()要访问B，此时B还没声明，所以func()只能先声明，不实现内容
+    void func(); 
+&#125;;
+class B
+&#123;
+    friend void A::func();
+    int a &#x3D; 10;
+&#125;;
+&#x2F;&#x2F;在B实现完毕，也声明了A::func()是友元之后，再实现A::func()
+void A::func()
+&#123;
+    B b;
+    cout&lt;&lt;b.a&lt;&lt;endl;;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>友元不具传递性和继承性</strong></p>
+</li>
+<li><p>编译器处理类定义分<strong>两阶段</strong>进行：</p>
+<p>①首先，编译成员的所有<strong>声明</strong>（变量声明、函数声明等）</p>
+<p>②直到类全部可见后才编译<strong>函数体</strong></p>
+<p>这里指的是<strong>类中的声明</strong>与<strong>函数体</strong>两者的处理顺序，成员函数内的声明就完全按顺序执行了。</p>
+</li>
+<li><p>初始化</p>
+<p>构造函数初始值表起一个<strong>初始化声明</strong>的作用（const、引用必须借用这个语句进行显式初始化）</p>
+<p>注意，构造函数初始值表是初始化声明，而不是赋值。</p>
+<p><strong>注意：构造函数初始值表只是定义，而不是声明，表中的变量名需要先在类中声明。且初始化顺序与声明顺序而不是定义顺序一致。</strong> </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;定义并初始化
+string foo &#x3D; &quot;Hello World!&quot;;  &#x2F;&#x2F;方法一（定义处声明初始化）
+&lt;Constructor&gt;(param):var1(_var1),var2(_var2) &#123;&#125; &#x2F;&#x2F;方法二（构造函数初始值表）其中var1的值被初始化为_var1
+
+&#x2F;&#x2F;默认初始化为空的String对象
+string bar;
+&#x2F;&#x2F;为bar赋值
+bar &#x3D; &quot;Hello World!&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>初始化与赋值，两者发生在不同的时间。<strong>构造函数体一开始执行，初始化就完成了，然后才会执行函数体内的赋值操作。</strong></p>
+<p><strong>由于const和引用不能被赋值，所以他们只能直接初始化成目标值</strong>。所以<strong>const和引用要么直接作为形参被调用（隐式初始化），要么通过构造函数初始值表被显式初始化</strong>（即在类中声明引用/const变量名，然后在构造函数初始值表中初始化它）。</p>
+<p><strong>注意，初始化列表中不需要用<code>this</code>指定是本类的成员！括号外（被初始化变量）默认就是本类的成员；调用父类构造器的时候也不需要用作用域运算符表明是父类，编译器老懂哥了。</strong></p>
+<p><strong>未提供默认构造函数的类类型也必须被显式初始化！</strong>（不然程序不知道怎么初始化它；可以使用两种初始化方法）</p>
+<p><strong>对于基本类型也是，<code>int a(10)</code>直接初始化，<code>int a = 10</code>拷贝初始化</strong></p>
+<p>建议直接初始化而非赋值，这样效率更高，也避免一些成员必须被初始化的情况。</p>
+<p><strong>并非只能在构造函数中初始化，简单对象也可以直接在类中自己的声明处初始化</strong></p>
+</li>
+<li><p>默认初始化与值初始化【】</p>
+<p>C++里的初始化五花八门，禁用非常用初始化！</p>
+<p><a href="https://zhuanlan.zhihu.com/p/365769082">https://zhuanlan.zhihu.com/p/365769082</a></p>
+</li>
+<li><p>字符串字面值</p>
+<p><strong>字符串字面值</strong>的类型实际上是由<strong>常量字符构成的数组</strong>。</p>
+<p><strong>字符数组的特点是末尾元素是空字符<code>&#39;\0&#39;</code>，所以字符串字面值的实际长度要比它的内容多1</strong></p>
+<p>而<strong>字符串末尾是没有空字符</strong>的，字符串的长度就是其内容长度</p>
+<p>创造一个字符串，并将一个字符串字面值赋值给它，实际上<strong>发生了字符数组到字符串的隐式类型转换</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;发生了字符数组到字符串的隐式类型转换
+&#x2F;&#x2F;字符串字面值&quot;hello&quot; 实际上是一个字符数组，实际上是&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;,&#39;\0&#39;
+&#x2F;&#x2F;str是字符串，隐式转换之后成了&quot;hello&quot;
+string str &#x3D; &quot;hello&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>P.S.编译器只会执行一步隐式类型转换，所以当转换成字符串之后如果还要用编译器隐式类型转换成其它类型，就会报错</p>
+</li>
+<li><p>构造函数形参类型到该类类型的隐式转换</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Object
+&#123;
+    Object(string str)&#123;&#125;
+&#125;;
+void print(Object obj)&#123;&#125;;
+int main()
+&#123;
+    string str &#x3D; &quot;abc&quot;;
+    print(str); &#x2F;&#x2F;隐式创建Object对象并调用构造器，参数为str
+    Object obj &#x3D; str; &#x2F;&#x2F;隐式创建Object对象并调用构造器，参数为str
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>这种隐式类型转换很不安全，所以建议对所有一个参数的构造器声明<code>explicit</code>禁用隐式类型转换</strong></p>
+<p>可以使用构造函数形参类型到该类类型的显式类型转换：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">print(static_cast&lt;Object&gt;(str))  &#x2F;&#x2F;显式创建Object对象并调用构造器，参数为str<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>c++的静态成员</p>
+<p><code>static</code>声明静态成员（static成员可以类内部声明，外部定义，但是注意static关键字只能写在类内部；即使一个常量静态数据成员在类内部被初始化了，通常也应该在类的外部定义一下该成员）</p>
+<p><strong>注意静态变量和全局变量都是只能在全局被声明的，全局指在一切函数和类声明之外（包括main函数之外！）</strong></p>
+<p>通过作用域运算符使用静态成员：<code>Object::&lt;static_member&gt;</code></p>
+<p>通过实例对象使用静态成员：<code>obj.&lt;static_number&gt;</code></p>
+<p>通过指向实例对象的指针使用静态成员：<code>obj_pointer-&gt;&lt;static_number&gt;</code></p>
+<p>类内无需作用域运算符</p>
+<p>静态数据成员可以是不完全类型（即静态数据成员的类型可以是它所属的类类型；指针成员也可以指向它所属的类的类型），非静态成员必须是完全类型。静态成员也可以作为默认实参。</p>
+</li>
+<li><p>注意：<strong>类内定义的<code>static</code>变量只是声明，不会初始化！需要在类外再次定义才会初始化！</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct A
+&#123;
+    static int a;  &#x2F;&#x2F;无法使用！static变量在类内只是声明！
+&#125;
+int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不能再写static）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>类内初始化</p>
+<p>类内非构造函数外可以进行简单变量的初始化，且在<strong>定义语句中初始化的时候，括号初始化和赋值初始化是等价的</strong>，比如：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;类内定义处初始化，以下皆可
+int num &#x3D; 1;
+int num &#x3D; &#123;1&#125;;
+int num &#123;1&#125;;    &#x2F;&#x2F;2、3种是列表初始化，单独一个变量慎用
+int num &#x3D; (1);
+int num (1);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>ATT！<strong>在struct的类内无法进行<code>int a(1)</code>初始化</strong>，因为会和函数<code>int num()</code>有歧义。<br>所以在初始化的时候还是建议用<code>=</code></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>3.容器、泛型</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B3%5D%E5%AE%B9%E5%99%A8%E3%80%81%E6%B3%9B%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>只有一些小tips，主要内容去看《cppp》</p>
+<ol>
+<li><p>迭代器辅助函数</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iterator&gt;
+std::advance (it,5);  &#x2F;&#x2F;将迭代器it向右偏移5位； 这个函数没有返回值，是对it的操作
+
+&#x2F;&#x2F;demo
+list&lt;int&gt; li &#x3D; &#123;1,2,3,5,6,7,8&#125;;
+auto it &#x3D; li.begin();   &#x2F;&#x2F;拷贝指向第一个位置的迭代器
+advance(it,3);   &#x2F;&#x2F;因为我们要插到第四个位置前面（1+3&#x3D;4，迭代器移动到第4位），所以迭代器右移3位
+li.insert(it,4);
+for(auto item : li)
+	cout&lt;&lt;item&lt;&lt;&quot; &quot;;
+cout&lt;&lt;endl;
+
+&#x2F;&#x2F;输出：1 2 3 4 5 6 7 8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>顺序迭代器也可以通过 <code>iter += n</code>来移动<code>n</code>位</p>
+</li>
+<li><p>容器元素都是拷贝</p>
+<p>要想改变原对象，可以设置容器元素为原对象的引用，或指向原对象的指针</p>
+</li>
+<li><p>顺序容器访问</p>
+<p><code>at(index)</code>(安全)和<code>[index]</code>操作只适用于string,vector,deque,array（顺序数据结构），链表这种非顺序数据结构(list,forward_list)不适用</p>
+<p><code>c.back()</code>，<code>c.front()</code></p>
+<p>注意：访问成员函数返回的是引用</p>
+<p><code>int &amp;res = vec[2];</code></p>
+<p>也可以接收为非引用，但这实际发生了拷贝赋值<code>int res = vec[2]</code>，即将返回引用所引用的对象的值来初始化新对象res。要想用返回的变量来改变原对象值，就要使用引用</p>
+</li>
+<li><p>地址失效问题</p>
+<p>增加/删除deque中除<strong>首尾位置之外</strong>的任何元素都会使<strong>所有</strong>迭代器、引用、指针失效。</p>
+<p>增加/删除vector或string中某位置元素，则<strong>增加点/删除点之后</strong>位置的<strong>迭代器、引用、和指针都会失效</strong>。</p>
+<p><strong>原因：对于顺序容器(vector,string,array,deque)，每个元素是连续存储的，增加点/删除点之后的元素会发生群体平移，元素地址全变了，所以导致与地址有关的都失效了！</strong></p>
+<p><strong>对于链表容器（list、forward_list），元素是非连续存储的而是通过指针串起来，所以不会发生平移，地址不变，所以增删后不会失效！</strong></p>
+<p><strong>解决办法：保证每次增删操作后的迭代器、引用、和指针都是最新的，不会失效。</strong></p>
+<p><strong>对于删除，可以利用<code>erase</code>操作的返回值来更新迭代器</strong>，删除操作的返回值是删除后指向下一个元素的迭代器；<strong>对于增加，增加了几个元素，当前迭代器就右移几位</strong></p>
+<p>对于顺序容器的增删，不要保存其<code>end()</code>迭代器，必定无用，<strong>每一次循环都必须获取新的<code>end()</code>迭代器</strong></p>
+<p><strong>例子</strong>（在循环中增删顺序容器，如果是偶数则删除，如果是奇数则复制）：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;在循环中增删顺序容器
+vector&lt;int&gt; vt &#x3D; &#123;0,1,2,3,4,5&#125;;
+auto iter &#x3D; vt.begin();
+while (iter !&#x3D; vt.end())   &#x2F;&#x2F;【注意这里：每一次循环都会求一次vt.end()，也就是每次循环都更新了尾后迭代器！】
+&#123;
+	if (*iter%2&#x3D;&#x3D;0)  
+		iter &#x3D; vt.erase(iter);    &#x2F;&#x2F;删除元素，返回下一个元素迭代器，更新
+	else
+	&#123;
+		iter &#x3D; vt.insert(iter,*iter);  &#x2F;&#x2F;插入之后返回的是插入点迭代器
+		iter +&#x3D; 2;  &#x2F;&#x2F;更新迭代器，跳过被复制元素与复制元素到下一个遍历点
+	&#125;
+&#125;
+for (auto item : vt)
+	cout&lt;&lt;item&lt;&lt;&quot; &quot;;
+cout&lt;&lt;endl;
+&#x2F;&#x2F;输出：1 1 3 3 5 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个例子的模式非常常用</p>
+<p>P.S.删除元素的成员函数并不检查其参数，在删除元素之前，程序员需要确保它们是存在的。</p>
+</li>
+<li><p>vector和string不支持头部增删操作，但可以用insert/emplace、erase实现</p>
+</li>
+<li><p>forward_list是手写单链表，非常简单，所以它的所有操作和其它容器都不一样，见《cppp》P313</p>
+<p>主要原因是因为单链表没有指向前驱节点的指针，所以删除/添加某元素<strong>要从它的前驱着手</strong>，没有<code>insert</code>、<code>erase</code>操作，只有<code>insert_after()</code>，<code>emplace_after()</code>、<code>erase_after()</code>等</p>
+<p>使用<code>before_begin()</code>返回首元素前一个位置的迭代器</p>
+<p>对forward_list进行中间插入/删除操作，就需要建立两个迭代器<code>begin()</code>，<code>before_begin()</code>，也就是单链表常用的双指针办法</p>
+</li>
+<li><p>对于增删：<code>insert</code>、<code>erase</code>以及一系列衍生操作，返回值是 <strong>增加后指向第一个新增元素的迭代器</strong>/<strong>删除后指向下一个元素的迭代器</strong></p>
+</li>
+<li><p>vector默认以初始化元素大小来分配空间，然后采用不够则翻倍的空间增长方式。</p>
+<p>对于vector和string这种元素在空间上连续存储的结构，如果没有空间容纳新元素，则会发生①重新在内存中找到一块大小翻倍的连续内存空间 ②将原数据拷贝到新内存空间中 ③释放原内存空间</p>
+<p>所以消耗大</p>
+</li>
+<li><p>size_type</p>
+<p>size_type是容器里的概念</p>
+<p>对string或vector调用<code>.size()</code>返回的不是一个表元素个数的整数，而是<code>size_type</code>类型</p>
+<blockquote>
+<p>使用int变量的问题是：有些机器上的int变量的表示范围太小，甚至无法存储实际并不长的string对象。如在有16位int型的机器上，int类型变量最大只能表示32767个字符的string对象。而能容纳一个文件内容的string对象轻易就能超过这个数字，因此，为了避免溢出，保存一个string对象的size的最安全的方法就是使用标准库类型<code>string::size_type()</code>.</p>
+<p>其实size_t和size_type类似，size_t 类型定义在cstddef头文件中,该文件是C标准库的头文件stddef.h的C++版本</p>
+<p><a href="https://blog.csdn.net/u012246313/article/details/44537757/">https://blog.csdn.net/u012246313/article/details/44537757/</a></p>
+</blockquote>
+<p>但一般都可以隐式转化成int类型</p>
+</li>
+<li><p>注意，关联容器分为有序和无序</p>
+<p>和其它语言的关联容器区别非常大，注意细节</p>
+<p><code>map</code>，<code>set</code>，<code>multimap</code>，<code>multiset</code> 都是<strong>有序容器</strong>，<strong>由关联数组构成</strong>。有序容器<strong>通过比较运算符（对关键字）来组织元素</strong>。所以如果一个类型定义了行为正常<strong>的<code>&lt;</code>运算符</strong>，即可作为关键字类型（可以手动传入函数指针类型作为比较操作类型给关联容器，注意其参数必须是const，见书）<strong>所以有序容器中的元素，默认是按关键字顺序排列的</strong></p>
+<p><strong>所以要将对象作为有序容器的关键字需要在定义处传入比较操作类型。</strong>详见书</p>
+<p><code>unordered_map</code>，<code>unordered_set</code>，<code>unordered_multimap</code>，<code>unordered_multiset</code>都是<strong>无序容器</strong>，<strong>使用哈希函数组织（使用hash和==运算符来组织元素）</strong>。无序容器在存储上组织为一组桶，每个桶保存零个或多个元素。无序容器使用一个哈希函数将元素映射到桶。为了访问一个元素，容器首先计算元素的哈希值，它指出应该搜索哪个桶。容器将具有一个特定哈希值的所有元素都保存在相同的桶中。如果容器允许重复关键字，所有具有相同关键字的元素也都会在同一个桶中。 </p>
+<p><strong>所以要将对象作为无序容器的关键字需要重写hasher()、eqOp()函数。</strong>详见书</p>
+<p>对于有序和无序关联容器，都可以使用范围for遍历，<strong>有序关联容器遍历关联数组，无序容器遍历桶</strong>，无序容器可以使用哈希管理操作，也提供了与有序容器相同的操作</p>
+<p>c++关联容器没有contains函数，但是<strong>关联容器提供了<code>find</code>函数</strong>（不是算法里的find）。<strong> <code>find</code>函数返回指向目标的迭代器，如果找不到则指向末尾，判断其是否等于尾后迭代器(end())来判断是否包含某元素</strong></p>
+<p>注意：<strong>使用一个不存在的关键字作为下标，会自动插入一个新元素，其关键字为给定关键字，其值为0</strong>。所以不能用下标访问法来判断关键字是否存在，如果不存在，这个操作本身就会插入新元素（但这种特性也有使用场景；也因此下标操作只能操作非const map）但<strong>使用<code>at</code>运算访问一个不存在的元素会抛出out_of_range异常</strong></p>
+<p><strong> <code>map</code>中实际取出来的元素类型是<code>pair</code>类型</strong>，对于取出来的<code>pair</code>对象，<strong>要调用<code>pair.first</code>，<code>pair.second</code>来获取key和value</strong>。（first和second是pair对象中默认public的成员）。所以如果使用迭代器遍历map，如果迭代器是it，那么访问其key，value应该写：<code>it-&gt;first</code>，<code>it-&gt;second</code>。当然如果是直接用for范围遍历就<code>w.first</code>，<code>w.second</code>访问成员即可（<code>w</code>可以是遍历map获得的pair引用或拷贝）</p>
+<p><strong>下标运算/<code>at</code>运算提供了方便的key，value访问，可以跳过操作pair对象，来插入，修改map中的pair对象的key value值</strong>。<br>如果不用下标运算，如使用insert等函数操作容器，就要考虑插入pair对象了。（不过insert可以隐式创建pair对象，比如<code>map.insert(&#123;word,1&#125;)</code>）。</p>
+<p>关于insert，对于map和set，总会返回一个pair，first是指向新插入pair的迭代器，second是插入是否成功的bool（注意，这里就成了pair里有另一个pair的迭代器的形式），对于multi的，则总会插入成功，所以直接返回新pair的迭代器</p>
+<p>下标运算的关键字必须是标准库基本类型，我自己定义的对象以及<code>&lt;</code>操作不行</p>
+<p><strong>map的关键字，set的迭代器都是const的，不能修改</strong></p>
+<p><code>multimap</code>、<code>multiset</code>即同一个关键字有多个value元素，比如想建立作者到他所写书籍的题目的映射，每个作者可能有多个条目。在可重复关联容器中，同一个关键字的元素会相邻存储。（所以可以获得第一个迭代器，利用<code>find()</code>找到第一个元素，利用<code>count()</code>计算共多少个，再迭代器右移来遍历）</p>
+<p><code>erase()</code>删除关键字关联的一个元素，返回剩余的value数量（对于不重复，就是0；对于重复，就是还剩多少了）。对于一个erase有三种重载形式，参数可以是<strong>关键字</strong>，返回剩余元素数量；<strong>两个迭代器</strong>，删除中间所有元素；<strong>可以是一个迭代器<code>erase(p)</code>，那么就返回返回下一个元素的迭代器</strong>（这在遍历map的时候删除元素会用到，返回迭代器可以用于更新迭代器！原迭代器失效了！）insert则不能边遍历边插入（map会保证key有序，所以就不能了）。</p>
+<p><strong>总结一下常用操作：<code>下标操作/at操作</code>、<code>insert()</code>、<code>erase()</code>、<code>find()</code>、<code>count()</code></strong></p>
+<p>以下写的demo</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+#include &lt;unordered_map&gt;
+#include &lt;unordered_set&gt;
+#include &lt;string&gt;
+#include &lt;utility&gt;
+using namespace std;
+
+class Student
+&#123;
+public:
+    string name;
+    int score;
+    Student(string name,int score)
+    &#123;
+        this-&gt;name &#x3D; name;
+        this-&gt;score &#x3D; score;
+    &#125;
+&#125;;
+int score_compare(const Student &amp;s1,const Student &amp;s2)
+&#123;
+    return s1.score &gt; s2.score;
+&#125;
+template &lt;typename T&gt;
+void print_key(map&lt;T,string&gt; m)
+&#123;
+    cout&lt;&lt;&quot;key seq : &quot;;
+    for (auto &amp;p : m)
+        cout&lt;&lt;p.first&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+&#125;
+template &lt;typename T&gt;
+void print_value(map&lt;T,string&gt; m)
+&#123;
+    cout&lt;&lt;&quot;value seq : &quot;;
+    for (auto i &#x3D; m.begin(); i !&#x3D; m.end(); ++i)
+        cout&lt;&lt;i-&gt;second&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+&#125;
+void print_student_key(multimap&lt;Student,string,decltype(score_compare)*&gt; m)
+&#123;
+    cout&lt;&lt;&quot;key seq : &quot;;
+    for (auto &amp;p : m)
+        cout&lt;&lt;p.first.name&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+&#125;
+void print_student_value(multimap&lt;Student,string,decltype(score_compare)* &gt;m)
+&#123;
+    cout&lt;&lt;&quot;value seq : &quot;;
+    for (auto i &#x3D; m.begin(); i !&#x3D; m.end(); ++i)
+        cout&lt;&lt;i-&gt;second&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+&#125;
+
+int main()
+&#123;
+    map&lt;int,string&gt; m;
+    m[4] &#x3D; &quot;a&quot;;
+    m.insert(&#123;1,&quot;b&quot;&#125;);
+    m.insert(make_pair(3,&quot;c&quot;));
+    print_key(m);
+    print_value(m);
+
+    cout&lt;&lt;m.find(3)-&gt;second&lt;&lt;endl;
+    if (m.find(9)!&#x3D;m.end())
+        cout&lt;&lt;&quot;found 9&quot;&lt;&lt;endl;
+    else
+        cout&lt;&lt;&quot;could not find 9&quot;&lt;&lt;endl;
+
+    Student a(&quot;Bob&quot;,40),b(&quot;Ford&quot;,99),c(&quot;Jean&quot;,70);
+    multimap&lt;Student,string,decltype(score_compare)*&gt; student_performance_map(score_compare);
+    &#x2F;&#x2F;以下访问方法错误
+    &#x2F;&#x2F;student_performance_map[a] &#x3D; &quot;poor&quot;;
+    &#x2F;&#x2F;student_performance_map[b] &#x3D; &quot;well done!&quot;;
+    &#x2F;&#x2F;student_performance_map[c] &#x3D; &quot;not bad&quot;;
+
+    cout&lt;&lt;&quot;All performance of all students : &quot;;
+    student_performance_map.insert(&#123;a,&quot;poor&quot;&#125;);
+    student_performance_map.insert(&#123;b,&quot;well done!&quot;&#125;);
+    student_performance_map.insert(&#123;c,&quot;not bad&quot;&#125;);
+    student_performance_map.insert(&#123;a,&quot;go on&quot;&#125;);
+    student_performance_map.insert(&#123;a,&quot;impressed!&quot;&#125;);
+    print_student_key(student_performance_map);
+
+    cout&lt;&lt;&quot;All performance of Bob : &quot;;
+    auto iter &#x3D; student_performance_map.find(a);
+    auto nums &#x3D; student_performance_map.count(a);
+    while(nums)
+    &#123;
+        cout&lt;&lt;iter-&gt;second&lt;&lt;&quot; &quot;;
+        if(iter-&gt;second&#x3D;&#x3D;&quot;poor&quot;)
+            iter &#x3D; student_performance_map.erase(iter); &#x2F;&#x2F;delete pool performace
+        else
+            ++iter;
+        --nums;
+    &#125;
+    cout&lt;&lt;endl;
+
+    cout&lt;&lt;&quot;after delete pool performance : &quot;;
+    print_student_key(student_performance_map);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>指向容器的指针使用下标运算要对前面所有东西打括号—易错</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">shared_ptr&lt;vector&lt;int&gt;&gt; np(new vector&lt;int&gt;(&#123;1,2,3,4&#125;));
+(*np)[0] &#x3D; -1;  &#x2F;&#x2F;容器内容变成 -1 2 3 4
+*np[0] &#x3D; -1; &#x2F;&#x2F;错误！！！
+    
+&#x2F;&#x2F;若类obj里面右指向容器的指针p
+(*(obj.p))[0] &#x3D; -1;  &#x2F;&#x2F;容器内容变成 -1 2 3 4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<h2 id="泛型算法"><a href="#泛型算法" class="headerlink" title="泛型算法"></a>泛型算法</h2><ol>
+<li>算法、谓词</li>
+<li>lambda</li>
+<li>迭代器</li>
+</ol>
+<p>笔记都在书上</p>
+<p>以下为写的demo</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+bool is_bigger(const int &amp;a, const int &amp;b)
+&#123;
+    return a &gt; b;
+&#125;
+void print(vector&lt;int&gt; &amp;vec, const string &amp;str)
+&#123;
+    cout&lt;&lt;str&lt;&lt;&quot; : &quot;;
+    for (auto &amp;item : vec)
+        cout&lt;&lt;item&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+&#125;
+
+int main()
+&#123;
+    vector&lt;int&gt; vec &#x3D; &#123;3,2,1,4,5&#125;;
+    sort(vec.begin(),vec.end(),[](const int &amp;a, const int &amp;b)&#123;return a&gt;b;&#125;);
+    &#x2F;&#x2F;sort(vec.begin(),vec.end(),is_bigger);
+    print(vec,&quot;reverse&quot;);
+
+    sort(vec.begin(),vec.end());
+    print(vec,&quot;sort&quot;);
+
+    cout&lt;&lt;&quot;find_if : &quot;;
+    int th &#x3D; 1;
+    auto it0 &#x3D; find_if(vec.begin(),vec.end(),[th](const int &amp;a)&#123;return a&gt;th;&#125;);
+    for (auto i &#x3D; it0; i !&#x3D; vec.end(); ++i)
+        cout&lt;&lt;*i&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+    cout&lt;&lt;&quot;new vec size : &quot;&lt;&lt;(vec.end()-it0)&lt;&lt;endl;
+
+    vector&lt;int&gt; vec2(vec.end()-it0);
+    &#x2F;&#x2F;vec2.resize(vec.end()-it0);
+    copy(it0,vec.end(),vec2.begin());
+    print(vec2,&quot;copy&quot;);
+
+    replace(vec.begin(),vec.end(),2,9);
+    print(vec,&quot;replace&quot;);
+
+    &#x2F;&#x2F;for_each(vec.begin)
+    cout&lt;&lt;&quot;for_each : &quot;;
+    for_each(vec.begin(),vec.end(),[](int &amp;a)&#123;if(a&gt;3) cout&lt;&lt;a&lt;&lt;&quot; &quot;;&#125;);
+    cout&lt;&lt;endl;
+
+    &#x2F;&#x2F;insert intr
+    vector&lt;int&gt; vec3(vec.size());
+    auto fi &#x3D; inserter(vec3,vec3.begin());
+    copy(vec.begin(),vec.end(),fi);
+    print(vec3,&quot;inster copy&quot;);
+&#125;
+
+&#x2F;*
+reverse : 5 4 3 2 1
+sort : 1 2 3 4 5
+find_if : 2 3 4 5
+new vec size : 4
+copy : 2 3 4 5
+replace : 1 9 3 4 5
+for_each : 9 4 5
+front_inster copy : 1 9 3 4 5 0 0 0 0 0
+*&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>lambda表达式可以用auto类型表示类型</strong>（因为不同参数的lambda表达式类型是不同的，很复杂）</p>
+<p>于是就可以写为<code>auto lm = lambda表达式</code> </p>
+]]></content>
+      <categories>
+        <category>程序语言</category>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>0.COMPILE</title>
+    <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B0%5DCOMPILE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="COMPILE"><a href="#COMPILE" class="headerlink" title="COMPILE"></a>COMPILE</h2><h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p><code>gcc</code>、<code>g++</code></p>
+<p>gcc和g++的区别：gcc不会主动链接标准库STL等 ，不主动link就只能编译单个源文件；gcc也是调用了g++里的cc1plus；但gcc更稳定</p>
+<p>gcc和g++编译程序发生了什么：</p>
+<p>① <strong>preprocess：</strong>调用预处理器（cpp）生成<strong>预处理文件</strong>(.i、.ii文件，后者是cpp） <strong>【源代码——&gt;预处理源代码】 </strong> </p>
+<p><code>gcc -E hello.cpp -o hello.ii</code></p>
+<p>② <strong>compile：</strong>调用实际的编译器（如cc cc1 cc1pp）生成<strong>汇编代码（.s文件）</strong>    <strong>【预处理后源代码——&gt;汇编代码】</strong></p>
+<p><code>gcc -S hello.ii -o hello.s</code> </p>
+<p>③<strong>assemble：</strong>调用汇编器（如as），生成<strong>目标文件（.o/.a文件）</strong> <strong>【汇编代码——&gt;机器指令】</strong></p>
+<p><code>gcc -c hello.s -o hello.o</code></p>
+<p>④<strong>link：</strong>调用链接器（如ld），链接多个目标文件（链接库），生成<strong>可执行文件</strong>    <strong>【链接多个机器指令.o文件/.a文件，生成可执行文件】</strong></p>
+<p><code>gcc hello.o -o hello</code></p>
+<p><strong>对于多个链接目标</strong>：<code>gcc a.o b.o c.o ..... -o output</code></p>
+<p><strong>也可以源文件与链接库混编(合并编译）</strong>：<code>gcc main.cc f1.o f2.o f3.a ... -o output</code></p>
+<p>即：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-E                       Preprocess only<span class="token punctuation">;</span> <span class="token keyword">do</span> not compile, assemble or link.
+-S                       Compile only<span class="token punctuation">;</span> <span class="token keyword">do</span> not assemble or link.
+-c                       Compile and assemble, but <span class="token keyword">do</span> not link.   
+-o <span class="token operator">&lt;</span>file<span class="token operator">></span>                Place the output into <span class="token operator">&lt;</span>file<span class="token operator">></span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>注意，上面的参数是向前兼容的，比如可以<code>gcc -c hello.cpp -o hello.o</code>直接由源文件生成目标文件</strong></p>
+<p><strong>[<code>-c</code>是非常常用的，先preprocess、compile、assemble，就可以先编译生成第三方库的链接库文件了。</strong></p>
+<p><code>-o</code>指定输出目标（各阶段都可以用）</p>
+<p><strong>【注意1】：gcc在链接过程中，对参数中的库的顺序是有要求的，参数【右侧的库会先于左侧的库加载】，也就是说参数的解析是从右往左的</strong></p>
+<p>一般报错undefined reference就是这个顺序问题导致的</p>
+<p><strong>【注意2】：<code>gcc</code>不自动链接标准库，所以需要手动链接：【添加参数<code>-lstdc++</code>】</strong></p>
+<p><strong>编译的时候可添加<code>-I</code>（添加搜索头文件的路径</strong>，见下面声明第三方库的方法1）、<code>-L</code>（指定要链接库所在的目录；放在<code>/lib</code>和<code>/usr/lib</code>和<code>/usr/local/lib</code>里的库直接用-l参数就能链接了，我们可以直接把第三方库放进去，如果不在上述三个默认目录，需要指定链接库目录）、<code>-l</code>（指定路径寻找库文件；直接跟库名，比如库文件叫test，则参数为<code>-ltest</code>） <strong>P.S.链接库格式为<code>libxxxx</code>，自己生成的链接库如果要合并编译也要遵守这个命名规则</strong> </p>
+<p>P.S. <strong>通过 <code>-l -L</code>来指定静态链接库，和直接链接链接库效果是一样的</strong>，即<code>gcc a.o b.o -o main</code>=<code>gcc a.o -lb -L . -o main</code>（b链接库改名libb.a)，<strong>但是对于动态链接库，就必须再用<code>-l -L</code>的方式来编译！</strong>（P.S.2 在同时有同名的静态和动态库的情况下，gcc默认是选择动态库的）</p>
+<hr>
+<p>Cpp程序的编译，链接过程：</p>
+<p><strong>链接的时候就必须要有个<code>main()</code>函数作为可执行程序的入口了</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">alpha.c(main) -&gt; alpha.obj(编译)
+                  	   	    	\
+                     	     	program.exe(链接)
+                     	    	&#x2F;
+		beta.c  -&gt; beta.obj(编译)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个<code>.obj</code>结尾的文件就是<strong>目标文件</strong>，也就是<strong>链接库</strong>（<strong>静态链接库<code>.a</code>、<code>.lib</code>，动态链接库<code>.so</code>、<code>.dll</code></strong>）</p>
+<p><strong>静态库：在链接阶段，会将汇编生成的目标文件.o与引用到的库一起链接打包到可执行文件中。</strong>在编译时期完成，之后再与函数库无瓜葛，很方便移植，但浪费空间</p>
+<p><strong>动态库：动态库在程序编译时并不会被链接到目标代码中（跳过链接这一步），而是在程序运行是才被载入。</strong>不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例节省空间，且可以直接对函数库进行修改，无须重新编译</p>
+<hr>
+<p><strong>P.S. gcc9.3完全支持到C++17</strong>，默认支持c++14，<strong>要使用c++17需要<code>gcc -std=c++17</code></strong></p>
+<h3 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h3><p><strong>Cpp使用第三方库需要</strong></p>
+<p><strong>①include第三方库的头文件(<code>.h</code>)，以使得编译器能够对源代码进行编译</strong>（得要声明第三方库才能使用库函数）</p>
+<p><strong>②链接第三方库的链接库文件（第三方库编译生成的目标文件<code>.a</code></strong>、<code>.lib</code>，动态链接库则运行时装载<code>.so</code>、<code>.dll</code>），<strong>以生成可执行文件</strong></p>
+<p>编译的时候</p>
+<p><strong>第三方库文件有两种情况：</strong></p>
+<blockquote>
+<p>使用第三方源代码大致分为两种情况：</p>
+<ol>
+<li><p>第三方库不大有源代码，但并未提供二进制库文件。比如jsoncpp 这种轻巧的库</p>
+<p>对于这种就需要和自己的源代码一起进行编译。需要在引用第三方库功能的源代码头部<strong>include 第三方代码的头文件，并将源代码的实现部分放置在自己的源代码文件夹中。构建时让C++ 编译器一起编译成二进制代码，再链接到一起。</strong></p>
+</li>
+<li><p>第三方库代码庞大或者仅提供头文件和编译好的二进制文件</p>
+<p>对于像openssl、ffmpeg 等等大块头的开源项目，即使是拿到了源代码也不建议将其与自己的源代码合并编译。因为他们本身就很复杂且搭建编译环境也要费一番功夫。一般这些项目都提供已经编译好的二进制库文件。极端情况下仅有源代码文件没有库文件，就需要先配置这些项目的编译环境先编译输出二进制库文件。</p>
+<p>这些项目提供的<strong>已经编译好的库文件.so .o .lib .dll 等</strong>与<strong>对应的头文件</strong>配合使用include到自己的源代码项目中。使用时，<strong>将第三方头文件include 到使用这些第三方库的源代码中，然后在链接环节指定链接器链接这些已经编译好的二进制库文件。其实在一些自动化构建工具比如CMake 中，这些非常好指定。</strong></p>
+</li>
+</ol>
+<p>链接：<a href="https://www.zhihu.com/question/384875984/answer/1173406367">https://www.zhihu.com/question/384875984/answer/1173406367</a></p>
+</blockquote>
+<p>总的来说，就是库文件编译好没有的区别，大库用CMake构建指定头文件与编译好的库文件路径，小库则直接将源码放目录下即可</p>
+<p>P.S.声明第三方库才能使用库函数，但为什么Cpp不像其它高级语言一样声明库函数后自己去库函数源文件找声明，而要单独一个<code>.h</code>头文件来声明呢？这是历史原因：<a href="https://www.zhihu.com/question/280665935/answer/649503865">为什么C/C++要分为头文件和源文件？ - wzsayiie的回答 - 知乎</a> 总结：和Cpp一起编译的其它文件可能根本不是Cpp，所以得自己单独声明</p>
+<p>Cpp提供了标准库，可以直接通过<code>#include &lt;library name&gt;</code>声明不用加路径，其存放于<code>/usr/include/&lt;ver&gt;/&lt;libaray name&gt;</code>，对于C提供的库（非标准库），通过<code>#include &quot;&lt;library name&gt;&quot;</code>文件来声明，注意<strong>C++标准库的文件是无后缀的，且用<code>&lt;&gt;</code>来include</strong>，其它库是<code>.h</code>头文件后缀，非C提供的库的<strong>其它第三方非标准库则需要声明时写出库头文件存放的位置</strong></p>
+<hr>
+<p><strong>为了方便声明第三方库，可以</strong></p>
+<p>①<strong>添加编译选项<code>-I</code></strong></p>
+<p><strong>②修改系统环境变量</strong>（注意，修改了环境变量，gcc/g++的时候还是要声明link的头文件！只是不用写路径了）</p>
+<blockquote>
+<p>将头文件路径和库文件路径添加到指定的系统环境变量中去，具体如下：</p>
+<ul>
+<li>使用 <strong>gcc</strong> 编译时将 <code>头文件</code> 路径添加到 <strong>C_INCLUDE_PATH</strong> 系统环境变量中；</li>
+<li>使用 <strong>g++</strong> 编译时将 <code>头文件</code> 路径添加到 <strong>CPLUS_INCLUDE_PATH</strong> 系统环境变量中；</li>
+<li>将 <code>动态连接库</code> 路径添加到 <strong>LD_LIBRARY_PATH</strong> 系统环境变量中；</li>
+<li>将 <code>静态库</code> 路径添加到 <strong>LIBRARY_PATH</strong> 系统变量中。</li>
+</ul>
+<p>改变系统变量主要有两种形式，一种是临时改变，另一种是永久改变。</p>
+<p>临时改变系统变量只需要使用 <strong>export</strong> 命令，重启终端后将恢复至先前状态，如</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>export <span class="token assign-left variable">C_INCLUDE_PATH</span><span class="token operator">=</span><span class="token variable">$CPLUS_INCLUDE_PATH</span>:/myinclude1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>而永久改变又可分为仅改变当前用户和改变所有用户：</p>
+<ul>
+<li>仅改变当前用户的系统环境时，只需将上述的 <strong>export</strong> 语句添加到 <code>~/.bashrc</code> 或者 <code>~/.bash_profile</code> 文件内容后面，重启终端即可。</li>
+<li>要改变所有用户的环境变量时，需将上述的的 <strong>export</strong> 语句添加到 <code>/etc/profile</code> 文件内容，并需要重启计算机。</li>
+</ul>
+<p>链接：<a href="https://www.codeleading.com/article/53332291471/">https://www.codeleading.com/article/53332291471/</a></p>
+</blockquote>
+<p>P.S. 环境变量存放于<code>~/.bashrc</code> （当前用户环境变量）、 <code>~/.bash_profile</code> （所有用户环境变量）</p>
+<p><strong>③<code>pkg-config</code>命令</strong>（<strong>对于第三方库常用，不然自己一个个找需要哪些系统链接库非常痛苦）</strong></p>
+<blockquote>
+<p>部分第三方库在安装完成后会自动生成一个 <em>.pc 的配置文件用来存放第三方库安装的路径，包括头文件路径以及库文件路径，可以使用 <em>*pkg-config</em></em> 命令查看，如：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>pkg-config --cflags --libs protobuf
+
+<span class="token operator">>></span><span class="token operator">>></span> -pthread -I/usr/local/include -L/usr/local/lib -lprotobuf -pthread123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>其中：</p>
+<ul>
+<li>–cflags 返回头文件目录</li>
+<li>–libs 返回库所在的目录以及库参数</li>
+<li>protobuf 为第三方库名</li>
+</ul>
+<p><strong>在编译包含这些库的代码时，需要执行上述命令获取返回结果，比如：</strong></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>g++  main.c <span class="token variable"><span class="token variable">`</span>pkg-config --cflags --libs protobuf<span class="token variable">`</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其中，`符号为数字1键左边的那键。</p>
+<p>对于某些三方库没有<em>.pc文件，我们也可以自己写一个配置文件。</em>.pc文件的路径存放在 <strong>PKG_CONFIG_PATH</strong> 系统变量下，使用 <strong>echo</strong> 命令可查看其变量。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>echo <span class="token variable">$PKG_CONFIG_PATH</span>
+
+<span class="token operator">>></span><span class="token operator">>></span> :/usr/local/lib/pkgconfig123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>进入该路径，我们可以看到 *.pc 的配置文件，用文本编辑器打开其中一个如protobuf.pc，其内容如下：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token operator">></span>prefix<span class="token operator">=</span>/usr/local
+<span class="token operator">></span>exec_prefix<span class="token operator">=</span><span class="token variable">$&#123;prefix&#125;</span>
+<span class="token operator">></span>libdir<span class="token operator">=</span><span class="token variable">$&#123;exec_prefix&#125;</span>/lib
+<span class="token operator">></span>includedir<span class="token operator">=</span><span class="token variable">$&#123;prefix&#125;</span>/include
+
+<span class="token operator">></span>Name: Protocol Buffers
+<span class="token operator">></span>Description: Google's Data Interchange Format
+<span class="token operator">></span>Version: <span class="token number">3.5</span>.2
+<span class="token operator">></span>Libs: -L<span class="token variable">$&#123;libdir&#125;</span> -lprotobuf -pthread
+<span class="token operator">></span>Libs.private: -lz
+<span class="token operator">></span>Cflags: -I<span class="token variable">$&#123;includedir&#125;</span> -pthread
+<span class="token operator">></span>Conflicts: protobuf-lite123456789101112<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中：</p>
+<ul>
+<li>libdir 为库所在目录</li>
+<li>includedir 为头文件所在目录</li>
+<li>Libs 为调用参数，其内容为库所在的目录以及库参数</li>
+<li>cflags 为调用参数，其内容为头文件目录</li>
+</ul>
+<p>因此，我们可以照着上面的形式自己写一个<em>.pc文件放到 <em>*PKG_CONFIG_PATH</em></em> 所指定的目录下。</p>
+<p>链接：<a href="https://www.codeleading.com/article/53332291471/">https://www.codeleading.com/article/53332291471/</a></p>
+</blockquote>
+<p>当然也可以直接写全路径</p>
+<p><strong>对于同一个项目声明自己的其它函数库，就直接用相对路径引用即可</strong></p>
+<h3 id="工程构建：make、cmake"><a href="#工程构建：make、cmake" class="headerlink" title="工程构建：make、cmake"></a>工程构建：<code>make</code>、<code>cmake</code></h3><blockquote>
+<ol>
+<li><strong>make 是用来执行Makefile的</strong></li>
+<li><strong>Makefile是类unix环境下(比如Linux)的类似于批处理的”脚本”文件</strong>。其<strong>基本语法</strong>是: <strong>目标+依赖+命令</strong>，只有在<strong>目标</strong>文件不存在，或<strong>目标</strong>比<strong>依赖</strong>的文件更旧，<strong>命令</strong>才会被执行。由此可见，Makefile和make可适用于任意工作，不限于编程。比如，可以用来管理latex。</li>
+<li>Makefile+make可理解为类unix环境下的项目管理工具，但它太基础了，抽象程度不高，而且在windows下不太友好(针对visual studio用户)，于是就有了跨平台项目管理工具cmake</li>
+<li>cmake是<strong>跨平台</strong>项目管理工具，它用更抽象的语法来组织项目。虽然，仍然是目标，依赖之类的东西，但更为抽象和友好，比如你可用math表示数学库，而不需要再具体指定到底是math.dll还是libmath.so，在windows下它会支持生成visual studio的工程，<strong>在linux下它会生成Makefile</strong>，甚至它还能生成eclipse工程文件。也就是说，从同一个抽象规则出发，它为各个编译器定制工程文</li>
+<li><strong>cmake是抽象层次更高的项目管理工具，cmake命令执行的CMakeLists.txt文件</strong></li>
+<li>qmake是Qt专用的项目管理工具，对应的工程文件是<code>*.pro</code>，在Linux下面它也会生成Makefile，当然，在命令行下才会需要手动执行qmake，完全可以在qtcreator这个专用的IDE下面打开·<code>*.pro</code>文件，使用qmake命令的繁琐细节不用你管了。</li>
+</ol>
+<p>总结一下，<strong>make用来执行Makefile，cmake用来执行CMakeLists.txt</strong>，qmake用来处理<em>.pro工程文件。Makefile的抽象层次最低，cmake和qmake在Linux等环境下最后还是会生成一个Makefile。cmake和qmake支持跨平台，<em>*cmake的做法是生成指定编译器的工程文件</em></em>，而qmake完全自成体系。</p>
+<p><img src="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/[0]COMPILE/Users/xinyuhua/OneDrive - Intel Corporation/Documents/notes/C++/make.png" alt="make">链接：<a href="https://www.zhihu.com/question/27455963/answer/36722992">https://www.zhihu.com/question/27455963/answer/36722992</a></p>
+</blockquote>
+<p><strong> <code>make install</code>: 将 make 生成的文件安装到系统的对应目录中。</strong></p>
+<p><strong>其中主要是bin和lib文件，将编译好的可执行文件和库文件导入系统对应目录，就可以正常使用了</strong></p>
+<h3 id="cmake的用法"><a href="#cmake的用法" class="headerlink" title="cmake的用法"></a>cmake的用法</h3><p><a href="https://blog.csdn.net/xuheazx/article/details/51980651">CMakeLists 的使用，大型工程使用cmake 的构件过程</a></p>
+<p><a href="https://www.jianshu.com/p/7e4aa4be239a">CMake入门和大型工程管理</a></p>
+<ol>
+<li><p><strong>编译库</strong></p>
+<p><strong>将右边所有指定源文件(source1,source2…..)编译生成左边名字为<code>&lt;name&gt;</code>的目标文件（链接库）</strong></p>
+<p>STATIC：生成静态库(.o)；SHARED：生成动态库(.so)</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_library</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token namespace">STATIC</span> | <span class="token namespace">SHARED</span> | MODULE]
+            [<span class="token property">EXCLUDE_FROM_ALL</span>]
+            [source1] [source2] [...]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>将目标文件与库文件进行链接</strong></p>
+<p>其中<code>&lt;target&gt;</code>指通过<code>add_executable()</code>或<code>add_library()</code>指令生成已经创建的目标文件（前者就是动态链接，后者就是静态链接），<code>[item]</code>表示库文件没有后缀的名字。</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span>&lt;target<span class="token punctuation">></span> [item1] [item2] [...]
+                      [[debug|optimized|general] &lt;item<span class="token punctuation">></span>] ...<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>target_link_libraries里库文件的顺序符合gcc链接顺序的规则，即被依赖的库放在依赖它的库的后面</p>
+</li>
+<li><p><strong>添加头文件搜索路径</strong></p>
+<p>使用了这个之后，在源文件中， #include就不需要再写头文件目录了</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">include_directories</span><span class="token punctuation">(</span>
+	path1...
+	path2...
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>用来显式的定义变量</strong> </p>
+<p>定义变量name代替后面的字符串</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">set</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> xxx1 
+	xxx2
+	xxx3<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>生成可执行文件</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_executable</span> <span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token variable">WIN32</span>] [<span class="token property">MACOSX_BUNDLE</span>]
+      [<span class="token property">EXCLUDE_FROM_ALL</span>]
+      [source1] [source2 ...]<span class="token punctuation">)</span>
+<span class="token keyword">target_sources</span><span class="token punctuation">(</span>&lt;name<span class="token punctuation">></span> [<span class="token variable">WIN32</span>] [<span class="token property">MACOSX_BUNDLE</span>]
+      [<span class="token property">EXCLUDE_FROM_ALL</span>]
+      [source1] [source2 ...]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>target_sources</code>继续为可执行目标文件添加源文件，要求是在调用target_sources之前，可执行目标文件必须已经通过add_executable或add_library定义了。</p>
+</li>
+<li><p><strong>添加一个子目录并构建该子目录。</strong></p>
+<p>大型cpp工程，多层次cmake使用，通过这个指令可以链接多个子模块</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">add_subdirectory</span> <span class="token punctuation">(</span>source_dir [binary_dir] [<span class="token property">EXCLUDE_FROM_ALL</span>]<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p><code>source_dir</code><br><strong>必选参数</strong>。该参数指定一个子目录，子目录下应该包含<code>CMakeLists.txt</code>文件和代码文件。子目录可以是相对路径也可以是绝对路径，如果是相对路径，则是相对当前目录的一个相对路径。</p>
+<p><code>binary_dir</code><br><strong>可选参数</strong>。该参数指定一个目录，用于存放输出文件。可以是相对路径也可以是绝对路径，如果是相对路径，则是相对当前输出目录的一个相对路径。如果该参数没有指定，则默认的输出目录使用<code>source_dir</code>。</p>
+<p><code>EXCLUDE_FROM_ALL</code><br><strong>可选参数</strong>。当指定了该参数，则子目录下的目标不会被父目录下的目标文件包含进去，父目录的<code>CMakeLists.txt</code>不会构建子目录的目标文件，必须在子目录下显式去构建。<code>例外情况：当父目录的目标依赖于子目录的目标，则子目录的目标仍然会被构建出来以满足依赖关系（例如使用了target_link_libraries）</code>。</p>
+<p>详见：<a href="https://www.jianshu.com/p/07acea4e86a3">https://www.jianshu.com/p/07acea4e86a3</a></p>
+</blockquote>
+</li>
+<li><p><strong>配置（PROPERTIES有很多种，见doc）</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token keyword">set_target_properties</span><span class="token punctuation">(</span>target1 target2 ...
+                      <span class="token namespace">PROPERTIES</span> prop1 value1
+                      prop2 value2 ...<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><a href="https://cmake.org/cmake/help/latest/command/set_target_properties.html">https://cmake.org/cmake/help/latest/command/set_target_properties.html</a></p>
+</li>
+<li><p><strong>PROJECT标识</strong></p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token function">PROJECT</span><span class="token punctuation">(</span>&lt;project_name<span class="token punctuation">></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>配合下面的PROJECT_SOURCE_DIR内置变量使用</p>
+</li>
+<li><p><strong>cmake内置变量</strong></p>
+<p><strong>CMAKE_SOURCE_DIR指定了CMakeLists.txt所在的目录</strong>；</p>
+<p><strong>PROJECT_SOURCE_DIR为包含PROJECT()的最近一个CMakeLists.txt文件所在的文件夹</strong></p>
+</li>
+</ol>
+<p>另外，bash中的${VAR}参数为脚本环境变量，若脚本名为ex.sh，则可以<code>VAR=XXX ./ex.sh</code>来设置运行时环境变量</p>
+<p>make的用法就不用管了，cmake生成了Makefile之后，直接<code>make</code>、<code>make install</code>就完事</p>
+<h3 id="安装gcc11"><a href="#安装gcc11" class="headerlink" title="安装gcc11"></a>安装gcc11</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone --branch releases/gcc-11.1.0 https://github.com/gcc-mirror/gcc.git
+
+<span class="token comment">#安装依赖</span>
+./contrib/download_prerequisites
+<span class="token comment">#配置安装目录</span>
+./configure --prefix<span class="token operator">=</span>/lib/gcc/x86_64-linux-gnu/11/  --enable-bootstrap --enable-languages<span class="token operator">=</span>c,c++ --enable-threads<span class="token operator">=</span>posix --enable-checking<span class="token operator">=</span>release --enable-multili│
+b --with-system-zlib
+<span class="token comment"># 我是安装在/usr/lib/gcc/x86_64-linux-gnu/11 （以前的gcc9安装在/usr/lib/gcc/x86_64-linux-gnu/9）</span>
+<span class="token comment">#编译</span>
+<span class="token function">make</span> -j112
+<span class="token comment">#安装</span>
+<span class="token function">make</span> <span class="token function">install</span>
+<span class="token comment">#安装好之后设置软连接（先删掉原来指向gcc9的软连接）</span>
+<span class="token function">sudo</span> <span class="token function">ln</span> -s /usr/lib/gcc/x86_64-linux-gnu/11/bin/gcc /bin/gcc
+<span class="token function">sudo</span> <span class="token function">ln</span> -s /usr/lib/gcc/x86_64-linux-gnu/11/bin/g++ /bin/g++<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可能出的错：</p>
+<ol>
+<li><p>编译时：<code>gcc: error: gengtype-lex.c: No such file or directory</code></p>
+<p>解决：<code>sudo apt install flex</code></p>
+</li>
+<li><p>编译时：<code>/usr/include/stdio.h:27:10: fatal error: bits/libc-header-start.h: No such file or directory</code></p>
+<p>解决：<code>sudo apt install gcc-multilib</code></p>
+</li>
+<li><p>安装好后运行可能报错</p>
+<p><code>/lib/x86_64-linux-gnu/libstdc++.so.6: version GLIBCXX_3.4.29&#39; not found</code></p>
+<p>这是因为系统中的标准动态链接库还未更新到gcc11要求的最新的版本</p>
+<p>系统链接库存放位置：<code>/lib/x86_64-linux-gnu</code></p>
+<p>gcc11的64位链接库位置：<code>gcc目录下：x86_64-linux-gnu/11/lib64</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#原来的</span>
+<span class="token function">ls</span> /lib/x86_64-linux-gnu -lh<span class="token operator">|</span><span class="token function">grep</span> libstdc++
+
+lrwxrwxrwx  <span class="token number">1</span> root root    <span class="token number">19</span> May <span class="token number">29</span> 07:49 libstdc++.so.6 -<span class="token operator">></span> libstdc++.so.6.0.28
+-rw-r--r--  <span class="token number">1</span> root root  <span class="token number">1</span>.9M May <span class="token number">29</span> 07:49 libstdc++.so.6.0.28
+
+<span class="token comment">#复制过去并建立软连接,让libstdc++.so.6链接最新版本</span>
+<span class="token function">cp</span> /usr/lib/gcc/x86_64-linux-gnu/11/lib64/libstdc++.so.6.0.29 /lib/x86_64-linux-gnu/
+<span class="token function">sudo</span> <span class="token function">ln</span> -s /lib/x86_64-linux-gnu/libstdc++.so.6.0.29  /lib/x86_64-linux-gnu/libstdc++.so.6
+<span class="token function">ls</span> /lib/x86_64-linux-gnu -lh<span class="token operator">|</span><span class="token function">grep</span> libstdc++
+
+lrwxrwxrwx  <span class="token number">1</span> root root    <span class="token number">19</span> Sep  <span class="token number">2</span> 09:50 libstdc++.so.6 -<span class="token operator">></span> libstdc++.so.6.0.29 <span class="token comment">#new</span>
+-rw-r--r--  <span class="token number">1</span> root root  <span class="token number">1</span>.9M May <span class="token number">29</span> 07:49 libstdc++.so.6.0.28 <span class="token comment">#old</span>
+-rwxr-xr-x  <span class="token number">1</span> root root   18M Sep  <span class="token number">2</span> 09:48 libstdc++.so.6.0.29 <span class="token comment">#new</span>
+lrwxrwxrwx  <span class="token number">1</span> root root    <span class="token number">19</span> May <span class="token number">29</span> 07:49 libstdc++.so.6.backup -<span class="token operator">></span> libstdc++.so.6.0.28 <span class="token comment">#old</span>
+
+<span class="token comment">#参考：https://www.linuxidc.com/Linux/2017-10/147621.htm</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>问题：需要把build出来的的bin、lib的东西全部倒腾到系统对应目录下</strong></p>
+</li>
+</ol>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><ol>
+<li><p><strong>注意，要在源文件中对自己的头文件进行声明</strong></p>
+</li>
+<li><p><strong>YCM语法检查是看头文件是否存在而不是看库是否存在，如果库不在是报链接库找不到的错误</strong></p>
+</li>
+<li><p><strong>父目录CMakeList的变量，可由子目录直接引用</strong></p>
+</li>
+<li><p><strong>关于头文件查找：</strong></p>
+<p><code>&lt;&gt;</code> 先到<strong>系统默认include目录（/usr/include)下查找</strong>，找不到再去<strong>工程目录下的 include 文件夹（需先指定工程目录，比如用cmake的话默认工程目录就是PROJECT_SOURCE_DIR）</strong>下查找。（<strong>不会在当前目录下查找</strong>）</p>
+<p><code>&quot;&quot;</code> 先在<strong>当前目录</strong>下查找，<strong>找不到的情况下，再到安装目录的 include 文件夹</strong>下查找，<strong>再找不到才去系统默认include目录下查找</strong></p>
+<p>如果直接用gcc使用第三方库头文件，要么写清相对绝对路径，要么<code>gcc -I</code>，要么加环境变量</p>
+<p>注意：YCM是不会去其它目录寻找头文件的，所以别开YCM语法检查；或者为每个项目单独配置一个<code>.ycm_extra_conf.py</code></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/quant-lee/p/6639008.html">“undefined reference to” 多种可能出现的问题解决方法</a></p>
+<p>链接问题</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>程序语言</category>

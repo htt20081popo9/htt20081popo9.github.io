@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">1.变量、值、指针、引用、常量 | 宵晓咲</title>
+  
+    <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "宵晓咲";
+  mashiro_option.author_name = "宵晓咲";
+  mashiro_option.site_url = "https://aisaka.cloud";
+  mashiro_option.v_appId = "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz";
+  mashiro_option.v_appKey = "OLf7QaP1oTtqKhulLHuajYKu";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "/images/bg/1.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <div id="preloader"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <!-- <a href="https://aisaka.cloud"> -->
+          <img src="/images/img/112.jpg">
+        <!-- </a> -->
+      </div>
+      <div class="header-info">
+        <p>且听风吟</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="mailto:htt20081@126.com" target="_blank" class="social-github" title="email">
+                    <img src="/images/icon/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=28578795" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="/images/icon/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://space.bilibili.com/741763" target="_blank" class="social-github" title="bilibili">
+                    <img src="/images/icon/bilibili.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://steamcommunity.com/id/aisakaki/" target="_blank" class="social-github" title="steam">
+                    <img src="/images/icon/steam.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://bangumi.tv/user/aisakaki" target="_blank" class="social-github" title="bangumi">
+                    <img src="/images/icon/bgm.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://my.playstation.com/profile/AISAKAKI" target="_blank" class="social-github" title="psn">
+                    <img src="/images/icon/ps.png">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <!-- <div id="video-btn" class="loadvideo videolive">
+    </div> -->
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono"></span>
+            <span class="shironeko">宵晓咲</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  " aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    时间线
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    ACG
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/Anime/">
+                          <i class="fa " aria-hidden="true"></i>
+                          动画
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Game/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/Music/">
+                          <i class="fa " aria-hidden="true"></i>
+                          音乐
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/">
+                          <i class="fa " aria-hidden="true"></i>
+                          游戏设计
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+                    随想
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E6%97%A5%E8%AE%B0/">
+                          <i class="fa " aria-hidden="true"></i>
+                          日记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%98%85%E8%AF%BB/">
+                          <i class="fa " aria-hidden="true"></i>
+                          阅读
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%9A%8F%E7%AC%94/">
+                          <i class="fa " aria-hidden="true"></i>
+                          随笔
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+                    技术
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">
+                          <i class="fa " aria-hidden="true"></i>
+                          程序
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
+                          <i class="fa " aria-hidden="true"></i>
+                          人工智能
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%BC%80%E5%8F%91/">
+                          <i class="fa " aria-hidden="true"></i>
+                          开发
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                          <i class="fa " aria-hidden="true"></i>
+                          中间件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BA%91/">
+                          <i class="fa " aria-hidden="true"></i>
+                          网络
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%AD%98%E5%82%A8/">
+                          <i class="fa " aria-hidden="true"></i>
+                          存储
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                          <i class="fa " aria-hidden="true"></i>
+                          算法
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">
+                          <i class="fa " aria-hidden="true"></i>
+                          CS
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+                          <i class="fa " aria-hidden="true"></i>
+                          论文
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    其它
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E7%A1%AC%E4%BB%B6/">
+                          <i class="fa " aria-hidden="true"></i>
+                          硬件
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%8D%9A%E5%AE%A2/">
+                          <i class="fa " aria-hidden="true"></i>
+                          博客
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E5%B7%A5%E5%85%B7/">
+                          <i class="fa " aria-hidden="true"></i>
+                          工具
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/musicLibrary/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    Link
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/about/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+                    我
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+          <header class="entry-header">
+            <h1 class="entry-title">1.变量、值、指针、引用、常量</h1>
+            <p class="entry-census">&nbsp;&nbsp;2021-8-14&nbsp;</p>
+
+            <hr>
+          </header>
+        
+        <div class="entry-content">
+          <h2 id="变量名"><a href="#变量名" class="headerlink" title="变量名"></a>变量名</h2><p>C++中的变量名，比如<code>int n</code>、<code>Object obj</code></p>
+<p>C++对变量名<code>n</code>、<code>obj</code>不做存储，只是用于方便编译成汇编代码，是给编译器看的，是方便人阅读的。</p>
+<blockquote>
+<p>举例：<code>int n=5;</code></p>
+<p>编译器编译它时，产生类似mov [0x00410FC0]，5的指令，即：把5放在该内存地址的空间上。其中并没有出现n，n只是编译时供编译器识别的名字，是一个高级语言抽象出来的概念，在真实执行的程序中并不存在n，至于n的地址是0x00410FC0还是其他的什么，这是由连接器(linker)决定的，连接器把全局变量放在.exe文件中，执行.exe文件时全局变量在类似0x00430000左右的地址。局部变量在栈上，一般地址为0x00120000左右。<br><strong>地址0x00410FC0并不需要一个地址去存放它</strong>，因为在<strong>最后产生.exe文件它自己知道它需要的一个值存放在什么地址</strong>，所以就在它的二进制代码中把0xffbffb0c<strong>硬编码</strong>进来了。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tina_ttl/article/details/52648533">https://blog.csdn.net/tina_ttl/article/details/52648533</a></p>
+</blockquote>
+<p><strong>C++中的变量名就是个代号，其就是存储单元上具体的数据。它不是指针，也不是引用。</strong></p>
+<h2 id="arr-amp-pointer"><a href="#arr-amp-pointer" class="headerlink" title="arr&amp;pointer"></a>arr&amp;pointer</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10];  &#x2F;&#x2F;数组名可以转化（当作）为指针，即求a数组第n个元素：a[n]实际上是*(a+n)，完成了一次解引用过程。
+
+int *p1 &#x3D; a;  &#x2F;&#x2F;指向数组a的第一个元素，这个指针的内容的类型为int，p1指针等价于a指针
+int (*p2)[10] &#x3D; &amp;a; &#x2F;&#x2F;指向一个10个元素数组的指针，这个指针的内容的类型为一个指针（指向了数组具体int元素）也是个指针即上面的p1，所以这个p2是指向指针a的指针，所以要对第一层指针a取地址；在二维数组中，若干个指向指针的指针组成一个数组，即上层维度
+
+&#x2F;&#x2F;第二句拆开来：
+int *temp &#x3D; a; &#x2F;&#x2F;定义指向数组的指针
+int *p2 &#x3D; &amp;temp; &#x2F;&#x2F;定义指向指针的指针
+&#x2F;&#x2F;由于这个指针的内容是一个int[10]数组，所以写为：
+int (*p2)[10] &#x3D; &amp;a;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>两者都发生了数组名自动转换为指针（a数组名，转化为指针）</p>
+<p>但是区别在于第二句又套了一层指针，主要发生在二维数组上。</p>
+<p><strong>建议一切数组操作都从指针角度入手和理解</strong></p>
+<p><strong>使用例子（重要）：</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+&#x2F;&#x2F;传入参数为指针，返回参数为指针
+int *test(int *arr)
+&#123;
+    arr[0] &#x3D; -1;
+    return arr;
+&#125;
+&#x2F;&#x2F;传入参数为指向指针的指针，返回参数也为指向指针的指针
+int (*test2(int (*arr)[10]))[10]
+&#x2F;&#x2F;int **test2(int **arr)  &#x2F;&#x2F;也可以这么定义，但是这样后面的所有数组维度声明全部要修改
+&#123;
+    (*arr)[1] &#x3D; -2; &#x2F;&#x2F;由于传入参数是指向指针的指针，要想操作指针所指向的指针所指向的数组具体元素，需要两次解引用
+    &#x2F;&#x2F;这里这句话等价于：
+    *(*arr+1) &#x3D; -2;  &#x2F;&#x2F;注意：多个解引用从内开始运算,所以要先解引用得内层指针，有[]则优先级最高
+    return arr; &#x2F;&#x2F;返回的是指向指针的指针，所以直接返回传入的arr即可
+&#125;
+int main()
+&#123;
+    int a[10];
+    int *p1 &#x3D; test(a);
+    int (*p2)[10] &#x3D; test2(&amp;a);
+
+    cout&lt;&lt;p1[0]&lt;&lt;endl; &#x2F;&#x2F;or *p1
+    cout&lt;&lt;(*p2)[1]&lt;&lt;endl; &#x2F;&#x2F;or *(*p2+1)
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="pointer-amp-reference"><a href="#pointer-amp-reference" class="headerlink" title="pointer &amp; reference"></a>pointer &amp; reference</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>作为左值</th>
+<th>作为右值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>引用类型声明</td>
+<td>取地址符</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>指针类型声明</td>
+<td>解引用符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol>
+<li><p><strong>运算表达式的结果是右值，函数参数表是左值</strong></p>
+<p>赋值语句右边是右值，左边是左值</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void func(int &amp;var)&#123;&#125;
+int main()
+&#123;
+    int a;
+    func(a);  &#x2F;&#x2F;这里实际上发生了隐式初始化：int &amp;var &#x3D; a ，所以显然参数入口不用&amp;，函数参数表要用&amp;表示引用声明
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>非常量引用(<code>T&amp;</code>)只能引用一个左值（只能用一个左值对引用进行初始化）</strong>，<strong>注意字符串字面量是左值</strong></p>
+<p><strong>常量引用(<code>const T&amp;</code>)也可以引用一个右值</strong></p>
+</li>
+<li><p><strong>函数传参，不改变参数时，尤其是大数据，尽量使用<code>const T&amp;</code> （常量引用）</strong></p>
+<p>好处：</p>
+<ol>
+<li><code>const T&amp;</code>形参初始化为引用，少了对对象的拷贝 </li>
+<li>设置为常量避免对对象的误修改 </li>
+<li><strong> <code>const T&amp;</code>既可以接收左值也可以接收右值</strong></li>
+</ol>
+</li>
+<li><p><strong>函数返回为左值则返回类型必须为引用</strong></p>
+</li>
+<li><p>指针成员访问符<code>-&gt;</code>，和c中一样</p>
+</li>
+<li><p>引用实质是操作地址指针</p>
+</li>
+</ol>
+<h2 id="左值，右值，亡值"><a href="#左值，右值，亡值" class="headerlink" title="左值，右值，亡值"></a>左值，右值，亡值</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402251966">https://zhuanlan.zhihu.com/p/402251966</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/363686723/answer/1976488046">https://www.zhihu.com/question/363686723/answer/1976488046</a></p>
+<p>【】</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>靠里是顶层，靠外是底层</p>
+<p>非常量可以向常量转化（变严），反过来不行</p>
+<p>引用不能修改，都是const的，所以<code>&amp;const a</code>等价于<code>&amp;a</code>，不用写const</p>
+<p>对常量的引用：<code>const &amp;a</code> （引用对象不能修改，引用本身也不能修改；简称常量引用，注意只是简称！）</p>
+<p><strong>对常量的引用实际可能引用一个非常量的对象</strong>：常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定。</p>
+<p>常量指针：<code>int *const a</code> （指针不能修改）</p>
+<p>指向常量的指针： <code>const int *a</code>（指针指向的内容不能修改）</p>
+<p>指向常量的常量指针：<code>const int *const a</code>（指针和指针指向的内容都不能修改）</p>
+<p>若将成员函数声明为const（函数参数表与语句大括号之间加const），则该函数<strong>不允许修改类的数据变量</strong>。且，<strong>const类型的成员函数不能返回非const类型的引用</strong>，比如这样就OK，<code>const vector&lt;int&gt;&amp; operator*() const</code>，如果返回类型去掉const就错了</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="/images/donate/WeChanQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/C++%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                C++学习目标</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B2%5D%E7%B1%BB/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                2.类</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz",
+        appKey: "OLf7QaP1oTtqKhulLHuajYKu",
+        path: window.location.pathname,
+
+        emojiCDN: 'https://valinecdn.bili33.top/',
+        emojiMaps: {
+          //bilibili2233/
+          "2233娘_卖萌":"bilibili2233/[2233娘_卖萌].png","2233娘_吃惊":"bilibili2233/[2233娘_吃惊].png",
+          "2233娘_吐魂":"bilibili2233/[2233娘_吐魂].png","2233娘_喝水":"bilibili2233/[2233娘_喝水].png",
+          "2233娘_困惑":"bilibili2233/[2233娘_困惑].png","2233娘_大哭":"bilibili2233/[2233娘_大哭].png",
+          "2233娘_大笑":"bilibili2233/[2233娘_大笑].png","2233娘_委屈":"bilibili2233/[2233娘_委屈].png",
+          "2233娘_怒":"bilibili2233/[2233娘_怒].png","2233娘_无言":"bilibili2233/[2233娘_无言].png",
+          "2233娘_汗":"bilibili2233/[2233娘_汗].png","2233娘_疑问":"bilibili2233/[2233娘_疑问].png",
+          "2233娘_第一":"bilibili2233/[2233娘_第一].png","2233娘_耶":"bilibili2233/[2233娘_耶].png",
+          "2233娘_郁闷":"bilibili2233/[2233娘_郁闷].png",
+          //Tieba/
+          "0":"Tieba/i_f01.png","11":"Tieba/i_f02.png","22":"Tieba/i_f03.png",
+          "1":"Tieba/i_f04.png","12":"Tieba/i_f05.png","23":"Tieba/i_f06.png",
+          "2":"Tieba/i_f07.png","13":"Tieba/i_f08.png","24":"Tieba/i_f09.png",
+          "3":"Tieba/i_f10.png","14":"Tieba/i_f11.png","25":"Tieba/i_f12.png",
+          "4":"Tieba/i_f13.png","15":"Tieba/i_f14.png","26":"Tieba/i_f15.png",
+          "5":"Tieba/i_f16.png","16":"Tieba/i_f17.png","27":"Tieba/i_f18.png",
+          "6":"Tieba/i_f19.png","17":"Tieba/i_f20.png","28":"Tieba/i_f21.png",
+          "7":"Tieba/i_f22.png","18":"Tieba/i_f23.png","29":"Tieba/i_f24.png",
+          "8":"Tieba/i_f25.png","19":"Tieba/i_f26.png","30":"Tieba/i_f27.png",
+          "9":"Tieba/i_f28.png","20":"Tieba/i_f29.png","31":"Tieba/i_f30.png",
+          "10":"Tieba/i_f31.png","21":"Tieba/i_f32.png","32":"Tieba/i_f33.png",
+          //weibo/
+          "33":"weibo/d_chigua.png","34":"weibo/d_chijing.png","35":"weibo/d_doge.png",
+          "36":"weibo/d_erha.png","37":"weibo/d_kelian.png","38":"weibo/h_quantou.png",
+          "39":"weibo/h_zuoyi.png","40":"weibo/h_zan.png","41":"weibo/d_xiaoku.png",
+          "43":"weibo/d_xixi.png",
+          //bilibiliHotKey/
+          "44":"bilibiliHotKey/1.jpg","52":"bilibiliHotKey/10.jpg","60":"bilibiliHotKey/11.jpg","68":"bilibiliHotKey/12.jpg",
+          "45":"bilibiliHotKey/13.jpg","53":"bilibiliHotKey/14.jpg","61":"bilibiliHotKey/15.jpg","69":"bilibiliHotKey/16.jpg",
+          "46":"bilibiliHotKey/17.jpg","54":"bilibiliHotKey/18.jpg","62":"bilibiliHotKey/19.jpg","70":"bilibiliHotKey/2.jpg",
+          "47":"bilibiliHotKey/20.jpg","55":"bilibiliHotKey/21.jpg","63":"bilibiliHotKey/22.jpg","71":"bilibiliHotKey/23.jpg",
+          "48":"bilibiliHotKey/24.jpg","56":"bilibiliHotKey/25.jpg","64":"bilibiliHotKey/26.jpg","72":"bilibiliHotKey/27.jpg",
+          "49":"bilibiliHotKey/28.jpg","57":"bilibiliHotKey/29.jpg","65":"bilibiliHotKey/3.jpg","73":"bilibiliHotKey/30.jpg",
+          "50":"bilibiliHotKey/31.jpg","58":"bilibiliHotKey/32.jpg","66":"bilibiliHotKey/4.jpg","74":"bilibiliHotKey/5.jpg",
+          "51":"bilibiliHotKey/6.jpg","59":"bilibiliHotKey/7.jpg","67":"bilibiliHotKey/8.jpg","75":"bilibiliHotKey/9.jpg",
+          //Majotabi/
+          "77":"Majotabi/367516718.png","91":"Majotabi/367516719.png","104":"Majotabi/367516720.png",
+          "78":"Majotabi/367516721.png","92":"Majotabi/367516722.png","105":"Majotabi/367516723.png",
+          "79":"Majotabi/367516724.png","93":"Majotabi/367516725.png","106":"Majotabi/367516726.png",
+          "80":"Majotabi/367516727.png","94":"Majotabi/367516728.png","107":"Majotabi/367516729.png",
+          "81":"Majotabi/367516730.png","95":"Majotabi/367516731.png","108":"Majotabi/367516732.png",
+          "82":"Majotabi/367516733.png","96":"Majotabi/367516734.png","109":"Majotabi/367516735.png",
+          "83":"Majotabi/367516736.png","97":"Majotabi/367516737.png","110":"Majotabi/367516738.png",
+          "84":"Majotabi/367516739.png","98":"Majotabi/367516740.png","111":"Majotabi/367516741.png",
+          "85":"Majotabi/367516742.png","99":"Majotabi/367516743.png","112":"Majotabi/367516744.png",
+          "86":"Majotabi/367516745.png","100":"Majotabi/367516746.png","113":"Majotabi/367516747.png",
+          "87":"Majotabi/367516748.png","101":"Majotabi/367516749.png","114":"Majotabi/367516750.png",
+          "88":"Majotabi/367516751.png","102":"Majotabi/367516752.png","115":"Majotabi/367516753.png",
+          "89":"Majotabi/367516754.png","103":"Majotabi/367516755.png","116":"Majotabi/367516756.png",
+          "90":"Majotabi/367516757.png",
+
+        },
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="/about/" class="profile gravatar">
+
+            <img src="/images/img/112.jpg" itemprop="image" alt="" height="70" width="70">
+          </a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+
+            <a href="https://aisaka.cloud" itemprop="url" rel="author"></a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+
+        <p><i class="iconfont icon-write"></i>且听风吟</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 aisaka<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2016~2021</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">
+          aisaka
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!-- <script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script> -->
+<script src='//unpkg.com/valine@1.4.14/dist/Valine.min.js'></script>
+<script src="/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "","name":"","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="/images/img/112.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">宵晓咲</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  " aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            时间线
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            ACG
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/Anime/">
+                  <i class="fa " aria-hidden="true"></i>
+                  动画
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Game/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/Music/">
+                  <i class="fa " aria-hidden="true"></i>
+                  音乐
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/">
+                  <i class="fa " aria-hidden="true"></i>
+                  游戏设计
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-book faa-shake" aria-hidden="true"></i>
+            随想
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E6%97%A5%E8%AE%B0/">
+                  <i class="fa " aria-hidden="true"></i>
+                  日记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E9%98%85%E8%AF%BB/">
+                  <i class="fa " aria-hidden="true"></i>
+                  阅读
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E9%9A%8F%E7%AC%94/">
+                  <i class="fa " aria-hidden="true"></i>
+                  随笔
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-code faa-shake" aria-hidden="true"></i>
+            技术
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">
+                  <i class="fa " aria-hidden="true"></i>
+                  程序
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">
+                  <i class="fa " aria-hidden="true"></i>
+                  人工智能
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%BC%80%E5%8F%91/">
+                  <i class="fa " aria-hidden="true"></i>
+                  开发
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                  <i class="fa " aria-hidden="true"></i>
+                  中间件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BA%91/">
+                  <i class="fa " aria-hidden="true"></i>
+                  网络
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%AD%98%E5%82%A8/">
+                  <i class="fa " aria-hidden="true"></i>
+                  存储
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                  <i class="fa " aria-hidden="true"></i>
+                  算法
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%90%86%E8%AE%BA/">
+                  <i class="fa " aria-hidden="true"></i>
+                  CS
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+                  <i class="fa " aria-hidden="true"></i>
+                  论文
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            其它
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E7%A1%AC%E4%BB%B6/">
+                  <i class="fa " aria-hidden="true"></i>
+                  硬件
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%8D%9A%E5%AE%A2/">
+                  <i class="fa " aria-hidden="true"></i>
+                  博客
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E5%B7%A5%E5%85%B7/">
+                  <i class="fa " aria-hidden="true"></i>
+                  工具
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/musicLibrary/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            Link
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/about/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-meetup faa-shake" aria-hidden="true"></i>
+            我
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<meting-js
+
+    id=""
+
+    server="netease"
+
+    type="playlist"
+
+    fixed="true"
+
+    autoplay="false"
+
+    loop="all"
+
+    order="random"
+
+    preload="auto"
+
+    volume="0.7"
+
+    mutex="true"
+
+</meting-js>
+<!--这里我want aplayer失效-->
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+
+</body>
+</html>
