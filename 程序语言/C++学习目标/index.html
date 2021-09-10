@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">c++_1 | 宵晓咲</title>
+  <title itemprop="name">C++学习目标 | 宵晓咲</title>
   
     <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
   
@@ -489,407 +489,21 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
           <header class="entry-header">
-            <h1 class="entry-title">c++_1</h1>
+            <h1 class="entry-title">C++学习目标</h1>
             <p class="entry-census">&nbsp;&nbsp;2021-8-14&nbsp;</p>
 
             <hr>
           </header>
         
         <div class="entry-content">
-          <h2 id="变量名"><a href="#变量名" class="headerlink" title="变量名"></a>变量名</h2><p>C++中的变量名，比如<code>int n</code>、<code>Object obj</code></p>
-<p>C++对变量名<code>n</code>、<code>obj</code>不做存储，只是用于方便编译成汇编代码，是给编译器看的，是方便人阅读的。</p>
-<blockquote>
-<p>举例：<code>int n=5;</code></p>
-<p>编译器编译它时，产生类似mov [0x00410FC0]，5的指令，即：把5放在该内存地址的空间上。其中并没有出现n，n只是编译时供编译器识别的名字，是一个高级语言抽象出来的概念，在真实执行的程序中并不存在n，至于n的地址是0x00410FC0还是其他的什么，这是由连接器(linker)决定的，连接器把全局变量放在.exe文件中，执行.exe文件时全局变量在类似0x00430000左右的地址。局部变量在栈上，一般地址为0x00120000左右。<br><strong>地址0x00410FC0并不需要一个地址去存放它</strong>，因为在<strong>最后产生.exe文件它自己知道它需要的一个值存放在什么地址</strong>，所以就在它的二进制代码中把0xffbffb0c<strong>硬编码</strong>进来了。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tina_ttl/article/details/52648533">https://blog.csdn.net/tina_ttl/article/details/52648533</a></p>
-</blockquote>
-<p><strong>C++中的变量名就是个代号，其就是存储单元上具体的数据。它不是指针，也不是引用。</strong></p>
-<h2 id="arr-amp-pointer"><a href="#arr-amp-pointer" class="headerlink" title="arr&amp;pointer"></a>arr&amp;pointer</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int a[10];  &#x2F;&#x2F;数组名可以转化（当作）为指针，即求a数组第n个元素：a[n]实际上是*(a+n)，完成了一次解引用过程。
-
-int *p1 &#x3D; a;  &#x2F;&#x2F;指向数组a的第一个元素，这个指针的内容的类型为int，p1指针等价于a指针
-int (*p2)[10] &#x3D; &amp;a; &#x2F;&#x2F;指向一个10个元素数组的指针，这个指针的内容的类型为一个指针（指向了数组具体int元素）也是个指针即上面的p1，所以这个p2是指向指针a的指针，所以要对第一层指针a取地址；在二维数组中，若干个指向指针的指针组成一个数组，即上层维度
-
-&#x2F;&#x2F;第二句拆开来：
-int *temp &#x3D; a; &#x2F;&#x2F;定义指向数组的指针
-int *p2 &#x3D; &amp;temp; &#x2F;&#x2F;定义指向指针的指针
-&#x2F;&#x2F;由于这个指针的内容是一个int[10]数组，所以写为：
-int (*p2)[10] &#x3D; &amp;a;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>两者都发生了数组名自动转换为指针（a数组名，转化为指针）</p>
-<p>但是区别在于第二句又套了一层指针，主要发生在二维数组上。</p>
-<p><strong>建议一切数组操作都从指针角度入手和理解</strong></p>
-<p><strong>使用例子（重要）：</strong></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-using namespace std;
-
-&#x2F;&#x2F;传入参数为指针，返回参数为指针
-int *test(int *arr)
-&#123;
-    arr[0] &#x3D; -1;
-    return arr;
-&#125;
-&#x2F;&#x2F;传入参数为指向指针的指针，返回参数也为指向指针的指针
-int (*test2(int (*arr)[10]))[10]
-&#x2F;&#x2F;int **test2(int **arr)  &#x2F;&#x2F;也可以这么定义，但是这样后面的所有数组维度声明全部要修改
-&#123;
-    (*arr)[1] &#x3D; -2; &#x2F;&#x2F;由于传入参数是指向指针的指针，要想操作指针所指向的指针所指向的数组具体元素，需要两次解引用
-    &#x2F;&#x2F;这里这句话等价于：
-    *(*arr+1) &#x3D; -2;  &#x2F;&#x2F;注意：多个解引用从内开始运算,所以要先解引用得内层指针，有[]则优先级最高
-    return arr; &#x2F;&#x2F;返回的是指向指针的指针，所以直接返回传入的arr即可
-&#125;
-int main()
-&#123;
-    int a[10];
-    int *p1 &#x3D; test(a);
-    int (*p2)[10] &#x3D; test2(&amp;a);
-
-    cout&lt;&lt;p1[0]&lt;&lt;endl; &#x2F;&#x2F;or *p1
-    cout&lt;&lt;(*p2)[1]&lt;&lt;endl; &#x2F;&#x2F;or *(*p2+1)
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="pointer-amp-reference"><a href="#pointer-amp-reference" class="headerlink" title="pointer &amp; reference"></a>pointer &amp; reference</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>作为左值</th>
-<th>作为右值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>&amp;</code></td>
-<td>引用类型声明</td>
-<td>取地址符</td>
-</tr>
-<tr>
-<td><code>*</code></td>
-<td>指针类型声明</td>
-<td>解引用符</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ol>
-<li><p><strong>运算表达式的结果是右值，函数参数表是左值</strong></p>
-<p>赋值语句右边是右值，左边是左值</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void func(int &amp;var)&#123;&#125;
-int main()
-&#123;
-    int a;
-    func(a);  &#x2F;&#x2F;这里实际上发生了隐式初始化：int &amp;var &#x3D; a ，所以显然参数入口不用&amp;，函数参数表要用&amp;表示引用声明
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p><strong>非常量引用(<code>T&amp;</code>)只能引用一个左值（只能用一个左值对引用进行初始化）</strong>，<strong>注意字符串字面量是左值</strong></p>
-<p><strong>常量引用(<code>const T&amp;</code>)也可以引用一个右值</strong></p>
-</li>
-<li><p><strong>函数传参，不改变参数时，尤其是大数据，尽量使用<code>const T&amp;</code> （常量引用）</strong></p>
-<p>好处：</p>
-<ol>
-<li><code>const T&amp;</code>形参初始化为引用，少了对对象的拷贝 </li>
-<li>设置为常量避免对对象的误修改 </li>
-<li><strong> <code>const T&amp;</code>既可以接收左值也可以接收右值</strong></li>
-</ol>
-</li>
-<li><p><strong>函数返回为左值则返回类型必须为引用</strong></p>
-</li>
-<li><p>指针成员访问符<code>-&gt;</code>，和c中一样</p>
-</li>
-<li><p>引用实质是操作地址指针</p>
-</li>
-</ol>
-<h2 id="左值，右值，亡值"><a href="#左值，右值，亡值" class="headerlink" title="左值，右值，亡值"></a>左值，右值，亡值</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402251966">https://zhuanlan.zhihu.com/p/402251966</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/363686723/answer/1976488046">https://www.zhihu.com/question/363686723/answer/1976488046</a></p>
-<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>靠里是顶层，靠外是底层</p>
-<p>非常量可以向常量转化（变严），反过来不行</p>
-<p>引用不能修改，都是const的，所以<code>&amp;const a</code>等价于<code>&amp;a</code>，不用写const</p>
-<p>对常量的引用：<code>const &amp;a</code> （引用对象不能修改，引用本身也不能修改；简称常量引用，注意只是简称！）</p>
-<p><strong>对常量的引用实际可能引用一个非常量的对象</strong>：常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定。</p>
-<p>常量指针：<code>int *const a</code> （指针不能修改）</p>
-<p>指向常量的指针： <code>const int *a</code>（指针指向的内容不能修改）</p>
-<p>指向常量的常量指针：<code>const int *const a</code>（指针和指针指向的内容都不能修改）</p>
-<p>若将成员函数声明为const（函数参数表与语句大括号之间加const），则该函数不允许修改类的数据变量。</p>
-<p>待补充</p>
-<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><ol>
-<li><p>C++中两种显式对象创建方式</p>
-<p>①静态内存中：<code>Object obj(param)</code>  （<strong>使用若无构造参数则不能写括号</strong>如：<code>Object obj</code>，否则会被当成函数声明）</p>
-<p><code>Object obj;</code>执行默认初始化，也可以使用<code>Object obj = Object()</code>执行值初始化</p>
-<p>对于默认初始化和值初始化，见后面</p>
-<p>②动态内存中：<code>Object *p = new Object(param)</code>（这个<code>p</code>是个指向对象的针，访问对象成员需要用<code>(*p).</code>或者<code>-&gt;</code>） </p>
-<p>与C不同，c中struct方式必须在类名前加struct，且c struct不能有默认参数；c++中类名前可以加class/struct关键字，也可以不加</p>
-<p>与JAVA中的new写法完全不同</p>
-<p>第一种属于<strong>自动变量</strong>写法，在c/c++中都是会自动分配内存（新建对象 /.cpp）的；第二种属于<strong>new关键字</strong>，动态分配内存</p>
-<p>这两种方式主要的不同在于对象的存储时间。当执行①时，它作为<strong>自动变量</strong>被创建，这意味着当对象出了作用域时也会自动销毁。而使用<code>new</code>关键字，②这种方式时，对象所拥有的内存是<strong>动态分配</strong>的，这表示直到你调用<code>delete()</code>方法对象才会被销毁，否则一直存在。当需要用动态分配内存来处理时，你应该只使用动态分配的方式，也就是说，当你可以使用动态分配内存的时候就不要使用自动变量。</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;方法1
-#include &lt;iostream&gt;
-using namespace std;
-struct test
-&#123;
-    int a &#x3D; 10;
-    test(int f)
-    &#123;
-        a &#x3D; f;
-    &#125;
-    test get_obj()
-    &#123;
-        return *this;
-    &#125;
-&#125;;
-int main()
-&#123;
-    test t(-10);
-    test temp &#x3D; t.get_obj();
-    cout&lt;&lt;t.a&lt;&lt;endl;
-&#125;
-
-&#x2F;&#x2F;方法2
-#include &lt;iostream&gt;
-using namespace std;
-struct test
-&#123;
-    int a &#x3D; 10;
-    test(int f)
-    &#123;
-        a &#x3D; f;
-    &#125;
-    test&amp; get_obj()
-    &#123;
-        return *this;
-    &#125;
-&#125;;
-int main()
-&#123;
-    test *t &#x3D; new test(-10);
-    test &amp;t_ref &#x3D; t-&gt;get_obj();
-    cout&lt;&lt;t-&gt;a&lt;&lt;endl;
-&#125;
-
-&#x2F;&#x2F;output:-10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>c++中常用非成员接口函数来操作类，比如JAVA中的toString在C++中可以定义一个非成员接口函数print，传入参数为目标对象的引用，来实现（下面为该函数的定义声明）</p>
-<p><code>void print(const Object&amp;);</code></p>
-</li>
-<li><p>c++中的<strong>this是一个指向对象的常量指针</strong>，隐式初始化。调用成员函数的时候才初始化this。</p>
-<p>this默认情况下是指向非常量的常量指针，这样就会在指向常量对象成员的时候出问题，所以c++语言的做法是允许把const关键字放在成员函数的参数列表之后，这样就会在调用常量成员函数的时候初始化一个指向常量的常量指针</p>
-<p><code>int func() const&#123;&#125;;</code></p>
-</li>
-<li><p>类可以先只在内部声明成员函数，然后再在外面实现之</p>
-<p>要使用作用域运算符<code>::</code></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-using namespace std;
-class Object
-&#123;
-public:
-    int a &#x3D; 10;
-    void func();
-&#x2F;&#x2F;即使是私有函数，也可以在类外面实现
-private:
-    void test();
-&#125;;
-void Object::func()
-&#123;
-    cout&lt;&lt;&quot;func&quot;;
-&#125;
-void Object::test()
-&#123;
-    cout&lt;&lt;&quot;test&quot;;
-&#125;
-
-int main()
-&#123;
-    Object obj;
-    obj.func();
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>函数可以返回this对象</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;在外部定义一个Object类内的函数get_obj()
-Object&amp; Object::get_obj()
-&#123;
-	return *this
-&#125;
-
-Object obj;
-Objcet &amp;ref &#x3D; obj.get_obj(); &#x2F;&#x2F;ref是obj的引用<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>this指针指向对象，所以<code>*this</code>解引用后返回对象本身</p>
-<p><strong>这里返回的是<code>Object&amp;</code>即原对象的引用</strong></p>
-<p>这样就可以实现建造者模式：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;每一次函数调用都返回了&amp;obj，即原对象的引用，所以可以继续调用来修改原对象
-obj.set_hight(10).set_width(20).set_color(red);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p><strong>如果不返回引用，即下面这一段，这时候返回的就是一个原对象的拷贝</strong>！（但如果函数返回作为左值则必须返回引用类型）</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Object Object::get_obj()
-&#123;
-	return *this
-&#125;
-
-Object obj;
-Objcet obj_copy &#x3D; obj.get_obj(); &#x2F;&#x2F;obj_copy是obj的拷贝，改变obj_copy不会改变obj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>如果不想其他人修改返回的对象，可以<strong>返回一个指向常量对象的引用（常量引用）</strong>，即</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const Object&amp; Object::get_obj()
-&#123;
-	return *this
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>返回常量引用之后，就不能再进行任何操作了，因为<strong>只能用常量函数操作常量对象，非常量函数不能操作非常量对象</strong>，这里原对象并没有被转换成常量对象，而是引用是常量引用，常量引用仅对引用可参与的操作做出了限定，对于引用的本身是不是一个常量未作限定（见const部分）</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-using namespace std;
-class Object
-&#123;
-public:
-    int a &#x3D; 10;
-    const Object&amp; func();
-    void set();
-&#125;;
-const Object&amp; Object::func()
-&#123;
-    return *this;
-&#125;
-void Object::set()
-&#123;
-    this-&gt;a &#x3D; -10;
-&#125;
-
-int main()
-&#123;
-    Object obj;
-    const Object &amp;ref &#x3D; obj.func();
-    ref.set(); &#x2F;&#x2F;报错：ref是常量引用，该引用将目标对象当成常量，不能调用非常量函数set()
-    obj.set(); &#x2F;&#x2F;正确：obj是非常量对象本身，可以调用非常量函数set()
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以基于const重载，即同一个函数保留返回const Object&amp;版本和Object&amp;版本，常量对象会自动调用常量版本，非常量对象会自动调用非常量版本</p>
-</li>
-<li><p>与JAVA一样，编译器在发现类不包含任何构造函数的时候会自动生成一个默认构造器，一旦自己定义了一个构造器，就不会有默认构造器了</p>
-<p>在定义的时候，可以<code>Object()=default;</code>来要求编译器生成默认构造函数。</p>
-</li>
-<li><p>由于<code>this</code>是一个常量指针（指向对象），所以用的时候要以指针的用法使用</p>
-<p>因为以前常用JAVA，这里很容易搞忘</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct test
-&#123;
-    int a &#x3D; 10;
-    test(int a)
-    &#123;
-        this-&gt;a &#x3D; a;  &#x2F;&#x2F;或(*this).a；就算再在里，也别忘了先对this解引用才能使用，要用-&gt;指针成员访问符
-    &#125;
-    test get_obj()
-    &#123;
-        return *this; &#x2F;&#x2F;repo
-    &#125;
-&#125;;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>Cpp中有两种创建类的方式，class和struct，前者默认private，后者默认public，其它用法完全一致。struct主要是为了兼容c。</p>
-<p>class和struct最后一个大括号后面都要加分号<code>;</code></p>
-<p><strong>不能在class、struct之前加访问修饰符</strong>，要想整个类都public，使用struc；要想整个类都private，使用class；要想控制成员访问权限，在类定义中使用<code>public:</code>、<code>private:</code>、<code>protect:</code>语句</p>
-<p><strong>class定义中的默认构造器是public的，但非默认构造器是private的！</strong></p>
-<p>所以一定要在class中把构造器添加到<code>public:</code>修饰符中</p>
-</li>
-<li><p>对于友元，三种使用形式</p>
-<p>①声明<strong>非成员函数</strong>为友元（该函数可以访问本类公私有成员）</p>
-<p><code>friend &lt;函数声明&gt;</code></p>
-<p>②声明<strong>某类</strong>为友元（某类中的所有成员可以访问本类公私有成员）</p>
-<p><code>friend struct/class &lt;class_name&gt;</code></p>
-<p>③声明<strong>某类中的某成员函数</strong>为友元（某类中的某成员函数可以访问本类公私有成员）</p>
-<p><code>friend &lt;带有作用域声明符::的函数声明&gt;</code></p>
-<p><strong>类和非成员函数的声明不是必须在它们的友元声明之前。（只要注意访问类的时候该类必须已经定义即可）</strong></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class B
-&#123;
-    &#x2F;&#x2F;这里A类还没声明，但是先在B类声明友元，这是可以的
-    friend class A; 
-public:
-    int a &#x3D; 10;
-&#125;;
-class A
-&#123;
-    void func()
-    &#123;
-        B b;
-        int s &#x3D; b.a;
-    &#125;
-&#125;;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>但对于第三种类中的成员函数一定要注意顺序：<strong>被声明友元的函数必须在友元声明之前声明</strong>，比如我们想要<code>A</code>类中的<code>func()</code>方法访问<code>B</code>类中的私有成员<code>a</code>：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class A
-&#123;
-public:
-    &#x2F;&#x2F;1.由于B要声明A中的func为友元，所以A中的func()必须先定义
-    &#x2F;&#x2F;2.但是A中的func()要访问B，此时B还没声明，所以func()只能先声明，不实现内容
-    void func(); 
-&#125;;
-class B
-&#123;
-    friend void A::func();
-    int a &#x3D; 10;
-&#125;;
-&#x2F;&#x2F;在B实现完毕，也声明了A::func()是友元之后，再实现A::func()
-void A::func()
-&#123;
-    B b;
-    cout&lt;&lt;b.a&lt;&lt;endl;;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>编译器处理类定义分<strong>两阶段</strong>进行：</p>
-<p>①首先，编译成员的所有<strong>声明</strong>（变量声明、函数声明等）</p>
-<p>②直到类全部可见后才编译<strong>函数体</strong></p>
-<p>这里指的是<strong>类中的声明</strong>与<strong>函数体</strong>两者的处理顺序，成员函数内的声明就完全按顺序执行了。</p>
-</li>
-<li><p>初始化</p>
-<p>构造函数初始值表起一个<strong>初始化声明</strong>的作用（const、引用必须借用这个语句进行显式初始化）</p>
-<p>注意，构造函数初始值表是初始化声明，而不是赋值。</p>
-<p><strong>注意：构造函数初始值表只是定义，而不是声明，表中的变量名需要先在类中声明。且初始化顺序与声明顺序而不是定义顺序一致。</strong> </p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;定义并初始化
-string foo &#x3D; &quot;Hello World!&quot;;  &#x2F;&#x2F;方法一（定义处声明初始化）
-&lt;Constructor&gt;(param):var1(_var1),var2(_var2) &#123;&#125; &#x2F;&#x2F;方法二（构造函数初始值表）其中var1的值被初始化为_var1
-
-&#x2F;&#x2F;默认初始化为空的String对象
-string bar;
-&#x2F;&#x2F;为bar赋值
-bar &#x3D; &quot;Hello World!&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>初始化与赋值，两者发生在不同的时间。<strong>构造函数体一开始执行，初始化就完成了，然后才会执行函数体内的赋值操作。</strong></p>
-<p><strong>由于const和引用不能被赋值，所以他们只能直接初始化成目标值</strong>。所以<strong>const和引用要么直接作为形参被调用（隐式初始化），要么通过构造函数初始值表被显式初始化</strong>（即在类中声明引用/const变量名，然后在构造函数初始值表中初始化它）。</p>
-<p><strong>未提供默认构造函数的类类型也必须被显式初始化！</strong>（不然程序不知道怎么初始化它；可以使用两种初始化方法）</p>
-<p><strong>对于基本类型也是，<code>int a(10)</code>直接初始化，<code>int a = 10</code>拷贝初始化</strong></p>
-<p>建议直接初始化而非赋值，这样效率更高，也避免一些成员必须被初始化的情况。</p>
-</li>
-<li><p>【待看】默认初始化与值初始化</p>
-<p>C++里的初始化五花八门，禁用非常用初始化</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/365769082">https://zhuanlan.zhihu.com/p/365769082</a></p>
-</li>
-<li><p>字符串字面值</p>
-<p><strong>字符串字面值</strong>的类型实际上是由<strong>常量字符构成的数组</strong>。</p>
-<p><strong>字符数组的特点是末尾元素是空字符<code>&#39;\0&#39;</code>，所以字符串字面值的实际长度要比它的内容多1</strong></p>
-<p>而<strong>字符串末尾是没有空字符</strong>的，字符串的长度就是其内容长度</p>
-<p>创造一个字符串，并将一个字符串字面值赋值给它，实际上<strong>发生了字符数组到字符串的隐式类型转换</strong></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;发生了字符数组到字符串的隐式类型转换
-&#x2F;&#x2F;字符串字面值&quot;hello&quot; 实际上是一个字符数组，实际上是&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;,&#39;\0&#39;
-&#x2F;&#x2F;str是字符串，隐式转换之后成了&quot;hello&quot;
-string str &#x3D; &quot;hello&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>P.S.编译器只会执行一步隐式类型转换，所以当转换成字符串之后如果还要用编译器隐式类型转换成其它类型，就会报错</p>
-</li>
-<li><p>构造函数形参类型到该类类型的隐式转换</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Object
-&#123;
-    Object(string str)&#123;&#125;
-&#125;;
-void print(Object obj)&#123;&#125;;
-int main()
-&#123;
-    string str &#x3D; &quot;abc&quot;;
-    print(str); &#x2F;&#x2F;隐式创建Object对象并调用构造器，参数为str
-    Object obj &#x3D; str; &#x2F;&#x2F;隐式创建Object对象并调用构造器，参数为str
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>这种隐式类型转换很不安全，所以建议对所有一个参数的构造器声明<code>explicit</code>禁用隐式类型转换</strong></p>
-<p>可以使用构造函数形参类型到该类类型的显式类型转换：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">print(static_cast&lt;Object&gt;(str))  &#x2F;&#x2F;显式创建Object对象并调用构造器，参数为str<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li><p>c++的静态成员</p>
-<p><code>static</code>声明静态成员（static成员可以类内部声明，外部定义，但是注意static关键字只能写在类内部；即使一个常量静态数据成员在类内部被初始化了，通常也应该在类的外部定义一下该成员）</p>
-<p><strong>注意静态变量和全局变量都是只能在全局被声明的，全局指在一切函数和类声明之外（包括main函数之外！）</strong></p>
-<p>通过作用域运算符使用静态成员：<code>Object::&lt;static_member&gt;</code></p>
-<p>通过实例对象使用静态成员：<code>obj.&lt;static_number&gt;</code></p>
-<p>通过指向实例对象的指针使用静态成员：<code>obj_pointer-&gt;&lt;static_number&gt;</code></p>
-<p>类内无需作用域运算符</p>
-<p>静态数据成员可以是不完全类型（即静态数据成员的类型可以是它所属的类类型；指针成员也可以指向它所属的类的类型），非静态成员必须是完全类型。静态成员也可以作为默认实参。</p>
-</li>
-<li><p>注意：<strong>类内定义的<code>static</code>变量只是声明，不会初始化！需要在类外再次定义才会初始化！</strong></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct A
-&#123;
-    static int a;  &#x2F;&#x2F;无法使用！static变量在类内只是声明！
-&#125;
-int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不能再写static）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
+          <p>入坑ceph，要用C++开发，所以要看的书还蛮多的…</p>
+<h2 id="C-学习目标"><a href="#C-学习目标" class="headerlink" title="C++学习目标"></a>C++学习目标</h2><p>《C++ Primer5》</p>
+<p>C++网络编程</p>
+<p>C++14 17 20 (<a target="_blank" rel="noopener" href="https://github.com/AnthonyCalandra/modern-cpp-features">Moden C++ Features</a>)</p>
+<p>《深入探索C++对象模型》</p>
+<p>《Effective C++》</p>
+<p>《More Effective C++》</p>
+<p>《STL源码剖析》</p>
 
         </div>
         <!-- .entry-content -->
@@ -918,28 +532,11 @@ int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不�
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/c-2/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                c++_2</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/c-compile/" rel="next">
+            <a href="/%E5%B7%A5%E5%85%B7/vim%E6%8F%92%E4%BB%B6/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
               </div>
@@ -947,7 +544,7 @@ int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不�
               Next Post</span>
               <div class="info">
                 <h3>
-                c++_compile</h3>
+                vim插件</h3>
                 <hr>
               </div>
             </a>
@@ -1054,7 +651,7 @@ int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不�
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..."/>
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -1066,10 +663,10 @@ int a; &#x2F;&#x2F;这时候在外部进行了初始化（初始化的时候不�
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            // PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
