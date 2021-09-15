@@ -578,8 +578,9 @@ int main()
     int a;
     func(a);  &#x2F;&#x2F;这里实际上发生了隐式初始化：int &amp;var &#x3D; a ，所以显然参数入口不用&amp;，函数参数表要用&amp;表示引用声明
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p><strong>非常量引用(<code>T&amp;</code>)只能引用一个左值（只能用一个左值对引用进行初始化）</strong>，<strong>注意字符串字面量是左值</strong></p>
-<p><strong>常量引用(<code>const T&amp;</code>)也可以引用一个右值</strong></p>
+<li><p><strong>非常量左值引用(<code>T&amp;</code>)只能引用一个左值（只能用一个左值对引用进行初始化）</strong></p>
+<p><strong>常量左值引用(<code>const T&amp;</code>)也可以引用一个右值</strong></p>
+<p><strong>右值引用(<code>T&amp;&amp;</code>)只能引用一个右值</strong>（但注意，右值引用本身是左值）</p>
 </li>
 <li><p><strong>函数传参，不改变参数时，尤其是大数据，尽量使用<code>const T&amp;</code> （常量引用）</strong></p>
 <p>好处：</p>
@@ -595,10 +596,16 @@ int main()
 </li>
 <li><p>引用实质是操作地址指针</p>
 </li>
+<li><p><strong>引用本身是<code>const</code>的，一旦初始化之后引用不能赋值（禁止引用传递）</strong></p>
+</li>
+<li><p>完美引用、引用折叠，见”C++11右值引用产生的一揽子问题“专题</p>
+</li>
 </ol>
 <h2 id="左值，右值，亡值"><a href="#左值，右值，亡值" class="headerlink" title="左值，右值，亡值"></a>左值，右值，亡值</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402251966">https://zhuanlan.zhihu.com/p/402251966</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/363686723/answer/1976488046">https://www.zhihu.com/question/363686723/answer/1976488046</a></p>
 <p>【】</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p><strong>注意字符串字面量是左值</strong>，所以<strong>非常量引用（string&amp;)也可以直接引用字符串字面量</strong>（<code>string &amp;str =&quot;abc&quot;;</code>）</p>
+<p>为什么？因为<strong>字符串字面量本质实际是C风格字符串<code>const char[N]</code>/<code>const char*</code></strong>，上面语句实际上发生了字符数组到字符串的转换</p>
 <h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>靠里是顶层，靠外是底层</p>
 <p>非常量可以向常量转化（变严），反过来不行</p>
 <p>引用不能修改，都是const的，所以<code>&amp;const a</code>等价于<code>&amp;a</code>，不用写const</p>
@@ -608,6 +615,8 @@ int main()
 <p>指向常量的指针： <code>const int *a</code>（指针指向的内容不能修改）</p>
 <p>指向常量的常量指针：<code>const int *const a</code>（指针和指针指向的内容都不能修改）</p>
 <p>若将成员函数声明为const（函数参数表与语句大括号之间加const），则该函数<strong>不允许修改类的数据变量</strong>。且，<strong>const类型的成员函数不能返回非const类型的引用</strong>，比如这样就OK，<code>const vector&lt;int&gt;&amp; operator*() const</code>，如果返回类型去掉const就错了</p>
+<h2 id="param"><a href="#param" class="headerlink" title="param"></a>param</h2><p><strong>函数中，实参到形参的传递是初始化（用实参来初始化形参），而不是赋值！</strong>（显然，引用不能传递，但函数能接收引用）</p>
+<p>传参即用实参初始化形参，注意传的是什么。比如<strong>传的如果是引用/指针</strong>，那么引用的对象是<strong>不会触发拷贝/移动构造函数的</strong>，因为实际上是<strong>传的引用/指针本身而不是对象</strong></p>
 
         </div>
         <!-- .entry-content -->

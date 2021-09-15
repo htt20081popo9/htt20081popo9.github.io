@@ -496,7 +496,7 @@
           </header>
         
         <div class="entry-content">
-          <h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><ol>
+          <h1 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h1><ol>
 <li><p>对于<strong>成员函数</strong>的运算符重载，它的左侧运算对象必须是运算符所属类的一个对象</p>
 <p>这时，表达式<strong>右边第一个元素是被调用对象，第二个元素是运算符重载函数传入的参数</strong>。</p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">string t &#x3D; obj + &quot;!&quot;;
@@ -651,7 +651,46 @@ int main()
     cout&lt;&lt;(a-&gt;size())&lt;&lt;endl;
     a(&quot;object function&quot;);
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2>
+<h1 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h1><ol>
+<li><p>模板隐式实例化与显式实例化</p>
+<ul>
+<li><p><strong>隐式实例化</strong>，只有<strong>模板被使用的时候才会实例化</strong>，<strong>且</strong>如果一个模板类的成员函数没有被使用，则它不会被实例化（生成代码）。<strong>成员函数只有被使用到时才进行实例化</strong>，这一特性使得即使某种类不能完全符合模板要求，我们仍然能用该类型实例化类。举例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template &lt;typename T&gt; struct Obj
+&#123;
+    T a;
+    void func()
+    &#123;
+        a &#x3D; &quot;abc&quot;;
+    &#125;
+&#125;;
+int main()
+&#123;
+    Obj&lt;int&gt; obj;  &#x2F;&#x2F;不会报错
+    obj.func();  &#x2F;&#x2F;使用函数func了，生成成员函数func的代码，报编译错误
+&#125;
+
+&#x2F;****显示实例化，则所有函数都会实例化****&#x2F;
+int main()
+&#123;
+    template struct Obj&lt;int&gt;; &#x2F;&#x2F;执行显示实例化，所有成员函数代码都生成，报编译错误
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>隐式实例化一使用就会被实例化可能会导致，相同的实例可能出现在多个对象文件中，实例化多个相同模板造成严重的开销。可以通过<strong>显示实例化</strong>来避免：</p>
+<p>①在需要用到模板的地方声明<code>extern template declaration;</code>，编译器遇到<code>extern</code>函数就不会在本文件中生成这个实例化版本的代码</p>
+<p>②在想要生成实例化版本的地方，不用extern，直接使用<code>template declaration;</code>定义（不需要内容），就会显示初始化这个实例化版本。</p>
+<p>注意，上面两者其实是分开的，<strong>extern可以实现跳过定义</strong>，而后面<strong> <code>template declaration;</code>就是实例化版本的定义语句</strong></p>
+<p>注意：<strong>这个定义语句是定义一个具体的实例化版本，即给出实参</strong></p>
+</li>
+<li><p>显式实例化还可以做到用相同的模板接口做不同的事情，只需要用 <code>template declaration;</code>语句包含新的内容，就可以做到覆盖默认模板的实例化。</p>
+<p><strong>优先级：非模板函数&gt;显式定义模板&gt;常规模板</strong></p>
+<p>显式实例化也叫特例化，必须所有模板参数都显式定义</p>
+</li>
+</ul>
+</li>
+<li><p>模板参数推断</p>
+<p>只有调用模板函数不显式指定模板实参（类型，比如<code>&lt;int&gt;</code>）的时候，即直接调用模板函数的时候，才会触发模板实参推断，模板通过调用的时候传入的实参自动推断类型，来实例化形参类型</p>
+</li>
+</ol>
+
         </div>
         <!-- .entry-content -->
         <div class="single-reward">

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">宵晓咲</title>
+  <title itemprop="name">引用折叠、万能引用、完美转发 | 宵晓咲</title>
   
     <link rel="shortcut icon" href="/images/img/apple-touch-icon-next.png">
   
@@ -477,413 +477,245 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">本站目前仍在施工中（进度约80%），存在各种奇奇怪怪的BUG请勿介意（¯﹃¯）</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="https://aisaka.cloud/%E6%97%A5%E8%AE%B0/%E9%BE%99%E4%B8%8E%E8%99%8E%E7%AC%AC%E5%85%AB%E5%91%A8%E7%9B%AE/" target="_blank">
-        <div class="img">
-          <img src="/images/post_cover/龙与虎第八周目.png">
-        </div>
-        <div class="info">
-          <h3>龙与虎</h3>
-          <p>天空是连在一起的</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="https://aisaka.cloud/Anime/2021%E6%98%A5%E5%AD%A3%E8%BF%BD%E7%95%AA%E8%A1%A8/" target="_blank">
-        <div class="img">
-          <img src="/images/post_cover/奇蛋物语.jpg">
-        </div>
-        <div class="info">
-          <h3>2021春季追番表</h3>
-          <p>史上最强</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="https://aisaka.cloud/%E7%A1%AC%E4%BB%B6/%E6%88%91%E7%9A%84%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87/" target="_blank">
-        <div class="img">
-          <img src="/images/post_cover/七海千秋.jpg">
-        </div>
-        <div class="info">
-          <h3>设备</h3>
-          <p>游戏玩家的自我修养</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+          <header class="entry-header">
+            <h1 class="entry-title">引用折叠、万能引用、完美转发</h1>
+            <p class="entry-census">&nbsp;&nbsp;2021-9-15&nbsp;</p>
+
+            <hr>
+          </header>
+        
+        <div class="entry-content">
+          <h1 id="C-11右值引用产生的一揽子问题"><a href="#C-11右值引用产生的一揽子问题" class="headerlink" title="C++11右值引用产生的一揽子问题"></a>C++11右值引用产生的一揽子问题</h1><h2 id="为什么引入右值引用？"><a href="#为什么引入右值引用？" class="headerlink" title="为什么引入右值引用？"></a>为什么引入右值引用？</h2><p>为什么要引入右值引用？为了引入移动语义。移动操作防止copy，性能优化</p>
+<p>但是右值引用引入之后又引出了许多问题</p>
+<p>在C++中，左值引用初始化右值 和 引用的引用是禁止的，但是<strong>有一种情况下会造成左值引用初始化右值 与 引用的引用，即模板实参推断</strong>(typedef也能）。（注意，若明确调用模板函数不会触发模板实参推断）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template&lt;typename T&gt;
+void fun(T &amp;&amp;uref)&#123; &#125;
+
+int main()
+&#123;
+    int a &#x3D; 1;
+    int &amp;ref &#x3D; a;
+    fun(ref)   &#x2F;&#x2F;此时，模板函数fun的【模板参数T被推断为int &amp;】，则fun函数的参数类型为int &amp; &amp;&amp;
+&#125;  &#x2F;&#x2F;即出现了左值引用初始化右值 和 引用的引用是禁止<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>为了方便代码复用（好处是这个，这也是模板的目标）</strong>，C++11支持了这两个特例（<strong>只能应用于模板实参推断造成的情况下</strong>）。标准库的<code>std::move</code>就用到了这个特性，可以非常方便地让我们实现接收任何类型转化为右值</p>
+<p>具体如何方便就是下面的内容</p>
+<p><u>再次强调，以下所有特性<strong>只支持编译器对模板实参进行推断造成的情况下，不能用户自己定义，也不能显示声明模板参数，否则不会触发模板实参推断</strong></u></p>
+<h2 id="准备：两个特例"><a href="#准备：两个特例" class="headerlink" title="准备：两个特例"></a>准备：两个特例</h2><p>因此，C++11为这两种情况下开了特例</p>
+<p>①<strong>左值引用初始化右值</strong>：当我们将一个左值传递给函数的右值引用参数，且此右值指向模板类型参数（如<code>T&amp;&amp;</code>）时，<strong>编译器推断模板类型参数为实参的左值引用类型</strong></p>
+<p>②<strong>引用的引用</strong>：如果<strong>间接造成了（模板实参推断/typedef）一个引用本身来初始化另一个引用</strong>，那么这种情况是支持的，且会发生引用折叠。</p>
+<p><strong>注意引用的引用 和 用引用的对象来初始化另一个引用的区别</strong>：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int &amp;b&#x3D;c; int &amp;a&#x3D;b; &#x2F;&#x2F;这是用b引用的对象c来初始化a引用，即新引用a指向对象c
+int &amp;b&#x3D;c; int &amp; &amp;a&#x3D;b; &#x2F;&#x2F;这是用b引用本身来初始化a引用，即新引用a指向引用b 
+&#x2F;&#x2F;引用底层是个指针，所以这么也是合情合理的
+&#x2F;&#x2F;但上面第二行是错的，不能自己定义，只有编译器造成的这两个特例被支持。这里只是演示一下。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有了这两个特例，引用的引用就出现了四种情况：R2R,L2L,R2L,L2R</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">X&amp; &amp;  &#x2F;&#x2F;左值引用的左值引用 L2L 
+X&amp; &amp;&amp;  &#x2F;&#x2F;右值引用的左值引用 R2L
+X&amp;&amp; &amp;  &#x2F;&#x2F;左值引用的右值引用 L2R
+X&amp;&amp; &amp;&amp;  &#x2F;&#x2F;右值引用的右值引用 R2R<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但实际上<code>X&amp; &amp;</code>和<code>X&amp; &amp;&amp;</code>是不会发生的，因为这种情况下会被推断为用引用指向的对象初始化形参，避免了引用的引用，而后面几种就无法避免了，因为用左值（左值引用，右值引用都是左值）来初始化右值是无法成立的，所以只能被推断为用引用本身来初始化引用，这就成了引用的引用了。<em>这里理解不一定对，但结果是这样的，待更多探索</em></p>
+<h2 id="引用折叠"><a href="#引用折叠" class="headerlink" title="引用折叠"></a>引用折叠</h2><p>对于模板参数，引用的引用有四种情况，那就要写四个重载，非常麻烦</p>
+<p>为了简化四种情况，引入引用折叠</p>
+<p><strong>引用折叠将模板实参推断后的函数参数表<code>X&amp; &amp;</code>,<code>X&amp; &amp;&amp;</code>,<code>X&amp;&amp; &amp;</code>折叠为左值，将<code>X&amp;&amp; &amp;&amp;</code>折叠为右值</strong></p>
+<h2 id="万能引用"><a href="#万能引用" class="headerlink" title="万能引用"></a>万能引用</h2><p>引用折叠的好处是，<strong>对于模板参数<code>T</code>，若模板函数参数表为<code>T&amp;&amp;</code>就可以同时接收左值和右值</strong></p>
+<p>这个<strong> <code>T&amp;&amp;</code></strong>就是<strong>指向模板参数类型的右值引用函数参数</strong>，即<strong>万能引用</strong></p>
+<p>因为<code>X&amp; &amp;&amp;</code>折叠为<code>X&amp;</code>，<code>X&amp;&amp; &amp;&amp;</code>折叠为<code>X&amp;&amp;</code>，<strong>正好模板实参<code>T</code>推断出来是左值<code>X&amp;</code>则函数参数就折叠为左值，模板实参推断出来是右值<code>X&amp;&amp;</code>则函数参数就折叠为右值</strong></p>
+<p>万能引用就用到了上面：左值引用本身初始化右值特例+引用的引用特例+引用折叠特性 三种编译器支持特性</p>
+<p><strong> <code>const T&amp;</code></strong>也可以同时接收左值和右值，但是它无法修改引用的对象，使用很局限。</p>
+<h2 id="完美转发"><a href="#完美转发" class="headerlink" title="完美转发"></a>完美转发</h2><p>完美转发即是<code>std::forward()</code>，修补了引入右值带来的右值短暂无法保持的问题。</p>
+<p><strong>右值一但沾上左值（比如传参，引用本身也是左值），就会变成左值</strong>。所以为了保持右值属性，就可以使用完美转发</p>
+<p><strong>完美转发：万能引用，左进左出，右进右出</strong>。当用于一个指向模板参数类型的右值引用函数参数（<code>T&amp;&amp;</code>；即万能引用）时，<code>forward</code>会保持实参类型的所有细节（左右值、const）</p>
+<p><strong>完美转发最有用的场合是配合万能引用使用的</strong>，因为万能引用才能一种形式同时可以接收左值右值const非const，所以才会向用到forward来保持特性。对于非万能引用的情况也能用，但和用move区别不大。</p>
+<p>eg：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;*forward结合万能引用进行模板编程，大大提高程序复用性*&#x2F;
+template&lt;typename T&gt;
+void fun1(T &amp;&amp;obj)&#123;  &#125;
+
+template&lt;typename T&gt;
+void fun(T &amp;&amp;obj)  
+&#123;
+    fun1(std::forward&lt;T&amp;&amp;&gt;(obj));  
+&#125;
+
+int main()
+&#123;
+    Obj obj;
+    fun(std::move(obj));  &#x2F;&#x2F;传右值引用ok
+    Obj &amp;ref &#x3D; obj;  
+    fun(ref);  &#x2F;&#x2F;传左值引用ok
+    fun(obj); &#x2F;&#x2F;直接传左值变量，这里没有用到折叠，而是只用到了特例1：允许将一个左值传递给函数的右值引用参数，且此右值指向模板类型参数
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面<code>fun</code>和<code>fun1</code>的函数参数都是万能引用<code>T&amp;&amp;</code>，可以接收各种属性的值，然后再用<code>forward</code>保持传入特性，让我们方便对各种属性的值进行处理又不丢失属性。</p>
+<p>下面是一般函数中保持右值属性。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;*这么用也彳亍，但用move也没区别，不过，为了语义明确，保持属性的常见推荐用forward*&#x2F;
+void fun1(Obj &amp;&amp;obj)&#123;  &#125;
+void fun(Obj &amp;&amp;obj)
+&#123;
+    fun1(std::forward&lt;Obj&amp;&amp;&gt;(obj));  &#x2F;&#x2F;main中传入右值，则保持右值特性，所以才能调用fun1函数
+&#125;
+ int main()
+ &#123;
+     Obj obj;
+     fun(std::move(obj));
+ &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="move与forward"><a href="#move与forward" class="headerlink" title="move与forward"></a>move与forward</h2><p><code>move</code>本质上是通过<code>static_cast&lt;T&amp;&amp;&gt;</code>完成左值到右值的转换。<code>std::move</code>的参数表是一个万能引用，这样<code>std::move</code>就可以同时接受左值和右值。（若传入右值，则无事发生）</p>
+<p><code>forward</code>的实现和<code>move</code>是差不多的，唯一区别就是模板参数处理不同。</p>
+<p><code>std::forward</code>需要显示声明模板参数</p>
+<p>为了保持右值性，为何用<code>forward</code>不用<code>move</code>？</p>
+<p>①<code>forward</code>还能保持<code>const</code>特性</p>
+<p>②<code>move</code>是任何值强制转换为右值；<code>forward</code>是保持属性，原来实参是左值就返回左值，原来实参是右值就返回右值，虽然实现很相似，但<strong>功能性是完全不同的</strong></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="/images/donate/WeChanQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%5B6%5D%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                6.面向对象编程</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "d2ULHdiL7VOfJf17rpCD4DOX-gzGzoHsz",
+        appKey: "OLf7QaP1oTtqKhulLHuajYKu",
+        path: window.location.pathname,
 
-  <div class="post-thumb">
-    <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/MVCC/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-12 21:05</div>
-      <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/MVCC/" class="post-title">
-        <h3>MySQL并发相关原理</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/">数据库与中间件</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6/MVCC/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
+        emojiCDN: 'https://valinecdn.bili33.top/',
+        emojiMaps: {
+          //bilibili2233/
+          "2233娘_卖萌":"bilibili2233/[2233娘_卖萌].png","2233娘_吃惊":"bilibili2233/[2233娘_吃惊].png",
+          "2233娘_吐魂":"bilibili2233/[2233娘_吐魂].png","2233娘_喝水":"bilibili2233/[2233娘_喝水].png",
+          "2233娘_困惑":"bilibili2233/[2233娘_困惑].png","2233娘_大哭":"bilibili2233/[2233娘_大哭].png",
+          "2233娘_大笑":"bilibili2233/[2233娘_大笑].png","2233娘_委屈":"bilibili2233/[2233娘_委屈].png",
+          "2233娘_怒":"bilibili2233/[2233娘_怒].png","2233娘_无言":"bilibili2233/[2233娘_无言].png",
+          "2233娘_汗":"bilibili2233/[2233娘_汗].png","2233娘_疑问":"bilibili2233/[2233娘_疑问].png",
+          "2233娘_第一":"bilibili2233/[2233娘_第一].png","2233娘_耶":"bilibili2233/[2233娘_耶].png",
+          "2233娘_郁闷":"bilibili2233/[2233娘_郁闷].png",
+          //Tieba/
+          "0":"Tieba/i_f01.png","11":"Tieba/i_f02.png","22":"Tieba/i_f03.png",
+          "1":"Tieba/i_f04.png","12":"Tieba/i_f05.png","23":"Tieba/i_f06.png",
+          "2":"Tieba/i_f07.png","13":"Tieba/i_f08.png","24":"Tieba/i_f09.png",
+          "3":"Tieba/i_f10.png","14":"Tieba/i_f11.png","25":"Tieba/i_f12.png",
+          "4":"Tieba/i_f13.png","15":"Tieba/i_f14.png","26":"Tieba/i_f15.png",
+          "5":"Tieba/i_f16.png","16":"Tieba/i_f17.png","27":"Tieba/i_f18.png",
+          "6":"Tieba/i_f19.png","17":"Tieba/i_f20.png","28":"Tieba/i_f21.png",
+          "7":"Tieba/i_f22.png","18":"Tieba/i_f23.png","29":"Tieba/i_f24.png",
+          "8":"Tieba/i_f25.png","19":"Tieba/i_f26.png","30":"Tieba/i_f27.png",
+          "9":"Tieba/i_f28.png","20":"Tieba/i_f29.png","31":"Tieba/i_f30.png",
+          "10":"Tieba/i_f31.png","21":"Tieba/i_f32.png","32":"Tieba/i_f33.png",
+          //weibo/
+          "33":"weibo/d_chigua.png","34":"weibo/d_chijing.png","35":"weibo/d_doge.png",
+          "36":"weibo/d_erha.png","37":"weibo/d_kelian.png","38":"weibo/h_quantou.png",
+          "39":"weibo/h_zuoyi.png","40":"weibo/h_zan.png","41":"weibo/d_xiaoku.png",
+          "43":"weibo/d_xixi.png",
+          //bilibiliHotKey/
+          "44":"bilibiliHotKey/1.jpg","52":"bilibiliHotKey/10.jpg","60":"bilibiliHotKey/11.jpg","68":"bilibiliHotKey/12.jpg",
+          "45":"bilibiliHotKey/13.jpg","53":"bilibiliHotKey/14.jpg","61":"bilibiliHotKey/15.jpg","69":"bilibiliHotKey/16.jpg",
+          "46":"bilibiliHotKey/17.jpg","54":"bilibiliHotKey/18.jpg","62":"bilibiliHotKey/19.jpg","70":"bilibiliHotKey/2.jpg",
+          "47":"bilibiliHotKey/20.jpg","55":"bilibiliHotKey/21.jpg","63":"bilibiliHotKey/22.jpg","71":"bilibiliHotKey/23.jpg",
+          "48":"bilibiliHotKey/24.jpg","56":"bilibiliHotKey/25.jpg","64":"bilibiliHotKey/26.jpg","72":"bilibiliHotKey/27.jpg",
+          "49":"bilibiliHotKey/28.jpg","57":"bilibiliHotKey/29.jpg","65":"bilibiliHotKey/3.jpg","73":"bilibiliHotKey/30.jpg",
+          "50":"bilibiliHotKey/31.jpg","58":"bilibiliHotKey/32.jpg","66":"bilibiliHotKey/4.jpg","74":"bilibiliHotKey/5.jpg",
+          "51":"bilibiliHotKey/6.jpg","59":"bilibiliHotKey/7.jpg","67":"bilibiliHotKey/8.jpg","75":"bilibiliHotKey/9.jpg",
+          //Majotabi/
+          "77":"Majotabi/367516718.png","91":"Majotabi/367516719.png","104":"Majotabi/367516720.png",
+          "78":"Majotabi/367516721.png","92":"Majotabi/367516722.png","105":"Majotabi/367516723.png",
+          "79":"Majotabi/367516724.png","93":"Majotabi/367516725.png","106":"Majotabi/367516726.png",
+          "80":"Majotabi/367516727.png","94":"Majotabi/367516728.png","107":"Majotabi/367516729.png",
+          "81":"Majotabi/367516730.png","95":"Majotabi/367516731.png","108":"Majotabi/367516732.png",
+          "82":"Majotabi/367516733.png","96":"Majotabi/367516734.png","109":"Majotabi/367516735.png",
+          "83":"Majotabi/367516736.png","97":"Majotabi/367516737.png","110":"Majotabi/367516738.png",
+          "84":"Majotabi/367516739.png","98":"Majotabi/367516740.png","111":"Majotabi/367516741.png",
+          "85":"Majotabi/367516742.png","99":"Majotabi/367516743.png","112":"Majotabi/367516744.png",
+          "86":"Majotabi/367516745.png","100":"Majotabi/367516746.png","113":"Majotabi/367516747.png",
+          "87":"Majotabi/367516748.png","101":"Majotabi/367516749.png","114":"Majotabi/367516750.png",
+          "88":"Majotabi/367516751.png","102":"Majotabi/367516752.png","115":"Majotabi/367516753.png",
+          "89":"Majotabi/367516754.png","103":"Majotabi/367516755.png","116":"Majotabi/367516756.png",
+          "90":"Majotabi/367516757.png",
+
+        },
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="/about/" class="profile gravatar">
+
+            <img src="/images/img/112.jpg" itemprop="image" alt="" height="70" width="70">
           </a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+
+            <a href="https://aisaka.cloud" itemprop="url" rel="author"></a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
+        <hr>
 
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E6%97%A5%E8%AE%B0/%E5%A4%8F%E8%87%B3/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-5 20:05</div>
-      <a href="/%E6%97%A5%E8%AE%B0/%E5%A4%8F%E8%87%B3/" class="post-title">
-        <h3>5月5日，夏至</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E6%97%A5%E8%AE%B0/">日记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E6%97%A5%E8%AE%B0/%E5%A4%8F%E8%87%B3/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA%E5%B9%B6%E5%8F%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-4 11:05</div>
-      <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA%E5%B9%B6%E5%8F%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" class="post-title">
-        <h3>JAVA并发原理笔记</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">程序语言</a>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA%E5%B9%B6%E5%8F%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%E5%85%B3%E4%BA%8E%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%B9%B6%E5%8F%91%E3%80%81%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-3 01:05</div>
-      <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%E5%85%B3%E4%BA%8E%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%B9%B6%E5%8F%91%E3%80%81%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" class="post-title">
-        <h3>关于CPU线程调度与并发、JAVA重量级锁的一些理解</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">程序语言</a>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%E5%85%B3%E4%BA%8E%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%B9%B6%E5%8F%91%E3%80%81%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AD%9B%E5%AD%90%E7%BF%BB%E8%BD%AC%E8%B7%AF%E5%BE%84/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-27 21:04</div>
-      <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AD%9B%E5%AD%90%E7%BF%BB%E8%BD%AC%E8%B7%AF%E5%BE%84/" class="post-title">
-        <h3>筛子翻转路径</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%AD%9B%E5%AD%90%E7%BF%BB%E8%BD%AC%E8%B7%AF%E5%BE%84/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%EF%BC%9ABFS-DFS%E9%97%AE%E9%A2%98/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-25 19:04</div>
-      <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%EF%BC%9ABFS-DFS%E9%97%AE%E9%A2%98/" class="post-title">
-        <h3>搜索算法：BFS/DFS问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%EF%BC%9ABFS-DFS%E9%97%AE%E9%A2%98/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%90%84%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-25 17:04</div>
-      <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%90%84%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" class="post-title">
-        <h3>各大排序算法实现</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法与数据结构</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%90%84%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="https://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="/404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-17 18:04</div>
-      <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title">
-        <h3>JVM&amp;JVM类加载器</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">程序语言</a>
-          
-            <a href="/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p></p>
-        <div class="post-bottom">
-          <a href="/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/8/">Next</a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/8/" class="">Previous</a></div>
-  
+        <p><i class="iconfont icon-write"></i>且听风吟</p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
