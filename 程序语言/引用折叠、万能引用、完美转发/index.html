@@ -524,7 +524,8 @@ int &amp;b&#x3D;c; int &amp; &amp;a&#x3D;b; &#x2F;&#x2F;这是用b引用本身�
 X&amp; &amp;&amp;  &#x2F;&#x2F;右值引用的左值引用 R2L
 X&amp;&amp; &amp;  &#x2F;&#x2F;左值引用的右值引用 L2R
 X&amp;&amp; &amp;&amp;  &#x2F;&#x2F;右值引用的右值引用 R2R<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>但实际上<code>X&amp; &amp;</code>和<code>X&amp; &amp;&amp;</code>是不会发生的，因为这种情况下会被推断为用引用指向的对象初始化形参，避免了引用的引用，而后面几种就无法避免了，因为用左值（左值引用，右值引用都是左值）来初始化右值是无法成立的，所以只能被推断为用引用本身来初始化引用，这就成了引用的引用了。<em>这里理解不一定对，但结果是这样的，待更多探索</em></p>
+<p>但实际上<code>X&amp; &amp;</code>和<code>X&amp; &amp;&amp;</code>是不一定会发生的（不同编译器实现方式不同，见下面一段），因为这种情况下会被推断为用引用指向的对象初始化形参，避免了引用的引用。<strong>而后面几种就无法避免了，因为用左值（左值引用，右值引用都是左值）来初始化右值是无法成立的，所以只能被推断为用引用本身来初始化引用，这就成了引用的引用了。</strong></p>
+<p>对于用一个<code>int&amp;</code>来初始化<code>T&amp;</code>，其结果是一定的，初始化后模板函数的形参肯定为<code>int&amp;</code>，但有两种可能的实现方式：①通过模板参数推断，<code>T</code>是<code>int&amp;</code>指向的对象类型<code>int</code>（即推断实参为<code>int</code>来初始化形参），于是函数形参就是<code>int&amp;</code> ②模板参数推断<code>T</code>为<code>int&amp;</code>，即推断实参为<code>int&amp;</code>来初始化形参，于是函数形参就是<code>int&amp; &amp;</code>，也就是引用的引用，触发引用折叠，变为<code>int&amp;</code>。不通编译器的具体底层实现可能不一样，但它们的结果是一致的。</p>
 <h2 id="引用折叠"><a href="#引用折叠" class="headerlink" title="引用折叠"></a>引用折叠</h2><p>对于模板参数，引用的引用有四种情况，那就要写四个重载，非常麻烦</p>
 <p>为了简化四种情况，引入引用折叠</p>
 <p><strong>引用折叠将模板实参推断后的函数参数表<code>X&amp; &amp;</code>,<code>X&amp; &amp;&amp;</code>,<code>X&amp;&amp; &amp;</code>折叠为左值，将<code>X&amp;&amp; &amp;&amp;</code>折叠为右值</strong></p>
@@ -722,7 +723,7 @@ void fun(Obj &amp;&amp;obj)
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..."/>
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -734,10 +735,10 @@ void fun(Obj &amp;&amp;obj)
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            // PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
