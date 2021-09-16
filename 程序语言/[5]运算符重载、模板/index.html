@@ -652,7 +652,20 @@ int main()
     a(&quot;object function&quot;);
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h1><ol>
+<li><p>模板参数推断</p>
+<p>模板参数作为函数类型参数的一部分，模板推断出来形参缺啥模板参数就补啥，比如模板函数形参类型是<code>const T&amp;</code>，若实参为<code>string*</code>，则模板推断出来模板参数<code>T</code>是<code>string*</code>，形参为<code>const string* &amp;</code>，是一个指向字符串指针的常量引用。</p>
+<p>只有调用模板函数<strong>不显式指定模板实参</strong>（类型，比如<code>&lt;int&gt;</code>）的时候，即直接调用模板函数的时候，<strong>才会触发模板实参推断</strong>。此时模板会通过调用的时候传入的实参自动推断类型，来实例化形参类型</p>
+<p>可以<strong>部分显式指定模板实参</strong>，这样会执行部分模板参数推断。注意模板参数推断只能推断第一个显式指定模板参数之后的模板参数，之前的不能推断。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">typename &lt;typename T1,typename T2,typename T3&gt;
+T1 sum(T2 a,T3 b) &#123; return T2+T3; &#125;
+
+sum(1,2);  &#x2F;&#x2F;完全模板参数推断
+sum&lt;int,int,int&gt;(1,2); &#x2F;&#x2F;显式指定参数，不触发模板参数推断
+sum&lt;int&gt;(1,2); &#x2F;&#x2F;部分显示指定参数T1，而T2,T3则触发模板参数推断<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意，模板实参推断是模板实例化的时候才会发生的事情。</p>
+</li>
 <li><p>模板隐式实例化与显式实例化</p>
+<p>模板实例化：编译器通过模板生成具体类或函数代码。类模板的名字不是类型，类模板用来实例化类型。</p>
 <ul>
 <li><p><strong>隐式实例化</strong>，只有<strong>模板被使用的时候才会实例化</strong>，<strong>且</strong>如果一个模板类的成员函数没有被使用，则它不会被实例化（生成代码）。<strong>成员函数只有被使用到时才进行实例化</strong>，这一特性使得即使某种类不能完全符合模板要求，我们仍然能用该类型实例化类。举例：</p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template &lt;typename T&gt; struct Obj
@@ -674,20 +687,102 @@ int main()
 &#123;
     template struct Obj&lt;int&gt;; &#x2F;&#x2F;执行显示实例化，所有成员函数代码都生成，报编译错误
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>隐式实例化一使用就会被实例化可能会导致，相同的实例可能出现在多个对象文件中，实例化多个相同模板造成严重的开销。可以通过<strong>显示实例化</strong>来避免：</p>
+<li><p>隐式实例化一使用就会被实例化可能会导致，相同的实例可能出现在多个对象文件中，实例化多个相同模板造成严重的开销。可以通过<strong>显式实例化</strong>来避免：</p>
 <p>①在需要用到模板的地方声明<code>extern template declaration;</code>，编译器遇到<code>extern</code>函数就不会在本文件中生成这个实例化版本的代码</p>
 <p>②在想要生成实例化版本的地方，不用extern，直接使用<code>template declaration;</code>定义（不需要内容），就会显示初始化这个实例化版本。</p>
 <p>注意，上面两者其实是分开的，<strong>extern可以实现跳过定义</strong>，而后面<strong> <code>template declaration;</code>就是实例化版本的定义语句</strong></p>
 <p>注意：<strong>这个定义语句是定义一个具体的实例化版本，即给出实参</strong></p>
 </li>
-<li><p>显式实例化还可以做到用相同的模板接口做不同的事情，只需要用 <code>template declaration;</code>语句包含新的内容，就可以做到覆盖默认模板的实例化。</p>
-<p><strong>优先级：非模板函数&gt;显式定义模板&gt;常规模板</strong></p>
-<p>显式实例化也叫特例化，必须所有模板参数都显式定义</p>
-</li>
 </ul>
 </li>
-<li><p>模板参数推断</p>
-<p>只有调用模板函数不显式指定模板实参（类型，比如<code>&lt;int&gt;</code>）的时候，即直接调用模板函数的时候，才会触发模板实参推断，模板通过调用的时候传入的实参自动推断类型，来实例化形参类型</p>
+<li><p>类模板与友元</p>
+<p>如果一个类模板包含一个非模板友元，则友元被授权可以访问所有模板实例（显然，因为每个实例都有该友元声明代码）。如果友元自身是模板，类可以授权给所有友元实例，也可以只授权给特定实例。</p>
+</li>
+<li><p>模板函数重载</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template&lt;typename T&gt;
+void fun（T a)&#123; &#x2F;*do sth*&#x2F;&#125;
+
+template&lt;typename T&gt; void fun（T &amp;&amp;a) &#123; &#x2F;*do sth different*&#x2F;&#125;  &#x2F;&#x2F;模板函数重载
+template&lt;typename T1, typename T2&gt; void fun（int a, T1 b, T2 c) &#123; &#x2F;*do sth different*&#x2F;&#125;  &#x2F;&#x2F;模板函数重载2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>若多个重载模板提供同样好的匹配，则优先匹配最特例化的版本</p>
+</li>
+<li><p>模板特例化</p>
+<p><strong>特例化的本质是直接特定实例化一个模板而非重载它。</strong>因此，特例化不影响函数匹配。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template&lt;typename T&gt;
+void fun（T a)&#123; &#x2F;*do sth*&#x2F;&#125;
+
+template&lt;&gt; fun(int a)&#123; &#x2F;*do sth different*&#x2F; &#125;  &#x2F;&#x2F;模板特例化，并实例化
+template fun(int a); &#x2F;&#x2F;显式实例化声明<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意，无论特例化还是实例化声明都显式指定了模板参数，实际上应该在函数名/类名后跟<code>&lt;&gt;</code>，比如<code>fun&lt;int&gt;(int a)</code>，这里只是简写了。如果产生了歧义，就不能简写【eg】。</p>
+<p><strong>注意模板特例化和显式实例化的区别</strong>。语法上，模板特例化要带<code>&lt;&gt;</code>，且需要紧跟函数体/类体；而模板显式实例化声明不带<code>&lt;&gt;</code>，且不能跟函数体/类体。</p>
+<p>模板特例化是对一个模板的特定模板参数执行不同内容的方式；而显式实例化是触发模板实例化的手段，只是个申明。<strong>模板特例化的时候也实例化了。</strong></p>
+<p>模板实例化优先级：非模板函数&gt;特例化模板&gt;偏特化模板（仅类）&gt;普通模板</p>
+<p>部分特例化简称偏特化</p>
+<p>我们<strong>可以偏特化类模板，不能偏特化函数模板</strong>。偏特化的类模板的模板参数列表是原始模板参数列表的一个子集或一个特例化版本。<strong>偏特化类模板仍是一个模板</strong>。（<strong>偏特化类模板其实就相当于模板函数重载的类版本</strong>，我们想要偏特化模板函数实际上用模板函数重载即可。）</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;原始模板类A，接收两个模板参数T1 T2
+template &lt;typename T1,typename T2&gt;
+struct A
+&#123;
+    T1 a;
+    T2 b;
+    A() &#123; cout&lt;&lt;&quot;2 arg ver&quot;&lt;&lt;endl; &#125;
+&#125;;
+&#x2F;&#x2F;偏特化模板类A,特化第一个参数为int
+template &lt;typename T2&gt;
+struct A&lt;int, T2&gt;
+&#123;
+    int a;
+    T2 b;
+    A() &#123; cout&lt;&lt;&quot;1 arg ver&quot;&lt;&lt;endl; &#125;
+&#125;;
+
+int main()
+&#123;
+    A&lt;float,float&gt; a1; &#x2F;&#x2F;调用原始模板类进行实例化
+    A&lt;int,float&gt; a2;  &#x2F;&#x2F;调用偏特化模板类A进行实例化
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以只特例化特定成员函数而不是整个模板。</p>
+<p><strong>重载的模板函数还是模板函数，但是特例化模板是实例化！</strong>模板函数重载不提供实参，而模板特例化是要提供实参以实例化。</p>
+</li>
+<li><p><code>shared_ptr</code>在运行时绑定删除器，<code>unique_ptr</code>在编译时绑定删除器</p>
+<p>这是以前遇到的两个模板类，现在就可以看出删除器使用的区别了。</p>
+<p><code>shared_ptr&lt;T&gt;</code>的删除器是作为函数的参数传入的，运行时绑定，灵活，可以更改删除器，但效率低</p>
+<p><code>unique_ptr&lt;T,D&gt;</code>的删除器<code>D</code>是作为模板参数实例化<code>unique_ptr</code>模板类的，删除器<code>D</code>是实例化类的成员，属于编译时就将删除器生成为类代码一部分了，效率更高，但灵活性不足，不能更改删除器。</p>
+</li>
+<li><p>在模板类中，当我们希望通知编译器一个名字表示类型时，必须用<code>typename</code>关键字</p>
+</li>
+<li><p>注意将可调用对象作为模板参数的使用</p>
+<p>泛型算法<code>compare</code>就是这么使用函数对象的。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template &lt;typename T, typename F &#x3D; less&lt;T&gt;&gt;
+int compare(const T &amp;v1, const T &amp;v2, F f &#x3D; F())
+&#123;
+    if (f(v1, v2)) return -1;
+    if (f(v2, v1)) return 1;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先，这里用到了<strong>默认模板实参</strong>，模板参数<code>F</code>如果不声明则为<code>less&lt;T&gt;</code></p>
+<p>然后注意，这里的 模板实参<code>F</code>是<strong>类型<code>less&lt;T&gt;</code> </strong></p>
+<p>然后在函数形参表中调用默认构造器初始化一个类<code>F</code>的对象<code>f</code>：<code>F f = F()</code>。<code>f</code>是<strong>可调用对象</strong>，作为<strong>模板函数的默认参数</strong>传入。</p>
+</li>
+<li><p>类型转换</p>
+<p>对于模板参数推断，将实参传递给带模板类型的函数型参时，能够自动应用的转换类型只有<code>const</code>转换及数据或函数到指针的转换</p>
+<p>对于模板类型参数已经显式指定了的函数实参，进行正常的类型转换。</p>
+</li>
+<li><p><code>decltype</code>与尾置返回类型</p>
+<p>有时候我们不知道返回类型是什么，尤其是如果模板参数<code>T</code>可能被实例化为另一个模板类（比如容器），且我们要返回容器元素的类型，那我们不可能在模板实例化之前知道这个类型是什么，所以可以用尾置返回类型，在实例化阶段获取具体类型。eg：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">auto get_first_inside(T item) -&gt; decltype(*item)
+&#123;
+    return *item;
+&#125;
+
+int main()
+&#123;
+    vector&lt;int&gt; a &#x3D; &#123;1&#125;;
+    auto result &#x3D; get_first_inside(a.begin());
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>注意：<code>decltpye()</code>是编译时类型推导，并没有用到RTTI机制！</strong>这里用<code>decltype</code>即可，不需要用到RTTI，因为模板实例化实际上就是生成代码，这是在编译期做的事情，而不是运行时！</p>
+</li>
+<li><p><code>remove_reference</code></p>
 </li>
 </ol>
 
