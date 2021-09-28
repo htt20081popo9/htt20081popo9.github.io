@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>博客仓库转移~</title>
+    <url>/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E4%BB%93%E5%BA%93%E8%BD%AC%E7%A7%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这个博客一直都是挂在我的github page上的，但之后要在社区开发东西，所以这个博客的地址就转移到另一个github page上啦。这个github账号专门用来打理blog，和写代码的账号区分开~</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
     <title>引用折叠、万能引用、完美转发</title>
     <url>/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/%E5%BC%95%E7%94%A8%E6%8A%98%E5%8F%A0%E3%80%81%E4%B8%87%E8%83%BD%E5%BC%95%E7%94%A8%E3%80%81%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="C-11右值引用产生的一揽子问题"><a href="#C-11右值引用产生的一揽子问题" class="headerlink" title="C++11右值引用产生的一揽子问题"></a>C++11右值引用产生的一揽子问题</h1><h2 id="为什么引入右值引用？"><a href="#为什么引入右值引用？" class="headerlink" title="为什么引入右值引用？"></a>为什么引入右值引用？</h2><p>为什么要引入右值引用？为了引入移动语义。移动操作防止copy，性能优化</p>
